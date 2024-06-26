@@ -26,12 +26,13 @@ androidxComposeMaterial3 = "1.2.1"
 ksp = "2.0.0-1.0.21"
 
 ## Hilt
-hilt = "2.51.1"
+hilt = "2.48.1"
 hiltNavigationCompose = "1.2.0"
 
 ## Network
 okhttp = "4.12.0"
 retrofit = "2.11.0"
+retrofitJsonConverter = "1.0.0"
 
 ## Kotlin
 kotlin = "1.9.0"
@@ -101,6 +102,8 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
+
+retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofitJsonConverter" }
 
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlinx-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutable" }
