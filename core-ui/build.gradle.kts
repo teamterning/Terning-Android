@@ -33,10 +33,22 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    // <1> KotlinDependencies
+    // kotlin
+
+    // <2> AndroidXDependencies
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.hilt.android)
+
+    // <3> material
     implementation(libs.material)
+
+    // <4> test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // original
+//    implementation(libs.androidx.core.ktx)
+//    implementation(libs.androidx.appcompat)
 }
