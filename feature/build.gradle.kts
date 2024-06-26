@@ -36,10 +36,50 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
 
+    // <1> KotlinDependencies
+    // kotlin
+    implementation(libs.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
+    // datetime
+
+    // <2> AndroidXDependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    // constraintLayout
+    // startup
+    // legacy
+    // security
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    // lifecycleJava8
+    // splashScreen
+    // pagingRuntime
+    // workManager
+    // hiltWorkManager
+
+    // <3> KaptDependencies
+    implementation(libs.hilt.compiler)
+    // hiltWorkManagerCompiler
+
+    // <4>
     implementation(libs.material)
+    implementation(libs.androidx.material3)
+
+    // <5> TestDependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // <6> ThirdPartyDependencies
+    implementation(libs.compose.coil)
+    implementation(libs.timber)
+    // ossLicense
+    // progressView
+    // balloon
+    // lottie
+    // circularProgressBar
+    // circleIndicator
+    // flexbox
+    // circleImageView
+
 }

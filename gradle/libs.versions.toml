@@ -45,6 +45,9 @@ coroutine = "1.8.1"
 ## Timber
 timber = "5.0.1"
 
+## Coil
+coil = "1.4.0"
+
 ## Test
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -116,6 +119,8 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCoreVersion" }
+
+compose-coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "coil"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
