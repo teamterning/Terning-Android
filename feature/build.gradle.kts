@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core-ui"))
+    implementation(project(":core"))
     implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
