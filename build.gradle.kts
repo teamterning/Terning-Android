@@ -17,3 +17,8 @@ buildscript {
         mavenCentral()
     }
 }
+//
+//ext {
+//    compose_version = '1.5.0'
+//}
+//
