@@ -21,4 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Terning-Android"
 include(":app")
- 
+include(":feature")
+include(":data")
+include(":domain")
+include(":core-ui")
