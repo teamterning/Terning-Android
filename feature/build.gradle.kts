@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -63,16 +64,19 @@ dependencies {
     // legacy
     // security
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewModelCompose )
     // lifecycleJava8
     // splashScreen
     // pagingRuntime
     // workManager
-    // hiltWorkManager
 
     // <3> KaptDependencies
     implementation(libs.hilt.compiler)
-    // hiltWorkManagerCompiler
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.hilt.manager)
 
     // <4>
     implementation(libs.material)

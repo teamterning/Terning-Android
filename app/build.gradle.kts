@@ -3,7 +3,10 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    // add more
+
+    alias(libs.plugins.hilt)
+//    id("com.google.devtools.ksp")
+    id("kotlin-kapt")
 }
 
 android {
@@ -81,6 +84,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.hilt.manager)
     // workManager
     // hiltWorkManager
 
@@ -96,11 +101,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
     // <5> ThirdPartyDependencies
-    // okHttpBom
-    // okHttp
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit.core)
-    // retrofitJsonConverter
+    implementation(libs.retrofit.kotlin.serialization)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.timber)
     // ossLicense
 

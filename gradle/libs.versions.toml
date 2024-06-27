@@ -28,6 +28,7 @@ ksp = "2.0.0-1.0.21"
 ## Hilt
 hilt = "2.48.1"
 hiltNavigationCompose = "1.2.0"
+hiltManager = "1.0.0"
 
 ## Network
 okhttp = "4.12.0"
@@ -58,6 +59,7 @@ material = "1.10.0"
 lifecycleRuntimeKtx = "2.6.1"
 foundationAndroid = "1.6.8"
 material3Android = "1.2.1"
+lifecycleRuntimeComposeAndroid = "2.8.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -104,7 +106,10 @@ hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testi
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+hilt-manager = {group = "androidx.hilt" , name = "hilt-compiler", version.ref = "hiltManager"}
 
+okhttp = {group = "com.squareup.okhttp3", name = "okhttp"}
+okhttp-bom = {group = "com.squareup.okhttp3" , name = "okhttp-bom" , version.ref = "okhttp"}
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
@@ -124,6 +129,7 @@ kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", vers
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCoreVersion" }
 
 compose-coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "coil"}
+androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -135,3 +141,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+#kapt = {id = " "androidx.hilt:hilt-compiler:1.0.0""}
