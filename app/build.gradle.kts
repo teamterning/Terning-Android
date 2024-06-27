@@ -3,12 +3,10 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-
-    id("kotlin-parcelize")
     alias(libs.plugins.hilt)
+    id("kotlin-parcelize")
     id("kotlin-kapt")
 }
-
 
 android {
     namespace = "com.terning.point"
@@ -25,21 +23,16 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField(
-            "String",
-            "OPEN_BASE_URL",
-            gradleLocalProperties(rootDir, providers).getProperty("open.base.url")
-        )
     }
 
     buildTypes {
-//        debug {
-//            buildConfigField(
-//                "String",
-//                "OPEN_BASE_URL",
-//                gradleLocalProperties(rootDir, providers).getProperty("open.base.url")
-//            )
-//        }
+        debug {
+            buildConfigField(
+                "String",
+                "OPEN_BASE_URL",
+                gradleLocalProperties(rootDir, providers).getProperty("open.base.url")
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -76,32 +69,30 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":feature"))
 
-    // <1> KotlinDependencies
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.coroutines.android)
     implementation(libs.kotlin)
 
-    // <2> AndroidXDependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     kapt(libs.hilt.manager)
-    // workManager
-    // hiltWorkManager
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.workManager)
+    implementation(libs.androidx.hiltWorkManager)
 
-    // <3> KaptDependencies
     implementation(libs.hilt.compiler)
-    // hiltWorkManagerCompiler
+    implementation(libs.androidx.hiltWorkManagerCompiler)
 
-    // <4> TestDependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
-    // <5> ThirdPartyDependencies
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
@@ -109,14 +100,8 @@ dependencies {
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.timber)
-    // ossLicense
+    implementation(libs.ossLicense)
 
-    // debug
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    // original
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
 }

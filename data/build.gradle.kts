@@ -39,17 +39,14 @@ android {
 dependencies {
     implementation(project(":domain"))
 
-    // AndroidXDependencies
     implementation(libs.hilt.android)
     implementation(libs.androidx.security)
     implementation(libs.androidx.core.ktx)
 
-    // KotlinDependencies
     implementation(libs.kotlin)
     implementation(libs.kotlinx.serialization.json.v151)
     implementation(libs.coroutines.android)
 
-    // ThirdPartyDependencies
     implementation(libs.retrofit.core)
     implementation(libs.okhttp)
     implementation(platform(libs.okhttp.bom))
@@ -57,7 +54,6 @@ dependencies {
     implementation (libs.retrofit2.kotlinx.serialization.converter.v080)
     implementation(libs.timber)
 
-    // TestDependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
