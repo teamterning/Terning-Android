@@ -6,7 +6,6 @@ plugins {
 
     id("kotlin-parcelize")
     alias(libs.plugins.hilt)
-//    id("com.google.devtools.ksp")
     id("kotlin-kapt")
 }
 
@@ -120,5 +119,4 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-
 }

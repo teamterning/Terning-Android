@@ -6,9 +6,6 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.hilt) apply false
-//    alias(libs.plugins.ksp) apply false
-
-//    alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.android.test) apply false
 }
 
@@ -16,9 +13,5 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.5.0")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48.1")
     }
 }

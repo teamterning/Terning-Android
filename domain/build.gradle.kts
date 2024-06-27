@@ -1,7 +1,7 @@
 plugins {
     id("java-library")
-    alias(libs.plugins.kotlin.jvm)
     id("kotlin-kapt")
+    alias(libs.plugins.kotlin.jvm)
 }
 
 java {
@@ -10,8 +10,6 @@ java {
 }
 
 dependencies{
-    // <1> KotlinDependencies
     implementation(libs.kotlin)
     implementation(libs.coroutines.android)
-    // datetime
 }
