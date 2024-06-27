@@ -1,5 +1,6 @@
 package com.terning.feature.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.domain.entity.response.MockResponseModel
@@ -40,9 +41,9 @@ class MockViewModel @Inject constructor(private val repository: MockRepository) 
                 }
                 _state.value = MockState.Success(mockDataList)
                 _sideEffect.emit(MockSideEffect.Toast(R.string.server_success))
-            }.onFailure {
+            }.onFailure {throwable ->
                 _sideEffect.emit(MockSideEffect.Toast(R.string.server_failure))
-            }
+                Log.e("LYB", "Error fetching mock data", throwable)             }
         }
     }
 }

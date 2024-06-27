@@ -15,7 +15,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideFollowerService(@OPEN retrofit: Retrofit): MockService =
+    fun provideMockService(@OPEN retrofit: Retrofit): MockService =
         retrofit.create(MockService::class.java)
 
 }

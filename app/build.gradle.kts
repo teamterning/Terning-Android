@@ -4,10 +4,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 
+    id("kotlin-parcelize")
     alias(libs.plugins.hilt)
 //    id("com.google.devtools.ksp")
     id("kotlin-kapt")
 }
+
 
 android {
     namespace = "com.terning.point"
@@ -78,7 +80,7 @@ dependencies {
     // <1> KotlinDependencies
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.coroutines.android)
-    //kotlin
+    implementation(libs.kotlin)
 
     // <2> AndroidXDependencies
     implementation(libs.androidx.core.ktx)

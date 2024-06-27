@@ -42,7 +42,7 @@ android {
 
 dependencies {
     // <1> KotlinDependencies
-    // kotlin
+    implementation(libs.kotlin)
 
     // <2> AndroidXDependencies
     implementation(libs.androidx.lifecycle.runtime.ktx)
