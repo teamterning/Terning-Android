@@ -1,13 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-parcelize")
-    id("kotlin-kapt")
-
-//    id ("com.android.application")
-//    id ("kotlin-android")
-//    id ("dagger.hilt.android.plugin")
-    id ("kotlinx-serialization")
+    alias(libs.plugins.kotlin.serialization )
 }
 
 android {
@@ -45,39 +39,26 @@ android {
 dependencies {
     implementation(project(":domain"))
 
-    // <1> AndroidXDependencies
+    // AndroidXDependencies
     implementation(libs.hilt.android)
-    // security
+    implementation(libs.androidx.security)
     implementation(libs.androidx.core.ktx)
 
-    // <2> KotlinDependencies
+    // KotlinDependencies
     implementation(libs.kotlin)
-//    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.json.v151)
     implementation(libs.coroutines.android)
-    // datetime
 
-    // <3> ThirdPartyDependencies
+    // ThirdPartyDependencies
     implementation(libs.retrofit.core)
     implementation(libs.okhttp)
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp.logging)
-//    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation (libs.retrofit2.kotlinx.serialization.converter.v080)
     implementation(libs.timber)
 
-    // <4> TestDependencies
+    // TestDependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-//    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
-
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1") // 호환되는 최신 버전 사용
-    implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    // original
-//    implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
-
-
 }
