@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -19,9 +21,21 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField(
+            "String",
+            "OPEN_BASE_URL",
+            gradleLocalProperties(rootDir, providers).getProperty("open.base.url")
+        )
     }
 
     buildTypes {
+//        debug {
+//            buildConfigField(
+//                "String",
+//                "OPEN_BASE_URL",
+//                gradleLocalProperties(rootDir, providers).getProperty("open.base.url")
+//            )
+//        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -39,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.0"
