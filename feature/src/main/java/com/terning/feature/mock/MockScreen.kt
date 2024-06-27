@@ -1,4 +1,4 @@
-package com.terning.feature.main
+package com.terning.feature.mock
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,12 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.terning.core.extension.shortToast
+import com.terning.core.extension.toast
 import com.terning.core.ui.theme.TerningAndroidTheme
 import com.terning.domain.entity.response.MockResponseModel
 
 @Composable
-fun MainScreen(
+fun MockScreen(
 
 ) {
     TerningAndroidTheme {
@@ -30,14 +29,13 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-//            Text("hi")
-            MainRoute()
+            MockRoute()
         }
     }
 }
 
 @Composable
-fun MainRoute(
+fun MockRoute(
     viewModel: MockViewModel = hiltViewModel()
 ) {
 
@@ -54,7 +52,7 @@ fun MainRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is MockSideEffect.Toast -> context.shortToast(sideEffect.message)
+                    is MockSideEffect.Toast -> context.toast(sideEffect.message)
                 }
             }
     }

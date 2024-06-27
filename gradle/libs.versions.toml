@@ -64,6 +64,7 @@ lifecycleRuntimeKtx = "2.6.1"
 foundationAndroid = "1.6.8"
 material3Android = "1.2.1"
 lifecycleRuntimeComposeAndroid = "2.8.2"
+lottieVersion = "6.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -137,6 +138,7 @@ compose-coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "coil
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 ossLicense = {group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossVersion"}
+lottie = {group = "com.airbnb.android", name = "lottie", version.ref = "lottieVersion"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
