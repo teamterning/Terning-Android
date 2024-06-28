@@ -1,4 +1,4 @@
-package com.terning.point
+package com.terning.feature.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
