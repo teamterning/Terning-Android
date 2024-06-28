@@ -60,11 +60,10 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.workManager)
-
-    implementation("androidx.navigation:navigation-compose:2.7.7")
 
     implementation(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.compose.android)

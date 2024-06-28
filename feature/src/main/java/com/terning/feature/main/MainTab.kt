@@ -1,23 +1,21 @@
 package com.terning.feature.main
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.terning.feature.R
 
 enum class MainTab(
-    val icon: ImageVector,
-    val contentDescription: Int,
+    @DrawableRes val icon: Int,
+    @StringRes val contentDescription: Int,
     val route: String,
 ) {
     FIRST(
-        icon = Icons.Filled.Home,
+        icon = R.drawable.ic_launcher_foreground,
         contentDescription = R.string.first,
         "FIRST"
     ),
     MOCK(
-        icon = Icons.Filled.Search,
+        icon = R.drawable.ic_launcher_foreground,
         contentDescription = R.string.mock,
         "MOCK",
     );
