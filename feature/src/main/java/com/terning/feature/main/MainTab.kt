@@ -1,35 +1,32 @@
-//package com.terning.feature.main
-//
-//import androidx.compose.runtime.Composable
-//import com.terning.core.navigation.MainTabRoute
-//import com.terning.core.navigation.Route
-//import com.terning.feature.R
-//
-//internal enum class MainTab(
-//    val iconResId: Int,
-//    internal val contentDescription: String,
-//    val route: MainTabRoute,
-//) {
-//    First(
-//        iconResId = R.drawable.ic_launcher_background,
-//        contentDescription = "첫 번째 화면",
-//        First
-//    ),
-//    Mock(
-//        iconResId = R.drawable.ic_launcher_background,
-//        contentDescription = "Mock 화면",
-//        Mock,
-//    )
-//
-//    companion object {
-//        @Composable
-//        fun find(predicate: @Composable (MainTabRoute) -> Boolean): MainTab? =
-//            entries.find { predicate(it.route) }
-//
-//
-//        @Composable
-//        fun contains(predicate: @Composable (Route) -> Boolean): Boolean =
-//            entries.map { it.route }.any { predicate(it) }
-//
-//    }
-//}
+package com.terning.feature.main
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.terning.feature.R
+
+enum class MainTab(
+    val icon: ImageVector,
+    val contentDescription: Int,
+    val route: String,
+) {
+    FIRST(
+        icon = Icons.Filled.Home,
+        contentDescription = R.string.first,
+        "FIRST"
+    ),
+    MOCK(
+        icon = Icons.Filled.Search,
+        contentDescription = R.string.mock,
+        "MOCK",
+    );
+
+    companion object {
+        operator fun contains(route: String?) =
+            entries.map { itemType -> itemType.route }.contains(route)
+
+        fun find(route: String): MainTab? =
+            entries.find { itemType -> itemType.route == route }
+    }
+}

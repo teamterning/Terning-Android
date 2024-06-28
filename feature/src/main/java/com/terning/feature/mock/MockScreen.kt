@@ -21,20 +21,6 @@ import com.terning.core.ui.theme.TerningAndroidTheme
 import com.terning.domain.entity.response.MockResponseModel
 
 @Composable
-fun MockScreen(
-
-) {
-    TerningAndroidTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            MockRoute()
-        }
-    }
-}
-
-@Composable
 fun MockRoute(
     viewModel: MockViewModel = hiltViewModel()
 ) {
@@ -61,14 +47,14 @@ fun MockRoute(
         is MockState.Empty -> {}
         is MockState.Loading -> {}
         is MockState.Success -> {
-            SearchScreen(mockList = (state as MockState.Success).mockList)
+            MockScreen(mockList = (state as MockState.Success).mockList)
         }
     }
 }
 
 
 @Composable
-fun SearchScreen(
+fun MockScreen(
     mockList: List<MockResponseModel>
 ) {
     LazyColumn(

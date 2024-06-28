@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.workManager)
 
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
     implementation(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     kapt(libs.hilt.android.compiler)
@@ -72,6 +74,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.ui.graphics)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
