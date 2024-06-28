@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,7 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.extension.toast
-import com.terning.core.ui.theme.TerningAndroidTheme
+import com.terning.core.state.UiState
 import com.terning.domain.entity.response.MockResponseModel
 
 @Composable
@@ -43,15 +41,15 @@ fun MockRoute(
             }
     }
 
-    when (state) {
-        is MockState.Empty -> {}
-        is MockState.Loading -> {}
-        is MockState.Success -> {
-            MockScreen(mockList = (state as MockState.Success).mockList)
+    when (state.followers) {
+        is UiState.Empty -> {}
+        is UiState.Loading -> {}
+        is UiState.Failure -> {}
+        is UiState.Success -> {
+            MockScreen(mockList = (state.followers as UiState.Success<List<MockResponseModel>>).data)
         }
     }
 }
-
 
 @Composable
 fun MockScreen(

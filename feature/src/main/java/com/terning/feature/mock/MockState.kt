@@ -1,9 +1,8 @@
 package com.terning.feature.mock
 
+import com.terning.core.state.UiState
 import com.terning.domain.entity.response.MockResponseModel
 
-sealed class MockState {
-    data object Empty : MockState()
-    data object Loading : MockState()
-    data class Success(val mockList: List<MockResponseModel>) : MockState()
-}
+data class MockState(
+    var followers: UiState<List<MockResponseModel>> = UiState.Loading
+)

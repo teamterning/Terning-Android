@@ -2,6 +2,7 @@ package com.terning.feature.mock
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.terning.core.state.UiState
 import com.terning.domain.entity.response.MockResponseModel
 import com.terning.domain.repository.MockRepository
 import com.terning.feature.R
@@ -18,7 +19,7 @@ import javax.inject.Inject
 class MockViewModel @Inject constructor(private val repository: MockRepository) : ViewModel() {
 
     private val _state: MutableStateFlow<MockState> =
-        MutableStateFlow(MockState.Empty)
+        MutableStateFlow(MockState())
     val state: StateFlow<MockState> get() = _state.asStateFlow()
 
     private val _sideEffect: MutableSharedFlow<MockSideEffect> = MutableSharedFlow()
@@ -26,7 +27,6 @@ class MockViewModel @Inject constructor(private val repository: MockRepository) 
 
     fun getFriendsInfo(page: Int) {
         viewModelScope.launch {
-            _state.value = MockState.Loading
             repository.getMockList(
                 page
             ).onSuccess { response ->
@@ -38,7 +38,7 @@ class MockViewModel @Inject constructor(private val repository: MockRepository) 
                         lastName = entity.lastName
                     )
                 }
-                _state.value = MockState.Success(mockDataList)
+                _state.value = _state.value.copy(followers = UiState.Success(mockDataList))
                 _sideEffect.emit(MockSideEffect.Toast(R.string.server_success))
             }.onFailure {
                 _sideEffect.emit(MockSideEffect.Toast(R.string.server_failure))
