@@ -15,3 +15,7 @@ buildscript {
         mavenCentral()
     }
 }
+
+apply {
+    from("gradle/projectDependencyGraph.gradle")
+}
