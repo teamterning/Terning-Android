@@ -3,6 +3,7 @@ package com.terning.feature.main
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -19,10 +20,12 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = First.ROUTE
+    val startDestination = First
 
     val currentTab: MainTab?
-        @Composable get() = currentDestination?.route?.let(MainTab::find)
+        @Composable get() = MainTab.find { tab ->
+            currentDestination?.hasRoute(tab::class) == true
+        }
 
     fun navigate(tab: MainTab) {
         val navOptions = navOptions {
@@ -52,9 +55,8 @@ class MainNavigator(
     }
 
     @Composable
-    fun showBottomBar(): Boolean {
-        val currentRoute = currentDestination ?: return false
-        return currentRoute.route in MainTab
+    fun showBottomBar() = MainTab.contains {
+        currentDestination?.hasRoute(it::class) == true
     }
 }
 

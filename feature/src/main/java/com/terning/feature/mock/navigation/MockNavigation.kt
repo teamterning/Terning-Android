@@ -4,21 +4,22 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.mock.MockRoute
+import kotlinx.serialization.Serializable
 
 fun NavController.navigateMock(navOptions: NavOptions? = null) {
     navigate(
-        route = Mock.ROUTE,
+        route = Mock,
         navOptions = navOptions
     )
 }
 
 fun NavGraphBuilder.mockNavGraph() {
-    composable(route = Mock.ROUTE) {
+    composable<Mock> {
         MockRoute()
     }
 }
 
-object Mock {
-    const val ROUTE = "MOCK"
-}
+@Serializable
+data object Mock : MainTabRoute

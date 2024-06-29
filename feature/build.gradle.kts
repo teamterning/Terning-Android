@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt)
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
