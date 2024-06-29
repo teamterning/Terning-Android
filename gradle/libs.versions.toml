@@ -21,7 +21,7 @@ androidxComposeBom = "2024.04.01"
 androidxComposeCompiler = "1.5.14"
 androidxComposeNavigation = "2.8.0-beta02"
 androidxComposeMaterial3 = "1.2.1"
-navigationCompose = "2.7.7"
+composeNavigation = "2.8.0-beta04"
 
 ## Hilt
 hilt = "2.48.1"
@@ -40,6 +40,7 @@ ossVersion = "17.0.0"
 kotlin = "1.9.0"
 kotlinxImmutable = "0.3.7"
 kotlinxSerializationJsonVersion = "1.5.1"
+serialization = "1.6.3"
 
 ## Coroutine
 coroutine = "1.8.1"
@@ -52,9 +53,6 @@ coil = "1.4.0"
 
 ## Security
 securityVersion = "1.1.0-alpha06"
-
-composeNavigation = "2.8.0-beta04"
-serialization = "1.6.3"
 
 ## Test
 junit = "4.13.2"
