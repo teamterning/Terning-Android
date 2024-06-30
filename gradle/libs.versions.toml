@@ -19,7 +19,6 @@ androidxDatastore = "1.1.1"
 ## Compose
 androidxComposeBom = "2024.04.01"
 androidxComposeCompiler = "1.5.14"
-androidxComposeNavigation = "2.8.0-beta02"
 androidxComposeMaterial3 = "1.2.1"
 composeNavigation = "2.8.0-beta04"
 
@@ -87,8 +86,8 @@ androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-juni
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxComposeNavigation" }
-androidx-compose-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "androidxComposeNavigation" }
+androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+androidx-compose-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "composeNavigation" }
 compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
