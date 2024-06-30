@@ -18,6 +18,9 @@ androidxLifecycle = "2.7.0"
 androidxActivity = "1.9.0"
 androidxDatastore = "1.1.1"
 
+## Kotlin Symbol Processing
+ksp = "1.9.0-1.0.12"
+
 ## Compose
 androidxComposeBom = "2024.04.01"
 androidxComposeCompiler = "1.5.14"
@@ -151,3 +154,4 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}

@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
     id("kotlin-parcelize")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
@@ -68,8 +68,8 @@ dependencies {
 
     implementation(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
-    kapt(libs.hilt.android.compiler)
-    kapt(libs.hilt.manager)
+    ksp(libs.hilt.android.compiler)
+    ksp(libs.hilt.manager)
 
     implementation(libs.material)
     implementation(libs.androidx.material3.android)
