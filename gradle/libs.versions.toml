@@ -45,6 +45,7 @@ kotlin = "1.9.0"
 kotlinxImmutable = "0.3.7"
 kotlinxSerializationJsonVersion = "1.5.1"
 serialization = "1.6.3"
+kotlinParcelize = "1.8.20"
 
 ## Coroutine
 coroutine = "1.8.1"
@@ -155,3 +156,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlinParcelize" }
