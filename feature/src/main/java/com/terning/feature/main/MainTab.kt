@@ -9,6 +9,7 @@ import com.terning.feature.R
 import com.terning.feature.first.navigation.First
 import com.terning.feature.mock.navigation.Mock
 
+
 enum class MainTab(
     @DrawableRes val icon: Int,
     @StringRes val contentDescription: Int,
@@ -22,7 +23,7 @@ enum class MainTab(
     MOCK(
         icon = R.drawable.ic_launcher_foreground,
         contentDescription = R.string.mock,
-        route = Mock,
+        route = Mock
     );
 
     companion object {
