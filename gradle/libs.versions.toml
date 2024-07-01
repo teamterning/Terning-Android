@@ -59,6 +59,9 @@ coil = "1.4.0"
 ## Security
 securityVersion = "1.1.0-alpha06"
 
+## Lottie
+lottieVersion = "6.0.0"
+
 ## Test
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -70,7 +73,6 @@ lifecycleRuntimeKtx = "2.6.1"
 foundationAndroid = "1.6.8"
 material3Android = "1.2.1"
 lifecycleRuntimeComposeAndroid = "2.8.2"
-lottieVersion = "6.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
