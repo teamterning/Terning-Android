@@ -29,8 +29,8 @@ android {
         debug {
             buildConfigField(
                 "String",
-                "OPEN_BASE_URL",
-                gradleLocalProperties(rootDir, providers).getProperty("open.base.url")
+                "BASE_URL",
+                gradleLocalProperties(rootDir, providers).getProperty("base.url")
             )
         }
         release {
