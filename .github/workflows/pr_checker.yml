@@ -30,7 +30,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 1.8
+          java-version: 18
 
       - name: Change gradlew permissions
         run: chmod +x ./gradlew
