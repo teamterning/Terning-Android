@@ -1,4 +1,4 @@
-package com.terning.core.ui.theme
+package com.terning.core.designsystem.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
