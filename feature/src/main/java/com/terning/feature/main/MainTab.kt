@@ -16,12 +16,12 @@ enum class MainTab(
     val route: MainTabRoute,
 ) {
     FIRST(
-        icon = R.drawable.ic_launcher_foreground,
+        icon = R.drawable.ic_home,
         contentDescription = R.string.first,
         route = First
     ),
     MOCK(
-        icon = R.drawable.ic_launcher_foreground,
+        icon = R.drawable.ic_home,
         contentDescription = R.string.mock,
         route = Mock
     );
