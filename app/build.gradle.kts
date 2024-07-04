@@ -69,10 +69,12 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":feature"))
 
+    // KotlinDependencies
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.coroutines.android)
     implementation(libs.kotlin)
 
+    // AndroidXDependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
@@ -80,16 +82,17 @@ dependencies {
     ksp(libs.hilt.manager)
     implementation(libs.androidx.workManager)
     implementation(libs.androidx.hiltWorkManager)
-
     implementation(libs.hilt.compiler)
     implementation(libs.androidx.hiltWorkManagerCompiler)
 
+    // TestDependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
+    // ThirdPartyDependencies
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
