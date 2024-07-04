@@ -70,7 +70,7 @@ object RetrofitModule {
         client: OkHttpClient,
         factory: Converter.Factory
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.OPEN_BASE_URL)
+        .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(factory)
         .client(client)
         .build()

@@ -41,17 +41,23 @@ android {
 }
 
 dependencies {
+    // Kotlin
     implementation(libs.kotlin)
 
+    // Lifecycle Ktx
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Hilt
     implementation(libs.hilt.android)
 
+    // Material Design
     implementation(libs.material)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.foundation.android)
     implementation(libs.androidx.material3.android)
 
+    // Test Dependency
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

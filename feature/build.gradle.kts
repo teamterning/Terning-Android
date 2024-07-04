@@ -53,10 +53,12 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
 
+    // KotlinDependencies
     implementation(libs.kotlin)
     implementation(libs.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
 
+    // AndroidXDependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
@@ -65,21 +67,25 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.workManager)
-
     implementation(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+
+    // KspDependencies
     ksp(libs.hilt.android.compiler)
     ksp(libs.hilt.manager)
 
+    // Material Design
     implementation(libs.material)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.ui.graphics)
 
+    // TestDependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // ThirdPartyDependencies
     implementation(libs.compose.coil)
     implementation(libs.timber)
     implementation(libs.ossLicense)
