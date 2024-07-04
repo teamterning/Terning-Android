@@ -13,6 +13,7 @@ class MyApp : Application() {
 
         initTimber()
         setDayMode()
+        initKakoSdk()
     }
 
     private fun initTimber() {
@@ -21,5 +22,9 @@ class MyApp : Application() {
 
     private fun setDayMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+
+    private fun initKakoSdk(){
+
     }
 }
