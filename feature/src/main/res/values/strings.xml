@@ -8,4 +8,15 @@
     <string name="first">first</string>
     <string name="mock">mock</string>
 
+    <string name="calendar_text_sunday">일</string>
+    <string name="calendar_text_monday">월</string>
+    <string name="calendar_text_tuesday">화</string>
+    <string name="calendar_text_wednesday">수</string>
+    <string name="calendar_text_thursday">목</string>
+    <string name="calendar_text_friday">금</string>
+    <string name="calendar_text_saturday">토</string>
+    <string name="calendar_button_description_previous">previous</string>
+    <string name="calendar_button_description_next">next</string>
+    <string name="calendar_button_description_list">list</string>
+
 </resources>
