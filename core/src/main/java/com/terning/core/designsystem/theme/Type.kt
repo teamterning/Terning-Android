@@ -135,6 +135,100 @@ class TerningTypography internal constructor(
         private set
     var calendar: TextStyle by mutableStateOf(calendar)
         private set
+
+    fun copy(
+        heading1: TextStyle = this.heading1,
+        heading2: TextStyle = this.heading2,
+        title1: TextStyle = this.title1,
+        title2: TextStyle = this.title2,
+        title3: TextStyle = this.title3,
+        title4: TextStyle = this.title4,
+        title5: TextStyle = this.title5,
+        body0: TextStyle = this.body0,
+        body1: TextStyle = this.body1,
+        body2: TextStyle = this.body2,
+        body3: TextStyle = this.body3,
+        body4: TextStyle = this.body4,
+        body5: TextStyle = this.body5,
+        body6: TextStyle = this.body6,
+        body7: TextStyle = this.body7,
+        button0: TextStyle = this.button0,
+        button1: TextStyle = this.button1,
+        button2: TextStyle = this.button2,
+        button3: TextStyle = this.button3,
+        button4: TextStyle = this.button4,
+        button5: TextStyle = this.button5,
+        button6: TextStyle = this.button6,
+        detail0: TextStyle = this.detail0,
+        detail1: TextStyle = this.detail1,
+        detail2: TextStyle = this.detail2,
+        detail3: TextStyle = this.detail3,
+        detail4: TextStyle = this.detail4,
+        detail5: TextStyle = this.detail5,
+        calendar: TextStyle = this.calendar,
+    ): TerningTypography = TerningTypography(
+        heading1,
+        heading2,
+        title1,
+        title2,
+        title3,
+        title4,
+        title5,
+        body0,
+        body1,
+        body2,
+        body3,
+        body4,
+        body5,
+        body6,
+        body7,
+        button0,
+        button1,
+        button2,
+        button3,
+        button4,
+        button5,
+        button6,
+        detail0,
+        detail1,
+        detail2,
+        detail3,
+        detail4,
+        detail5,
+        calendar,
+    )
+
+    fun update(other: TerningTypography) {
+        heading1 = other.heading1
+        heading2 = other.heading2
+        title1 = other.title1
+        title2 = other.title2
+        title3 = other.title3
+        title4 = other.title4
+        title5 = other.title5
+        body0 = other.body0
+        body1 = other.body1
+        body2 = other.body2
+        body3 = other.body3
+        body4 = other.body4
+        body5 = other.body5
+        body6 = other.body6
+        body7 = other.body7
+        button0 = other.button0
+        button1 = other.button1
+        button2 = other.button2
+        button3 = other.button3
+        button4 = other.button4
+        button5 = other.button5
+        button6 = other.button6
+        detail0 = other.detail0
+        detail1 = other.detail1
+        detail2 = other.detail2
+        detail3 = other.detail3
+        detail4 = other.detail4
+        detail5 = other.detail5
+        calendar = other.calendar
+    }
 }
 
 
