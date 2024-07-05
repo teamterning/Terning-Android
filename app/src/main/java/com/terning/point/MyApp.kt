@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import com.kakao.sdk.common.KakaoSdk
 
 @HiltAndroidApp
 class MyApp : Application() {
@@ -25,6 +26,6 @@ class MyApp : Application() {
     }
 
     private fun initKakoSdk(){
-
+//        KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
     }
 }
