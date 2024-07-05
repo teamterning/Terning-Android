@@ -3,7 +3,7 @@ package com.terning.feature.onboarding.signup
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SingUpRoute() {
+fun SignUpRoute() {
     SignUpScreen()
 }
 
