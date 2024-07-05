@@ -1,6 +1,8 @@
 package com.terning.feature.main
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -24,6 +26,8 @@ import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.search.navigation.searchNavGraph
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun MainScreen(
@@ -70,6 +74,7 @@ private fun MainBottomBar(
         NavigationBar {
             tabs.forEach { itemType ->
                 NavigationBarItem(
+                    interactionSource = NoRippleInteractionSource,
                     selected = currentTab == itemType,
                     onClick = {
                         onTabSelected(itemType)
@@ -94,8 +99,19 @@ private fun MainBottomBar(
                                 LocalAbsoluteTonalElevation.current
                             )
                         )
+
                 )
             }
         }
     }
+}
+
+
+private object NoRippleInteractionSource : MutableInteractionSource {
+
+    override val interactions: Flow<Interaction> = emptyFlow()
+
+    override suspend fun emit(interaction: Interaction) {}
+
+    override fun tryEmit(interaction: Interaction) = true
 }
