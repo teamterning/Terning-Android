@@ -1,4 +1,4 @@
-package com.terning.feature.myPage
+package com.terning.feature.mypage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

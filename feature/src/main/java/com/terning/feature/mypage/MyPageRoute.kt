@@ -1,4 +1,4 @@
-package com.terning.feature.myPage
+package com.terning.feature.mypage
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,7 +20,7 @@ import com.terning.domain.entity.response.MockResponseModel
 
 @Composable
 fun MyPageRoute(
-    viewModel: MyPageViewModel = hiltViewModel()
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
     val context = LocalContext.current
@@ -53,7 +53,7 @@ fun MyPageRoute(
 
 @Composable
 fun MockScreen(
-    mockList: List<MockResponseModel>
+    mockList: List<MockResponseModel>,
 ) {
     LazyColumn(
         modifier = Modifier

@@ -12,11 +12,11 @@ import androidx.navigation.navOptions
 import com.terning.feature.calendar.navigation.navigateCalendar
 import com.terning.feature.home.navigation.Home
 import com.terning.feature.home.navigation.navigateHome
-import com.terning.feature.myPage.navigation.navigateMyPage
+import com.terning.feature.mypage.navigation.navigateMyPage
 import com.terning.feature.search.navigation.navigateSearch
 
 class MainNavigator(
-    val navController: NavHostController
+    val navController: NavHostController,
 ) {
     private val currentDestination: NavDestination?
         @Composable get() = navController
@@ -39,10 +39,10 @@ class MainNavigator(
         }
 
         when (tab) {
-            MainTab.Home -> navController.navigateHome(navOptions)
-            MainTab.Calendar -> navController.navigateCalendar(navOptions)
-            MainTab.Search -> navController.navigateSearch(navOptions)
-            MainTab.MyPage -> navController.navigateMyPage(navOptions)
+            MainTab.HOME -> navController.navigateHome(navOptions)
+            MainTab.CALENDAR -> navController.navigateCalendar(navOptions)
+            MainTab.SEARCH -> navController.navigateSearch(navOptions)
+            MainTab.MY_PAGE -> navController.navigateMyPage(navOptions)
         }
     }
 

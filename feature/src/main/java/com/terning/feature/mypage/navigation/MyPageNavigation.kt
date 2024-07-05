@@ -1,11 +1,11 @@
-package com.terning.feature.myPage.navigation
+package com.terning.feature.mypage.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
-import com.terning.feature.myPage.MyPageRoute
+import com.terning.feature.mypage.MyPageRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateMyPage(navOptions: NavOptions? = null) {

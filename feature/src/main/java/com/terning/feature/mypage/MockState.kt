@@ -1,4 +1,4 @@
-package com.terning.feature.myPage
+package com.terning.feature.mypage
 
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.MockResponseModel

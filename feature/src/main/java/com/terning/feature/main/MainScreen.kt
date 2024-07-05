@@ -22,7 +22,7 @@ import androidx.navigation.compose.NavHost
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
-import com.terning.feature.myPage.navigation.myPageNavGraph
+import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.search.navigation.searchNavGraph
 
 @Composable
