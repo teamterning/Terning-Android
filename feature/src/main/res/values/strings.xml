@@ -8,4 +8,7 @@
     <string name="first">first</string>
     <string name="mock">mock</string>
 
+    <!--sign_In-->
+    <string name="sign_in_kakao_button">카카오로 로그인하기</string>
+
 </resources>

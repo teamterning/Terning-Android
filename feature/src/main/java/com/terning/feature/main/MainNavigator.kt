@@ -12,6 +12,7 @@ import androidx.navigation.navOptions
 import com.terning.feature.first.navigation.First
 import com.terning.feature.first.navigation.navigateFirst
 import com.terning.feature.mock.navigation.navigateMock
+import com.terning.feature.onboarding.signin.navigation.SignIn
 
 class MainNavigator(
     val navController: NavHostController
@@ -20,7 +21,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = First
+    val startDestination = SignIn
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
