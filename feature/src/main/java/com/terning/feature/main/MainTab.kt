@@ -13,22 +13,22 @@ enum class MainTab(
     val route: MainTabRoute,
 ) {
     Home(
-        icon = R.drawable.ic_nav_home_false,
+        icon = R.drawable.ic_nav_home,
         contentDescription = R.string.bottom_nav_home,
         route = com.terning.feature.home.navigation.Home
     ),
     Calendar(
-        icon = R.drawable.ic_nav_calendar_false,
+        icon = R.drawable.ic_nav_calendar,
         contentDescription = R.string.bottom_nav_calendar,
         route = com.terning.feature.calendar.navigation.Calendar
     ),
     Search(
-        icon = R.drawable.ic_nav_search_false,
+        icon = R.drawable.ic_nav_search,
         contentDescription = R.string.bottom_nav_search,
         route = com.terning.feature.search.navigation.Search
     ),
     MyPage(
-        icon = R.drawable.ic_nav_my_page_true,
+        icon = R.drawable.ic_nav_my_page,
         contentDescription = R.string.bottom_nav_my_page,
         route = com.terning.feature.myPage.navigation.MyPage
     );
