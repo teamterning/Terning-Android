@@ -21,7 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
+import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
@@ -71,7 +73,7 @@ private fun MainBottomBar(
     AnimatedVisibility(
         visible = isVisible,
     ) {
-        NavigationBar {
+        NavigationBar(containerColor = White) {
             tabs.forEach { itemType ->
                 NavigationBarItem(
                     interactionSource = NoRippleInteractionSource,
@@ -95,9 +97,9 @@ private fun MainBottomBar(
                         .colors(
                             selectedIconColor = TerningMain,
                             selectedTextColor = TerningMain,
-                            indicatorColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                LocalAbsoluteTonalElevation.current
-                            )
+                            unselectedIconColor = Grey300,
+                            unselectedTextColor = Grey300,
+                            indicatorColor = White
                         )
 
                 )
