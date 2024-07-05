@@ -75,7 +75,7 @@ material3Android = "1.2.1"
 lifecycleRuntimeComposeAndroid = "2.8.2"
 
 ## Kakao
-kakaoVersion = "2.14.0"
+kakaoVersion = "2.20.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
