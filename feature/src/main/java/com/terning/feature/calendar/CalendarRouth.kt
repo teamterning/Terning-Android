@@ -14,6 +14,6 @@ fun CalendarRoute() {
 @Composable
 fun CalendarScreen() {
     Column(modifier = Modifier.fillMaxSize()) {
-        Text(text = "탐색 스크린")
+        Text(text = "캘린더 스크린")
     }
 }
