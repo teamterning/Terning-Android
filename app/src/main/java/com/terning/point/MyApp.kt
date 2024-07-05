@@ -26,6 +26,6 @@ class MyApp : Application() {
     }
 
     private fun initKakoSdk(){
-//        KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
+        KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
     }
 }

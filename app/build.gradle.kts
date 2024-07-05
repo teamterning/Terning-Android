@@ -23,6 +23,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+            "String",
+            "NATIVE_APP_KEY",
+            gradleLocalProperties(rootDir, providers).getProperty("native.app.key"),
+        )
+        manifestPlaceholders["NATIVE_APP_KEY"] =
+            gradleLocalProperties(rootDir, providers).getProperty("nativeAppKey")
     }
 
     buildTypes {
