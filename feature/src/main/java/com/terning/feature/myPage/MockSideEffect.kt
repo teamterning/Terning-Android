@@ -1,4 +1,4 @@
-package com.terning.feature.mock
+package com.terning.feature.myPage
 
 import androidx.annotation.StringRes
 

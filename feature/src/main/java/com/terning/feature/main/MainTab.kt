@@ -6,24 +6,31 @@ import androidx.compose.runtime.Composable
 import com.terning.core.navigation.MainTabRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.R
-import com.terning.feature.first.navigation.First
-import com.terning.feature.mock.navigation.Mock
-
 
 enum class MainTab(
     @DrawableRes val icon: Int,
     @StringRes val contentDescription: Int,
     val route: MainTabRoute,
 ) {
-    FIRST(
-        icon = R.drawable.ic_home,
-        contentDescription = R.string.first,
-        route = First
+    Home(
+        icon = R.drawable.ic_nav_home_false,
+        contentDescription = R.string.bottom_nav_home,
+        route = com.terning.feature.home.navigation.Home
     ),
-    MOCK(
-        icon = R.drawable.ic_home,
-        contentDescription = R.string.mock,
-        route = Mock
+    Calendar(
+        icon = R.drawable.ic_nav_calendar_false,
+        contentDescription = R.string.bottom_nav_calendar,
+        route = com.terning.feature.calendar.navigation.Calendar
+    ),
+    Search(
+        icon = R.drawable.ic_nav_search_false,
+        contentDescription = R.string.bottom_nav_search,
+        route = com.terning.feature.search.navigation.Search
+    ),
+    MyPage(
+        icon = R.drawable.ic_nav_my_page_true,
+        contentDescription = R.string.bottom_nav_my_page,
+        route = com.terning.feature.myPage.navigation.MyPage
     );
 
     companion object {

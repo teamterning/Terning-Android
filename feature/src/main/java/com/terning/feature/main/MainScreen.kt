@@ -16,8 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
-import com.terning.feature.first.navigation.firstNavGraph
-import com.terning.feature.mock.navigation.mockNavGraph
+import com.terning.feature.calendar.navigation.calendarNavGraph
+import com.terning.feature.home.navigation.homeNavGraph
+import com.terning.feature.myPage.navigation.myPageNavGraph
+import com.terning.feature.search.navigation.searchNavGraph
 
 @Composable
 fun MainScreen(
@@ -42,8 +44,10 @@ fun MainScreen(
                 navController = navigator.navController,
                 startDestination = navigator.startDestination
             ) {
-                firstNavGraph()
-                mockNavGraph()
+                homeNavGraph()
+                calendarNavGraph()
+                searchNavGraph()
+                myPageNavGraph()
             }
         }
     }
