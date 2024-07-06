@@ -1,6 +1,7 @@
 package com.terning.feature.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
@@ -82,4 +87,47 @@ fun HomeNoScrapItem() {
         style = TerningTheme.typography.detail2,
         color = Grey500,
     )
+}
+
+@Composable
+fun HomeNoClosingTodayItem() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 19.dp)
+            .border(
+                width = 1.dp,
+                color = Grey150,
+                shape = RoundedCornerShape(5.dp),
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(id = R.string.home_today_no_closed),
+            modifier = Modifier
+                .padding(top = 27.dp),
+            textAlign = TextAlign.Center,
+            style = TerningTheme.typography.detail3,
+            color = Grey500,
+        )
+
+        Card(
+            colors = CardDefaults.cardColors(White),
+            modifier = Modifier
+                .padding(top = 7.dp, bottom = 27.dp)
+                .border(
+                    width = 1.dp,
+                    color = Grey400,
+                    shape = RoundedCornerShape(12.dp),
+                ),
+        ) {
+            Text(
+                text = stringResource(id = R.string.home_today_check_schedule),
+                style = TerningTheme.typography.button4,
+                color = Grey400,
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 10.dp)
+            )
+        }
+    }
 }
