@@ -26,5 +26,7 @@
     <!-- 홈 맞춤 공고 -->
     <string name="terning_post_d_day">D-</string>
     <string name="terning_post_working_period">근무기간</string>
+    <string name="home_recommend_sub_title">마음에 드는 공고를 스크랩하고 캘린더에서 모아보세요</string>
+    <string name="home_recommend_main_title">내 계획에 딱 맞는 대학생 인턴 공고</string>
 
 </resources>

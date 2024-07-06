@@ -69,6 +69,22 @@ fun HomeScreen() {
             color = Black,
         )
         HomeClosingTodayPost()
+
+        Text(
+            text = stringResource(id = R.string.home_recommend_sub_title),
+            style = TerningTheme.typography.detail2,
+            color = Black,
+            modifier = Modifier
+                .padding(top = 25.dp)
+        )
+        
+        Text(
+            text = stringResource(id = R.string.home_recommend_main_title),
+            style = TerningTheme.typography.title1,
+            color = Black,
+            modifier = Modifier
+                .padding(top = 5.dp)
+        )
     }
 }
 
