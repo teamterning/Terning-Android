@@ -1,13 +1,18 @@
 package com.terning.feature.component.topappbar
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.terning.core.designsystem.theme.TerningTypography
 import com.terning.feature.R
 
@@ -21,10 +26,14 @@ fun TerningTopAppBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(
-                text = title,
-                style = TerningTypography().title2,
-            )
+            Box(Modifier.fillMaxWidth()) {
+                Text(
+                    text = title,
+                    modifier = Modifier.align(Alignment.Center),
+                    textAlign = TextAlign.Center,
+                    style = TerningTypography().title2
+                )
+            }
         },
         navigationIcon = {
             if (showBackButton) {
@@ -32,16 +41,18 @@ fun TerningTopAppBar(
                     onBackButtonClick?.invoke()
                 }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_btn_back),
-                        contentDescription = stringResource(id = R.string.ic_btn_back)
+                        painter = painterResource(id = R.drawable.ic_back),
+                        contentDescription = stringResource(id = R.string.ic_back)
                     )
                 }
+            } else {
+                customActions?.getOrNull(0)?.invoke()
             }
         },
         actions = {
-            customActions?.forEach { customAction ->
+            customActions?.drop(1)?.forEach { customAction ->
                 customAction()
             }
-        }
+        },
     )
 }
