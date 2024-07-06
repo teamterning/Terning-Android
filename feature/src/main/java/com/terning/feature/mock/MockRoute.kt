@@ -36,7 +36,7 @@ fun MockRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is MockSideEffect.Toast -> context.toast(sideEffect.message)
+                    is MockSideEffect.Toast -> context.toast(sideEffect.message.toString())
                 }
             }
     }

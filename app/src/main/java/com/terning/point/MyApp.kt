@@ -1,10 +1,12 @@
 package com.terning.point
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.common.util.Utility
 
 @HiltAndroidApp
 class MyApp : Application() {
@@ -15,6 +17,9 @@ class MyApp : Application() {
         initTimber()
         setDayMode()
         initKakoSdk()
+
+        var keyHash = Utility.getKeyHash(this)
+        Log.i("GlobalApplication", "$keyHash")
     }
 
     private fun initTimber() {

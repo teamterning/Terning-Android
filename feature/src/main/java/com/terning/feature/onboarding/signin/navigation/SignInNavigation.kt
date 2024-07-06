@@ -2,6 +2,7 @@ package com.terning.feature.onboarding.signin.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
@@ -15,9 +16,13 @@ fun NavController.navigateSignIn(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.signInNavGraph() {
+fun NavGraphBuilder.signInNavGraph(
+    navHostController: NavHostController
+) {
     composable<SignIn> {
-        SignInRoute()
+        SignInRoute(
+            navController = navHostController
+        )
     }
 }
 

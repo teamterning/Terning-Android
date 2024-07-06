@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import com.terning.feature.first.navigation.firstNavGraph
 import com.terning.feature.mock.navigation.mockNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
+import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 
 @Composable
 fun MainScreen(
@@ -45,8 +46,8 @@ fun MainScreen(
             ) {
                 firstNavGraph()
                 mockNavGraph()
-                signInNavGraph()
-                signInNavGraph()
+                signInNavGraph( navHostController = navigator.navController)
+                signUpNavGraph()
             }
         }
     }
