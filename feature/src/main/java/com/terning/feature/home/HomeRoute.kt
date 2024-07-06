@@ -2,6 +2,7 @@ package com.terning.feature.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -66,6 +68,7 @@ fun HomeScreen() {
             style = TerningTheme.typography.title1,
             color = Black,
         )
+        HomeClosingTodayPost()
     }
 }
 
@@ -128,6 +131,20 @@ fun HomeNoClosingTodayItem() {
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 10.dp)
             )
+        }
+    }
+}
+
+@Composable
+private fun HomeClosingTodayPost() {
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 19.dp),
+    ) {
+        items(5) {
+            HomeClosingTodayItem("[유한킴벌리]\n그린캠프 w.대학생\n숲활동가 모집")
         }
     }
 }
