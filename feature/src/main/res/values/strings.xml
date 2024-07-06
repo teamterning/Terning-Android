@@ -13,6 +13,10 @@
     <!-- 홈 오늘 마감 공고 -->
     <string name="home_today_title_start">오늘 마감되는 </string>
     <string name="home_today_title_end">님의 관심 공고</string>
+    <string name="home_today_no_scrap">
+        아직 스크랩된 인턴 공고가 없어요!
+        \n관심 공고를 스크랩하면 마감 당일에 알려드릴게요
+    </string>
 
     <!-- 홈 맞춤 공고 -->
     <string name="terning_post_d_day">D-</string>
