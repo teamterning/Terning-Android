@@ -2,7 +2,6 @@ package com.terning.feature.onboarding.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,7 +23,7 @@ import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.first.navigation.navigateFirst
+import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.component.KakaoButton
 
 @Composable
@@ -41,7 +40,7 @@ fun SignInRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SignInSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is SignInSideEffect.NavigateToMain -> navController.navigateFirst()
+                    is SignInSideEffect.NavigateToMain -> navController.navigateHome()
                 }
             }
     }
