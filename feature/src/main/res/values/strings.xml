@@ -10,4 +10,8 @@
     <string name="bottom_nav_search">탐색</string>
     <string name="bottom_nav_my_page">마이페이지</string>
 
+    <!-- 홈 맞춤 공고 -->
+    <string name="terning_post_d_day">D-</string>
+    <string name="terning_post_working_period">근무기간</string>
+
 </resources>

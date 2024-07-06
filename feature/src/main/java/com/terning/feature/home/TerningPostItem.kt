@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.terning.core.designsystem.theme.Black
@@ -68,7 +69,7 @@ fun TerningPostItem(
                 .weight(1f),
         ) {
             Text(
-                text = "D-" + dateDeadline,
+                text = stringResource(id = R.string.terning_post_d_day) + dateDeadline,
                 style = TerningTheme.typography.detail0,
                 color = TerningMain,
             )
@@ -86,7 +87,7 @@ fun TerningPostItem(
                     .padding(top = 10.dp)
             ) {
                 Text(
-                    text = "근무기간",
+                    text = stringResource(R.string.terning_post_working_period),
                     style = TerningTheme.typography.detail3,
                     color = Grey400
                 )
