@@ -1,7 +1,8 @@
 package com.terning.feature.onboarding.signin
 
+import androidx.annotation.StringRes
+
 sealed class SignInSideEffect {
     data object NavigateToMain : SignInSideEffect()
-    //    data class ShowToast(@StringRes val message: Int, val formatArgs: List<String?> = emptyList()) : SignInSideEffect()
-    data class ShowToast(val message: String) : SignInSideEffect()
+    data class ShowToast(@StringRes val message: Int) : SignInSideEffect()
 }
