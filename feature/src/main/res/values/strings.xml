@@ -13,4 +13,5 @@
     <!--    ContentDescription-->
     <string name="ic_back">뒤로가기 버튼</string>
     <string name="ic_logo">탑 바 로고</string>
+    <string name="ic_20_right">오른쪽 버튼</string>
 </resources>
