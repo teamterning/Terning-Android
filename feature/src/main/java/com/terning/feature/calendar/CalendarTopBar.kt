@@ -18,13 +18,15 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.getStringAsTitle
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
+import java.time.LocalDate
 
 @Composable
 fun CalendarTopBar(
     modifier: Modifier = Modifier,
-    title: String,
+    date: LocalDate,
     isListExpanded: Boolean,
     onListButtonClicked: () -> Unit,
     onMonthNavigationButtonClicked: (Int) -> Unit,
@@ -50,7 +52,7 @@ fun CalendarTopBar(
                 modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(-1) }
             )
             Text(
-                text = title,
+                text = date.getStringAsTitle(),
                 style = TerningTheme.typography.title2,
                 color = Black,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -87,7 +89,7 @@ fun CalendarTopBar(
 fun CalendarTopBarPreview() {
     TerningTheme {
         CalendarTopBar(
-            title = "2024년 7월",
+            date = LocalDate.now(),
             isListExpanded = false,
             onListButtonClicked = {},
             onMonthNavigationButtonClicked = {}
