@@ -24,6 +24,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.home.navigation.navigateHome
+import com.terning.feature.mypage.navigation.navigateMyPage
 import com.terning.feature.onboarding.signin.component.KakaoButton
 
 @Composable

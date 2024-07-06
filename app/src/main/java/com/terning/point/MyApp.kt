@@ -1,12 +1,10 @@
 package com.terning.point
 
 import android.app.Application
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
-import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.common.util.Utility
 
 @HiltAndroidApp
 class MyApp : Application() {
@@ -27,7 +25,7 @@ class MyApp : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
-    private fun initKakoSdk(){
+    private fun initKakoSdk() {
         KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
     }
 }
