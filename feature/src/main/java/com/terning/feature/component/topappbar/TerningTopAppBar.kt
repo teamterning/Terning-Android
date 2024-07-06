@@ -1,29 +1,30 @@
 package com.terning.feature.component.topappbar
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import com.terning.core.designsystem.theme.TerningTypography
 import com.terning.feature.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TerningTopAppBar(
-    title: String,
+    title: String = "",
     showBackButton: Boolean = false,
     customActions: List<@Composable (() -> Unit)>? = null,
     onBackButtonClick: (() -> Unit)? = null,
 ) {
-    TopAppBar(
+    CenterAlignedTopAppBar(
         title = {
-            Text(text = title, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+            Text(
+                text = title,
+                style = TerningTypography().title2,
+            )
         },
         navigationIcon = {
             if (showBackButton) {
@@ -41,6 +42,6 @@ fun TerningTopAppBar(
             customActions?.forEach { customAction ->
                 customAction()
             }
-        },
+        }
     )
 }

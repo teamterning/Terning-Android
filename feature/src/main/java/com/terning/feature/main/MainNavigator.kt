@@ -46,7 +46,7 @@ class MainNavigator(
         }
     }
 
-    private fun navigateUp() {
+    fun navigateUp() {
         navController.navigateUp()
     }
 
