@@ -1,4 +1,4 @@
-package com.terning.feature.first
+package com.terning.feature.search
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,13 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun FirstRoute() {
-    FirstScreen()
+fun SearchRoute() {
+    SearchScreen()
 }
 
 @Composable
-fun FirstScreen() {
+fun SearchScreen() {
     Column(modifier = Modifier.fillMaxSize()) {
-        Text(text = "This is FirstScreen")
+        Text(text = "탐색 스크린")
     }
 }

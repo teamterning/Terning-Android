@@ -1,4 +1,4 @@
-package com.terning.feature.mock
+package com.terning.feature.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row

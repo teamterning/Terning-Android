@@ -1,4 +1,4 @@
-package com.terning.feature.mock
+package com.terning.feature.mypage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MockViewModel @Inject constructor(private val repository: MockRepository) : ViewModel() {
+class MyPageViewModel @Inject constructor(private val repository: MockRepository) : ViewModel() {
 
     private val _state: MutableStateFlow<MockState> =
         MutableStateFlow(MockState())

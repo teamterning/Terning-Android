@@ -5,7 +5,9 @@
     <string name="server_success">서버통신 성공</string>
     <string name="server_failure">서버통신 실패</string>
 
-    <string name="first">first</string>
-    <string name="mock">mock</string>
+    <string name="bottom_nav_home">홈</string>
+    <string name="bottom_nav_calendar">캘린더</string>
+    <string name="bottom_nav_search">탐색</string>
+    <string name="bottom_nav_my_page">마이페이지</string>
 
 </resources>
