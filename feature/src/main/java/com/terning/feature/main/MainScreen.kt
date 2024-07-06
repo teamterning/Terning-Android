@@ -34,7 +34,7 @@ fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     Scaffold(
-        topBar = { BackWithTitleTopAppBar(title = "Terning") { navigator.navigateUp() } },
+        topBar = { BackWithTitleTopAppBar(title = "") { navigator.navigateUp() } },
         bottomBar = {
             MainBottomBar(
                 isVisible = navigator.showBottomBar(),
