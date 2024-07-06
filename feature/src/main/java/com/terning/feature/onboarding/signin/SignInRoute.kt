@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.first.navigation.navigateFirst
@@ -64,8 +65,7 @@ fun SignInScreen(
             painter = painterResource(id = R.drawable.img_terning_point),
             contentDescription = null,
             modifier = Modifier
-                .size(500.dp)
-                .aspectRatio(1f),
+                .size(500.dp),
         )
         KakaoButton(
             title = stringResource(id = R.string.sign_in_kakao_button),
@@ -78,5 +78,7 @@ fun SignInScreen(
 @Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-    SignInScreen()
+    TerningTheme {
+        SignInScreen()
+    }
 }

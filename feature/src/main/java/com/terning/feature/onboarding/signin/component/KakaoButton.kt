@@ -14,9 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
-
 
 @Composable
 fun KakaoButton(
@@ -48,5 +48,10 @@ fun KakaoButton(
 @Preview(showBackground = true)
 @Composable
 fun KakaoButtonPreview() {
-    KakaoButton("카카오로 로그인하기", onSignInClick = {})
+    TerningTheme {
+        KakaoButton(
+            title = "카카오로 로그인하기",
+            onSignInClick = {}
+        )
+    }
 }
