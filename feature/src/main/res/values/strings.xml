@@ -10,4 +10,6 @@
     <string name="bottom_nav_search">탐색</string>
     <string name="bottom_nav_my_page">마이페이지</string>
 
+    <!--    ContentDescription-->
+    <string name="ic_btn_back">뒤로가기 버튼</string>
 </resources>
