@@ -22,9 +22,9 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.navigation.calendarNavGraph
-import com.terning.feature.component.topappbar.BackButtonTopAppBar
 import com.terning.feature.component.topappbar.LogoTopAppBar
 import com.terning.feature.component.topappbar.MyPageTopAppBar
+import com.terning.feature.component.topappbar.TerningTopAppBar
 import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.search.navigation.searchNavGraph
@@ -36,7 +36,15 @@ fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     Scaffold(
-        topBar = { MyPageTopAppBar() },
+        topBar = {
+            when (navigator.currentTab) {
+                MainTab.HOME -> LogoTopAppBar()
+                MainTab.CALENDAR -> TerningTopAppBar()
+                MainTab.SEARCH -> LogoTopAppBar()
+                MainTab.MY_PAGE -> MyPageTopAppBar()
+                null -> LogoTopAppBar()
+            }
+        },
         bottomBar = {
             MainBottomBar(
                 isVisible = navigator.showBottomBar(),
