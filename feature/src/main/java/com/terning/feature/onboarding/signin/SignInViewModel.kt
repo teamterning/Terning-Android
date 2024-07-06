@@ -54,12 +54,8 @@ class SignInViewModel @Inject constructor() : ViewModel() {
 
     private fun signInFailure(context: Context, error: Throwable?) {
         if (error.toString().contains(KAKAO_NOT_LOGGED_IN)) {
-            UserApiClient.instance.loginWithKakaoAccount(context) { token, _ ->
-                if (error != null) {
-                    sigInCancellationOrError(error)
-                } else if (token != null) {
-                    signInSuccess(token)
-                }
+            UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
+                signInResult(context, token, error)
             }
         } else {
             sigInCancellationOrError(error)
