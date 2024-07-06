@@ -76,7 +76,7 @@ class SignInViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _signInState.value =
                 _signInState.value.copy(accessToken = UiState.Success(token.accessToken))
-            _signInSideEffects.emit(SignInSideEffect.NavigateToMain)
+            _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
         }
     }
 
