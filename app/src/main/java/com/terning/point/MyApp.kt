@@ -17,9 +17,6 @@ class MyApp : Application() {
         initTimber()
         setDayMode()
         initKakoSdk()
-
-        var keyHash = Utility.getKeyHash(this)
-        Log.i("GlobalApplication", "$keyHash")
     }
 
     private fun initTimber() {
