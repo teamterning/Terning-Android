@@ -7,13 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalAbsoluteTonalElevation
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -21,9 +18,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
+import com.terning.core.component.topappbar.TerningTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
+import com.terning.feature.R
 import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
@@ -36,6 +35,7 @@ fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     Scaffold(
+        topBar = { TerningTopAppBar(title = stringResource(id = R.string.app_name)) },
         bottomBar = {
             MainBottomBar(
                 isVisible = navigator.showBottomBar(),
