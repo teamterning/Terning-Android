@@ -10,4 +10,9 @@
     <string name="bottom_nav_search">탐색</string>
     <string name="bottom_nav_my_page">마이페이지</string>
 
+    <!--sign_In-->
+    <string name="sign_in_kakao_button">카카오로 로그인하기</string>
+    <string name="sign_in_kakao_login_fail">카카오톡 로그인에 실패했습니다</string>
+    <string name="sign_in_kakao_cancel">로그인을 취소하였습니다</string>
+
 </resources>

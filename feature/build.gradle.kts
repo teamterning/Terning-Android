@@ -91,4 +91,7 @@ dependencies {
     implementation(libs.ossLicense)
     implementation(libs.lottie)
 
+    // KakaoDependencies
+    implementation(libs.kakao.user)
+
 }
