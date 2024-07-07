@@ -1,5 +1,6 @@
 package com.terning.feature.search
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,6 +10,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.textfield.NameTextField
@@ -27,13 +30,13 @@ fun SearchRoute() {
 fun SearchScreen() {
     var text by remember { mutableStateOf("") }
 
-    // TODO 프로필 스크린 전용으로, 삭제될 코드입니다
+    // TODO 프로필 스크린 TextField로, 삭제될 코드입니다
     var helperMessage by remember { mutableStateOf(R.string.profile_text_field_helper) }
     var helperIcon by remember { mutableStateOf<Int?>(null) }
     var helperColor by remember { mutableStateOf(Grey400) }
     val specialCharacterPattern = Regex("[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/]")
 
-    // TODO 프로필 스크린 전용으로, 삭제될 코드입니다
+    // TODO 프로필 스크린 TextField로, 삭제될 코드입니다
     fun updateHelper(text: String) {
         helperMessage = when {
             text.isEmpty() -> R.string.profile_text_field_helper
@@ -70,7 +73,7 @@ fun SearchScreen() {
             leftIcon = R.drawable.ic_nav_search
         )
 
-        // TODO 프로필 스크린 전용으로, 삭제될 코드입니다
+        // TODO 프로필 스크린 TextField로, 삭제될 코드입니다
         NameTextField(
             text = text,
             onValueChange = { newText ->
