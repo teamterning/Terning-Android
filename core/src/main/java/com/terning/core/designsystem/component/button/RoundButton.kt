@@ -13,21 +13,21 @@ import com.terning.core.designsystem.theme.TerningTheme
 @Composable
 fun RoundButton(
     modifier: Modifier = Modifier,
-    isEnabled: Boolean = true,
-    text: String = "",
     style: TextStyle,
     paddingVertical: Dp,
-    roundedCornerShape: Dp,
+    cornerRadius: Dp,
+    isEnabled: Boolean = true,
+    text: String = "",
     onButtonClick: () -> Unit,
 ) {
     TerningBasicButton(
         modifier = modifier,
-        isEnabled = isEnabled,
-        shape = RoundedCornerShape(roundedCornerShape),
-        onButtonClick = onButtonClick,
-        text = text,
         style = style,
-        paddingVertical = paddingVertical
+        paddingVertical = paddingVertical,
+        shape = RoundedCornerShape(cornerRadius),
+        isEnabled = isEnabled,
+        text = text,
+        onButtonClick = onButtonClick,
     )
 }
 
@@ -39,7 +39,7 @@ fun RoundButtonPreview() {
             style = TerningTheme.typography.button0,
             text = "RoundButton",
             paddingVertical = 19.dp,
-            roundedCornerShape = 10.dp,
+            cornerRadius = 10.dp,
             onButtonClick = {}
         )
     }

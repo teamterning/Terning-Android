@@ -13,20 +13,20 @@ import com.terning.core.designsystem.theme.TerningTheme
 @Composable
 fun RectangleButton(
     modifier: Modifier = Modifier,
-    isEnabled: Boolean = true,
-    text: String = "",
     style: TextStyle,
     paddingVertical: Dp,
+    isEnabled: Boolean = true,
+    text: String = "",
     onButtonClick: () -> Unit,
 ) {
     TerningBasicButton(
         modifier = modifier,
+        style = style,
+        paddingVertical = paddingVertical,
         isEnabled = isEnabled,
+        text = text,
         shape = RoundedCornerShape(0.dp),
         onButtonClick = onButtonClick,
-        text = text,
-        style = style,
-        paddingVertical = paddingVertical
     )
 }
 

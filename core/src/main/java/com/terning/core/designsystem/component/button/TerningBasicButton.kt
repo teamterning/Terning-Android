@@ -30,11 +30,11 @@ import com.terning.core.util.NoRippleTheme
 @Composable
 fun TerningBasicButton(
     modifier: Modifier = Modifier,
-    isEnabled: Boolean = true,
-    text: String = "",
     shape: Shape,
     style: TextStyle,
     paddingVertical: Dp,
+    isEnabled: Boolean = true,
+    text: String = "",
     onButtonClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
