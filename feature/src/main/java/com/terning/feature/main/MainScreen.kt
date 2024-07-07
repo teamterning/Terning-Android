@@ -1,8 +1,6 @@
 package com.terning.feature.main
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,21 +16,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
-import com.terning.core.designsystem.theme.Grey300
-import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.component.topappbar.MyPageTopAppBar
 import com.terning.core.designsystem.component.topappbar.TerningTopAppBar
+import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.designsystem.theme.White
+import com.terning.core.util.NoRippleInteractionSource
 import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.search.navigation.searchNavGraph
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun MainScreen(
@@ -45,6 +42,7 @@ fun MainScreen(
                 MainTab.CALENDAR -> BackButtonTopAppBar(
                     title = "dkssud",
                     onBackButtonClick = { navigator.navigateUp() })
+
                 MainTab.SEARCH -> LogoTopAppBar()
                 MainTab.MY_PAGE -> MyPageTopAppBar()
                 null -> TerningTopAppBar()
@@ -122,13 +120,4 @@ private fun MainBottomBar(
             }
         }
     }
-}
-
-private object NoRippleInteractionSource : MutableInteractionSource {
-
-    override val interactions: Flow<Interaction> = emptyFlow()
-
-    override suspend fun emit(interaction: Interaction) {}
-
-    override fun tryEmit(interaction: Interaction) = true
 }
