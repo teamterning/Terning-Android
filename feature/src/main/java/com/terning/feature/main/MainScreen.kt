@@ -27,6 +27,8 @@ import com.terning.core.designsystem.topappbar.MyPageTopAppBar
 import com.terning.core.designsystem.topappbar.TerningTopAppBar
 import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
+import com.terning.feature.onboarding.signin.navigation.signInNavGraph
+import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.search.navigation.searchNavGraph
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -67,6 +69,8 @@ fun MainScreen(
                 calendarNavGraph()
                 searchNavGraph()
                 myPageNavGraph()
+                signInNavGraph(navHostController = navigator.navController)
+                signUpNavGraph()
             }
         }
     }
@@ -116,7 +120,6 @@ private fun MainBottomBar(
         }
     }
 }
-
 
 private object NoRippleInteractionSource : MutableInteractionSource {
 

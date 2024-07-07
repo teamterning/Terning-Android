@@ -26,7 +26,7 @@ fun MyPageRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = LocalLifecycleOwner.current)
+    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getFriendsInfo(2)
