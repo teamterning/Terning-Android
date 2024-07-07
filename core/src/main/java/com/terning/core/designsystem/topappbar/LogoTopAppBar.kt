@@ -1,10 +1,10 @@
-package com.terning.feature.component.topappbar
+package com.terning.core.designsystem.topappbar
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.terning.feature.R
+import com.terning.core.R
 
 @Composable
 fun LogoTopAppBar() {

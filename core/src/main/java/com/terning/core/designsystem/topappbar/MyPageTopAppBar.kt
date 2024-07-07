@@ -1,4 +1,4 @@
-package com.terning.feature.component.topappbar
+package com.terning.core.designsystem.topappbar
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Icon
@@ -9,8 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.terning.core.R
 import com.terning.core.designsystem.theme.TerningTypography
-import com.terning.feature.R
 
 @Composable
 fun MyPageTopAppBar() {
@@ -30,7 +30,7 @@ fun MyPageTopAppBar() {
                     IconButton(onClick = {
                     }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_20_right),
+                            painter = painterResource(id = R.drawable.ic_right),
                             contentDescription = stringResource(id = R.string.ic_20_right)
                         )
                     }

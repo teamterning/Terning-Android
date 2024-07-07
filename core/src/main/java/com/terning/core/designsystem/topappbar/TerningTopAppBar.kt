@@ -1,4 +1,4 @@
-package com.terning.feature.component.topappbar
+package com.terning.core.designsystem.topappbar
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,16 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.terning.core.R
 import com.terning.core.designsystem.theme.TerningTypography
-import com.terning.feature.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TerningTopAppBar(
     title: String = "",
     showBackButton: Boolean = false,
-    customActions: List<@Composable (() -> Unit)>? = null,
-    onBackButtonClick: (() -> Unit)? = null,
+    customActions: List<@Composable () -> Unit> = emptyList(),
+    onBackButtonClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -38,7 +38,7 @@ fun TerningTopAppBar(
         navigationIcon = {
             if (showBackButton) {
                 IconButton(onClick = {
-                    onBackButtonClick?.invoke()
+                    onBackButtonClick.invoke()
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
@@ -46,11 +46,11 @@ fun TerningTopAppBar(
                     )
                 }
             } else {
-                customActions?.getOrNull(0)?.invoke()
+                customActions.getOrNull(0)?.invoke()
             }
         },
         actions = {
-            customActions?.drop(1)?.forEach { customAction ->
+            customActions.drop(1).forEach { customAction ->
                 customAction()
             }
         },
