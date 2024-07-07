@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.SolidColor
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTypography
 
 @Composable
@@ -25,6 +24,6 @@ fun SearchTextField(
         hint = hint,
         hintColor = Grey300,
         leftIcon = leftIcon,
-        iconColor = Grey400
+        leftIconColor = Grey400,
     )
 }

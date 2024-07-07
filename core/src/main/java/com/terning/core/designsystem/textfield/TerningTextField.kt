@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey300
-import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTypography
 import com.terning.core.designsystem.theme.White
@@ -38,10 +37,12 @@ fun TerningTextField(
     strokeWidth: Float = 1f,
     drawLineColor: Color,
     leftIcon: Int? = null,
-    iconColor: Color = TerningMain,
+    leftIconColor: Color = TerningMain,
     maxTextLength: Int? = null,
     showTextLength: Boolean = false,
     helperMessage: String = "",
+    helperIcon: Int? = null,
+    helperColor: Color = TerningMain,
 ) {
     BasicTextField(
         value = value,
@@ -76,7 +77,7 @@ fun TerningTextField(
                     Icon(
                         painter = painterResource(id = it),
                         contentDescription = null,
-                        tint = iconColor,
+                        tint = leftIconColor,
                     )
                 }
                 Box(modifier = Modifier.weight(1f)) {
@@ -100,10 +101,22 @@ fun TerningTextField(
         }
     )
 
-    Text(
-        text = helperMessage,
-        modifier = Modifier.padding(vertical = 8.dp),
-        style = TerningTypography().detail3,
-        color = Grey400,
-    )
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = Modifier.padding(vertical = 8.dp)
+    ) {
+        helperIcon?.let {
+            Icon(
+                painter = painterResource(id = it),
+                contentDescription = null,
+                tint = helperColor,
+            )
+        }
+        Text(
+            text = helperMessage,
+            style = TerningTypography().detail3,
+            color = helperColor,
+        )
+    }
 }
