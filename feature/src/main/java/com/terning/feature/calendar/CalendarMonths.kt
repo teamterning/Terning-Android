@@ -10,6 +10,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.models.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.models.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.models.MonthData
+import com.terning.feature.calendar.models.Scrap
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -20,6 +21,7 @@ fun CalendarMonths(
     onDateSelected: (LocalDate) -> Unit,
     pages: Int,
     selectedDate: LocalDate,
+    scrapLists: List<List<Scrap>>
 ) {
     LazyRow(
         modifier = modifier
@@ -38,7 +40,8 @@ fun CalendarMonths(
                 modifier = Modifier.fillParentMaxSize(),
                 selectedDate = selectedDate,
                 onDateSelected = onDateSelected,
-                monthData = monthData
+                monthData = monthData,
+                scrapLists = scrapLists
             )
         }
     }

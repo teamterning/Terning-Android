@@ -100,7 +100,8 @@ fun CalendarScreen(
                     viewModel.updateSelectedDate(it)
                 },
                 listState = listState,
-                pages = state.getPageCount()
+                pages = state.getPageCount(),
+                scrapLists = viewModel.mockScrapList
             )
         }
 

@@ -8,19 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
-import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.calendar.models.MonthData
+import com.terning.feature.calendar.models.Scrap
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -30,11 +26,7 @@ fun CalendarMonth(
     monthData: MonthData,
     onDateSelected: (LocalDate) -> Unit,
     selectedDate: LocalDate,
-    taskList: List<List<String>> = listOf(
-        listOf("Task 1", "Task 2", "Task 3"),
-        listOf("Task 4", "Task 5", "Task 6"),
-        listOf("Task 7", "Task 8", "Task 9")
-    )
+    scrapLists: List<List<Scrap>> = listOf()
 ) {
     Column(
         modifier = modifier
@@ -59,6 +51,12 @@ fun CalendarMonth(
                             isToday = day.date == LocalDate.now(),
                             onDateSelected = onDateSelected
                         )
+                        if(!day.isOutDate) {
+                            val index = day.date.dayOfWeek.value - 1
+                            CalendarScrap(
+                                scrapList = scrapLists[index]
+                            )
+                        }
                     }
                 }
             }
@@ -82,11 +80,7 @@ fun CalendarMonthPreview() {
             monthData = MonthData(YearMonth.now()),
             selectedDate = LocalDate.now(),
             onDateSelected = {},
-            taskList = listOf(
-                listOf("Task 1", "Task 2", "Task 3"),
-                listOf("Task 4", "Task 5", "Task 6"),
-                listOf("Task 7", "Task 8", "Task 9")
-            )
+            scrapLists = listOf()
         )
     }
 }
