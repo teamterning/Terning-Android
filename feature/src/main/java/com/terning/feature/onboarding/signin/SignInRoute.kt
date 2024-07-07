@@ -2,9 +2,10 @@ package com.terning.feature.onboarding.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,6 +21,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.terning.core.designsystem.component.button.TerningBasicButton
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
@@ -53,11 +55,13 @@ fun SignInRoute(
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-    onSignInClick: () -> Unit = {}
+    onSignInClick: () -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .wrapContentHeight() // Modifier 변경
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -71,6 +75,7 @@ fun SignInScreen(
             onSignInClick = { onSignInClick() },
             modifier = modifier.padding(horizontal = 20.dp)
         )
+        TerningBasicButton()
     }
 }
 
