@@ -55,7 +55,6 @@ fun SignInRoute(
 fun SignInScreen(
     modifier: Modifier = Modifier,
     onSignInClick: () -> Unit = {},
-    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
