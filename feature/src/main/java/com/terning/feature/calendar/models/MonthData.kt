@@ -3,6 +3,17 @@ package com.terning.feature.calendar.models
 import androidx.compose.runtime.Immutable
 import java.time.YearMonth
 
+/**
+ * [MonthData] is responsible for managing a month's overall characteristics
+ * it consists of following properties:-
+ *
+ * [inDays] represents the number of days in the previous month that should be shown before the first day of the month.
+ * [outDays] represents the number of days in the next month that should be shown after the last day of the month.]
+ * [totalDays] represents the total number of days shown on calendar
+ * [calendarMonth] represents the list of days of the month, a list of [DayModel]
+ */
+
+
 @Immutable
 data class MonthData(
     val month: YearMonth
@@ -13,7 +24,7 @@ data class MonthData(
 
     val inDays = firstDayOfWeek % 7
     val monthDays = month.lengthOfMonth()
-    val outDays = 7 - ((inDays + monthDays) % 7)
+    val outDays = (7 - ((inDays + monthDays) % 7)) % 7
     val totalDays = monthDays + inDays + outDays
 
     private val rows = (0 until totalDays).chunked(7)
