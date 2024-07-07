@@ -21,7 +21,6 @@ import androidx.navigation.compose.NavHost
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
-import com.terning.core.designsystem.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.topappbar.MyPageTopAppBar
 import com.terning.core.designsystem.topappbar.TerningTopAppBar
@@ -42,10 +41,7 @@ fun MainScreen(
         topBar = {
             when (navigator.currentTab) {
                 MainTab.HOME -> LogoTopAppBar()
-                MainTab.CALENDAR -> BackButtonTopAppBar(
-                    title = "dkssud",
-                    onBackButtonClick = { navigator.navigateUp() })
-
+                MainTab.CALENDAR -> TerningTopAppBar()
                 MainTab.SEARCH -> LogoTopAppBar()
                 MainTab.MY_PAGE -> MyPageTopAppBar()
                 null -> TerningTopAppBar()
@@ -77,6 +73,21 @@ fun MainScreen(
                 signUpNavGraph()
             }
         }
+    }
+}
+
+
+
+@Composable
+private fun MainTopBar(
+    isVisible: Boolean,
+    tabs: List<MainTab>,
+    currentTab: MainTab?,
+    onTabSelected: (MainTab) -> Unit,
+) {
+    AnimatedVisibility(
+        visible = isVisible,
+    ) {
     }
 }
 
