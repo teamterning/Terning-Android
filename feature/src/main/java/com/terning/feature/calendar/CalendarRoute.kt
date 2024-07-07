@@ -23,11 +23,15 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.feature.calendar.models.CalendarState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+
+@Composable
+fun CalendarRoute() {
+    CalendarScreen()
+}
 
 @Composable
 fun CalendarScreen(
@@ -86,7 +90,7 @@ fun CalendarScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(paddingValues)
+                .padding(top = paddingValues.calculateTopPadding())
         ) {
             WeekDaysHeader()
             Spacer(modifier = Modifier
