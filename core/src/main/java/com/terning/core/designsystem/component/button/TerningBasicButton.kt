@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningMain2
@@ -23,8 +24,10 @@ import com.terning.core.util.NoRippleTheme
 
 @Composable
 fun TerningBasicButton(
+    modifier: Modifier = Modifier,
     text: String = "",
     shape: Shape,
+    style: TextStyle,
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -33,7 +36,7 @@ fun TerningBasicButton(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             interactionSource = interactionSource,
             colors = ButtonDefaults.buttonColors(
                 containerColor = color,
@@ -44,7 +47,7 @@ fun TerningBasicButton(
         ) {
             Text(
                 text = text,
-                style = TerningTheme.typography.button0
+                style = style
             )
         }
     }
@@ -56,9 +59,9 @@ fun TerningBasicButtonPreview() {
     TerningPointTheme {
         TerningBasicButton(
             text = "Button",
-            shape = ButtonDefaults.textShape,
+            shape = ButtonDefaults.shape,
+            style = TerningTheme.typography.button0,
             onClick = {}
         )
     }
 }
-
