@@ -40,13 +40,10 @@ class CalendarState internal constructor(
             }
         }
 
-    fun getPageCount(): Int {
-        return (END_YEAR - START_YEAR) * 12
-    }
+    fun getPageCount(): Int = (END_YEAR - START_YEAR) * 12
 
-    fun getInitialPage(): Int {
-        return (firstVisibleMonth.year - START_YEAR) * 12 + firstVisibleMonth.monthValue - 1
-    }
+    fun getInitialPage(): Int =
+        (firstVisibleMonth.year - START_YEAR) * 12 + firstVisibleMonth.monthValue - 1
 
     companion object {
         const val START_YEAR = 2020

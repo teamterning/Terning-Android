@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -12,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.SundayRed
 import com.terning.core.designsystem.theme.TerningTheme
@@ -44,7 +43,6 @@ fun WeekDaysHeader(
                     text = stringResource(id = day),
                     style = TerningTheme.typography.body7,
                     color = if(day == R.string.calendar_text_sunday) SundayRed else Black,
-                    fontSize = 13.sp,
                     textAlign = TextAlign.Center
                 )
             }
