@@ -21,19 +21,18 @@ import com.terning.core.designsystem.theme.TerningTypography
 fun TerningTopAppBar(
     title: String = "",
     showBackButton: Boolean = false,
-    customActions: List<@Composable () -> Unit> = emptyList(),
+    actions: List<@Composable () -> Unit> = emptyList(),
     onBackButtonClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Box(Modifier.fillMaxWidth()) {
-                Text(
-                    text = title,
-                    modifier = Modifier.align(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                    style = TerningTypography().title2
-                )
-            }
+
+            Text(
+                text = title,
+                textAlign = TextAlign.Center,
+                style = TerningTypography().title2
+            )
+
         },
         navigationIcon = {
             if (showBackButton) {
@@ -46,12 +45,12 @@ fun TerningTopAppBar(
                     )
                 }
             } else {
-                customActions.getOrNull(0)?.invoke()
+                actions.getOrNull(0)?.invoke()
             }
         },
         actions = {
-            customActions.drop(1).forEach { customAction ->
-                customAction()
+            actions.drop(1).forEach { action ->
+                action()
             }
         },
     )

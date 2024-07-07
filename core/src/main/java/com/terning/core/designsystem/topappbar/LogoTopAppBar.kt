@@ -10,7 +10,7 @@ import com.terning.core.R
 fun LogoTopAppBar() {
     TerningTopAppBar(
         showBackButton = false,
-        customActions = listOf {
+        actions = listOf {
             Icon(
                 painter = painterResource(id = R.drawable.ic_logo),
                 contentDescription = stringResource(id = R.string.ic_logo),

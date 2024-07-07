@@ -21,10 +21,11 @@ import androidx.navigation.compose.NavHost
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.calendar.navigation.calendarNavGraph
+import com.terning.core.designsystem.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.topappbar.MyPageTopAppBar
 import com.terning.core.designsystem.topappbar.TerningTopAppBar
+import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
@@ -41,10 +42,13 @@ fun MainScreen(
         topBar = {
             when (navigator.currentTab) {
                 MainTab.HOME -> LogoTopAppBar()
-                MainTab.CALENDAR -> TerningTopAppBar()
+                MainTab.CALENDAR -> BackButtonTopAppBar(
+                    title = "dkssud",
+                    onBackButtonClick = { navigator.navigateUp() })
+
                 MainTab.SEARCH -> LogoTopAppBar()
                 MainTab.MY_PAGE -> MyPageTopAppBar()
-                null -> LogoTopAppBar()
+                null -> TerningTopAppBar()
             }
         },
         bottomBar = {

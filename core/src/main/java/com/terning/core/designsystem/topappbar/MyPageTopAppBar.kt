@@ -16,7 +16,7 @@ import com.terning.core.designsystem.theme.TerningTypography
 fun MyPageTopAppBar() {
     TerningTopAppBar(
         showBackButton = false,
-        customActions = listOf(
+        actions = listOf(
             {},
             {
                 Row(
