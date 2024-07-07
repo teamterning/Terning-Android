@@ -23,6 +23,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.home.navigation.navigateHome
@@ -75,7 +76,13 @@ fun SignInScreen(
             onSignInClick = { onSignInClick() },
             modifier = modifier.padding(horizontal = 20.dp)
         )
-        RoundButton(text= "hi", onClick = onClick)
+        RoundButton(
+            text = "hi",
+            style = TerningTheme.typography.button0,
+            paddingVertical = 19.dp,
+            roundedCornerShape = 10.dp,
+            onButtonClick = { onClick() },
+        )
     }
 }
 

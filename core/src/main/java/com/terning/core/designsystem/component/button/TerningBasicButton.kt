@@ -3,6 +3,7 @@ package com.terning.core.designsystem.component.button
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -15,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningMain2
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -28,7 +31,8 @@ fun TerningBasicButton(
     text: String = "",
     shape: Shape,
     style: TextStyle,
-    onClick: () -> Unit
+    paddingVertical: Dp,
+    onButtonClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -43,11 +47,12 @@ fun TerningBasicButton(
                 contentColor = White
             ),
             shape = shape,
-            onClick = { onClick() }
+            onClick = { onButtonClick() }
         ) {
             Text(
                 text = text,
-                style = style
+                style = style,
+                modifier = modifier.padding(vertical = paddingVertical)
             )
         }
     }
@@ -61,7 +66,8 @@ fun TerningBasicButtonPreview() {
             text = "Button",
             shape = ButtonDefaults.shape,
             style = TerningTheme.typography.button0,
-            onClick = {}
+            paddingVertical = 19.dp,
+            onButtonClick = {}
         )
     }
 }
