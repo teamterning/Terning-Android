@@ -16,8 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.tooling.preview.Preview
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningMain2
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 
@@ -39,9 +41,23 @@ fun TerningBasicButton(
             shape = shape,
             onClick = { onClick() }
         ) {
-            Text(text = text,
-                style = TerningTheme.typography.button0)
+            Text(
+                text = text,
+                style = TerningTheme.typography.button0
+            )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TerningBasicButtonPreview() {
+    TerningPointTheme {
+        TerningBasicButton(
+            text = "Button",
+            shape = ButtonDefaults.shape,
+            onClick = {}
+        )
     }
 }
 
