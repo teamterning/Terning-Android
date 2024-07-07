@@ -1,4 +1,4 @@
-package com.terning.feature.mock
+package com.terning.feature.mypage
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,14 +19,14 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.response.MockResponseModel
 
 @Composable
-fun MockRoute(
-    viewModel: MockViewModel = hiltViewModel()
+fun MyPageRoute(
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = LocalLifecycleOwner.current)
+    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getFriendsInfo(2)
@@ -53,7 +53,7 @@ fun MockRoute(
 
 @Composable
 fun MockScreen(
-    mockList: List<MockResponseModel>
+    mockList: List<MockResponseModel>,
 ) {
     LazyColumn(
         modifier = Modifier

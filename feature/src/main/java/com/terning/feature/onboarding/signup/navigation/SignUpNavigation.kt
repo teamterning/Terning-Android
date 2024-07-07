@@ -1,25 +1,25 @@
-package com.terning.feature.mock.navigation
+package com.terning.feature.onboarding.signup.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
-import com.terning.feature.mock.MockRoute
+import com.terning.feature.onboarding.signup.SignUpRoute
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateMock(navOptions: NavOptions? = null) {
+fun NavController.navigateSignUp(navOptions: NavOptions? = null) {
     navigate(
-        route = Mock,
+        route = SignUp,
         navOptions = navOptions
     )
 }
 
-fun NavGraphBuilder.mockNavGraph() {
-    composable<Mock> {
-        MockRoute()
+fun NavGraphBuilder.signUpNavGraph() {
+    composable<SignUp> {
+        SignUpRoute()
     }
 }
 
 @Serializable
-data object Mock : MainTabRoute
+data object SignUp : MainTabRoute

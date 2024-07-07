@@ -9,18 +9,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.terning.feature.first.navigation.First
-import com.terning.feature.first.navigation.navigateFirst
-import com.terning.feature.mock.navigation.navigateMock
+import com.terning.feature.calendar.navigation.navigateCalendar
+import com.terning.feature.home.navigation.navigateHome
+import com.terning.feature.mypage.navigation.navigateMyPage
+import com.terning.feature.onboarding.signin.navigation.SignIn
+import com.terning.feature.search.navigation.navigateSearch
 
 class MainNavigator(
-    val navController: NavHostController
+    val navController: NavHostController,
 ) {
     private val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = First
+    val startDestination = SignIn
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
@@ -37,17 +39,11 @@ class MainNavigator(
         }
 
         when (tab) {
-            MainTab.FIRST -> navController.navigateFirst(navOptions)
-            MainTab.MOCK -> navController.navigateMock(navOptions)
+            MainTab.HOME -> navController.navigateHome(navOptions)
+            MainTab.CALENDAR -> navController.navigateCalendar(navOptions)
+            MainTab.SEARCH -> navController.navigateSearch(navOptions)
+            MainTab.MY_PAGE -> navController.navigateMyPage(navOptions)
         }
-    }
-
-    fun navigateToFirst() {
-        navController.navigateFirst()
-    }
-
-    fun navigateToMock() {
-        navController.navigateMock()
     }
 
     private fun navigateUp() {

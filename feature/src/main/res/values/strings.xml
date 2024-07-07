@@ -5,8 +5,15 @@
     <string name="server_success">서버통신 성공</string>
     <string name="server_failure">서버통신 실패</string>
 
-    <string name="first">first</string>
-    <string name="mock">mock</string>
+    <string name="bottom_nav_home">홈</string>
+    <string name="bottom_nav_calendar">캘린더</string>
+    <string name="bottom_nav_search">탐색</string>
+    <string name="bottom_nav_my_page">마이페이지</string>
+
+    <!--sign_In-->
+    <string name="sign_in_kakao_button">카카오로 로그인하기</string>
+    <string name="sign_in_kakao_login_fail">카카오톡 로그인에 실패했습니다</string>
+    <string name="sign_in_kakao_cancel">로그인을 취소하였습니다</string>
 
     <string name="calendar_text_sunday">일</string>
     <string name="calendar_text_monday">월</string>

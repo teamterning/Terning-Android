@@ -95,4 +95,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
+    // KakaoDependencies
+    implementation(libs.kakao.user)
+
 }
