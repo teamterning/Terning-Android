@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.button.TerningBasicButton
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
@@ -75,14 +77,14 @@ fun SignInScreen(
             onSignInClick = { onSignInClick() },
             modifier = modifier.padding(horizontal = 20.dp)
         )
-        TerningBasicButton()
+        TerningBasicButton(text = "hi", shape = RoundedCornerShape(8.dp), onClick = onClick)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-    TerningTheme {
+    TerningPointTheme {
         SignInScreen()
     }
 }
