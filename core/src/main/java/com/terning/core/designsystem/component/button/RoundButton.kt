@@ -13,6 +13,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 @Composable
 fun RoundButton(
     modifier: Modifier = Modifier,
+    isEnabled: Boolean = true,
     text: String = "",
     style: TextStyle,
     paddingVertical: Dp,
@@ -21,6 +22,7 @@ fun RoundButton(
 ) {
     TerningBasicButton(
         modifier = modifier,
+        isEnabled = isEnabled,
         shape = RoundedCornerShape(roundedCornerShape),
         onButtonClick = onButtonClick,
         text = text,
