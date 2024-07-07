@@ -14,11 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTypography
 import com.terning.core.designsystem.theme.White
@@ -28,18 +31,22 @@ fun TerningTextField(
     value: String,
     onValueChange: (String) -> Unit,
     textStyle: TextStyle,
+    textColor: Color = TerningMain,
+    cursorBrush: Brush = SolidColor(TerningMain),
     hint: String = "",
-    hintColor: Color = Grey300,
+    hintColor: Color = TerningMain,
     strokeWidth: Float = 1f,
     drawLineColor: Color,
     leftIcon: Int? = null,
+    iconColor: Color = TerningMain,
     maxTextLength: Int? = null,
     showTextLength: Boolean = false,
-    warningMessage: String? = null,
+    helperMessage: String = "",
 ) {
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
+
         modifier = Modifier
             .fillMaxWidth()
             .background(White)
@@ -55,7 +62,9 @@ fun TerningTextField(
                     strokeWidth = strokeWidth.dp.toPx(),
                 )
             },
-        textStyle = textStyle,
+
+        textStyle = textStyle.copy(color = textColor),
+        cursorBrush = cursorBrush,
 
         decorationBox = { innerTextField ->
             Row(
@@ -67,7 +76,7 @@ fun TerningTextField(
                     Icon(
                         painter = painterResource(id = it),
                         contentDescription = null,
-                        tint = TerningMain,
+                        tint = iconColor,
                     )
                 }
                 Box(modifier = Modifier.weight(1f)) {
@@ -80,23 +89,21 @@ fun TerningTextField(
                     }
                     innerTextField()
                 }
+                if (showTextLength && maxTextLength != null) {
+                    Text(
+                        text = "${value.length}/$maxTextLength",
+                        style = TerningTypography().button3,
+                        color = Grey300,
+                    )
+                }
             }
         }
     )
 
-    if (showTextLength && maxTextLength != null) {
-        Text(
-            text = "${value.length}/$maxTextLength",
-            style = TerningTypography().button3,
-            color = Grey300,
-        )
-    }
-
-    warningMessage?.let {
-        Text(
-            text = it,
-            style = TerningTypography().button3,
-            color = Color.Red,
-        )
-    }
+    Text(
+        text = helperMessage,
+        modifier = Modifier.padding(vertical = 8.dp),
+        style = TerningTypography().detail3,
+        color = Grey400,
+    )
 }
