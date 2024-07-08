@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 fun BackButtonTopAppBar(
     title: String, onBackButtonClick: (() -> Unit),
 ) {
-    TerningTopAppBar(
+    TerningBasicTopAppBar(
         title = title,
         showBackButton = true,
         onBackButtonClick = { onBackButtonClick.invoke() },

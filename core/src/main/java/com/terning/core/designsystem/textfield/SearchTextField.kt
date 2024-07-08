@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.SolidColor
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.TerningTypography
+import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
 fun SearchTextField(
@@ -13,10 +13,10 @@ fun SearchTextField(
     hint: String,
     leftIcon: Int,
 ) {
-    TerningTextField(
+    TerningBasicTextField(
         value = text,
         onValueChange = onValueChange,
-        textStyle = TerningTypography().button3,
+        textStyle = TerningTheme.typography.button3,
         textColor = Grey400,
         cursorBrush = SolidColor(Grey300),
         drawLineColor = Grey300,

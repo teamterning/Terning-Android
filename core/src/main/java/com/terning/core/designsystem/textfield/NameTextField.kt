@@ -8,7 +8,7 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningTypography
+import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
 fun NameTextField(
@@ -19,10 +19,10 @@ fun NameTextField(
     helperIcon: Int? = null,
     helperColor: Color = TerningMain,
 ) {
-    TerningTextField(
+    TerningBasicTextField(
         value = text,
         onValueChange = onValueChange,
-        textStyle = TerningTypography().detail1,
+        textStyle = TerningTheme.typography.detail1,
         textColor = Black,
         drawLineColor = Grey500,
         cursorBrush = SolidColor(Grey400),

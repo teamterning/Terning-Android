@@ -27,11 +27,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningTypography
+import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 
 @Composable
-fun TerningTextField(
+fun TerningBasicTextField(
     value: String,
     onValueChange: (String) -> Unit,
     textStyle: TextStyle,
@@ -52,17 +52,15 @@ fun TerningTextField(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    BasicTextField(
-        value = value,
+    BasicTextField(value = value,
         onValueChange = onValueChange,
         singleLine = true,
         maxLines = 1,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboardController?.hide()
-                focusManager.clearFocus()
-            }),
+        keyboardActions = KeyboardActions(onDone = {
+            keyboardController?.hide()
+            focusManager.clearFocus()
+        }),
 
         modifier = Modifier
             .fillMaxWidth()
@@ -99,9 +97,7 @@ fun TerningTextField(
                 Box(modifier = Modifier.weight(1f)) {
                     if (value.isEmpty()) {
                         Text(
-                            text = hint,
-                            style = textStyle,
-                            color = hintColor
+                            text = hint, style = textStyle, color = hintColor
                         )
                     }
                     innerTextField()
@@ -109,13 +105,12 @@ fun TerningTextField(
                 if (showTextLength && maxTextLength != null) {
                     Text(
                         text = "${value.length}/$maxTextLength",
-                        style = TerningTypography().button3,
+                        style = TerningTheme.typography.button3,
                         color = Grey300,
                     )
                 }
             }
-        }
-    )
+        })
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -131,7 +126,7 @@ fun TerningTextField(
         }
         Text(
             text = helperMessage,
-            style = TerningTypography().detail3,
+            style = TerningTheme.typography.detail3,
             color = helperColor,
         )
     }
