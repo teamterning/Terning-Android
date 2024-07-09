@@ -54,5 +54,12 @@
     <string name="terning_post_working_period">근무기간</string>
     <string name="home_recommend_sub_title">마음에 드는 공고를 스크랩하고 캘린더에서 모아보세요</string>
     <string name="home_recommend_main_title">내 계획에 딱 맞는 대학생 인턴 공고</string>
+    <string name="home_recommend_filtering">필터링</string>
+    <string name="home_recommend_filtering_grade">학년</string>
+    <string name="home_recommend_filtering_working_period_1">1개월 ~ 3개월</string>
+    <string name="home_recommend_filtering_working_period_2">4개월 ~ 6개월</string>
+    <string name="home_recommend_filtering_working_period_3">7개월 이상</string>
+    <string name="home_recommend_filtering_month">월</string>
+
 
 </resources>
