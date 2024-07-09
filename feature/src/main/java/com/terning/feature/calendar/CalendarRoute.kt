@@ -1,6 +1,11 @@
 package com.terning.feature.calendar
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -106,16 +111,44 @@ fun CalendarScreen(
                     .background(color = Grey200)
             )
 
-            CalendarMonths(
-                modifier = Modifier.fillMaxSize(),
-                selectedDate = selectedDate,
-                onDateSelected = {
-                    viewModel.updateSelectedDate(it)
+            AnimatedContent(
+                targetState = isWeekEnabled,
+                transitionSpec = {
+                    if (!targetState) {
+                        slideInVertically { fullHeight -> -fullHeight } togetherWith
+                                slideOutVertically { fullHeight -> fullHeight }
+                    } else {
+                        slideInVertically { fullHeight -> fullHeight } togetherWith
+                                slideOutVertically { fullHeight -> -fullHeight }
+                    }.using(
+                        sizeTransform = SizeTransform(clip = true)
+                    )
                 },
-                listState = listState,
-                pages = state.getPageCount(),
-                scrapLists = viewModel.mockScrapList,
-            )
+                label = ""
+            ) { targetState ->
+                if (!targetState) {
+                    CalendarMonths(
+                        modifier = Modifier.fillMaxSize(),
+                        selectedDate = selectedDate,
+                        onDateSelected = {
+                            viewModel.updateSelectedDate(it)
+                        },
+                        listState = listState,
+                        pages = state.getPageCount(),
+                        scrapLists = viewModel.mockScrapList,
+                    )
+                } else {
+                    CalendarWeekWithScrap(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        selectedDate = selectedDate ?: LocalDate.now(),
+                        scrapLists = viewModel.mockScrapList,
+                        onDateSelected = {
+                            viewModel.updateSelectedDate(it)
+                        }
+                    )
+                }
+            }
         }
     }
 }
