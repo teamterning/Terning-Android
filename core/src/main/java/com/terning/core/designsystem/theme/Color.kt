@@ -15,6 +15,7 @@ val Black = Color(0xFF171717)
 
 // Main Color
 val TerningMain = Color(0xFF1EA65E)
+val TerningMain2 = Color(0xFF179653)
 
 // Calendar Color
 val CalRed = Color(0xFFED4E54)

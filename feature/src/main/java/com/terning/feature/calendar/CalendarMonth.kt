@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.calendar.models.MonthData
 import com.terning.feature.calendar.models.Scrap
@@ -75,7 +76,7 @@ fun CalendarMonth(
 @Preview(showBackground = true)
 @Composable
 fun CalendarMonthPreview() {
-    TerningTheme {
+    TerningPointTheme {
         CalendarMonth(
             monthData = MonthData(YearMonth.now()),
             selectedDate = LocalDate.now(),
