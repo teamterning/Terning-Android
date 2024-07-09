@@ -16,13 +16,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
-import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.component.topappbar.MyPageTopAppBar
-import com.terning.core.designsystem.component.topappbar.TerningTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
+import com.terning.core.designsystem.component.topappbar.TerningBasicTopAppBar
 import com.terning.core.util.NoRippleInteractionSource
 import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
@@ -39,13 +38,10 @@ fun MainScreen(
         topBar = {
             when (navigator.currentTab) {
                 MainTab.HOME -> LogoTopAppBar()
-                MainTab.CALENDAR -> BackButtonTopAppBar(
-                    title = "dkssud",
-                    onBackButtonClick = { navigator.navigateUp() })
-
+                MainTab.CALENDAR -> TerningBasicTopAppBar()
                 MainTab.SEARCH -> LogoTopAppBar()
                 MainTab.MY_PAGE -> MyPageTopAppBar()
-                null -> TerningTopAppBar()
+                null -> TerningBasicTopAppBar()
             }
         },
         bottomBar = {
@@ -74,6 +70,20 @@ fun MainScreen(
                 signUpNavGraph()
             }
         }
+    }
+}
+
+
+@Composable
+private fun MainTopBar(
+    isVisible: Boolean,
+    tabs: List<MainTab>,
+    currentTab: MainTab?,
+    onTabSelected: (MainTab) -> Unit,
+) {
+    AnimatedVisibility(
+        visible = isVisible,
+    ) {
     }
 }
 

@@ -10,11 +10,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.terning.core.R
-import com.terning.core.designsystem.theme.TerningTypography
+import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
 fun MyPageTopAppBar() {
-    TerningTopAppBar(
+    TerningBasicTopAppBar(
         showBackButton = false,
         actions = listOf(
             {},
@@ -24,7 +24,7 @@ fun MyPageTopAppBar() {
                 ) {
                     Text(
                         text = stringResource(id = R.string.my_page_top_app_bar),
-                        style = TerningTypography().button3,
+                        style = TerningTheme.typography.button3,
                         textAlign = TextAlign.Center
                     )
                     IconButton(onClick = {

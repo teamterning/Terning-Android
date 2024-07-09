@@ -10,11 +10,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.terning.core.R
-import com.terning.core.designsystem.theme.TerningTypography
+import com.terning.core.designsystem.theme.TerningTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TerningTopAppBar(
+fun TerningBasicTopAppBar(
     title: String = "",
     showBackButton: Boolean = false,
     actions: List<@Composable () -> Unit> = emptyList(),
@@ -26,7 +26,7 @@ fun TerningTopAppBar(
             Text(
                 text = title,
                 textAlign = TextAlign.Center,
-                style = TerningTypography().title2
+                style = TerningTheme.typography.title2
             )
 
         },
