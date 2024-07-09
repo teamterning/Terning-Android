@@ -18,6 +18,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.isToday
 import com.terning.feature.calendar.models.MonthData
 import com.terning.feature.calendar.models.Scrap
+import com.terning.feature.calendar.models.SelectedDateState
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -26,7 +27,7 @@ fun CalendarMonth(
     modifier: Modifier = Modifier,
     monthData: MonthData,
     onDateSelected: (LocalDate) -> Unit,
-    selectedDate: LocalDate?,
+    selectedDate: SelectedDateState,
     scrapLists: List<List<Scrap>> = listOf()
 ) {
     Column(
@@ -48,7 +49,7 @@ fun CalendarMonth(
                     ) {
                         CalendarDay(
                             dayData = day,
-                            isSelected = selectedDate == day.date,
+                            isSelected = selectedDate.selectedDate == day.date && selectedDate.isEnabled,
                             isToday = day.date.isToday(),
                             onDateSelected = onDateSelected
                         )
@@ -79,7 +80,7 @@ fun CalendarMonthPreview() {
     TerningPointTheme {
         CalendarMonth(
             monthData = MonthData(YearMonth.now()),
-            selectedDate = LocalDate.now(),
+            selectedDate = SelectedDateState(LocalDate.now(), true),
             onDateSelected = {},
             scrapLists = listOf()
         )

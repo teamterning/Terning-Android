@@ -59,7 +59,6 @@ fun CalendarScreen(
     var currentPage by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
 
     var isListExpanded by remember { mutableStateOf(false) }
-    var isWeekEnabled by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
@@ -72,13 +71,9 @@ fun CalendarScreen(
             }
     }
 
-    LaunchedEffect(key1 = selectedDate) {
-        isWeekEnabled = selectedDate != null
-    }
-
     BackHandler {
-        if (isWeekEnabled) {
-            viewModel.updateSelectedDate(selectedDate?: LocalDate.now())
+        if (selectedDate.isEnabled) {
+            viewModel.updateSelectedDate(selectedDate.selectedDate)
         }
     }
 
@@ -114,7 +109,7 @@ fun CalendarScreen(
             )
 
             AnimatedContent(
-                targetState = isWeekEnabled,
+                targetState = selectedDate.isEnabled,
                 transitionSpec = {
                     if (!targetState) {
                         slideInVertically { fullHeight -> -fullHeight } togetherWith
@@ -143,7 +138,7 @@ fun CalendarScreen(
                     CalendarWeekWithScrap(
                         modifier = Modifier
                             .fillMaxSize(),
-                        selectedDate = selectedDate ?: LocalDate.now(),
+                        selectedDate = selectedDate,
                         scrapLists = viewModel.mockScrapList,
                         onDateSelected = {
                             viewModel.updateSelectedDate(it)

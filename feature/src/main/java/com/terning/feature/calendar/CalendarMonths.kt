@@ -10,6 +10,7 @@ import com.terning.feature.calendar.models.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.models.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.models.MonthData
 import com.terning.feature.calendar.models.Scrap
+import com.terning.feature.calendar.models.SelectedDateState
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -18,7 +19,7 @@ fun CalendarMonths(
     listState: LazyListState,
     onDateSelected: (LocalDate) -> Unit,
     pages: Int,
-    selectedDate: LocalDate?,
+    selectedDate: SelectedDateState,
     scrapLists: List<List<Scrap>>,
     modifier: Modifier = Modifier,
 ) {

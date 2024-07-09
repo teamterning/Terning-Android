@@ -10,9 +10,11 @@ import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.feature.calendar.models.Scrap
+import com.terning.feature.calendar.models.SelectedDateState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -20,15 +22,29 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
 ) : ViewModel() {
-    private val _selectedDate = MutableStateFlow<LocalDate?>(null)
+    private val _selectedDate = MutableStateFlow<SelectedDateState>(
+        SelectedDateState(
+            selectedDate = LocalDate.now(),
+            isEnabled = false
+        )
+    )
     val selectedDate get() = _selectedDate.asStateFlow()
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
-        if (_selectedDate.value != date) {
-            _selectedDate.value = date
+        if (_selectedDate.value.selectedDate != date) {
+            _selectedDate.update { currentState ->
+                currentState.copy(
+                    selectedDate = date,
+                    isEnabled = true
+                )
+            }
         } else {
-            _selectedDate.value = null
-
+            _selectedDate.update { currentState ->
+                currentState.copy(
+                    selectedDate = date,
+                    isEnabled = !_selectedDate.value.isEnabled
+                )
+            }
         }
     }
 
@@ -63,18 +79,21 @@ class CalendarViewModel @Inject constructor(
                             )
                         )
                     }
+
                     3 -> {
                         list.add(
                             i,
                             listOf()
                         )
                     }
+
                     4 -> {
                         list.add(
                             i,
                             listOf()
                         )
                     }
+
                     5 -> {
                         list.add(
                             i,
