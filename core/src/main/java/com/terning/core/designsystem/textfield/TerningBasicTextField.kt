@@ -25,6 +25,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 
@@ -35,12 +36,12 @@ fun TerningBasicTextField(
     textStyle: TextStyle,
     textColor: Color,
     hintColor: Color,
-    leftIconColor: Color,
     drawLineColor: Color,
     helperColor: Color,
     cursorBrush: Brush,
     strokeWidth: Float = 1f,
     leftIcon: Int? = null,
+    leftIconColor: Color = TerningMain,
     maxTextLength: Int? = null,
     showTextLength: Boolean = false,
     hint: String = "",

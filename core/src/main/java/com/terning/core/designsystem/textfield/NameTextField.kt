@@ -32,6 +32,6 @@ fun NameTextField(
         maxTextLength = 12,
         helperMessage = helperMessage,
         helperIcon = helperIcon,
-        helperColor = helperColor
+        helperColor = helperColor,
     )
 }
