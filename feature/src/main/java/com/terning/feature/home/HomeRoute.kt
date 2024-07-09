@@ -1,16 +1,12 @@
 package com.terning.feature.home
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,13 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
@@ -45,15 +39,6 @@ fun HomeScreen() {
             .fillMaxSize()
             .padding(horizontal = 24.dp)
     ) {
-
-        Box(
-            modifier = Modifier
-                .background(TerningMain)
-                .padding(vertical = 12.dp)
-                .width(148.dp)
-                .height(36.dp)
-        )
-
         Text(
             text = stringResource(
                 id = R.string.home_today_title_start
@@ -67,6 +52,7 @@ fun HomeScreen() {
             style = TerningTheme.typography.title1,
             color = Black,
         )
+
         HomeNoClosedTodayItem(isButtonExist = false)
 
         Text(
