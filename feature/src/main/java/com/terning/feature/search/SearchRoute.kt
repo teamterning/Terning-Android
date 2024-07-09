@@ -1,23 +1,21 @@
 package com.terning.feature.search
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.textfield.SearchTextField
+import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.search.component.ImageSlider
 
@@ -45,8 +43,9 @@ fun SearchScreen() {
                 onValueChange = { newText ->
                     text = newText
                 },
+                readOnly = true,
                 hint = stringResource(R.string.search_text_field_hint),
-                leftIcon = R.drawable.ic_nav_search
+                leftIcon = R.drawable.ic_nav_search,
             )
         }
 
@@ -54,5 +53,14 @@ fun SearchScreen() {
             modifier = Modifier,
             images = images
         )
+        Column {
+            Text(
+                text = stringResource(id = R.string.search_today_popular),
+                modifier = Modifier.padding(16.dp),
+                style = TerningTheme.typography.title1,
+                color = Black,
+            )
+        }
+
     }
 }
