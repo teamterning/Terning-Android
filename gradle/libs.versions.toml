@@ -74,6 +74,9 @@ foundationAndroid = "1.6.8"
 material3Android = "1.2.1"
 lifecycleRuntimeComposeAndroid = "2.8.2"
 
+## Kakao
+kakaoVersion = "2.20.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
@@ -148,6 +151,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 ossLicense = {group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossVersion"}
 lottie = {group = "com.airbnb.android", name = "lottie", version.ref = "lottieVersion"}
+
+kakao-user = {group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoVersion"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
