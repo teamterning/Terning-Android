@@ -73,13 +73,13 @@ fun CalendarScreen(
     }
 
     LaunchedEffect(key1 = selectedDate) {
-        if (selectedDate != null)
-            isWeekEnabled = true
+        isWeekEnabled = selectedDate != null
     }
 
     BackHandler {
-        if (isWeekEnabled)
-            isWeekEnabled = false
+        if (isWeekEnabled) {
+            viewModel.updateSelectedDate(selectedDate?: LocalDate.now())
+        }
     }
 
     Scaffold(

@@ -26,6 +26,9 @@ class CalendarViewModel @Inject constructor(
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
         if (_selectedDate.value != date) {
             _selectedDate.value = date
+        } else {
+            _selectedDate.value = null
+
         }
     }
 
