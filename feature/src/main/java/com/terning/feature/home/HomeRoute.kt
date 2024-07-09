@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -70,6 +73,16 @@ fun HomeScreen() {
             modifier = Modifier
                 .padding(top = 5.dp)
         )
+
+        HomeFilteringScreen(3, 1, 7)
+
+        HorizontalDivider(
+            Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+        )
+
+        HomeRecommendedPost()
     }
 }
 
@@ -149,6 +162,25 @@ private fun HomeClosingTodayPost() {
     ) {
         items(5) {
             HomeClosingTodayItem("[유한킴벌리] 그린캠프 w.대학생 숲활동가 모집")
+        }
+    }
+}
+
+@Composable
+fun HomeRecommendedPost(
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(10) {
+            TerningPostItem(
+                imageUrl = "https://reqres.in/img/faces/7-image.jpg",
+                title = "[Someone] 콘텐츠 마케터 대학생 인턴 채용",
+                dateDeadline = "2",
+                workingPeriod = "2개월",
+                isScraped = false,
+            )
         }
     }
 }
