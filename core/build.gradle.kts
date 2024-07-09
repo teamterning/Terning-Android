@@ -59,6 +59,7 @@ dependencies {
 
     // Compose Preview
     debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
 
     // Test Dependency
     testImplementation(libs.junit)
