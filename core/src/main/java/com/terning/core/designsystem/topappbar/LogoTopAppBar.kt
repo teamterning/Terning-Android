@@ -8,7 +8,7 @@ import com.terning.core.R
 
 @Composable
 fun LogoTopAppBar() {
-    TerningTopAppBar(
+    TerningBasicTopAppBar(
         showBackButton = false,
         actions = listOf {
             Icon(
