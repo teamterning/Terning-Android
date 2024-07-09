@@ -57,8 +57,8 @@ fun SignInScreen(
     onSignInClick: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier
-            .wrapContentHeight() // Modifier 변경
+        modifier = modifier
+            .wrapContentHeight()
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
