@@ -1,5 +1,6 @@
 package com.terning.feature.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -19,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +38,6 @@ fun HomeRoute() {
     HomeScreen()
 }
 
-@Preview
 @Composable
 fun HomeScreen() {
     Column(
@@ -68,7 +67,7 @@ fun HomeScreen() {
             style = TerningTheme.typography.title1,
             color = Black,
         )
-        HomeClosingTodayPost()
+        HomeNoClosedTodayItem(isButtonExist = false)
 
         Text(
             text = stringResource(id = R.string.home_recommend_sub_title),
@@ -77,7 +76,7 @@ fun HomeScreen() {
             modifier = Modifier
                 .padding(top = 25.dp)
         )
-        
+
         Text(
             text = stringResource(id = R.string.home_recommend_main_title),
             style = TerningTheme.typography.title1,
@@ -89,63 +88,66 @@ fun HomeScreen() {
 }
 
 @Composable
-fun HomeNoScrapItem() {
-    Text(
-        text = stringResource(id = R.string.home_today_no_scrap),
-        modifier = Modifier
+fun HomeNoClosedTodayItem(
+    isButtonExist: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = modifier
             .fillMaxWidth()
-            .height(116.dp)
-            .padding(top = 19.dp)
-            .background(
-                color = White,
-                shape = RoundedCornerShape(5.dp)
-            )
-            .shadow(1.dp)
-            .wrapContentHeight(align = Alignment.CenterVertically),
-        textAlign = TextAlign.Center,
-        style = TerningTheme.typography.detail2,
-        color = Grey500,
-    )
-}
-
-@Composable
-fun HomeNoClosingTodayItem() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 19.dp)
-            .border(
-                width = 1.dp,
-                color = Grey150,
-                shape = RoundedCornerShape(5.dp),
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(top = 19.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp,
+        ),
+        border = BorderStroke(
+            1.dp,
+            Grey150,
+        ),
+        colors = CardDefaults.cardColors(White),
     ) {
-        Text(
-            text = stringResource(id = R.string.home_today_no_closed),
-            modifier = Modifier
-                .padding(top = 27.dp),
-            textAlign = TextAlign.Center,
-            style = TerningTheme.typography.detail3,
-            color = Grey500,
-        )
-
-        Card(
-            colors = CardDefaults.cardColors(White),
-            modifier = Modifier
-                .padding(top = 7.dp, bottom = 27.dp)
-                .border(
-                    width = 1.dp,
-                    color = Grey400,
-                    shape = RoundedCornerShape(12.dp),
-                ),
-        ) {
+        if (isButtonExist) {
+            Column(
+                modifier = modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = stringResource(id = R.string.home_today_no_closed),
+                    modifier = modifier
+                        .padding(top = 27.dp),
+                    textAlign = TextAlign.Center,
+                    style = TerningTheme.typography.detail3,
+                    color = Grey500,
+                )
+                Card(
+                    colors = CardDefaults.cardColors(White),
+                    modifier = modifier
+                        .padding(top = 7.dp, bottom = 27.dp)
+                        .border(
+                            width = 1.dp,
+                            color = Grey400,
+                            shape = RoundedCornerShape(12.dp),
+                        ),
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.home_today_check_schedule),
+                        style = TerningTheme.typography.button4,
+                        color = Grey400,
+                        modifier = modifier
+                            .padding(vertical = 8.dp, horizontal = 10.dp)
+                    )
+                }
+            }
+        } else {
             Text(
-                text = stringResource(id = R.string.home_today_check_schedule),
-                style = TerningTheme.typography.button4,
-                color = Grey400,
-                modifier = Modifier
-                    .padding(vertical = 8.dp, horizontal = 10.dp)
+                text = stringResource(id = R.string.home_today_no_scrap),
+                modifier = modifier
+                    .padding(vertical = 44.dp)
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.CenterHorizontally),
+                textAlign = TextAlign.Center,
+                style = TerningTheme.typography.detail2,
+                color = Grey500,
             )
         }
     }
@@ -160,7 +162,7 @@ private fun HomeClosingTodayPost() {
             .padding(top = 19.dp),
     ) {
         items(5) {
-            HomeClosingTodayItem("[유한킴벌리]\n그린캠프 w.대학생\n숲활동가 모집")
+            HomeClosingTodayItem("[유한킴벌리] 그린캠프 w.대학생 숲활동가 모집")
         }
     }
 }
