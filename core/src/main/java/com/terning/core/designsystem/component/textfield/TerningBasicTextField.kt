@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.textfield
+package com.terning.core.designsystem.component.textfield
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
