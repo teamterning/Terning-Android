@@ -18,7 +18,6 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -26,7 +25,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey300
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 
@@ -35,19 +33,19 @@ fun TerningBasicTextField(
     value: String,
     onValueChange: (String) -> Unit,
     textStyle: TextStyle,
-    textColor: Color = TerningMain,
-    cursorBrush: Brush = SolidColor(TerningMain),
-    hint: String = "",
-    hintColor: Color = TerningMain,
-    strokeWidth: Float = 1f,
+    textColor: Color,
+    hintColor: Color,
+    leftIconColor: Color,
     drawLineColor: Color,
+    helperColor: Color,
+    cursorBrush: Brush,
+    strokeWidth: Float = 1f,
     leftIcon: Int? = null,
-    leftIconColor: Color = TerningMain,
     maxTextLength: Int? = null,
     showTextLength: Boolean = false,
+    hint: String = "",
     helperMessage: String = "",
     helperIcon: Int? = null,
-    helperColor: Color = TerningMain,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -97,7 +95,9 @@ fun TerningBasicTextField(
                 Box(modifier = Modifier.weight(1f)) {
                     if (value.isEmpty()) {
                         Text(
-                            text = hint, style = textStyle, color = hintColor
+                            text = hint,
+                            style = textStyle,
+                            color = hintColor
                         )
                     }
                     innerTextField()
