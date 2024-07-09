@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.terning.core.designsystem.topappbar.MyPageTopAppBar
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.MockResponseModel
@@ -26,7 +27,7 @@ fun MyPageRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = LocalLifecycleOwner.current)
+    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getFriendsInfo(2)
@@ -46,13 +47,13 @@ fun MyPageRoute(
         is UiState.Loading -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
-            MockScreen(mockList = (state.followers as UiState.Success<List<MockResponseModel>>).data)
+            MyPageScreen(mockList = (state.followers as UiState.Success<List<MockResponseModel>>).data)
         }
     }
 }
 
 @Composable
-fun MockScreen(
+fun MyPageScreen(
     mockList: List<MockResponseModel>,
 ) {
     LazyColumn(

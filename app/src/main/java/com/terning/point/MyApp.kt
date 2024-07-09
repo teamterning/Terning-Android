@@ -2,6 +2,7 @@ package com.terning.point
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -13,6 +14,7 @@ class MyApp : Application() {
 
         initTimber()
         setDayMode()
+        initKakoSdk()
     }
 
     private fun initTimber() {
@@ -21,5 +23,9 @@ class MyApp : Application() {
 
     private fun setDayMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    }
+
+    private fun initKakoSdk() {
+        KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
     }
 }

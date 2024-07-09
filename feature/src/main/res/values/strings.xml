@@ -10,4 +10,30 @@
     <string name="bottom_nav_search">탐색</string>
     <string name="bottom_nav_my_page">마이페이지</string>
 
+    <!--sign_In-->
+    <string name="sign_in_kakao_button">카카오로 로그인하기</string>
+    <string name="sign_in_kakao_login_fail">카카오톡 로그인에 실패했습니다</string>
+    <string name="sign_in_kakao_cancel">로그인을 취소하였습니다</string>
+
+    <!--    Profile-->
+    <string name="profile_text_field_hint">이름을 입력해주세요</string>
+    <string name="profile_text_field_helper">12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가</string>
+    <string name="profile_text_field_warning">이름에 특수문자는 입력할 수 없어요</string>
+    <string name="profile_text_field_check">이용 가능한 이름이에요</string>
+
+    <!--    Search-->
+    <string name="search_text_field_hint">관심있는 인턴 공고 키워드를 검색해보세요</string>
+
+
+    <string name="calendar_text_sunday">일</string>
+    <string name="calendar_text_monday">월</string>
+    <string name="calendar_text_tuesday">화</string>
+    <string name="calendar_text_wednesday">수</string>
+    <string name="calendar_text_thursday">목</string>
+    <string name="calendar_text_friday">금</string>
+    <string name="calendar_text_saturday">토</string>
+    <string name="calendar_button_description_previous">previous</string>
+    <string name="calendar_button_description_next">next</string>
+    <string name="calendar_button_description_list">list</string>
+
 </resources>

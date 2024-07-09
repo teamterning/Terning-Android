@@ -23,6 +23,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+            "String",
+            "NATIVE_APP_KEY",
+            gradleLocalProperties(rootDir, providers).getProperty("native.app.key"),
+        )
+        manifestPlaceholders["NATIVE_APP_KEY"] =
+            gradleLocalProperties(rootDir, providers).getProperty("nativeAppKey")
     }
 
     buildTypes {
@@ -104,4 +112,8 @@ dependencies {
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // KakaoDependencies
+    implementation(libs.kakao.user)
+
 }
