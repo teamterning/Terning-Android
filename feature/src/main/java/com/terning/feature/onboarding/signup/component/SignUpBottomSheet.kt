@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -54,7 +53,7 @@ fun SignUpBottomSheet(
                     onButtonClick = { onStartDialog() },
                     modifier = modifier.padding(horizontal = 24.dp)
                 )
-                Spacer(modifier = modifier.padding(bottom = 36.dp))
+                Spacer(modifier = modifier.padding(bottom = 15.dp))
             }
         },
         onDismissRequest = { onDismiss() }
