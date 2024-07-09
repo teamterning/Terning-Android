@@ -27,6 +27,7 @@ androidxComposeCompiler = "1.5.14"
 androidxComposeMaterial3 = "1.2.1"
 composeNavigation = "2.8.0-beta04"
 composeSavable = "1.4.3"
+composeFlowRow = "0.30.0"
 
 ## Hilt
 hilt = "2.48.1"
