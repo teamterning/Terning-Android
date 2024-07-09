@@ -25,7 +25,7 @@ fun CalendarMonth(
     modifier: Modifier = Modifier,
     monthData: MonthData,
     onDateSelected: (LocalDate) -> Unit,
-    selectedDate: LocalDate,
+    selectedDate: LocalDate?,
     scrapLists: List<List<Scrap>> = listOf()
 ) {
     Column(

@@ -13,7 +13,6 @@ import com.terning.feature.calendar.models.Scrap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -21,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
 ) : ViewModel() {
-    private val _selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
+    private val _selectedDate = MutableStateFlow<LocalDate?>(null)
     val selectedDate get() = _selectedDate.asStateFlow()
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {

@@ -29,6 +29,7 @@ import com.terning.feature.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.models.CalendarState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Composable
 fun CalendarRoute() {
@@ -41,14 +42,14 @@ fun CalendarScreen(
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val selectedDate by viewModel.selectedDate.collectAsState()
-    val state by remember{ mutableStateOf(CalendarState()) }
+    val state by remember { mutableStateOf(CalendarState()) }
 
     val listState = rememberLazyListState(
         initialFirstVisibleItemIndex = state.getInitialPage()
     )
 
-    var currentDate by remember { mutableStateOf(selectedDate) }
-    var currentPage by remember { mutableIntStateOf(listState.firstVisibleItemIndex)}
+    var currentDate by remember { mutableStateOf(LocalDate.now()) }
+    var currentPage by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
 
     var isListExpanded by remember { mutableStateOf(false) }
     var isWeekEnabled by remember { mutableStateOf(false) }
@@ -56,19 +57,22 @@ fun CalendarScreen(
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
-            .collect{
-                val swipeDirection = (listState.firstVisibleItemIndex - currentPage).coerceIn(-1, 1).toLong()
+            .collect {
+                val swipeDirection =
+                    (listState.firstVisibleItemIndex - currentPage).coerceIn(-1, 1).toLong()
                 currentDate = currentDate.plusMonths(swipeDirection)
                 currentPage = listState.firstVisibleItemIndex
             }
     }
 
     LaunchedEffect(key1 = selectedDate) {
-        isWeekEnabled = true
+        if (selectedDate != null)
+            isWeekEnabled = true
     }
 
     BackHandler {
-        isWeekEnabled = false
+        if (isWeekEnabled)
+            isWeekEnabled = false
     }
 
     Scaffold(
@@ -91,15 +95,17 @@ fun CalendarScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
         ) {
             WeekDaysHeader()
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(color = Grey200)
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(color = Grey200)
             )
+
             CalendarMonths(
                 modifier = Modifier.fillMaxSize(),
                 selectedDate = selectedDate,
@@ -108,9 +114,8 @@ fun CalendarScreen(
                 },
                 listState = listState,
                 pages = state.getPageCount(),
-                scrapLists = viewModel.mockScrapList
+                scrapLists = viewModel.mockScrapList,
             )
         }
-
     }
 }
