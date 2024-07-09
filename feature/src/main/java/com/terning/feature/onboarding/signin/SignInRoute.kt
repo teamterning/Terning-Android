@@ -86,7 +86,7 @@ fun SignInScreen(
         if (showBottomSheet) {
             SignUpBottomSheet(
                 onDismiss = { showBottomSheet = false },
-                onStartDialog = { showBottomSheet = false }
+                onStartDialog = { showBottomSheet = false },
             )
         }
     }
