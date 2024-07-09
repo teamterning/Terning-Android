@@ -12,9 +12,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -33,11 +37,11 @@ import com.terning.core.designsystem.theme.White
 fun TerningBasicTextField(
     value: String,
     onValueChange: (String) -> Unit,
+    readOnly: Boolean = false,
     textStyle: TextStyle,
     textColor: Color,
     hintColor: Color,
     drawLineColor: Color,
-    helperColor: Color,
     cursorBrush: Brush,
     strokeWidth: Float = 1f,
     leftIcon: Int? = null,
@@ -47,19 +51,25 @@ fun TerningBasicTextField(
     hint: String = "",
     helperMessage: String = "",
     helperIcon: Int? = null,
+    helperColor: Color = TerningMain,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+    val isFocused: MutableState<Boolean> = remember { mutableStateOf(false) }
 
-    BasicTextField(value = value,
+    BasicTextField(
+        value = value,
         onValueChange = onValueChange,
         singleLine = true,
         maxLines = 1,
+        readOnly = readOnly,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = {
-            keyboardController?.hide()
-            focusManager.clearFocus()
-        }),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+            }
+        ),
 
         modifier = Modifier
             .fillMaxWidth()
@@ -75,6 +85,9 @@ fun TerningBasicTextField(
                     end = Offset(x = canvasWidth, y = canvasHeight),
                     strokeWidth = strokeWidth.dp.toPx(),
                 )
+            }
+            .onFocusChanged {
+                isFocused.value = it.isFocused
             },
 
         textStyle = textStyle.copy(color = textColor),
@@ -98,7 +111,7 @@ fun TerningBasicTextField(
                         Text(
                             text = hint,
                             style = textStyle,
-                            color = hintColor
+                            color = if (isFocused.value) hintColor else textColor
                         )
                     }
                     innerTextField()
