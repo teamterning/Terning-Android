@@ -10,6 +10,8 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.terning.core.extension.getWeekIndexContainingSelectedDate
+import com.terning.core.extension.isToday
 import com.terning.feature.calendar.models.MonthData
 import java.time.LocalDate
 import java.time.YearMonth
@@ -21,7 +23,7 @@ fun CalendarWeek(
     onDateSelected: (LocalDate) -> Unit = {}
 ) {
     val monthData = MonthData(YearMonth.of(selectedDate.year, selectedDate.monthValue))
-    val currentWeek = selectedDate.dayOfMonth / 7
+    val currentWeek = selectedDate.getWeekIndexContainingSelectedDate()
 
     val pagerState = rememberPagerState (
         initialPage = currentWeek,
@@ -41,7 +43,7 @@ fun CalendarWeek(
                 CalendarDay(
                     dayData = day,
                     isSelected = selectedDate == day.date,
-                    isToday = day.date == LocalDate.now(),
+                    isToday = day.date.isToday(),
                     onDateSelected = onDateSelected
                 )
             }

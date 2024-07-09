@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.isToday
 import com.terning.feature.calendar.models.MonthData
 import com.terning.feature.calendar.models.Scrap
 import java.time.LocalDate
@@ -49,7 +49,7 @@ fun CalendarMonth(
                         CalendarDay(
                             dayData = day,
                             isSelected = selectedDate == day.date,
-                            isToday = day.date == LocalDate.now(),
+                            isToday = day.date.isToday(),
                             onDateSelected = onDateSelected
                         )
                         if(!day.isOutDate) {
