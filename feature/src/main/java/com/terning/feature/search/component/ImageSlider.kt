@@ -1,10 +1,11 @@
 package com.terning.feature.search.component
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
@@ -16,12 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.theme.Grey200
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImageSlider(
-    modifier: Modifier = Modifier, images: List<Int>,
+    modifier: Modifier = Modifier,
+    images: List<Int>,
 ) {
     val pagerState = rememberPagerState(pageCount = { images.size })
 
@@ -33,26 +35,38 @@ fun ImageSlider(
         }
     }
     Column(
-        modifier.fillMaxWidth(),
+        modifier
+            .fillMaxWidth()
+            .background(Grey200),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = modifier.wrapContentSize()) {
+        Box(
+            modifier = modifier
+                .wrapContentSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
             HorizontalPager(
                 state = pagerState,
-                modifier = modifier
+                modifier = modifier.wrapContentSize()
             ) { currentPage ->
                 Card(
                     modifier
                         .wrapContentSize()
-                        .padding(10.dp)
                 ) {
                     Image(
                         painter = painterResource(id = images[currentPage]),
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .height(112.dp)
+                            .padding(16.dp)
                     )
                 }
             }
+            DotsIndicator(
+                pageCount = images.size,
+                currentPage = pagerState.currentPage
+            )
         }
-        DotsIndicator(pageCount = images.size, currentPage = pagerState.currentPage)
     }
 }

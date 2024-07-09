@@ -1,6 +1,7 @@
 package com.terning.feature.search
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,17 +38,17 @@ fun SearchScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
     ) {
-
-        SearchTextField(
-            text = text,
-            onValueChange = { newText ->
-                text = newText
-            },
-            hint = stringResource(R.string.search_text_field_hint),
-            leftIcon = R.drawable.ic_nav_search
-        )
+        Box(modifier = Modifier.padding(16.dp)) {
+            SearchTextField(
+                text = text,
+                onValueChange = { newText ->
+                    text = newText
+                },
+                hint = stringResource(R.string.search_text_field_hint),
+                leftIcon = R.drawable.ic_nav_search
+            )
+        }
 
         ImageSlider(
             modifier = Modifier,
