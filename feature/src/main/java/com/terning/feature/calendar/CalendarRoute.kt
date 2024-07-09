@@ -26,9 +26,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.feature.R
 import com.terning.feature.calendar.component.CalendarTopBar
 import com.terning.feature.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.models.CalendarState
@@ -124,7 +126,7 @@ fun CalendarScreen(
                         sizeTransform = SizeTransform(clip = true)
                     )
                 },
-                label = ""
+                label = stringResource(id = R.string.calendar_animation_label)
             ) { targetState ->
                 if (!targetState) {
                     CalendarMonths(
@@ -152,3 +154,5 @@ fun CalendarScreen(
         }
     }
 }
+
+
