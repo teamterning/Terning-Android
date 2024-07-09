@@ -1,0 +1,27 @@
+package com.terning.feature.search.component
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+
+@Composable
+fun DotsIndicator(
+    modifier: Modifier = Modifier,
+    pageCount: Int,
+    currentPage: Int,
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        repeat(pageCount) { index ->
+            IndicatorDots(
+                isSelected = index == currentPage,
+                modifier = modifier
+            )
+        }
+    }
+}
