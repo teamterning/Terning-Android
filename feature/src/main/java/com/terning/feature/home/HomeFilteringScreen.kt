@@ -32,7 +32,7 @@ fun HomeFilteringScreen(
 ) {
     Row(
         modifier = modifier
-            .padding(top = 10.dp)
+            .padding(top = 10.dp, bottom = 11.dp)
             .height(IntrinsicSize.Min)
     ) {
         Row(
