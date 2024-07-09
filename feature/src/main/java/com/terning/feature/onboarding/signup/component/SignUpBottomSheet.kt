@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -18,9 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningTheme
@@ -80,15 +79,19 @@ fun RadioButtonGroup(
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(24.dp),
         modifier = modifier
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = 42.dp)
     ) {
         items(options) { option ->
             Image(
-                painter = painterResource(id = if (option == selectedOption) R.drawable.ic_selected_character else option),
+                painter = painterResource(
+                    id = if (option == selectedOption) R.drawable.ic_selected_character
+                    else option
+                ),
                 contentDescription = stringResource(id = R.string.sign_up_bottom_sheet_description),
                 modifier = modifier
-                    .size(76.dp)
+                    .aspectRatio(1f)
                     .noRippleClickable {
                         selectedOption = option
                     }
