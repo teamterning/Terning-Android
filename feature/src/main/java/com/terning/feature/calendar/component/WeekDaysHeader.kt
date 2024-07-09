@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.SundayRed
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 
@@ -27,7 +28,8 @@ fun WeekDaysHeader(
                 .background(Color.White)
                 .padding(
                     horizontal = 20.dp,
-                    vertical = 18.dp),
+                    vertical = 18.dp
+                ),
         ){
             val dayOfWeek = listOf(
                 R.string.calendar_text_sunday,
@@ -52,7 +54,7 @@ fun WeekDaysHeader(
 @Preview(showBackground = true)
 @Composable
 fun WeekDaysHeaderPreview() {
-    TerningTheme{
+    TerningPointTheme{
         WeekDaysHeader()
     }
 }

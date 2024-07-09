@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.topappbar
+package com.terning.core.designsystem.component.topappbar
 
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
