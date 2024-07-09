@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,10 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.Grey400
+import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.search.component.ImageSlider
+import com.terning.feature.search.component.SearchInternList
 
 @Composable
 fun SearchRoute() {
@@ -57,23 +59,19 @@ fun SearchScreen() {
 
         Spacer(modifier = Modifier.padding(8.dp))
 
+        Text(
+            text = stringResource(id = R.string.search_today_popular),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+            style = TerningTheme.typography.title1,
+            color = Black
+        )
 
-        Column(
-            modifier = Modifier.padding(horizontal = 16.dp),
-        ) {
-            Text(
-                text = stringResource(id = R.string.search_today_popular),
-                modifier = Modifier.padding(vertical = 4.dp),
-                style = TerningTheme.typography.title1,
-                color = Black
-            )
-
-            Text(
-                text = stringResource(id = R.string.search_most_view_intern),
-                style = TerningTheme.typography.title5,
-                color = Grey400
-            )
-        }
-
+        SearchInternList(type = "view")
+        HorizontalDivider(
+            thickness = 4.dp,
+            modifier = Modifier.padding(vertical = 8.dp),
+            color = Grey100,
+        )
+        SearchInternList(type = "scrap")
     }
 }
