@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.topappbar
+package com.terning.core.designsystem.component.topappbar
 
 import androidx.compose.runtime.Composable
 
@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 fun BackButtonTopAppBar(
     title: String, onBackButtonClick: (() -> Unit),
 ) {
-    TerningTopAppBar(
+    TerningBasicTopAppBar(
         title = title,
         showBackButton = true,
         onBackButtonClick = { onBackButtonClick.invoke() },

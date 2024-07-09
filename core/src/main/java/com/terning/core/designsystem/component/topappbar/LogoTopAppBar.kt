@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.topappbar
+package com.terning.core.designsystem.component.topappbar
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -8,7 +8,7 @@ import com.terning.core.R
 
 @Composable
 fun LogoTopAppBar() {
-    TerningTopAppBar(
+    TerningBasicTopAppBar(
         showBackButton = false,
         actions = listOf {
             Icon(

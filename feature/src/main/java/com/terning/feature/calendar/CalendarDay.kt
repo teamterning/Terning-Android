@@ -19,6 +19,7 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.models.DayModel
@@ -78,7 +79,7 @@ fun CalendarDay(
 @Preview(showBackground = true)
 @Composable
 fun CalendarDayPreview() {
-    TerningTheme {
+    TerningPointTheme {
         Row {
             CalendarDay(
                 dayData = DayModel(LocalDate.now(), false),

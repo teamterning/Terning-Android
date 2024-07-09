@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getStringAsTitle
 import com.terning.core.extension.noRippleClickable
@@ -39,7 +40,8 @@ fun CalendarTopBar(
                 top = 23.dp,
                 bottom = 22.dp,
                 start = 22.dp,
-                end = 22.dp)
+                end = 22.dp
+            )
     ) {
         Row(
             modifier = Modifier.align(Alignment.Center),
@@ -87,7 +89,7 @@ fun CalendarTopBar(
 @Preview(showBackground = true)
 @Composable
 fun CalendarTopBarPreview() {
-    TerningTheme {
+    TerningPointTheme {
         CalendarTopBar(
             date = LocalDate.now(),
             isListExpanded = false,
