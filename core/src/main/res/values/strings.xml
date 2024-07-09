@@ -11,4 +11,7 @@
     <!-- button-->
     <string name="button_preview">button</string>
 
+    <!--bottom sheet-->
+    <string name="bottom_sheet_title">프로필 이미지 선택</string>
+
 </resources>
