@@ -33,7 +33,7 @@ fun ProvideTerningTypography(typography: TerningTypography, content: @Composable
 }
 
 @Composable
-fun TerningTheme(
+fun TerningPointTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

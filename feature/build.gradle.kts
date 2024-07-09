@@ -77,7 +77,6 @@ dependencies {
     // Material Design
     implementation(libs.material)
     implementation(libs.androidx.material3.android)
-    implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.ui.graphics)
 
     // TestDependencies
@@ -91,9 +90,8 @@ dependencies {
     implementation(libs.ossLicense)
     implementation(libs.lottie)
 
-    //Compose Preview
-    implementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.ui.tooling.preview)
+    // Compose Preview
+    debugImplementation(libs.compose.ui.tooling)
 
     // KakaoDependencies
     implementation(libs.kakao.user)

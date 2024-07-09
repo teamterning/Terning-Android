@@ -204,7 +204,6 @@ class TerningTypography internal constructor(
     }
 }
 
-
 @Composable
 fun TerningTypography(): TerningTypography {
     return TerningTypography(

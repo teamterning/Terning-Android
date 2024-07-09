@@ -13,17 +13,17 @@ fun SearchTextField(
     hint: String,
     leftIcon: Int,
 ) {
-    TerningBasicTextField(
-        value = text,
-        onValueChange = onValueChange,
-        textStyle = TerningTheme.typography.button3,
-        textColor = Grey400,
-        cursorBrush = SolidColor(Grey300),
-        drawLineColor = Grey300,
-        strokeWidth = 2f,
-        hint = hint,
-        hintColor = Grey300,
-        leftIcon = leftIcon,
-        leftIconColor = Grey400,
-    )
+//    TerningBasicTextField(
+//        value = text,
+//        onValueChange = onValueChange,
+//        textStyle = TerningTheme.typography.button3,
+//        textColor = Grey400,
+//        cursorBrush = SolidColor(Grey300),
+//        drawLineColor = Grey300,
+//        strokeWidth = 2f,
+//        hint = hint,
+//        hintColor = Grey300,
+//        leftIcon = leftIcon,
+//        leftIconColor = Grey400,
+//    )
 }
