@@ -1,6 +1,8 @@
 package com.terning.feature.searchprocess
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -11,16 +13,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.feature.R
@@ -42,6 +50,7 @@ fun SearchProcessScreen(
 
     ) {
     var text by remember { mutableStateOf("") }
+    var query by remember { mutableStateOf("") }
     var showSearchResults by remember { mutableStateOf(false) }
 
     val focusRequester = remember { FocusRequester() }
@@ -92,9 +101,56 @@ fun SearchProcessScreen(
                     .focusRequester(focusRequester)
                     .addFocusCleaner(focusManager),
                 onDoneAction = {
+                    query = text
                     showSearchResults = true
                 }
             )
+
+            if (showSearchResults) {
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 87.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_nosearch),
+                        contentDescription = stringResource(
+                            id = R.string.search_process_no_result_icon
+                        )
+                    )
+                    // TODO 네이버와 / 터닝과 / 영어 검색어 등 -> 디자인 쌤들 문의
+                    Row(
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    ) {
+                        Text(
+                            text = query,
+                            style = TerningTheme.typography.body1,
+                            color = TerningMain,
+                        )
+                        Text(
+                            text = "와 일치하는 검색 결과가 없어요",
+                            style = TerningTheme.typography.body1,
+                            color = Grey400,
+                        )
+                    }
+                }
+
+            }
         }
+
+
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun SearchProcessScreenPreview() {
+    TerningPointTheme {
+        SearchProcessScreen(
+            navController = rememberNavController()
+        )
     }
 }
