@@ -1,14 +1,17 @@
 package com.terning.core.designsystem.component.topappbar
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.theme.TerningTheme
 
@@ -22,13 +25,11 @@ fun TerningBasicTopAppBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
-
             Text(
                 text = title,
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title2
             )
-
         },
         navigationIcon = {
             if (showBackButton) {
@@ -49,5 +50,6 @@ fun TerningBasicTopAppBar(
                 action()
             }
         },
+        modifier = Modifier.padding(horizontal = 16.dp)
     )
 }
