@@ -10,6 +10,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 private val LightColorScheme = lightColorScheme(
     primary = TerningMain,
+    background = White
 )
 
 private val LocalTerningTypography = staticCompositionLocalOf<TerningTypography> {
