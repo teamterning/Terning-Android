@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +21,7 @@ import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.textfield.NameTextField
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 import com.terning.feature.onboarding.filtering.navigation.navigateFiltering
@@ -47,9 +49,12 @@ fun SignUpScreen(
     signUpViewModel: SignUpViewModel,
     onButtonClick: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
     var showBottomSheet by remember { mutableStateOf(false) }
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .addFocusCleaner(focusManager)
     ) {
         Spacer(modifier = modifier.weight(1f))
         Text(

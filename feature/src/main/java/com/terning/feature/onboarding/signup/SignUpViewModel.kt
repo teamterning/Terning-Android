@@ -27,7 +27,8 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                 drawLineColor = WarningRed,
                 helper = HELPER_ERROR,
                 helperIcon = R.drawable.ic_sign_up_error,
-                helperColor = WarningRed
+                helperColor = WarningRed,
+                isButtonValid = false
             )
 
             name.isEmpty() -> _state.value = _state.value.copy(
@@ -35,7 +36,8 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                 drawLineColor = Grey500,
                 helper = HELPER,
                 helperIcon = null,
-                helperColor = Grey400
+                helperColor = Grey400,
+                isButtonValid = false
             )
 
             else -> _state.value = _state.value.copy(
