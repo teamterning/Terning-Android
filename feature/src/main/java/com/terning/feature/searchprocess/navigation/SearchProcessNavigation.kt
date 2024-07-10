@@ -2,6 +2,7 @@ package com.terning.feature.searchprocess.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
@@ -15,9 +16,13 @@ fun NavController.navigateSearchProcess(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.searchProcessNavGraph() {
+fun NavGraphBuilder.searchProcessNavGraph(
+    navHostController: NavHostController
+) {
     composable<SearchProcess> {
-        SearchProcessRoute()
+        SearchProcessRoute(
+            navController = navHostController
+        )
     }
 }
 

@@ -16,25 +16,31 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
-import com.terning.core.designsystem.theme.Grey500
-import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.feature.R
 
 @Composable
-fun SearchProcessRoute() {
-    SearchProcessScreen()
+fun SearchProcessRoute(
+    navController: NavHostController,
+) {
+    SearchProcessScreen(
+        navController = navController
+
+    )
 }
 
 @Composable
 fun SearchProcessScreen(
     modifier: Modifier = Modifier,
-) {
+    navController: NavHostController,
+
+    ) {
     var text by remember { mutableStateOf("") }
 
     val focusRequester = remember { FocusRequester() }
@@ -49,7 +55,7 @@ fun SearchProcessScreen(
         topBar = {
             BackButtonTopAppBar(
                 title = stringResource(id = R.string.search_process_top_bar_title),
-                onBackButtonClick = { },
+                onBackButtonClick = { navController.popBackStack() },
                 modifier = Modifier
             )
         }
@@ -64,7 +70,7 @@ fun SearchProcessScreen(
             Text(
                 text = stringResource(id = R.string.search_process_question_text),
                 style = TerningTheme.typography.heading2,
-                color = Grey500,
+                color = TerningMain,
                 modifier = Modifier.padding(
                     vertical = 16.dp
                 )
@@ -82,13 +88,5 @@ fun SearchProcessScreen(
                     .addFocusCleaner(focusManager)
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SearchProcessScreenPreview() {
-    TerningPointTheme {
-        SearchProcessScreen()
     }
 }
