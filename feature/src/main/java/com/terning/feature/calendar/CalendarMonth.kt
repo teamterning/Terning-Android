@@ -54,7 +54,7 @@ fun CalendarMonth(
                             onDateSelected = onDateSelected
                         )
                         if(!day.isOutDate) {
-                            val index = day.date.dayOfWeek.value - 1
+                            val index = day.date.dayOfMonth - 1
                             CalendarScrapStrip(
                                 scrapList = scrapLists[index]
                             )
