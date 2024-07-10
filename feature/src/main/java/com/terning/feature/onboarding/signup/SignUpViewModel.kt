@@ -20,10 +20,11 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
 
     fun isInputValid(name: String) {
         val nameErrorRegex = Regex(NAME_ERROR)
+        val trimmedName = if (name.length > MAX_LENGTH) name.substring(0, MAX_LENGTH) else name
 
         when {
-            nameErrorRegex.containsMatchIn(name) -> _state.value = _state.value.copy(
-                name = name,
+            nameErrorRegex.containsMatchIn(trimmedName) -> _state.value = _state.value.copy(
+                name = trimmedName,
                 drawLineColor = WarningRed,
                 helper = HELPER_ERROR,
                 helperIcon = R.drawable.ic_sign_up_error,
@@ -31,8 +32,8 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                 isButtonValid = false
             )
 
-            name.isEmpty() -> _state.value = _state.value.copy(
-                name = name,
+            trimmedName.isEmpty() -> _state.value = _state.value.copy(
+                name = trimmedName,
                 drawLineColor = Grey500,
                 helper = HELPER,
                 helperIcon = null,
@@ -41,7 +42,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
             )
 
             else -> _state.value = _state.value.copy(
-                name = name,
+                name = trimmedName,
                 drawLineColor = TerningMain,
                 helper = HELPER_AVAILABLE,
                 helperIcon = R.drawable.ic_sign_up_available,
@@ -54,6 +55,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
     companion object {
         const val NAME_ERROR = "[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/]"
         const val HELPER = "12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가"
+        private const val MAX_LENGTH = 12
         private const val HELPER_ERROR = "이름에 특수문자는 입력할 수 없어요"
         private const val HELPER_AVAILABLE = "이용 가능한 이름이에요"
     }
