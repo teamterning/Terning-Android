@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getStringAsTitle
@@ -80,7 +81,7 @@ fun CalendarTopBar(
                 ),
                 contentDescription = stringResource(id = R.string.calendar_button_description_list),
                 modifier = Modifier.noRippleClickable { onListButtonClicked() },
-                tint = if (isListExpanded) Color.Green else Color.LightGray,
+                tint = if (isListExpanded) TerningMain else Grey300,
             )
         }
     }
