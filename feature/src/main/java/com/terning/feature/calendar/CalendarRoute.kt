@@ -3,7 +3,9 @@ package com.terning.feature.calendar
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
@@ -96,67 +98,85 @@ fun CalendarScreen(
             )
         }
     ) { paddingValues ->
-        if(isListExpanded){
-            CalendarScrapList(
-                modifier = Modifier.fillMaxSize()
-                    .padding(top = paddingValues.calculateTopPadding()),
-                date = currentDate,
-                scrapList = viewModel.mockScrapList
-            )
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = paddingValues.calculateTopPadding())
-            ) {
-                WeekDaysHeader()
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(color = Grey200)
+        AnimatedContent(
+            targetState = isListExpanded,
+            transitionSpec = {
+                if (!targetState) {
+                    slideInHorizontally { fullWidth -> -fullWidth } togetherWith
+                            slideOutHorizontally { fullWidth -> fullWidth }
+                } else {
+                    slideInHorizontally { fullWidth -> fullWidth } togetherWith
+                            slideOutHorizontally { fullWidth -> -fullWidth }
+                }.using(
+                    sizeTransform = SizeTransform(clip = true)
                 )
+            },
+            label = "List Transition"
+        ) {
+            if (it) {
+                CalendarScrapList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = paddingValues.calculateTopPadding()),
+                    date = currentDate,
+                    scrapList = viewModel.mockScrapList
+                )
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = paddingValues.calculateTopPadding())
+                ) {
+                    WeekDaysHeader()
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(color = Grey200)
+                    )
 
-                AnimatedContent(
-                    targetState = selectedDate.isEnabled,
-                    transitionSpec = {
+                    AnimatedContent(
+                        targetState = selectedDate.isEnabled,
+                        transitionSpec = {
+                            if (!targetState) {
+                                slideInVertically { fullHeight -> -fullHeight } togetherWith
+                                        slideOutVertically { fullHeight -> fullHeight }
+                            } else {
+                                slideInVertically { fullHeight -> fullHeight } togetherWith
+                                        slideOutVertically { fullHeight -> -fullHeight }
+                            }.using(
+                                sizeTransform = SizeTransform(clip = true)
+                            )
+                        },
+                        label = stringResource(id = R.string.calendar_animation_label)
+                    ) { targetState ->
                         if (!targetState) {
-                            slideInVertically { fullHeight -> -fullHeight } togetherWith
-                                    slideOutVertically { fullHeight -> fullHeight }
+                            CalendarMonths(
+                                modifier = Modifier.fillMaxSize(),
+                                selectedDate = selectedDate,
+                                onDateSelected = {
+                                    viewModel.updateSelectedDate(it)
+                                },
+                                listState = listState,
+                                pages = state.getPageCount(),
+                                scrapLists = viewModel.mockScrapList,
+                            )
                         } else {
-                            slideInVertically { fullHeight -> fullHeight } togetherWith
-                                    slideOutVertically { fullHeight -> -fullHeight }
-                        }.using(
-                            sizeTransform = SizeTransform(clip = true)
-                        )
-                    },
-                    label = stringResource(id = R.string.calendar_animation_label)
-                ) { targetState ->
-                    if (!targetState) {
-                        CalendarMonths(
-                            modifier = Modifier.fillMaxSize(),
-                            selectedDate = selectedDate,
-                            onDateSelected = {
-                                viewModel.updateSelectedDate(it)
-                            },
-                            listState = listState,
-                            pages = state.getPageCount(),
-                            scrapLists = viewModel.mockScrapList,
-                        )
-                    } else {
-                        CalendarWeekWithScrap(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            selectedDate = selectedDate,
-                            scrapLists = viewModel.mockScrapList,
-                            onDateSelected = {
-                                viewModel.updateSelectedDate(it)
-                            }
-                        )
+                            CalendarWeekWithScrap(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                selectedDate = selectedDate,
+                                scrapLists = viewModel.mockScrapList,
+                                onDateSelected = {
+                                    viewModel.updateSelectedDate(it)
+                                }
+                            )
+                        }
                     }
                 }
             }
         }
+
     }
 }
 
