@@ -37,12 +37,14 @@ fun TerningBasicTopAppBar(
         },
         navigationIcon = {
             if (showBackButton) {
-                IconButton(onClick = {
-                    onBackButtonClick.invoke()
-                }) {
+                IconButton(
+                    onClick = {
+                        onBackButtonClick.invoke()
+                    }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = stringResource(id = R.string.ic_back)
+                        contentDescription = stringResource(id = R.string.ic_back),
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                 }
             } else {
@@ -55,6 +57,5 @@ fun TerningBasicTopAppBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(White),
-        modifier = Modifier.padding(horizontal = 16.dp)
     )
 }

@@ -22,6 +22,7 @@ import com.terning.core.designsystem.component.topappbar.TerningBasicTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
+import com.terning.core.navigation.MainTabRoute
 import com.terning.core.util.NoRippleInteractionSource
 import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
@@ -42,7 +43,7 @@ fun MainScreen(
                 MainTab.CALENDAR -> TerningBasicTopAppBar()
                 MainTab.SEARCH -> LogoTopAppBar()
                 MainTab.MY_PAGE -> MyPageTopAppBar()
-                null -> TerningBasicTopAppBar()
+                else -> TerningBasicTopAppBar()
             }
         },
         bottomBar = {
