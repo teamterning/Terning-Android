@@ -1,8 +1,12 @@
 package com.terning.feature.search
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,12 +15,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.textfield.NameTextField
 import com.terning.core.designsystem.component.textfield.SearchTextField
-import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.WarningRed
+import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.Grey100
+import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
+import com.terning.feature.search.component.ImageSlider
+import com.terning.feature.search.component.InternListType
+import com.terning.feature.search.component.SearchInternList
 
 @Composable
 fun SearchRoute() {
@@ -26,61 +32,55 @@ fun SearchRoute() {
 @Composable
 fun SearchScreen() {
     var text by remember { mutableStateOf("") }
-
-    // TODO 프로필 스크린 TextField로, 삭제될 코드입니다
-    var helperMessage by remember { mutableStateOf(R.string.profile_text_field_helper) }
-    var helperIcon by remember { mutableStateOf<Int?>(null) }
-    var helperColor by remember { mutableStateOf(Grey400) }
-    val specialCharacterPattern = Regex("[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/]")
-
-    // TODO 프로필 스크린 TextField로, 삭제될 코드입니다
-    fun updateHelper(text: String) {
-        helperMessage = when {
-            text.isEmpty() -> R.string.profile_text_field_helper
-            specialCharacterPattern.containsMatchIn(text) -> R.string.profile_text_field_warning
-            text.length <= 12 -> R.string.profile_text_field_check
-            else -> R.string.profile_text_field_helper
-        }
-        helperIcon = when {
-            text.isEmpty() -> null
-            specialCharacterPattern.containsMatchIn(text) -> R.drawable.ic_warning
-            text.length <= 12 -> R.drawable.ic_check
-            else -> null
-        }
-        helperColor = when {
-            text.isEmpty() -> Grey400
-            specialCharacterPattern.containsMatchIn(text) -> WarningRed
-            text.length <= 12 -> TerningMain
-            else -> Grey400
-        }
-    }
+    val images = listOf(
+        R.drawable.ic_nav_search,
+        R.drawable.ic_check,
+        R.drawable.ic_nav_my_page,
+    )
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
     ) {
+        Box(
+            modifier = Modifier.padding(
+                horizontal = 24.dp,
+                vertical = 16.dp
+            )
+        ) {
+            SearchTextField(
+                text = text,
+                onValueChange = { newText ->
+                    text = newText
+                },
+                hint = stringResource(R.string.search_text_field_hint),
+                leftIcon = R.drawable.ic_nav_search,
+                readOnly = true,
+            )
+        }
 
-        SearchTextField(
-            text = text,
-            onValueChange = { newText ->
-                text = newText
-            },
-            hint = stringResource(R.string.search_text_field_hint),
-            leftIcon = R.drawable.ic_nav_search
+        ImageSlider(
+            images = images
         )
 
-        // TODO 프로필 스크린 TextField로, 삭제될 코드입니다
-        NameTextField(
-            text = text,
-            onValueChange = { newText ->
-                text = newText
-                updateHelper(newText)
-            },
-            hint = stringResource(R.string.profile_text_field_hint),
-            helperMessage = stringResource(helperMessage),
-            helperIcon = helperIcon,
-            helperColor = helperColor
+        Spacer(modifier = Modifier.padding(8.dp))
+
+        Text(
+            text = stringResource(id = R.string.search_today_popular),
+            modifier = Modifier.padding(
+                horizontal = 24.dp,
+                vertical = 4.dp
+            ),
+            style = TerningTheme.typography.title1,
+            color = Black
         )
+
+        SearchInternList(type = InternListType.VIEW)
+        HorizontalDivider(
+            thickness = 4.dp,
+            modifier = Modifier.padding(vertical = 8.dp),
+            color = Grey100,
+        )
+        SearchInternList(type = InternListType.SCRAP)
     }
 }
