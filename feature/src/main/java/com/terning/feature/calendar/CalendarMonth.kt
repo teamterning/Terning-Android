@@ -55,7 +55,7 @@ fun CalendarMonth(
                         )
                         if(!day.isOutDate) {
                             val index = day.date.dayOfWeek.value - 1
-                            CalendarScrap(
+                            CalendarScrapStrip(
                                 scrapList = scrapLists[index]
                             )
                         }

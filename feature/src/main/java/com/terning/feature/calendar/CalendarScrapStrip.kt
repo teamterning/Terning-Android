@@ -16,7 +16,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.models.Scrap
 
 @Composable
-fun CalendarScrap(
+fun CalendarScrapStrip(
     modifier: Modifier = Modifier,
     scrapList: List<Scrap>
 ) {
