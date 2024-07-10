@@ -27,7 +27,6 @@ import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.search.navigation.searchNavGraph
 import com.terning.feature.searchprocess.navigation.searchProcessNavGraph
-import com.terning.feature.searchresult.navigation.searchResultNavGraph
 
 @Composable
 fun MainScreen(
@@ -59,7 +58,6 @@ fun MainScreen(
                 signInNavGraph(navHostController = navigator.navController)
                 signUpNavGraph()
                 searchProcessNavGraph(navHostController = navigator.navController)
-                searchResultNavGraph(navHostController = navigator.navController)
             }
         }
     }

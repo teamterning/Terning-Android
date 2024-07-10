@@ -24,7 +24,6 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.feature.R
-import com.terning.feature.searchresult.navigation.navigateSearchResult
 
 @Composable
 fun SearchProcessRoute(
@@ -43,6 +42,7 @@ fun SearchProcessScreen(
 
     ) {
     var text by remember { mutableStateOf("") }
+    var showSearchResults by remember { mutableStateOf(false) }
 
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -55,7 +55,8 @@ fun SearchProcessScreen(
         modifier = modifier,
         topBar = {
             BackButtonTopAppBar(
-                title = stringResource(id = R.string.search_process_top_bar_title),
+                title = if (showSearchResults) stringResource(id = R.string.search_process_result_top_bar_title)
+                else stringResource(id = R.string.search_process_top_bar_title),
                 onBackButtonClick = { navController.popBackStack() },
                 modifier = Modifier
             )
@@ -68,14 +69,17 @@ fun SearchProcessScreen(
                 .padding(horizontal = 24.dp)
                 .addFocusCleaner(focusManager)
         ) {
-            Text(
-                text = stringResource(id = R.string.search_process_question_text),
-                style = TerningTheme.typography.heading2,
-                color = TerningMain,
-                modifier = Modifier.padding(
-                    vertical = 16.dp
+            if (!showSearchResults) {
+                Text(
+                    text = stringResource(id = R.string.search_process_question_text),
+                    style = TerningTheme.typography.heading2,
+                    color = TerningMain,
+                    modifier = Modifier.padding(
+                        vertical = 16.dp
+                    )
                 )
-            )
+            }
+
             SearchTextField(
                 text = text,
                 onValueChange = { newText ->
@@ -88,7 +92,7 @@ fun SearchProcessScreen(
                     .focusRequester(focusRequester)
                     .addFocusCleaner(focusManager),
                 onDoneAction = {
-                    navController.navigateSearchResult()
+                    showSearchResults = true
                 }
             )
         }
