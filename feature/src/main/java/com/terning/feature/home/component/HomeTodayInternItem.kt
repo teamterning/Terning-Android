@@ -1,4 +1,4 @@
-package com.terning.feature.home
+package com.terning.feature.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,7 +20,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 
 @Composable
-fun HomeClosingTodayItem(
+fun HomeTodayInternItem(
     title: String,
     modifier: Modifier = Modifier
 ) {

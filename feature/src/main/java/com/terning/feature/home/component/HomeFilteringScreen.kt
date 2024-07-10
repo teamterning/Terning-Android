@@ -1,4 +1,4 @@
-package com.terning.feature.home
+package com.terning.feature.home.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
