@@ -1,6 +1,7 @@
 package com.terning.feature.home.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +18,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.customShadow
 import com.terning.feature.R
 
 @Composable
@@ -28,19 +31,20 @@ fun HomeTodayEmptyIntern(
     isButtonExist: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Card(
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 19.dp)
-            .padding(horizontal = 24.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp,
-        ),
-        border = BorderStroke(
-            1.dp,
-            Grey150,
-        ),
-        colors = CardDefaults.cardColors(White),
+            .padding(horizontal = 24.dp)
+            .customShadow(
+                color = Grey200,
+                shadowRadius = 5.dp,
+                shadowWidth = 2.dp
+            )
+            .background(
+                color = White,
+                shape = RoundedCornerShape(5.dp)
+            )
     ) {
         if (isButtonExist) {
             Column(
