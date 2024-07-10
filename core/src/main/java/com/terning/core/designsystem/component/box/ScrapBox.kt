@@ -23,6 +23,14 @@ import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.White
 
+/**
+ * ScrapBox is made for easy customization of scrap box used in Calendar & Home Screen
+ *
+ * [modifier] must be assigned for assigning size of the box and padding
+ * [elevation] must be set greater than zero for shadow effect, mainly used in Calendar
+ * [borderWidth] must be set greater than zero for border effect, mainly used in Home
+ */
+
 @Composable
 fun ScrapBox(
     cornerRadius: Dp,
