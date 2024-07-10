@@ -52,7 +52,6 @@ fun HomeScreen() {
                     style = TerningTheme.typography.title1,
                     color = Black,
                 )
-//                HomeTodayEmptyIntern(isButtonExist = false)
                 HomeTodayIntern()
             }
         }
