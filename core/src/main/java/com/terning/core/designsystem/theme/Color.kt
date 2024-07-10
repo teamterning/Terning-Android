@@ -17,22 +17,27 @@ val Black = Color(0xFF171717)
 val TerningMain = Color(0xFF1EA65E)
 val TerningMain2 = Color(0xFF179653)
 
+// Sub Color
+val TerningSub1 = Color(0xFF179653)
+val TerningSub2 = Color(0xFF52C689)
+val TerningSub3 = Color(0XFFE2F1E9)
+val TerningSub4 = Color(0XFFE9F8F0)
+val TerningSub5 = Color(0XFFF8FFFB)
+
+// Background
+val Back = Color(0xFFF8F8F8)
+val ToastGrey = Color(0XFF666666)
+
 // Calendar Color
 val CalRed = Color(0xFFED4E54)
-
 val CalOrange1 = Color(0xFFEE7647)
 val CalOrange2 = Color(0xFF5397F3)
-
 val CalYellow = Color(0xFFF5E660)
-
 val CalGreen1 = Color(0xFFC4E953)
 val CalGreen2 = Color(0xFF84D558)
-
 val CalBlue1 = Color(0xFF45D0CC)
 val CalBlue2 = Color(0xFF4119F2)
-
 val CalPurple = Color(0xFF9B64E2)
-
 val CalPink = Color(0xFFF260AC)
 
 // Other

@@ -11,14 +11,13 @@ import com.terning.core.designsystem.theme.TerningTheme
 fun SearchTextField(
     text: String = "",
     onValueChange: (String) -> Unit = {},
-    readOnly: Boolean = false,
     hint: String,
     leftIcon: Int,
+    readOnly: Boolean = false,
 ) {
     TerningBasicTextField(
         value = text,
         onValueChange = onValueChange,
-        readOnly = readOnly,
         textStyle = TerningTheme.typography.button3,
         textColor = Grey400,
         cursorBrush = SolidColor(Grey300),
@@ -28,5 +27,6 @@ fun SearchTextField(
         hintColor = Grey300,
         leftIcon = leftIcon,
         leftIconColor = TerningMain,
+        readOnly = readOnly,
     )
 }

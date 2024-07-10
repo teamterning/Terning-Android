@@ -37,7 +37,6 @@ import com.terning.core.designsystem.theme.White
 fun TerningBasicTextField(
     value: String = "",
     onValueChange: (String) -> Unit = {},
-    readOnly: Boolean = false,
     textStyle: TextStyle,
     textColor: Color,
     hintColor: Color,
@@ -52,6 +51,7 @@ fun TerningBasicTextField(
     helperMessage: String = "",
     helperIcon: Int? = null,
     helperColor: Color = TerningMain,
+    readOnly: Boolean = false,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -62,7 +62,6 @@ fun TerningBasicTextField(
         onValueChange = onValueChange,
         singleLine = true,
         maxLines = 1,
-        readOnly = readOnly,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = {
@@ -124,7 +123,9 @@ fun TerningBasicTextField(
                     )
                 }
             }
-        })
+        },
+        readOnly = readOnly,
+    )
 
     Row(
         verticalAlignment = Alignment.CenterVertically,

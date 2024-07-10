@@ -45,15 +45,18 @@ fun SearchScreen(
     ) {
         Box(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(
+                    horizontal = 24.dp,
+                    vertical = 16.dp
+                )
                 .clickable {
                     navController.navigateSearchProcess()
                 },
         ) {
             SearchTextField(
-                readOnly = true,
                 hint = stringResource(R.string.search_text_field_hint),
                 leftIcon = R.drawable.ic_nav_search,
+                readOnly = true,
             )
         }
 
@@ -65,17 +68,20 @@ fun SearchScreen(
 
         Text(
             text = stringResource(id = R.string.search_today_popular),
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+            modifier = Modifier.padding(
+                horizontal = 24.dp,
+                vertical = 4.dp
+            ),
             style = TerningTheme.typography.title1,
             color = Black
         )
 
-        SearchInternList(type = "view")
+        SearchInternList(type = InternListType.VIEW)
         HorizontalDivider(
             thickness = 4.dp,
             modifier = Modifier.padding(vertical = 8.dp),
             color = Grey100,
         )
-        SearchInternList(type = "scrap")
+        SearchInternList(type = InternListType.SCRAP)
     }
 }
