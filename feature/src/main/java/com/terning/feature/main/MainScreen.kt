@@ -37,15 +37,6 @@ fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     Scaffold(
-        topBar = {
-            when (navigator.currentTab) {
-                MainTab.HOME -> LogoTopAppBar()
-                MainTab.CALENDAR -> TerningBasicTopAppBar()
-                MainTab.SEARCH -> LogoTopAppBar()
-                MainTab.MY_PAGE -> MyPageTopAppBar()
-                else -> TerningBasicTopAppBar()
-            }
-        },
         bottomBar = {
             MainBottomBar(
                 isVisible = navigator.showBottomBar(),
@@ -73,20 +64,6 @@ fun MainScreen(
                 searchProcessNavGraph()
             }
         }
-    }
-}
-
-
-@Composable
-private fun MainTopBar(
-    isVisible: Boolean,
-    tabs: List<MainTab>,
-    currentTab: MainTab?,
-    onTabSelected: (MainTab) -> Unit,
-) {
-    AnimatedVisibility(
-        visible = isVisible,
-    ) {
     }
 }
 

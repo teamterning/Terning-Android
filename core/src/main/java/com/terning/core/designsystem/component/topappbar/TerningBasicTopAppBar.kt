@@ -1,5 +1,6 @@
 package com.terning.core.designsystem.component.topappbar
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +22,7 @@ import com.terning.core.designsystem.theme.White
 @Composable
 fun TerningBasicTopAppBar(
     title: String = "",
+    modifier: Modifier,
     showBackButton: Boolean = false,
     actions: List<@Composable () -> Unit> = emptyList(),
     onBackButtonClick: () -> Unit = {},
@@ -35,6 +37,7 @@ fun TerningBasicTopAppBar(
             )
 
         },
+        modifier = modifier,
         navigationIcon = {
             if (showBackButton) {
                 IconButton(
@@ -57,5 +60,6 @@ fun TerningBasicTopAppBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(White),
+        windowInsets = WindowInsets(0, 0, 0, 0),
     )
 }
