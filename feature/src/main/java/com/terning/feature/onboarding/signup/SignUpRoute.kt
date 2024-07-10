@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.component.textfield.NameTextField
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.onboarding.signup.component.SignUpProfile
@@ -78,14 +77,12 @@ fun SignUpScreen(
             NameTextField(
                 value = signUpState.name,
                 onValueChange = { name ->
-                    signUpViewModel.fetchName(name)
+                    signUpViewModel.isInputValid(name)
                 },
                 hint = stringResource(id = R.string.sign_up_hint),
                 drawLineColor = signUpState.drawLineColor,
-                helperMessage = "hi",
-                //signUpState.helper,
-                helperIcon = R.drawable.ic_sign_up_button,
-                //signUpState.helperIcon,
+                helperMessage = signUpState.helper,
+                helperIcon = signUpState.helperIcon,
                 helperColor = signUpState.helperColor
             )
         }

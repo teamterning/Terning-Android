@@ -34,7 +34,7 @@ fun SearchScreen() {
     var text by remember { mutableStateOf("") }
     val images = listOf(
         R.drawable.ic_nav_search,
-        R.drawable.ic_check,
+        R.drawable.ic_sign_up_available,
         R.drawable.ic_nav_my_page,
     )
 
