@@ -17,6 +17,7 @@
     <string name="sort_by_longest">긴 근무 기간순</string>
     <string name="sort_by_scrap">스크랩 많은순</string>
     <string name="sort_by_view_count">조회수 많은순</string>
+    <string name="sort_button_description">정렬 기준</string>
 
 
 </resources>
