@@ -1,10 +1,9 @@
-package com.terning.feature.searchprocess
+package com.terning.feature.searchresult
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,28 +19,24 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
-import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.feature.R
-import com.terning.feature.searchresult.navigation.navigateSearchResult
 
 @Composable
-fun SearchProcessRoute(
+fun SearchResultRoute(
     navController: NavHostController,
 ) {
-    SearchProcessScreen(
+    SearchResultScreen(
         navController = navController
 
     )
 }
 
 @Composable
-fun SearchProcessScreen(
+fun SearchResultScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-
-    ) {
+) {
     var text by remember { mutableStateOf("") }
 
     val focusRequester = remember { FocusRequester() }
@@ -55,7 +50,7 @@ fun SearchProcessScreen(
         modifier = modifier,
         topBar = {
             BackButtonTopAppBar(
-                title = stringResource(id = R.string.search_process_top_bar_title),
+                title = stringResource(id = R.string.search_result_top_bar_title),
                 onBackButtonClick = { navController.popBackStack() },
                 modifier = Modifier
             )
@@ -68,14 +63,6 @@ fun SearchProcessScreen(
                 .padding(horizontal = 24.dp)
                 .addFocusCleaner(focusManager)
         ) {
-            Text(
-                text = stringResource(id = R.string.search_process_question_text),
-                style = TerningTheme.typography.heading2,
-                color = TerningMain,
-                modifier = Modifier.padding(
-                    vertical = 16.dp
-                )
-            )
             SearchTextField(
                 text = text,
                 onValueChange = { newText ->
@@ -86,10 +73,7 @@ fun SearchProcessScreen(
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .focusRequester(focusRequester)
-                    .addFocusCleaner(focusManager),
-                onDoneAction = {
-                    navController.navigateSearchResult()
-                }
+                    .addFocusCleaner(focusManager)
             )
         }
     }

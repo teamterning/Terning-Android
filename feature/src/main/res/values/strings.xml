@@ -37,6 +37,9 @@
     <string name="search_process_top_bar_title">검색</string>
     <string name="search_process_question_text">어떤 공고를\n찾고 계시나요?</string>
 
+    <!--SearchProcess-->
+    <string name="search_result_top_bar_title">검색 결과</string>
+
     <!--calendar-->
     <string name="calendar_text_sunday">일</string>
     <string name="calendar_text_monday">월</string>
