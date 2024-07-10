@@ -1,6 +1,7 @@
 package com.terning.feature.onboarding.signup
 
 import androidx.lifecycle.ViewModel
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.WarningRed
@@ -23,6 +24,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         when {
             nameErrorRegex.containsMatchIn(name) -> _state.value = _state.value.copy(
                 name = name,
+                drawLineColor = WarningRed,
                 helper = HELPER_ERROR,
                 helperIcon = R.drawable.ic_sign_up_error,
                 helperColor = WarningRed
@@ -30,13 +32,15 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
 
             name.isEmpty() -> _state.value = _state.value.copy(
                 name = name,
+                drawLineColor = Grey500,
                 helper = HELPER,
                 helperIcon = null,
-                helperColor = Grey500
+                helperColor = Grey400
             )
 
             else -> _state.value = _state.value.copy(
                 name = name,
+                drawLineColor = TerningMain,
                 helper = HELPER_AVAILABLE,
                 helperIcon = R.drawable.ic_sign_up_available,
                 helperColor = TerningMain
