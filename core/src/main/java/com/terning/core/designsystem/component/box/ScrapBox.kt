@@ -76,28 +76,28 @@ fun ScrapBox(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
-fun ScrapBoxPreview() {
-    Column {
-        ScrapBox(
-            modifier = Modifier
-                .height(116.dp)
-                .width(140.dp),
-            scrapColor = CalPink,
-            cornerRadius = 5.dp,
-            borderWidth = 1.dp
-        ) {}
+fun BorderedScrapBoxPreview() {
+    ScrapBox(
+        modifier = Modifier
+            .height(116.dp)
+            .width(140.dp),
+        scrapColor = CalPink,
+        cornerRadius = 5.dp,
+        borderWidth = 1.dp
+    ) {}
+}
 
-        Spacer(modifier = Modifier.height(10.dp))
-
-        ScrapBox(
-            modifier = Modifier
-                .height(height = 92.dp)
-                .fillMaxWidth(),
-            scrapColor = CalPurple,
-            cornerRadius = 10.dp,
-            elevation = 1.dp
-        ) {}
-    }
+@Preview(showBackground = true)
+@Composable
+fun ShadowedScrapBoxPreview() {
+    ScrapBox(
+        modifier = Modifier
+            .height(height = 92.dp)
+            .fillMaxWidth(),
+        scrapColor = CalPurple,
+        cornerRadius = 10.dp,
+        elevation = 1.dp
+    ) {}
 }
