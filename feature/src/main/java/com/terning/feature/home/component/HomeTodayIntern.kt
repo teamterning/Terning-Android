@@ -1,6 +1,7 @@
 package com.terning.feature.home.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -12,6 +13,7 @@ import androidx.compose.ui.unit.dp
 fun HomeTodayIntern() {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(horizontal = 24.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 19.dp),

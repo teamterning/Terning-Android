@@ -31,7 +31,8 @@ fun HomeTodayEmptyIntern(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 19.dp),
+            .padding(top = 19.dp)
+            .padding(horizontal = 24.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp,
         ),

@@ -1,5 +1,6 @@
 package com.terning.feature.home.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -7,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.terning.feature.home.TerningPostItem
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeRecommendIntern(
     modifier: Modifier = Modifier
@@ -14,6 +16,9 @@ fun HomeRecommendIntern(
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        stickyHeader {
+
+        }
         items(10) {
             TerningPostItem(
                 imageUrl = "https://reqres.in/img/faces/7-image.jpg",
