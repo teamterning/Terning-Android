@@ -10,9 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -22,6 +20,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.textfield.SearchTextField
@@ -38,8 +38,7 @@ fun SearchProcessRoute(
     navController: NavHostController,
 ) {
     SearchProcessScreen(
-        navController = navController
-
+        navController = navController,
     )
 }
 
@@ -47,11 +46,9 @@ fun SearchProcessRoute(
 fun SearchProcessScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-
-    ) {
-    var text by remember { mutableStateOf("") }
-    var query by remember { mutableStateOf("") }
-    var showSearchResults by remember { mutableStateOf(false) }
+    viewModel: SearchProcessViewModel = hiltViewModel(),
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -64,8 +61,11 @@ fun SearchProcessScreen(
         modifier = modifier,
         topBar = {
             BackButtonTopAppBar(
-                title = if (showSearchResults) stringResource(id = R.string.search_process_result_top_bar_title)
-                else stringResource(id = R.string.search_process_top_bar_title),
+                title = stringResource(
+                    id =
+                    if (state.showSearchResults) R.string.search_process_result_top_bar_title
+                    else R.string.search_process_top_bar_title
+                ),
                 onBackButtonClick = { navController.popBackStack() },
                 modifier = Modifier
             )
@@ -78,7 +78,7 @@ fun SearchProcessScreen(
                 .padding(horizontal = 24.dp)
                 .addFocusCleaner(focusManager)
         ) {
-            if (!showSearchResults) {
+            if (!state.showSearchResults) {
                 Text(
                     text = stringResource(id = R.string.search_process_question_text),
                     style = TerningTheme.typography.heading2,
@@ -90,9 +90,9 @@ fun SearchProcessScreen(
             }
 
             SearchTextField(
-                text = text,
+                text = state.text,
                 onValueChange = { newText ->
-                    text = newText
+                    viewModel.updateText(newText)
                 },
                 hint = stringResource(R.string.search_text_field_hint),
                 leftIcon = R.drawable.ic_nav_search,
@@ -101,13 +101,12 @@ fun SearchProcessScreen(
                     .focusRequester(focusRequester)
                     .addFocusCleaner(focusManager),
                 onDoneAction = {
-                    query = text
-                    showSearchResults = true
+                    viewModel.updateQuery(state.text)
+                    viewModel.updateShowSearchResults(true)
                 }
             )
 
-            if (showSearchResults) {
-
+            if (state.showSearchResults) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -120,30 +119,26 @@ fun SearchProcessScreen(
                             id = R.string.search_process_no_result_icon
                         )
                     )
-                    // TODO 네이버와 / 터닝과 / 영어 검색어 등 -> 디자인 쌤들 문의
                     Row(
-                        modifier = Modifier.padding(vertical = 16.dp)
+                        modifier = Modifier.padding(vertical = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = query,
+                            text = state.query,
                             style = TerningTheme.typography.body1,
                             color = TerningMain,
                         )
                         Text(
-                            text = "와 일치하는 검색 결과가 없어요",
+                            text = stringResource(id = R.string.search_process_no_result_text),
                             style = TerningTheme.typography.body1,
                             color = Grey400,
                         )
                     }
                 }
-
             }
         }
-
-
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

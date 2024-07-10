@@ -12,8 +12,8 @@ import androidx.navigation.navOptions
 import com.terning.feature.calendar.navigation.navigateCalendar
 import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.mypage.navigation.navigateMyPage
+import com.terning.feature.search.navigation.Search
 import com.terning.feature.search.navigation.navigateSearch
-import com.terning.feature.searchprocess.navigation.SearchProcess
 
 class MainNavigator(
     val navController: NavHostController,
@@ -22,7 +22,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = SearchProcess
+    val startDestination = Search
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
