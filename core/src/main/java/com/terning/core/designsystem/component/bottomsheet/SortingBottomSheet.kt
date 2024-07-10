@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.terning.core.R
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -42,7 +43,7 @@ fun SortingBottomSheet(
     TerningBasicBottomSheet(
         content = {
             Text(
-                text = "공고 정렬 순서",
+                text = stringResource(id = R.string.sort_bottom_sheet_title),
                 style = TerningTheme.typography.title2,
                 color = Black,
                 modifier = modifier
