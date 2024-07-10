@@ -14,12 +14,13 @@ import com.terning.feature.calendar.models.Scrap
 
 @Composable
 fun CalendarScrap(
+    scrap: Scrap,
     modifier: Modifier = Modifier,
-    scrap: Scrap
 ) {
     ScrapBox(
         cornerRadius = 10.dp,
         scrapColor = scrap.backgroundColor,
+        elevation = 1.dp,
         modifier = modifier
             .height(height = 92.dp)
             .fillMaxWidth(),

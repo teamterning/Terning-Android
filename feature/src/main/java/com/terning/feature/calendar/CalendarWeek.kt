@@ -38,7 +38,7 @@ fun CalendarWeek(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(horizontal = 32.dp, vertical = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             items(items = monthData.calendarMonth.weekDays[page]) { day ->

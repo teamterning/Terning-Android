@@ -50,5 +50,5 @@ fun CalendarScrapStrip(
     }
 }
 
-private const val MAX_SCRAP_COUNT = 2
+private const val MAX_SCRAP_COUNT = 3
 
