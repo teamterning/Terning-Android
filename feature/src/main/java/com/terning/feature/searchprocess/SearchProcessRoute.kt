@@ -48,7 +48,8 @@ fun SearchProcessScreen(
         modifier = modifier,
         topBar = {
             BackButtonTopAppBar(
-                title = "검색", onBackButtonClick = { },
+                title = stringResource(id = R.string.search_process_top_bar_title),
+                onBackButtonClick = { },
                 modifier = Modifier
             )
         }
@@ -57,9 +58,11 @@ fun SearchProcessScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .padding(horizontal = 24.dp)
+                .addFocusCleaner(focusManager)
         ) {
             Text(
-                text = "어떤 공고를\n찾고 계시나요?",
+                text = stringResource(id = R.string.search_process_question_text),
                 style = TerningTheme.typography.heading2,
                 color = Grey500,
                 modifier = Modifier.padding(
@@ -80,7 +83,6 @@ fun SearchProcessScreen(
             )
         }
     }
-
 }
 
 @Preview(showBackground = true)
