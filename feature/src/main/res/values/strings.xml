@@ -20,6 +20,9 @@
     <string name="sign_up_bottom_sheet_title">프로필 이미지 선택</string>
     <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
     <string name="sign_up_dialog_start">저장하기</string>
+    <string name="sign_up_title">반가워요!\n이름을 알려주세요</string>
+    <string name="sign_up_profile_image">프로필 이미지</string>
+    <string name="sign_up_profile_button">프로필 버튼</string>
 
     <!--Profile-->
     <string name="profile_text_field_hint">이름을 입력해주세요</string>
@@ -29,7 +32,6 @@
 
     <!--Search-->
     <string name="search_text_field_hint">관심있는 인턴 공고 키워드를 검색해보세요</string>
-
 
     <!--calendar-->
     <string name="calendar_text_sunday">일</string>

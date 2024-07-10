@@ -57,7 +57,6 @@ fun SignInScreen(
     modifier: Modifier = Modifier,
     onSignInClick: () -> Unit = {},
 ) {
-
     Column(
         modifier = modifier
             .wrapContentHeight()
