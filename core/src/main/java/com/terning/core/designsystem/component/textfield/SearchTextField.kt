@@ -9,8 +9,8 @@ import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
 fun SearchTextField(
-    text: String,
-    onValueChange: (String) -> Unit,
+    text: String = "",
+    onValueChange: (String) -> Unit = {},
     readOnly: Boolean = false,
     hint: String,
     leftIcon: Int,

@@ -35,8 +35,8 @@ import com.terning.core.designsystem.theme.White
 
 @Composable
 fun TerningBasicTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
+    value: String = "",
+    onValueChange: (String) -> Unit = {},
     readOnly: Boolean = false,
     textStyle: TextStyle,
     textColor: Color,

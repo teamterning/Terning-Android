@@ -29,6 +29,7 @@ import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.search.navigation.searchNavGraph
+import com.terning.feature.searchprocess.navigation.searchProcessNavGraph
 
 @Composable
 fun MainScreen(
@@ -64,10 +65,11 @@ fun MainScreen(
             ) {
                 homeNavGraph()
                 calendarNavGraph()
-                searchNavGraph()
+                searchNavGraph(navHostController = navigator.navController)
                 myPageNavGraph()
                 signInNavGraph(navHostController = navigator.navController)
                 signUpNavGraph()
+                searchProcessNavGraph()
             }
         }
     }
