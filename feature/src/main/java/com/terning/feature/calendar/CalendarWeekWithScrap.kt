@@ -29,7 +29,10 @@ fun CalendarWeekWithScrap(
     ) {
         Card(
             modifier = Modifier
-                .border(0.dp, Grey200, RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
+                .border(
+                    width = 0.dp,
+                    color = Grey200,
+                    shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 .shadow(
                     shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
                     elevation = 1.dp
@@ -49,7 +52,7 @@ fun CalendarWeekWithScrap(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-        ){
+        ) {
             /*items(items = scrapLists[selectedDate?.dayOfMonth - 1]) {
 
             }*/

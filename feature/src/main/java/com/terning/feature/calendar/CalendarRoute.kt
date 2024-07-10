@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.feature.R
 import com.terning.feature.calendar.component.CalendarTopBar
@@ -48,7 +49,7 @@ fun CalendarScreen(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val selectedDate by viewModel.selectedDate.collectAsState()
+    val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
     val state by remember { mutableStateOf(CalendarState()) }
 
     val listState = rememberLazyListState(
