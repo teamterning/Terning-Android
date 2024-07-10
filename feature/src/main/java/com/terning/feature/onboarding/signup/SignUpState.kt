@@ -12,4 +12,5 @@ data class SignUpState(
     val helper: String = HELPER,
     val helperIcon: Int? = null,
     val helperColor: Color = Grey400,
+    val isButtonValid : Boolean = false
 )

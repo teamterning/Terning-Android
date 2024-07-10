@@ -43,7 +43,8 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
                 drawLineColor = TerningMain,
                 helper = HELPER_AVAILABLE,
                 helperIcon = R.drawable.ic_sign_up_available,
-                helperColor = TerningMain
+                helperColor = TerningMain,
+                isButtonValid = true
             )
         }
     }

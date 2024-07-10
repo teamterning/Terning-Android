@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,7 +20,6 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.onboarding.filtering.navigation.navigateFiltering
 import com.terning.feature.onboarding.signup.component.SignUpProfile
-import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 
 @Composable
 fun SignUpRoute(
@@ -42,7 +40,7 @@ fun SignUpScreen(
     modifier: Modifier = Modifier,
     signUpState: SignUpState,
     signUpViewModel: SignUpViewModel,
-    onButtonClick : () -> Unit
+    onButtonClick: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -98,7 +96,8 @@ fun SignUpScreen(
             paddingVertical = 20.dp,
             text = R.string.sign_up_next_button,
             onButtonClick = { onButtonClick() },
-            modifier = modifier.padding(bottom = 12.dp)
+            modifier = modifier.padding(bottom = 12.dp),
+            isEnabled = signUpState.isButtonValid
         )
     }
 }
