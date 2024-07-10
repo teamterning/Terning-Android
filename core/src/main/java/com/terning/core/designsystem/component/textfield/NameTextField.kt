@@ -7,7 +7,6 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
@@ -15,16 +14,17 @@ fun NameTextField(
     value: String,
     onValueChange: (String) -> Unit,
     hint: String,
+    drawLineColor : Color,
     helperMessage: String,
-    helperIcon: Int? = null,
     helperColor: Color,
+    helperIcon: Int? = null,
 ) {
     TerningBasicTextField(
         value = value,
         onValueChange = onValueChange,
         textStyle = TerningTheme.typography.detail1,
         textColor = Black,
-        drawLineColor = Grey500,
+        drawLineColor = drawLineColor,
         cursorBrush = SolidColor(Grey400),
         hint = hint,
         hintColor = Grey300,

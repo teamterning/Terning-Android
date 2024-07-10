@@ -25,9 +25,6 @@
     <string name="sign_up_profile_button">프로필 버튼</string>
     <string name="sign_up_name">이름</string>
     <string name="sign_up_hint">이름을 입력해주세요</string>
-<!--    <string name="sign_up_helper">12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가</string>-->
-<!--    <string name="sign_up_helper_error">이름에 특수문자는 입력할 수 없어요</string>-->
-<!--    <string name="sign_up_helper_available">이용 가능한 이름이에요</string>-->
 
     <!--search-->
     <string name="search_text_field_hint">관심있는 인턴 공고 키워드를 검색해보세요</string>
