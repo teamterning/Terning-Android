@@ -1,6 +1,7 @@
 package com.terning.core.designsystem.component.button
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -12,13 +13,18 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.noRippleClickable
 
 @Composable
 fun SortingButton(
     sortBy: Int = 0,
     modifier: Modifier = Modifier,
+    onCLick: () -> Unit,
 ) {
-    Row {
+    Row(
+        modifier = modifier
+            .noRippleClickable { onCLick() }
+    ) {
         Text(
             text = stringResource(
                 id = when (sortBy) {
