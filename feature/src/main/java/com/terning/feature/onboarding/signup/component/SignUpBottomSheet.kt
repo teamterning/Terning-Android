@@ -29,7 +29,7 @@ import com.terning.feature.R
 fun SignUpBottomSheet(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
-    onStartDialog: () -> Unit
+    onSaveClick: () -> Unit
 ) {
     TerningBasicBottomSheet(
         content = {
@@ -50,7 +50,7 @@ fun SignUpBottomSheet(
                     paddingVertical = 19.dp,
                     cornerRadius = 10.dp,
                     text = R.string.sign_up_dialog_start,
-                    onButtonClick = { onStartDialog() },
+                    onButtonClick = { onSaveClick() },
                     modifier = modifier.padding(horizontal = 24.dp)
                 )
                 Spacer(modifier = modifier.padding(bottom = 15.dp))

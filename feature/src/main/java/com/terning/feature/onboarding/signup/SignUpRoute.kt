@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,8 +20,10 @@ import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.textfield.NameTextField
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 import com.terning.feature.onboarding.filtering.navigation.navigateFiltering
+import com.terning.feature.onboarding.signup.component.SignUpBottomSheet
 import com.terning.feature.onboarding.signup.component.SignUpProfile
 
 @Composable
@@ -42,6 +47,7 @@ fun SignUpScreen(
     signUpViewModel: SignUpViewModel,
     onButtonClick: () -> Unit
 ) {
+    var showBottomSheet by remember { mutableStateOf(false) }
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -54,20 +60,31 @@ fun SignUpScreen(
                 start = 24.dp
             )
         )
+        if (showBottomSheet) {
+            SignUpBottomSheet(
+                onDismiss = { showBottomSheet = false },
+                onSaveClick = { showBottomSheet = false }
+            )
+        }
         Text(
             text = stringResource(id = R.string.sign_up_profile_image),
             style = TerningTheme.typography.body2,
-            modifier = modifier.padding(
-                start = 24.dp,
-                bottom = 20.dp
-            )
+            modifier = modifier
+                .padding(
+                    start = 24.dp,
+                    bottom = 20.dp
+                )
         )
         Column(
             modifier = modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 52.dp)
         ) {
-            SignUpProfile()
+            SignUpProfile(
+                modifier = modifier.noRippleClickable {
+                    showBottomSheet = true
+                }
+            )
         }
         Column(
             modifier = modifier
