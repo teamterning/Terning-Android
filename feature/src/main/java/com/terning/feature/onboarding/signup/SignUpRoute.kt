@@ -51,6 +51,7 @@ fun SignUpScreen(
 ) {
     val focusManager = LocalFocusManager.current
     var showBottomSheet by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxSize()
