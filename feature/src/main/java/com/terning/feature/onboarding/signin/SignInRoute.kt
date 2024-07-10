@@ -26,6 +26,7 @@ import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.component.KakaoButton
+import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 
 @Composable
 fun SignInRoute(
@@ -41,7 +42,7 @@ fun SignInRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SignInSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is SignInSideEffect.NavigateToHome -> navController.navigateHome()
+                    is SignInSideEffect.NavigateToHome -> navController.navigateSignUp()
                 }
             }
     }
