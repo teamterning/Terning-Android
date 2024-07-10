@@ -36,6 +36,10 @@
     <!--Search-->
     <string name="search_text_field_hint">관심있는 인턴 공고 키워드를 검색해보세요</string>
 
+    <string name="search_today_popular">요즘 대학생들에게 인기 있는 공고</string>
+    <string name="search_most_view_intern">지금 조회수가 많은 공고들이에요</string>
+    <string name="search_most_scrap_intern">지금 스크랩 수가 많은 공고들이에요</string>
+
     <!--calendar-->
     <string name="calendar_text_sunday">일</string>
     <string name="calendar_text_monday">월</string>
@@ -47,5 +51,6 @@
     <string name="calendar_button_description_previous">previous</string>
     <string name="calendar_button_description_next">next</string>
     <string name="calendar_button_description_list">list</string>
+    <string name="calendar_animation_label">Calendar Transition</string>
 
 </resources>
