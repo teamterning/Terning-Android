@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.SolidColor
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
@@ -14,7 +13,7 @@ fun NameTextField(
     value: String,
     onValueChange: (String) -> Unit,
     hint: String,
-    drawLineColor : Color,
+    drawLineColor: Color,
     helperMessage: String,
     helperColor: Color,
     helperIcon: Int? = null,

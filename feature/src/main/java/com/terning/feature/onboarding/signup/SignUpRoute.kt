@@ -14,21 +14,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.textfield.NameTextField
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
+import com.terning.feature.onboarding.filtering.navigation.navigateFiltering
 import com.terning.feature.onboarding.signup.component.SignUpProfile
+import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 
 @Composable
 fun SignUpRoute(
-    signUpViewModel: SignUpViewModel = hiltViewModel()
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    navController: NavController
 ) {
-    val context = LocalContext.current
     val signUpState by signUpViewModel.state.collectAsStateWithLifecycle()
 
     SignUpScreen(
         signUpViewModel = signUpViewModel,
-        signUpState = signUpState
+        signUpState = signUpState,
+        onButtonClick = { navController.navigateFiltering() }
     )
 }
 
@@ -36,12 +41,13 @@ fun SignUpRoute(
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     signUpState: SignUpState,
-    signUpViewModel: SignUpViewModel
+    signUpViewModel: SignUpViewModel,
+    onButtonClick : () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-//        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = modifier.weight(1f))
         Text(
             text = stringResource(id = R.string.sign_up_title),
             style = TerningTheme.typography.heading2,
@@ -86,6 +92,13 @@ fun SignUpScreen(
                 helperColor = signUpState.helperColor
             )
         }
-        Spacer(modifier = modifier.weight(2f))
+        Spacer(modifier = modifier.weight(5f))
+        RectangleButton(
+            style = TerningTheme.typography.button1,
+            paddingVertical = 20.dp,
+            text = R.string.sign_up_next_button,
+            onButtonClick = { onButtonClick() },
+            modifier = modifier.padding(bottom = 12.dp)
+        )
     }
 }
