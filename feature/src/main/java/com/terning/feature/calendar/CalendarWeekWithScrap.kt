@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -39,6 +40,7 @@ fun CalendarWeekWithScrap(
 ) {
     Column(
         modifier = modifier
+            .background(Back)
     ) {
         Card(
             modifier = Modifier
