@@ -1,9 +1,11 @@
 package com.terning.core.designsystem.component.textfield
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
@@ -25,5 +27,6 @@ fun SearchTextField(
         hintColor = Grey300,
         leftIcon = leftIcon,
         leftIconColor = Grey400,
+        helperColor = TerningMain
     )
 }

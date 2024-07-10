@@ -51,7 +51,7 @@ fun TerningBasicTextField(
     hint: String = "",
     helperMessage: String = "",
     helperIcon: Int? = null,
-    helperColor: Color = TerningMain,
+    helperColor: Color,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -124,7 +124,8 @@ fun TerningBasicTextField(
                     )
                 }
             }
-        })
+        }
+    )
 
     Row(
         verticalAlignment = Alignment.CenterVertically,

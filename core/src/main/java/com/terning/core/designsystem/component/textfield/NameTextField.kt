@@ -17,7 +17,7 @@ fun NameTextField(
     hint: String,
     helperMessage: String,
     helperIcon: Int? = null,
-    helperColor: Color = TerningMain,
+    helperColor: Color,
 ) {
     TerningBasicTextField(
         value = text,
