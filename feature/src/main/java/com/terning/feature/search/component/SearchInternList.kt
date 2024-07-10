@@ -15,13 +15,15 @@ import com.terning.feature.R
 
 @Composable
 fun SearchInternList(
-    type: String,
+    type: InternListType,
 ) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+    Column(modifier = Modifier.padding(horizontal = 24.dp)) {
         Text(
             text = stringResource(
-                id = if (type == "view") R.string.search_most_view_intern
-                else R.string.search_most_scrap_intern
+                id = when (type) {
+                    InternListType.VIEW -> R.string.search_most_view_intern
+                    InternListType.SCRAP -> R.string.search_most_scrap_intern
+                }
             ),
             style = TerningTheme.typography.title5,
             color = Grey400
