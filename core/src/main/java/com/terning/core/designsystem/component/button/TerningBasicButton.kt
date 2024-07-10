@@ -3,6 +3,7 @@ package com.terning.core.designsystem.component.button
 import androidx.annotation.StringRes
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ripple.LocalRippleTheme
@@ -46,6 +47,7 @@ fun TerningBasicButton(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         Button(
+            contentPadding = PaddingValues(paddingVertical),
             modifier = modifier.fillMaxWidth(),
             interactionSource = interactionSource,
             enabled = isEnabled,
@@ -61,7 +63,6 @@ fun TerningBasicButton(
             Text(
                 text = stringResource(id = text),
                 style = style,
-                modifier = modifier.padding(vertical = paddingVertical)
             )
         }
     }

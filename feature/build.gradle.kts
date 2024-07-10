@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.androidx.workManager)
     implementation(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.androidx.compose.saveable)
 
     // KspDependencies
     ksp(libs.hilt.android.compiler)

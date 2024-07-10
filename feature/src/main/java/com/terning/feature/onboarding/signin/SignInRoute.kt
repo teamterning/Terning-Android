@@ -57,6 +57,7 @@ fun SignInScreen(
     modifier: Modifier = Modifier,
     onSignInClick: () -> Unit = {},
 ) {
+
     Column(
         modifier = modifier
             .wrapContentHeight()
@@ -71,7 +72,9 @@ fun SignInScreen(
         )
         KakaoButton(
             title = stringResource(id = R.string.sign_in_kakao_button),
-            onSignInClick = { onSignInClick() },
+            onSignInClick = {
+                onSignInClick()
+            },
             modifier = modifier.padding(horizontal = 20.dp)
         )
     }
