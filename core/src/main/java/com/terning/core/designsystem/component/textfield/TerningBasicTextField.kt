@@ -37,6 +37,7 @@ import com.terning.core.designsystem.theme.White
 fun TerningBasicTextField(
     value: String = "",
     onValueChange: (String) -> Unit = {},
+    modifier: Modifier,
     textStyle: TextStyle,
     textColor: Color,
     hintColor: Color,
@@ -51,6 +52,7 @@ fun TerningBasicTextField(
     helperMessage: String = "",
     helperIcon: Int? = null,
     helperColor: Color = TerningMain,
+    enabled: Boolean = true,
     readOnly: Boolean = false,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -70,7 +72,7 @@ fun TerningBasicTextField(
             }
         ),
 
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(White)
             .drawWithContent {
@@ -124,6 +126,8 @@ fun TerningBasicTextField(
                 }
             }
         },
+
+        enabled = enabled,
         readOnly = readOnly,
     )
 

@@ -19,6 +19,7 @@ import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.search.component.ImageSlider
+import com.terning.feature.search.component.InternListType
 import com.terning.feature.search.component.SearchInternList
 import com.terning.feature.searchprocess.navigation.navigateSearchProcess
 
@@ -45,17 +46,16 @@ fun SearchScreen(
     ) {
         Box(
             modifier = Modifier
-                .padding(
-                    horizontal = 24.dp,
-                    vertical = 16.dp
-                )
+                .padding(horizontal = 24.dp, vertical = 16.dp)
                 .clickable {
                     navController.navigateSearchProcess()
-                },
+                }
         ) {
             SearchTextField(
                 hint = stringResource(R.string.search_text_field_hint),
                 leftIcon = R.drawable.ic_nav_search,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = false,
                 readOnly = true,
             )
         }
@@ -68,10 +68,7 @@ fun SearchScreen(
 
         Text(
             text = stringResource(id = R.string.search_today_popular),
-            modifier = Modifier.padding(
-                horizontal = 24.dp,
-                vertical = 4.dp
-            ),
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp),
             style = TerningTheme.typography.title1,
             color = Black
         )
