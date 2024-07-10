@@ -1,7 +1,6 @@
 package com.terning.feature.calendar
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
@@ -11,17 +10,18 @@ import com.terning.feature.calendar.models.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.models.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.models.MonthData
 import com.terning.feature.calendar.models.Scrap
+import com.terning.feature.calendar.models.SelectedDateState
 import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
 fun CalendarMonths(
-    modifier: Modifier = Modifier,
     listState: LazyListState,
     onDateSelected: (LocalDate) -> Unit,
     pages: Int,
-    selectedDate: LocalDate,
-    scrapLists: List<List<Scrap>>
+    selectedDate: SelectedDateState,
+    scrapLists: List<List<Scrap>>,
+    modifier: Modifier = Modifier,
 ) {
     LazyRow(
         modifier = modifier

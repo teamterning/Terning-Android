@@ -44,5 +44,6 @@
     <string name="calendar_button_description_previous">previous</string>
     <string name="calendar_button_description_next">next</string>
     <string name="calendar_button_description_list">list</string>
+    <string name="calendar_animation_label">Calendar Transition</string>
 
 </resources>
