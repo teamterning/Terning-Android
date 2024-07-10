@@ -62,40 +62,21 @@ fun CalendarWeekWithScrap(
                 onDateSelected = onDateSelected
             )
         }
-
-        Text(
-            text = selectedDate.selectedDate.getDateStringInKorean(),
-            style = TerningTheme.typography.title5,
-            color = Black,
-            modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-        )
-
-        if (scrapLists[selectedDate.selectedDate.dayOfMonth - 1].isEmpty()) {
-            Text(
-                modifier = Modifier
-                    .padding(top = 42.dp)
-                    .fillMaxWidth(),
-                text = "선택하신 날짜에 지원 마감인 스크랩 공고가 없어요.",
-                textAlign = TextAlign.Center,
-                style = TerningTheme.typography.body5,
-                color = Grey400
-            )
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
-            ) {
-                items(items = scrapLists[selectedDate.selectedDate.dayOfMonth - 1]) { scrap ->
-                    CalendarScrap(
-                        scrap = scrap
-                    )
-                    Spacer(
-                        modifier = Modifier.height(12.dp)
-                    )
-                }
+        CalendarScrapList(
+            selectedDate = selectedDate.selectedDate,
+            scrapLists = scrapLists,
+            noScrapScreen = {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 42.dp)
+                        .fillMaxWidth(),
+                    text = "선택하신 날짜에 지원 마감인 스크랩 공고가 없어요.",
+                    textAlign = TextAlign.Center,
+                    style = TerningTheme.typography.body5,
+                    color = Grey400
+                )
             }
-        }
+        )
     }
 }
 
