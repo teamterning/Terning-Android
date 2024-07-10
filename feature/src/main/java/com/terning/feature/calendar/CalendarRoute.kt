@@ -1,6 +1,11 @@
 package com.terning.feature.calendar
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,14 +26,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.feature.R
 import com.terning.feature.calendar.component.CalendarTopBar
 import com.terning.feature.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.models.CalendarState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Composable
 fun CalendarRoute() {
@@ -40,35 +49,33 @@ fun CalendarScreen(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val selectedDate by viewModel.selectedDate.collectAsState()
-    val state by remember{ mutableStateOf(CalendarState()) }
+    val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
+    val state by remember { mutableStateOf(CalendarState()) }
 
     val listState = rememberLazyListState(
         initialFirstVisibleItemIndex = state.getInitialPage()
     )
 
-    var currentDate by remember { mutableStateOf(selectedDate) }
-    var currentPage by remember { mutableIntStateOf(listState.firstVisibleItemIndex)}
+    var currentDate by remember { mutableStateOf(LocalDate.now()) }
+    var currentPage by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
 
     var isListExpanded by remember { mutableStateOf(false) }
-    var isWeekEnabled by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
-            .collect{
-                val swipeDirection = (listState.firstVisibleItemIndex - currentPage).coerceIn(-1, 1).toLong()
+            .collect {
+                val swipeDirection =
+                    (listState.firstVisibleItemIndex - currentPage).coerceIn(-1, 1).toLong()
                 currentDate = currentDate.plusMonths(swipeDirection)
                 currentPage = listState.firstVisibleItemIndex
             }
     }
 
-    LaunchedEffect(key1 = selectedDate) {
-        isWeekEnabled = true
-    }
-
     BackHandler {
-        isWeekEnabled = false
+        if (selectedDate.isEnabled) {
+            viewModel.updateSelectedDate(selectedDate.selectedDate)
+        }
     }
 
     Scaffold(
@@ -91,26 +98,57 @@ fun CalendarScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
         ) {
             WeekDaysHeader()
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(color = Grey200)
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(color = Grey200)
             )
-            CalendarMonths(
-                modifier = Modifier.fillMaxSize(),
-                selectedDate = selectedDate,
-                onDateSelected = {
-                    viewModel.updateSelectedDate(it)
-                },
-                listState = listState,
-                pages = state.getPageCount(),
-                scrapLists = viewModel.mockScrapList
-            )
-        }
 
+            AnimatedContent(
+                targetState = selectedDate.isEnabled,
+                transitionSpec = {
+                    if (!targetState) {
+                        slideInVertically { fullHeight -> -fullHeight } togetherWith
+                                slideOutVertically { fullHeight -> fullHeight }
+                    } else {
+                        slideInVertically { fullHeight -> fullHeight } togetherWith
+                                slideOutVertically { fullHeight -> -fullHeight }
+                    }.using(
+                        sizeTransform = SizeTransform(clip = true)
+                    )
+                },
+                label = stringResource(id = R.string.calendar_animation_label)
+            ) { targetState ->
+                if (!targetState) {
+                    CalendarMonths(
+                        modifier = Modifier.fillMaxSize(),
+                        selectedDate = selectedDate,
+                        onDateSelected = {
+                            viewModel.updateSelectedDate(it)
+                        },
+                        listState = listState,
+                        pages = state.getPageCount(),
+                        scrapLists = viewModel.mockScrapList,
+                    )
+                } else {
+                    CalendarWeekWithScrap(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        selectedDate = selectedDate,
+                        scrapLists = viewModel.mockScrapList,
+                        onDateSelected = {
+                            viewModel.updateSelectedDate(it)
+                        }
+                    )
+                }
+            }
+        }
     }
 }
+
+
