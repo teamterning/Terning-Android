@@ -12,7 +12,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
 fun NameTextField(
-    text: String,
+    value: String,
     onValueChange: (String) -> Unit,
     hint: String,
     helperMessage: String,
@@ -20,7 +20,7 @@ fun NameTextField(
     helperColor: Color,
 ) {
     TerningBasicTextField(
-        value = text,
+        value = value,
         onValueChange = onValueChange,
         textStyle = TerningTheme.typography.detail1,
         textColor = Black,

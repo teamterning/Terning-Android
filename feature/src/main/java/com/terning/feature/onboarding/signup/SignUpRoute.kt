@@ -9,20 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.component.textfield.NameTextField
-import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.designsystem.theme.WarningRed
 import com.terning.feature.R
 import com.terning.feature.onboarding.signup.component.SignUpProfile
 
@@ -30,18 +25,21 @@ import com.terning.feature.onboarding.signup.component.SignUpProfile
 fun SignUpRoute(
     signUpViewModel: SignUpViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val signUpState by signUpViewModel.state.collectAsStateWithLifecycle()
+
     SignUpScreen(
-        signUpViewModel = signUpViewModel
+        signUpViewModel = signUpViewModel,
+        signUpState = signUpState
     )
 }
 
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
+    signUpState: SignUpState,
     signUpViewModel: SignUpViewModel
 ) {
-    val text by remember { mutableStateOf("") }
-
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -73,58 +71,18 @@ fun SignUpScreen(
             text = stringResource(id = R.string.sign_up_name),
             modifier = modifier.padding(bottom = 20.dp)
         )
+
+        val text by remember { mutableStateOf("") }
+
         NameTextField(
-            text = text,
+            value = signUpState.name,
             onValueChange = { name ->
                 signUpViewModel.fetchName(name)
             },
-            hint = stringResource(id = R.string.sign_up_bottom_sheet_description),
-            helperMessage = stringResource(
-                id = R.string.sign_up_helper
-            ),
-            helperColor = Grey400
-        )
-
-        var text by remember { mutableStateOf("") }
-
-        // TODO 프로필 스크린 TextField로, 삭제될 코드입니다
-        var helperMessage by remember { mutableStateOf(R.string.profile_text_field_helper) }
-        var helperIcon by remember { mutableStateOf<Int?>(null) }
-        var helperColor by remember { mutableStateOf(Grey400) }
-        val specialCharacterPattern = Regex("[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/]")
-
-        // TODO 프로필 스크린 TextField로, 삭제될 코드입니다
-        fun updateHelper(text: String) {
-            helperMessage = when {
-                text.isEmpty() -> R.string.profile_text_field_helper
-                specialCharacterPattern.containsMatchIn(text) -> R.string.profile_text_field_warning
-                text.length <= 12 -> R.string.profile_text_field_check
-                else -> R.string.profile_text_field_helper
-            }
-            helperIcon = when {
-                text.isEmpty() -> null
-                specialCharacterPattern.containsMatchIn(text) -> R.drawable.ic_warning
-                text.length <= 12 -> R.drawable.ic_check
-                else -> null
-            }
-            helperColor = when {
-                text.isEmpty() -> Grey400
-                specialCharacterPattern.containsMatchIn(text) -> WarningRed
-                text.length <= 12 -> TerningMain
-                else -> Grey400
-            }
-        }
-
-        NameTextField(
-            text = text,
-            onValueChange = { newText ->
-                text = newText
-                updateHelper(newText)
-            },
-            hint = stringResource(R.string.profile_text_field_hint),
-            helperMessage = stringResource(helperMessage),
-            helperIcon = helperIcon,
-            helperColor = helperColor
+            hint = stringResource(id = R.string.sign_up_hint),
+            helperMessage = signUpViewModel.getHelper(),
+            helperIcon = signUpViewModel.getHelperIcon(),
+            helperColor = signUpViewModel.getHelperColor()
         )
 
         Spacer(modifier = modifier.weight(2f))
