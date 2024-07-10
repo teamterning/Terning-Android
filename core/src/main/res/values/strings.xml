@@ -11,4 +11,10 @@
     <!-- button-->
     <string name="button_preview">button</string>
 
+    <!--Intern Item-->
+    <string name="intern_item_working_period">근무기간</string>
+    <string name="intern_item_working_period_month">%s개월</string>
+    <string name="intern_item_d_day">D-%s</string>
+    <string name="intern_item_scrap">스크랩</string>
+
 </resources>
