@@ -42,7 +42,7 @@ fun TerningBasicTopAppBar(
             if (showBackButton) {
                 IconButton(
                     onClick = {
-                        onBackButtonClick.invoke()
+                        onBackButtonClick()
                     }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
@@ -51,7 +51,7 @@ fun TerningBasicTopAppBar(
                     )
                 }
             } else {
-                actions.getOrNull(0)?.invoke()
+                actions.getOrNull(0)
             }
         },
         actions = {
