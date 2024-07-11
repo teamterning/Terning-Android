@@ -11,4 +11,13 @@
     <!-- button-->
     <string name="button_preview">button</string>
 
+    <!-- 정렬 버튼 + 바텀시트 -->
+    <string name="sort_by_earliest">채용 마감 이른순</string>
+    <string name="sort_by_shortest">짧은 근무 기간순</string>
+    <string name="sort_by_longest">긴 근무 기간순</string>
+    <string name="sort_by_scrap">스크랩 많은순</string>
+    <string name="sort_by_view_count">조회수 많은순</string>
+    <string name="sort_button_description">정렬 기준</string>
+    <string name="sort_bottom_sheet_title">공고 정렬 순서</string>
+
 </resources>
