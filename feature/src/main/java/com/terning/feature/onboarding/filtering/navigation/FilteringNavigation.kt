@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.Route
-import com.terning.feature.onboarding.filtering.FilteringRoute
+import com.terning.feature.onboarding.filtering.FilteringScreen
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateFiltering(navOptions: NavOptions? = null) {
@@ -20,7 +20,7 @@ fun NavGraphBuilder.filteringNavGraph(
     navHostController: NavHostController
 ) {
     composable<Filtering> {
-        FilteringRoute(
+        FilteringScreen(
             navController = navHostController
         )
     }
