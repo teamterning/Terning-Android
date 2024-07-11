@@ -16,9 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
-import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
-import com.terning.core.designsystem.component.topappbar.MyPageTopAppBar
-import com.terning.core.designsystem.component.topappbar.TerningBasicTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
@@ -29,21 +26,13 @@ import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.search.navigation.searchNavGraph
+import com.terning.feature.searchprocess.navigation.searchProcessNavGraph
 
 @Composable
 fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     Scaffold(
-        topBar = {
-            when (navigator.currentTab) {
-                MainTab.HOME -> LogoTopAppBar()
-                MainTab.CALENDAR -> TerningBasicTopAppBar()
-                MainTab.SEARCH -> LogoTopAppBar()
-                MainTab.MY_PAGE -> MyPageTopAppBar()
-                null -> TerningBasicTopAppBar()
-            }
-        },
         bottomBar = {
             MainBottomBar(
                 isVisible = navigator.showBottomBar(),
@@ -64,26 +53,13 @@ fun MainScreen(
             ) {
                 homeNavGraph()
                 calendarNavGraph()
-                searchNavGraph()
+                searchNavGraph(navHostController = navigator.navController)
                 myPageNavGraph()
                 signInNavGraph(navHostController = navigator.navController)
                 signUpNavGraph()
+                searchProcessNavGraph(navHostController = navigator.navController)
             }
         }
-    }
-}
-
-
-@Composable
-private fun MainTopBar(
-    isVisible: Boolean,
-    tabs: List<MainTab>,
-    currentTab: MainTab?,
-    onTabSelected: (MainTab) -> Unit,
-) {
-    AnimatedVisibility(
-        visible = isVisible,
-    ) {
     }
 }
 
