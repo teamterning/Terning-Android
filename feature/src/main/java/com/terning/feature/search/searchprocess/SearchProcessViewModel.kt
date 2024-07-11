@@ -1,7 +1,7 @@
-package com.terning.feature.searchprocess
+package com.terning.feature.search.searchprocess
 
 import androidx.lifecycle.ViewModel
-import com.terning.feature.searchprocess.model.SearchProcessState
+import com.terning.feature.search.searchprocess.model.SearchProcessState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

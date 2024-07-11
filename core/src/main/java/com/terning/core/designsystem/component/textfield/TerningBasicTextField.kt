@@ -54,7 +54,7 @@ fun TerningBasicTextField(
     helperColor: Color = TerningMain,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    onDoneAction: (() -> Unit)? = null,
+    onDoneAction: () -> Unit? = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -70,7 +70,7 @@ fun TerningBasicTextField(
             onDone = {
                 keyboardController?.hide()
                 focusManager.clearFocus()
-                onDoneAction?.invoke()
+                onDoneAction()
             }
         ),
 

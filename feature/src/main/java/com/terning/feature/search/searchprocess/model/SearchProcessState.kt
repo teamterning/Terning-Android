@@ -1,4 +1,4 @@
-package com.terning.feature.searchprocess.model
+package com.terning.feature.search.searchprocess.model
 
 
 data class SearchProcessState(

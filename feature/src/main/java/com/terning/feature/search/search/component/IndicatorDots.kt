@@ -1,4 +1,4 @@
-package com.terning.feature.search.component
+package com.terning.feature.search.search.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

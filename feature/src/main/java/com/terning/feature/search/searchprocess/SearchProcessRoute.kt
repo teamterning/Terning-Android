@@ -1,4 +1,4 @@
-package com.terning.feature.searchprocess
+package com.terning.feature.search.searchprocess
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

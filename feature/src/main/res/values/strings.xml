@@ -4,7 +4,6 @@
 
     <string name="server_success">서버통신 성공</string>
     <string name="server_failure">서버통신 실패</string>
-
     <!--bottom_navigation-->
     <string name="bottom_nav_home">홈</string>
     <string name="bottom_nav_calendar">캘린더</string>

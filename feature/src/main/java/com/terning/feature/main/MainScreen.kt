@@ -25,8 +25,8 @@ import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
-import com.terning.feature.search.navigation.searchNavGraph
-import com.terning.feature.searchprocess.navigation.searchProcessNavGraph
+import com.terning.feature.search.search.navigation.searchNavGraph
+import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
 
 @Composable
 fun MainScreen(

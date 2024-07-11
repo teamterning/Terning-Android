@@ -1,4 +1,4 @@
-package com.terning.feature.searchprocess.navigation
+package com.terning.feature.search.search.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,25 +6,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
-import com.terning.feature.searchprocess.SearchProcessRoute
+import com.terning.feature.search.search.SearchRoute
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateSearchProcess(navOptions: NavOptions? = null) {
+fun NavController.navigateSearch(navOptions: NavOptions? = null) {
     navigate(
-        route = SearchProcess,
+        route = Search,
         navOptions = navOptions
     )
 }
 
-fun NavGraphBuilder.searchProcessNavGraph(
-    navHostController: NavHostController
+fun NavGraphBuilder.searchNavGraph(
+    navHostController: NavHostController,
 ) {
-    composable<SearchProcess> {
-        SearchProcessRoute(
+    composable<Search> {
+        SearchRoute(
             navController = navHostController
         )
     }
 }
 
 @Serializable
-data object SearchProcess : MainTabRoute
+data object Search : MainTabRoute

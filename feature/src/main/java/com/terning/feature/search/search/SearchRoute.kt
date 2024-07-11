@@ -1,4 +1,4 @@
-package com.terning.feature.search
+package com.terning.feature.search.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,10 +21,10 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.search.component.ImageSlider
-import com.terning.feature.search.component.InternListType
-import com.terning.feature.search.component.SearchInternList
-import com.terning.feature.searchprocess.navigation.navigateSearchProcess
+import com.terning.feature.search.search.component.ImageSlider
+import com.terning.feature.search.search.component.InternListType
+import com.terning.feature.search.search.component.SearchInternList
+import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 
 @Composable
 fun SearchRoute(
