@@ -60,6 +60,11 @@ fun TerningBasicTopAppBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(White),
-        windowInsets = WindowInsets(0, 0, 0, 0),
+        windowInsets = WindowInsets(
+            left = 0,
+            top = 0,
+            right = 0,
+            bottom = 0
+        ),
     )
 }

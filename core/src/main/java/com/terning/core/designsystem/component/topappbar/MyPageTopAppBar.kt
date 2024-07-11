@@ -15,7 +15,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
 fun MyPageTopAppBar(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     TerningBasicTopAppBar(
         showBackButton = false,
