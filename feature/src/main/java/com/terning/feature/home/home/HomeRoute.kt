@@ -90,7 +90,8 @@ fun HomeScreen() {
                     HomeFilteringScreen(
                         grade = 3,
                         period = 1,
-                        month = 7
+                        startYear = 2024,
+                        startMonth = 7,
                     )
 
                     HorizontalDivider(

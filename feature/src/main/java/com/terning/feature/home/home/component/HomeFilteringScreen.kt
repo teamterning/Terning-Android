@@ -2,9 +2,11 @@ package com.terning.feature.home.home.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
@@ -27,7 +30,8 @@ import com.terning.feature.R
 fun HomeFilteringScreen(
     grade: Int,
     period: Int,
-    month: Int,
+    startYear: Int,
+    startMonth: Int,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -35,6 +39,8 @@ fun HomeFilteringScreen(
             .padding(top = 10.dp, bottom = 11.dp)
             .padding(horizontal = 24.dp)
             .height(IntrinsicSize.Min)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
             modifier = modifier
@@ -42,7 +48,7 @@ fun HomeFilteringScreen(
                     color = TerningMain,
                     shape = RoundedCornerShape(5.dp),
                 )
-                .align(Alignment.CenterVertically)
+                .align(Alignment.CenterVertically),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_home_filtering_28),
@@ -54,16 +60,17 @@ fun HomeFilteringScreen(
                 text = stringResource(id = R.string.home_recommend_filtering),
                 style = TerningTheme.typography.button4,
                 color = White,
+                textAlign = TextAlign.Center,
                 modifier = modifier
-                    .padding(vertical = 8.dp)
-                    .padding(end = 8.dp)
+                    .padding(end = 6.dp)
+                    .align(Alignment.CenterVertically)
             )
         }
 
         HomeFilteringText(
             text = grade.toString() + stringResource(id = R.string.home_recommend_filtering_grade),
             modifier = Modifier
-                .padding(vertical = 7.dp, horizontal = 28.dp),
+                .padding(vertical = 7.dp)
         )
         HomeFilteringDivider()
         HomeFilteringText(
@@ -76,14 +83,14 @@ fun HomeFilteringScreen(
                 }
             ),
             modifier = Modifier
-                .padding(vertical = 7.dp, horizontal = 25.dp)
+                .padding(vertical = 7.dp)
         )
         HomeFilteringDivider()
         HomeFilteringText(
-            text = month.toString() + stringResource(id = R.string.home_recommend_filtering_month),
+            text = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
+                    + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
             modifier = Modifier
                 .padding(vertical = 7.dp)
-                .padding(start = 34.dp, end = 13.dp)
         )
     }
 }
