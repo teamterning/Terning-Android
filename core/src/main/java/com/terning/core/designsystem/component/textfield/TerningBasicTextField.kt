@@ -51,8 +51,8 @@ fun TerningBasicTextField(
     hint: String = "",
     helperMessage: String = "",
     helperIcon: Int? = null,
-    helperColor: Color = TerningMain,
     enabled: Boolean = true,
+    helperColor: Color,
     readOnly: Boolean = false,
     onDoneAction: (() -> Unit)? = null,
 ) {
