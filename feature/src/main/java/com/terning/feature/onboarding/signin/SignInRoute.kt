@@ -24,7 +24,7 @@ import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.home.navigation.navigateHome
+import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.component.KakaoButton
 import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 
