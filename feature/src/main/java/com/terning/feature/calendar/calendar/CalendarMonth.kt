@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ import com.terning.core.extension.isToday
 import com.terning.feature.calendar.models.MonthData
 import com.terning.feature.calendar.models.Scrap
 import com.terning.feature.calendar.models.SelectedDateState
+import com.terning.feature.calendar.scrap.CalendarScrapStrip
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -54,8 +56,8 @@ fun CalendarMonth(
                             onDateSelected = onDateSelected
                         )
                         if(!day.isOutDate) {
-                            val index = day.date.dayOfWeek.value - 1
-                            CalendarScrap(
+                            val index = day.date.dayOfMonth - 1
+                            CalendarScrapStrip(
                                 scrapList = scrapLists[index]
                             )
                         }
@@ -63,11 +65,9 @@ fun CalendarMonth(
                 }
             }
             if(month.indexOf(week) != month.lastIndex) {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(color = Grey150)
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = Grey150
                 )
             }
         }
