@@ -1,9 +1,11 @@
 package com.terning.feature.searchprocess
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -18,6 +20,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -94,12 +97,15 @@ fun SearchProcessScreen(
                 onValueChange = { newText ->
                     viewModel.updateText(newText)
                 },
-                hint = stringResource(R.string.search_text_field_hint),
-                leftIcon = R.drawable.ic_nav_search,
+                textStyle = if (state.text.isEmpty()) TerningTheme.typography.detail2
+                else TerningTheme.typography.body2,
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .focusRequester(focusRequester)
                     .addFocusCleaner(focusManager),
+                hint = stringResource(R.string.search_text_field_hint),
+                leftIcon = R.drawable.ic_nav_search,
+
                 onDoneAction = {
                     viewModel.updateQuery(state.text)
                     viewModel.updateShowSearchResults(true)
@@ -120,20 +126,32 @@ fun SearchProcessScreen(
                         )
                     )
                     Row(
-                        modifier = Modifier.padding(vertical = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier
+                            .padding(
+                                top = 16.dp,
+                                bottom = 6.dp
+                            )
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.Top
                     ) {
                         Text(
                             text = state.query,
                             style = TerningTheme.typography.body1,
                             color = TerningMain,
+                            overflow = TextOverflow.Ellipsis,
                         )
                         Text(
-                            text = stringResource(id = R.string.search_process_no_result_text),
+                            text = stringResource(id = R.string.search_process_no_result_text_top),
                             style = TerningTheme.typography.body1,
                             color = Grey400,
                         )
                     }
+                    Text(
+                        text = stringResource(id = R.string.search_process_no_result_text_bottom),
+                        style = TerningTheme.typography.body1,
+                        color = Grey400,
+                    )
                 }
             }
         }
