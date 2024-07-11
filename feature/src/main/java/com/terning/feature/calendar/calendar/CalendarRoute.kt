@@ -37,6 +37,7 @@ import com.terning.feature.calendar.scrap.CalendarScrapList
 import com.terning.core.designsystem.component.topappbar.CalendarTopBar
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.models.CalendarState
+import com.terning.feature.calendar.scrap.CalendarScrapListScreen
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -115,12 +116,13 @@ fun CalendarScreen(
             label = "List Transition"
         ) {
             if (it) {
-                CalendarScrapList(
+                CalendarScrapListScreen(
                     modifier = Modifier
-                        .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding()),
                     date = currentDate,
-                    scrapList = viewModel.mockScrapList
+                    scrapList = viewModel.mockScrapList,
+                    listState = listState,
+                    pages = state.getPageCount(),
                 )
             } else {
                 Column(
