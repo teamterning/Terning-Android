@@ -43,7 +43,8 @@ fun TerningBasicTopAppBar(
                 IconButton(
                     onClick = {
                         onBackButtonClick.invoke()
-                    }) {
+                    }
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = stringResource(id = R.string.ic_back),
