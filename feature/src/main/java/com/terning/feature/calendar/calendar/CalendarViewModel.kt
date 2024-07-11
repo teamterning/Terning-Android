@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.calendar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

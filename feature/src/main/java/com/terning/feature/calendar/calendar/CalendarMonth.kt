@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.isToday
+import com.terning.feature.calendar.scrap.CalendarScrapStrip
 import com.terning.feature.calendar.models.MonthData
 import com.terning.feature.calendar.models.Scrap
 import com.terning.feature.calendar.models.SelectedDateState

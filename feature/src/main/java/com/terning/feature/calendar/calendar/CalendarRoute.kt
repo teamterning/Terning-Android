@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.calendar
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -34,8 +33,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.feature.R
-import com.terning.feature.calendar.component.CalendarTopBar
-import com.terning.feature.calendar.component.WeekDaysHeader
+import com.terning.feature.calendar.scrap.CalendarScrapList
+import com.terning.core.designsystem.component.topappbar.CalendarTopBar
+import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.models.CalendarState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -87,6 +87,7 @@ fun CalendarScreen(
             CalendarTopBar(
                 date = currentDate,
                 isListExpanded = isListExpanded,
+                isWeekExpanded = selectedDate.isEnabled,
                 onListButtonClicked = { isListExpanded = !isListExpanded },
                 onMonthNavigationButtonClicked = { direction ->
                     coroutineScope.launch {
@@ -167,8 +168,8 @@ fun CalendarScreen(
                                     .fillMaxSize(),
                                 selectedDate = selectedDate,
                                 scrapLists = viewModel.mockScrapList,
-                                onDateSelected = {
-                                    viewModel.updateSelectedDate(it)
+                                onDateSelected = {newDate->
+                                    viewModel.updateSelectedDate(newDate)
                                 }
                             )
                         }

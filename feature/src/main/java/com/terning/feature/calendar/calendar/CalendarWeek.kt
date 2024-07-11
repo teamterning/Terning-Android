@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.calendar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,14 +13,16 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.extension.getWeekIndexContainingSelectedDate
 import com.terning.core.extension.isToday
 import com.terning.feature.calendar.models.MonthData
+import com.terning.feature.calendar.models.Scrap
 import com.terning.feature.calendar.models.SelectedDateState
 import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
 fun CalendarWeek(
-    modifier: Modifier = Modifier,
     selectedDate: SelectedDateState,
+    modifier: Modifier = Modifier,
+    scrapLists: List<List<Scrap>> = listOf(),
     onDateSelected: (LocalDate) -> Unit = {}
 ) {
     val date = selectedDate.selectedDate
