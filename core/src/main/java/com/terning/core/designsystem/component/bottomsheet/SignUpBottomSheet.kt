@@ -11,9 +11,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -24,6 +26,7 @@ import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +35,9 @@ fun SignUpBottomSheet(
     onDismiss: () -> Unit,
     onSaveClick: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState()
+
     TerningBasicBottomSheet(
         content = {
             Column {
@@ -51,13 +57,21 @@ fun SignUpBottomSheet(
                     paddingVertical = 19.dp,
                     cornerRadius = 10.dp,
                     text = R.string.sign_up_dialog_start,
-                    onButtonClick = { onSaveClick() },
+                    onButtonClick = {
+                        scope.launch { sheetState.hide() }
+                            .invokeOnCompletion {
+                                if (!sheetState.isVisible) {
+                                    onSaveClick()
+                                }
+                            }
+                    },
                     modifier = modifier.padding(horizontal = 24.dp)
                 )
                 Spacer(modifier = modifier.padding(bottom = 15.dp))
             }
         },
-        onDismissRequest = { onDismiss() }
+        onDismissRequest = { onDismiss() },
+        sheetState = sheetState
     )
 }
 
