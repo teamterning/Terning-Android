@@ -25,4 +25,7 @@
     <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
     <string name="sign_up_dialog_start">저장하기</string>
 
+    <!--image-->
+    <string name="image_content_descriptin">TerningBasicImage</string>
+
 </resources>

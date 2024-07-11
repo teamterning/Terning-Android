@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.feature.onboarding.filtering.component.FilteringStatus
 
 @Composable
 fun FilteringOneScreen(
@@ -29,7 +30,7 @@ fun FilteringOneScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-
+            FilteringStatus()
         }
     }
 }
