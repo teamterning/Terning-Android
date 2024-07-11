@@ -13,6 +13,6 @@ fun BackButtonTopAppBar(
         title = title,
         showBackButton = true,
         modifier = modifier,
-        onBackButtonClick = { onBackButtonClick.invoke() },
+        onBackButtonClick = { onBackButtonClick() },
     )
 }
