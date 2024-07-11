@@ -35,8 +35,9 @@ import com.terning.core.designsystem.theme.White
 
 @Composable
 fun TerningBasicTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
+    value: String = "",
+    onValueChange: (String) -> Unit = {},
+    modifier: Modifier,
     textStyle: TextStyle,
     textColor: Color,
     hintColor: Color,
@@ -50,8 +51,10 @@ fun TerningBasicTextField(
     hint: String = "",
     helperMessage: String = "",
     helperIcon: Int? = null,
+    enabled: Boolean = true,
     helperColor: Color,
     readOnly: Boolean = false,
+    onDoneAction: (() -> Unit)? = null,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -67,10 +70,11 @@ fun TerningBasicTextField(
             onDone = {
                 keyboardController?.hide()
                 focusManager.clearFocus()
+                onDoneAction?.invoke()
             }
         ),
 
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(White)
             .drawWithContent {
@@ -124,6 +128,8 @@ fun TerningBasicTextField(
                 }
             }
         },
+
+        enabled = enabled,
         readOnly = readOnly,
     )
 

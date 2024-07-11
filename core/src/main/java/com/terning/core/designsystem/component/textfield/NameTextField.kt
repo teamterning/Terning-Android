@@ -1,6 +1,7 @@
 package com.terning.core.designsystem.component.textfield
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import com.terning.core.designsystem.theme.Black
@@ -21,6 +22,7 @@ fun NameTextField(
     TerningBasicTextField(
         value = value,
         onValueChange = onValueChange,
+        modifier = Modifier,
         textStyle = TerningTheme.typography.detail1,
         textColor = Black,
         drawLineColor = drawLineColor,
