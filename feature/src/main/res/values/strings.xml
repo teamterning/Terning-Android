@@ -53,4 +53,9 @@
     <string name="calendar_button_description_list">list</string>
     <string name="calendar_animation_label">Calendar Transition</string>
 
+    <!--start-->
+    <string name="start_title">터치 3번으로\n원하는 대학생 인턴 공고를 띄워드릴게요</string>
+    <string name="start_main_image">시작화면 이미지</string>
+    <string name="start_button">시작하기</string>
+
 </resources>
