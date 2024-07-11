@@ -24,6 +24,7 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 
 @Composable
@@ -32,6 +33,7 @@ fun HomeFilteringScreen(
     period: Int,
     startYear: Int,
     startMonth: Int,
+    onChangeFilterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -48,7 +50,8 @@ fun HomeFilteringScreen(
                     color = TerningMain,
                     shape = RoundedCornerShape(5.dp),
                 )
-                .align(Alignment.CenterVertically),
+                .align(Alignment.CenterVertically)
+                .noRippleClickable { onChangeFilterClick() },
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_home_filtering_28),
