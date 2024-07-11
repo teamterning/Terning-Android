@@ -34,6 +34,7 @@ fun SearchTextField(
         leftIconColor = TerningMain,
         enabled = enabled,
         readOnly = readOnly,
-        onDoneAction = onDoneAction
+        onDoneAction = onDoneAction,
+        helperColor = TerningMain
     )
 }

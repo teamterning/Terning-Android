@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.terning.core.navigation.MainTabRoute
+import com.terning.core.navigation.Route
 import com.terning.feature.onboarding.signin.SignInRoute
 import kotlinx.serialization.Serializable
 
@@ -27,4 +27,4 @@ fun NavGraphBuilder.signInNavGraph(
 }
 
 @Serializable
-data object SignIn : MainTabRoute
+data object SignIn : Route

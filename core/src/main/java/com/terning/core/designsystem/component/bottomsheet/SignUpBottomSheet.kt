@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.signup.component
+package com.terning.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -11,28 +11,33 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
+import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
-import com.terning.feature.R
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpBottomSheet(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
-    onStartDialog: () -> Unit
+    onSaveClick: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState()
+
     TerningBasicBottomSheet(
         content = {
             Column {
@@ -52,13 +57,21 @@ fun SignUpBottomSheet(
                     paddingVertical = 19.dp,
                     cornerRadius = 10.dp,
                     text = R.string.sign_up_dialog_start,
-                    onButtonClick = { onStartDialog() },
+                    onButtonClick = {
+                        scope.launch { sheetState.hide() }
+                            .invokeOnCompletion {
+                                if (!sheetState.isVisible) {
+                                    onSaveClick()
+                                }
+                            }
+                    },
                     modifier = modifier.padding(horizontal = 24.dp)
                 )
                 Spacer(modifier = modifier.padding(bottom = 15.dp))
             }
         },
-        onDismissRequest = { onDismiss() }
+        onDismissRequest = { onDismiss() },
+        sheetState = sheetState
     )
 }
 

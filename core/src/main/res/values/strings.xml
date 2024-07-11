@@ -20,4 +20,9 @@
     <string name="sort_button_description">정렬 기준</string>
     <string name="sort_bottom_sheet_title">공고 정렬 순서</string>
 
+    <!--bottom_sheet-->
+    <string name="sign_up_bottom_sheet_title">프로필 이미지 선택</string>
+    <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
+    <string name="sign_up_dialog_start">저장하기</string>
+
 </resources>
