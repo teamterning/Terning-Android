@@ -81,6 +81,7 @@
     <string name="home_recommend_no_intern_description">인턴 공고가 없어요!</string>
 
     <!-- changeFilter -->
+    <string name="change_filter_top_bar_title">필터링 재설정</string>
     <string name="change_filter_grade_main">재학 상태를 선택해주세요</string>
     <string name="change_filter_period_main">희망하는 인턴 근무 기간을 선택해주세요</string>
     <string name="change_filter_start_work_main">입사를 계획중인 달을 선택해주세요</string>
