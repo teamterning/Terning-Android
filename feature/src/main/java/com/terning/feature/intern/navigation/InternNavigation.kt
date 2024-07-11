@@ -7,7 +7,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.intern.InternRoute
-import com.terning.feature.search.search.SearchRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateIntern(navOptions: NavOptions? = null) {

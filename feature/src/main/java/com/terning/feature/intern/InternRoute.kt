@@ -1,12 +1,15 @@
 package com.terning.feature.intern
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -15,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,12 +26,15 @@ import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.Grey500
+import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
+import com.terning.feature.intern.component.InternInfoRow
+import java.text.DecimalFormat
 
 @Composable
 fun InternRoute(
@@ -79,6 +86,8 @@ fun InternScreen(
                 .padding(paddingValues)
                 .padding(24.dp)
         ) {
+            val decimal = DecimalFormat("#,###")
+
             Text(
                 text = "D-3",
                 style = TerningTheme.typography.body0,
@@ -114,26 +123,97 @@ fun InternScreen(
                     InternInfoRow(title, value)
                 }
             }
-            Text(text = "조회수 3,")
-        }
-    }
-}
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.End),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 8.dp,
+                        bottom = 8.dp
+                    )
+            ) {
+                Text(
+                    text = "조회수",
+                    style = TerningTheme.typography.detail3,
+                    color = Grey400
+                )
+                Text(
+                    text = "${decimal.format(100000)}회",
+                    style = TerningTheme.typography.button3,
+                    color = Grey400,
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.Top,
+            ) {
+                Row {
+                    Text(
+                        text = "기업 정보",
+                        style = TerningTheme.typography.title4,
+                        color = TerningMain,
+                        modifier = modifier.padding(end = 32.dp)
+                    )
 
-@Composable
-fun InternInfoRow(title: String, value: String) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
-        verticalAlignment = Alignment.Top,
-    ) {
-        Text(
-            text = title,
-            style = TerningTheme.typography.body2,
-            color = Black,
-        )
-        Text(
-            text = value,
-            style = TerningTheme.typography.body3,
-            color = Grey500,
-        )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(
+                                2.dp,
+                                Alignment.CenterVertically
+                            ),
+                            horizontalAlignment = Alignment.Start,
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .width(60.dp)
+                                    .height(60.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = TerningMain,
+                                        shape = RoundedCornerShape(size = 30.dp)
+                                    )
+                            ) {
+                                Image(
+                                    painter = painterResource(
+                                        id = R.drawable.ic_nosearch
+                                    ),
+                                    modifier = modifier.fillMaxWidth(),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Fit,
+                                    alignment = Alignment.Center
+                                )
+                            }
+                        }
+                    }
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(
+                            3.dp,
+                            Alignment.Bottom
+                        ),
+                        horizontalAlignment = Alignment.Start,
+                        modifier = modifier
+                            .padding(
+                                vertical = 6.dp,
+                                horizontal = 12.dp
+                            )
+                    ) {
+                        Text(
+                            text = "모니모니",
+                            style = TerningTheme.typography.title4,
+                            color = Black,
+                            modifier = modifier.padding(top = 6.dp)
+                        )
+                        Text(
+                            text = "스타트업",
+                            style = TerningTheme.typography.body4,
+                            color = Grey300,
+                        )
+                    }
+                }
+            }
+        }
     }
 }
