@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Back
@@ -18,6 +19,7 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.feature.R
 import com.terning.feature.calendar.models.Scrap
 import com.terning.feature.calendar.models.SelectedDateState
 import com.terning.feature.calendar.scrap.CalendarScrapList
@@ -64,7 +66,7 @@ fun CalendarWeekWithScrap(
                     modifier = Modifier
                         .padding(top = 42.dp)
                         .fillMaxWidth(),
-                    text = "선택하신 날짜에 지원 마감인 스크랩 공고가 없어요.",
+                    text = stringResource(id = R.string.calendar_empty_scrap),
                     textAlign = TextAlign.Center,
                     style = TerningTheme.typography.body5,
                     color = Grey400

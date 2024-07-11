@@ -33,10 +33,15 @@ fun CalendarScrapList(
             modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
         )
     }
-    val topModifier = if(!isFromList) {
-        Modifier.fillMaxWidth().padding(horizontal = 24.dp).verticalScroll(scrollState)
+    val topModifier = if (!isFromList) {
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+            .verticalScroll(scrollState)
     } else {
-        Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
     }
 
     if (scrapLists[selectedDate.dayOfMonth - 1].isEmpty()) {

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -116,7 +117,7 @@ fun CalendarScreen(
                     sizeTransform = SizeTransform(clip = true)
                 )
             },
-            label = "List Transition"
+            label = stringResource(id = R.string.calendar_animation_label)
         ) { isListExpanded ->
             if (isListExpanded) {
                 CalendarScrapListScreen(
@@ -133,11 +134,10 @@ fun CalendarScreen(
                         .padding(top = paddingValues.calculateTopPadding())
                 ) {
                     WeekDaysHeader()
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .background(color = Grey200)
+
+                    HorizontalDivider(
+                        thickness = 1.dp,
+                        color = Grey200
                     )
 
                     AnimatedContent(
