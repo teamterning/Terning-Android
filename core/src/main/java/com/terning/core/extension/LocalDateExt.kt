@@ -10,6 +10,6 @@ fun LocalDate.getStringAsTitle(): String =
 fun LocalDate.getDateStringInKorean(): String =
     "${monthValue}월 ${dayOfMonth}일 ${dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)}"
 
-fun LocalDate.getWeekIndexContainingSelectedDate(): Int = dayOfMonth / 7
+fun LocalDate.getWeekIndexContainingSelectedDate(inDays: Int): Int = (inDays + dayOfMonth) / 7
 
 fun LocalDate.isToday(): Boolean = this == LocalDate.now()

@@ -26,7 +26,7 @@ import com.terning.core.extension.noRippleClickable
 import java.time.LocalDate
 
 @Composable
-fun CalendarTopBar(
+fun CalendarTopAppBar(
     modifier: Modifier = Modifier,
     date: LocalDate,
     isWeekExpanded: Boolean,
@@ -49,7 +49,7 @@ fun CalendarTopBar(
             modifier = Modifier.align(Alignment.Center),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if(!isWeekExpanded) {
+            if(!isWeekExpanded || isListExpanded) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_calendar_previous),
                     contentDescription = stringResource(id = R.string.calendar_button_description_previous),
@@ -63,7 +63,7 @@ fun CalendarTopBar(
                 color = Black,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
-            if(!isWeekExpanded) {
+            if(!isWeekExpanded || isListExpanded) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_calendar_next),
                     contentDescription = stringResource(id = R.string.calendar_button_description_next),
@@ -96,7 +96,7 @@ fun CalendarTopBar(
 @Composable
 fun CalendarTopBarPreview() {
     TerningPointTheme {
-        CalendarTopBar(
+        CalendarTopAppBar(
             date = LocalDate.now(),
             isListExpanded = false,
             isWeekExpanded = false

@@ -39,14 +39,19 @@ class CalendarViewModel @Inject constructor(
                 )
             }
         } else {
-            _selectedDate.update { currentState ->
-                currentState.copy(
-                    selectedDate = date,
-                    isEnabled = !_selectedDate.value.isEnabled
-                )
-            }
+            disableWeekCalendar()
         }
     }
+
+    fun disableWeekCalendar() {
+        _selectedDate.update { currentState ->
+            currentState.copy(
+                isEnabled = false
+            )
+        }
+    }
+
+
 
     //To be erased in future
     val mockScrapList: List<List<Scrap>>

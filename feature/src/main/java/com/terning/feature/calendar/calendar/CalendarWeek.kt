@@ -15,6 +15,7 @@ import com.terning.core.extension.isToday
 import com.terning.feature.calendar.models.MonthData
 import com.terning.feature.calendar.models.Scrap
 import com.terning.feature.calendar.models.SelectedDateState
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -22,17 +23,19 @@ import java.time.YearMonth
 fun CalendarWeek(
     selectedDate: SelectedDateState,
     modifier: Modifier = Modifier,
-    scrapLists: List<List<Scrap>> = listOf(),
     onDateSelected: (LocalDate) -> Unit = {}
 ) {
     val date = selectedDate.selectedDate
     val monthData = MonthData(YearMonth.of(date.year, date.monthValue))
-    val currentWeek = date.getWeekIndexContainingSelectedDate()
+    val currentWeek = date.getWeekIndexContainingSelectedDate(monthData.inDays)
 
     val pagerState = rememberPagerState (
         initialPage = currentWeek,
         pageCount = {monthData.totalDays / 7}
     )
+
+    Timber.tag("CalendarScreen")
+        .d("currentWeek:$currentWeek, totalDays: ${monthData.totalDays}, ${monthData.totalDays / 7}")
 
     HorizontalPager(
         modifier = modifier,

@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.terning.core.designsystem.component.topappbar.CalendarTopBar
+import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
@@ -84,11 +84,15 @@ fun CalendarScreen(
         modifier = modifier,
         topBar = {
             val coroutineScope = rememberCoroutineScope()
-            CalendarTopBar(
+            CalendarTopAppBar(
                 date = currentDate,
                 isListExpanded = isListExpanded,
                 isWeekExpanded = selectedDate.isEnabled,
-                onListButtonClicked = { isListExpanded = !isListExpanded },
+                onListButtonClicked = {
+                    isListExpanded = !isListExpanded
+                    if(selectedDate.isEnabled){
+                        viewModel.disableWeekCalendar()
+                    } },
                 onMonthNavigationButtonClicked = { direction ->
                     coroutineScope.launch {
                         listState.animateScrollToItem(
