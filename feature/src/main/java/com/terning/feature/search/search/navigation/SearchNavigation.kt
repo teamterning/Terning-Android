@@ -1,4 +1,4 @@
-package com.terning.feature.search.navigation
+package com.terning.feature.search.search.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
-import com.terning.feature.search.SearchRoute
+import com.terning.feature.search.search.SearchRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateSearch(navOptions: NavOptions? = null) {
