@@ -79,4 +79,8 @@
     <string name="start_main_image">시작화면 이미지</string>
     <string name="start_button">시작하기</string>
 
+    <!--filtering-->
+    <string name="filtering_title">%s님의 재학 상태를 선택해주세요</string>
+    <string name="filtering_sub">휴학중이라면, 휴학 전 마지막 수료 학년을 선택해주세요</string>
+
 </resources>
