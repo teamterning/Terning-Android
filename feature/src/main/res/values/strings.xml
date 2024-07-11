@@ -53,4 +53,6 @@
     <string name="calendar_button_description_list">list</string>
     <string name="calendar_animation_label">Calendar Transition</string>
 
+    <!--Intern-->
+    <string name="intern_share_icon">공유 아이콘</string>
 </resources>
