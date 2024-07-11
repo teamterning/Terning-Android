@@ -49,9 +49,10 @@ fun HomeScreen() {
                 ) {
                     Text(
                         text = stringResource(
-                            id = R.string.home_today_title,"남지우"),
+                            id = R.string.home_today_title, "남지우"
+                        ),
                         modifier = Modifier
-                            .padding(top = 11.dp)
+                            .padding(top = 11.dp, bottom = 19.dp)
                             .padding(horizontal = 24.dp),
                         style = TerningTheme.typography.title1,
                         color = Black,
@@ -69,7 +70,7 @@ fun HomeScreen() {
                         style = TerningTheme.typography.detail2,
                         color = Black,
                         modifier = Modifier
-                            .padding(top = 25.dp)
+                            .padding(top = 9.dp)
                             .padding(horizontal = 24.dp),
                     )
 
