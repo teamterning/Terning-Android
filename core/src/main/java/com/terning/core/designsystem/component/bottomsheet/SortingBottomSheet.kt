@@ -62,7 +62,7 @@ fun SortingBottomSheet(
                     .padding(horizontal = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(5) { sortIndex ->
+                items(sortByCount) { sortIndex ->
                     Text(
                         text = stringResource(id = SortBy.entries[sortIndex].type),
                         style = TerningTheme.typography.button3,
@@ -90,3 +90,5 @@ fun SortingBottomSheet(
         sheetState = sheetState
     )
 }
+
+private const val sortByCount = 5
