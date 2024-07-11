@@ -31,10 +31,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.terning.core.designsystem.component.topappbar.CalendarTopBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.feature.R
-import com.terning.feature.calendar.scrap.CalendarScrapList
-import com.terning.core.designsystem.component.topappbar.CalendarTopBar
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.models.CalendarState
 import com.terning.feature.calendar.scrap.CalendarScrapListScreen
@@ -119,7 +118,6 @@ fun CalendarScreen(
                 CalendarScrapListScreen(
                     modifier = Modifier
                         .padding(top = paddingValues.calculateTopPadding()),
-                    date = currentDate,
                     scrapList = viewModel.mockScrapList,
                     listState = listState,
                     pages = state.getPageCount(),

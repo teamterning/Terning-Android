@@ -3,7 +3,6 @@ package com.terning.feature.calendar.scrap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,7 +21,6 @@ import java.time.LocalDate
 
 @Composable
 fun CalendarScrapListScreen(
-    date: LocalDate,
     scrapList: List<List<Scrap>>,
     pages: Int,
     listState: LazyListState,
