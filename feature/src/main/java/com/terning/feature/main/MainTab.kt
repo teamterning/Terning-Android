@@ -7,9 +7,9 @@ import com.terning.core.navigation.MainTabRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.R
 import com.terning.feature.calendar.navigation.Calendar
-import com.terning.feature.home.navigation.Home
+import com.terning.feature.home.home.navigation.Home
 import com.terning.feature.mypage.navigation.MyPage
-import com.terning.feature.search.navigation.Search
+import com.terning.feature.search.search.navigation.Search
 
 enum class MainTab(
     @DrawableRes val icon: Int,

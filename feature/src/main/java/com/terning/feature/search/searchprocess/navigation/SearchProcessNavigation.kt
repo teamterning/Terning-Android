@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.signin.navigation
+package com.terning.feature.search.searchprocess.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,25 +6,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.Route
-import com.terning.feature.onboarding.signin.SignInRoute
+import com.terning.feature.search.searchprocess.SearchProcessRoute
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateSignIn(navOptions: NavOptions? = null) {
+fun NavController.navigateSearchProcess(navOptions: NavOptions? = null) {
     navigate(
-        route = SignIn,
+        route = SearchProcess,
         navOptions = navOptions
     )
 }
 
-fun NavGraphBuilder.signInNavGraph(
-    navHostController: NavHostController
+fun NavGraphBuilder.searchProcessNavGraph(
+    navHostController: NavHostController,
 ) {
-    composable<SignIn> {
-        SignInRoute(
+    composable<SearchProcess> {
+        SearchProcessRoute(
             navController = navHostController
         )
     }
 }
 
 @Serializable
-data object SignIn : Route
+data object SearchProcess : Route

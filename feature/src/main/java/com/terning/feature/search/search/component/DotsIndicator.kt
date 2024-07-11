@@ -1,4 +1,4 @@
-package com.terning.feature.search.component
+package com.terning.feature.search.search.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

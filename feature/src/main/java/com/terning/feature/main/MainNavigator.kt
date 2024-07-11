@@ -10,11 +10,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.terning.feature.calendar.navigation.navigateCalendar
-import com.terning.feature.home.navigation.navigateHome
+import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.mypage.navigation.navigateMyPage
 import com.terning.feature.onboarding.signin.navigation.SignIn
-import com.terning.feature.search.navigation.Search
-import com.terning.feature.search.navigation.navigateSearch
+import com.terning.feature.search.search.navigation.navigateSearch
 
 class MainNavigator(
     val navController: NavHostController,
