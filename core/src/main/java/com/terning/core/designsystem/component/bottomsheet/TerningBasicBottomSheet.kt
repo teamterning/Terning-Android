@@ -11,7 +11,6 @@ import com.terning.core.designsystem.theme.White
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TerningBasicBottomSheet(
-    modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
     onDismissRequest: () -> Unit,
     sheetState: SheetState = rememberModalBottomSheetState()
