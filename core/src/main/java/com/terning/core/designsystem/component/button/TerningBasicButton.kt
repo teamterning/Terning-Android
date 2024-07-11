@@ -5,7 +5,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -22,8 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
-import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningMain2
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -55,7 +54,7 @@ fun TerningBasicButton(
                 containerColor = backgroundColor,
                 contentColor = White,
                 disabledContainerColor = Grey150,
-                disabledContentColor = Black
+                disabledContentColor = Grey350
             ),
             shape = shape,
             onClick = { onButtonClick() }
