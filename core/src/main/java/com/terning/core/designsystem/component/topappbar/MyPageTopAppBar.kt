@@ -30,8 +30,7 @@ fun MyPageTopAppBar(
                         style = TerningTheme.typography.button3,
                         textAlign = TextAlign.Center
                     )
-                    IconButton(onClick = {
-                    }) {
+                    IconButton(onClick = {}) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_right),
                             contentDescription = stringResource(id = R.string.ic_20_right)

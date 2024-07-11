@@ -53,7 +53,6 @@ fun TerningBasicTextField(
     helperIcon: Int? = null,
     helperColor: Color = TerningMain,
     enabled: Boolean = true,
-    readOnly: Boolean = false,
     onDoneAction: () -> Unit? = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -130,7 +129,6 @@ fun TerningBasicTextField(
         },
 
         enabled = enabled,
-        readOnly = readOnly,
     )
 
     Row(

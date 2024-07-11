@@ -17,7 +17,6 @@ fun SearchTextField(
     hint: String,
     leftIcon: Int,
     enabled: Boolean = true,
-    readOnly: Boolean = false,
     onDoneAction: () -> Unit? = {},
 ) {
     TerningBasicTextField(
@@ -34,7 +33,6 @@ fun SearchTextField(
         leftIcon = leftIcon,
         leftIconColor = TerningMain,
         enabled = enabled,
-        readOnly = readOnly,
         onDoneAction = onDoneAction
     )
 }

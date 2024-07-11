@@ -1,6 +1,5 @@
 package com.terning.feature.search.search
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +19,7 @@ import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
@@ -63,7 +63,7 @@ fun SearchScreen(
                         horizontal = 24.dp,
                         vertical = 16.dp
                     )
-                    .clickable {
+                    .noRippleClickable {
                         navController.navigateSearchProcess()
                     }
             ) {
@@ -73,7 +73,6 @@ fun SearchScreen(
                     leftIcon = R.drawable.ic_nav_search,
                     modifier = Modifier.fillMaxWidth(),
                     enabled = false,
-                    readOnly = true,
                 )
             }
 
