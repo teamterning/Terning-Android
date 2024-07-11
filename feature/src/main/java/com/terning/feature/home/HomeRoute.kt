@@ -87,7 +87,11 @@ fun HomeScreen() {
                             .padding(horizontal = 24.dp),
                     )
 
-                    HomeFilteringScreen(3, 1, 7)
+                    HomeFilteringScreen(
+                        grade = 3,
+                        period = 1,
+                        month = 7
+                    )
 
                     HorizontalDivider(
                         thickness = 4.dp,
