@@ -15,6 +15,7 @@ import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
+import com.terning.feature.onboarding.filtering.component.RadioFilteringGroup
 
 @Composable
 fun FilteringOneScreen(
@@ -59,6 +60,7 @@ fun FilteringOneScreen(
                     start = 24.dp
                 )
             )
+            RadioFilteringGroup()
         }
     }
 }

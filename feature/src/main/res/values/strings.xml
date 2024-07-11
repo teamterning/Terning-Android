@@ -80,7 +80,27 @@
     <string name="start_button">시작하기</string>
 
     <!--filtering-->
-    <string name="filtering_title">%s님의 재학 상태를 선택해주세요</string>
-    <string name="filtering_sub">휴학중이라면, 휴학 전 마지막 수료 학년을 선택해주세요</string>
+    <string name="filtering_status1_title">%s님의 재학 상태를 선택해주세요</string>
+    <string name="filtering_status1_warning">*5년제 혹은 초과학기생인 경우 4학년으로 선택해주세요</string>
+    <string name="filtering_status1_sub">휴학중이라면, 휴학 전 마지막 수료 학년을 선택해주세요</string>
+    <string name="filtering_status1_button1">1학년</string>
+    <string name="filtering_status1_button2">2학년</string>
+    <string name="filtering_status1_button3">3학년</string>
+    <string name="filtering_status1_button3">4학년</string>
+    <string name="filtering_status1_description1">대학생의 꽃 인턴, 어린 나이에 미리 도전해볼래요!</string>
+    <string name="filtering_status1_description2">미리 대학생 인턴 경험하고, 사회 생활을 해 보고 싶어요</string>
+    <string name="filtering_status1_description3">4학년이 되기 전, 인턴으로 유의미한 스펙을 쌓고 싶어요</string>
+    <string name="filtering_status1_description4">사회인으로의 첫 발걸음, 인턴으로 채우고 싶어요</string>
+    <string name="filtering_status2_title">희망하는 인턴 근무 기간을 선택해 주세요</string>
+    <string name="filtering_status2_sub">선택한 기간동안 근무할 수 있는 인턴 공고를 찾아드릴게요</string>
+    <string name="filtering_status2_button1">1개월 ~ 3개월</string>
+    <string name="filtering_status2_button2">4개월 ~ 6개월</string>
+    <string name="filtering_status2_button3">7개월 이상</string>
+    <string name="filtering_status2_description1">짧은 기간 안에 스펙을 쌓고 싶은\n‘인턴 초년생'에게 추천해요!</string>
+    <string name="filtering_status2_description2">좀 더 오랜 시간동안의 회사 경험을 원하는\n‘성숙 인턴러'에게 추천해요!</string>
+    <string name="filtering_status2_description3">산업에 오랜 기간 딥다이브 하고 싶은\n‘예비 사회인'에게 추천해요!</string>
+    <string name="filtering_stauts3_title">입사를 계획중인 달을 선택해주세요</string>
+    <string name="filtering_status3_sub">선택한 달부터 근무를 시작할 수 있는 공고를 찾아드릴게요</string>
+    <string name="filtering_button">다음으로</string>
 
 </resources>
