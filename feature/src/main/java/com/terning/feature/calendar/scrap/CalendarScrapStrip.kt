@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.scrap
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +16,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.models.Scrap
 
 @Composable
-fun CalendarScrap(
+fun CalendarScrapStrip(
     modifier: Modifier = Modifier,
     scrapList: List<Scrap>
 ) {
@@ -47,9 +47,8 @@ fun CalendarScrap(
                 )
             }
         }
-
     }
 }
 
-private const val MAX_SCRAP_COUNT = 2
+private const val MAX_SCRAP_COUNT = 3
 

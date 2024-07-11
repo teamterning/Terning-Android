@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
