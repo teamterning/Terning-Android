@@ -1,4 +1,4 @@
-package com.terning.feature.home
+package com.terning.feature.home.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -20,8 +20,8 @@ import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
-import com.terning.feature.home.component.HomeFilteringScreen
-import com.terning.feature.home.component.HomeTodayIntern
+import com.terning.feature.home.home.component.HomeFilteringScreen
+import com.terning.feature.home.home.component.HomeTodayIntern
 
 @Composable
 fun HomeRoute() {
