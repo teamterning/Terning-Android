@@ -17,9 +17,6 @@
     <string name="sign_in_kakao_cancel">로그인을 취소하였습니다</string>
 
     <!--sign_up-->
-    <string name="sign_up_bottom_sheet_title">프로필 이미지 선택</string>
-    <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
-    <string name="sign_up_dialog_start">저장하기</string>
     <string name="sign_up_title">반가워요!\n이름을 알려주세요</string>
     <string name="sign_up_profile_image">프로필 이미지</string>
     <string name="sign_up_profile_button">프로필 버튼</string>

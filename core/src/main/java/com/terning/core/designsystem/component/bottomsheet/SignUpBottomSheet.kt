@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.signup.component
+package com.terning.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,11 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
+import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
-import com.terning.feature.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

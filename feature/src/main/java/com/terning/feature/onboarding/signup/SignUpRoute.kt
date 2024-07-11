@@ -25,7 +25,7 @@ import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 import com.terning.feature.onboarding.filtering.navigation.navigateFiltering
-import com.terning.feature.onboarding.signup.component.SignUpBottomSheet
+import com.terning.core.designsystem.component.bottomsheet.SignUpBottomSheet
 import com.terning.feature.onboarding.signup.component.SignUpProfile
 
 @Composable
