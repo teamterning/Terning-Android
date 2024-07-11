@@ -49,12 +49,7 @@ fun HomeScreen() {
                 ) {
                     Text(
                         text = stringResource(
-                            id = R.string.home_today_title_start
-                        )
-                                + "남지우"
-                                + stringResource(
-                            id = R.string.home_today_title_end
-                        ),
+                            id = R.string.home_today_title,"남지우"),
                         modifier = Modifier
                             .padding(top = 11.dp)
                             .padding(horizontal = 24.dp),
