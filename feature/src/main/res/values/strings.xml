@@ -53,4 +53,12 @@
     <string name="calendar_button_description_list">list</string>
     <string name="calendar_animation_label">Calendar Transition</string>
 
+    <!-- changeFilter -->
+    <string name="change_filter_grade_main">재학 상태를 선택해주세요</string>
+    <string name="change_filter_period_main">희망하는 인턴 근무 기간을 선택해주세요</string>
+    <string name="change_filter_start_work_main">입사를 계획중인 달을 선택해주세요</string>
+    <string name="change_filter_grade_sub">휴학중이라면, 휴학 전 마지막 수료 학년을 선택해주세요</string>
+    <string name="change_filter_period_sub">선택한 기간동안 근무할 수 있는 인턴 공고를 찾아드릴게요</string>
+    <string name="change_filter_start_work_sub">선택한 달부터 근무를 시작할 수 있는 공고를 찾아드릴게요</string>
+
 </resources>
