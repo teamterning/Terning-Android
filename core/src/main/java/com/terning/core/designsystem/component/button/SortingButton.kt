@@ -1,7 +1,6 @@
 package com.terning.core.designsystem.component.button
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -11,6 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
+import com.terning.core.designsystem.component.bottomsheet.SortBy
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
@@ -27,13 +27,7 @@ fun SortingButton(
     ) {
         Text(
             text = stringResource(
-                id = when (sortBy) {
-                    1 -> R.string.sort_by_shortest
-                    2 -> R.string.sort_by_longest
-                    3 -> R.string.sort_by_scrap
-                    4 -> R.string.sort_by_view_count
-                    else -> R.string.sort_by_earliest
-                }
+                id = SortBy.entries[sortBy].type
             ),
             style = TerningTheme.typography.button3,
             color = Black,
