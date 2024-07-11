@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.component
+package com.terning.core.designsystem.component.topappbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.terning.core.R
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
@@ -22,13 +23,13 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getStringAsTitle
 import com.terning.core.extension.noRippleClickable
-import com.terning.feature.R
 import java.time.LocalDate
 
 @Composable
 fun CalendarTopBar(
     modifier: Modifier = Modifier,
     date: LocalDate,
+    isWeekExpanded: Boolean,
     isListExpanded: Boolean,
     onListButtonClicked: () -> Unit,
     onMonthNavigationButtonClicked: (Int) -> Unit,
@@ -48,24 +49,28 @@ fun CalendarTopBar(
             modifier = Modifier.align(Alignment.Center),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_calendar_previous),
-                contentDescription = stringResource(id = R.string.calendar_button_description_previous),
-                tint = Grey300,
-                modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(-1) }
-            )
+            if(!isWeekExpanded) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_calendar_previous),
+                    contentDescription = stringResource(id = R.string.calendar_button_description_previous),
+                    tint = Grey300,
+                    modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(-1) }
+                )
+            }
             Text(
                 text = date.getStringAsTitle(),
                 style = TerningTheme.typography.title2,
                 color = Black,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_calendar_next),
-                contentDescription = stringResource(id = R.string.calendar_button_description_next),
-                tint = Grey300,
-                modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(1) }
-            )
+            if(!isWeekExpanded) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_calendar_next),
+                    contentDescription = stringResource(id = R.string.calendar_button_description_next),
+                    tint = Grey300,
+                    modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(1) }
+                )
+            }
         }
         Box(
             modifier = Modifier
@@ -94,6 +99,8 @@ fun CalendarTopBarPreview() {
         CalendarTopBar(
             date = LocalDate.now(),
             isListExpanded = false,
+            isWeekExpanded = false
+            ,
             onListButtonClicked = {},
             onMonthNavigationButtonClicked = {}
         )
