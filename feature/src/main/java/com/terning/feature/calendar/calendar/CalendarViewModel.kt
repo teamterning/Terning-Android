@@ -39,7 +39,11 @@ class CalendarViewModel @Inject constructor(
                 )
             }
         } else {
-            disableWeekCalendar()
+            _selectedDate.update { currentState ->
+                currentState.copy(
+                    isEnabled = !currentState.isEnabled
+                )
+            }
         }
     }
 

@@ -34,9 +34,6 @@ fun CalendarWeek(
         pageCount = {monthData.totalDays / 7}
     )
 
-    Timber.tag("CalendarScreen")
-        .d("currentWeek:$currentWeek, totalDays: ${monthData.totalDays}, ${monthData.totalDays / 7}")
-
     HorizontalPager(
         modifier = modifier,
         state = pagerState) { page ->

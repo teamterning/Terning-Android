@@ -117,8 +117,8 @@ fun CalendarScreen(
                 )
             },
             label = "List Transition"
-        ) {
-            if (it) {
+        ) { isListExpanded ->
+            if (isListExpanded) {
                 CalendarScrapListScreen(
                     modifier = Modifier
                         .padding(top = paddingValues.calculateTopPadding()),
