@@ -36,6 +36,10 @@
     <!--SearchProcess-->
     <string name="search_process_top_bar_title">검색</string>
     <string name="search_process_question_text">어떤 공고를\n찾고 계시나요?</string>
+    <string name="search_process_result_top_bar_title">검색 결과</string>
+    <string name="search_process_no_result_icon">검색 결과 없을 때 아이콘</string>
+    <string name="search_process_no_result_text">와 일치하는 검색 결과가 없어요</string>
+
 
     <!--calendar-->
     <string name="calendar_text_sunday">일</string>
