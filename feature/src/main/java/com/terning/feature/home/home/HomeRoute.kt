@@ -159,7 +159,7 @@ fun HomeScreen(
                     }
                 }
 
-                if(userNameState.internFilter != null) {
+                if (userNameState.internFilter != null) {
                     items(itemCount) {
                         Box(
                             modifier = modifier
@@ -187,7 +187,7 @@ fun HomeScreen(
                 }
 
             }
-            if(userNameState.internFilter == null) {
+            if (userNameState.internFilter == null) {
                 HomeFilteringEmptyIntern(
                     modifier = Modifier
                         .padding(horizontal = 24.dp)
@@ -202,11 +202,11 @@ private const val itemCount = 10
 
 @Composable
 private fun showTodayIntern(userScrapState: UserScrapState) {
-    if(userScrapState.isScrapExist) {
-        if(userScrapState.scrapData == null) {
+    if (userScrapState.isScrapExist) {
+        if (userScrapState.scrapData == null) {
             HomeTodayEmptyIntern(isButtonExist = true)
         } else {
-            HomeTodayIntern()
+            HomeTodayIntern(userScrapState.scrapData)
         }
     } else {
         HomeTodayEmptyIntern(isButtonExist = false)
@@ -215,7 +215,7 @@ private fun showTodayIntern(userScrapState: UserScrapState) {
 
 @Composable
 private fun showInternFilter(userNameState: UserNameState) {
-    if(userNameState.internFilter == null) {
+    if (userNameState.internFilter == null) {
         HomeFilteringScreen(
             grade = R.string.home_recommend_no_filtering_hyphen,
             period = R.string.home_recommend_no_filtering_hyphen,
