@@ -24,6 +24,7 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.onboarding.filtering.navigation.navigateFilteringThree
+import com.terning.feature.onboarding.starthome.navigation.navigateStartHome
 import java.util.Calendar
 
 @Composable
@@ -87,7 +88,7 @@ fun FilteringThreeScreen(
                 isEnabled = isDateMove,
                 paddingVertical = 25.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { navController.navigateFilteringThree() },
+                onButtonClick = { navController.navigateStartHome() },
                 modifier = modifier.padding(bottom = 12.dp),
             )
         }

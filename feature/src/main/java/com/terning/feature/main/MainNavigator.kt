@@ -12,7 +12,7 @@ import androidx.navigation.navOptions
 import com.terning.feature.calendar.navigation.navigateCalendar
 import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.mypage.navigation.navigateMyPage
-import com.terning.feature.onboarding.filteringstart.navigation.FilteringStart
+import com.terning.feature.onboarding.startfiltering.navigation.StartFiltering
 import com.terning.feature.search.search.navigation.navigateSearch
 
 class MainNavigator(
@@ -22,7 +22,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = FilteringStart
+    val startDestination = StartFiltering
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
