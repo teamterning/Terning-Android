@@ -31,7 +31,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.component.item.ColorPalette
+import com.terning.core.designsystem.theme.CalBlue2
 import com.terning.core.designsystem.theme.CalGreen2
+import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey350
@@ -48,6 +51,7 @@ fun ScrapDialogContent(
     isScrapped: Boolean,
 ) {
     var isColorChange by remember { mutableStateOf(false) }
+    var selectedColor by remember { mutableStateOf(CalRed) }
 
     Box(
         modifier = Modifier
@@ -63,11 +67,14 @@ fun ScrapDialogContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
-            IconButton(onClick = { onDismissRequest() }, modifier = Modifier.padding(6.dp)) {
+            IconButton(
+                onClick = { onDismissRequest() },
+                modifier = Modifier.padding(6.dp)
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_dialog_x_32),
                     contentDescription = null,
-                    tint = Grey300
+                    tint = Grey300,
                 )
             }
         }
@@ -134,7 +141,7 @@ fun ScrapDialogContent(
                     Row(
                         modifier = Modifier
                             .background(
-                                color = CalGreen2,
+                                color = if (selectedColor != CalRed) CalBlue2 else CalGreen2,
                                 shape = RoundedCornerShape(14.dp)
                             )
                             .noRippleClickable {
@@ -174,7 +181,19 @@ fun ScrapDialogContent(
                         )
                     )
                     if (isColorChange) {
-                        Text(text = "컬러 팔레트")
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    top = 12.dp,
+                                    bottom = 23.dp,
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            ColorPalette(
+                                initialColor = CalRed,
+                                onColorSelected = { selectedColor = it })
+                        }
                     } else {
                         Text(
                             text = stringResource(id = R.string.intern_item_d_day),
