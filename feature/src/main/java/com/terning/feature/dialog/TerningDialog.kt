@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.component.dialog
+package com.terning.feature.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -23,12 +24,16 @@ import com.terning.core.designsystem.theme.BackgroundColor
 @Composable
 fun TerningDialog(
     onDismissRequest: () -> Unit,
-    properties: DialogProperties = DialogProperties(),
+    properties: DialogProperties = DialogProperties(
+        usePlatformDefaultWidth = false,
+        decorFitsSystemWindows = false
+    ),
     content: @Composable () -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().
-        background(BackgroundColor),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Dialog(
