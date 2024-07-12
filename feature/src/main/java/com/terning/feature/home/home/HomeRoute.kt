@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
+import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
@@ -150,6 +153,20 @@ fun HomeScreen(
                             modifier = Modifier
                                 .fillMaxWidth(),
                         )
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                        ) {
+                            SortingButton(
+                                sortBy = currentSortBy.value,
+                                onCLick = { sheetState = true },
+                                modifier = Modifier
+                                    .padding(vertical = 4.dp)
+                            )
+                            Spacer(modifier = Modifier.padding(9.dp))
+                        }
                     }
                 }
 
