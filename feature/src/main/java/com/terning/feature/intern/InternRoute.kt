@@ -260,7 +260,7 @@ fun InternScreen(
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_second_info_20),
-                                    contentDescription = null
+                                    contentDescription = null,
                                 )
                                 Text(
                                     text = "직무",
