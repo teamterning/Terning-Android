@@ -96,7 +96,6 @@ fun ScrapDialogContent(
             ) {
                 Row(
                     modifier = Modifier
-                        .aspectRatio(1f)
                         .size(60.dp)
                         .border(
                             width = 1.dp,

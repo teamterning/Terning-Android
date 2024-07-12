@@ -15,12 +15,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
@@ -35,6 +40,7 @@ import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
+import com.terning.feature.intern.component.ScrapDialogContent
 import java.text.DecimalFormat
 
 @Composable
@@ -51,6 +57,14 @@ fun InternScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
 ) {
+    var isScrapDialogVisible by remember { mutableStateOf(false) }
+    var isScrapped by remember { mutableStateOf(false) }
+    val internInfoList = listOf(
+        stringResource(id = R.string.intern_info_d_day) to "2024년 7월 23일",
+        stringResource(id = R.string.intern_info_working) to "2개월",
+        stringResource(id = R.string.intern_info_start_date) to "2024년 8월"
+    )
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -60,7 +74,9 @@ fun InternScreen(
                     color = Grey200,
                     offsetY = 2.dp
                 ),
-                onBackButtonClick = {},
+                onBackButtonClick = {
+                    navController.navigateUp()
+                },
                 listOf(
                     {},
                     {
@@ -83,8 +99,13 @@ fun InternScreen(
             )
         },
         bottomBar = {
-            InternBottomBar(modifier = modifier)
+            InternBottomBar(
+                modifier = modifier,
+                isScrap = isScrapped,
+                onScrapClick = { isScrapDialogVisible = true }
+            )
         }
+
     ) { paddingValues ->
         LazyColumn(
             modifier = modifier
@@ -316,6 +337,20 @@ fun InternScreen(
                     }
                 }
             }
+        }
+        if (isScrapDialogVisible) {
+            TerningBasicDialog(
+                onDismissRequest = {
+                    isScrapDialogVisible = false
+                },
+                content = {
+                    ScrapDialogContent(
+                        onDismissRequest = { isScrapDialogVisible = false },
+                        isScrapped = isScrapped,
+                        internInfoList = internInfoList
+                    )
+                }
+            )
         }
     }
 }

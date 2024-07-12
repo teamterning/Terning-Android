@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,8 +31,9 @@ import com.terning.feature.R
 @Composable
 fun InternBottomBar(
     modifier: Modifier,
+    isScrap: Boolean,
+    onScrapClick: () -> Unit,
 ) {
-    var isScrap by remember { mutableStateOf(false) }
     var viewCount by remember { mutableIntStateOf(512) }
 
     Row(
@@ -72,8 +72,7 @@ fun InternBottomBar(
                                 bottom = 6.dp
                             )
                             .noRippleClickable {
-                                isScrap = !isScrap
-                                if (isScrap) viewCount += 1 else viewCount -= 1
+                                onScrapClick()
                             },
                         tint = if (isScrap) TerningMain else Grey350
                     )
