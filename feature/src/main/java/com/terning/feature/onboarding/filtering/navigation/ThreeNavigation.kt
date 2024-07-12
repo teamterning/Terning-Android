@@ -6,25 +6,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.Route
-import com.terning.feature.onboarding.filtering.FilteringTwoScreen
+import com.terning.feature.onboarding.filtering.FilteringThreeScreen
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateFilteringTwo(navOptions: NavOptions? = null) {
+fun NavController.navigateFilteringThree(navOptions: NavOptions? = null) {
     navigate(
-        route = FilteringTwo,
+        route = FilteringThree,
         navOptions = navOptions
     )
 }
 
-fun NavGraphBuilder.filteringTwoNavGraph(
+fun NavGraphBuilder.filteringThreeNavGraph(
     navHostController: NavHostController
 ) {
-    composable<FilteringTwo> {
-        FilteringTwoScreen(
+    composable<FilteringThree> {
+        FilteringThreeScreen(
             navController = navHostController
         )
     }
 }
 
 @Serializable
-data object FilteringTwo : Route
+data object FilteringThree : Route

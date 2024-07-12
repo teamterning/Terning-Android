@@ -24,6 +24,7 @@ import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.filtering.navigation.filteringOneNavGraph
+import com.terning.feature.onboarding.filtering.navigation.filteringThreeNavGraph
 import com.terning.feature.onboarding.filtering.navigation.filteringTwoNavGraph
 import com.terning.feature.onboarding.filteringstart.navigation.filteringStartNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
@@ -62,6 +63,7 @@ fun MainScreen(
                 signUpNavGraph(navHostController = navigator.navController)
                 filteringOneNavGraph(navHostController = navigator.navController)
                 filteringTwoNavGraph(navHostController = navigator.navController)
+                filteringThreeNavGraph(navHostController = navigator.navController)
                 searchProcessNavGraph(navHostController = navigator.navController)
                 filteringStartNavGraph(navHostController = navigator.navController)
             }

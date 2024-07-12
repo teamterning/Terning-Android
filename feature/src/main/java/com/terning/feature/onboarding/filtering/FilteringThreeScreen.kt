@@ -19,8 +19,7 @@ import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.component.StatusTwoRadioGroup
-import com.terning.feature.onboarding.filtering.navigation.navigateFilteringTwo
+import com.terning.feature.onboarding.filtering.navigation.navigateFilteringThree
 
 @Composable
 fun FilteringThreeScreen(
@@ -29,7 +28,6 @@ fun FilteringThreeScreen(
     filteringViewModel: FilteringViewModel = hiltViewModel(),
     onButtonClick: () -> Unit = {},
 ) {
-
     val isButtonValid = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -74,7 +72,7 @@ fun FilteringThreeScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 25.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { navController.navigateFilteringTwo() },
+                onButtonClick = { navController.navigateFilteringThree() },
                 modifier = modifier.padding(bottom = 12.dp),
                 isEnabled = isButtonValid.value
             )
