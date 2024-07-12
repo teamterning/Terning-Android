@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
@@ -25,12 +26,17 @@ import com.terning.feature.home.home.component.HomeTodayIntern
 
 @Composable
 fun HomeRoute() {
+
     HomeScreen()
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    val userNameState = viewModel.userName
+
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -49,7 +55,10 @@ fun HomeScreen() {
                 ) {
                     Text(
                         text = stringResource(
-                            id = R.string.home_today_title,"남지우"),
+                            id = R.string.home_today_title,
+                            if (userNameState.userName.length in 7..12) "\n" + userNameState.userName
+                            else userNameState.userName
+                        ),
                         modifier = Modifier
                             .padding(top = 11.dp)
                             .padding(horizontal = 24.dp),
