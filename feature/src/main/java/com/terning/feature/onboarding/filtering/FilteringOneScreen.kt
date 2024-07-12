@@ -29,7 +29,6 @@ fun FilteringOneScreen(
     filteringViewModel: FilteringViewModel = hiltViewModel(),
     onButtonClick: () -> Unit = {},
 ) {
-    val name = "남지우"
     val isButtonValid = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -53,7 +52,10 @@ fun FilteringOneScreen(
                 )
             )
             Text(
-                text = stringResource(id = R.string.filtering_status1_title, name),
+                text = stringResource(
+                    id = R.string.filtering_status1_title,
+                    filteringViewModel.name
+                ),
                 style = TerningTheme.typography.title3,
                 modifier = modifier.padding(
                     top = 19.dp,
@@ -61,7 +63,7 @@ fun FilteringOneScreen(
                 )
             )
             Text(
-                text = stringResource(id = R.string.filtering_status1_sub, name),
+                text = stringResource(id = R.string.filtering_status1_sub, filteringViewModel.name),
                 style = TerningTheme.typography.body5,
                 modifier = modifier.padding(
                     top = 3.dp,

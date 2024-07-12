@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.filtering.component
+package com.terning.core.designsystem.component.button
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
@@ -32,6 +33,8 @@ import com.terning.core.util.NoRippleTheme
 fun FilteringButton(
     isSelected: Boolean,
     @StringRes text: Int,
+    cornerRadius: Dp,
+    paddingVertical: Dp,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -54,7 +57,7 @@ fun FilteringButton(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         Button(
-            contentPadding = PaddingValues(15.dp),
+            contentPadding = PaddingValues(paddingVertical),
             modifier = modifier.fillMaxWidth(),
             interactionSource = interactionSource,
             colors = ButtonDefaults.buttonColors(
@@ -65,7 +68,7 @@ fun FilteringButton(
                 width = 1.dp,
                 color = borderColor
             ),
-            shape = RoundedCornerShape(15.dp),
+            shape = RoundedCornerShape(cornerRadius),
             onClick = { onButtonClick() }
         ) {
             Text(
