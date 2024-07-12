@@ -18,8 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItem
@@ -50,9 +51,8 @@ import com.terning.feature.home.home.model.UserScrapState
 @Composable
 fun HomeRoute() {
     val currentSortBy: MutableState<Int> = remember {
-        mutableStateOf(0)
+        mutableIntStateOf(0)
     }
-
     HomeScreen(currentSortBy)
 }
 
@@ -63,8 +63,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val userNameState = viewModel.userName
-    val userScrapState = viewModel.scrapData.collectAsState()
-    val recommendInternData = viewModel.recommendInternData.collectAsState()
+    val userScrapState by viewModel.scrapData.collectAsStateWithLifecycle()
+    val recommendInternData by viewModel.recommendInternData.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
 
     if (sheetState) {
@@ -101,7 +101,7 @@ fun HomeScreen(
                             .padding(bottom = 16.dp)
                     ) {
                         ShowMainTitleWithName(userNameState)
-                        ShowTodayIntern(userScrapState = userScrapState.value)
+                        ShowTodayIntern(userScrapState = userScrapState)
                     }
                 }
                 stickyHeader {
@@ -135,9 +135,9 @@ fun HomeScreen(
                     }
                 }
 
-                if (userNameState.internFilter != null && recommendInternData.value != null) {
-                    items(recommendInternData.value!!.size) { index ->
-                        ShowRecommendIntern(recommendInternData.value!![index])
+                if (userNameState.internFilter != null && recommendInternData != null) {
+                    items(recommendInternData!!.size) { index ->
+                        ShowRecommendIntern(recommendInternData!![index])
                     }
                 }
             }
@@ -148,7 +148,7 @@ fun HomeScreen(
                         .padding(horizontal = 24.dp)
                         .fillMaxSize()
                 )
-            } else if (recommendInternData.value == null) {
+            } else if (recommendInternData == null) {
                 HomeRecommendEmptyIntern()
             }
         }
