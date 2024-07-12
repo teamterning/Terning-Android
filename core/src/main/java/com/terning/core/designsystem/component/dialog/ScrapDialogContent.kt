@@ -116,7 +116,7 @@ fun ScrapDialogContent(
                     modifier = Modifier.padding(top = 20.dp)
                 )
                 Text(
-                    text = "공고를 캘린더에 스크랩하시겠어요?",
+                    text = stringResource(id = R.string.dialog_content_scrap_sub_title),
                     style = TerningTheme.typography.body5,
                     color = Grey350,
                     modifier = Modifier.padding(
@@ -177,7 +177,7 @@ fun ScrapDialogContent(
                         Text(text = "컬러 팔레트")
                     } else {
                         Text(
-                            text = "D-3",
+                            text = stringResource(id = R.string.intern_item_d_day),
                             style = TerningTheme.typography.body5,
                             color = TerningMain,
                             modifier = Modifier.padding(bottom = 9.dp)
@@ -191,9 +191,9 @@ fun ScrapDialogContent(
                             horizontalAlignment = Alignment.Start,
                         ) {
                             listOf(
-                                "서류 마감" to "2024년 7월 23일",
-                                "근무 기간" to "2개월",
-                                "근무 시작" to "2024년 8월"
+                                stringResource(id = R.string.intern_info_d_day) to "2024년 7월 23일",
+                                stringResource(id = R.string.intern_info_working) to "2개월",
+                                stringResource(id = R.string.intern_info_start_date) to "2024년 8월"
                             ).forEach { (title, value) ->
                                 InternInfoRow(title, value)
                             }
