@@ -36,4 +36,13 @@
     <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
     <string name="sign_up_dialog_start">저장하기</string>
 
+    <!--Dialog-->
+    <string name="dialog_content_scrap_sub_title">공고를 캘린더에 스크랩하시겠어요?</string>
+    <string name="dialog_content_color_button">색상</string>
+    <string name="dialog_scrap_button">내 캘린더에 스크랩하기</string>
+
+    <!--Intern-->
+    <string name="intern_info_d_day">서류 마감</string>
+    <string name="intern_info_working">근무 기간</string>
+    <string name="intern_info_start_date">근무 시작</string>
 </resources>
