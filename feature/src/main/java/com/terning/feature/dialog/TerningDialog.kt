@@ -26,7 +26,9 @@ fun TerningDialog(
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties(
         usePlatformDefaultWidth = false,
-        decorFitsSystemWindows = false
+        decorFitsSystemWindows = true,
+        dismissOnBackPress = true,
+        dismissOnClickOutside = true,
     ),
     content: @Composable () -> Unit,
 ) {
@@ -64,7 +66,7 @@ fun DialogContent() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun TerningDialogPreview() {
     TerningDialog(onDismissRequest = {}, content = { DialogContent() })
