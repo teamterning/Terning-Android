@@ -34,9 +34,9 @@ import okhttp3.internal.toImmutableList
 private const val START_YEAR = 2023
 private const val END_YEAR = 2025
 private val years =
-    (listOf("") + (START_YEAR..END_YEAR).map { it.toString() } + listOf("")).toImmutableList()
+    (listOf("") + (START_YEAR..END_YEAR).map { it.toString() } + listOf("") + listOf("")).toImmutableList()
 private val monthsNumber =
-    (listOf("") + (1..12).map { it.toString() } + listOf("")).toImmutableList()
+    (listOf("") + (1..12).map { it.toString() } + listOf("") + listOf("")).toImmutableList()
 
 @Composable
 fun DatePickerUI(
@@ -50,7 +50,7 @@ fun DatePickerUI(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp, horizontal = 5.dp)
+            .padding(bottom = 62.dp)
     ) {
         DateSelectionSection(
             chosenYear = chosenYear,
@@ -77,7 +77,7 @@ fun DateSelectionSection(
             firstIndex = (chosenYear - START_YEAR),
             onItemSelected = onYearChosen,
         )
-        Spacer(modifier = Modifier.width(10.dp))
+        Spacer(modifier = Modifier.width(25.dp))
         DateItemsPicker(
             items = monthsNumber.toImmutableList(),
             firstIndex = chosenMonth,
@@ -131,7 +131,7 @@ fun DateItemsPicker(
                 if (it == firstVisibleItemIndex + 1) {
                     currentValue.value = items[index]
                 }
-                Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = items[index],
                     style = TerningTheme.typography.title3,

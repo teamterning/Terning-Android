@@ -74,13 +74,14 @@ fun FilteringThreeScreen(
                     bottom = 25.dp
                 )
             )
+            Spacer(modifier = modifier.weight(1f))
             DatePickerUI(
                 chosenYear = chosenYear,
                 chosenMonth = chosenMonth,
                 onYearChosen = { chosenYear = it },
                 onMonthChosen = { chosenMonth = it },
             )
-            Spacer(modifier = modifier.weight(1f))
+            Spacer(modifier = modifier.weight(3f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 25.dp,
