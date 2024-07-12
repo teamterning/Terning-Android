@@ -36,7 +36,7 @@ fun StartFilteringScreen(
     var isVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
-        delay(1500)
+        delay(1000)
         isVisible = true
     }
 

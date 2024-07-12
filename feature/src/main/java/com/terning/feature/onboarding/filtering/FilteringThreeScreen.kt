@@ -8,7 +8,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,12 +30,12 @@ fun FilteringThreeScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     filteringViewModel: FilteringViewModel = hiltViewModel(),
-    onButtonClick: () -> Unit = {},
 ) {
-    var chosenYear by remember { mutableIntStateOf(Calendar.getInstance().get(Calendar.YEAR)) }
-    var chosenMonth by remember { mutableIntStateOf(Calendar.getInstance().get(Calendar.MONTH)) }
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+    val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
-    var onScrolledOccurred by remember { mutableStateOf(false) }
+    var chosenYear by remember { mutableStateOf(currentYear) }
+    var chosenMonth by remember { mutableStateOf(currentMonth) }
 
     Scaffold(
         modifier = modifier,
@@ -80,12 +79,10 @@ fun FilteringThreeScreen(
                 chosenMonth = chosenMonth,
                 onYearChosen = { chosenYear = it },
                 onMonthChosen = { chosenMonth = it },
-                onScrolledOccurred = { onScrolledOccurred = true }
             )
             Spacer(modifier = modifier.weight(1f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
-                isEnabled = onScrolledOccurred,
                 paddingVertical = 25.dp,
                 text = R.string.filtering_button,
                 onButtonClick = { navController.navigateStartHome() },

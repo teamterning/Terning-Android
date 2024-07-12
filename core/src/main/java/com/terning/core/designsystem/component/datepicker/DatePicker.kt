@@ -104,14 +104,9 @@ fun DateItemsPicker(
     val currentValue = remember { mutableStateOf("") }
     var isScrolled by remember { mutableStateOf(false) }
 
-    LaunchedEffect(listState.isScrollInProgress) {
-        if (!listState.isScrollInProgress) {
-            onItemSelected(currentValue.value)
-            listState.animateScrollToItem(index = listState.firstVisibleItemIndex)
-        } else {
-            isScrolled = true
-            onScrolledOccurred(true)
-        }
+    LaunchedEffect(!listState.isScrollInProgress) {
+        onItemSelected(currentValue.value)
+        listState.animateScrollToItem(index = listState.firstVisibleItemIndex)
     }
 
     Box(
