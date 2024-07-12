@@ -23,7 +23,6 @@ import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.navigation.navigateFilteringThree
 import com.terning.feature.onboarding.starthome.navigation.navigateStartHome
 import java.util.Calendar
 
@@ -37,7 +36,7 @@ fun FilteringThreeScreen(
     var chosenYear by remember { mutableIntStateOf(Calendar.getInstance().get(Calendar.YEAR)) }
     var chosenMonth by remember { mutableIntStateOf(Calendar.getInstance().get(Calendar.MONTH)) }
 
-    val isDateMove by remember { mutableStateOf(false) }
+    var onScrolledOccurred by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier,
@@ -81,11 +80,12 @@ fun FilteringThreeScreen(
                 chosenMonth = chosenMonth,
                 onYearChosen = { chosenYear = it },
                 onMonthChosen = { chosenMonth = it },
+                onScrolledOccurred = { onScrolledOccurred = true }
             )
             Spacer(modifier = modifier.weight(1f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
-                isEnabled = isDateMove,
+                isEnabled = onScrolledOccurred,
                 paddingVertical = 25.dp,
                 text = R.string.filtering_button,
                 onButtonClick = { navController.navigateStartHome() },

@@ -21,6 +21,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -44,6 +45,7 @@ fun DatePickerUI(
     chosenMonth: Int,
     onYearChosen: (Int) -> Unit = {},
     onMonthChosen: (Int) -> Unit = {},
+    onScrolledOccurred: (Boolean) -> Unit = {}
 ) {
 
     Column(
@@ -57,6 +59,7 @@ fun DatePickerUI(
             chosenMonth = chosenMonth,
             onYearChosen = { onYearChosen(it.toInt()) },
             onMonthChosen = { onMonthChosen(it.toInt()) },
+            onScrolledOccurred = onScrolledOccurred
         )
     }
 }
@@ -67,6 +70,7 @@ fun DateSelectionSection(
     chosenMonth: Int,
     onYearChosen: (String) -> Unit,
     onMonthChosen: (String) -> Unit,
+    onScrolledOccurred: (Boolean) -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -75,13 +79,15 @@ fun DateSelectionSection(
         DateItemsPicker(
             items = years.toImmutableList(),
             firstIndex = (chosenYear - START_YEAR),
-            onItemSelected = onYearChosen
+            onItemSelected = onYearChosen,
+            onScrolledOccurred = onScrolledOccurred
         )
         Spacer(modifier = Modifier.width(10.dp))
         DateItemsPicker(
             items = monthsNumber.toImmutableList(),
             firstIndex = chosenMonth,
-            onItemSelected = onMonthChosen
+            onItemSelected = onMonthChosen,
+            onScrolledOccurred = onScrolledOccurred
         )
     }
 }
@@ -91,14 +97,21 @@ fun DateItemsPicker(
     items: List<String>,
     firstIndex: Int,
     onItemSelected: (String) -> Unit,
+    onScrolledOccurred: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState(firstIndex)
     val currentValue = remember { mutableStateOf("") }
+    var isScrolled by remember { mutableStateOf(false) }
 
-    LaunchedEffect(!listState.isScrollInProgress) {
-        onItemSelected(currentValue.value)
-        listState.animateScrollToItem(index = listState.firstVisibleItemIndex)
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (!listState.isScrollInProgress) {
+            onItemSelected(currentValue.value)
+            listState.animateScrollToItem(index = listState.firstVisibleItemIndex)
+        } else {
+            isScrolled = true
+            onScrolledOccurred(true)
+        }
     }
 
     Box(
