@@ -3,12 +3,15 @@ package com.terning.feature.home.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,11 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
+import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.customShadow
 import com.terning.feature.R
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
@@ -136,36 +142,41 @@ fun HomeScreen(
                     }
                 }
 
-//            items(itemCount) {
-//                Box(
-//                    modifier = modifier
-//                        .height(92.dp)
-//                        .padding(horizontal = 24.dp)
-//                        .customShadow(
-//                            color = Grey200,
-//                            shadowRadius = 10.dp,
-//                            shadowWidth = 2.dp
-//                        )
-//                        .background(
-//                            color = White,
-//                            shape = RoundedCornerShape(10.dp)
-//                        )
-//                ) {
-//                    InternItem(
-//                        imageUrl = "https://reqres.in/img/faces/7-image.jpg",
-//                        title = "[Someone] 콘텐츠 마케터 대학생 인턴 채용",
-//                        dateDeadline = "2",
-//                        workingPeriod = "2",
-//                        isScraped = false,
-//                    )
-//                }
-//            }
+                if(userNameState.internFilter != null) {
+                    items(itemCount) {
+                        Box(
+                            modifier = modifier
+                                .height(92.dp)
+                                .padding(horizontal = 24.dp)
+                                .customShadow(
+                                    color = Grey200,
+                                    shadowRadius = 10.dp,
+                                    shadowWidth = 2.dp
+                                )
+                                .background(
+                                    color = White,
+                                    shape = RoundedCornerShape(10.dp)
+                                )
+                        ) {
+                            InternItem(
+                                imageUrl = "https://reqres.in/img/faces/7-image.jpg",
+                                title = "[Someone] 콘텐츠 마케터 대학생 인턴 채용",
+                                dateDeadline = "2",
+                                workingPeriod = "2",
+                                isScraped = false,
+                            )
+                        }
+                    }
+                }
+
             }
-            HomeFilteringEmptyIntern(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .fillMaxSize()
-            )
+            if(userNameState.internFilter == null) {
+                HomeFilteringEmptyIntern(
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp)
+                        .fillMaxSize()
+                )
+            }
         }
     }
 }
