@@ -21,7 +21,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -45,7 +44,6 @@ fun DatePickerUI(
     chosenMonth: Int,
     onYearChosen: (Int) -> Unit = {},
     onMonthChosen: (Int) -> Unit = {},
-    onScrolledOccurred: (Boolean) -> Unit = {}
 ) {
 
     Column(
@@ -59,7 +57,6 @@ fun DatePickerUI(
             chosenMonth = chosenMonth,
             onYearChosen = { onYearChosen(it.toInt()) },
             onMonthChosen = { onMonthChosen(it.toInt()) },
-            onScrolledOccurred = onScrolledOccurred
         )
     }
 }
@@ -70,7 +67,6 @@ fun DateSelectionSection(
     chosenMonth: Int,
     onYearChosen: (String) -> Unit,
     onMonthChosen: (String) -> Unit,
-    onScrolledOccurred: (Boolean) -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -80,14 +76,12 @@ fun DateSelectionSection(
             items = years.toImmutableList(),
             firstIndex = (chosenYear - START_YEAR),
             onItemSelected = onYearChosen,
-            onScrolledOccurred = onScrolledOccurred
         )
         Spacer(modifier = Modifier.width(10.dp))
         DateItemsPicker(
             items = monthsNumber.toImmutableList(),
             firstIndex = chosenMonth,
             onItemSelected = onMonthChosen,
-            onScrolledOccurred = onScrolledOccurred
         )
     }
 }
@@ -97,12 +91,10 @@ fun DateItemsPicker(
     items: List<String>,
     firstIndex: Int,
     onItemSelected: (String) -> Unit,
-    onScrolledOccurred: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState(firstIndex)
     val currentValue = remember { mutableStateOf("") }
-    var isScrolled by remember { mutableStateOf(false) }
 
     LaunchedEffect(!listState.isScrollInProgress) {
         onItemSelected(currentValue.value)
@@ -118,11 +110,11 @@ fun DateItemsPicker(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             HorizontalDivider(
-                modifier = Modifier.size(height = 1.dp, width = 60.dp),
+                modifier = Modifier.size(height = 1.dp, width = 71.dp),
                 color = TerningMain
             )
             HorizontalDivider(
-                modifier = Modifier.size(height = 1.dp, width = 60.dp),
+                modifier = Modifier.size(height = 1.dp, width = 71.dp),
                 color = TerningMain
             )
         }
@@ -139,7 +131,7 @@ fun DateItemsPicker(
                 if (it == firstVisibleItemIndex + 1) {
                     currentValue.value = items[index]
                 }
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(50.dp))
                 Text(
                     text = items[index],
                     style = TerningTheme.typography.title3,
