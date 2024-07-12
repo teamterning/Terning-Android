@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.Grey150
@@ -77,7 +78,10 @@ fun InternBottomBar(
                         tint = if (isScrap) TerningMain else Grey350
                     )
                     Text(
-                        text = "${viewCount}회",
+                        text = stringResource(
+                            id = R.string.intern_view_count_detail,
+                            viewCount
+                        ),
                         style = TerningTheme.typography.detail3,
                         color = Grey400
                     )

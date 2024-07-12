@@ -91,8 +91,6 @@ fun InternScreen(
                 .padding(paddingValues)
         ) {
             item {
-                val decimal = DecimalFormat("#,###")
-
                 Column(
                     modifier = modifier.padding(
                         top = 24.dp,
@@ -171,13 +169,15 @@ fun InternScreen(
                             color = Grey400
                         )
                         Text(
-                            text = "${decimal.format(100000)}회",
+                            text = stringResource(
+                                id = R.string.intern_view_count_detail,
+                                DecimalFormat(DECIMAL_FORMAT)
+                            ),
                             style = TerningTheme.typography.button3,
                             color = Grey400,
                         )
                     }
                 }
-
 
                 Column(
                     verticalArrangement = Arrangement.Top,
@@ -319,3 +319,5 @@ fun InternScreen(
         }
     }
 }
+
+const val DECIMAL_FORMAT = "#,###"
