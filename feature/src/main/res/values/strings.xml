@@ -82,4 +82,5 @@
 
     <!--Intern-->
     <string name="intern_share_icon">공유 아이콘</string>
+    <string name="intern_move_to_site">지원 사이트로 이동하기</string>
 </resources>

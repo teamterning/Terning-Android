@@ -1,16 +1,12 @@
 package com.terning.feature.intern
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,12 +27,14 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningSub4
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
+import com.terning.feature.intern.component.InternBottomBar
+import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
+import com.terning.feature.intern.component.InternPageTitle
 import java.text.DecimalFormat
 
 @Composable
@@ -84,6 +81,9 @@ fun InternScreen(
                     }
                 )
             )
+        },
+        bottomBar = {
+            InternBottomBar(modifier = modifier)
         }
     ) { paddingValues ->
         LazyColumn(
@@ -182,109 +182,9 @@ fun InternScreen(
                 Column(
                     verticalArrangement = Arrangement.Top,
                 ) {
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(
-                                top = 15.dp,
-                                bottom = 16.dp
-                            )
-                            .background(TerningSub4)
-                    ) {
-                        Text(
-                            text = "기업 정보",
-                            style = TerningTheme.typography.title4,
-                            color = TerningMain,
-                            modifier = modifier.padding(
-                                top = 7.dp,
-                                bottom = 6.dp,
-                                start = 20.dp
-                            )
-                        )
-                    }
-                    Row(
-                        modifier = modifier.padding(
-                            start = 20.dp,
-                        )
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(
-                                    2.dp,
-                                    Alignment.CenterVertically
-                                ),
-                                horizontalAlignment = Alignment.Start,
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier
-                                        .width(60.dp)
-                                        .height(60.dp)
-                                        .border(
-                                            width = 1.dp,
-                                            color = TerningMain,
-                                            shape = RoundedCornerShape(size = 30.dp)
-                                        )
-                                ) {
-                                    Image(
-                                        painter = painterResource(
-                                            id = R.drawable.ic_nosearch
-                                        ),
-                                        modifier = modifier.fillMaxWidth(),
-                                        contentDescription = null,
-                                        contentScale = ContentScale.Fit,
-                                        alignment = Alignment.Center
-                                    )
-                                }
-                            }
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(
-                                    3.dp,
-                                    Alignment.Bottom
-                                ),
-                                horizontalAlignment = Alignment.Start,
-                                modifier = modifier
-                                    .padding(
-                                        horizontal = 12.dp
-                                    )
-                            ) {
-                                Text(
-                                    text = "모니모니",
-                                    style = TerningTheme.typography.title4,
-                                    color = Black,
-                                    modifier = modifier.padding(top = 11.dp)
-                                )
-                                Text(
-                                    text = "스타트업",
-                                    style = TerningTheme.typography.body4,
-                                    color = Grey300,
-                                    modifier = modifier.padding(bottom = 6.dp)
-                                )
-                            }
-                        }
-                    }
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(
-                                top = 16.dp,
-                                bottom = 16.dp
-                            )
-                            .background(TerningSub4)
-                    ) {
-                        Text(
-                            text = "공고 요약",
-                            style = TerningTheme.typography.title4,
-                            color = TerningMain,
-                            modifier = modifier.padding(
-                                top = 7.dp,
-                                bottom = 6.dp,
-                                start = 20.dp
-                            )
-                        )
-                    }
+                    InternPageTitle(modifier = modifier, text = "기업 정보")
+                    InternCompanyInfo(modifier = modifier)
+                    InternPageTitle(modifier = modifier, text = "공고 요약")
                     Column(
                         modifier = modifier
                             .padding(
@@ -321,7 +221,7 @@ fun InternScreen(
                             }
 
                             Column(
-                                verticalArrangement = Arrangement.Top
+                                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
                                 Text(
                                     text = "졸업 예정자",
@@ -329,12 +229,7 @@ fun InternScreen(
                                     color = Grey400,
                                 )
                                 Text(
-                                    text = "졸업 예정자",
-                                    style = TerningTheme.typography.body4,
-                                    color = Grey400,
-                                )
-                                Text(
-                                    text = "졸업 예정자",
+                                    text = "휴학생 가능",
                                     style = TerningTheme.typography.body4,
                                     color = Grey400,
                                 )
@@ -375,7 +270,7 @@ fun InternScreen(
                             }
 
                             Column(
-                                verticalArrangement = Arrangement.Top
+                                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
                                 Text(
                                     text = "그래픽디자인",
@@ -383,47 +278,24 @@ fun InternScreen(
                                     color = Grey400,
                                 )
                                 Text(
-                                    text = "그래픽디자인",
+                                    text = "UX/UI/GUI 디자인",
                                     style = TerningTheme.typography.body4,
                                     color = Grey400,
                                 )
                             }
                         }
                     }
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(
-                                top = 16.dp,
-                                bottom = 16.dp
-                            )
-                            .background(TerningSub4)
-                    ) {
-                        Text(
-                            text = "상세 정보",
-                            style = TerningTheme.typography.title4,
-                            color = TerningMain,
-                            modifier = modifier.padding(
-                                top = 6.dp,
-                                bottom = 5.dp,
-                                start = 20.dp
-                            )
-                        )
-                    }
+                    InternPageTitle(
+                        modifier = modifier,
+                        text = "상세 정보"
+                    )
                     Column(
-                        modifier = modifier.padding(horizontal = 24.dp)
-                    ) {
-                        Text(
-                            text = """
-                        모니모니의 마케팅 팀은 소비자에게 삶의 솔루션으로서 ‘사랑’을 제시하는 아주 멋진 팀입니다.
-
-                        ‘사랑’의 가치를 전 세계에 전파하기 위해 마케터는 그 누구보다 넓은 시야를 가져야 합니다. 거시적인 관점과 미시적인 관점을 모두 포괄할 수 있는 통찰력을 바탕으로 나아갑니다.
-
-                        데이터에 근거하여 소통합니다. ‘사랑’,  ‘행복’. ‘같이’와 같은 추상적인 가치들을 수치로 가시화하는 아주 재미있는 작업을 함께합니다.
-                    """.trimIndent(),
-                            style = TerningTheme.typography.detail1,
-                            color = Grey400
+                        modifier = modifier.padding(
+                            start = 24.dp,
+                            end = 24.dp,
+                            bottom = 20.dp
                         )
+                    ) {
                         Text(
                             text = """
                         모니모니의 마케팅 팀은 소비자에게 삶의 솔루션으로서 ‘사랑’을 제시하는 아주 멋진 팀입니다.
