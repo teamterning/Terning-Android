@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.component.dialog
+package com.terning.feature.intern.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -235,25 +235,5 @@ fun ScrapDialogContent(
                 )
             }
         }
-    }
-}
-
-// TODO 삭제
-@Composable
-fun InternInfoRow(title: String, value: String) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
-        verticalAlignment = Alignment.Top,
-    ) {
-        Text(
-            text = title,
-            style = TerningTheme.typography.body2,
-            color = Grey350,
-        )
-        Text(
-            text = value,
-            style = TerningTheme.typography.body3,
-            color = Grey500,
-        )
     }
 }

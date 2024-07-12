@@ -23,18 +23,3 @@ fun TerningBasicDialog(
         content()
     }
 }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun TerningBasicDialogPreview() {
-    TerningBasicDialog(
-        onDismissRequest = {},
-        content = {
-            ScrapDialogContent(
-                onDismissRequest = {},
-                isScrapped = false,
-                internInfoList = listOf()
-            )
-        }
-    )
-}

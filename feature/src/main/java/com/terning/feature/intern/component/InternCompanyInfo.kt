@@ -45,7 +45,6 @@ fun InternCompanyInfo(modifier: Modifier) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .aspectRatio(1f)
                         .size(60.dp)
                         .border(
                             width = 1.dp,
