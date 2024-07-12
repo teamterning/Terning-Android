@@ -160,7 +160,9 @@ fun HomeScreen(
                 }
 
                 if (userNameState.internFilter != null) {
-                    items(itemCount) {
+                    val recommendInternData = viewModel.recommendInternData.value
+
+                    items(recommendInternData.size) { index->
                         Box(
                             modifier = modifier
                                 .height(92.dp)
@@ -176,11 +178,11 @@ fun HomeScreen(
                                 )
                         ) {
                             InternItem(
-                                imageUrl = "https://reqres.in/img/faces/7-image.jpg",
-                                title = "[Someone] 콘텐츠 마케터 대학생 인턴 채용",
-                                dateDeadline = "2",
-                                workingPeriod = "2",
-                                isScraped = false,
+                                imageUrl = recommendInternData[index].imgUrl,
+                                title = recommendInternData[index].title,
+                                dateDeadline = recommendInternData[index].dDay.toString(),
+                                workingPeriod = recommendInternData[index].workingPeriod.toString(),
+                                isScraped = recommendInternData[index].isScrapped,
                             )
                         }
                     }

@@ -10,6 +10,7 @@ import com.terning.core.designsystem.theme.CalGreen2
 import com.terning.core.designsystem.theme.CalOrange1
 import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalYellow
+import com.terning.feature.home.home.model.RecommendInternData
 import com.terning.feature.home.home.model.ScrapData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
@@ -36,9 +37,12 @@ class HomeViewModel @Inject constructor(
             scrapData = getScrapData()
         )
     )
-
     val scrapData get() = _scrapState.asStateFlow()
 
+    private val _recommendInternState = MutableStateFlow<List<RecommendInternData>>(
+        getRecommendData()
+    )
+    val recommendInternData get() = _recommendInternState.asStateFlow()
 }
 
 
@@ -91,5 +95,79 @@ private fun getScrapData(): List<ScrapData>
     ScrapData(
         internTitle = "[유한킴벌리] 그린캠프 숲 활동가",
         scrapColor = CalPink,
+    ),
+)
+
+private fun getRecommendData() : List<RecommendInternData>
+= listOf(
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 22,
+        workingPeriod = 2,
+        isScrapped = true,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "ㅇㄻㅇㅁㄻㄹㅇㅁㅇㄹ",
+        dDay = 9,
+        workingPeriod = 6,
+        isScrapped = false,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 2,
+        workingPeriod = 4,
+        isScrapped = true,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 2,
+        workingPeriod = 4,
+        isScrapped = false,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 2,
+        workingPeriod = 4,
+        isScrapped = true,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 2,
+        workingPeriod = 4,
+        isScrapped = true,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 2,
+        workingPeriod = 4,
+        isScrapped = false,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 2,
+        workingPeriod = 4,
+        isScrapped = true,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 2,
+        workingPeriod = 4,
+        isScrapped = false,
+    ),
+    RecommendInternData(
+        imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+        title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+        dDay = 2,
+        workingPeriod = 4,
+        isScrapped = true,
     ),
 )
