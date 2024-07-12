@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
     )
     val scrapData get() = _scrapState.asStateFlow()
 
-    private val _recommendInternState = MutableStateFlow<List<RecommendInternData>>(
+    private val _recommendInternState = MutableStateFlow<List<RecommendInternData>?>(
         getRecommendData()
     )
     val recommendInternData get() = _recommendInternState.asStateFlow()

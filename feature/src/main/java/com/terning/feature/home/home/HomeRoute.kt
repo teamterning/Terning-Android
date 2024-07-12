@@ -41,8 +41,10 @@ import com.terning.core.extension.customShadow
 import com.terning.feature.R
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
+import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
+import com.terning.feature.home.home.model.RecommendInternData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
 
@@ -64,6 +66,7 @@ fun HomeScreen(
 ) {
     val userNameState = viewModel.userName
     val userScrapState = viewModel.scrapData.collectAsState()
+    val recommendInternData = viewModel.recommendInternData.value
     var sheetState by remember { mutableStateOf(false) }
 
     if (sheetState) {
@@ -160,34 +163,12 @@ fun HomeScreen(
                 }
 
                 if (userNameState.internFilter != null) {
-                    val recommendInternData = viewModel.recommendInternData.value
-
-                    items(recommendInternData.size) { index->
-                        Box(
-                            modifier = modifier
-                                .height(92.dp)
-                                .padding(horizontal = 24.dp)
-                                .customShadow(
-                                    color = Grey200,
-                                    shadowRadius = 10.dp,
-                                    shadowWidth = 2.dp
-                                )
-                                .background(
-                                    color = White,
-                                    shape = RoundedCornerShape(10.dp)
-                                )
-                        ) {
-                            InternItem(
-                                imageUrl = recommendInternData[index].imgUrl,
-                                title = recommendInternData[index].title,
-                                dateDeadline = recommendInternData[index].dDay.toString(),
-                                workingPeriod = recommendInternData[index].workingPeriod.toString(),
-                                isScraped = recommendInternData[index].isScrapped,
-                            )
+                    if(recommendInternData != null) {
+                        items(recommendInternData.size) { index ->
+                            showRecommendIntern(recommendInternData[index])
                         }
                     }
                 }
-
             }
             if (userNameState.internFilter == null) {
                 HomeFilteringEmptyIntern(
@@ -195,6 +176,8 @@ fun HomeScreen(
                         .padding(horizontal = 24.dp)
                         .fillMaxSize()
                 )
+            } else if(recommendInternData == null) {
+                HomeRecommendEmptyIntern()
             }
         }
     }
@@ -233,5 +216,31 @@ private fun showInternFilter(userNameState: UserNameState) {
                 startMonth = get(3),
             )
         }
+    }
+}
+
+@Composable
+private fun showRecommendIntern(recommendInternData: RecommendInternData) {
+    Box(
+        modifier = Modifier
+            .height(92.dp)
+            .padding(horizontal = 24.dp)
+            .customShadow(
+                color = Grey200,
+                shadowRadius = 10.dp,
+                shadowWidth = 2.dp
+            )
+            .background(
+                color = White,
+                shape = RoundedCornerShape(10.dp)
+            )
+    ) {
+        InternItem(
+            imageUrl = recommendInternData.imgUrl,
+            title = recommendInternData.title,
+            dateDeadline = recommendInternData.dDay.toString(),
+            workingPeriod = recommendInternData.workingPeriod.toString(),
+            isScraped = recommendInternData.isScrapped,
+        )
     }
 }
