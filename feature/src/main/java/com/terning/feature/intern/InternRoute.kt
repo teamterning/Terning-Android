@@ -37,8 +37,6 @@ import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
 import java.text.DecimalFormat
 
-val DECIMAL_FORMAT = DecimalFormat("#,###")
-
 @Composable
 fun InternRoute(
     navController: NavHostController,
@@ -173,7 +171,7 @@ fun InternScreen(
                             color = Grey400
                         )
                         Text(
-                            text = stringResource(id = R.string.intern_view_count_detail),
+                            text = "${decimal.format(100000)}회",
                             style = TerningTheme.typography.button3,
                             color = Grey400,
                         )
