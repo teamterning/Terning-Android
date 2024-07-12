@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -18,6 +20,7 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.onboarding.filtering.component.StatusOneRadioGroup
+import com.terning.feature.onboarding.filtering.navigation.navigateFilteringTwo
 
 @Composable
 fun FilteringOneScreen(
@@ -25,9 +28,10 @@ fun FilteringOneScreen(
     modifier: Modifier = Modifier,
     filteringViewModel: FilteringViewModel = hiltViewModel(),
     onButtonClick: () -> Unit = {},
-    onNextButton: () -> Unit = {}
 ) {
     val name = "남지우"
+    val isButtonValid = remember { mutableStateOf(false) }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -68,6 +72,7 @@ fun FilteringOneScreen(
             StatusOneRadioGroup(
                 onButtonClick = {
                     onButtonClick()
+                    isButtonValid.value = true
                 }
             )
             Text(
@@ -83,8 +88,9 @@ fun FilteringOneScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { onNextButton() },
-                modifier = modifier.padding(bottom = 12.dp)
+                onButtonClick = { navController.navigateFilteringTwo() },
+                modifier = modifier.padding(bottom = 12.dp),
+                isEnabled = isButtonValid.value
             )
         }
     }

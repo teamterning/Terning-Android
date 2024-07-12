@@ -23,7 +23,9 @@ import com.terning.core.util.NoRippleInteractionSource
 import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
-import com.terning.feature.onboarding.filtering.navigation.filteringNavGraph
+import com.terning.feature.onboarding.filtering.navigation.filteringOneNavGraph
+import com.terning.feature.onboarding.filtering.navigation.filteringThreeNavGraph
+import com.terning.feature.onboarding.filtering.navigation.filteringTwoNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.onboarding.start.navigation.startNavGraph
@@ -59,7 +61,9 @@ fun MainScreen(
                 myPageNavGraph()
                 signInNavGraph(navHostController = navigator.navController)
                 signUpNavGraph(navHostController = navigator.navController)
-                filteringNavGraph(navHostController = navigator.navController)
+                filteringOneNavGraph(navHostController = navigator.navController)
+                filteringTwoNavGraph(navHostController = navigator.navController)
+                filteringThreeNavGraph(navHostController = navigator.navController)
                 searchProcessNavGraph(navHostController = navigator.navController)
                 startNavGraph(navHostController = navigator.navController)
             }

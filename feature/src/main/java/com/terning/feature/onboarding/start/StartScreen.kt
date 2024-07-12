@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.navigation.navigateFiltering
+import com.terning.feature.onboarding.filtering.navigation.navigateFilteringOne
 import kotlinx.coroutines.delay
 
 @Composable
@@ -73,7 +73,7 @@ fun StartScreen(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 20.dp,
                     text = R.string.start_button,
-                    onButtonClick = { navController.navigateFiltering() },
+                    onButtonClick = { navController.navigateFilteringOne() },
                 )
             }
         }
