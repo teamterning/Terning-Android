@@ -4,8 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,8 +32,8 @@ import com.terning.core.extension.noRippleClickable
 
 @Composable
 fun ColorPalette(
-    modifier: Modifier = Modifier,
-    onColorSelected:(Color) -> Unit = {}
+    initialColor: Color,
+    onColorSelected: (Color) -> Unit = {},
 ) {
     val colorList = listOf(
         CalRed,
@@ -43,22 +48,24 @@ fun ColorPalette(
         CalPink
     )
 
+    var selectedColor by remember { mutableStateOf(initialColor) }
+
     RadioButtonGroups(
-        modifier = modifier.size(251.dp, 84.dp),
         options = colorList,
         gridCellCount = 5,
         onOptionSelected = { color ->
+            selectedColor = color
             onColorSelected(color)
         },
-        buttonComposable = {
-            color, isSelected, onOptionSelected ->
+        buttonComposable = { color, isSelected, onOptionSelected ->
             ColorButton(
                 color = color,
-                isSelected = isSelected,
-                onColorSelected = onOptionSelected)
+                isSelected = selectedColor == color,
+                onColorSelected = onOptionSelected
+            )
         },
         verticalArrangementSpace = 6.dp,
-        horizontalArrangementSpace = 14.dp,
+        horizontalArrangementSpace = 0.dp,
     )
 }
 
@@ -67,13 +74,16 @@ internal fun ColorButton(
     modifier: Modifier = Modifier,
     color: Color,
     isSelected: Boolean,
-    onColorSelected: (Color) -> Unit
+    onColorSelected: (Color) -> Unit,
 ) {
-    Box(modifier = modifier.size(39.dp)) {
+    Box(modifier = modifier.wrapContentSize()) {
         Box(
             modifier = Modifier
                 .size(39.dp)
-                .background(shape = CircleShape, color = color)
+                .background(
+                    shape = CircleShape,
+                    color = color
+                )
                 .noRippleClickable {
                     onColorSelected(color)
                 },
@@ -89,10 +99,8 @@ internal fun ColorButton(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun ColorPalettePreview() {
-    ColorPalette()
+    ColorPalette(initialColor = CalRed)
 }
-
