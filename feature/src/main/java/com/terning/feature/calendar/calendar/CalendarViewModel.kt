@@ -1,4 +1,4 @@
-package com.terning.feature.calendar
+package com.terning.feature.calendar.calendar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -41,12 +41,21 @@ class CalendarViewModel @Inject constructor(
         } else {
             _selectedDate.update { currentState ->
                 currentState.copy(
-                    selectedDate = date,
-                    isEnabled = !_selectedDate.value.isEnabled
+                    isEnabled = !currentState.isEnabled
                 )
             }
         }
     }
+
+    fun disableWeekCalendar() {
+        _selectedDate.update { currentState ->
+            currentState.copy(
+                isEnabled = false
+            )
+        }
+    }
+
+
 
     //To be erased in future
     val mockScrapList: List<List<Scrap>>
@@ -65,7 +74,7 @@ class CalendarViewModel @Inject constructor(
                         list.add(
                             i,
                             listOf(
-                                Scrap("Task1_1", CalBlue1),
+                                Scrap("Task1_1", CalBlue1, dDay = "1", period = "3", isScraped = true),
                             )
                         )
                     }
@@ -74,8 +83,8 @@ class CalendarViewModel @Inject constructor(
                         list.add(
                             i,
                             listOf(
-                                Scrap("Task2_1", CalPink),
-                                Scrap("Task2_2", CalGreen1)
+                                Scrap("Task2_1", CalPink, dDay = "2", period = "3", isScraped = true),
+                                Scrap("Task2_2", CalGreen1, dDay = "2", period = "3", isScraped = true)
                             )
                         )
                     }
@@ -98,12 +107,12 @@ class CalendarViewModel @Inject constructor(
                         list.add(
                             i,
                             listOf(
-                                Scrap("Task3_1", CalPink),
-                                Scrap("Task3_2", CalPurple),
-                                Scrap("Task3_3", CalRed),
-                                Scrap("Task3_4", CalBlue1),
-                                Scrap("Task3_5", CalGreen2),
-                                Scrap("Task3_6", CalYellow)
+                                Scrap("Task3_1", CalPink, dDay = "5", period = "3", isScraped = true),
+                                Scrap("Task3_2", CalPurple, dDay = "5", period = "3", isScraped = true),
+                                Scrap("Task3_3", CalRed, dDay = "5", period = "3", isScraped = true),
+                                Scrap("Task3_4", CalBlue1, dDay = "5", period = "3", isScraped = true),
+                                Scrap("Task3_5", CalGreen2, dDay = "5", period = "3", isScraped = true),
+                                Scrap("Task3_6", CalYellow, dDay = "5", period = "3", isScraped = true)
                             )
                         )
                     }
