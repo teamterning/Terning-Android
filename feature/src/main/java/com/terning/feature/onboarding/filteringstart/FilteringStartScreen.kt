@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.start
+package com.terning.feature.onboarding.filteringstart
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -29,7 +29,7 @@ import com.terning.feature.onboarding.filtering.navigation.navigateFilteringOne
 import kotlinx.coroutines.delay
 
 @Composable
-fun StartScreen(
+fun FilteringStartScreen(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {

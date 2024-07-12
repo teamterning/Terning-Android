@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey400
@@ -74,6 +75,7 @@ fun FilteringButton(
             Text(
                 text = stringResource(id = text),
                 style = TerningTheme.typography.button3,
+                textAlign = TextAlign.Center
             )
         }
     }
