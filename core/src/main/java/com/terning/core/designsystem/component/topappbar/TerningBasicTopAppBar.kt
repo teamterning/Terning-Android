@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -37,15 +38,19 @@ fun TerningBasicTopAppBar(
         },
         navigationIcon = {
             if (showBackButton) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = stringResource(id = R.string.ic_back),
-                    modifier = modifier
-                        .padding(start = 8.dp)
-                        .noRippleClickable {
-                            onBackButtonClick()
-                        }
-                )
+                IconButton(
+                    onClick = {
+                        onBackButtonClick()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_back),
+                        contentDescription = stringResource(id = R.string.ic_back),
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .noRippleClickable { onBackButtonClick() }
+                    )
+                }
             } else {
                 actions.getOrNull(0)?.invoke()
             }
