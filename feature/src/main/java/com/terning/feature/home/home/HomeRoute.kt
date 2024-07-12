@@ -62,11 +62,10 @@ fun HomeRoute() {
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
     viewModel: HomeViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier,
 ) {
     val userNameState = viewModel.userName
     val userScrapState = viewModel.scrapData.collectAsState()
-    val recommendInternData = viewModel.recommendInternData.value
+    val recommendInternData = viewModel.recommendInternData.collectAsState()
     var sheetState by remember { mutableStateOf(false) }
 
     if (sheetState) {
@@ -99,19 +98,8 @@ fun HomeScreen(
                         modifier = Modifier
                             .padding(bottom = 16.dp)
                     ) {
-                        Text(
-                            text = stringResource(
-                                id = R.string.home_today_title,
-                                if (userNameState.userName.length in 7..12) "\n" + userNameState.userName
-                                else userNameState.userName
-                            ),
-                            modifier = Modifier
-                                .padding(top = 11.dp, bottom = 19.dp)
-                                .padding(horizontal = 24.dp),
-                            style = TerningTheme.typography.title1,
-                            color = Black,
-                        )
-                        showTodayIntern(userScrapState = userScrapState.value)
+                        ShowMainTitleWithName(userNameState)
+                        ShowTodayIntern(userScrapState = userScrapState.value)
                     }
                 }
                 stickyHeader {
@@ -119,25 +107,8 @@ fun HomeScreen(
                         modifier = Modifier
                             .background(White)
                     ) {
-                        Text(
-                            text = stringResource(id = R.string.home_recommend_sub_title),
-                            style = TerningTheme.typography.detail2,
-                            color = Black,
-                            modifier = Modifier
-                                .padding(top = 9.dp)
-                                .padding(horizontal = 24.dp),
-                        )
-
-                        Text(
-                            text = stringResource(id = R.string.home_recommend_main_title),
-                            style = TerningTheme.typography.title1,
-                            color = Black,
-                            modifier = Modifier
-                                .padding(top = 5.dp)
-                                .padding(horizontal = 24.dp),
-                        )
-
-                        showInternFilter(userNameState = userNameState)
+                        ShowRecommendTitle()
+                        ShowInternFilter(userNameState = userNameState)
 
                         HorizontalDivider(
                             thickness = 4.dp,
@@ -162,21 +133,20 @@ fun HomeScreen(
                     }
                 }
 
-                if (userNameState.internFilter != null) {
-                    if(recommendInternData != null) {
-                        items(recommendInternData.size) { index ->
-                            showRecommendIntern(recommendInternData[index])
-                        }
+                if (userNameState.internFilter != null && recommendInternData.value != null) {
+                    items(recommendInternData.value!!.size) { index ->
+                        ShowRecommendIntern(recommendInternData.value!![index])
                     }
                 }
             }
+
             if (userNameState.internFilter == null) {
                 HomeFilteringEmptyIntern(
                     modifier = Modifier
                         .padding(horizontal = 24.dp)
                         .fillMaxSize()
                 )
-            } else if(recommendInternData == null) {
+            } else if (recommendInternData.value == null) {
                 HomeRecommendEmptyIntern()
             }
         }
@@ -186,7 +156,23 @@ fun HomeScreen(
 private const val itemCount = 10
 
 @Composable
-private fun showTodayIntern(userScrapState: UserScrapState) {
+private fun ShowMainTitleWithName(userNameState: UserNameState) {
+    Text(
+        text = stringResource(
+            id = R.string.home_today_title,
+            if (userNameState.userName.length in 7..12) "\n" + userNameState.userName
+            else userNameState.userName
+        ),
+        modifier = Modifier
+            .padding(top = 11.dp, bottom = 19.dp)
+            .padding(horizontal = 24.dp),
+        style = TerningTheme.typography.title1,
+        color = Black,
+    )
+}
+
+@Composable
+private fun ShowTodayIntern(userScrapState: UserScrapState) {
     if (userScrapState.isScrapExist) {
         if (userScrapState.scrapData == null) {
             HomeTodayEmptyIntern(isButtonExist = true)
@@ -199,7 +185,28 @@ private fun showTodayIntern(userScrapState: UserScrapState) {
 }
 
 @Composable
-private fun showInternFilter(userNameState: UserNameState) {
+private fun ShowRecommendTitle() {
+    Text(
+        text = stringResource(id = R.string.home_recommend_sub_title),
+        style = TerningTheme.typography.detail2,
+        color = Black,
+        modifier = Modifier
+            .padding(top = 9.dp)
+            .padding(horizontal = 24.dp),
+    )
+
+    Text(
+        text = stringResource(id = R.string.home_recommend_main_title),
+        style = TerningTheme.typography.title1,
+        color = Black,
+        modifier = Modifier
+            .padding(top = 5.dp)
+            .padding(horizontal = 24.dp),
+    )
+}
+
+@Composable
+private fun ShowInternFilter(userNameState: UserNameState) {
     if (userNameState.internFilter == null) {
         HomeFilteringScreen(
             grade = R.string.home_recommend_no_filtering_hyphen,
@@ -220,7 +227,7 @@ private fun showInternFilter(userNameState: UserNameState) {
 }
 
 @Composable
-private fun showRecommendIntern(recommendInternData: RecommendInternData) {
+private fun ShowRecommendIntern(recommendInternData: RecommendInternData) {
     Box(
         modifier = Modifier
             .height(92.dp)

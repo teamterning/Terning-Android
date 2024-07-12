@@ -45,7 +45,6 @@ class HomeViewModel @Inject constructor(
     val recommendInternData get() = _recommendInternState.asStateFlow()
 }
 
-
 private fun getScrapData(): List<ScrapData>
 = listOf(
     ScrapData(
