@@ -38,9 +38,8 @@ fun StatusOneRadioGroup(
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = modifier.padding(horizontal = 42.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = modifier.padding(horizontal = 24.dp)
     ) {
         itemsIndexed(options) { index, option ->
 

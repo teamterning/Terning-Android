@@ -1,6 +1,7 @@
 package com.terning.feature.onboarding.filtering
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -60,7 +61,8 @@ fun FilteringOneScreen(
                 style = TerningTheme.typography.body5,
                 modifier = modifier.padding(
                     top = 3.dp,
-                    start = 24.dp
+                    start = 24.dp,
+                    bottom = 25.dp
                 )
             )
             StatusOneRadioGroup(
@@ -70,13 +72,20 @@ fun FilteringOneScreen(
             )
             Text(
                 text = stringResource(id = R.string.filtering_status1_warning),
-                style = TerningTheme.typography.detail3
+                style = TerningTheme.typography.detail3,
+                modifier = modifier.padding(
+                    start = 24.dp,
+                    top = 9.dp
+                )
             )
+            Spacer(modifier = modifier.weight(1f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { onNextButton() })
+                onButtonClick = { onNextButton() },
+                modifier = modifier.padding(bottom = 12.dp)
+            )
         }
     }
 }
