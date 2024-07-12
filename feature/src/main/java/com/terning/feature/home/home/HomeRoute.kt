@@ -41,6 +41,7 @@ import com.terning.feature.R
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeTodayIntern
+import com.terning.feature.home.home.model.UserNameState
 
 @Composable
 fun HomeRoute() {
@@ -129,23 +130,7 @@ fun HomeScreen(
                                 .padding(horizontal = 24.dp),
                         )
 
-                        if(userNameState.internFilter == null) {
-                            HomeFilteringScreen(
-                                grade = R.string.home_recommend_no_filtering_hyphen,
-                                period = R.string.home_recommend_no_filtering_hyphen,
-                                startYear = R.string.home_recommend_no_filtering_hyphen,
-                                startMonth = R.string.home_recommend_no_filtering_hyphen
-                            )
-                        } else {
-                            with(userNameState.internFilter) {
-                                HomeFilteringScreen(
-                                    grade = get(0),
-                                    period = get(1),
-                                    startYear = get(2),
-                                    startMonth = get(3),
-                                )
-                            }
-                        }
+                        showInternFilter(userNameState = userNameState)
 
                         HorizontalDivider(
                             thickness = 4.dp,
@@ -210,3 +195,24 @@ fun HomeScreen(
 }
 
 private const val itemCount = 10
+
+@Composable
+private fun showInternFilter(userNameState: UserNameState) {
+    if(userNameState.internFilter == null) {
+        HomeFilteringScreen(
+            grade = R.string.home_recommend_no_filtering_hyphen,
+            period = R.string.home_recommend_no_filtering_hyphen,
+            startYear = R.string.home_recommend_no_filtering_hyphen,
+            startMonth = R.string.home_recommend_no_filtering_hyphen
+        )
+    } else {
+        with(userNameState.internFilter) {
+            HomeFilteringScreen(
+                grade = get(0),
+                period = get(1),
+                startYear = get(2),
+                startMonth = get(3),
+            )
+        }
+    }
+}
