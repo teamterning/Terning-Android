@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -21,12 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.terning.core.R
+import com.terning.core.designsystem.theme.CalGreen2
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey350
@@ -34,6 +37,7 @@ import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.noRippleClickable
 
 @Composable
 fun TerningDialog(
@@ -128,8 +132,56 @@ fun DialogContent(
                     text = "공고를 캘린더에 스크랩하시겠어요?",
                     style = TerningTheme.typography.body5,
                     color = Grey350,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(
+                        top = 4.dp,
+                        bottom = 13.dp
+                    )
                 )
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 13.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .background(
+                                color = CalGreen2,
+                                shape = RoundedCornerShape(14.dp)
+                            )
+                            .noRippleClickable { },
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_down_22),
+                            contentDescription = stringResource(
+                                id = R.string.dialog_content_color_button
+                            ),
+                            tint = White,
+                            modifier = Modifier.padding(
+                                start = 7.dp,
+                                top = 2.dp,
+                                bottom = 2.dp
+                            )
+                        )
+                        Text(
+                            text = stringResource(id = R.string.dialog_content_color_button),
+                            style = TerningTheme.typography.body5,
+                            color = White,
+                            modifier = Modifier.padding(end = 13.dp)
+                        )
+                    }
+                    HorizontalDivider(
+                        thickness = 1.dp,
+                        color = Grey200,
+                        modifier = Modifier.padding(
+                            top = 11.dp,
+                            bottom = 8.dp
+                        )
+                    )
+                }
             }
         }
     }

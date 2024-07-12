@@ -36,4 +36,6 @@
     <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
     <string name="sign_up_dialog_start">저장하기</string>
 
+    <!--Dialog-->
+    <string name="dialog_content_color_button">색상</string>
 </resources>
