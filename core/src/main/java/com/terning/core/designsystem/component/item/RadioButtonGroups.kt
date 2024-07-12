@@ -30,7 +30,6 @@ fun <T> RadioButtonGroups(
         verticalArrangement = Arrangement.spacedBy(verticalArrangementSpace),
         horizontalArrangement = Arrangement.spacedBy(horizontalArrangementSpace),
         modifier = modifier
-            //.padding(horizontal = 42.dp)
     ) {
         items(options) { option ->
             buttonComposable(

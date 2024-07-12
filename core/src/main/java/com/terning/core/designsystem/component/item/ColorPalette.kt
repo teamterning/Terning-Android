@@ -1,6 +1,7 @@
 package com.terning.core.designsystem.component.item
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -12,8 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.terning.core.R
 import com.terning.core.designsystem.theme.CalBlue1
 import com.terning.core.designsystem.theme.CalBlue2
 import com.terning.core.designsystem.theme.CalGreen1
@@ -29,7 +32,7 @@ import com.terning.core.extension.noRippleClickable
 @Composable
 fun ColorPalette(
     modifier: Modifier = Modifier,
-    onColorSelected:() -> Unit = {}
+    onColorSelected:(Color) -> Unit = {}
 ) {
     val colorList = listOf(
         CalRed,
@@ -49,7 +52,7 @@ fun ColorPalette(
         options = colorList,
         gridCellCount = 5,
         onOptionSelected = { color ->
-            Log.d("CalendarScreen","color: ${colorList.indexOf(color)}")
+            onColorSelected(color)
         },
         buttonComposable = {
             color, isSelected, onOptionSelected ->
@@ -81,9 +84,8 @@ internal fun ColorButton(
             contentAlignment = Alignment.Center
         ) {
             if (isSelected) {
-                Icon(
-                    imageVector = Icons.Outlined.Check,
-                    tint = Color.White,
+                Image(
+                    painter = painterResource(id = R.drawable.ic_color_check),
                     contentDescription = ""
                 )
             }
