@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.terning.core.R
+import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.CalGreen2
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey300
@@ -181,12 +182,62 @@ fun DialogContent(
                             bottom = 8.dp
                         )
                     )
+                    Text(
+                        text = "D-3",
+                        style = TerningTheme.typography.body5,
+                        color = TerningMain,
+                        modifier = Modifier.padding(bottom = 9.dp)
+                    )
+                    Column(
+                        modifier = Modifier.padding(
+                            bottom = 29.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(
+                            5.dp,
+                            Alignment.CenterVertically
+                        ),
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        listOf(
+                            "서류 마감" to "2024년 7월 23일",
+                            "근무 기간" to "2개월",
+                            "근무 시작" to "2024년 8월"
+                        ).forEach { (title, value) ->
+                            InternInfoRow(title, value)
+                        }
+                    }
                 }
+                RoundButton(
+                    style = TerningTheme.typography.button3,
+                    paddingVertical = 12.dp,
+                    cornerRadius = 8.dp,
+                    text = R.string.dialog_scrap_button,
+                    onButtonClick = { /*TODO*/ },
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
             }
         }
     }
 }
 
+@Composable
+fun InternInfoRow(title: String, value: String) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
+        verticalAlignment = Alignment.Top,
+    ) {
+        Text(
+            text = title,
+            style = TerningTheme.typography.body2,
+            color = Grey350,
+        )
+        Text(
+            text = value,
+            style = TerningTheme.typography.body3,
+            color = Grey500,
+        )
+    }
+}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

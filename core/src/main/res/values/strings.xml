@@ -38,4 +38,5 @@
 
     <!--Dialog-->
     <string name="dialog_content_color_button">색상</string>
+    <string name="dialog_scrap_button">내 캘린더에 스크랩하기</string>
 </resources>
