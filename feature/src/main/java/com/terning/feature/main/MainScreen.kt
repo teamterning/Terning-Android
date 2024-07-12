@@ -22,6 +22,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleInteractionSource
 import com.terning.feature.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
+import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.filtering.navigation.filteringNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
@@ -60,6 +61,7 @@ fun MainScreen(
                 signUpNavGraph(navHostController = navigator.navController)
                 filteringNavGraph(navHostController = navigator.navController)
                 searchProcessNavGraph(navHostController = navigator.navController)
+                internNavGraph(navHostController = navigator.navController)
             }
         }
     }
