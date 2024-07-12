@@ -6,5 +6,9 @@ import androidx.compose.ui.graphics.Color
 @Immutable
 data class Scrap(
     val text: String,
-    val backgroundColor: Color
+    val backgroundColor: Color,
+    val dDay: String,
+    val period: String,
+    val isScraped: Boolean = true,
+    val image: String? = null
 )
