@@ -43,7 +43,7 @@ import com.terning.core.extension.noRippleClickable
 
 
 @Composable
-fun DialogContent(
+fun ScrapDialogContent(
     onDismissRequest: () -> Unit,
     isScrapped: Boolean,
 ) {

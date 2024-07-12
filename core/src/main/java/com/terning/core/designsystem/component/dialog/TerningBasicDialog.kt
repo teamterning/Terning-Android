@@ -6,7 +6,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 @Composable
-fun TerningDialog(
+fun TerningBasicDialog(
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties(
         usePlatformDefaultWidth = false,
@@ -26,11 +26,11 @@ fun TerningDialog(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun TerningDialogPreview() {
-    TerningDialog(
+fun TerningBasicDialogPreview() {
+    TerningBasicDialog(
         onDismissRequest = {},
         content = {
-            DialogContent(
+            ScrapDialogContent(
                 onDismissRequest = {},
                 isScrapped = false
             )
