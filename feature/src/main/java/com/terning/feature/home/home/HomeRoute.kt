@@ -217,10 +217,10 @@ private fun ShowInternFilter(userNameState: UserNameState) {
     } else {
         with(userNameState.internFilter) {
             HomeFilteringScreen(
-                grade = get(0),
-                period = get(1),
-                startYear = get(2),
-                startMonth = get(3),
+                grade = grade,
+                period = workingPeriod,
+                startYear = startYear,
+                startMonth = startMonth,
             )
         }
     }

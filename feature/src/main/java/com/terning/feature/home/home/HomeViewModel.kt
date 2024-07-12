@@ -10,6 +10,7 @@ import com.terning.core.designsystem.theme.CalGreen2
 import com.terning.core.designsystem.theme.CalOrange1
 import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalYellow
+import com.terning.feature.home.home.model.InternFilterData
 import com.terning.feature.home.home.model.RecommendInternData
 import com.terning.feature.home.home.model.ScrapData
 import com.terning.feature.home.home.model.UserNameState
@@ -26,7 +27,12 @@ class HomeViewModel @Inject constructor(
     private val _userName by mutableStateOf<UserNameState>(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
-            internFilter = listOf(4, 1, 2024, 8)
+            internFilter = InternFilterData(
+                grade = 4,
+                workingPeriod = 1,
+                startYear = 2024,
+                startMonth = 7,
+            )
         )
     )
     val userName get() = _userName
@@ -45,8 +51,7 @@ class HomeViewModel @Inject constructor(
     val recommendInternData get() = _recommendInternState.asStateFlow()
 }
 
-private fun getScrapData(): List<ScrapData>
-= listOf(
+private fun getScrapData(): List<ScrapData> = listOf(
     ScrapData(
         internTitle = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         scrapColor = CalBlue1,
@@ -97,8 +102,7 @@ private fun getScrapData(): List<ScrapData>
     ),
 )
 
-private fun getRecommendData() : List<RecommendInternData>
-= listOf(
+private fun getRecommendData(): List<RecommendInternData> = listOf(
     RecommendInternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
