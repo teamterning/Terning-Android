@@ -49,14 +49,14 @@ fun StartFilteringScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = stringResource(id = R.string.start_title),
+                text = stringResource(id = R.string.start_filtering_title),
                 style = TerningTheme.typography.title1,
                 modifier = Modifier.padding(bottom = 35.dp),
                 textAlign = TextAlign.Center
             )
             Image(
                 painter = painterResource(id = R.drawable.img_start),
-                contentDescription = stringResource(id = R.string.start_main_image),
+                contentDescription = stringResource(id = R.string.start_filtering_main_image),
             )
             Spacer(modifier = Modifier.weight(2f))
         }
@@ -72,7 +72,7 @@ fun StartFilteringScreen(
                 RectangleButton(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 20.dp,
-                    text = R.string.start_button,
+                    text = R.string.start_filtering_button,
                     onButtonClick = { navController.navigateFilteringOne() },
                 )
             }
