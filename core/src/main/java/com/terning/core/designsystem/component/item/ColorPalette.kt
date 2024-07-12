@@ -44,11 +44,6 @@ fun ColorPalette(
         CalPink
     )
 
-    val colorButton: @Composable (Color, Boolean, (Color) -> Unit) -> Unit = {
-        color: Color, isSelected: Boolean, onOptionSelected:(Color)-> Unit ->
-        ColorButton(color = color, isSelected = isSelected, onColorSelected = onOptionSelected)
-    }
-
     RadioButtonGroups(
         modifier = modifier.size(251.dp, 84.dp),
         options = colorList,
@@ -56,7 +51,13 @@ fun ColorPalette(
         onOptionSelected = { color ->
             Log.d("CalendarScreen","color: ${colorList.indexOf(color)}")
         },
-        buttonComposable = colorButton,
+        buttonComposable = {
+            color, isSelected, onOptionSelected ->
+            ColorButton(
+                color = color,
+                isSelected = isSelected,
+                onColorSelected = onOptionSelected)
+        },
         verticalArrangementSpace = 6.dp,
         horizontalArrangementSpace = 14.dp,
     )
