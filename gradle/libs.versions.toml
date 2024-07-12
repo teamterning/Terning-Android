@@ -56,7 +56,7 @@ coroutine = "1.8.1"
 timber = "5.0.1"
 
 ## Coil
-coil = "1.4.0"
+coil = "2.4.0"
 
 ## Security
 securityVersion = "1.1.0-alpha06"
