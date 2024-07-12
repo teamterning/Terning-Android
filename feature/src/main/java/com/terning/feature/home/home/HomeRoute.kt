@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,8 +41,10 @@ import com.terning.core.extension.customShadow
 import com.terning.feature.R
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
+import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.UserNameState
+import com.terning.feature.home.home.model.UserScrapState
 
 @Composable
 fun HomeRoute() {
@@ -60,6 +63,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
 ) {
     val userNameState = viewModel.userName
+    val userScrapState = viewModel.scrapData.collectAsState()
     var sheetState by remember { mutableStateOf(false) }
 
     if (sheetState) {
@@ -104,7 +108,7 @@ fun HomeScreen(
                             style = TerningTheme.typography.title1,
                             color = Black,
                         )
-                        HomeTodayIntern()
+                        showTodayIntern(userScrapState = userScrapState.value)
                     }
                 }
                 stickyHeader {
@@ -195,6 +199,19 @@ fun HomeScreen(
 }
 
 private const val itemCount = 10
+
+@Composable
+private fun showTodayIntern(userScrapState: UserScrapState) {
+    if(userScrapState.isScrapExist) {
+        if(userScrapState.scrapData == null) {
+            HomeTodayEmptyIntern(isButtonExist = true)
+        } else {
+            HomeTodayIntern()
+        }
+    } else {
+        HomeTodayEmptyIntern(isButtonExist = false)
+    }
+}
 
 @Composable
 private fun showInternFilter(userNameState: UserNameState) {
