@@ -39,7 +39,11 @@ fun HomeTodayInternItem(
                 Text(
                     text = title,
                     modifier = modifier
-                        .padding(start = 8.dp, end = 9.dp, bottom = 8.dp),
+                        .padding(
+                            start = 8.dp,
+                            end = 9.dp,
+                            bottom = 8.dp
+                        ),
                     style = TerningTheme.typography.button3,
                     color = Black,
                     maxLines = 3,
