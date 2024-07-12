@@ -6,7 +6,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.feature.R
@@ -21,12 +23,12 @@ fun ChangeFilterRoute(
 @Composable
 fun ChangeFilterScreen(navController: NavController) {
     Scaffold(
-        modifier = Modifier,
         topBar = {
             BackButtonTopAppBar(
                 title = stringResource(id = R.string.change_filter_top_bar_title),
                 onBackButtonClick = { navController.popBackStack() },
                 modifier = Modifier
+                    .shadow(elevation = 2.dp)
             )
         }
     ) { paddingValues ->
