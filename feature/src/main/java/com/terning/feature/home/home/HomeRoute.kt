@@ -155,8 +155,6 @@ fun HomeScreen(
     }
 }
 
-private const val itemCount = 10
-
 @Composable
 private fun ShowMainTitleWithName(userNameState: UserNameState) {
     Text(
