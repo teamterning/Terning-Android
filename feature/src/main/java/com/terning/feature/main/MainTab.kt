@@ -47,6 +47,5 @@ enum class MainTab(
         fun contains(predicate: @Composable (Route) -> Boolean): Boolean {
             return entries.map { it.route }.any { predicate(it) }
         }
-
     }
 }

@@ -45,21 +45,24 @@ fun CalendarScrapListScreen(
                     .background(Back)
             ) {
                 items(scrapList.size) { day ->
-                    val currentDate = LocalDate.of(getDate.year, getDate.monthValue, day + 1)
-                    CalendarScrapList(
-                        selectedDate = currentDate,
-                        scrapLists = scrapList,
-                        isFromList = true,
-                        noScrapScreen = {})
+                    runCatching {
+                        LocalDate.of(getDate.year, getDate.monthValue, day + 1)
+                    }.onSuccess {
+                        CalendarScrapList(
+                            selectedDate = it,
+                            scrapLists = scrapList,
+                            isFromList = true,
+                            noScrapScreen = {})
 
 
-                    if (scrapList[day].isNotEmpty()) {
-                        Spacer(
-                            modifier = Modifier
-                                .height(4.dp)
-                                .fillMaxWidth()
-                                .background(Grey200)
-                        )
+                        if (scrapList[day].isNotEmpty()) {
+                            Spacer(
+                                modifier = Modifier
+                                    .height(4.dp)
+                                    .fillMaxWidth()
+                                    .background(Grey200)
+                            )
+                        }
                     }
                 }
             }
