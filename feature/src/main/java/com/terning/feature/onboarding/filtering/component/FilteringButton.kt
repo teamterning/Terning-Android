@@ -16,7 +16,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey400
@@ -26,6 +25,7 @@ import com.terning.core.designsystem.theme.TerningSub3
 import com.terning.core.designsystem.theme.TerningSub4
 import com.terning.core.designsystem.theme.TerningSub5
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
 
 @Composable
@@ -38,7 +38,7 @@ fun FilteringButton(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val backgroundColor = when {
-        !isSelected && !isPressed -> Color.Transparent
+        !isSelected && !isPressed -> White
         !isSelected && isPressed -> TerningSub5
         isSelected && !isPressed -> TerningSub4
         else -> TerningSub3
