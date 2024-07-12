@@ -90,7 +90,8 @@ fun SignInScreen(
                 onDismissRequest = { openDialog.value = false },
                 content = {
                     DialogContent(
-                        onDismissRequest = { openDialog.value = false }
+                        onDismissRequest = { openDialog.value = false },
+                        isScrapped = false
                     )
                 }
             )
