@@ -126,12 +126,23 @@ fun HomeScreen(
                                 .padding(horizontal = 24.dp),
                         )
 
-                        HomeFilteringScreen(
-                            grade = 3,
-                            period = 1,
-                            startYear = 2024,
-                            startMonth = 7,
-                        )
+                        if(userNameState.internFilter == null) {
+                            HomeFilteringScreen(
+                                grade = R.string.home_recommend_no_filtering_hyphen,
+                                period = R.string.home_recommend_no_filtering_hyphen,
+                                startYear = R.string.home_recommend_no_filtering_hyphen,
+                                startMonth = R.string.home_recommend_no_filtering_hyphen
+                            )
+                        } else {
+                            with(userNameState.internFilter) {
+                                HomeFilteringScreen(
+                                    grade = get(0),
+                                    period = get(1),
+                                    startYear = get(2),
+                                    startMonth = get(3),
+                                )
+                            }
+                        }
 
                         HorizontalDivider(
                             thickness = 4.dp,
