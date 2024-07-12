@@ -54,7 +54,7 @@ fun StatusTwoRadioGroup(
                     onButtonClick(index)
                 },
                 cornerRadius = 15.dp,
-                paddingVertical = if (selectedButton[index]) 17.dp else 26.dp
+                paddingVertical = if (selectedButton[index]) 15.dp else 26.dp
             )
         }
     }

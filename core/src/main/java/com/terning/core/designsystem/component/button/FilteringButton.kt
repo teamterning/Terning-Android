@@ -74,7 +74,7 @@ fun FilteringButton(
         ) {
             Text(
                 text = stringResource(id = text),
-                style = TerningTheme.typography.button3,
+                style = TerningTheme.typography.button3_a,
                 textAlign = TextAlign.Center
             )
         }

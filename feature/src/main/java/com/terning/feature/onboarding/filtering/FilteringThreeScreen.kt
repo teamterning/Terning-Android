@@ -1,5 +1,6 @@
 package com.terning.feature.onboarding.filtering
 
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,8 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
+import com.terning.core.designsystem.component.datepicker.DatePicker
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.onboarding.filtering.navigation.navigateFilteringThree
@@ -44,7 +47,7 @@ fun FilteringThreeScreen(
                 .padding(paddingValues)
         ) {
             TerningImage(
-                painter = R.drawable.ic_filtering_status2,
+                painter = R.drawable.ic_filtering_status3,
                 modifier = modifier.padding(
                     top = 20.dp,
                     start = 24.dp
@@ -66,6 +69,12 @@ fun FilteringThreeScreen(
                     start = 24.dp,
                     bottom = 25.dp
                 )
+            )
+            DatePicker(
+                value = "value",
+                placeHolder= "placeHolder",
+                borderColor = TerningMain,
+                isEditable=  false,
             )
             Spacer(modifier = modifier.weight(1f))
             RectangleButton(
