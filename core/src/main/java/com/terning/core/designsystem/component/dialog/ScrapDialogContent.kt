@@ -49,6 +49,7 @@ import com.terning.core.extension.noRippleClickable
 fun ScrapDialogContent(
     onDismissRequest: () -> Unit,
     isScrapped: Boolean,
+    internInfoList: List<Pair<String, String>>,
 ) {
     var isColorChange by remember { mutableStateOf(false) }
     var selectedColor by remember { mutableStateOf(CalRed) }
@@ -69,12 +70,15 @@ fun ScrapDialogContent(
         ) {
             IconButton(
                 onClick = { onDismissRequest() },
-                modifier = Modifier.padding(6.dp)
+                modifier = Modifier
+                    .padding(6.dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_dialog_x_32),
                     contentDescription = null,
                     tint = Grey300,
+                    modifier = Modifier
+                        .noRippleClickable { onDismissRequest() }
                 )
             }
         }
@@ -209,11 +213,7 @@ fun ScrapDialogContent(
                             ),
                             horizontalAlignment = Alignment.Start,
                         ) {
-                            listOf(
-                                stringResource(id = R.string.intern_info_d_day) to "2024년 7월 23일",
-                                stringResource(id = R.string.intern_info_working) to "2개월",
-                                stringResource(id = R.string.intern_info_start_date) to "2024년 8월"
-                            ).forEach { (title, value) ->
+                            internInfoList.forEach { (title, value) ->
                                 InternInfoRow(title, value)
                             }
                         }

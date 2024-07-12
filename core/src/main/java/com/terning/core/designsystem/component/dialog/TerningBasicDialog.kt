@@ -32,7 +32,8 @@ fun TerningBasicDialogPreview() {
         content = {
             ScrapDialogContent(
                 onDismissRequest = {},
-                isScrapped = false
+                isScrapped = false,
+                internInfoList = listOf()
             )
         }
     )

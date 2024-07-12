@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,8 +21,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
-import com.terning.core.designsystem.component.dialog.ScrapDialogContent
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
@@ -60,8 +56,6 @@ fun SignInScreen(
     modifier: Modifier = Modifier,
     onSignInClick: () -> Unit = {},
 ) {
-    val openDialog = remember { mutableStateOf(false) }
-
     Column(
         modifier = modifier
             .wrapContentHeight()
@@ -77,25 +71,10 @@ fun SignInScreen(
         KakaoButton(
             title = stringResource(id = R.string.sign_in_kakao_button),
             onSignInClick = {
-//                onSignInClick()
-                openDialog.value = true
+                onSignInClick()
             },
             modifier = modifier.padding(horizontal = 20.dp)
         )
-    }
-
-    when {
-        openDialog.value -> {
-            TerningBasicDialog(
-                onDismissRequest = { openDialog.value = false },
-                content = {
-                    ScrapDialogContent(
-                        onDismissRequest = { openDialog.value = false },
-                        isScrapped = false
-                    )
-                }
-            )
-        }
     }
 }
 
