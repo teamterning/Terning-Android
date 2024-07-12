@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,6 +33,7 @@ fun InternBottomBar(
     modifier: Modifier,
 ) {
     var isScrap by remember { mutableStateOf(false) }
+    var viewCount by remember { mutableIntStateOf(512) }
 
     Row(
         modifier = modifier
@@ -70,11 +72,12 @@ fun InternBottomBar(
                             )
                             .noRippleClickable {
                                 isScrap = !isScrap
+                                if (isScrap) viewCount += 1 else viewCount -= 1
                             },
                         tint = if (isScrap) TerningMain else Grey350
                     )
                     Text(
-                        text = "512회",
+                        text = "${viewCount}회",
                         style = TerningTheme.typography.detail3,
                         color = Grey400
                     )

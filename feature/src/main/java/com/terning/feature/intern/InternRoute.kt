@@ -55,7 +55,7 @@ fun InternScreen(
         modifier = modifier,
         topBar = {
             BackButtonTopAppBar(
-                title = "공고 정보",
+                title = stringResource(id = R.string.intern_top_app_bar_title),
                 modifier = Modifier.customShadow(
                     color = Grey200,
                     offsetY = 2.dp
@@ -114,7 +114,7 @@ fun InternScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "D-3",
+                            text = stringResource(id = R.string.terning_post_d_day),
                             style = TerningTheme.typography.body0,
                             color = TerningMain,
                             modifier = Modifier.padding(
@@ -148,9 +148,9 @@ fun InternScreen(
                         horizontalAlignment = Alignment.Start,
                     ) {
                         val internInfo = listOf(
-                            "서류 마감" to "2024년 7월 23일",
-                            "근무 기간" to "2개월",
-                            "근무 시작" to "2024년 8월"
+                            stringResource(id = R.string.intern_info_d_day) to "2024년 7월 23일",
+                            stringResource(id = R.string.intern_info_working) to "2개월",
+                            stringResource(id = R.string.intern_info_start_date) to "2024년 8월"
                         )
                         internInfo.forEach { (title, value) ->
                             InternInfoRow(title, value)
@@ -166,7 +166,7 @@ fun InternScreen(
                             )
                     ) {
                         Text(
-                            text = "조회수",
+                            text = stringResource(id = R.string.intern_view_count),
                             style = TerningTheme.typography.detail3,
                             color = Grey400
                         )
@@ -182,9 +182,15 @@ fun InternScreen(
                 Column(
                     verticalArrangement = Arrangement.Top,
                 ) {
-                    InternPageTitle(modifier = modifier, text = "기업 정보")
+                    InternPageTitle(
+                        modifier = modifier,
+                        text = stringResource(id = R.string.intern_sub_title_intern_info)
+                    )
                     InternCompanyInfo(modifier = modifier)
-                    InternPageTitle(modifier = modifier, text = "공고 요약")
+                    InternPageTitle(
+                        modifier = modifier,
+                        text = stringResource(id = R.string.intern_sub_title_intern_summary)
+                    )
                     Column(
                         modifier = modifier
                             .padding(
@@ -214,7 +220,7 @@ fun InternScreen(
                                     contentDescription = null
                                 )
                                 Text(
-                                    text = "자격요건",
+                                    text = stringResource(id = R.string.intern_info_request),
                                     style = TerningTheme.typography.button2,
                                     color = Black
                                 )
@@ -263,7 +269,7 @@ fun InternScreen(
                                     contentDescription = null,
                                 )
                                 Text(
-                                    text = "직무",
+                                    text = stringResource(id = R.string.intern_info_work),
                                     style = TerningTheme.typography.button2,
                                     color = Black
                                 )
@@ -287,7 +293,7 @@ fun InternScreen(
                     }
                     InternPageTitle(
                         modifier = modifier,
-                        text = "상세 정보"
+                        text = stringResource(id = R.string.intern_sub_title_intern_detail)
                     )
                     Column(
                         modifier = modifier.padding(
