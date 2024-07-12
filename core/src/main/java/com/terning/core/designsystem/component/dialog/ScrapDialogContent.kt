@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
@@ -96,8 +96,8 @@ fun ScrapDialogContent(
             ) {
                 Row(
                     modifier = Modifier
-                        .width(60.dp)
-                        .height(60.dp)
+                        .aspectRatio(1f)
+                        .size(60.dp)
                         .border(
                             width = 1.dp,
                             color = TerningMain,

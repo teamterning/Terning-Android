@@ -8,11 +8,13 @@ fun BackButtonTopAppBar(
     title: String,
     modifier: Modifier,
     onBackButtonClick: (() -> Unit),
+    actions: List<@Composable () -> Unit> = emptyList(),
 ) {
     TerningBasicTopAppBar(
         title = title,
         showBackButton = true,
         modifier = modifier,
-        onBackButtonClick = { onBackButtonClick.invoke() },
+        onBackButtonClick = { onBackButtonClick() },
+        actions = actions
     )
 }
