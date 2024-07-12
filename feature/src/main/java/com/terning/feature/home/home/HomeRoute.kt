@@ -90,7 +90,10 @@ fun HomeScreen(
                 .padding(top = paddingValues.calculateTopPadding()),
         ) {
             LazyColumn(
-                contentPadding = PaddingValues(2.dp),
+                contentPadding = PaddingValues(
+                    top = 2.dp,
+                    bottom = 20.dp,
+                ),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
