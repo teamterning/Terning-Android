@@ -1,15 +1,12 @@
 package com.terning.core.designsystem.component.item
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +19,6 @@ import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 
 /**
@@ -53,7 +49,11 @@ fun ScrapBox(
             .shadow(
                 elevation = elevation,
                 RoundedCornerShape(cornerRadius),
-            ).background(scrapColor)
+            )
+            .background(
+                color = scrapColor,
+                shape = RoundedCornerShape(cornerRadius)
+            )
     ) {
         Box(
             modifier = Modifier

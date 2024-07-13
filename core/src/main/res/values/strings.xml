@@ -45,4 +45,8 @@
     <string name="intern_info_d_day">서류 마감</string>
     <string name="intern_info_working">근무 기간</string>
     <string name="intern_info_start_date">근무 시작</string>
+
+    <!--image-->
+    <string name="image_content_descriptin">TerningBasicImage</string>
+
 </resources>

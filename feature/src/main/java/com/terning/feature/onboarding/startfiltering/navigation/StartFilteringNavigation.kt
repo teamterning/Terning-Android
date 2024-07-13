@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.filtering.navigation
+package com.terning.feature.onboarding.startfiltering.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,25 +6,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.Route
-import com.terning.feature.onboarding.filtering.FilteringRoute
+import com.terning.feature.onboarding.startfiltering.StartFilteringScreen
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateFiltering(navOptions: NavOptions? = null) {
+fun NavController.navigateStartFiltering(navOptions: NavOptions? = null) {
     navigate(
-        route = Filtering,
+        route = StartFiltering,
         navOptions = navOptions
     )
 }
 
-fun NavGraphBuilder.filteringNavGraph(
+fun NavGraphBuilder.startFilteringNavGraph(
     navHostController: NavHostController
 ) {
-    composable<Filtering> {
-        FilteringRoute(
-            navController = navHostController
-        )
+    composable<StartFiltering> {
+        StartFilteringScreen(navController = navHostController)
     }
 }
 
 @Serializable
-data object Filtering : Route
+data object StartFiltering : Route

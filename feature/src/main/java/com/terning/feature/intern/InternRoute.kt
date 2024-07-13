@@ -61,7 +61,7 @@ fun InternScreen(
                     offsetY = 2.dp
                 ),
                 onBackButtonClick = {},
-                listOf(
+                actions = listOf(
                     {},
                     {
                         IconButton(onClick = {}) {
