@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun BackButtonTopAppBar(
-    title: String,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    title: String = "",
     onBackButtonClick: (() -> Unit),
     actions: List<@Composable () -> Unit> = emptyList(),
 ) {

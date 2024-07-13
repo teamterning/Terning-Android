@@ -72,7 +72,7 @@ fun SearchProcessScreen(
                     if (state.showSearchResults) R.string.search_process_result_top_bar_title
                     else R.string.search_process_top_bar_title
                 ),
-                onBackButtonClick = { navController.popBackStack() },
+                onBackButtonClick = { navController.navigateUp() },
                 modifier = Modifier
             )
         }

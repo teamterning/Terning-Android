@@ -15,16 +15,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
@@ -39,8 +35,6 @@ import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
-import com.terning.feature.intern.component.ScrapCancelDialogContent
-import com.terning.feature.intern.component.ScrapDialogContent
 import java.text.DecimalFormat
 
 @Composable
@@ -75,9 +69,7 @@ fun InternScreen(
                     color = Grey200,
                     offsetY = 2.dp
                 ),
-                onBackButtonClick = {
-                    navController.navigateUp()
-                },
+                onBackButtonClick = {},
                 listOf(
                     {},
                     {
@@ -106,7 +98,6 @@ fun InternScreen(
                 onScrapClick = { viewModel.updateScrapDialogVisible(true) }
             )
         }
-
     ) { paddingValues ->
         LazyColumn(
             modifier = modifier
@@ -199,7 +190,6 @@ fun InternScreen(
                         )
                     }
                 }
-
 
                 Column(
                     verticalArrangement = Arrangement.Top,
@@ -356,3 +346,5 @@ fun InternScreen(
         }
     }
 }
+
+const val DECIMAL_FORMAT = "#,###"

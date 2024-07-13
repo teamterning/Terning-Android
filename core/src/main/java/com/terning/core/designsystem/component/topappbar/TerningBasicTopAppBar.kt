@@ -30,15 +30,12 @@ fun TerningBasicTopAppBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
-
             Text(
                 text = title,
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title2
             )
-
         },
-        modifier = modifier,
         navigationIcon = {
             if (showBackButton) {
                 IconButton(
