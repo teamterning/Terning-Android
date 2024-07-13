@@ -138,9 +138,9 @@ fun HomeScreen(
                     }
                 }
 
-                if (userNameState.internFilter != null && recommendInternData != null) {
-                    items(recommendInternData!!.size) { index ->
-                        ShowRecommendIntern(recommendInternData!![index])
+                if (userNameState.internFilter != null && recommendInternData.isNotEmpty()) {
+                    items(recommendInternData.size) { index ->
+                        ShowRecommendIntern(recommendInternData[index])
                     }
                 }
             }
@@ -151,7 +151,7 @@ fun HomeScreen(
                         .padding(horizontal = 24.dp)
                         .fillMaxSize()
                 )
-            } else if (recommendInternData == null) {
+            } else if (recommendInternData.isEmpty()) {
                 HomeRecommendEmptyIntern()
             }
         }
