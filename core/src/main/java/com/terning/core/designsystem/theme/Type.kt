@@ -39,6 +39,7 @@ class TerningTypography internal constructor(
     button1: TextStyle,
     button2: TextStyle,
     button3: TextStyle,
+    button3_a: TextStyle,
     button4: TextStyle,
     button5: TextStyle,
     button6: TextStyle,
@@ -88,6 +89,8 @@ class TerningTypography internal constructor(
         private set
     var button3: TextStyle by mutableStateOf(button3)
         private set
+    var button3_a: TextStyle by mutableStateOf(button3_a)
+        private set
     var button4: TextStyle by mutableStateOf(button4)
         private set
     var button5: TextStyle by mutableStateOf(button5)
@@ -129,6 +132,7 @@ class TerningTypography internal constructor(
         button1: TextStyle = this.button1,
         button2: TextStyle = this.button2,
         button3: TextStyle = this.button3,
+        button3_a: TextStyle = this.button3_a,
         button4: TextStyle = this.button4,
         button5: TextStyle = this.button5,
         button6: TextStyle = this.button6,
@@ -159,6 +163,7 @@ class TerningTypography internal constructor(
         button1,
         button2,
         button3,
+        button3_a,
         button4,
         button5,
         button6,
@@ -191,6 +196,7 @@ class TerningTypography internal constructor(
         button1 = other.button1
         button2 = other.button2
         button3 = other.button3
+        button3_a = other.button3_a
         button4 = other.button4
         button5 = other.button5
         button6 = other.button6
@@ -339,6 +345,13 @@ fun TerningTypography(): TerningTypography {
             fontSize = 13.sp,
             letterSpacing = (0.002).em,
             lineHeight = (15.6).sp,
+        ),
+        button3_a = TextStyle(
+            fontFamily = PretendardMedium,
+            fontWeight = FontWeight.Medium,
+            fontSize = 13.sp,
+            letterSpacing = (0.002).em,
+            lineHeight = (19.6).sp,
         ),
         button4 = TextStyle(
             fontFamily = PretendardMedium,
