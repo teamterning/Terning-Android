@@ -1,0 +1,70 @@
+package com.terning.feature.home.changefilter.component
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.component.button.ChangeFilterButton
+import com.terning.core.designsystem.component.button.FilteringButton
+import com.terning.feature.R
+
+@Composable
+fun ChangeFilteringRadioGroup(
+    filterType: Int,
+    onButtonClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val options = if (filterType == 0) {
+        listOf(
+            R.string.filtering_status1_button1,
+            R.string.filtering_status1_button2,
+            R.string.filtering_status1_button3,
+            R.string.filtering_status1_button4,
+        )
+    } else {
+        listOf(
+            R.string.filtering_status2_button1,
+            R.string.filtering_status2_button2,
+            R.string.filtering_status2_button3,
+        )
+    }
+
+    val selectedIndex = remember { mutableIntStateOf(0) }
+    val selectedButton = remember { mutableStateListOf(false, false, false, false) }
+
+    LazyHorizontalGrid(
+        rows = GridCells.Fixed(1),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .padding(horizontal = 24.dp)
+            .fillMaxWidth(),
+    ) {
+        itemsIndexed(options) { index, option ->
+            ChangeFilterButton(
+                isSelected = selectedButton[index],
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = options[index],
+                cornerRadius = 10.dp,
+                paddingVertical = 10.dp,
+                onButtonClick = {
+                    selectedIndex.intValue = option
+                    selectedButton.indices.forEach { i -> selectedButton[i] = false }
+                    selectedButton[index] = true
+                    onButtonClick(index)
+                }
+            )
+        }
+    }
+}

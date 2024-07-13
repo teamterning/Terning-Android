@@ -111,6 +111,7 @@
     <!-- changeFilter -->
     <string name="change_filter_top_bar_title">필터링 재설정</string>
     <string name="change_filter_grade_main">재학 상태를 선택해주세요</string>
+    <string name="change_filter_save">저장하기</string>
 
     <!--Intern-->
     <string name="intern_share_icon">공유 아이콘</string>

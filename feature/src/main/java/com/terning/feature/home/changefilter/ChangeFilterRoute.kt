@@ -2,7 +2,9 @@ package com.terning.feature.home.changefilter
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +17,7 @@ import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
+import com.terning.feature.home.changefilter.component.ChangeFilteringRadioGroup
 import com.terning.feature.home.changefilter.component.FilteringMainTitleText
 import com.terning.feature.home.changefilter.component.FilteringSubTitleText
 import com.terning.feature.home.home.navigation.navigateHome
@@ -53,6 +56,12 @@ fun ChangeFilterScreen(navController: NavController) {
                     end = 24.dp
                 )
             )
+            ChangeFilteringRadioGroup(
+                filterType = 0,
+                modifier = Modifier
+                    .height(36.dp),
+                onButtonClick = { }
+            )
 
             showTitle(
                 mainTitle = stringResource(id = R.string.filtering_status2_title),
@@ -62,6 +71,12 @@ fun ChangeFilterScreen(navController: NavController) {
                     start = 24.dp,
                     end = 24.dp
                 )
+            )
+            ChangeFilteringRadioGroup(
+                filterType = 1,
+                modifier = Modifier
+                    .height(36.dp),
+                onButtonClick = { }
             )
 
             showTitle(
