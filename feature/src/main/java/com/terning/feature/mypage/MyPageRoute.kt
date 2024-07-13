@@ -8,7 +8,7 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
-
+    MyPageScreen()
 }
 
 @Composable
