@@ -80,6 +80,10 @@
         필터링 설정에 일치하는 인턴 공고가 없어요!\n딱 맞는 인턴 공고가 올라오면 바로 알려드릴게요
     </string>
     <string name="home_recommend_no_intern_description">인턴 공고가 없어요!</string>
+    <string name="home_recommend_no_filtering">
+        지금 공고 필터링을 설정하고\n내 계획에 딱 맞는 대학생 인턴 공고를 추천받아보세요!
+    </string>
+    <string name="home_recommend_no_filtering_hyphen">-</string>
 
     <!-- changeFilter -->
     <string name="change_filter_grade_main">재학 상태를 선택해주세요</string>
