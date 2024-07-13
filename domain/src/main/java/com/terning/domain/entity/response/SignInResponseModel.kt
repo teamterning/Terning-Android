@@ -1,8 +1,8 @@
 package com.terning.domain.entity.response
 
 data class SignInResponseModel(
-    val accessToken: String,
-    val refreshToken: String,
-    val userId: Long,
-    val authType: String
+    val platform: String,
+    val id: Long,
+    val createdAt: String,
+ //   val authType: String
 )

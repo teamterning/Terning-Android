@@ -1,6 +1,7 @@
 package com.terning.feature.onboarding.signin
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
@@ -24,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val tokenRepository: TokenRepository
+  //  private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     private val _signInState = MutableStateFlow(SignInState())
@@ -81,15 +82,16 @@ class SignInViewModel @Inject constructor(
         accessToken: String,
         platform: String = KAKAO
     ) {
+        Log.d("LYB", accessToken.toString())
         viewModelScope.launch {
             authRepository.postSignIn(
                 accessToken,
                 SignInRequestModel(platform)
             ).onSuccess { response ->
-                tokenRepository.setTokens(response.accessToken, response.refreshToken)
-                tokenRepository.setUserId(response.userId)
+//                tokenRepository.setTokens(response.accessToken, response.refreshToken)
+//                tokenRepository.setUserId(response.userId)
 
-                if (response.accessToken == null) _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
+                if (response.createdAt == null) _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
                 else _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
             }.onFailure {
                 _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
