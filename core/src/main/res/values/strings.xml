@@ -5,25 +5,25 @@
     <string name="ic_logo">탑 바 로고</string>
     <string name="ic_20_right">오른쪽 버튼</string>
 
-    <!-- MyPage-->
+    <!--MyPage-->
     <string name="my_page_top_app_bar">프로필 수정</string>
 
-    <!-- button-->
+    <!--Button-->
     <string name="button_preview">button</string>
 
-    <!-- Intern Item-->
+    <!--InternItem-->
     <string name="intern_item_working_period">근무기간</string>
     <string name="intern_item_working_period_month">%s개월</string>
     <string name="intern_item_d_day">D-%s</string>
     <string name="intern_item_scrap">스크랩</string>
 
-    <!-- Calendar-->
+    <!--Calendar-->
     <string name="calendar_button_description_previous">previous</string>
     <string name="calendar_button_description_next">next</string>
     <string name="calendar_button_description_list">list</string>
 
-    <!-- 정렬 버튼 + 바텀시트 -->
-    <string name="sort_by_earliest">채용 마감 이른순</string>
+    <!--SortByBottom-->
+    <string name="sort_by_earliest">채용 마감 이른 순</string>
     <string name="sort_by_shortest">짧은 근무 기간순</string>
     <string name="sort_by_longest">긴 근무 기간순</string>
     <string name="sort_by_scrap">스크랩 많은순</string>
