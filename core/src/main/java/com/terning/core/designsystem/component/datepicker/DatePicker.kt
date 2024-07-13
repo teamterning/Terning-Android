@@ -32,10 +32,12 @@ import okhttp3.internal.toImmutableList
 
 private const val START_YEAR = 2023
 private const val END_YEAR = 2025
+private const val START_MONTH = 1
+private const val END_MONTH = 12
 private val years =
     (listOf("") + (START_YEAR..END_YEAR).map { it.toString() } + listOf("") + listOf("")).toImmutableList()
 private val monthsNumber =
-    (listOf("") + (1..12).map { it.toString() } + listOf("") + listOf("")).toImmutableList()
+    (listOf("") + (START_MONTH..END_MONTH).map { it.toString() } + listOf("") + listOf("")).toImmutableList()
 
 @Composable
 fun DatePickerUI(
