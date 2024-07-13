@@ -30,14 +30,15 @@
 
     <string name="search_today_popular">요즘 대학생들에게 인기 있는 공고</string>
     <string name="search_most_view_intern">지금 조회수가 많은 공고들이에요</string>
-    <string name="search_most_scrap_intern">지금 스크랩 수가 많은 공고들이에요</string>
+    <string name="search_most_scrap_intern">지금 스크랩수가 많은 공고들이에요</string>
 
     <!--SearchProcess-->
     <string name="search_process_top_bar_title">검색</string>
     <string name="search_process_question_text">어떤 공고를\n찾고 계시나요?</string>
     <string name="search_process_result_top_bar_title">검색 결과</string>
     <string name="search_process_no_result_icon">검색 결과 없을 때 아이콘</string>
-    <string name="search_process_no_result_text">와 일치하는 검색 결과가 없어요</string>
+    <string name="search_process_no_result_text_sub">에</string>
+    <string name="search_process_no_result_text_main">해당하는 검색 결과가 없어요</string>
 
 
     <!--calendar-->

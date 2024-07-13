@@ -1,10 +1,13 @@
 package com.terning.feature.search.searchprocess
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +21,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,6 +36,8 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.feature.R
+
+private const val MAX_LINES = 1
 
 @Composable
 fun SearchProcessRoute(
@@ -76,7 +82,7 @@ fun SearchProcessScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(horizontal = 24.dp)
-                .addFocusCleaner(focusManager)
+                .addFocusCleaner(focusManager),
         ) {
             if (!state.showSearchResults) {
                 Text(
@@ -109,31 +115,57 @@ fun SearchProcessScreen(
             if (state.showSearchResults) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
                         .padding(top = 87.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_nosearch),
+                        painter = painterResource(
+                            id = R.drawable.ic_nosearch
+                        ),
                         contentDescription = stringResource(
                             id = R.string.search_process_no_result_icon
                         )
                     )
                     Row(
-                        modifier = Modifier.padding(vertical = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                top = 16.dp,
+                                bottom = 6.dp
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
+                        Row(
+                            modifier = modifier.wrapContentWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = state.query,
+                                style = TerningTheme.typography.body1,
+                                color = TerningMain,
+                                maxLines = MAX_LINES,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
                         Text(
-                            text = state.query,
-                            style = TerningTheme.typography.body1,
-                            color = TerningMain,
-                        )
-                        Text(
-                            text = stringResource(id = R.string.search_process_no_result_text),
+                            text = stringResource(id = R.string.search_process_no_result_text_sub),
                             style = TerningTheme.typography.body1,
                             color = Grey400,
+                            modifier = modifier.weight(1f)
                         )
                     }
+
+                    Text(
+                        text = stringResource(
+                            id = R.string.search_process_no_result_text_main
+                        ),
+                        style = TerningTheme.typography.body1,
+                        color = Grey400,
+                    )
                 }
             }
         }
