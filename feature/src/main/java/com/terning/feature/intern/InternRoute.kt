@@ -4,37 +4,39 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
-import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
+import com.terning.feature.intern.component.ScrapCancelDialogContent
+import com.terning.feature.intern.component.ScrapDialogContent
 import java.text.DecimalFormat
 
 @Composable
@@ -70,32 +72,15 @@ fun InternScreen(
                     offsetY = 2.dp
                 ),
                 onBackButtonClick = {},
-                listOf(
-                    {},
-                    {
-                        IconButton(onClick = {}) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_intern_share_22),
-                                contentDescription = stringResource(
-                                    id = R.string.intern_share_icon
-                                ),
-                                modifier = modifier
-                                    .noRippleClickable { },
-                                tint = Grey300
-                            )
-                        }
-                    },
-                    {
-                        Spacer(modifier = modifier.padding(end = 8.dp))
-                    }
-                )
             )
         },
         bottomBar = {
             InternBottomBar(
                 modifier = modifier,
                 isScrap = state.isScrapped,
-                onScrapClick = { viewModel.updateScrapDialogVisible(true) }
+                onScrapClick = {
+                    viewModel.updateScrapDialogVisible(true)
+                }
             )
         }
     ) { paddingValues ->
@@ -145,6 +130,7 @@ fun InternScreen(
                             bottom = 16.dp
                         )
                     )
+
                     Column(
                         modifier = modifier
                             .border(

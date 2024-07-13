@@ -130,35 +130,29 @@ fun SearchProcessScreen(
                     )
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .padding(
                                 top = 16.dp,
                                 bottom = 6.dp
-                            ),
+                            )
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Row(
-                            modifier = modifier.wrapContentWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = state.query,
-                                style = TerningTheme.typography.body1,
-                                color = TerningMain,
-                                maxLines = MAX_LINES,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
+                        Text(
+                            text = state.query,
+                            style = TerningTheme.typography.body1,
+                            color = TerningMain,
+                            maxLines = MAX_LINES,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f, false)
+                        )
                         Text(
                             text = stringResource(id = R.string.search_process_no_result_text_sub),
                             style = TerningTheme.typography.body1,
                             color = Grey400,
-                            modifier = modifier.weight(1f)
+                            modifier = Modifier.wrapContentWidth()
                         )
                     }
-
                     Text(
                         text = stringResource(
                             id = R.string.search_process_no_result_text_main
