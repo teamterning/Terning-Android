@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -48,9 +47,7 @@ fun DatePickerUI(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 62.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         DateSelectionSection(
             chosenYear = chosenYear,
@@ -76,12 +73,14 @@ fun DateSelectionSection(
             items = years.toImmutableList(),
             firstIndex = (chosenYear - START_YEAR),
             onItemSelected = onYearChosen,
+            isYear = true
         )
         Spacer(modifier = Modifier.width(25.dp))
         DateItemsPicker(
             items = monthsNumber.toImmutableList(),
             firstIndex = chosenMonth,
             onItemSelected = onMonthChosen,
+            isYear = false
         )
     }
 }
@@ -91,7 +90,8 @@ fun DateItemsPicker(
     items: List<String>,
     firstIndex: Int,
     onItemSelected: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isYear: Boolean
 ) {
     val listState = rememberLazyListState(firstIndex)
     val currentValue = remember { mutableStateOf("") }
@@ -133,7 +133,11 @@ fun DateItemsPicker(
                 }
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = items[index],
+                    text =
+                    when (isYear) {
+                        true -> if (items[index].isNotEmpty()) "${items[index]}년" else ""
+                        false -> if (items[index].isNotEmpty()) "${items[index]}월" else ""
+                    },
                     style = TerningTheme.typography.title3,
                     color = if (it == firstVisibleItemIndex + 1) Grey500 else Grey300,
                     textAlign = TextAlign.Center
