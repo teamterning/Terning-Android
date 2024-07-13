@@ -28,10 +28,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItem
-import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
@@ -40,8 +40,8 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
 import com.terning.feature.R
-import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
+import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
@@ -60,7 +60,7 @@ fun HomeRoute(
     val currentSortBy: MutableState<Int> = remember {
         mutableIntStateOf(0)
     }
-    HomeScreen(currentSortBy,navController)
+    HomeScreen(currentSortBy, navController)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -118,7 +118,7 @@ fun HomeScreen(
                             .background(White)
                     ) {
                         ShowRecommendTitle()
-                        ShowInternFilter(userNameState = userNameState)
+                        ShowInternFilter(userNameState = userNameState, navController)
 
                         HorizontalDivider(
                             thickness = 4.dp,
@@ -214,7 +214,7 @@ private fun ShowRecommendTitle() {
 }
 
 @Composable
-private fun ShowInternFilter(userNameState: UserNameState) {
+private fun ShowInternFilter(userNameState: UserNameState, navController: NavHostController) {
     if (userNameState.internFilter == null) {
         HomeFilteringScreen(
             grade = R.string.home_recommend_no_filtering_hyphen,
