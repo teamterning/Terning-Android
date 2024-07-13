@@ -1,7 +1,9 @@
 package com.terning.feature.mypage
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,9 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.MyPageTopAppBar
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
@@ -56,11 +60,15 @@ fun MyPageScreen(
                 modifier = Modifier
                     .customShadow(
                         color = Grey200,
-                        shadowRadius = 5.dp,
+                        shadowRadius = 30.dp,
                         shadowWidth = 2.dp
                     )
-                    .background(color = Back)
+                    .background(
+                        color = Back,
+                        shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp)
+                    )
             )
+            LogoutAndQuit(modifier = Modifier.fillMaxWidth())
         }
     }
 }
@@ -105,6 +113,33 @@ fun MyPageInfo(
                 version = VERSION,
             )
         }
+    }
+}
+
+@Composable
+fun LogoutAndQuit(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Back)
+            .padding(bottom = 17.dp),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = stringResource(id = R.string.my_page_logout),
+            style = TerningTheme.typography.button4,
+            color = Grey350,
+        )
+        Spacer(modifier = Modifier.padding(end = 10.dp))
+        TerningImage(painter = R.drawable.ic_my_page_divider)
+        Spacer(modifier = Modifier.padding(end = 10.dp))
+        Text(
+            text = stringResource(id = R.string.my_page_quit),
+            style = TerningTheme.typography.button4,
+            color = Grey350
+        )
     }
 }
 

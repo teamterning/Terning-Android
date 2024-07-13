@@ -139,5 +139,7 @@
     <string name="my_page_notice">공지사항</string>
     <string name="my_page_send">의견 보내기</string>
     <string name="my_page_version">버전정보</string>
+    <string name="my_page_logout">로그아웃</string>
+    <string name="my_page_quit">탈퇴하기</string>
 
 </resources>
