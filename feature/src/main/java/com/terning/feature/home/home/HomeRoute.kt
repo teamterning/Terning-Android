@@ -30,6 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
+import com.terning.core.designsystem.component.dialog.ScrapDialogContent
+import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
@@ -68,6 +70,7 @@ fun HomeScreen(
     val userNameState = viewModel.userName
     val userScrapState by viewModel.scrapData.collectAsStateWithLifecycle()
     val recommendInternData by viewModel.recommendInternData.collectAsStateWithLifecycle()
+    val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
 
     if (sheetState) {
@@ -77,6 +80,23 @@ fun HomeScreen(
             },
             currentSortBy = currentSortBy.value,
             newSortBy = currentSortBy
+        )
+    }
+
+    if (dialogState) {
+        TerningBasicDialog(
+            onDismissRequest = { viewModel.setDialogState() },
+            content = {
+                ScrapDialogContent(
+                    onDismissRequest = { /*TODO*/ },
+                    isScrapped = false,
+                    internInfoList = listOf(
+                        Pair("서류 마감", "2024년 7월 23일"),
+                        Pair("근무 기간", "2개월"),
+                        Pair("근무 시작", "2024년 8월"),
+                    )
+                )
+            }
         )
     }
 
@@ -140,7 +160,7 @@ fun HomeScreen(
 
                 if (userNameState.internFilter != null && recommendInternData.isNotEmpty()) {
                     items(recommendInternData.size) { index ->
-                        ShowRecommendIntern(recommendInternData[index])
+                        ShowRecommendIntern(recommendInternData[index], viewModel)
                     }
                 }
             }
@@ -230,7 +250,10 @@ private fun ShowInternFilter(userNameState: UserNameState) {
 }
 
 @Composable
-private fun ShowRecommendIntern(recommendInternData: RecommendInternData) {
+private fun ShowRecommendIntern(
+    recommendInternData: RecommendInternData,
+    viewModel: HomeViewModel
+) {
     Box(
         modifier = Modifier
             .padding(horizontal = 24.dp)
@@ -250,6 +273,7 @@ private fun ShowRecommendIntern(recommendInternData: RecommendInternData) {
             dateDeadline = recommendInternData.dDay.toString(),
             workingPeriod = recommendInternData.workingPeriod.toString(),
             isScraped = recommendInternData.isScrapped,
+            onScrapButtonClicked = { viewModel.setDialogState() },
         )
     }
 }

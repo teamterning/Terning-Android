@@ -1,5 +1,6 @@
 package com.terning.feature.home.home
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -46,10 +47,17 @@ class HomeViewModel @Inject constructor(
     val scrapData get() = _scrapState.asStateFlow()
 
     private val _recommendInternState = MutableStateFlow<List<RecommendInternData>>(
-//        getRecommendData()
-        listOf()
+        getRecommendData()
+//        listOf()
     )
     val recommendInternData get() = _recommendInternState.asStateFlow()
+
+    private var _dialogState = MutableStateFlow(false)
+    val dialogState get() = _dialogState.asStateFlow()
+
+    fun setDialogState() {
+        _dialogState.value = !_dialogState.value
+    }
 }
 
 private fun getScrapData(): List<ScrapData> = listOf(
