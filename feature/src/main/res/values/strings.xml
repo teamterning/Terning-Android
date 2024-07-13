@@ -133,4 +133,11 @@
     <string name="intern_sub_title_intern_detail">상세 정보</string>
     <string name="intern_info_request">자격요건</string>
     <string name="intern_info_work">직무</string>
+
+    <!--my_page-->
+    <string name="my_page_name">%s님</string>
+    <string name="my_page_notice">공지사항</string>
+    <string name="my_page_send">의견 보내기</string>
+    <string name="my_page_version">버전정보</string>
+
 </resources>
