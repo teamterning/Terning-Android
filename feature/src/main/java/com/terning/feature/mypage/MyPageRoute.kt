@@ -1,9 +1,7 @@
 package com.terning.feature.mypage
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,16 +9,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.component.topappbar.MyPageTopAppBar
 import com.terning.core.designsystem.theme.Back
-import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
@@ -46,7 +41,7 @@ fun MyPageScreen(
     ) { paddingValues ->
 
         Column(
-            modifier = Modifier.padding(top = paddingValues.calculateTopPadding()).background(TerningMain)
+            modifier = Modifier.padding(top = paddingValues.calculateTopPadding())
         ) {
             Text(
                 text = stringResource(id = R.string.my_page_name, "남지우"),
@@ -64,9 +59,8 @@ fun MyPageScreen(
                         shadowRadius = 5.dp,
                         shadowWidth = 2.dp
                     )
-                    .background(color = Black)
+                    .background(color = Back)
             )
-            Text(text = "hi", )
         }
     }
 }
@@ -75,9 +69,14 @@ fun MyPageScreen(
 fun MyPageInfo(
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Column(
         modifier = modifier
-            .padding(top = 20.dp)
+            .padding(
+                top = 20.dp,
+                start = 24.dp,
+                end = 24.dp,
+                bottom = 16.dp
+            )
             .customShadow(
                 color = Grey200,
                 shadowRadius = 5.dp,
@@ -89,21 +88,24 @@ fun MyPageInfo(
             )
     ) {
         Column(
-
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
         ) {
-            Row(
-                modifier = modifier.fillMaxWidth()
-            ) {
-                MyPageItem(
-                    text = stringResource(id = R.string.my_page_notice),
-                    modifier = modifier.padding(bottom = 6.dp)
-                )
-                MyPageItem(
-                    text = stringResource(id = R.string.my_page_send),
-                    modifier = modifier.padding(bottom = 6.dp)
-                )
-                MyPageItem(text = stringResource(id = R.string.my_page_version))
-            }
+            MyPageItem(
+                text = stringResource(id = R.string.my_page_notice),
+                modifier = Modifier.padding(bottom = 6.dp)
+            )
+            MyPageItem(
+                text = stringResource(id = R.string.my_page_send),
+                modifier = Modifier.padding(bottom = 6.dp)
+            )
+            MyPageItem(
+                text = stringResource(id = R.string.my_page_version),
+                version = VERSION,
+            )
         }
     }
 }
+
+private const val VERSION = "1.0.0"

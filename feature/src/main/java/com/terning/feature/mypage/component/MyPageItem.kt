@@ -1,5 +1,6 @@
 package com.terning.feature.mypage.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,17 +16,34 @@ import com.terning.feature.R
 @Composable
 fun MyPageItem(
     modifier: Modifier = Modifier,
-    text: String
+    text: String,
+    version: String = ""
 ) {
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 5.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TerningImage(
-            painter = R.drawable.ic_my_page,
-            modifier = modifier.padding(start = 12.dp)
+        Row {
+            TerningImage(
+                painter = R.drawable.ic_my_page,
+                modifier = modifier.padding(start = 16.dp)
+            )
+            Text(
+                text = text,
+                modifier = modifier.padding(start = 12.dp)
+            )
+        }
+        if (version.isNotEmpty())
+            Text(
+                text = version,
+                modifier = modifier.padding(end = 16.dp)
+            )
+        else TerningImage(
+            painter = R.drawable.ic_my_page_go,
+            modifier = modifier.padding(end = 16.dp)
         )
-        Text(text = text)
-        TerningImage(painter = R.drawable.ic_my_page_go)
     }
 }
 
