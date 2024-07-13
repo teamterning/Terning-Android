@@ -79,9 +79,9 @@ fun HomeFilteringScreen(
         HomeFilteringText(
             text = stringResource(
                 id = when (period) {
-                    1 -> R.string.home_recommend_filtering_working_period_1
-                    2 -> R.string.home_recommend_filtering_working_period_2
-                    3 -> R.string.home_recommend_filtering_working_period_3
+                    1 -> R.string.filtering_status2_button1
+                    2 -> R.string.filtering_status2_button2
+                    3 -> R.string.filtering_status2_button3
                     else -> R.string.server_failure
                 }
             ),
