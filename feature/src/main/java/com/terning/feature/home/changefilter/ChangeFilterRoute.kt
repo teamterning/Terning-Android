@@ -2,7 +2,6 @@ package com.terning.feature.home.changefilter
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -10,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
@@ -19,7 +19,14 @@ import com.terning.feature.R
 import com.terning.feature.home.changefilter.component.ChangeFilteringRadioGroup
 import com.terning.feature.home.changefilter.component.FilteringMainTitleText
 import com.terning.feature.home.changefilter.component.FilteringSubTitleText
+import com.terning.feature.home.home.HomeViewModel
+import com.terning.feature.home.home.model.InternFilterData
+import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.navigation.navigateHome
+import java.util.Calendar
+
+val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
 @Composable
 fun ChangeFilterRoute(
@@ -29,7 +36,10 @@ fun ChangeFilterRoute(
 }
 
 @Composable
-fun ChangeFilterScreen(navController: NavController) {
+fun ChangeFilterScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
     Scaffold(
         topBar = {
             BackButtonTopAppBar(
@@ -57,7 +67,18 @@ fun ChangeFilterScreen(navController: NavController) {
             )
             ChangeFilteringRadioGroup(
                 filterType = 0,
-                onButtonClick = { }
+                internFilterData = viewModel.userName.internFilter,
+                onButtonClick = { viewModel.setGrade(it) }
+            )
+
+            UserNameState(
+                userName = "남지우자랑스러운티엘이되",
+                internFilter = InternFilterData(
+                    grade = 4,
+                    workingPeriod = 1,
+                    startYear = 2024,
+                    startMonth = 7,
+                )
             )
 
             showTitle(
@@ -71,9 +92,8 @@ fun ChangeFilterScreen(navController: NavController) {
             )
             ChangeFilteringRadioGroup(
                 filterType = 1,
-                modifier = Modifier
-                    .height(36.dp),
-                onButtonClick = { }
+                internFilterData = viewModel.userName.internFilter,
+                onButtonClick = { viewModel.setWorkingPeriod(it) }
             )
 
             showTitle(
@@ -88,8 +108,8 @@ fun ChangeFilterScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.weight(1f))
             DatePickerUI(
-                chosenYear = 2024,
-                chosenMonth = 7,
+                chosenYear = currentYear,
+                chosenMonth = currentMonth,
             )
             Spacer(modifier = Modifier.weight(1f))
 

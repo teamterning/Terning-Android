@@ -215,21 +215,27 @@ private fun ShowRecommendTitle() {
 
 @Composable
 private fun ShowInternFilter(userNameState: UserNameState, navController: NavHostController) {
-    if (userNameState.internFilter == null) {
+    if (userNameState.internFilter?.grade == null) {
         HomeFilteringScreen(
-            grade = R.string.home_recommend_no_filtering_hyphen,
-            period = R.string.home_recommend_no_filtering_hyphen,
-            startYear = R.string.home_recommend_no_filtering_hyphen,
-            startMonth = R.string.home_recommend_no_filtering_hyphen,
+            grade = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
+            period = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
+            startYear = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
             onChangeFilterClick = { navController.navigateChangeFilter() },
         )
     } else {
         with(userNameState.internFilter) {
             HomeFilteringScreen(
-                grade = grade,
-                period = workingPeriod,
-                startYear = startYear,
-                startMonth = startMonth,
+                grade = (grade + 1).toString() + stringResource(id = R.string.home_recommend_filtering_grade),
+                period = stringResource(
+                    id = when (workingPeriod) {
+                        0 -> R.string.filtering_status2_button1
+                        1 -> R.string.filtering_status2_button2
+                        2 -> R.string.filtering_status2_button3
+                        else -> R.string.home_recommend_no_filtering_hyphen
+                    }
+                ),
+                startYear = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
+                        + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
                 onChangeFilterClick = { navController.navigateChangeFilter() },
             )
         }

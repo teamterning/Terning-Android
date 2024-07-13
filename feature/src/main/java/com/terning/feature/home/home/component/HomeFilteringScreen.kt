@@ -29,10 +29,9 @@ import com.terning.feature.R
 
 @Composable
 fun HomeFilteringScreen(
-    grade: Int,
-    period: Int,
-    startYear: Int,
-    startMonth: Int,
+    grade: String,
+    period: String,
+    startYear: String,
     onChangeFilterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -71,29 +70,21 @@ fun HomeFilteringScreen(
         }
 
         HomeFilteringText(
-            text = grade.toString() + stringResource(id = R.string.home_recommend_filtering_grade),
+            text = grade,
             modifier = Modifier
                 .padding(vertical = 7.dp)
         )
         HomeFilteringDivider()
         HomeFilteringText(
-            text = stringResource(
-                id = when (period) {
-                    1 -> R.string.filtering_status2_button1
-                    2 -> R.string.filtering_status2_button2
-                    3 -> R.string.filtering_status2_button3
-                    else -> R.string.server_failure
-                }
-            ),
+            text = period,
             modifier = Modifier
                 .padding(vertical = 7.dp)
         )
         HomeFilteringDivider()
         HomeFilteringText(
-            text = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
-                    + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
+            text = startYear,
             modifier = Modifier
-                .padding(vertical = 7.dp)
+                .padding(top = 7.dp, bottom = 7.dp)
         )
     }
 }
