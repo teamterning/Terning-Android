@@ -344,13 +344,10 @@ fun InternScreen(
                     viewModel.updateScrapDialogVisible(false)
                 },
                 content = {
-                    ScrapDialogContent(
-                        onDismissRequest = {
-                            viewModel.updateScrapDialogVisible(false)
-                        },
-                        internInfoList = internInfoList
-                    )
-                }
+//                    ScrapDialogContent(
+//                        internInfoList = internInfoList
+//                    )
+                },
             )
         }
     }
