@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,10 +17,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,6 +27,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.item.ColorPalette
@@ -43,16 +43,17 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
+import com.terning.feature.intern.InternViewModel
 
 
 @Composable
 fun ScrapDialogContent(
     onDismissRequest: () -> Unit,
-    isScrapped: Boolean,
+    isScrapped: MutableState<Boolean> = mutableStateOf(false),
     internInfoList: List<Pair<String, String>>,
+    viewModel: InternViewModel = hiltViewModel(),
 ) {
-    var isColorChange by remember { mutableStateOf(false) }
-    var selectedColor by remember { mutableStateOf(CalRed) }
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -144,18 +145,18 @@ fun ScrapDialogContent(
                     Row(
                         modifier = Modifier
                             .background(
-                                color = if (selectedColor != CalRed) CalBlue2 else CalGreen2,
+                                color = if (state.selectedColor != CalRed) CalBlue2 else CalGreen2,
                                 shape = RoundedCornerShape(14.dp)
                             )
                             .noRippleClickable {
-                                isColorChange = !isColorChange
+                                viewModel.updateColorChange(!state.isColorChange)
                             },
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Start
                     ) {
                         Icon(
                             painter = painterResource(
-                                id = if (isColorChange) R.drawable.ic_up_22
+                                id = if (state.isColorChange) R.drawable.ic_up_22
                                 else R.drawable.ic_down_22
                             ),
                             contentDescription = stringResource(
@@ -183,7 +184,7 @@ fun ScrapDialogContent(
                             bottom = 8.dp
                         )
                     )
-                    if (isColorChange) {
+                    if (state.isColorChange) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -195,7 +196,10 @@ fun ScrapDialogContent(
                         ) {
                             ColorPalette(
                                 initialColor = CalRed,
-                                onColorSelected = { selectedColor = it })
+                                onColorSelected = {
+                                    viewModel.updateSelectColor(it)
+                                },
+                            )
                         }
                     } else {
                         Text(
@@ -222,14 +226,17 @@ fun ScrapDialogContent(
                     style = TerningTheme.typography.button3,
                     paddingVertical = 12.dp,
                     cornerRadius = 8.dp,
-                    text = if (isScrapped) {
-                        if (isColorChange)
+                    text = if (isScrapped.value) {
+                        if (state.isColorChange)
                             R.string.dialog_content_color_button
                         else R.string.dialog_scrap_button
                     } else {
                         R.string.dialog_scrap_button
                     },
-                    onButtonClick = { /*TODO*/ },
+                    onButtonClick = {
+                        viewModel.updateScrapped(!state.isScrapped)
+                        viewModel.updateScrapDialogVisible(false)
+                    },
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
             }

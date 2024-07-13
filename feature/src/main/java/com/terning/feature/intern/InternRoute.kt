@@ -16,14 +16,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
@@ -56,9 +55,10 @@ fun InternRoute(
 fun InternScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    viewModel: InternViewModel = hiltViewModel(),
 ) {
-    var isScrapDialogVisible by remember { mutableStateOf(false) }
-    var isScrapped by remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
     val internInfoList = listOf(
         stringResource(id = R.string.intern_info_d_day) to "2024년 7월 23일",
         stringResource(id = R.string.intern_info_working) to "2개월",
@@ -101,8 +101,8 @@ fun InternScreen(
         bottomBar = {
             InternBottomBar(
                 modifier = modifier,
-                isScrap = isScrapped,
-                onScrapClick = { isScrapDialogVisible = true }
+                isScrap = state.isScrapped,
+                onScrapClick = { viewModel.updateScrapDialogVisible(true) }
             )
         }
 
@@ -338,15 +338,16 @@ fun InternScreen(
                 }
             }
         }
-        if (isScrapDialogVisible) {
+        if (state.isScrapDialogVisible) {
             TerningBasicDialog(
                 onDismissRequest = {
-                    isScrapDialogVisible = false
+                    viewModel.updateScrapDialogVisible(false)
                 },
                 content = {
                     ScrapDialogContent(
-                        onDismissRequest = { isScrapDialogVisible = false },
-                        isScrapped = isScrapped,
+                        onDismissRequest = {
+                            viewModel.updateScrapDialogVisible(false)
+                        },
                         internInfoList = internInfoList
                     )
                 }
