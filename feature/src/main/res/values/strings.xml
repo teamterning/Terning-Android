@@ -5,29 +5,30 @@
     <string name="server_success">서버통신 성공</string>
     <string name="server_failure">서버통신 실패</string>
 
-    <!--bottom_navigation-->
+    <!--BottomNavigation-->
     <string name="bottom_nav_home">홈</string>
     <string name="bottom_nav_calendar">캘린더</string>
     <string name="bottom_nav_search">탐색</string>
     <string name="bottom_nav_my_page">마이페이지</string>
 
-    <!--sign_In-->
+    <!--SignIn-->
     <string name="sign_in_kakao_button">카카오로 로그인하기</string>
     <string name="sign_in_kakao_login_fail">카카오톡 로그인에 실패했습니다</string>
     <string name="sign_in_kakao_cancel">로그인을 취소하였습니다</string>
 
-    <!--sign_up-->
+    <!--SignUp-->
     <string name="sign_up_title">반가워요!\n이름을 알려주세요</string>
     <string name="sign_up_profile_image">프로필 이미지</string>
     <string name="sign_up_profile_button">프로필 버튼</string>
     <string name="sign_up_name">이름</string>
-    <string name="sign_up_hint">이름을 입력해주세요</string>
-    <string name="sign_up_helper">12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가</string>
+    <string name="sign_up_hint">이름을 입력해 주세요</string>
     <string name="sign_up_next_button">다음으로</string>
+    <string name="sign_up_helper">12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가</string>
+    <string name="sign_up_helper_error">이름에 특수문자는 입력할 수 없어요</string>
+    <string name="sign_up_helper_available">사용 가능한 이름이에요</string>
 
-    <!--search-->
+    <!--Search-->
     <string name="search_text_field_hint">관심있는 인턴 공고 키워드를 검색해보세요</string>
-
     <string name="search_today_popular">요즘 대학생들에게 인기 있는 공고</string>
     <string name="search_most_view_intern">지금 조회수가 많은 공고들이에요</string>
     <string name="search_most_scrap_intern">지금 스크랩 수가 많은 공고들이에요</string>
@@ -39,7 +40,7 @@
     <string name="search_process_no_result_icon">검색 결과 없을 때 아이콘</string>
     <string name="search_process_no_result_text">와 일치하는 검색 결과가 없어요</string>
 
-    <!--calendar-->
+    <!--Calendar-->
     <string name="calendar_text_sunday">일</string>
     <string name="calendar_text_monday">월</string>
     <string name="calendar_text_tuesday">화</string>
@@ -53,13 +54,12 @@
     <string name="calendar_animation_label">Calendar Transition</string>
     <string name="calendar_empty_scrap">선택하신 날짜에 지원 마감인 스크랩 공고가 없어요</string>
 
-    <!-- 홈 오늘 마감 공고 -->
+    <!--Home-->
     <string name="home_today_title">오늘 마감되는 %s님의 관심 공고</string>
     <string name="home_today_no_scrap">아직 스크랩된 인턴 공고가 없어요!\n관심 공고를 스크랩하면 마감 당일에 알려드릴게요</string>
     <string name="home_today_no_closed">오늘 마감인 공고가 없어요\n캘린더에서 가까운 공고 일정을 확인해보세요</string>
     <string name="home_today_check_schedule">공고 마감 일정 확인하기</string>
 
-    <!-- 홈 맞춤 공고 -->
     <string name="terning_post_d_day">D-</string>
     <string name="terning_post_working_period">근무기간</string>
     <string name="home_recommend_sub_title">마음에 드는 공고를 스크랩하고 캘린더에서 모아보세요</string>
@@ -78,40 +78,40 @@
     </string>
     <string name="home_recommend_no_filtering_hyphen">-</string>
 
-    <!--start_filtering-->
+    <!--StartFiltering-->
     <string name="start_filtering_title">터치 3번으로\n원하는 대학생 인턴 공고를 띄워드릴게요</string>
     <string name="start_filtering_main_image">시작화면 이미지</string>
     <string name="start_filtering_button">시작하기</string>
 
-    <!-- start home-->
+    <!-- StartHome-->
     <string name="start_home_title">이제 딱 맞는 공고와 함께\n터닝을 시작해 볼까요?</string>
     <string name="start_home_next_button">내 맞춤 공고 바로 보러가기</string>
 
-    <!--filtering-->
-    <string name="filtering_status1_title">%s님의 재학 상태를 선택해주세요</string>
-    <string name="filtering_status1_warning">*5년제 혹은 초과학기생인 경우 4학년으로 선택해주세요</string>
-    <string name="filtering_status1_sub">휴학중이라면, 휴학 전 마지막 수료 학년을 선택해주세요</string>
+    <!--Filtering-->
+    <string name="filtering_status1_title">%s님의 재학 상태를 선택해 주세요</string>
+    <string name="filtering_status1_warning">*5년제 혹은 초과학기인 경우 4학년으로 선택해 주세요</string>
+    <string name="filtering_status1_sub">휴학 중이라면, 휴학 전 마지막 수료 학년을 선택해 주세요</string>
     <string name="filtering_status1_button1">1학년</string>
     <string name="filtering_status1_button2">2학년</string>
     <string name="filtering_status1_button3">3학년</string>
     <string name="filtering_status1_button4">4학년</string>
-    <string name="filtering_status1_description1">대학생의 꽃 인턴, 어린 나이에 미리 도전해볼래요!</string>
-    <string name="filtering_status1_description2">미리 대학생 인턴 경험하고, 사회 생활을 해 보고 싶어요</string>
-    <string name="filtering_status1_description3">4학년이 되기 전, 인턴으로 유의미한 스펙을 쌓고 싶어요</string>
-    <string name="filtering_status1_description4">사회인으로의 첫 발걸음, 인턴으로 채우고 싶어요</string>
+    <string name="filtering_status1_description1">대학생 인턴, 누구보다 빠르게 시작해 보세요!</string>
+    <string name="filtering_status1_description2">인턴이라는 좋은 기회로 단숨에 스펙업하세요!</string>
+    <string name="filtering_status1_description3">지금까지 준비한 역량을 인턴으로 발휘해 보세요!</string>
+    <string name="filtering_status1_description4">사회초년생으로 도약하기 위한 마지막 단계를 경험하세요! </string>
     <string name="filtering_status2_title">희망하는 인턴 근무 기간을 선택해 주세요</string>
-    <string name="filtering_status2_sub">선택한 기간동안 근무할 수 있는 인턴 공고를 찾아드릴게요</string>
+    <string name="filtering_status2_sub">선택한 기간 동안 근무할 수 있는 인턴 공고를 찾아드릴게요</string>
     <string name="filtering_status2_button1">1개월 ~ 3개월</string>
     <string name="filtering_status2_button2">4개월 ~ 6개월</string>
     <string name="filtering_status2_button3">7개월 이상</string>
-    <string name="filtering_status2_description1">짧은 기간 안에 스펙을 쌓고 싶은\n\인턴 초년생\에게 추천해요!</string>
-    <string name="filtering_status2_description2">좀 더 오랜 시간동안의 회사 경험을 원하는\n\성숙 인턴러\에게 추천해요!</string>
-    <string name="filtering_status2_description3">산업에 오랜 기간 딥다이브 하고 싶은\n\예비 사회인\에게 추천해요!</string>
-    <string name="filtering_status3_title">입사를 계획중인 달을 선택해주세요</string>
-    <string name="filtering_status3_sub">선택한 달부터 근무를 시작할 수 있는 공고를 찾아드릴게요</string>
+    <string name="filtering_status2_description1">짧은 기간 안에 유의미한 스펙을 쌓을 수 있어요!</string>
+    <string name="filtering_status2_description2">회사와 직무에 대해 이해하기 적당한 기간이에요!</string>
+    <string name="filtering_status2_description3">오랜 기간 내 커리어에 맞는 직무경험을 만들 수 있어요!</string>
+    <string name="filtering_status3_title">언제부터 인턴 근무가 가능한지 알려주세요</string>
+    <string name="filtering_status3_sub">원하는 근무 시작 시기에 맞는 인턴 공고를 찾아드려요</string>
     <string name="filtering_button">다음으로</string>
 
-    <!-- changeFilter -->
+    <!--ChangeFilter -->
     <string name="change_filter_grade_main">재학 상태를 선택해주세요</string>
     <string name="change_filter_period_main">희망하는 인턴 근무 기간을 선택해주세요</string>
     <string name="change_filter_start_work_main">입사를 계획중인 달을 선택해주세요</string>
@@ -133,4 +133,6 @@
     <string name="intern_sub_title_intern_detail">상세 정보</string>
     <string name="intern_info_request">자격요건</string>
     <string name="intern_info_work">직무</string>
+
+    <!--Onboarding-->
 </resources>

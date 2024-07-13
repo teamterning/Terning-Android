@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
@@ -15,7 +16,7 @@ fun NameTextField(
     onValueChange: (String) -> Unit,
     hint: String,
     drawLineColor: Color,
-    helperMessage: String,
+    helperMessage: Int,
     helperColor: Color,
     helperIcon: Int? = null,
 ) {
@@ -31,7 +32,7 @@ fun NameTextField(
         hintColor = Grey300,
         showTextLength = true,
         maxTextLength = 12,
-        helperMessage = helperMessage,
+        helperMessage = stringResource(id = helperMessage),
         helperIcon = helperIcon,
         helperColor = helperColor,
     )
