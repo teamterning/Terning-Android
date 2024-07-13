@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -58,8 +57,6 @@ fun ChangeFilterScreen(navController: NavController) {
             )
             ChangeFilteringRadioGroup(
                 filterType = 0,
-                modifier = Modifier
-                    .height(36.dp),
                 onButtonClick = { }
             )
 
@@ -89,14 +86,12 @@ fun ChangeFilterScreen(navController: NavController) {
                 )
             )
 
-            Spacer(modifier = Modifier.padding(12.dp))
             Spacer(modifier = Modifier.weight(1f))
             DatePickerUI(
                 chosenYear = 2024,
                 chosenMonth = 7,
             )
             Spacer(modifier = Modifier.weight(1f))
-            Spacer(modifier = Modifier.padding(33.dp))
 
             RectangleButton(
                 style = TerningTheme.typography.button0,
@@ -107,7 +102,6 @@ fun ChangeFilterScreen(navController: NavController) {
                 }
             )
         }
-
     }
 }
 
