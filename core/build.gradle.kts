@@ -69,4 +69,5 @@ dependencies {
 
     //ThirdPartyDependencies
     implementation(libs.compose.coil)
+    implementation(libs.okhttp)
 }

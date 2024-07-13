@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.filtering.navigation
+package com.terning.feature.intern.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,25 +6,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.Route
-import com.terning.feature.onboarding.filtering.FilteringRoute
+import com.terning.feature.intern.InternRoute
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateFiltering(navOptions: NavOptions? = null) {
+fun NavController.navigateIntern(navOptions: NavOptions? = null) {
     navigate(
-        route = Filtering,
+        route = Intern,
         navOptions = navOptions
     )
 }
 
-fun NavGraphBuilder.filteringNavGraph(
-    navHostController: NavHostController
+fun NavGraphBuilder.internNavGraph(
+    navHostController: NavHostController,
 ) {
-    composable<Filtering> {
-        FilteringRoute(
+    composable<Intern> {
+        InternRoute(
             navController = navHostController
         )
     }
 }
 
 @Serializable
-data object Filtering : Route
+data object Intern : Route

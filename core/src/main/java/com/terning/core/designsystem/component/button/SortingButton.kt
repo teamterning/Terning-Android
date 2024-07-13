@@ -39,7 +39,7 @@ fun SortingButton(
                 )
         )
         Image(
-            painter = painterResource(id = R.drawable.ic_down),
+            painter = painterResource(id = R.drawable.ic_down_18),
             contentDescription = stringResource(id = R.string.sort_button_description),
             modifier = modifier
                 .padding(vertical = 5.dp)
