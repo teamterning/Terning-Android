@@ -39,6 +39,7 @@ import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
+import com.terning.feature.intern.component.ScrapCancelDialogContent
 import com.terning.feature.intern.component.ScrapDialogContent
 import java.text.DecimalFormat
 
@@ -344,9 +345,12 @@ fun InternScreen(
                     viewModel.updateScrapDialogVisible(false)
                 },
                 content = {
-//                    ScrapDialogContent(
-//                        internInfoList = internInfoList
-//                    )
+                    when (state.isScrapped) {
+                        true -> ScrapCancelDialogContent()
+                        else -> ScrapDialogContent(
+                            internInfoList = internInfoList
+                        )
+                    }
                 },
             )
         }

@@ -45,7 +45,6 @@ import com.terning.feature.intern.InternViewModel
 
 @Composable
 fun ScrapDialogContent(
-    isScrapped: MutableState<Boolean> = mutableStateOf(false),
     internInfoList: List<Pair<String, String>>,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
@@ -194,7 +193,7 @@ fun ScrapDialogContent(
                 style = TerningTheme.typography.button3,
                 paddingVertical = 12.dp,
                 cornerRadius = 8.dp,
-                text = if (isScrapped.value) {
+                text = if (state.isScrapped) {
                     if (state.isColorChange)
                         R.string.dialog_content_color_button
                     else R.string.dialog_scrap_button
