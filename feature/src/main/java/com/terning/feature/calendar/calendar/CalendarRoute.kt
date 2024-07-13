@@ -8,12 +8,8 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
@@ -36,8 +32,9 @@ import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
-import com.terning.feature.calendar.models.CalendarState
+import com.terning.feature.calendar.month.CalendarMonths
 import com.terning.feature.calendar.scrap.CalendarScrapListScreen
+import com.terning.feature.calendar.week.CalendarWeekWithScrap
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.LocalDate

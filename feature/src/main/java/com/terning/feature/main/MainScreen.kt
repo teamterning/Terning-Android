@@ -20,7 +20,7 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleInteractionSource
-import com.terning.feature.calendar.navigation.calendarNavGraph
+import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.filtering.navigation.filteringNavGraph

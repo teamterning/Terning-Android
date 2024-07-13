@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.calendar.models.Scrap
+import com.terning.feature.calendar.scrap.model.Scrap
 
 @Composable
 fun CalendarScrapStrip(

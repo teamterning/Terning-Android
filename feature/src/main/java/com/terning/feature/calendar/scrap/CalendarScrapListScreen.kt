@@ -14,9 +14,9 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.calendar.models.CalendarDefaults.flingBehavior
-import com.terning.feature.calendar.models.CalendarState.Companion.getDateByPage
-import com.terning.feature.calendar.models.Scrap
+import com.terning.feature.calendar.calendar.CalendarDefaults.flingBehavior
+import com.terning.feature.calendar.calendar.CalendarState.Companion.getDateByPage
+import com.terning.feature.calendar.scrap.model.Scrap
 import java.time.LocalDate
 
 @Composable

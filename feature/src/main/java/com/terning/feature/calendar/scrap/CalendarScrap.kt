@@ -10,7 +10,7 @@ import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.item.ScrapBox
 import com.terning.core.designsystem.theme.CalBlue1
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.feature.calendar.models.Scrap
+import com.terning.feature.calendar.scrap.model.Scrap
 
 @Composable
 fun CalendarScrap(

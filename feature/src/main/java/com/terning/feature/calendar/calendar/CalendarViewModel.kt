@@ -1,5 +1,6 @@
 package com.terning.feature.calendar.calendar
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalBlue1
@@ -9,8 +10,9 @@ import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
-import com.terning.feature.calendar.models.Scrap
-import com.terning.feature.calendar.models.SelectedDateState
+import com.terning.domain.repository.ScrapRepository
+import com.terning.feature.R
+import com.terning.feature.calendar.scrap.model.Scrap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +23,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
+    private val scrapRepository: ScrapRepository
 ) : ViewModel() {
+    init {
+        getScrapModelList()
+    }
+
     private val _selectedDate = MutableStateFlow<SelectedDateState>(
         SelectedDateState(
             selectedDate = LocalDate.now(),
@@ -49,10 +56,23 @@ class CalendarViewModel @Inject constructor(
 
     fun disableWeekCalendar() {
         _selectedDate.update { currentState ->
+
+            val sad = R.string.calendar_animation_label
             currentState.copy(
                 isEnabled = false
             )
         }
+    }
+
+    fun getScrapModelList() = viewModelScope.launch {
+        scrapRepository.getMonthScrapList(2024, 7).fold(
+            onSuccess = {
+                Log.d("CalendarScreen", it.toString())
+            },
+            onFailure = {
+                Log.d("CalendarScreen", it.message.toString())
+            }
+        )
     }
 
 

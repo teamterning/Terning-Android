@@ -1,12 +1,8 @@
-package com.terning.feature.calendar.calendar
+package com.terning.feature.calendar.month
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
@@ -17,9 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.isToday
-import com.terning.feature.calendar.models.MonthData
-import com.terning.feature.calendar.models.Scrap
-import com.terning.feature.calendar.models.SelectedDateState
+import com.terning.feature.calendar.day.CalendarDay
+import com.terning.feature.calendar.month.model.MonthData
+import com.terning.feature.calendar.scrap.model.Scrap
+import com.terning.feature.calendar.calendar.SelectedDateState
 import com.terning.feature.calendar.scrap.CalendarScrapStrip
 import java.time.LocalDate
 import java.time.YearMonth

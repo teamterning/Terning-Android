@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getDateStringInKorean
-import com.terning.feature.calendar.models.Scrap
+import com.terning.feature.calendar.scrap.model.Scrap
 import java.time.LocalDate
 
 @Composable

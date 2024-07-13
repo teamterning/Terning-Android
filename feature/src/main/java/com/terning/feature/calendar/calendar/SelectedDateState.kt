@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.models
+package com.terning.feature.calendar.calendar
 
 import java.time.LocalDate
 

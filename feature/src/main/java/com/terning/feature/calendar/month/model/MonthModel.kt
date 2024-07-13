@@ -1,12 +1,13 @@
-package com.terning.feature.calendar.models
+package com.terning.feature.calendar.month.model
 
 import androidx.compose.runtime.Immutable
+import com.terning.feature.calendar.day.model.DayClass
 import java.time.YearMonth
 
 @Immutable
 data class MonthModel(
     val yearMonth: YearMonth,
-    val weekDays: List<List<DayModel>>
+    val weekDays: List<List<DayClass>>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

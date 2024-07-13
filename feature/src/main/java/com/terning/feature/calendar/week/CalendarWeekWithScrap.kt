@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.calendar
+package com.terning.feature.calendar.week
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,8 +20,8 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
-import com.terning.feature.calendar.models.Scrap
-import com.terning.feature.calendar.models.SelectedDateState
+import com.terning.feature.calendar.calendar.SelectedDateState
+import com.terning.feature.calendar.scrap.model.Scrap
 import com.terning.feature.calendar.scrap.CalendarScrapList
 import java.time.LocalDate
 

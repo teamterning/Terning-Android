@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.calendar
+package com.terning.feature.calendar.day
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,13 +22,13 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.calendar.models.DayModel
+import com.terning.feature.calendar.day.model.DayClass
 import java.time.LocalDate
 
 @Composable
 fun CalendarDay(
     modifier: Modifier = Modifier,
-    dayData: DayModel,
+    dayData: DayClass,
     isSelected: Boolean,
     isToday: Boolean,
     onDateSelected: (LocalDate) -> Unit
@@ -82,19 +82,19 @@ fun CalendarDayPreview() {
     TerningPointTheme {
         Row {
             CalendarDay(
-                dayData = DayModel(LocalDate.now(), false),
+                dayData = DayClass(LocalDate.now(), false),
                 isSelected = true,
                 isToday = true,
                 onDateSelected = {}
             )
             CalendarDay(
-                dayData = DayModel(LocalDate.now(), false),
+                dayData = DayClass(LocalDate.now(), false),
                 isSelected = false,
                 isToday = true,
                 onDateSelected = {}
             )
             CalendarDay(
-                dayData = DayModel(LocalDate.now(), false),
+                dayData = DayClass(LocalDate.now(), false),
                 isSelected = false,
                 isToday = false,
                 onDateSelected = {}
