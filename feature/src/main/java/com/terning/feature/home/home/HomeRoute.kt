@@ -48,6 +48,9 @@ import com.terning.feature.home.home.model.RecommendInternData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
 
+const val NAME_START_LENGTH = 7
+const val NAME_END_LENGTH = 12
+
 @Composable
 fun HomeRoute() {
     val currentSortBy: MutableState<Int> = remember {
@@ -160,7 +163,7 @@ private fun ShowMainTitleWithName(userNameState: UserNameState) {
     Text(
         text = stringResource(
             id = R.string.home_today_title,
-            if (userNameState.userName.length in 7..12) "\n" + userNameState.userName
+            if (userNameState.userName.length in NAME_START_LENGTH..NAME_END_LENGTH) "\n" + userNameState.userName
             else userNameState.userName
         ),
         modifier = Modifier
