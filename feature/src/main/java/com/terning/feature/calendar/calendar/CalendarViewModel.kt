@@ -11,11 +11,14 @@ import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
 import com.terning.domain.repository.ScrapRepository
+import com.terning.feature.R
 import com.terning.feature.calendar.month.ScrapCalendarState
 import com.terning.feature.calendar.scrap.model.Scrap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -28,9 +31,8 @@ import javax.inject.Inject
 class CalendarViewModel @Inject constructor(
     private val scrapRepository: ScrapRepository
 ) : ViewModel() {
-    init {
-        getScrapMonth(2024, 7)
-    }
+    private val _calendarSideEffect:MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
+    val calendarSideEffect = _calendarSideEffect.asSharedFlow()
 
     private var _selectedDate:MutableStateFlow<SelectedDateState> = MutableStateFlow(
         SelectedDateState(
@@ -43,6 +45,9 @@ class CalendarViewModel @Inject constructor(
 
     private val _scrapCalendarState = MutableStateFlow(ScrapCalendarState())
     val scrapCalendarState = _scrapCalendarState.asStateFlow()
+
+
+
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
         if (_selectedDate.value.selectedDate != date) {
@@ -81,9 +86,10 @@ class CalendarViewModel @Inject constructor(
                         loadState = UiState.Success(it)
                     )
                 }
+                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_success))
             },
             onFailure = {
-                Timber.tag("CalendarScreen").d("<CalendarViewModel> ${it.message.toString()}")
+                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
             }
         )
     }

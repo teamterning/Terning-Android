@@ -24,12 +24,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.month.CalendarMonthScreen
@@ -49,7 +53,19 @@ fun CalendarScreen(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    LaunchedEffect(viewModel.calendarSideEffect, lifecycleOwner) {
+        viewModel.calendarSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is CalendarSideEffect.ShowToast -> context.toast(sideEffect.message)
+                }
+            }
+    }
+
     val state by remember { mutableStateOf(CalendarState()) }
 
     val listState = rememberLazyListState(
