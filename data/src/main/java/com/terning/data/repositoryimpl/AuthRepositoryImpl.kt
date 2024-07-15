@@ -12,11 +12,11 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
     override suspend fun postSignIn(
         authorization: String,
-        signInRequestModel: SignInRequestModel
+        request: SignInRequestModel
     ): Result<SignInResponseModel> = kotlin.runCatching {
         authDataSource.postSignIn(
             authorization,
-            signInRequestModel.toSignInRequestDto()
+            request.toSignInRequestDto()
         ).result.toSignInModel()
     }
 }

@@ -6,6 +6,6 @@ import com.terning.domain.entity.response.SignInResponseModel
 interface AuthRepository {
     suspend fun postSignIn(
         authorization: String,
-        data: SignInRequestModel
+        request: SignInRequestModel
     ): Result<SignInResponseModel>
 }
