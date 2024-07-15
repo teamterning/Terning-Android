@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.textfield.SearchTextField
@@ -45,7 +46,6 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.feature.R
-import com.terning.feature.home.home.model.RecommendInternData
 
 private const val MAX_LINES = 1
 
@@ -71,71 +71,19 @@ fun SearchProcessScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
-    val recommendState: List<RecommendInternData> = listOf(
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-            dDay = 22,
-            workingPeriod = 2,
-            isScrapped = true,
-        ),
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "ㅇㄻㅇㅁㄻㄹㅇㅁㅇㄹ",
-            dDay = 9,
-            workingPeriod = 6,
-            isScrapped = false,
-        ),
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-            dDay = 2,
-            workingPeriod = 4,
-            isScrapped = true,
-        ),
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-            dDay = 22,
-            workingPeriod = 2,
-            isScrapped = true,
-        ),
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "ㅇㄻㅇㅁㄻㄹㅇㅁㅇㄹ",
-            dDay = 9,
-            workingPeriod = 6,
-            isScrapped = false,
-        ),
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-            dDay = 2,
-            workingPeriod = 4,
-            isScrapped = true,
-        ),
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-            dDay = 22,
-            workingPeriod = 2,
-            isScrapped = true,
-        ),
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "ㅇㄻㅇㅁㄻㄹㅇㅁㅇㄹ",
-            dDay = 9,
-            workingPeriod = 6,
-            isScrapped = false,
-        ),
-        RecommendInternData(
-            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
-            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-            dDay = 2,
-            workingPeriod = 4,
-            isScrapped = true,
-        ),
-    )
+    val internSearchResultData by viewModel.internSearchResultData.collectAsStateWithLifecycle()
+
+
+    if (sheetState) {
+        SortingBottomSheet(
+            onDismiss = {
+                sheetState = false
+            },
+            currentSortBy = currentSortBy.value,
+            newSortBy = currentSortBy
+        )
+    }
+
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
@@ -189,6 +137,7 @@ fun SearchProcessScreen(
                 onDoneAction = {
                     viewModel.updateQuery(state.text)
                     viewModel.updateShowSearchResults(true)
+                    viewModel.updateExistSearchResults(state.text)
                 }
             )
 
@@ -217,13 +166,13 @@ fun SearchProcessScreen(
                             ),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            items(recommendState.size) { index ->
+                            items(internSearchResultData.size) { index ->
                                 InternItemWithShadow(
-                                    imageUrl = recommendState[index].imgUrl,
-                                    title = recommendState[index].title,
-                                    dateDeadline = recommendState[index].dDay.toString(),
-                                    workingPeriod = recommendState[index].workingPeriod.toString(),
-                                    isScraped = recommendState[index].isScrapped
+                                    imageUrl = internSearchResultData[index].imgUrl,
+                                    title = internSearchResultData[index].title,
+                                    dateDeadline = internSearchResultData[index].dDay.toString(),
+                                    workingPeriod = internSearchResultData[index].workingPeriod.toString(),
+                                    isScraped = internSearchResultData[index].isScrapped
                                 )
                             }
                         }
