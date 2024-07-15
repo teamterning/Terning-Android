@@ -1,10 +1,5 @@
 package com.terning.feature.calendar.calendar
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalBlue1
@@ -14,9 +9,9 @@ import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
-import com.terning.domain.entity.response.ScrapModel
+import com.terning.core.state.UiState
 import com.terning.domain.repository.ScrapRepository
-import com.terning.feature.R
+import com.terning.feature.calendar.month.ScrapCalendarState
 import com.terning.feature.calendar.scrap.model.Scrap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +29,7 @@ class CalendarViewModel @Inject constructor(
     private val scrapRepository: ScrapRepository
 ) : ViewModel() {
     init {
-        getScrapModelMap(2024, 7)
+        getScrapMonth(2024, 7)
     }
 
     private var _selectedDate = MutableStateFlow<SelectedDateState>(
@@ -45,9 +40,8 @@ class CalendarViewModel @Inject constructor(
     )
     val selectedDate get() = _selectedDate.asStateFlow()
 
-    private var _scrapList: MutableStateFlow<Map<String, List<ScrapModel>>> =
-        MutableStateFlow( mapOf())
-    val scrapList get() = _scrapList.asStateFlow()
+    private val _scrapCalendarState = MutableStateFlow(ScrapCalendarState())
+    val scrapCalendarState = _scrapCalendarState.asStateFlow()
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
         if (_selectedDate.value.selectedDate != date) {
@@ -74,25 +68,18 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun getScrapModelList() = viewModelScope.launch {
-        scrapRepository.getMonthScrapList(2024, 7).fold(
-            onSuccess = {
-                Log.d("CalendarScreen", it.toString())
-            },
-            onFailure = {
-                Log.d("CalendarScreen", it.message.toString())
-            }
-        )
-    }
-
-    fun getScrapModelMap(
+    fun getScrapMonth(
         year: Int, month: Int
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            scrapRepository.getMonthScrapLists(year, month)
+            scrapRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
-                _scrapList.value = it
+                _scrapCalendarState.update { currentState ->
+                    currentState.copy (
+                        loadState = UiState.Success(it)
+                    )
+                }
             },
             onFailure = {
                 Timber.tag("CalendarScreen").d("<CalendarViewModel> ${it.message.toString()}")

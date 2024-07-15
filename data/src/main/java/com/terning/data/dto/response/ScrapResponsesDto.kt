@@ -113,7 +113,7 @@ fun getMockScrapList(year: Int, month: Int): List<ScrapResponsesDto> {
         1 -> {
             listOf(
                 ScrapResponsesDto(
-                    deadline = "${year}-${deadline}-1",
+                    deadline = "${year}-${deadline}-01",
                     scraps = listOf(
                         ScrapResponsesDto.Scrap(
                             scrapId = 1,
@@ -129,6 +129,31 @@ fun getMockScrapList(year: Int, month: Int): List<ScrapResponsesDto> {
                             scrapId = 3,
                             title = "제목3",
                             color = "#FF9B64E2"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 4,
+                            title = "제목4",
+                            color = "#FFF260AC"
+                        )
+                    )
+                ),
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-02",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFC4E953"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FF9B64E2"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 3,
+                            title = "제목3",
+                            color = "#FFED4E54"
                         ),
                         ScrapResponsesDto.Scrap(
                             scrapId = 4,
@@ -177,7 +202,7 @@ fun getMockScrapList(year: Int, month: Int): List<ScrapResponsesDto> {
         2 -> {
             listOf(
                 ScrapResponsesDto(
-                    deadline = "${year}-${deadline}-2",
+                    deadline = "${year}-${deadline}-02",
                     scraps = listOf(
                         ScrapResponsesDto.Scrap(
                             scrapId = 1,
@@ -241,7 +266,7 @@ fun getMockScrapList(year: Int, month: Int): List<ScrapResponsesDto> {
         3 -> {
             listOf(
                 ScrapResponsesDto(
-                    deadline = "${year}-${deadline}-5",
+                    deadline = "${year}-${deadline}-05",
                     scraps = listOf(
                         ScrapResponsesDto.Scrap(
                             scrapId = 1,

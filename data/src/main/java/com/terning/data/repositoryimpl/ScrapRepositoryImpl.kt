@@ -11,18 +11,7 @@ import javax.inject.Inject
 class ScrapRepositoryImpl @Inject constructor(
     private val scrapDataSource: ScrapDataSource
 ): ScrapRepository {
-    override suspend fun getMonthScrapList(year: Int, month: Int): Result<List<List<ScrapModel>>> =
-        runCatching {
-            val response = scrapDataSource.getMonthScrapList(
-                request = ScrapRequestDto(
-                    year = year,
-                    month = month
-                )
-            )
-            response.result.toScrapsByDeadLineList()
-        }
-
-    override suspend fun getMonthScrapLists(year: Int, month: Int): Result<Map<String, List<ScrapModel>>> =
+    override suspend fun getScrapMonth(year: Int, month: Int): Result<Map<String, List<ScrapModel>>> =
         runCatching {
             val response = scrapDataSource.getMonthScrapMap(
                     request = ScrapRequestDto(

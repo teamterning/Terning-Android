@@ -32,12 +32,11 @@ import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
-import com.terning.feature.calendar.month.CalendarMonths
+import com.terning.feature.calendar.month.CalendarMonthScreen
 import com.terning.feature.calendar.scrap.CalendarScrapListScreen
 import com.terning.feature.calendar.week.CalendarWeekWithScrap
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
@@ -154,7 +153,7 @@ fun CalendarScreen(
                         label = stringResource(id = R.string.calendar_animation_label)
                     ) { targetState ->
                         if (!targetState) {
-                            CalendarMonths(
+                            CalendarMonthScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 selectedDate = selectedDate,
                                 onDateSelected = {

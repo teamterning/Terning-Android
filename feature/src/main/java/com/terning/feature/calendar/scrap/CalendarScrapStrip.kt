@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,7 +24,7 @@ fun CalendarScrapStrip(
     scrapLists: List<ScrapModel>
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxWidth().padding(top = 3.dp)
+        modifier = modifier.fillMaxWidth()
     ) {
         items(scrapLists.subList(0, MAX_SCRAP_COUNT.coerceAtMost(scrapLists.size))) { scrap ->
             Text(
@@ -34,8 +35,13 @@ fun CalendarScrapStrip(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
+                    .padding(top = 2.dp)
+                    .padding(horizontal = 2.dp)
                     .fillMaxWidth()
-                    .background(color = Color(android.graphics.Color.parseColor(scrap.color)))
+                    .background(
+                        color = Color(android.graphics.Color.parseColor(scrap.color)),
+                        shape = RoundedCornerShape(size = 1.dp)
+                    )
             )
         }
 
