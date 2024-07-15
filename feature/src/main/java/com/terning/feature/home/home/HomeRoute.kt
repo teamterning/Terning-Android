@@ -67,27 +67,22 @@ fun HomeRoute(
     }
 
     val recommendInternState by viewModel.recommendInternState.collectAsStateWithLifecycle()
+    var recommendInternList = emptyList<RecommendInternModel>()
 
     when (recommendInternState) {
         is UiState.Empty -> {}
         is UiState.Loading -> {}
-        is UiState.Failure -> {
-            HomeScreen(
-                currentSortBy,
-                onChangeFilterClick = { navController.navigateChangeFilter() },
-                recommendInternList = emptyList()
-            )
-        }
+        is UiState.Failure -> { }
         is UiState.Success -> {
-            val recommendInternList = (recommendInternState as UiState.Success<List<RecommendInternModel>>).data
-
-            HomeScreen(
-                currentSortBy,
-                onChangeFilterClick = { navController.navigateChangeFilter() },
-                recommendInternList = recommendInternList
-            )
+            recommendInternList = (recommendInternState as UiState.Success<List<RecommendInternModel>>).data
         }
     }
+
+    HomeScreen(
+        currentSortBy,
+        onChangeFilterClick = { navController.navigateChangeFilter() },
+        recommendInternList = recommendInternList
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -101,7 +96,7 @@ fun HomeScreen(
     val userNameState = viewModel.userName
     val userScrapState by viewModel.scrapData.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
-    
+
     if (sheetState) {
         SortingBottomSheet(
             onDismiss = {
