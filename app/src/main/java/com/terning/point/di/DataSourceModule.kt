@@ -1,6 +1,8 @@
 package com.terning.point.di
 
+import com.terning.data.datasource.InternDataSource
 import com.terning.data.datasource.MockDataSource
+import com.terning.data.datasourceimpl.InternDataSourceImpl
 import com.terning.data.datasourceimpl.MockDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -15,4 +17,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindMockDataSource(mockDataSourceImpl: MockDataSourceImpl): MockDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindRecommendInternDataSource(internDataSourceImpl: InternDataSourceImpl): InternDataSource
 }
