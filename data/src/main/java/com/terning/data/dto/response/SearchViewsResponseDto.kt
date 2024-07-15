@@ -29,7 +29,7 @@ data class SearchViewsResponseDto(
         val title: String,
     )
 
-    fun toMockEntity(): List<SearchViewsResponseModel> = result.accountments.map {
+    fun toSearchViewsEntity(): List<SearchViewsResponseModel> = result.accountments.map {
         SearchViewsResponseModel(
             title = it.title,
             companyImage = it.companyImage,
