@@ -24,6 +24,7 @@ import coil.request.ImageRequest
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.SearchViewsResponseModel
 import com.terning.feature.R
@@ -60,6 +61,7 @@ fun SearchIntern(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .height(76.dp)
+                .customShadow(offsetY = 3.dp)
                 .wrapContentSize()
                 .clip(
                     RoundedCornerShape(
@@ -68,6 +70,7 @@ fun SearchIntern(
                     )
                 )
         )
+
         Text(
             text = "${searchViews.title} ${searchViews.title}${searchViews.title}${searchViews.title}",
             modifier = Modifier
