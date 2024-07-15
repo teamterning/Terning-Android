@@ -10,8 +10,8 @@ import com.terning.core.designsystem.theme.CalGreen2
 import com.terning.core.designsystem.theme.CalOrange1
 import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalYellow
+import com.terning.feature.home.home.model.InternData
 import com.terning.feature.home.home.model.InternFilterData
-import com.terning.feature.home.home.model.RecommendInternData
 import com.terning.feature.home.home.model.ScrapData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
 
 ) : ViewModel() {
-    private val _userName by mutableStateOf<UserNameState>(
+    private val _userName by mutableStateOf(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
             internFilter = InternFilterData(
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     )
     val userName get() = _userName
 
-    private val _scrapState = MutableStateFlow<UserScrapState>(
+    private val _scrapState = MutableStateFlow(
         UserScrapState(
             isScrapExist = true,
             scrapData = getScrapData()
@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
     )
     val scrapData get() = _scrapState.asStateFlow()
 
-    private val _recommendInternState = MutableStateFlow<List<RecommendInternData>>(
+    private val _recommendInternState = MutableStateFlow(
         getRecommendData()
     )
     val recommendInternData get() = _recommendInternState.asStateFlow()
@@ -57,7 +57,6 @@ class HomeViewModel @Inject constructor(
     fun setWorkingPeriod(workingPeriod: Int) {
         userName.internFilter?.workingPeriod = workingPeriod
     }
-
 }
 
 private fun getScrapData(): List<ScrapData> = listOf(
@@ -111,71 +110,71 @@ private fun getScrapData(): List<ScrapData> = listOf(
     ),
 )
 
-private fun getRecommendData(): List<RecommendInternData> = listOf(
-    RecommendInternData(
+private fun getRecommendData(): List<InternData> = listOf(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 22,
         workingPeriod = 2,
         isScrapped = true,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "ㅇㄻㅇㅁㄻㄹㅇㅁㅇㄹ",
         dDay = 9,
         workingPeriod = 6,
         isScrapped = false,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 2,
         workingPeriod = 4,
         isScrapped = true,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 2,
         workingPeriod = 4,
         isScrapped = false,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 2,
         workingPeriod = 4,
         isScrapped = true,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 2,
         workingPeriod = 4,
         isScrapped = true,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 2,
         workingPeriod = 4,
         isScrapped = false,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 2,
         workingPeriod = 4,
         isScrapped = true,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 2,
         workingPeriod = 4,
         isScrapped = false,
     ),
-    RecommendInternData(
+    InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",
         title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
         dDay = 2,

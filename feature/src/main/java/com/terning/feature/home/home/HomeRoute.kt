@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,14 +30,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.item.InternItem
+import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.customShadow
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
@@ -46,7 +43,6 @@ import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
-import com.terning.feature.home.home.model.RecommendInternData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
 
@@ -148,7 +144,17 @@ fun HomeScreen(
 
                 if (userNameState.internFilter != null && recommendInternData.isNotEmpty()) {
                     items(recommendInternData.size) { index ->
-                        ShowRecommendIntern(recommendInternData[index])
+                        Box(
+                            modifier = Modifier.padding(horizontal = 24.dp)
+                        ) {
+                            InternItemWithShadow(
+                                imageUrl = recommendInternData[index].imgUrl,
+                                title = recommendInternData[index].title,
+                                dateDeadline = recommendInternData[index].dDay.toString(),
+                                workingPeriod = recommendInternData[index].workingPeriod.toString(),
+                                isScraped = recommendInternData[index].isScrapped,
+                            )
+                        }
                     }
                 }
             }
@@ -242,30 +248,5 @@ private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: 
                 onChangeFilterClick = { onChangeFilterClick() },
             )
         }
-    }
-}
-
-@Composable
-private fun ShowRecommendIntern(recommendInternData: RecommendInternData) {
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 24.dp)
-            .customShadow(
-                color = Grey200,
-                shadowRadius = 10.dp,
-                shadowWidth = 2.dp
-            )
-            .background(
-                color = White,
-                shape = RoundedCornerShape(10.dp)
-            )
-    ) {
-        InternItem(
-            imageUrl = recommendInternData.imgUrl,
-            title = recommendInternData.title,
-            dateDeadline = recommendInternData.dDay.toString(),
-            workingPeriod = recommendInternData.workingPeriod.toString(),
-            isScraped = recommendInternData.isScrapped,
-        )
     }
 }

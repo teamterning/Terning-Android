@@ -136,7 +136,6 @@ fun TerningBasicTextField(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = Modifier.padding(vertical = 8.dp)
     ) {
         helperIcon?.let {
             Icon(

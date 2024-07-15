@@ -100,5 +100,4 @@ fun SearchScreen(
             SearchInternList(type = InternListType.SCRAP)
         }
     }
-
 }
