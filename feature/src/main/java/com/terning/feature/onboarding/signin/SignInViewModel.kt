@@ -27,6 +27,10 @@ class SignInViewModel @Inject constructor(
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
+    init {
+        tokenRepository.clearInfo()
+    }
+
     private val _signInState = MutableStateFlow(SignInState())
     val signInState: StateFlow<SignInState>
         get() = _signInState.asStateFlow()
@@ -82,7 +86,6 @@ class SignInViewModel @Inject constructor(
         platform: String = KAKAO
     ) {
         viewModelScope.launch {
-            //    Log.d("LYB", accessToken.toString())
             authRepository.postSignIn(
                 accessToken,
                 SignInRequestModel(platform)
@@ -91,7 +94,7 @@ class SignInViewModel @Inject constructor(
                 tokenRepository.setUserId(response.userId)
 
                 if (response.accessToken == null) _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
-                else _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
+                else _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
             }.onFailure {
                 _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
             }
