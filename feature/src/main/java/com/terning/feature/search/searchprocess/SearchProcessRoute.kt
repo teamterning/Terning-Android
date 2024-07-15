@@ -3,12 +3,14 @@ package com.terning.feature.search.searchprocess
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.button.SortingButton
+import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey400
@@ -42,6 +45,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.feature.R
+import com.terning.feature.home.home.model.RecommendInternData
 
 private const val MAX_LINES = 1
 
@@ -67,7 +71,71 @@ fun SearchProcessScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
-
+    val recommendState: List<RecommendInternData> = listOf(
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+            dDay = 22,
+            workingPeriod = 2,
+            isScrapped = true,
+        ),
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "ㅇㄻㅇㅁㄻㄹㅇㅁㅇㄹ",
+            dDay = 9,
+            workingPeriod = 6,
+            isScrapped = false,
+        ),
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+            dDay = 2,
+            workingPeriod = 4,
+            isScrapped = true,
+        ),
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+            dDay = 22,
+            workingPeriod = 2,
+            isScrapped = true,
+        ),
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "ㅇㄻㅇㅁㄻㄹㅇㅁㅇㄹ",
+            dDay = 9,
+            workingPeriod = 6,
+            isScrapped = false,
+        ),
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+            dDay = 2,
+            workingPeriod = 4,
+            isScrapped = true,
+        ),
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+            dDay = 22,
+            workingPeriod = 2,
+            isScrapped = true,
+        ),
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "ㅇㄻㅇㅁㄻㄹㅇㅁㅇㄹ",
+            dDay = 9,
+            workingPeriod = 6,
+            isScrapped = false,
+        ),
+        RecommendInternData(
+            imgUrl = "https://reqres.in/img/faces/7-image.jpg",
+            title = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
+            dDay = 2,
+            workingPeriod = 4,
+            isScrapped = true,
+        ),
+    )
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
@@ -142,6 +210,24 @@ fun SearchProcessScreen(
                                 onCLick = { sheetState = true },
                             )
                         }
+                        LazyColumn(
+                            contentPadding = PaddingValues(
+                                top = 12.dp,
+                                bottom = 20.dp,
+                            ),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(recommendState.size) { index ->
+                                InternItemWithShadow(
+                                    imageUrl = recommendState[index].imgUrl,
+                                    title = recommendState[index].title,
+                                    dateDeadline = recommendState[index].dDay.toString(),
+                                    workingPeriod = recommendState[index].workingPeriod.toString(),
+                                    isScraped = recommendState[index].isScrapped
+                                )
+                            }
+                        }
+
                     } else {
                         Spacer(
                             modifier = Modifier.padding(top = 87.dp)
