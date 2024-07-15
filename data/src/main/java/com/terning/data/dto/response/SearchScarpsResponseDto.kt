@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SearchViewsResponseDto(
+data class SearchScarpsResponseDto(
     @SerialName("status")
     val status: Int,
     @SerialName("message")
@@ -16,11 +16,11 @@ data class SearchViewsResponseDto(
     @Serializable
     data class Result(
         @SerialName("accountments")
-        val accountments: List<SearchViewsData>,
+        val accountments: List<SearchScrapsData>,
     )
 
     @Serializable
-    data class SearchViewsData(
+    data class SearchScrapsData(
         @SerialName("internshipAnnouncementId")
         val internshipAnnouncementId: Long,
         @SerialName("companyImage")
@@ -29,7 +29,7 @@ data class SearchViewsResponseDto(
         val title: String,
     )
 
-    fun toSearchViewsEntity(): List<InternAnnouncementResponseModel> = result.accountments.map {
+    fun toSearchScrapsEntity(): List<InternAnnouncementResponseModel> = result.accountments.map {
         InternAnnouncementResponseModel(
             title = it.title,
             companyImage = it.companyImage,
