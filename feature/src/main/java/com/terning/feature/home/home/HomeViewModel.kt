@@ -47,7 +47,6 @@ class HomeViewModel @Inject constructor(
 
     private val _recommendInternState = MutableStateFlow<List<RecommendInternData>>(
         getRecommendData()
-//        listOf()
     )
     val recommendInternData get() = _recommendInternState.asStateFlow()
 
