@@ -56,7 +56,7 @@ fun ChangeFilterScreen(
                     top = paddingValues.calculateTopPadding(),
                 )
         ) {
-            showTitle(
+            ShowTitle(
                 mainTitle = stringResource(id = R.string.change_filter_grade_main),
                 subTitle = stringResource(id = R.string.filtering_status1_sub),
                 modifier = Modifier.padding(
@@ -81,7 +81,7 @@ fun ChangeFilterScreen(
                 )
             )
 
-            showTitle(
+            ShowTitle(
                 mainTitle = stringResource(id = R.string.filtering_status2_title),
                 subTitle = stringResource(id = R.string.filtering_status2_sub),
                 modifier = Modifier.padding(
@@ -96,7 +96,7 @@ fun ChangeFilterScreen(
                 onButtonClick = { viewModel.setWorkingPeriod(it) }
             )
 
-            showTitle(
+            ShowTitle(
                 mainTitle = stringResource(id = R.string.filtering_status3_title),
                 subTitle = stringResource(id = R.string.filtering_status3_sub),
                 modifier = Modifier.padding(
@@ -126,7 +126,7 @@ fun ChangeFilterScreen(
 }
 
 @Composable
-private fun showTitle(
+private fun ShowTitle(
     mainTitle: String,
     subTitle: String,
     modifier: Modifier = Modifier,
