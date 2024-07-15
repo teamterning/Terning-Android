@@ -60,14 +60,17 @@ fun HomeRoute(
     val currentSortBy: MutableState<Int> = remember {
         mutableIntStateOf(0)
     }
-    HomeScreen(currentSortBy, navController)
+    HomeScreen(
+        currentSortBy,
+        onChangeFilterClick = { navController.navigateChangeFilter() }
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
-    navController: NavHostController,
+    onChangeFilterClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val userNameState = viewModel.userName
@@ -118,7 +121,7 @@ fun HomeScreen(
                             .background(White)
                     ) {
                         ShowRecommendTitle()
-                        ShowInternFilter(userNameState = userNameState, navController)
+                        ShowInternFilter(userNameState = userNameState, onChangeFilterClick)
 
                         HorizontalDivider(
                             thickness = 4.dp,
@@ -214,13 +217,13 @@ private fun ShowRecommendTitle() {
 }
 
 @Composable
-private fun ShowInternFilter(userNameState: UserNameState, navController: NavHostController) {
+private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: () -> Unit) {
     if (userNameState.internFilter?.grade == null) {
         HomeFilteringScreen(
             grade = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
             period = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
             startYear = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            onChangeFilterClick = { navController.navigateChangeFilter() },
+            onChangeFilterClick = { onChangeFilterClick() },
         )
     } else {
         with(userNameState.internFilter) {
@@ -236,7 +239,7 @@ private fun ShowInternFilter(userNameState: UserNameState, navController: NavHos
                 ),
                 startYear = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
                         + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
-                onChangeFilterClick = { navController.navigateChangeFilter() },
+                onChangeFilterClick = { onChangeFilterClick() },
             )
         }
     }
