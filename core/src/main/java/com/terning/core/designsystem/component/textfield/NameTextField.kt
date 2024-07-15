@@ -1,5 +1,6 @@
 package com.terning.core.designsystem.component.textfield
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,6 +17,7 @@ fun NameTextField(
     onValueChange: (String) -> Unit,
     hint: String,
     drawLineColor: Color,
+    @StringRes
     helperMessage: Int,
     helperColor: Color,
     helperIcon: Int? = null,
