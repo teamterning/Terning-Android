@@ -247,8 +247,8 @@ private fun ShowRecommendIntern(recommendInternData: RecommendInternData) {
         InternItem(
             imageUrl = recommendInternData.imgUrl,
             title = recommendInternData.title,
-            dateDeadline = recommendInternData.dDay.toString(),
-            workingPeriod = recommendInternData.workingPeriod.toString(),
+            dateDeadline = recommendInternData.dDay,
+            workingPeriod = recommendInternData.workingPeriod,
             isScraped = recommendInternData.isScrapped,
         )
     }
