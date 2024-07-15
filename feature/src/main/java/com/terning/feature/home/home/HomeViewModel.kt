@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
             internFilter = InternFilterData(
-                grade = 4,
+                grade = 1,
                 workingPeriod = 1,
                 startYear = 2024,
                 startMonth = 7,
@@ -46,10 +46,18 @@ class HomeViewModel @Inject constructor(
     val scrapData get() = _scrapState.asStateFlow()
 
     private val _recommendInternState = MutableStateFlow<List<RecommendInternData>>(
-//        getRecommendData()
-        listOf()
+        getRecommendData()
     )
     val recommendInternData get() = _recommendInternState.asStateFlow()
+
+    fun setGrade(grade: Int) {
+        userName.internFilter?.grade = grade
+    }
+
+    fun setWorkingPeriod(workingPeriod: Int) {
+        userName.internFilter?.workingPeriod = workingPeriod
+    }
+
 }
 
 private fun getScrapData(): List<ScrapData> = listOf(
