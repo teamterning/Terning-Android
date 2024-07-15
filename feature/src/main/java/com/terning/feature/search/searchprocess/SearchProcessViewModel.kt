@@ -24,5 +24,6 @@ class SearchProcessViewModel @Inject constructor() : ViewModel() {
 
     fun updateShowSearchResults(show: Boolean) {
         _state.value = _state.value.copy(showSearchResults = show)
+        _state.value = _state.value.copy(existSearchResults = true)
     }
 }

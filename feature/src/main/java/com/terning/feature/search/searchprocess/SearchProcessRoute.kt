@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,8 +13,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -28,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey400
@@ -43,18 +49,24 @@ private const val MAX_LINES = 1
 fun SearchProcessRoute(
     navController: NavHostController,
 ) {
+    val currentSortBy: MutableState<Int> = remember {
+        mutableIntStateOf(0)
+    }
     SearchProcessScreen(
         navController = navController,
+        currentSortBy = currentSortBy
     )
 }
 
 @Composable
 fun SearchProcessScreen(
+    currentSortBy: MutableState<Int>,
     modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var sheetState by remember { mutableStateOf(false) }
 
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -115,51 +127,66 @@ fun SearchProcessScreen(
             if (state.showSearchResults) {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 87.dp),
+                        .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Image(
-                        painter = painterResource(
-                            id = R.drawable.ic_nosearch
-                        ),
-                        contentDescription = stringResource(
-                            id = R.string.search_process_no_result_icon
-                        )
-                    )
-                    Row(
-                        modifier = Modifier
-                            .padding(
-                                top = 16.dp,
-                                bottom = 6.dp
+                    if (state.existSearchResults) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                        ) {
+                            SortingButton(
+                                sortBy = currentSortBy.value,
+                                onCLick = { sheetState = true },
                             )
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = state.query,
-                            style = TerningTheme.typography.body1,
-                            color = TerningMain,
-                            maxLines = MAX_LINES,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f, false)
+                        }
+                    } else {
+                        Spacer(
+                            modifier = Modifier.padding(top = 87.dp)
                         )
+                        Image(
+                            painter = painterResource(
+                                id = R.drawable.ic_nosearch
+                            ),
+                            contentDescription = stringResource(
+                                id = R.string.search_process_no_result_icon
+                            )
+                        )
+                        Row(
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp,
+                                    bottom = 6.dp
+                                )
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = state.query,
+                                style = TerningTheme.typography.body1,
+                                color = TerningMain,
+                                maxLines = MAX_LINES,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f, false)
+                            )
+                            Text(
+                                text = stringResource(id = R.string.search_process_no_result_text_sub),
+                                style = TerningTheme.typography.body1,
+                                color = Grey400,
+                                modifier = Modifier.wrapContentWidth()
+                            )
+                        }
                         Text(
-                            text = stringResource(id = R.string.search_process_no_result_text_sub),
+                            text = stringResource(
+                                id = R.string.search_process_no_result_text_main
+                            ),
                             style = TerningTheme.typography.body1,
                             color = Grey400,
-                            modifier = Modifier.wrapContentWidth()
                         )
                     }
-                    Text(
-                        text = stringResource(
-                            id = R.string.search_process_no_result_text_main
-                        ),
-                        style = TerningTheme.typography.body1,
-                        color = Grey400,
-                    )
                 }
             }
         }
@@ -171,7 +198,10 @@ fun SearchProcessScreen(
 fun SearchProcessScreenPreview() {
     TerningPointTheme {
         SearchProcessScreen(
-            navController = rememberNavController()
+            navController = rememberNavController(),
+            currentSortBy = remember {
+                mutableIntStateOf(0)
+            }
         )
     }
 }
