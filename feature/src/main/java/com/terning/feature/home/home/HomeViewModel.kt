@@ -12,21 +12,24 @@ import com.terning.core.designsystem.theme.CalOrange1
 import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.RecommendInternModel
-import com.terning.domain.repository.InternRepository
+import com.terning.domain.entity.response.HomeRecommendInternModel
+import com.terning.domain.repository.HomeRepository
+import com.terning.feature.R
 import com.terning.feature.home.home.model.InternFilterData
 import com.terning.feature.home.home.model.ScrapData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val internRepository: InternRepository
+    private val homeRepository: HomeRepository
 ) : ViewModel() {
     private val _userName by mutableStateOf(
         UserNameState(
@@ -50,8 +53,11 @@ class HomeViewModel @Inject constructor(
     val scrapData get() = _scrapState.asStateFlow()
 
     private val _recommendInternState =
-        MutableStateFlow<UiState<List<RecommendInternModel>>>(UiState.Empty)
+        MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Empty)
     val recommendInternState get() = _recommendInternState.asStateFlow()
+
+    private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
+    val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
     fun setGrade(grade: Int) {
         userName.internFilter?.grade = grade
@@ -69,12 +75,13 @@ class HomeViewModel @Inject constructor(
     fun getRecommendInternsData(sortBy: String) {
         _recommendInternState.value = UiState.Loading
         viewModelScope.launch {
-            internRepository.getRecommendIntern(sortBy).onSuccess { internList ->
+            homeRepository.getRecommendIntern(sortBy).onSuccess { internList ->
                 _recommendInternState.value = UiState.Success(internList)
             }.onFailure { exception: Throwable ->
-                _recommendInternState.value = UiState.Failure(exception.message ?: " ")
+                _recommendInternState.value = UiState.Failure(exception.message ?: "")
+//                _recommendInternState.value = UiState.Success(toRecommendInternEntity())
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
-
         }
     }
 }

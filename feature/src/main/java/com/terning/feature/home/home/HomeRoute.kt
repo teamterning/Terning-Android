@@ -17,6 +17,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -24,10 +25,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
@@ -39,8 +43,9 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.RecommendInternModel
+import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
@@ -63,15 +68,32 @@ fun HomeRoute(
         mutableIntStateOf(0)
     }
 
-    val recommendInternState by viewModel.recommendInternState.collectAsStateWithLifecycle()
-    var recommendInternList = emptyList<RecommendInternModel>()
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val recommendInternState by viewModel.recommendInternState.collectAsStateWithLifecycle(
+        lifecycleOwner = lifecycleOwner
+    )
+    LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
+        viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
+                    is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
+                }
+
+            }
+    }
+
+    var recommendInternList = emptyList<HomeRecommendInternModel>()
 
     when (recommendInternState) {
         is UiState.Empty -> {}
         is UiState.Loading -> {}
-        is UiState.Failure -> { }
+        is UiState.Failure -> {}
         is UiState.Success -> {
-            recommendInternList = (recommendInternState as UiState.Success<List<RecommendInternModel>>).data
+            recommendInternList =
+                (recommendInternState as UiState.Success<List<HomeRecommendInternModel>>).data
         }
     }
 
@@ -87,7 +109,7 @@ fun HomeRoute(
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
     onChangeFilterClick: () -> Unit,
-    recommendInternList: List<RecommendInternModel>,
+    recommendInternList: List<HomeRecommendInternModel>,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val userNameState = viewModel.userName
@@ -162,9 +184,9 @@ fun HomeScreen(
                     }
                 }
 
-                if(recommendInternList.isNotEmpty()) {
+                if (recommendInternList.isNotEmpty()) {
                     items(recommendInternList.size) { index ->
-                        ShowRecommendIntern(recommendInternModel = recommendInternList[index])
+                        ShowRecommendIntern(homeRecommendInternModel = recommendInternList[index])
                     }
                 }
             }
@@ -262,7 +284,7 @@ private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: 
 }
 
 @Composable
-private fun ShowRecommendIntern(recommendInternModel: RecommendInternModel) {
+private fun ShowRecommendIntern(homeRecommendInternModel: HomeRecommendInternModel) {
     Box(
         modifier = Modifier
             .padding(horizontal = 24.dp)
@@ -277,11 +299,11 @@ private fun ShowRecommendIntern(recommendInternModel: RecommendInternModel) {
             )
     ) {
         InternItem(
-            imageUrl = recommendInternModel.companyImage,
-            title = recommendInternModel.title,
-            dateDeadline = recommendInternModel.dDay,
-            workingPeriod = recommendInternModel.workingPeriod,
-            isScraped = recommendInternModel.isScrapped,
+            imageUrl = homeRecommendInternModel.companyImage,
+            title = homeRecommendInternModel.title,
+            dateDeadline = homeRecommendInternModel.dDay,
+            workingPeriod = homeRecommendInternModel.workingPeriod,
+            isScraped = homeRecommendInternModel.isScrapped,
         )
     }
 }

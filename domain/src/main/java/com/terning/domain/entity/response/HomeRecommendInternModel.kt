@@ -1,6 +1,6 @@
 package com.terning.domain.entity.response
 
-data class RecommendInternModel(
+data class HomeRecommendInternModel(
     val internshipAnnouncementId: Long,
     val title: String,
     val dDay: String,
