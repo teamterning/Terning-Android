@@ -41,7 +41,8 @@ fun SearchRoute(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val scrapState by viewModel.scrapState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getSearchViews()
@@ -51,19 +52,20 @@ fun SearchRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SearchViewsSideEffect.Toast -> {}
+                    is SearchSideEffect.Toast -> {}
                 }
             }
     }
 
-    when (state.searchViewsList) {
+    when (viewState.searchViewsList) {
         is UiState.Loading -> {}
         is UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
             SearchScreen(
                 navController = navController,
-                searchViewsList = (state.searchViewsList as UiState.Success<List<InternAnnouncementResponseModel>>).data
+                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternAnnouncementResponseModel>>).data,
+                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternAnnouncementResponseModel>>).data
             )
         }
 
@@ -75,6 +77,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     searchViewsList: List<InternAnnouncementResponseModel>,
+    searchScrapsList: List<InternAnnouncementResponseModel>,
 ) {
     val images = listOf(
         R.drawable.ic_nav_search,
@@ -139,7 +142,7 @@ fun SearchScreen(
             )
             SearchInternList(
                 type = InternListType.SCRAP,
-                searchViewsList = searchViewsList,
+                searchViewsList = searchScrapsList,
                 navController = navController
             )
         }
