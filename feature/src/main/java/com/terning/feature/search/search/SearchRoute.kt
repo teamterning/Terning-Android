@@ -127,13 +127,19 @@ fun SearchScreen(
                 color = Black
             )
 
-            SearchInternList(type = InternListType.VIEW)
+            SearchInternList(
+                type = InternListType.VIEW,
+                searchViewsList = searchViewsList
+            )
             HorizontalDivider(
                 thickness = 4.dp,
                 modifier = Modifier.padding(vertical = 8.dp),
                 color = Grey100,
             )
-            SearchInternList(type = InternListType.SCRAP)
+            SearchInternList(
+                type = InternListType.SCRAP,
+                searchViewsList = searchViewsList
+            )
         }
     }
 }
