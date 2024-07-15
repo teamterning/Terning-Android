@@ -7,6 +7,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.terning.core.state.UiState
 import com.terning.domain.entity.request.SignInRequestModel
 import com.terning.domain.repository.AuthRepository
 import com.terning.domain.repository.TokenRepository
@@ -90,12 +91,21 @@ class SignInViewModel @Inject constructor(
                 accessToken,
                 SignInRequestModel(platform)
             ).onSuccess { response ->
-                tokenRepository.setTokens(response.accessToken, response.refreshToken)
-                tokenRepository.setUserId(response.userId)
+                when {
+                    response.accessToken == null -> _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
 
-                if (response.accessToken == null) _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
-                else _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
+                    else -> {
+                        tokenRepository.setTokens(
+                            response.accessToken ?: return@launch,
+                            response.refreshToken ?: return@onSuccess
+                        )
+                        tokenRepository.setUserId(response.userId)
+
+                        _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
+                    }
+                }
             }.onFailure {
+                _signInState.value = SignInState(UiState.Failure(it.message.toString()))
                 _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
             }
         }
