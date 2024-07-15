@@ -4,7 +4,6 @@ import com.terning.core.extension.isJsonArray
 import com.terning.core.extension.isJsonObject
 import com.terning.point.BuildConfig
 import com.terning.point.di.qualifier.JWT
-import com.terning.point.di.qualifier.OPEN
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,18 +61,6 @@ object RetrofitModule {
         loggingInterceptor: Interceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
-        .build()
-
-    @Provides
-    @Singleton
-    @OPEN
-    fun provideOpenRetrofit(
-        client: OkHttpClient,
-        factory: Converter.Factory
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
-        .addConverterFactory(factory)
-        .client(client)
         .build()
 
     @Provides
