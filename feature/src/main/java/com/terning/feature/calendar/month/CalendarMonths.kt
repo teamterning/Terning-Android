@@ -1,5 +1,6 @@
 package com.terning.feature.calendar.month
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
@@ -35,6 +36,8 @@ fun CalendarMonths(
         items(pages) { page ->
             val date = getDateByPage(page)
             val monthData = MonthData(YearMonth.of(date.year, date.month))
+
+            Log.d("CalendarScreen", "current date : $date")
 
             CalendarMonth(
                 modifier = Modifier.fillParentMaxSize(),

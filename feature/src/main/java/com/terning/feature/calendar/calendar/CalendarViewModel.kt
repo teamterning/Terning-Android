@@ -14,10 +14,13 @@ import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.scrap.model.Scrap
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -26,7 +29,7 @@ class CalendarViewModel @Inject constructor(
     private val scrapRepository: ScrapRepository
 ) : ViewModel() {
     init {
-        getScrapModelList()
+        getScrapModelMap(2024, 7)
     }
 
     private val _selectedDate = MutableStateFlow<SelectedDateState>(
@@ -71,6 +74,21 @@ class CalendarViewModel @Inject constructor(
             },
             onFailure = {
                 Log.d("CalendarScreen", it.message.toString())
+            }
+        )
+    }
+
+    fun getScrapModelMap(
+        year: Int, month: Int
+    ) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            scrapRepository.getMonthScrapLists(year, month)
+        }.fold(
+            onSuccess = {
+                Timber.tag("CalendarScreen").d("<CalendarViewModel> ${it.toString()}")
+            },
+            onFailure = {
+                Timber.tag("CalendarScreen").d("<CalendarViewModel> ${it.message.toString()}")
             }
         )
     }
