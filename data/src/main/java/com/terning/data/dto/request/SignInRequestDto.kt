@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SignInRequestDto(
-    @SerialName("platform")
-    val platform: String
+    @SerialName("authType")
+    val authType: String
 )
 
 fun SignInRequestModel.toSignInRequestDto(): SignInRequestDto =
-    SignInRequestDto(platform = platform)
+    SignInRequestDto(authType = authType)

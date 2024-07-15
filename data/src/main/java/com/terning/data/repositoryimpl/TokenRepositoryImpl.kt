@@ -1,4 +1,9 @@
 package com.terning.data.repositoryimpl
 
-class TokenRepositoryImpl {
+import com.terning.data.datasource.TokenReissueDataSource
+import javax.inject.Inject
+
+class TokenRepositoryImpl @Inject constructor(
+    private val tokenReissueDataSource : TokenReissueDataSource
+) {
 }
