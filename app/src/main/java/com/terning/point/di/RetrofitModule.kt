@@ -2,7 +2,7 @@ package com.terning.point.di
 
 import com.terning.core.extension.isJsonArray
 import com.terning.core.extension.isJsonObject
-import com.terning.point.BuildConfig
+import com.terning.point.BuildConfig.BASE_URL
 import com.terning.point.di.qualifier.JWT
 import dagger.Module
 import dagger.Provides
@@ -70,7 +70,7 @@ object RetrofitModule {
         client: OkHttpClient,
         factory: Converter.Factory
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
+        .baseUrl(BASE_URL)
         .addConverterFactory(factory)
         .client(client)
         .build()
