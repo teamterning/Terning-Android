@@ -129,7 +129,8 @@ fun SearchScreen(
 
             SearchInternList(
                 type = InternListType.VIEW,
-                searchViewsList = searchViewsList
+                searchViewsList = searchViewsList,
+                navController = navController
             )
             HorizontalDivider(
                 thickness = 4.dp,
@@ -138,7 +139,8 @@ fun SearchScreen(
             )
             SearchInternList(
                 type = InternListType.SCRAP,
-                searchViewsList = searchViewsList
+                searchViewsList = searchViewsList,
+                navController = navController
             )
         }
     }

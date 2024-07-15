@@ -18,18 +18,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.customShadow
+import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.SearchViewsResponseModel
 import com.terning.feature.R
+import com.terning.feature.intern.navigation.navigateIntern
 
 @Composable
 fun SearchIntern(
     searchViews: SearchViewsResponseModel,
+    navController: NavHostController,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -44,6 +47,9 @@ fun SearchIntern(
                 shape = RoundedCornerShape(size = 5.dp)
             )
             .padding(vertical = 8.dp)
+            .noRippleClickable {
+                navController.navigateIntern()
+            }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
