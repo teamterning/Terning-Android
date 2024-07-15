@@ -28,7 +28,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val internRepository: InternRepository
 ) : ViewModel() {
-    private val _userName by mutableStateOf<UserNameState>(
+    private val _userName by mutableStateOf(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
             internFilter = InternFilterData(
@@ -41,9 +41,9 @@ class HomeViewModel @Inject constructor(
     )
     val userName get() = _userName
 
-    private val _scrapState = MutableStateFlow<UserScrapState>(
+    private val _scrapState = MutableStateFlow(
         UserScrapState(
-            isScrapExist = false,
+            isScrapExist = true,
             scrapData = getScrapData()
         )
     )

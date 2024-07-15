@@ -48,11 +48,8 @@ import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
-import com.terning.feature.home.home.model.RecommendInternData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
-import com.terning.feature.home.home.navigation.Home
-import timber.log.Timber
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
