@@ -26,7 +26,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
             nameErrorRegex.containsMatchIn(trimmedName) -> _state.value = _state.value.copy(
                 name = trimmedName,
                 drawLineColor = WarningRed,
-                helper = HELPER_ERROR,
+                helper = R.string.sign_up_helper_error,
                 helperIcon = R.drawable.ic_sign_up_error,
                 helperColor = WarningRed,
                 isButtonValid = false
@@ -35,7 +35,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
             trimmedName.isEmpty() -> _state.value = _state.value.copy(
                 name = trimmedName,
                 drawLineColor = Grey500,
-                helper = HELPER,
+                helper = R.string.sign_up_helper,
                 helperIcon = null,
                 helperColor = Grey400,
                 isButtonValid = false
@@ -44,7 +44,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
             else -> _state.value = _state.value.copy(
                 name = trimmedName,
                 drawLineColor = TerningMain,
-                helper = HELPER_AVAILABLE,
+                helper = R.string.sign_up_helper_available,
                 helperIcon = R.drawable.ic_check,
                 helperColor = TerningMain,
                 isButtonValid = true
@@ -54,9 +54,6 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
 
     companion object {
         const val NAME_ERROR = "[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/]"
-        const val HELPER = "12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가"
         private const val MAX_LENGTH = 12
-        private const val HELPER_ERROR = "이름에 특수문자는 입력할 수 없어요"
-        private const val HELPER_AVAILABLE = "이용 가능한 이름이에요"
     }
 }

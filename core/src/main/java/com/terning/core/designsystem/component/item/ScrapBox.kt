@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
 
 /**
@@ -50,15 +50,11 @@ fun ScrapBox(
                 elevation = elevation,
                 RoundedCornerShape(cornerRadius),
             )
+            .background(
+                color = scrapColor,
+                shape = RoundedCornerShape(cornerRadius)
+            )
     ) {
-        Box(
-            modifier = Modifier
-                .background(
-                    color = scrapColor,
-                    shape = RoundedCornerShape(cornerRadius)
-                )
-                .fillMaxSize()
-        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -90,12 +86,20 @@ fun BorderedScrapBoxPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ShadowedScrapBoxPreview() {
-    ScrapBox(
-        modifier = Modifier
-            .height(height = 92.dp)
-            .fillMaxWidth(),
-        scrapColor = CalPurple,
-        cornerRadius = 10.dp,
-        elevation = 1.dp
-    ) {}
+    TerningPointTheme {
+        ScrapBox(
+            modifier = Modifier,
+            scrapColor = CalPurple,
+            cornerRadius = 10.dp,
+            elevation = 1.dp
+        ) {
+            InternItem(
+                imageUrl = "",
+                title = "[Someone] 콘텐츠 마케터 대학생",
+                dateDeadline = "3",
+                workingPeriod = "3",
+                isScraped = false
+            )
+        }
+    }
 }

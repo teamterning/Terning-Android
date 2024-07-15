@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.noRippleClickable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,26 +30,25 @@ fun TerningBasicTopAppBar(
 ) {
     CenterAlignedTopAppBar(
         title = {
-
             Text(
                 text = title,
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title2
             )
-
         },
-        modifier = modifier,
         navigationIcon = {
             if (showBackButton) {
                 IconButton(
                     onClick = {
-                        onBackButtonClick.invoke()
+                        onBackButtonClick()
                     }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = stringResource(id = R.string.ic_back),
-                        modifier = Modifier.padding(start = 8.dp)
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .noRippleClickable { onBackButtonClick() }
                     )
                 }
             } else {
