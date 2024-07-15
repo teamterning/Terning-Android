@@ -42,7 +42,6 @@ class SearchProcessViewModel @Inject constructor() : ViewModel() {
     }
 }
 
-
 private fun getRecommendData(): List<InternData> = listOf(
     InternData(
         imgUrl = "https://reqres.in/img/faces/7-image.jpg",

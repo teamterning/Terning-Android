@@ -73,7 +73,6 @@ fun SearchProcessScreen(
     var sheetState by remember { mutableStateOf(false) }
     val internSearchResultData by viewModel.internSearchResultData.collectAsStateWithLifecycle()
 
-
     if (sheetState) {
         SortingBottomSheet(
             onDismiss = {
@@ -176,7 +175,6 @@ fun SearchProcessScreen(
                                 )
                             }
                         }
-
                     } else {
                         Spacer(
                             modifier = Modifier.padding(top = 87.dp)

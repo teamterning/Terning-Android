@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItemWithShadow
@@ -36,6 +37,7 @@ import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
+import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
@@ -48,17 +50,23 @@ const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
 
 @Composable
-fun HomeRoute() {
+fun HomeRoute(
+    navController: NavHostController
+) {
     val currentSortBy: MutableState<Int> = remember {
         mutableIntStateOf(0)
     }
-    HomeScreen(currentSortBy)
+    HomeScreen(
+        currentSortBy,
+        onChangeFilterClick = { navController.navigateChangeFilter() }
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
+    onChangeFilterClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val userNameState = viewModel.userName
@@ -109,7 +117,7 @@ fun HomeScreen(
                             .background(White)
                     ) {
                         ShowRecommendTitle()
-                        ShowInternFilter(userNameState = userNameState)
+                        ShowInternFilter(userNameState = userNameState, onChangeFilterClick)
 
                         HorizontalDivider(
                             thickness = 4.dp,
@@ -215,21 +223,29 @@ private fun ShowRecommendTitle() {
 }
 
 @Composable
-private fun ShowInternFilter(userNameState: UserNameState) {
-    if (userNameState.internFilter == null) {
+private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: () -> Unit) {
+    if (userNameState.internFilter?.grade == null) {
         HomeFilteringScreen(
-            grade = R.string.home_recommend_no_filtering_hyphen,
-            period = R.string.home_recommend_no_filtering_hyphen,
-            startYear = R.string.home_recommend_no_filtering_hyphen,
-            startMonth = R.string.home_recommend_no_filtering_hyphen
+            grade = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
+            period = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
+            startYear = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
+            onChangeFilterClick = { onChangeFilterClick() },
         )
     } else {
         with(userNameState.internFilter) {
             HomeFilteringScreen(
-                grade = grade,
-                period = workingPeriod,
-                startYear = startYear,
-                startMonth = startMonth,
+                grade = (grade + 1).toString() + stringResource(id = R.string.home_recommend_filtering_grade),
+                period = stringResource(
+                    id = when (workingPeriod) {
+                        0 -> R.string.filtering_status2_button1
+                        1 -> R.string.filtering_status2_button2
+                        2 -> R.string.filtering_status2_button3
+                        else -> R.string.home_recommend_no_filtering_hyphen
+                    }
+                ),
+                startYear = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
+                        + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
+                onChangeFilterClick = { onChangeFilterClick() },
             )
         }
     }

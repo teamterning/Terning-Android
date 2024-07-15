@@ -10,8 +10,8 @@ import com.terning.core.designsystem.theme.CalGreen2
 import com.terning.core.designsystem.theme.CalOrange1
 import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalYellow
-import com.terning.feature.home.home.model.InternFilterData
 import com.terning.feature.home.home.model.InternData
+import com.terning.feature.home.home.model.InternFilterData
 import com.terning.feature.home.home.model.ScrapData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
@@ -24,11 +24,11 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
 
 ) : ViewModel() {
-    private val _userName by mutableStateOf<UserNameState>(
+    private val _userName by mutableStateOf(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
             internFilter = InternFilterData(
-                grade = 4,
+                grade = 1,
                 workingPeriod = 1,
                 startYear = 2024,
                 startMonth = 7,
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     )
     val userName get() = _userName
 
-    private val _scrapState = MutableStateFlow<UserScrapState>(
+    private val _scrapState = MutableStateFlow(
         UserScrapState(
             isScrapExist = true,
             scrapData = getScrapData()
@@ -45,11 +45,18 @@ class HomeViewModel @Inject constructor(
     )
     val scrapData get() = _scrapState.asStateFlow()
 
-    private val _recommendInternState = MutableStateFlow<List<InternData>>(
-//        getRecommendData()
-        listOf()
+    private val _recommendInternState = MutableStateFlow(
+        getRecommendData()
     )
     val recommendInternData get() = _recommendInternState.asStateFlow()
+
+    fun setGrade(grade: Int) {
+        userName.internFilter?.grade = grade
+    }
+
+    fun setWorkingPeriod(workingPeriod: Int) {
+        userName.internFilter?.workingPeriod = workingPeriod
+    }
 }
 
 private fun getScrapData(): List<ScrapData> = listOf(
