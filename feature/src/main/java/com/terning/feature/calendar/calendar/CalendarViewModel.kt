@@ -1,6 +1,10 @@
 package com.terning.feature.calendar.calendar
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalBlue1
@@ -10,6 +14,7 @@ import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
+import com.terning.domain.entity.response.ScrapModel
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.scrap.model.Scrap
@@ -32,13 +37,17 @@ class CalendarViewModel @Inject constructor(
         getScrapModelMap(2024, 7)
     }
 
-    private val _selectedDate = MutableStateFlow<SelectedDateState>(
+    private var _selectedDate = MutableStateFlow<SelectedDateState>(
         SelectedDateState(
             selectedDate = LocalDate.now(),
             isEnabled = false
         )
     )
     val selectedDate get() = _selectedDate.asStateFlow()
+
+    private var _scrapList: MutableStateFlow<Map<String, List<ScrapModel>>> =
+        MutableStateFlow( mapOf())
+    val scrapList get() = _scrapList.asStateFlow()
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
         if (_selectedDate.value.selectedDate != date) {
@@ -59,8 +68,6 @@ class CalendarViewModel @Inject constructor(
 
     fun disableWeekCalendar() {
         _selectedDate.update { currentState ->
-
-            val sad = R.string.calendar_animation_label
             currentState.copy(
                 isEnabled = false
             )
@@ -85,7 +92,7 @@ class CalendarViewModel @Inject constructor(
             scrapRepository.getMonthScrapLists(year, month)
         }.fold(
             onSuccess = {
-                Timber.tag("CalendarScreen").d("<CalendarViewModel> ${it.toString()}")
+                _scrapList.value = it
             },
             onFailure = {
                 Timber.tag("CalendarScreen").d("<CalendarViewModel> ${it.message.toString()}")

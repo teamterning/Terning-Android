@@ -44,66 +44,267 @@ private fun ScrapResponsesDto.Scrap.toScrapModel(deadline: String) = ScrapModel(
 
 fun getMockScrapList(year: Int, month: Int): List<ScrapResponsesDto> {
     val deadline = month.toString().padStart(2, '0')
-    return listOf(
-        ScrapResponsesDto(
-            deadline = "${year}-${deadline}-13",
-            scraps = listOf(
-                ScrapResponsesDto.Scrap(
-                    scrapId = 1,
-                    title = "제목1",
-                    color = "#FFED4E54"
+
+    return when (month % 4) {
+        0 -> {
+            listOf(
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-13",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFED4E54"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FFC4E953"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 3,
+                            title = "제목3",
+                            color = "#FF9B64E2"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 4,
+                            title = "제목4",
+                            color = "#FFF260AC"
+                        )
+                    )
                 ),
-                ScrapResponsesDto.Scrap(
-                    scrapId = 2,
-                    title = "제목2",
-                    color = "#FFC4E953"
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-17",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFC4E953"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FF45D0CC"
+                        ),
+                    )
                 ),
-                ScrapResponsesDto.Scrap(
-                    scrapId = 3,
-                    title = "제목3",
-                    color = "#FF9B64E2"
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-23",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FF5397F3"
+                        )
+                    )
                 ),
-                ScrapResponsesDto.Scrap(
-                    scrapId = 4,
-                    title = "제목4",
-                    color = "#FFF260AC"
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-30",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FF45D0CC"
+                        )
+                    )
                 )
             )
-        ),
-        ScrapResponsesDto(
-            deadline = "${year}-${deadline}-17",
-            scraps = listOf(
-                ScrapResponsesDto.Scrap(
-                    scrapId = 1,
-                    title = "제목1",
-                    color = "#FFC4E953"
+        }
+        1 -> {
+            listOf(
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-1",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFED4E54"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FFC4E953"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 3,
+                            title = "제목3",
+                            color = "#FF9B64E2"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 4,
+                            title = "제목4",
+                            color = "#FFF260AC"
+                        )
+                    )
                 ),
-                ScrapResponsesDto.Scrap(
-                    scrapId = 2,
-                    title = "제목2",
-                    color = "#FF45D0CC"
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-12",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFC4E953"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FF45D0CC"
+                        ),
+                    )
                 ),
-            )
-        ),
-        ScrapResponsesDto(
-            deadline = "${year}-${deadline}-23",
-            scraps = listOf(
-                ScrapResponsesDto.Scrap(
-                    scrapId = 1,
-                    title = "제목1",
-                    color = "#FF5397F3"
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-27",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FF5397F3"
+                        )
+                    )
+                ),
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-29",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FF45D0CC"
+                        )
+                    )
                 )
             )
-        ),
-        ScrapResponsesDto(
-            deadline = "${year}-${deadline}-30",
-            scraps = listOf(
-                ScrapResponsesDto.Scrap(
-                    scrapId = 1,
-                    title = "제목1",
-                    color = "#FF45D0CC"
+        }
+        2 -> {
+            listOf(
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-2",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFED4E54"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FFC4E953"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 3,
+                            title = "제목3",
+                            color = "#FF9B64E2"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 4,
+                            title = "제목4",
+                            color = "#FFF260AC"
+                        )
+                    )
+                ),
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-18",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFC4E953"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FF45D0CC"
+                        ),
+                    )
+                ),
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-20",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FF5397F3"
+                        )
+                    )
+                ),
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-29",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FF45D0CC"
+                        )
+                    )
                 )
             )
-        )
-    )
+        }
+        3 -> {
+            listOf(
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-5",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFED4E54"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FFC4E953"
+                        )/*,
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 3,
+                            title = "제목3",
+                            color = "#FF9B64E2"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 4,
+                            title = "제목4",
+                            color = "#FFF260AC"
+                        )*/
+                    )
+                ),
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-11",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FFC4E953"
+                        ),
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 2,
+                            title = "제목2",
+                            color = "#FF45D0CC"
+                        ),
+                    )
+                ),
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-19",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FF5397F3"
+                        )
+                    )
+                ),
+                ScrapResponsesDto(
+                    deadline = "${year}-${deadline}-28",
+                    scraps = listOf(
+                        ScrapResponsesDto.Scrap(
+                            scrapId = 1,
+                            title = "제목1",
+                            color = "#FF45D0CC"
+                        )
+                    )
+                )
+            )
+        }
+
+        else -> {
+            listOf()
+        }
+    }
 }

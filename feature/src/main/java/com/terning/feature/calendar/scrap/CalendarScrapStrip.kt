@@ -8,24 +8,26 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.domain.entity.response.ScrapModel
 import com.terning.feature.calendar.scrap.model.Scrap
 
 @Composable
 fun CalendarScrapStrip(
     modifier: Modifier = Modifier,
-    scrapList: List<Scrap>
+    scrapLists: List<ScrapModel>
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth().padding(top = 3.dp)
     ) {
-        items(scrapList.subList(0, MAX_SCRAP_COUNT.coerceAtMost(scrapList.size))) { scrap ->
+        items(scrapLists.subList(0, MAX_SCRAP_COUNT.coerceAtMost(scrapLists.size))) { scrap ->
             Text(
-                text = scrap.text,
+                text = scrap.title,
                 style = TerningTheme.typography.body5,
                 textAlign = TextAlign.Center,
                 color = White,
@@ -33,14 +35,14 @@ fun CalendarScrapStrip(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = scrap.backgroundColor)
+                    .background(color = Color(android.graphics.Color.parseColor(scrap.color)))
             )
         }
 
         item{
-            if(scrapList.size > MAX_SCRAP_COUNT) {
+            if(scrapLists.size > MAX_SCRAP_COUNT) {
                 Text(
-                    text = "+${(scrapList.size - MAX_SCRAP_COUNT)}",
+                    text = "+${(scrapLists.size - MAX_SCRAP_COUNT)}",
                     style = TerningTheme.typography.detail4,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()

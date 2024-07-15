@@ -24,11 +24,12 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getStringAsTitle
 import com.terning.core.extension.noRippleClickable
 import java.time.LocalDate
+import java.time.YearMonth
 
 @Composable
 fun CalendarTopAppBar(
     modifier: Modifier = Modifier,
-    date: LocalDate,
+    date: YearMonth,
     isWeekExpanded: Boolean,
     isListExpanded: Boolean,
     onListButtonClicked: () -> Unit,
@@ -58,7 +59,7 @@ fun CalendarTopAppBar(
                 )
             }
             Text(
-                text = date.getStringAsTitle(),
+                text = LocalDate.of(date.year, date.month, 1).getStringAsTitle(),
                 style = TerningTheme.typography.title2,
                 color = Black,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -97,7 +98,7 @@ fun CalendarTopAppBar(
 fun CalendarTopBarPreview() {
     TerningPointTheme {
         CalendarTopAppBar(
-            date = LocalDate.now(),
+            date = YearMonth.now(),
             isListExpanded = false,
             isWeekExpanded = false
             ,

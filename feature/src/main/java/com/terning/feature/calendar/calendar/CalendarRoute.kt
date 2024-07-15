@@ -38,6 +38,7 @@ import com.terning.feature.calendar.week.CalendarWeekWithScrap
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.YearMonth
 
 @Composable
 fun CalendarRoute() {
@@ -56,7 +57,7 @@ fun CalendarScreen(
         initialFirstVisibleItemIndex = state.getInitialPage()
     )
 
-    var currentDate by remember { mutableStateOf(LocalDate.now()) }
+    var currentDate by remember { mutableStateOf(YearMonth.now()) }
     var currentPage by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
 
     var isListExpanded by remember { mutableStateOf(false) }
@@ -161,7 +162,7 @@ fun CalendarScreen(
                                 },
                                 listState = listState,
                                 pages = state.getPageCount(),
-                                scrapLists = viewModel.mockScrapList,
+                                viewModel = viewModel
                             )
                         } else {
                             CalendarWeekWithScrap(
@@ -178,8 +179,6 @@ fun CalendarScreen(
                 }
             }
         }
-
     }
 }
-
 
