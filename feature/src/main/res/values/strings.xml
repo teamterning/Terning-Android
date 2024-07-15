@@ -67,9 +67,6 @@
     <string name="home_recommend_main_title">내 계획에 딱 맞는 대학생 인턴 공고</string>
     <string name="home_recommend_filtering">필터링</string>
     <string name="home_recommend_filtering_grade">학년</string>
-    <string name="home_recommend_filtering_working_period_1">1개월 ~ 3개월</string>
-    <string name="home_recommend_filtering_working_period_2">4개월 ~ 6개월</string>
-    <string name="home_recommend_filtering_working_period_3">7개월 이상</string>
     <string name="home_recommend_filtering_startYear">년</string>
     <string name="home_recommend_filtering_startMonth">월</string>
     <string name="home_recommend_no_intern">필터링 설정에 일치하는 인턴 공고가 없어요!</string>
@@ -112,13 +109,10 @@
     <string name="filtering_status3_sub">원하는 근무 시작 시기에 맞는 인턴 공고를 찾아드려요</string>
     <string name="filtering_button">다음으로</string>
 
-    <!--ChangeFilter -->
-    <string name="change_filter_grade_main">재학 상태를 선택해주세요</string>
-    <string name="change_filter_period_main">희망하는 인턴 근무 기간을 선택해주세요</string>
-    <string name="change_filter_start_work_main">입사를 계획중인 달을 선택해주세요</string>
-    <string name="change_filter_grade_sub">휴학중이라면, 휴학 전 마지막 수료 학년을 선택해주세요</string>
-    <string name="change_filter_period_sub">선택한 기간 동안 근무할 수 있는 인턴 공고를 찾아드릴게요</string>
-    <string name="change_filter_start_work_sub">선택한 달부터 근무를 시작할 수 있는 공고를 찾아드릴게요</string>
+    <!--ChangeFilter-->
+    <string name="change_filter_top_bar_title">필터링 재설정</string>
+    <string name="change_filter_grade_main">재학 상태를 선택해 주세요</string>
+    <string name="change_filter_save">저장하기</string>
 
     <!--Intern-->
     <string name="intern_share_icon">공유 아이콘</string>

@@ -24,14 +24,15 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 
 @Composable
 fun HomeFilteringScreen(
-    grade: Int,
-    period: Int,
-    startYear: Int,
-    startMonth: Int,
+    grade: String,
+    period: String,
+    startYear: String,
+    onChangeFilterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -48,7 +49,8 @@ fun HomeFilteringScreen(
                     color = TerningMain,
                     shape = RoundedCornerShape(5.dp),
                 )
-                .align(Alignment.CenterVertically),
+                .align(Alignment.CenterVertically)
+                .noRippleClickable { onChangeFilterClick() },
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_home_filtering_28),
@@ -68,29 +70,21 @@ fun HomeFilteringScreen(
         }
 
         HomeFilteringText(
-            text = grade.toString() + stringResource(id = R.string.home_recommend_filtering_grade),
+            text = grade,
             modifier = Modifier
                 .padding(vertical = 7.dp)
         )
         HomeFilteringDivider()
         HomeFilteringText(
-            text = stringResource(
-                id = when (period) {
-                    1 -> R.string.home_recommend_filtering_working_period_1
-                    2 -> R.string.home_recommend_filtering_working_period_2
-                    3 -> R.string.home_recommend_filtering_working_period_3
-                    else -> R.string.server_failure
-                }
-            ),
+            text = period,
             modifier = Modifier
                 .padding(vertical = 7.dp)
         )
         HomeFilteringDivider()
         HomeFilteringText(
-            text = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
-                    + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
+            text = startYear,
             modifier = Modifier
-                .padding(vertical = 7.dp)
+                .padding(top = 7.dp, bottom = 7.dp)
         )
     }
 }
