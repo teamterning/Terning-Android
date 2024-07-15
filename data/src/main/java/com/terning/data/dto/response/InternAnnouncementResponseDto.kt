@@ -1,11 +1,11 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.SearchViewsResponseModel
+import com.terning.domain.entity.response.InternAnnouncementResponseModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SearchViewsResponseDto(
+data class InternAnnouncementResponseDto(
     @SerialName("status")
     val status: Int,
     @SerialName("message")
@@ -16,11 +16,11 @@ data class SearchViewsResponseDto(
     @Serializable
     data class Result(
         @SerialName("accountments")
-        val accountments: List<SearchViewsData>,
+        val accountments: List<InternAnnouncementData>,
     )
 
     @Serializable
-    data class SearchViewsData(
+    data class InternAnnouncementData(
         @SerialName("internshipAnnouncementId")
         val internshipAnnouncementId: Long,
         @SerialName("companyImage")
@@ -29,8 +29,8 @@ data class SearchViewsResponseDto(
         val title: String,
     )
 
-    fun toSearchViewsEntity(): List<SearchViewsResponseModel> = result.accountments.map {
-        SearchViewsResponseModel(
+    fun toInternAnnouncementEntity(): List<InternAnnouncementResponseModel> = result.accountments.map {
+        InternAnnouncementResponseModel(
             title = it.title,
             companyImage = it.companyImage,
             announcementId = it.internshipAnnouncementId
