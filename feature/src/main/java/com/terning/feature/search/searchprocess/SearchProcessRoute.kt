@@ -234,7 +234,7 @@ fun SearchProcessScreen(
                         )
                         Image(
                             painter = painterResource(
-                                id = R.drawable.ic_nosearch
+                                id = R.drawable.ic_empty_logo
                             ),
                             contentDescription = stringResource(
                                 id = R.string.search_process_no_result_icon

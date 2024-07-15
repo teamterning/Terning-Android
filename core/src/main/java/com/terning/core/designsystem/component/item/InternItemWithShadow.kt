@@ -2,7 +2,6 @@ package com.terning.core.designsystem.component.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,7 +23,7 @@ fun InternItemWithShadow(
             .customShadow(
                 color = Grey200,
                 shadowRadius = 10.dp,
-                shadowWidth = 2.dp
+                shadowWidth = 2.dp,
             )
             .background(
                 color = White,
