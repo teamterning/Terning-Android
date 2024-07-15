@@ -87,8 +87,8 @@ fun MyPageInfo(
             )
             .customShadow(
                 color = Grey200,
-                shadowRadius = 5.dp,
-                shadowWidth = 2.dp
+                shadowRadius = 3.dp,
+                shadowWidth = 1.dp
             )
             .background(
                 color = White,
