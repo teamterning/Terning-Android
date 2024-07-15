@@ -39,6 +39,8 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
+import com.terning.core.state.UiState
+import com.terning.domain.entity.response.RecommendInternModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
@@ -49,21 +51,43 @@ import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.RecommendInternData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
+import com.terning.feature.home.home.navigation.Home
+import timber.log.Timber
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
 
 @Composable
 fun HomeRoute(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val currentSortBy: MutableState<Int> = remember {
         mutableIntStateOf(0)
     }
-    HomeScreen(
-        currentSortBy,
-        onChangeFilterClick = { navController.navigateChangeFilter() }
-    )
+
+    val recommendInternState by viewModel.recommendInternState.collectAsStateWithLifecycle()
+
+    when (recommendInternState) {
+        is UiState.Empty -> {}
+        is UiState.Loading -> {}
+        is UiState.Failure -> {
+            HomeScreen(
+                currentSortBy,
+                onChangeFilterClick = { navController.navigateChangeFilter() },
+                recommendInternList = emptyList()
+            )
+        }
+        is UiState.Success -> {
+            val recommendInternList = (recommendInternState as UiState.Success<List<RecommendInternModel>>).data
+
+            HomeScreen(
+                currentSortBy,
+                onChangeFilterClick = { navController.navigateChangeFilter() },
+                recommendInternList = recommendInternList
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -71,13 +95,13 @@ fun HomeRoute(
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
     onChangeFilterClick: () -> Unit,
+    recommendInternList: List<RecommendInternModel>,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val userNameState = viewModel.userName
     val userScrapState by viewModel.scrapData.collectAsStateWithLifecycle()
-    val recommendInternData by viewModel.recommendInternData.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
-
+    
     if (sheetState) {
         SortingBottomSheet(
             onDismiss = {
@@ -146,9 +170,9 @@ fun HomeScreen(
                     }
                 }
 
-                if (userNameState.internFilter != null && recommendInternData.isNotEmpty()) {
-                    items(recommendInternData.size) { index ->
-                        ShowRecommendIntern(recommendInternData[index])
+                if(recommendInternList.isNotEmpty()) {
+                    items(recommendInternList.size) { index ->
+                        ShowRecommendIntern(recommendInternModel = recommendInternList[index])
                     }
                 }
             }
@@ -159,7 +183,7 @@ fun HomeScreen(
                         .padding(horizontal = 24.dp)
                         .fillMaxSize()
                 )
-            } else if (recommendInternData.isEmpty()) {
+            } else if (recommendInternList.isEmpty()) {
                 HomeRecommendEmptyIntern()
             }
         }
@@ -246,14 +270,14 @@ private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: 
 }
 
 @Composable
-private fun ShowRecommendIntern(recommendInternData: RecommendInternData) {
+private fun ShowRecommendIntern(recommendInternModel: RecommendInternModel) {
     Box(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .customShadow(
                 color = Grey200,
-                shadowRadius = 10.dp,
-                shadowWidth = 2.dp
+                shadowRadius = 5.dp,
+                shadowWidth = 1.dp
             )
             .background(
                 color = White,
@@ -261,11 +285,11 @@ private fun ShowRecommendIntern(recommendInternData: RecommendInternData) {
             )
     ) {
         InternItem(
-            imageUrl = recommendInternData.imgUrl,
-            title = recommendInternData.title,
-            dateDeadline = recommendInternData.dDay,
-            workingPeriod = recommendInternData.workingPeriod,
-            isScraped = recommendInternData.isScrapped,
+            imageUrl = recommendInternModel.companyImage,
+            title = recommendInternModel.title,
+            dateDeadline = recommendInternModel.dDay,
+            workingPeriod = recommendInternModel.workingPeriod,
+            isScraped = recommendInternModel.isScrapped,
         )
     }
 }
