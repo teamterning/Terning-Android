@@ -13,7 +13,6 @@ import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.RecommendInternModel
-import com.terning.domain.entity.response.toRecommendInternEntity
 import com.terning.domain.repository.InternRepository
 import com.terning.feature.home.home.model.InternFilterData
 import com.terning.feature.home.home.model.ScrapData
@@ -73,8 +72,7 @@ class HomeViewModel @Inject constructor(
             internRepository.getRecommendIntern(sortBy).onSuccess { internList ->
                 _recommendInternState.value = UiState.Success(internList)
             }.onFailure { exception: Throwable ->
-//                _recommendInternState.value = UiState.Failure(exception.message ?: " ")
-                _recommendInternState.value = UiState.Success(toRecommendInternEntity())
+                _recommendInternState.value = UiState.Failure(exception.message ?: " ")
             }
 
         }
