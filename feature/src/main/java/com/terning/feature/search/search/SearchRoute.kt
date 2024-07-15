@@ -27,7 +27,7 @@ import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternAnnouncementResponseModel
+import com.terning.domain.entity.response.SearchViewsResponseModel
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
@@ -63,7 +63,7 @@ fun SearchRoute(
         is UiState.Success -> {
             SearchScreen(
                 navController = navController,
-                searchViewsList = (state.searchViewsList as UiState.Success<List<InternAnnouncementResponseModel>>).data
+                searchViewsList = (state.searchViewsList as UiState.Success<List<SearchViewsResponseModel>>).data
             )
         }
 
@@ -74,7 +74,7 @@ fun SearchRoute(
 fun SearchScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    searchViewsList: List<InternAnnouncementResponseModel>,
+    searchViewsList: List<SearchViewsResponseModel>,
 ) {
     val images = listOf(
         R.drawable.ic_nav_search,

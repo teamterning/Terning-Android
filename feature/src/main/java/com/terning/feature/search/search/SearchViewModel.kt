@@ -3,7 +3,7 @@ package com.terning.feature.search.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternAnnouncementResponseModel
+import com.terning.domain.entity.response.SearchViewsResponseModel
 import com.terning.domain.repository.SearchViewsRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +33,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             searchViewsRepository.getSearchViewsList().onSuccess { response ->
                 val searchViewsList = response.map { entity ->
-                    InternAnnouncementResponseModel(
+                    SearchViewsResponseModel(
                         title = entity.title,
                         companyImage = entity.companyImage,
                         announcementId = entity.announcementId
