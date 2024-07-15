@@ -1,6 +1,6 @@
 package com.terning.point.di
 
-import com.terning.data.service.InternService
+import com.terning.data.service.HomeService
 import com.terning.data.service.MockService
 import com.terning.point.di.qualifier.OPEN
 import dagger.Module
@@ -21,6 +21,6 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideInternService(@OPEN retrofit: Retrofit): InternService =
-        retrofit.create(InternService::class.java)
+    fun provideInternService(@OPEN retrofit: Retrofit): HomeService =
+        retrofit.create(HomeService::class.java)
 }
