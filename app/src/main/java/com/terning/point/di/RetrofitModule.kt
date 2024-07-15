@@ -74,5 +74,4 @@ object RetrofitModule {
         .addConverterFactory(factory)
         .client(client)
         .build()
-
 }

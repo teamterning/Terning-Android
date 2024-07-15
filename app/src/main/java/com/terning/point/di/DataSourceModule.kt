@@ -1,8 +1,10 @@
 package com.terning.point.di
 
 import com.terning.data.datasource.MockDataSource
+import com.terning.data.datasource.SearchScrapsDataSource
 import com.terning.data.datasource.SearchViewsDataSource
 import com.terning.data.datasourceimpl.MockDataSourceImpl
+import com.terning.data.datasourceimpl.SearchScrapsDataSourceImpl
 import com.terning.data.datasourceimpl.SearchViewsDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -22,4 +24,9 @@ abstract class DataSourceModule {
     @Singleton
     abstract fun bindSearchViewsDataSource(searchViewsDataSourceImpl: SearchViewsDataSourceImpl):
             SearchViewsDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindSearchScrapsDataSource(searchScrapsDataSourceImpl: SearchScrapsDataSourceImpl):
+            SearchScrapsDataSource
 }

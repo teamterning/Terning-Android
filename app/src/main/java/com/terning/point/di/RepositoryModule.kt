@@ -1,8 +1,10 @@
 package com.terning.point.di
 
 import com.terning.data.repositoryimpl.MockRepositoryImpl
+import com.terning.data.repositoryimpl.SearchScrapsRepositoryImpl
 import com.terning.data.repositoryimpl.SearchViewsRepositoryImpl
 import com.terning.domain.repository.MockRepository
+import com.terning.domain.repository.SearchScrapsRepository
 import com.terning.domain.repository.SearchViewsRepository
 import dagger.Binds
 import dagger.Module
@@ -21,4 +23,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindSearchViewsRepository(searchViewsRepositoryImpl: SearchViewsRepositoryImpl): SearchViewsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindSearchScrapsRepository(searchScrapsRepositoryImpl: SearchScrapsRepositoryImpl): SearchScrapsRepository
 }

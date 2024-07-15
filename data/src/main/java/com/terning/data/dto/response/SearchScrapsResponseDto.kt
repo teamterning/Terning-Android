@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SearchScarpsResponseDto(
+data class SearchScrapsResponseDto(
     @SerialName("status")
     val status: Int,
     @SerialName("message")
