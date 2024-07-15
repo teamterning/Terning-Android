@@ -32,12 +32,13 @@ class CalendarViewModel @Inject constructor(
         getScrapMonth(2024, 7)
     }
 
-    private var _selectedDate = MutableStateFlow<SelectedDateState>(
+    private var _selectedDate:MutableStateFlow<SelectedDateState> = MutableStateFlow(
         SelectedDateState(
             selectedDate = LocalDate.now(),
             isEnabled = false
         )
     )
+
     val selectedDate get() = _selectedDate.asStateFlow()
 
     private val _scrapCalendarState = MutableStateFlow(ScrapCalendarState())
@@ -76,7 +77,7 @@ class CalendarViewModel @Inject constructor(
         }.fold(
             onSuccess = {
                 _scrapCalendarState.update { currentState ->
-                    currentState.copy (
+                    currentState.copy(
                         loadState = UiState.Success(it)
                     )
                 }
@@ -86,7 +87,6 @@ class CalendarViewModel @Inject constructor(
             }
         )
     }
-
 
 
     //To be erased in future
@@ -106,7 +106,13 @@ class CalendarViewModel @Inject constructor(
                         list.add(
                             i,
                             listOf(
-                                Scrap("Task1_1", CalBlue1, dDay = "1", period = "3", isScraped = true),
+                                Scrap(
+                                    "Task1_1",
+                                    CalBlue1,
+                                    dDay = "1",
+                                    period = "3",
+                                    isScraped = true
+                                ),
                             )
                         )
                     }
@@ -115,8 +121,20 @@ class CalendarViewModel @Inject constructor(
                         list.add(
                             i,
                             listOf(
-                                Scrap("Task2_1", CalPink, dDay = "2", period = "3", isScraped = true),
-                                Scrap("Task2_2", CalGreen1, dDay = "2", period = "3", isScraped = true)
+                                Scrap(
+                                    "Task2_1",
+                                    CalPink,
+                                    dDay = "2",
+                                    period = "3",
+                                    isScraped = true
+                                ),
+                                Scrap(
+                                    "Task2_2",
+                                    CalGreen1,
+                                    dDay = "2",
+                                    period = "3",
+                                    isScraped = true
+                                )
                             )
                         )
                     }
@@ -139,12 +157,48 @@ class CalendarViewModel @Inject constructor(
                         list.add(
                             i,
                             listOf(
-                                Scrap("Task3_1", CalPink, dDay = "5", period = "3", isScraped = true),
-                                Scrap("Task3_2", CalPurple, dDay = "5", period = "3", isScraped = true),
-                                Scrap("Task3_3", CalRed, dDay = "5", period = "3", isScraped = true),
-                                Scrap("Task3_4", CalBlue1, dDay = "5", period = "3", isScraped = true),
-                                Scrap("Task3_5", CalGreen2, dDay = "5", period = "3", isScraped = true),
-                                Scrap("Task3_6", CalYellow, dDay = "5", period = "3", isScraped = true)
+                                Scrap(
+                                    "Task3_1",
+                                    CalPink,
+                                    dDay = "5",
+                                    period = "3",
+                                    isScraped = true
+                                ),
+                                Scrap(
+                                    "Task3_2",
+                                    CalPurple,
+                                    dDay = "5",
+                                    period = "3",
+                                    isScraped = true
+                                ),
+                                Scrap(
+                                    "Task3_3",
+                                    CalRed,
+                                    dDay = "5",
+                                    period = "3",
+                                    isScraped = true
+                                ),
+                                Scrap(
+                                    "Task3_4",
+                                    CalBlue1,
+                                    dDay = "5",
+                                    period = "3",
+                                    isScraped = true
+                                ),
+                                Scrap(
+                                    "Task3_5",
+                                    CalGreen2,
+                                    dDay = "5",
+                                    period = "3",
+                                    isScraped = true
+                                ),
+                                Scrap(
+                                    "Task3_6",
+                                    CalYellow,
+                                    dDay = "5",
+                                    period = "3",
+                                    isScraped = true
+                                )
                             )
                         )
                     }
