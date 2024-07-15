@@ -84,7 +84,7 @@ fun FilteringThreeScreen(
             Spacer(modifier = modifier.weight(3f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
-                paddingVertical = 25.dp,
+                paddingVertical = 20.dp,
                 text = R.string.filtering_button,
                 onButtonClick = { navController.navigateStartHome() },
                 modifier = modifier.padding(bottom = 12.dp),
