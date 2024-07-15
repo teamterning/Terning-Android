@@ -1,5 +1,6 @@
 package com.terning.data.dto.response
 
+import com.terning.domain.entity.response.SearchViewsResponseModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,12 +11,12 @@ data class SearchViewsResponseDto(
     @SerialName("message")
     val message: String,
     @SerialName("result")
-    val result: Result
+    val result: Result,
 ) {
     @Serializable
     data class Result(
         @SerialName("accountments")
-        val accountments: List<SearchViewsData>
+        val accountments: List<SearchViewsData>,
     )
 
     @Serializable
@@ -25,6 +26,14 @@ data class SearchViewsResponseDto(
         @SerialName("companyImage")
         val companyImage: String,
         @SerialName("title")
-        val title: String
+        val title: String,
     )
+
+    fun toMockEntity(): List<SearchViewsResponseModel> = result.accountments.map {
+        SearchViewsResponseModel(
+            title = it.title,
+            companyImage = it.companyImage,
+            announcementId = it.internshipAnnouncementId
+        )
+    }
 }
