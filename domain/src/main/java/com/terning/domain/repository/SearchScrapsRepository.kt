@@ -1,7 +1,7 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.response.InternAnnouncementResponseModel
+import com.terning.domain.entity.response.InternScrapsResponseModel
 
 interface SearchScrapsRepository {
-    suspend fun getSearchScrapsList(): Result<List<InternAnnouncementResponseModel>>
+    suspend fun getSearchScrapsList(): Result<List<InternScrapsResponseModel>>
 }

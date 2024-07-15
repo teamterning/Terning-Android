@@ -25,13 +25,13 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.InternAnnouncementResponseModel
 import com.terning.feature.R
 import com.terning.feature.intern.navigation.navigateIntern
 
 @Composable
 fun SearchIntern(
-    searchViews: InternAnnouncementResponseModel,
+    companyImage: String,
+    title: String,
     navController: NavHostController,
 ) {
     Column(
@@ -53,7 +53,7 @@ fun SearchIntern(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(searchViews.companyImage)
+                .data(companyImage)
                 .crossfade(true)
                 .build(),
             contentDescription = stringResource(id = R.string.search_image),
@@ -69,7 +69,7 @@ fun SearchIntern(
                 )
         )
         Text(
-            text = "${searchViews.title} ${searchViews.title}${searchViews.title}${searchViews.title}",
+            text = title,
             modifier = Modifier
                 .padding(horizontal = 8.dp)
                 .wrapContentSize(),

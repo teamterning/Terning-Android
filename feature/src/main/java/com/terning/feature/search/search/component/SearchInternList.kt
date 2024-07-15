@@ -12,14 +12,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.domain.entity.response.InternAnnouncementResponseModel
+import com.terning.domain.entity.response.InternScrapsResponseModel
+import com.terning.domain.entity.response.InternViewsResponseModel
 import com.terning.feature.R
 
 @Composable
 fun SearchInternList(
     type: InternListType,
-    searchViewsList: List<InternAnnouncementResponseModel>,
-    navController: NavHostController
+    searchViewsList: List<InternViewsResponseModel>?,
+    searchScrapsList: List<InternScrapsResponseModel>?,
+    navController: NavHostController,
 ) {
     Column(modifier = Modifier.padding(horizontal = 24.dp)) {
         Text(
@@ -37,12 +39,30 @@ fun SearchInternList(
             modifier = Modifier.padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(searchViewsList.size) { index ->
-                SearchIntern(
-                    searchViews = searchViewsList[index],
-                    navController = navController
-                )
+            when (type) {
+                InternListType.VIEW -> searchViewsList?.let {
+                    items(it.size) { index ->
+                        SearchIntern(
+                            companyImage = searchViewsList[index].companyImage,
+                            title = searchViewsList[index].title,
+                            navController = navController
+                        )
+                    }
+                }
+
+                InternListType.SCRAP -> searchScrapsList?.let {
+                    {
+                        items(it.size) { index ->
+                            SearchIntern(
+                                companyImage = searchScrapsList[index].companyImage,
+                                title = searchScrapsList[index].title,
+                                navController = navController
+                            )
+                        }
+                    }
+                }
             }
+
         }
     }
 }

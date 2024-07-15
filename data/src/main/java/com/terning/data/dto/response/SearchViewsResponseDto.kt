@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.InternAnnouncementResponseModel
+import com.terning.domain.entity.response.InternViewsResponseModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -29,8 +29,8 @@ data class SearchViewsResponseDto(
         val title: String,
     )
 
-    fun toSearchViewsEntity(): List<InternAnnouncementResponseModel> = result.accountments.map {
-        InternAnnouncementResponseModel(
+    fun toSearchViewsEntity(): List<InternViewsResponseModel> = result.accountments.map {
+        InternViewsResponseModel(
             title = it.title,
             companyImage = it.companyImage,
             announcementId = it.internshipAnnouncementId

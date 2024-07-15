@@ -27,7 +27,8 @@ import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternAnnouncementResponseModel
+import com.terning.domain.entity.response.InternScrapsResponseModel
+import com.terning.domain.entity.response.InternViewsResponseModel
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
@@ -64,8 +65,8 @@ fun SearchRoute(
         is UiState.Success -> {
             SearchScreen(
                 navController = navController,
-                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternAnnouncementResponseModel>>).data,
-                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternAnnouncementResponseModel>>).data
+                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternViewsResponseModel>>).data,
+                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternScrapsResponseModel>>).data
             )
         }
 
@@ -76,8 +77,8 @@ fun SearchRoute(
 fun SearchScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    searchViewsList: List<InternAnnouncementResponseModel>,
-    searchScrapsList: List<InternAnnouncementResponseModel>,
+    searchViewsList: List<InternViewsResponseModel>,
+    searchScrapsList: List<InternScrapsResponseModel>,
 ) {
     val images = listOf(
         R.drawable.ic_nav_search,
@@ -133,6 +134,7 @@ fun SearchScreen(
             SearchInternList(
                 type = InternListType.VIEW,
                 searchViewsList = searchViewsList,
+                searchScrapsList = searchScrapsList,
                 navController = navController
             )
             HorizontalDivider(
@@ -142,7 +144,8 @@ fun SearchScreen(
             )
             SearchInternList(
                 type = InternListType.SCRAP,
-                searchViewsList = searchScrapsList,
+                searchViewsList = searchViewsList,
+                searchScrapsList = searchScrapsList,
                 navController = navController
             )
         }
