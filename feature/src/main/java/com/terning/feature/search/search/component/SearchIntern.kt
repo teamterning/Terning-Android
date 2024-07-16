@@ -26,13 +26,13 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.SearchViewsResponseModel
+import com.terning.domain.entity.response.InternshipAnnouncement
 import com.terning.feature.R
 import com.terning.feature.intern.navigation.navigateIntern
 
 @Composable
 fun SearchIntern(
-    searchViews: SearchViewsResponseModel,
+    searchViews: InternshipAnnouncement,
     navController: NavHostController,
 ) {
     Column(

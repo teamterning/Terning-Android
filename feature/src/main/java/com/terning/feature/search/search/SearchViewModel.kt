@@ -3,7 +3,6 @@ package com.terning.feature.search.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.SearchViewsResponseModel
 import com.terning.domain.repository.SearchRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
