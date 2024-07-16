@@ -1,9 +1,11 @@
 package com.terning.feature.calendar.scrap
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,7 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.state.UiState
@@ -37,6 +40,7 @@ import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDa
 import com.terning.feature.calendar.scrap.component.CalendarScrap
 import com.terning.feature.calendar.scrap.model.Scrap
 import kotlinx.coroutines.flow.distinctUntilChanged
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -62,7 +66,9 @@ fun CalendarScrapList(
     }
 
     when (scrapState.loadState) {
-        UiState.Loading -> {}
+        UiState.Loading -> {
+            Box(modifier = Modifier.background(color = White).fillMaxSize())
+        }
         UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
@@ -86,26 +92,18 @@ fun CalendarScrapList(
                             .fillMaxHeight()
                             .background(Back)
                     ) {
-                        items(scrapList.size) { day ->
-                            runCatching {
-                                LocalDate.of(getDate.year, getDate.monthValue, day + 1)
-                            }.onSuccess {
+                        items(getDate.lengthOfMonth()) { day ->
+                            val currentDate = LocalDate.of(getDate.year, getDate.monthValue, day+1)
+                            val dateIndex = currentDate.getDateAsMapString()
+                            Timber.tag("CalendarScreen").d(dateIndex)
+
+                            if(scrapMap[dateIndex].isListNotEmpty()){
                                 CalendarScrapList(
-                                    selectedDate = it,
+                                    selectedDate = currentDate,
                                     //scrapLists = scrapList,
                                     scrapMap = scrapMap,
                                     isFromList = true,
                                     noScrapScreen = {})
-
-
-                                if (scrapList[day].isNotEmpty()) {
-                                    Spacer(
-                                        modifier = Modifier
-                                            .height(4.dp)
-                                            .fillMaxWidth()
-                                            .background(Grey200)
-                                    )
-                                }
                             }
                         }
                     }
@@ -197,6 +195,10 @@ fun CalendarScrapList(
             modifier = topModifier
         ) {
             for (scrap in scrapMap[selectedDate.format(formatter)].orEmpty()) {
+                Timber.tag("CalendarScreen").d(
+                    "<CalendarScrapList> ${scrap}, amount = ${scrapMap[selectedDate.format(formatter)].orEmpty().size}"
+                )
+
                 CalendarScrap(
                     scrap = scrap
                 )
