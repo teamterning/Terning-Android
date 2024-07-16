@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CalendarListResponseDto(
+data class CalendarMonthListResponseDto(
     @SerialName("deadline")
     val deadline: String,
     @SerialName("scraps")
@@ -43,7 +43,8 @@ data class CalendarListResponseDto(
             color = scrap.color,
             companyImage = scrap.companyImage,
             startYear = scrap.startYear,
-            startMonth = scrap.startMonth
+            startMonth = scrap.startMonth,
+            deadLine = deadline
         )
     }
 }

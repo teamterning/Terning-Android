@@ -4,7 +4,8 @@ import com.terning.data.dto.BaseResponse
 import com.terning.data.dto.request.CalendarDayListRequestDto
 import com.terning.data.dto.request.CalendarMonthListRequestDto
 import com.terning.data.dto.request.CalendarMonthRequestDto
-import com.terning.data.dto.response.CalendarListResponseDto
+import com.terning.data.dto.response.CalendarDayListResponseDto
+import com.terning.data.dto.response.CalendarMonthListResponseDto
 import com.terning.data.dto.response.CalendarMonthResponseDto
 
 object CalendarList {
@@ -15,14 +16,14 @@ object CalendarList {
             result = getMockScrapList(request.year, request.month)
     )
 
-    fun getCalendarScrapMonthList(request: CalendarMonthListRequestDto): BaseResponse<List<CalendarListResponseDto>> =
+    fun getCalendarScrapMonthList(request: CalendarMonthListRequestDto): BaseResponse<List<CalendarMonthListResponseDto>> =
         BaseResponse(
             status = 200,
             message = "캘린더 > (월간) 스크랩 된 공고 정보 불러오기를 성공했습니다",
             result = getMockScrapDetailList(request.year, request.month)
     )
 
-    fun getCalendarScrapDayList(requestDto: CalendarDayListRequestDto): BaseResponse<List<CalendarListResponseDto>> =
+    fun getCalendarScrapDayList(requestDto: CalendarDayListRequestDto): BaseResponse<List<CalendarDayListResponseDto>> =
         BaseResponse(
             status = 200,
             message = "캘린더 > (일간) 스크랩 된 공고 정보 불러오기를 성공했습니다",
@@ -329,15 +330,15 @@ object CalendarList {
 
 /*************************MockDataType***************************/
 
-fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto> {
+fun getMockScrapDetailList(year: Int, month: Int): List<CalendarMonthListResponseDto> {
     val deadline = month.toString().padStart(2, '0')
     return when (month % 4) {
         0 -> {
             listOf(
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-13",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 1,
                             title = "제목1",
                             color = "#FFED4E54",
@@ -348,7 +349,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 2,
                             title = "제목2",
                             color = "#FFC4E953",
@@ -359,7 +360,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 3,
                             title = "제목3",
                             color = "#FF9B64E2",
@@ -370,7 +371,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 4,
                             title = "제목4",
                             color = "#FFF260AC",
@@ -383,10 +384,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-17",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 5,
                             title = "제목5",
                             color = "#FFC4E953",
@@ -397,7 +398,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 6,
                             title = "제목6",
                             color = "#FF45D0CC",
@@ -410,10 +411,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         ),
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-23",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 7,
                             title = "제목7",
                             color = "#FF5397F3",
@@ -426,10 +427,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-30",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 8,
                             title = "제목8",
                             color = "#FF45D0CC",
@@ -447,10 +448,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
 
         1 -> {
             listOf(
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-01",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 9,
                             title = "제목9",
                             color = "#FFED4E54",
@@ -461,7 +462,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 10,
                             title = "제목10",
                             color = "#FFC4E953",
@@ -472,7 +473,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 11,
                             title = "제목11",
                             color = "#FF9B64E2",
@@ -483,7 +484,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 12,
                             title = "제목12",
                             color = "#FFF260AC",
@@ -496,10 +497,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-02",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 13,
                             title = "제목13",
                             color = "#FFC4E953",
@@ -510,7 +511,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 14,
                             title = "제목14",
                             color = "#FF9B64E2",
@@ -521,7 +522,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 15,
                             title = "제목15",
                             color = "#FFED4E54",
@@ -532,7 +533,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 16,
                             title = "제목16",
                             color = "#FFF260AC",
@@ -545,10 +546,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-12",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 17,
                             title = "제목17",
                             color = "#FFC4E953",
@@ -559,7 +560,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 18,
                             title = "제목18",
                             color = "#FF45D0CC",
@@ -572,10 +573,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         ),
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-27",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 19,
                             title = "제목19",
                             color = "#FF5397F3",
@@ -588,10 +589,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-29",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 20,
                             title = "제목20",
                             color = "#FF45D0CC",
@@ -609,10 +610,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
 
         2 -> {
             listOf(
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-02",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 21,
                             title = "제목1",
                             color = "#FFED4E54",
@@ -623,7 +624,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 22,
                             title = "제목22",
                             color = "#FFC4E953",
@@ -634,7 +635,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 23,
                             title = "제목23",
                             color = "#FF9B64E2",
@@ -645,7 +646,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 24,
                             title = "제목24",
                             color = "#FFF260AC",
@@ -658,10 +659,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-18",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 25,
                             title = "제목25",
                             color = "#FFC4E953",
@@ -672,7 +673,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 26,
                             title = "제목26",
                             color = "#FF45D0CC",
@@ -685,10 +686,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         ),
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-20",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 27,
                             title = "제목27",
                             color = "#FF5397F3",
@@ -701,10 +702,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-29",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 28,
                             title = "제목28",
                             color = "#FF45D0CC",
@@ -722,10 +723,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
 
         3 -> {
             listOf(
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-05",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 29,
                             title = "제목29",
                             color = "#FFED4E54",
@@ -736,7 +737,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 30,
                             title = "제목30",
                             color = "#FFC4E953",
@@ -749,10 +750,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-11",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 31,
                             title = "제목31",
                             color = "#FFC4E953",
@@ -763,7 +764,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                             startYear = 2024,
                             startMonth = 8
                         ),
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 32,
                             title = "제목32",
                             color = "#FF45D0CC",
@@ -776,10 +777,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         ),
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-19",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 33,
                             title = "제목33",
                             color = "#FF5397F3",
@@ -792,10 +793,10 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
                         )
                     )
                 ),
-                CalendarListResponseDto(
+                CalendarMonthListResponseDto(
                     deadline = "${year}-${deadline}-28",
                     scraps = listOf(
-                        CalendarListResponseDto.Scrap(
+                        CalendarMonthListResponseDto.Scrap(
                             scrapId = 34,
                             title = "제목34",
                             color = "#FF45D0CC",
@@ -819,4 +820,4 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
 
 /******************DayList******************/
 
-fun getMockDayList(request: String): List<CalendarListResponseDto> = listOf()
+fun getMockDayList(request: String): List<CalendarDayListResponseDto> = listOf()

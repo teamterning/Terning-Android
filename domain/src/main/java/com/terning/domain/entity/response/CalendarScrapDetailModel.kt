@@ -9,5 +9,6 @@ data class CalendarScrapDetailModel(
     val color: String,
     val companyImage: String,
     val startYear: Int,
-    val startMonth: Int
+    val startMonth: Int,
+    val deadLine: String
 )
