@@ -68,10 +68,12 @@ fun TerningBasicTextField(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = {
-                if (value.isNotEmpty() && value.isNotBlank()) {
+                if (value.isNotBlank()) {
                     keyboardController?.hide()
                     focusManager.clearFocus()
-                    onDoneAction?.invoke()
+                    if (onDoneAction != null) {
+                        onDoneAction()
+                    }
                 }
             }
         ),

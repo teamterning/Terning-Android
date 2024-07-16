@@ -14,12 +14,14 @@ data class SearchViewsResponseDto(
     val title: String,
 ) {
 
-    fun toSearchViewsEntity(): List<SearchViewsResponseModel> =
-        listOf(
+
+    fun toSearchViewsEntity(): List<SearchViewsResponseModel> {
+        return listOf(
             SearchViewsResponseModel(
                 announcementId = internshipAnnouncementId,
                 companyImage = companyImage,
                 title = title,
             )
         )
+    }
 }

@@ -51,7 +51,9 @@ fun SearchRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SearchViewsSideEffect.Toast -> {}
+                    is SearchViewsSideEffect.Toast -> {
+                        sideEffect.message
+                    }
                 }
             }
     }
