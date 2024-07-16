@@ -81,8 +81,12 @@ fun HomeRoute(
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
                 }
-
             }
+    }
+
+    LaunchedEffect(key1 = currentSortBy) {
+        viewModel.getRecommendInternsData(currentSortBy.value)
+
     }
 
     var recommendInternList = emptyList<HomeRecommendInternModel>()

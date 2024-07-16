@@ -53,11 +53,15 @@ class HomeViewModel @Inject constructor(
     val scrapData get() = _scrapState.asStateFlow()
 
     private val _recommendInternState =
-        MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Empty)
+        MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Loading)
     val recommendInternState get() = _recommendInternState.asStateFlow()
 
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
+
+    private val _homeSortByState = MutableStateFlow(0)
+    val homeSortByState get() = _homeSortByState.asStateFlow()
+
 
     fun setGrade(grade: Int) {
         userName.internFilter?.grade = grade
@@ -68,23 +72,31 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
-        getRecommendInternsData("deadlineSoon")
+        getRecommendInternsData(sortBy = 0)
     }
 
-
-    fun getRecommendInternsData(sortBy: String) {
+    fun getRecommendInternsData(sortBy: Int) {
         _recommendInternState.value = UiState.Loading
         viewModelScope.launch {
-            homeRepository.getRecommendIntern(sortBy).onSuccess { internList ->
-                _recommendInternState.value = UiState.Success(internList)
-            }.onFailure { exception: Throwable ->
+            homeRepository.getRecommendIntern(SortBy.entries[sortBy].sortBy)
+                .onSuccess { internList ->
+                    _recommendInternState.value = UiState.Success(internList)
+                }.onFailure { exception: Throwable ->
                 _recommendInternState.value = UiState.Failure(exception.message ?: "")
-//                _recommendInternState.value = UiState.Success(toRecommendInternEntity())
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }
+
+    enum class SortBy(val sortBy: String) {
+        EARLIEST("deadlineSoon"),
+        SHORTEST("shortestDuration"),
+        LONGEST("longestDuration"),
+        SCRAP("mostScrapped"),
+        VIEW_COUNT("mostViewed"),
+    }
 }
+
 
 private fun getScrapData(): List<ScrapData> = listOf(
     ScrapData(
