@@ -22,7 +22,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.scrap.model.Scrap
-import com.terning.feature.calendar.scrap.CalendarScrapList
+import com.terning.feature.calendar.scrap.CalendarScrapListss
 import java.time.LocalDate
 
 @Composable
@@ -58,7 +58,7 @@ fun CalendarWeekWithScrap(
                 onDateSelected = onDateSelected
             )
         }
-        CalendarScrapList(
+        CalendarScrapListss(
             selectedDate = selectedDate.selectedDate,
             scrapLists = scrapLists,
             noScrapScreen = {

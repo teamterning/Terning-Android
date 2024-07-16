@@ -1,8 +1,6 @@
 package com.terning.feature.calendar.calendar
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -11,7 +9,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
@@ -26,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -37,16 +33,14 @@ import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.extension.toast
-import com.terning.feature.R
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarState
 import com.terning.feature.calendar.month.CalendarMonthScreen
-import com.terning.feature.calendar.scrap.CalendarScrapList
+import com.terning.feature.calendar.scrap.CalendarScrapListScreen
 import com.terning.feature.calendar.week.CalendarWeekWithScrap
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
@@ -182,8 +176,7 @@ fun CalendarScreen(
                 }
             },
             contentTwo = {
-                CalendarScrapList(
-                    scrapList = viewModel.mockScrapList,
+                CalendarScrapListScreen(
                     listState = listState,
                     pages = state.getPageCount(),
                     viewModel = viewModel,

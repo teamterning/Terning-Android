@@ -26,7 +26,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getDateAsMapString
@@ -40,13 +39,10 @@ import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDa
 import com.terning.feature.calendar.scrap.component.CalendarScrap
 import com.terning.feature.calendar.scrap.model.Scrap
 import kotlinx.coroutines.flow.distinctUntilChanged
-import timber.log.Timber
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Composable
-fun CalendarScrapList(
-    scrapList: List<List<Scrap>>,
+fun CalendarScrapListScreen(
     pages: Int,
     listState: LazyListState,
     modifier: Modifier = Modifier,
@@ -95,13 +91,11 @@ fun CalendarScrapList(
                         items(getDate.lengthOfMonth()) { day ->
                             val currentDate = LocalDate.of(getDate.year, getDate.monthValue, day+1)
                             val dateIndex = currentDate.getDateAsMapString()
-                            Timber.tag("CalendarScreen").d(dateIndex)
 
                             if(scrapMap[dateIndex].isListNotEmpty()){
                                 CalendarScrapList(
                                     selectedDate = currentDate,
-                                    //scrapLists = scrapList,
-                                    scrapMap = scrapMap,
+                                    scrapList = scrapMap[dateIndex].orEmpty(),
                                     isFromList = true,
                                     noScrapScreen = {})
                             }
@@ -114,7 +108,7 @@ fun CalendarScrapList(
 }
 
 @Composable
-fun CalendarScrapList(
+fun CalendarScrapListss(
     selectedDate: LocalDate,
     scrapLists: List<List<Scrap>>,
     isFromList: Boolean = false,
@@ -161,13 +155,11 @@ fun CalendarScrapList(
 @Composable
 fun CalendarScrapList(
     selectedDate: LocalDate,
-    scrapMap: Map<String, List<CalendarScrapDetailModel>>,
+    scrapList: List<CalendarScrapDetailModel>,
     isFromList: Boolean = false,
     noScrapScreen: @Composable () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val scrapList = scrapMap[selectedDate.format(formatter)]
 
     if (scrapList.isListNotEmpty()) {
         Text(
@@ -194,11 +186,7 @@ fun CalendarScrapList(
         Column(
             modifier = topModifier
         ) {
-            for (scrap in scrapMap[selectedDate.format(formatter)].orEmpty()) {
-                Timber.tag("CalendarScreen").d(
-                    "<CalendarScrapList> ${scrap}, amount = ${scrapMap[selectedDate.format(formatter)].orEmpty().size}"
-                )
-
+            for (scrap in scrapList) {
                 CalendarScrap(
                     scrap = scrap
                 )
