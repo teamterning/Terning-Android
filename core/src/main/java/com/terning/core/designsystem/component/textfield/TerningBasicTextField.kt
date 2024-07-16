@@ -68,9 +68,13 @@ fun TerningBasicTextField(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = {
-                keyboardController?.hide()
-                focusManager.clearFocus()
-                onDoneAction?.invoke()
+                if (value.isNotBlank()) {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                    if (onDoneAction != null) {
+                        onDoneAction()
+                    }
+                }
             }
         ),
 
@@ -136,7 +140,6 @@ fun TerningBasicTextField(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = Modifier.padding(vertical = 8.dp)
     ) {
         helperIcon?.let {
             Icon(
