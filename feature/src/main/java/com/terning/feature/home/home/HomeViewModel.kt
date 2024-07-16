@@ -11,7 +11,6 @@ import com.terning.core.designsystem.theme.CalOrange1
 import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.feature.home.home.model.InternData
-import com.terning.feature.home.home.model.InternFilterData
 import com.terning.feature.home.home.model.ScrapData
 import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.model.UserScrapState
@@ -27,12 +26,14 @@ class HomeViewModel @Inject constructor(
     private val _userName by mutableStateOf(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
-            internFilter = InternFilterData(
-                grade = 1,
-                workingPeriod = 1,
-                startYear = 2024,
-                startMonth = 7,
-            )
+            internFilter =
+            null
+//            InternFilterData(
+//                grade = 3,
+//                workingPeriod = 3,
+//                startYear = 2024,
+//                startMonth = 7,
+//            )
         )
     )
     val userName get() = _userName
