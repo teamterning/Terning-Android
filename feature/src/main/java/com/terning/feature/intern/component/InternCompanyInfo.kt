@@ -54,7 +54,7 @@ fun InternCompanyInfo(modifier: Modifier) {
                 ) {
                     Image(
                         painter = painterResource(
-                            id = R.drawable.ic_nosearch
+                            id = R.drawable.ic_empty_logo
                         ),
                         modifier = modifier.fillMaxWidth(),
                         contentDescription = null,
