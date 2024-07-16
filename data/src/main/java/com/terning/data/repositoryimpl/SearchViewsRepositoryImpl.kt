@@ -10,6 +10,9 @@ class SearchViewsRepositoryImpl @Inject constructor(
 ) : SearchViewsRepository {
     override suspend fun getSearchViewsList(): Result<List<SearchViewsResponseModel>> =
         runCatching {
-            searchViewsDataSource.getSearchViews().toSearchViewsEntity()
+            searchViewsDataSource
+                .getSearchViews()
+                .result
+                .toSearchViewsEntity()
         }
 }
