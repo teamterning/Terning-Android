@@ -39,7 +39,6 @@ import com.terning.feature.calendar.calendar.model.CalendarState
 import com.terning.feature.calendar.month.CalendarMonthScreen
 import com.terning.feature.calendar.scrap.CalendarScrapListScreen
 import com.terning.feature.calendar.week.CalendarWeekScreen
-import com.terning.feature.calendar.week.CalendarWeekWithScrap
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.YearMonth

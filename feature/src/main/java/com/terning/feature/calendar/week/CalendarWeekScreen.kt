@@ -30,9 +30,6 @@ import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.scrap.CalendarScrapList
-import com.terning.feature.calendar.scrap.model.Scrap
-import com.terning.feature.calendar.scrap.CalendarScrapListss
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -41,40 +38,13 @@ fun CalendarWeekScreen(
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState = viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner)
+    val uiState by viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner)
     val calendarWeekState by viewModel.calendarWeekState.collectAsStateWithLifecycle(lifecycleOwner)
 
-    LaunchedEffect(uiState.value.selectedDate) {
+    LaunchedEffect(uiState.selectedDate) {
         viewModel.getScrapWeekList()
     }
 
-    when(calendarWeekState.loadState) {
-        is UiState.Loading -> {}
-        is UiState.Empty -> {}
-        is UiState.Failure -> {}
-        is UiState.Success -> {
-            val scrapList = (calendarWeekState.loadState as UiState.Success).data
-
-            CalendarWeekWithScrap(
-                modifier = modifier,
-                selectedDate = uiState.value,
-                scrapList = scrapList,
-                onDateSelected = {
-                    viewModel.updateSelectedDate(it)
-                }
-            )
-        }
-    }
-
-}
-
-@Composable
-fun CalendarWeekWithScrap(
-    modifier: Modifier = Modifier,
-    selectedDate: CalendarUiState,
-    scrapList: List<CalendarScrapDetailModel>,
-    onDateSelected: (LocalDate) -> Unit
-) {
     Column(
         modifier = modifier
             .background(Back)
@@ -97,13 +67,17 @@ fun CalendarWeekWithScrap(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(White),
-                selectedDate = selectedDate,
-                onDateSelected = onDateSelected
+                selectedDate = uiState,
+                onDateSelected = {
+                    viewModel.updateSelectedDate(it)
+                }
             )
         }
-        CalendarScrapList(selectedDate = selectedDate.selectedDate, scrapList = scrapList) {
-            //Timber.tag("CalendarScreen").d("<CalendarWeekWithScrap> ${selectedDate.selectedDate}")
-            Text(
+
+        when (calendarWeekState.loadState) {
+            is UiState.Loading -> {}
+            is UiState.Empty -> {
+                Text(
                 modifier = Modifier
                     .padding(top = 42.dp)
                     .fillMaxWidth(),
@@ -111,10 +85,28 @@ fun CalendarWeekWithScrap(
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.body5,
                 color = Grey400
-            )
+            )}
+            is UiState.Failure -> {}
+            is UiState.Success -> {
+                val scrapList = (calendarWeekState.loadState as UiState.Success).data
+
+                CalendarScrapList(selectedDate = uiState.selectedDate, scrapList = scrapList) {
+                    //Timber.tag("CalendarScreen").d("<CalendarWeekWithScrap> ${selectedDate.selectedDate}")
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 42.dp)
+                            .fillMaxWidth(),
+                        text = stringResource(id = R.string.calendar_empty_scrap),
+                        textAlign = TextAlign.Center,
+                        style = TerningTheme.typography.body5,
+                        color = Grey400
+                    )
+                }
+            }
         }
     }
 }
+
 
 
 

@@ -332,7 +332,7 @@ object CalendarList {
 
 fun getMockScrapDetailList(year: Int, month: Int): List<CalendarMonthListResponseDto> {
     val deadline = month.toString().padStart(2, '0')
-    return when (month % 4) {
+    return when (month % 5) {
         0 -> {
             listOf(
                 CalendarMonthListResponseDto(
@@ -821,7 +821,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarMonthListRespons
 /******************DayList******************/
 
 fun getMockDayList(request: String): List<CalendarDayListResponseDto> = listOf(
-    /*CalendarDayListResponseDto(
+    CalendarDayListResponseDto(
         scrapId = 34,
         title = "제목34",
         color = "#FF45D0CC",
@@ -842,6 +842,5 @@ fun getMockDayList(request: String): List<CalendarDayListResponseDto> = listOf(
         companyImage = "",
         startYear = 2024,
         startMonth = 8
-    ),*/
-
+    )
 )
