@@ -47,6 +47,7 @@ import java.text.DecimalFormat
 @Composable
 fun InternRoute(
     navController: NavHostController,
+    announcementId: Long = 0,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
