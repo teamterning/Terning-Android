@@ -141,7 +141,6 @@ class CalendarViewModel @Inject constructor(
         }.fold(
             onSuccess = {
                 _calendarWeekState.update { currentState ->
-                    Timber.tag("CalendarScreen").d("<CalendarWeekWithScrap> $it")
                     currentState.copy(
                         /*loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty*/
                         loadState = UiState.Success(it)

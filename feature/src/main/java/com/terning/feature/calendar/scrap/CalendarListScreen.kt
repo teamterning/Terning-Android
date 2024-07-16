@@ -41,12 +41,11 @@ import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrap
-import com.terning.feature.calendar.scrap.model.Scrap
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 
 @Composable
-fun CalendarScrapListScreen(
+fun CalendarListScreen(
     pages: Int,
     listState: LazyListState,
     modifier: Modifier = Modifier,
@@ -65,42 +64,55 @@ fun CalendarScrapListScreen(
             }
     }
 
-    when (scrapState.loadState) {
-        UiState.Loading -> {
-            Box(modifier = Modifier.background(color = White).fillMaxSize())
-        }
-        UiState.Empty -> {}
-        is UiState.Failure -> {}
-        is UiState.Success -> {
-            val scrapMap = (scrapState.loadState as UiState.Success).data
 
-            LazyRow(
-                modifier = modifier
-                    .background(White),
-                state = listState,
-                userScrollEnabled = true,
-                flingBehavior = flingBehavior(
-                    state = listState
-                )
+    LazyRow(
+        modifier = modifier
+            .background(White),
+        state = listState,
+        userScrollEnabled = true,
+        flingBehavior = flingBehavior(
+            state = listState
+        )
+    ) {
+        items(pages) { page ->
+            val getDate = getDateByPage(page)
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillParentMaxWidth()
+                    .fillMaxHeight()
+                    .background(Back)
             ) {
-                items(pages) { page ->
-                    val getDate = getDateByPage(page)
+                when (scrapState.loadState) {
+                    UiState.Loading -> {}
+                    UiState.Empty -> {
+                        item {
+                            Text(
+                                modifier = Modifier
+                                    .padding(top = 42.dp)
+                                    .fillMaxWidth(),
+                                text = stringResource(id = R.string.calendar_empty_scrap),
+                                textAlign = TextAlign.Center,
+                                style = TerningTheme.typography.body5,
+                                color = Grey400
+                            )
+                        }
+                    }
 
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillParentMaxWidth()
-                            .fillMaxHeight()
-                            .background(Back)
-                    ) {
+                    is UiState.Failure -> {}
+                    is UiState.Success -> {
                         items(getDate.lengthOfMonth()) { day ->
-                            val currentDate = LocalDate.of(getDate.year, getDate.monthValue, day+1)
+                            val scrapMap = (scrapState.loadState as UiState.Success).data
+                            val currentDate =
+                                LocalDate.of(getDate.year, getDate.monthValue, day + 1)
                             val dateIndex = currentDate.getDateAsMapString()
 
-                            if(scrapMap[dateIndex].isListNotEmpty()){
+                            if (scrapMap[dateIndex].isListNotEmpty()) {
                                 CalendarScrapList(
                                     selectedDate = currentDate,
                                     scrapList = scrapMap[dateIndex].orEmpty(),
                                     isFromList = true,
+
                                     noScrapScreen = {})
                             }
                         }

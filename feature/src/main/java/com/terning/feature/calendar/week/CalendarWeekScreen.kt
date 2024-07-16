@@ -78,20 +78,21 @@ fun CalendarWeekScreen(
             is UiState.Loading -> {}
             is UiState.Empty -> {
                 Text(
-                modifier = Modifier
-                    .padding(top = 42.dp)
-                    .fillMaxWidth(),
-                text = stringResource(id = R.string.calendar_empty_scrap),
-                textAlign = TextAlign.Center,
-                style = TerningTheme.typography.body5,
-                color = Grey400
-            )}
+                    modifier = Modifier
+                        .padding(top = 42.dp)
+                        .fillMaxWidth(),
+                    text = stringResource(id = R.string.calendar_empty_scrap),
+                    textAlign = TextAlign.Center,
+                    style = TerningTheme.typography.body5,
+                    color = Grey400
+                )
+            }
+
             is UiState.Failure -> {}
             is UiState.Success -> {
                 val scrapList = (calendarWeekState.loadState as UiState.Success).data
 
                 CalendarScrapList(selectedDate = uiState.selectedDate, scrapList = scrapList) {
-                    //Timber.tag("CalendarScreen").d("<CalendarWeekWithScrap> ${selectedDate.selectedDate}")
                     Text(
                         modifier = Modifier
                             .padding(top = 42.dp)

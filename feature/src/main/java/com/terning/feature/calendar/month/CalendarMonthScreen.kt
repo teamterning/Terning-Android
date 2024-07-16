@@ -49,32 +49,17 @@ fun CalendarMonthScreen(
         is UiState.Failure -> {}
         is UiState.Success -> {
             val scrapMap = (scrapState.loadState as UiState.Success).data
-            LazyRow(
+            HorizontalCalendar(
+                pages = pages,
+                listState = listState,
+                calendarUiState = calendarUiState,
+                scrapMap = scrapMap,
+                onDateSelected = onDateSelected,
                 modifier = modifier
-                    .background(White),
-                state = listState,
-                userScrollEnabled = true,
-                flingBehavior = flingBehavior(
-                    state = listState
-                )
-            ) {
-                items(pages) { page ->
-                    val date = getDateByPage(page)
-                    val monthData = MonthData(YearMonth.of(date.year, date.month))
-
-                    CalendarMonth(
-                        modifier = Modifier.fillParentMaxSize(),
-                        calendarUiState = calendarUiState,
-                        onDateSelected = onDateSelected,
-                        monthData = monthData,
-                        scrapMap = scrapMap
-                    )
-                }
-            }
+            )
         }
     }
 }
-
 
 @Composable
 fun HorizontalCalendar(
