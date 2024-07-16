@@ -9,16 +9,6 @@ import javax.inject.Inject
 class SearchScrapsDataSourceImpl @Inject constructor(
     private val searchService: SearchService,
 ) : SearchScrapsDataSource {
-    override suspend fun getSearchScraps(): BaseResponse<SearchScrapsResponseDto> {
-
-        return BaseResponse(
-            status = 200,
-            message = "Success",
-            result = SearchScrapsResponseDto(
-                internshipAnnouncementId = 5,
-                title = "어쩌구",
-                companyImage = "https://image.dongascience.com/Photo/2019/09/d2468576cecf1313437de5a883bfa2ed.jpg"
-            )
-        )
-    }
+    override suspend fun getSearchScraps(): BaseResponse<SearchScrapsResponseDto> =
+        searchService.getSearchScrapsList()
 }
