@@ -1,10 +1,9 @@
 package com.terning.point.di
 
 import com.terning.data.service.AuthService
+import com.terning.data.service.CalendarService
 import com.terning.data.service.SearchService
 import com.terning.point.di.qualifier.JWT
-import com.terning.data.service.CalendarService
-import com.terning.point.di.qualifier.OPEN
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +27,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideCalendarService(@OPEN retrofit: Retrofit): CalendarService =
+    fun provideCalendarService(@JWT retrofit: Retrofit): CalendarService =
         retrofit.create(CalendarService::class.java)
 
 }
