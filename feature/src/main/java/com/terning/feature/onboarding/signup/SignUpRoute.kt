@@ -25,20 +25,20 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.navigation.navigateFilteringOne
 import com.terning.feature.onboarding.signup.component.SignUpProfile
+import com.terning.feature.onboarding.startfiltering.navigation.navigateStartFiltering
 
 @Composable
 fun SignUpRoute(
-    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val signUpState by signUpViewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     SignUpScreen(
-        signUpViewModel = signUpViewModel,
-        signUpState = signUpState,
-        onButtonClick = { navController.navigateFilteringOne() }
+        signUpViewModel = viewModel,
+        signUpState = state,
+        onButtonClick = { navController.navigateStartFiltering(state.name) }
     )
 }
 

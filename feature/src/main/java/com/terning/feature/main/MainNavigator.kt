@@ -14,6 +14,7 @@ import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.mypage.navigation.navigateMyPage
 import com.terning.feature.onboarding.filtering.navigation.FilteringOne
 import com.terning.feature.onboarding.signin.navigation.SignIn
+import com.terning.feature.onboarding.signup.navigation.SignUp
 import com.terning.feature.search.search.navigation.navigateSearch
 
 class MainNavigator(
@@ -23,7 +24,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = FilteringOne
+    val startDestination = SignUp
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->

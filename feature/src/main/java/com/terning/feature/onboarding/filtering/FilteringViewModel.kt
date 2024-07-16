@@ -13,8 +13,6 @@ class FilteringViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    val name = "남지우"
-
     private val _state = MutableStateFlow(FilteringState())
     val state: StateFlow<FilteringState> get() = _state.asStateFlow()
 

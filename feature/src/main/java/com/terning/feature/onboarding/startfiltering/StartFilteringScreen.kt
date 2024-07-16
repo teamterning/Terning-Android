@@ -31,7 +31,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun StartFilteringScreen(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
+    name: String
 ) {
     var isVisible by remember { mutableStateOf(false) }
 

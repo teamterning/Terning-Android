@@ -54,7 +54,7 @@ fun FilteringOneScreen(
             Text(
                 text = stringResource(
                     id = R.string.filtering_status1_title,
-                    viewModel.name
+                  //  viewModel.name
                 ),
                 style = TerningTheme.typography.title3,
                 modifier = modifier.padding(
@@ -63,7 +63,9 @@ fun FilteringOneScreen(
                 )
             )
             Text(
-                text = stringResource(id = R.string.filtering_status1_sub, viewModel.name),
+                text = stringResource(id = R.string.filtering_status1_sub,
+                //    viewModel.name
+                ),
                 style = TerningTheme.typography.body5,
                 modifier = modifier.padding(
                     top = 3.dp,
