@@ -1,7 +1,7 @@
 package com.terning.feature.filtering.filtering
 
 import androidx.lifecycle.ViewModel
-import com.terning.domain.repository.AuthRepository
+import com.terning.domain.repository.FilteringRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilteringViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
+    private val filteringRepository: FilteringRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FilteringState())
@@ -32,7 +32,7 @@ class FilteringViewModel @Inject constructor(
         _state.value = _state.value.copy(startMonth = startMonth)
     }
 
-    fun postFilteringWithServer(){
+    fun postFilteringWithServer() {
 
     }
 
