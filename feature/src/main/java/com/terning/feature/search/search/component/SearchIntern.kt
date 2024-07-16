@@ -1,5 +1,6 @@
 package com.terning.feature.search.search.component
 
+import InternshipAnnouncement
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import coil.request.ImageRequest
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 import com.terning.feature.intern.navigation.navigateIntern
@@ -32,6 +34,7 @@ import com.terning.feature.intern.navigation.navigateIntern
 fun SearchIntern(
     companyImage: String,
     title: String,
+    searchViews: InternshipAnnouncement,
     navController: NavHostController,
 ) {
     Column(
@@ -60,6 +63,7 @@ fun SearchIntern(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .height(76.dp)
+                .customShadow(offsetY = 3.dp)
                 .wrapContentSize()
                 .clip(
                     RoundedCornerShape(
@@ -68,8 +72,9 @@ fun SearchIntern(
                     )
                 )
         )
+
         Text(
-            text = title,
+            text = "${searchViews.title} ${searchViews.title}${searchViews.title}${searchViews.title}",
             modifier = Modifier
                 .padding(horizontal = 8.dp)
                 .wrapContentSize(),

@@ -1,5 +1,6 @@
 package com.terning.feature.search.search.component
 
+import InternshipAnnouncement
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -12,15 +13,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.domain.entity.response.InternScrapsResponseModel
-import com.terning.domain.entity.response.InternViewsResponseModel
 import com.terning.feature.R
 
 @Composable
 fun SearchInternList(
     type: InternListType,
-    searchViewsList: List<InternViewsResponseModel>?,
-    searchScrapsList: List<InternScrapsResponseModel>?,
+    searchScrapsList: List<InternshipAnnouncement>?,
+    searchViewsList: List<InternshipAnnouncement>,
     navController: NavHostController,
 ) {
     Column(modifier = Modifier.padding(horizontal = 24.dp)) {
@@ -45,6 +44,7 @@ fun SearchInternList(
                         SearchIntern(
                             companyImage = searchViewsList[index].companyImage,
                             title = searchViewsList[index].title,
+                            searchViews = searchViewsList[index],
                             navController = navController
                         )
                     }
@@ -55,12 +55,12 @@ fun SearchInternList(
                         SearchIntern(
                             companyImage = searchScrapsList[index].companyImage,
                             title = searchScrapsList[index].title,
+                            searchViews = searchViewsList[index],
                             navController = navController
                         )
                     }
                 }
             }
-
         }
     }
 }

@@ -1,11 +1,11 @@
 package com.terning.point.di
 
-import com.terning.data.repositoryimpl.MockRepositoryImpl
-import com.terning.data.repositoryimpl.SearchScrapsRepositoryImpl
-import com.terning.data.repositoryimpl.SearchViewsRepositoryImpl
-import com.terning.domain.repository.MockRepository
-import com.terning.domain.repository.SearchScrapsRepository
-import com.terning.domain.repository.SearchViewsRepository
+import com.terning.data.repositoryimpl.AuthRepositoryImpl
+import com.terning.data.repositoryimpl.SearchRepositoryImpl
+import com.terning.data.repositoryimpl.TokenRepositoryImpl
+import com.terning.domain.repository.AuthRepository
+import com.terning.domain.repository.SearchRepository
+import com.terning.domain.repository.TokenRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,13 +18,13 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindMockRepository(mockRepositoryImpl: MockRepositoryImpl): MockRepository
+    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
     @Binds
     @Singleton
-    abstract fun bindSearchViewsRepository(searchViewsRepositoryImpl: SearchViewsRepositoryImpl): SearchViewsRepository
+    abstract fun bindTokenRepository(tokenRepositoryImpl: TokenRepositoryImpl): TokenRepository
 
     @Binds
     @Singleton
-    abstract fun bindSearchScrapsRepository(searchScrapsRepositoryImpl: SearchScrapsRepositoryImpl): SearchScrapsRepository
+    abstract fun bindSearchViewsRepository(searchRepositoryImpl: SearchRepositoryImpl): SearchRepository
 }

@@ -1,5 +1,6 @@
 package com.terning.feature.search.search
 
+import InternshipAnnouncement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +28,6 @@ import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternScrapsResponseModel
-import com.terning.domain.entity.response.InternViewsResponseModel
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
@@ -54,7 +53,9 @@ fun SearchRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SearchSideEffect.Toast -> {}
+                    is SearchSideEffect.Toast -> {
+                        sideEffect.message
+                    }
                 }
             }
     }
@@ -66,8 +67,8 @@ fun SearchRoute(
         is UiState.Success -> {
             SearchScreen(
                 navController = navController,
-                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternViewsResponseModel>>).data,
-                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternScrapsResponseModel>>).data
+                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternshipAnnouncement>>).data,
+                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternshipAnnouncement>>).data
             )
         }
 
@@ -78,8 +79,8 @@ fun SearchRoute(
 fun SearchScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    searchViewsList: List<InternViewsResponseModel>,
-    searchScrapsList: List<InternScrapsResponseModel>,
+    searchViewsList: List<InternshipAnnouncement>,
+    searchScrapsList: List<InternshipAnnouncement>,
 ) {
     val images = listOf(
         R.drawable.ic_nav_search,
