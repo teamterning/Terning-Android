@@ -60,4 +60,7 @@ class InternViewModel @Inject constructor(
         _state.value = _state.value.copy(isColorChange = change)
     }
 
+    fun updateShowWeb(show: Boolean) {
+        _state.value = _state.value.copy(showWeb = show)
+    }
 }
