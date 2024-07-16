@@ -222,7 +222,7 @@ fun InternScreen(
                     InternCompanyInfo(
                         modifier = modifier,
                         companyImage = internInfoModel.companyImage,
-                        title = internInfoModel.title,
+                        company = internInfoModel.company,
                         companyCategory = internInfoModel.companyCategory
                     )
                     InternPageTitle(

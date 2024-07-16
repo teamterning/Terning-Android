@@ -33,7 +33,7 @@ private const val MAX_LINES = 2
 fun InternCompanyInfo(
     modifier: Modifier,
     companyImage: String,
-    title: String,
+    company: String,
     companyCategory: String,
 ) {
     Row(
@@ -86,7 +86,7 @@ fun InternCompanyInfo(
                     )
             ) {
                 Text(
-                    text = title,
+                    text = company,
                     style = TerningTheme.typography.title4,
                     color = Black,
                     modifier = modifier.padding(top = 11.dp),
