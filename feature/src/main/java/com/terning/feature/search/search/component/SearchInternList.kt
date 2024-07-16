@@ -9,13 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.domain.entity.response.InternshipAnnouncement
 import com.terning.feature.R
 
 @Composable
 fun SearchInternList(
     type: InternListType,
+    searchViewsList: List<InternshipAnnouncement>,
+    navController: NavHostController
 ) {
     Column(modifier = Modifier.padding(horizontal = 24.dp)) {
         Text(
@@ -33,8 +37,11 @@ fun SearchInternList(
             modifier = Modifier.padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(5) {
-                SearchIntern()
+            items(searchViewsList.size) { index ->
+                SearchIntern(
+                    searchViews = searchViewsList[index],
+                    navController = navController
+                )
             }
         }
     }
