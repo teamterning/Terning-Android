@@ -82,33 +82,32 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun signInSuccess(
+    private suspend fun signInSuccess(
         accessToken: String,
         platform: String = KAKAO
     ) {
-        viewModelScope.launch {
-            authRepository.postSignIn(
-                accessToken,
-                SignInRequestModel(platform)
-            ).onSuccess { response ->
-                when {
-                    response.accessToken == null -> _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
+        authRepository.postSignIn(
+            accessToken,
+            SignInRequestModel(platform)
+        ).onSuccess { response ->
+            when {
+                response.accessToken == null -> _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
 
-                    else -> {
-                        tokenRepository.setTokens(
-                            response.accessToken ?: return@launch,
-                            response.refreshToken ?: return@onSuccess
-                        )
-                        tokenRepository.setUserId(response.userId)
+                else -> {
+                    tokenRepository.setTokens(
+                        response.accessToken ?: return,
+                        response.refreshToken ?: return
+                    )
+                    tokenRepository.setUserId(response.userId)
 
-                        _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
-                    }
+                    _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
                 }
-            }.onFailure {
-                _signInState.value = SignInState(UiState.Failure(it.message.toString()))
-                _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
             }
+        }.onFailure {
+            _signInState.value = SignInState(UiState.Failure(it.message.toString()))
+            _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
         }
+
     }
 
     companion object {
