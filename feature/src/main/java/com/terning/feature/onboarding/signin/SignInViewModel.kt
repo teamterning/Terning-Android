@@ -7,18 +7,14 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.terning.core.state.UiState
 import com.terning.domain.entity.request.SignInRequestModel
 import com.terning.domain.repository.AuthRepository
 import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,10 +27,6 @@ class SignInViewModel @Inject constructor(
     init {
         tokenRepository.clearInfo()
     }
-
-    private val _signInState = MutableStateFlow(SignInState())
-    val signInState: StateFlow<SignInState>
-        get() = _signInState.asStateFlow()
 
     private val _signInSideEffects = MutableSharedFlow<SignInSideEffect>()
     val signInSideEffects: SharedFlow<SignInSideEffect>
@@ -86,7 +78,6 @@ class SignInViewModel @Inject constructor(
         accessToken: String,
         platform: String = KAKAO
     ) {
-        //  Log.d("LYB", accessToken)
         authRepository.postSignIn(
             accessToken,
             SignInRequestModel(platform)
@@ -105,7 +96,6 @@ class SignInViewModel @Inject constructor(
                 }
             }
         }.onFailure {
-            _signInState.value = SignInState(UiState.Failure(it.message.toString()))
             _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
         }
     }

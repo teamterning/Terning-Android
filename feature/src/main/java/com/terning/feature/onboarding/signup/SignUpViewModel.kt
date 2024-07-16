@@ -11,8 +11,11 @@ import com.terning.domain.repository.AuthRepository
 import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,6 +28,9 @@ class SignUpViewModel @Inject constructor(
 
     private val _state: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState())
     val state: StateFlow<SignUpState> get() = _state.asStateFlow()
+
+    private val _sideEffects = MutableSharedFlow<SignUpSideEffect>()
+    val sideEffects: SharedFlow<SignUpSideEffect> get() = _sideEffects.asSharedFlow()
 
     fun isInputValid(name: String) {
         val nameErrorRegex = Regex(NAME_ERROR)
@@ -75,10 +81,13 @@ class SignUpViewModel @Inject constructor(
                         authType = KAKA0
                     )
                 }
-            ).onSuccess {
+            ).onSuccess { response ->
+                tokenRepository.setTokens(response.accessToken, response.refreshToken)
+                tokenRepository.setUserId(response.userId)
 
+                _sideEffects.emit(SignUpSideEffect.NavigateToFiltering)
             }.onFailure {
-
+                _sideEffects.emit(SignUpSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }

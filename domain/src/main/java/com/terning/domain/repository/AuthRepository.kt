@@ -16,4 +16,5 @@ interface AuthRepository {
         userId: Long,
         request: SignUpRequestModel
     ): Result<SignUpResponseModel>
+
 }
