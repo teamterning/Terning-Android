@@ -820,4 +820,28 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarMonthListRespons
 
 /******************DayList******************/
 
-fun getMockDayList(request: String): List<CalendarDayListResponseDto> = listOf()
+fun getMockDayList(request: String): List<CalendarDayListResponseDto> = listOf(
+    /*CalendarDayListResponseDto(
+        scrapId = 34,
+        title = "제목34",
+        color = "#FF45D0CC",
+        internshipAnnouncementId = 34,
+        dDay = "10",
+        workingPeriod = "10",
+        companyImage = "",
+        startYear = 2024,
+        startMonth = 8
+    ),
+    CalendarDayListResponseDto(
+        scrapId = 34,
+        title = "제목34",
+        color = "#FF45D0CC",
+        internshipAnnouncementId = 34,
+        dDay = "10",
+        workingPeriod = "10",
+        companyImage = "",
+        startYear = 2024,
+        startMonth = 8
+    ),*/
+
+)

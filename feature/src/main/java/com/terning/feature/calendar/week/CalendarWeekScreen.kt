@@ -9,6 +9,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
@@ -22,11 +24,15 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.state.UiState
+import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
+import com.terning.feature.calendar.scrap.CalendarScrapList
 import com.terning.feature.calendar.scrap.model.Scrap
 import com.terning.feature.calendar.scrap.CalendarScrapListss
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -36,6 +42,29 @@ fun CalendarWeekScreen(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState = viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner)
+    val calendarWeekState by viewModel.calendarWeekState.collectAsStateWithLifecycle(lifecycleOwner)
+
+    LaunchedEffect(uiState.value.selectedDate) {
+        viewModel.getScrapWeekList()
+    }
+
+    when(calendarWeekState.loadState) {
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Success -> {
+            val scrapList = (calendarWeekState.loadState as UiState.Success).data
+
+            CalendarWeekWithScrap(
+                modifier = modifier,
+                selectedDate = uiState.value,
+                scrapList = scrapList,
+                onDateSelected = {
+                    viewModel.updateSelectedDate(it)
+                }
+            )
+        }
+    }
 
 }
 
@@ -43,7 +72,7 @@ fun CalendarWeekScreen(
 fun CalendarWeekWithScrap(
     modifier: Modifier = Modifier,
     selectedDate: CalendarUiState,
-    scrapLists: List<List<Scrap>> = listOf(),
+    scrapList: List<CalendarScrapDetailModel>,
     onDateSelected: (LocalDate) -> Unit
 ) {
     Column(
@@ -72,21 +101,18 @@ fun CalendarWeekWithScrap(
                 onDateSelected = onDateSelected
             )
         }
-        CalendarScrapListss(
-            selectedDate = selectedDate.selectedDate,
-            scrapLists = scrapLists,
-            noScrapScreen = {
-                Text(
-                    modifier = Modifier
-                        .padding(top = 42.dp)
-                        .fillMaxWidth(),
-                    text = stringResource(id = R.string.calendar_empty_scrap),
-                    textAlign = TextAlign.Center,
-                    style = TerningTheme.typography.body5,
-                    color = Grey400
-                )
-            }
-        )
+        CalendarScrapList(selectedDate = selectedDate.selectedDate, scrapList = scrapList) {
+            //Timber.tag("CalendarScreen").d("<CalendarWeekWithScrap> ${selectedDate.selectedDate}")
+            Text(
+                modifier = Modifier
+                    .padding(top = 42.dp)
+                    .fillMaxWidth(),
+                text = stringResource(id = R.string.calendar_empty_scrap),
+                textAlign = TextAlign.Center,
+                style = TerningTheme.typography.body5,
+                color = Grey400
+            )
+        }
     }
 }
 
