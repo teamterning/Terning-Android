@@ -26,8 +26,8 @@ fun NavGraphBuilder.startFilteringNavGraph(
     composable<StartFiltering> {
         val args = it.toRoute<StartFiltering>()
         StartFilteringScreen(
+            name = args.name,
             navController = navHostController,
-            name = args.name
         )
     }
 }

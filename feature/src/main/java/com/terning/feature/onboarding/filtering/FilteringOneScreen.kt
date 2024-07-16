@@ -24,6 +24,7 @@ import com.terning.feature.onboarding.filtering.navigation.navigateFilteringTwo
 
 @Composable
 fun FilteringOneScreen(
+    name: String,
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: FilteringViewModel = hiltViewModel(),
@@ -54,7 +55,7 @@ fun FilteringOneScreen(
             Text(
                 text = stringResource(
                     id = R.string.filtering_status1_title,
-                  //  viewModel.name
+                    name
                 ),
                 style = TerningTheme.typography.title3,
                 modifier = modifier.padding(
@@ -63,8 +64,9 @@ fun FilteringOneScreen(
                 )
             )
             Text(
-                text = stringResource(id = R.string.filtering_status1_sub,
-                //    viewModel.name
+                text = stringResource(
+                    id = R.string.filtering_status1_sub,
+                    name
                 ),
                 style = TerningTheme.typography.body5,
                 modifier = modifier.padding(

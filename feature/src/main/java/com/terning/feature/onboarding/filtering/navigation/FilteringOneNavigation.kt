@@ -5,13 +5,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.onboarding.filtering.FilteringOneScreen
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateFilteringOne(navOptions: NavOptions? = null) {
+fun NavController.navigateFilteringOne(
+    name: String,
+    navOptions: NavOptions? = null
+) {
     navigate(
-        route = FilteringOne,
+        route = FilteringOne(name = name),
         navOptions = navOptions
     )
 }
@@ -20,11 +24,15 @@ fun NavGraphBuilder.filteringOneNavGraph(
     navHostController: NavHostController
 ) {
     composable<FilteringOne> {
+        val args = it.toRoute<FilteringOne>()
         FilteringOneScreen(
+            name = args.name,
             navController = navHostController
         )
     }
 }
 
 @Serializable
-data object FilteringOne : Route
+data class FilteringOne(
+    val name: String
+) : Route
