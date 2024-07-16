@@ -26,8 +26,8 @@ import com.terning.feature.onboarding.filtering.navigation.navigateFilteringTwo
 fun FilteringOneScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    filteringViewModel: FilteringViewModel = hiltViewModel(),
-    onButtonClick: () -> Unit = {},
+    viewModel: FilteringViewModel = hiltViewModel(),
+    onButtonClick: (Int) -> Unit = {},
 ) {
     val isButtonValid = remember { mutableStateOf(false) }
 
@@ -54,7 +54,7 @@ fun FilteringOneScreen(
             Text(
                 text = stringResource(
                     id = R.string.filtering_status1_title,
-                    filteringViewModel.name
+                    viewModel.name
                 ),
                 style = TerningTheme.typography.title3,
                 modifier = modifier.padding(
@@ -63,7 +63,7 @@ fun FilteringOneScreen(
                 )
             )
             Text(
-                text = stringResource(id = R.string.filtering_status1_sub, filteringViewModel.name),
+                text = stringResource(id = R.string.filtering_status1_sub, viewModel.name),
                 style = TerningTheme.typography.body5,
                 modifier = modifier.padding(
                     top = 3.dp,
@@ -72,9 +72,10 @@ fun FilteringOneScreen(
                 )
             )
             StatusOneRadioGroup(
-                onButtonClick = {
-                    onButtonClick()
+                onButtonClick = { index ->
+                    onButtonClick(index)
                     isButtonValid.value = true
+                    viewModel.fetchGrade(index)
                 }
             )
             Text(

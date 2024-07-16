@@ -26,8 +26,8 @@ import com.terning.feature.onboarding.filtering.navigation.navigateFilteringThre
 fun FilteringTwoScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    filteringViewModel: FilteringViewModel = hiltViewModel(),
-    onButtonClick: () -> Unit = {},
+    viewModel: FilteringViewModel = hiltViewModel(),
+    onButtonClick: (Int) -> Unit = {},
 ) {
 
     val isButtonValid = remember { mutableStateOf(false) }
@@ -70,9 +70,10 @@ fun FilteringTwoScreen(
                 )
             )
             StatusTwoRadioGroup(
-                onButtonClick = {
-                    onButtonClick()
+                onButtonClick = {index ->
+                    onButtonClick(index)
                     isButtonValid.value = true
+                    viewModel.fetchWorkingPeriod(index)
                 }
             )
             Text(
