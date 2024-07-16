@@ -7,6 +7,8 @@ import com.terning.data.dto.request.CalendarMonthRequestDto
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.domain.entity.response.CalendarScrapModel
 import com.terning.domain.repository.CalendarRepository
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class CalendarRepositoryImpl @Inject constructor(
@@ -51,19 +53,15 @@ class CalendarRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getScrapDayList(
-        year: Int,
-        month: Int,
-        day: Int
+        currentDate: LocalDate
     ): Result<List<CalendarScrapDetailModel>> =
         runCatching {
-            val monthString = month.toString().padStart(2, '0')
-            val request = CalendarDayListRequestDto("$year-$monthString-$day")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val request = CalendarDayListRequestDto(currentDate.format(formatter))
             val response = calendarDataSource.getCalendarDayList(request)
             val scrapModelList = response.result.map { scrap ->
                 scrap.toScrapDetailModelList()
             }
             scrapModelList
         }
-
-
 }

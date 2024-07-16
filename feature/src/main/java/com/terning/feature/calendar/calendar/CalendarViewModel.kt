@@ -16,6 +16,7 @@ import com.terning.feature.R
 import com.terning.feature.calendar.month.CalendarMonthState
 import com.terning.feature.calendar.scrap.CalendarListState
 import com.terning.feature.calendar.scrap.model.Scrap
+import com.terning.feature.calendar.week.CalendarWeekState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -47,6 +48,9 @@ class CalendarViewModel @Inject constructor(
 
     private val _calendarListState = MutableStateFlow(CalendarListState())
     val calendarListState = _calendarListState.asStateFlow()
+
+    private val _calendarWeekState = MutableStateFlow(CalendarWeekState())
+    val calendarWeekState = _calendarWeekState.asStateFlow()
 
     private val _calendarSideEffect:MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
     val calendarSideEffect = _calendarSideEffect.asSharedFlow()
@@ -112,6 +116,29 @@ class CalendarViewModel @Inject constructor(
         }.fold(
             onSuccess = {
                 _calendarListState.update { currentState ->
+                    currentState.copy(
+                        loadState = UiState.Success(it)
+                    )
+                }
+            },
+            onFailure = {
+                _calendarListState.update { currentState ->
+                    currentState.copy(
+                        loadState = UiState.Failure(it.message.toString())
+                    )
+
+                }
+                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+            }
+        )
+    }
+
+    fun getScrapWeekList() = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            calendarRepository.getScrapDayList(_selectedDate.value.selectedDate)
+        }.fold(
+            onSuccess = {
+                _calendarWeekState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Success(it)
                     )

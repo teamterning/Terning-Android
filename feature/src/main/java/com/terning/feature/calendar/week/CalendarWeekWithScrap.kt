@@ -14,6 +14,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -21,9 +24,20 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
+import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.scrap.model.Scrap
 import com.terning.feature.calendar.scrap.CalendarScrapListss
 import java.time.LocalDate
+
+@Composable
+fun CalendarWeekScreen(
+    modifier: Modifier = Modifier,
+    viewModel: CalendarViewModel = hiltViewModel()
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val uiState = viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner)
+
+}
 
 @Composable
 fun CalendarWeekWithScrap(
