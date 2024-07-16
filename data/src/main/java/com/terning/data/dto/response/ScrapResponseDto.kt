@@ -20,27 +20,17 @@ data class ScrapResponseDto(
         @SerialName("color")
         val color: String
     )
+
+    fun toScrapModelList(): List<ScrapModel> = scraps.map { scrap ->
+        ScrapModel(
+            scrapId = scrap.scrapId,
+            title = scrap.title,
+            color = scrap.color,
+            deadLine = deadline,
+            isScrapped = true
+        )
+    }
 }
-
-
-fun List<ScrapResponseDto>.toScrapsByDeadlineMap(): Map<String, List<ScrapModel>> {
-    return this.flatMap { dto ->
-        dto.scraps.map { scrap ->
-            dto.deadline to scrap.toScrapModel(dto.deadline)
-        }
-    }.groupBy(
-        { it.first },
-        { it.second }
-    )
-}
-
-private fun ScrapResponseDto.Scrap.toScrapModel(deadline: String) = ScrapModel(
-    scrapId = scrapId,
-    title = title,
-    color = color,
-    deadLine = deadline,
-    isScrapped = true
-)
 
 fun getMockScrapList(year: Int, month: Int): List<ScrapResponseDto> {
     val deadline = month.toString().padStart(2, '0')
@@ -110,6 +100,7 @@ fun getMockScrapList(year: Int, month: Int): List<ScrapResponseDto> {
                 )
             )
         }
+
         1 -> {
             listOf(
                 ScrapResponseDto(
@@ -199,6 +190,7 @@ fun getMockScrapList(year: Int, month: Int): List<ScrapResponseDto> {
                 )
             )
         }
+
         2 -> {
             listOf(
                 ScrapResponseDto(
@@ -263,6 +255,7 @@ fun getMockScrapList(year: Int, month: Int): List<ScrapResponseDto> {
                 )
             )
         }
+
         3 -> {
             listOf(
                 ScrapResponseDto(
