@@ -1,8 +1,8 @@
 package com.terning.point.di
 
-import com.terning.data.datasource.MockDataSource
+import com.terning.data.datasource.AuthDataSource
 import com.terning.data.datasource.SearchDataSource
-import com.terning.data.datasourceimpl.MockDataSourceImpl
+import com.terning.data.datasourceimpl.AuthDataSourceImpl
 import com.terning.data.datasourceimpl.SearchDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -16,7 +16,7 @@ abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindMockDataSource(mockDataSourceImpl: MockDataSourceImpl): MockDataSource
+    abstract fun bindAuthDataSource(authDataSourceImpl: AuthDataSourceImpl): AuthDataSource
 
     @Binds
     @Singleton
