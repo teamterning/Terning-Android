@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
 import com.terning.domain.repository.InternRepository
+import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InternViewModel @Inject constructor(
     private val internRepository: InternRepository,
+    private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
     private val _state: MutableStateFlow<InternViewState> =
         MutableStateFlow(InternViewState())
@@ -40,8 +42,9 @@ class InternViewModel @Inject constructor(
         }
     }
 
-    fun updateScrap(newScrap: Boolean) {
-        _state.value = _state.value.copy(isScrap = newScrap)
+    fun postScrap(id: Int) {
+        viewModelScope.launch {
+        }
     }
 
     fun updateSelectColor(newColor: Color) {

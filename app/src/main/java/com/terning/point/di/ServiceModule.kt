@@ -2,6 +2,7 @@ package com.terning.point.di
 
 import com.terning.data.service.AuthService
 import com.terning.data.service.InternService
+import com.terning.data.service.ScrapService
 import com.terning.data.service.SearchService
 import com.terning.point.di.qualifier.JWT
 import dagger.Module
@@ -29,4 +30,9 @@ object ServiceModule {
     @Singleton
     fun providerInternService(@JWT retrofit: Retrofit): InternService =
         retrofit.create(InternService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideScrapService(@JWT retrofit: Retrofit): ScrapService =
+        retrofit.create(ScrapService::class.java)
 }

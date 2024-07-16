@@ -7,7 +7,7 @@ import com.terning.domain.entity.response.InternInfoModel
 
 data class InternViewState(
     var internInfo: UiState<InternInfoModel> = UiState.Loading,
-    val isScrap: Boolean = false,
+    val isScrap: UiState<InternInfoModel> = UiState.Loading,
     val isColorChange: Boolean = false,
     val selectedColor: Color = CalRed,
     val isScrapDialogVisible: Boolean = false,
