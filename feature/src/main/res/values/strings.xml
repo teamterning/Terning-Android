@@ -31,6 +31,7 @@
     <string name="search_text_field_hint">관심있는 인턴 공고 키워드를 검색해 보세요</string>
     <string name="search_today_popular">요즘 대학생들에게 인기 있는 공고</string>
     <string name="search_most_view_intern">지금 조회수가 많은 공고들이에요</string>
+    <string name="search_image">공고 이미지</string>
     <string name="search_most_scrap_intern">지금 스크랩수가 많은 공고들이에요</string>
 
     <!--SearchProcess-->

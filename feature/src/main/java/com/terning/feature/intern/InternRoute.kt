@@ -71,7 +71,9 @@ fun InternScreen(
                     color = Grey200,
                     offsetY = 2.dp
                 ),
-                onBackButtonClick = {},
+                onBackButtonClick = {
+                    navController.navigateUp()
+                },
             )
         },
         bottomBar = {

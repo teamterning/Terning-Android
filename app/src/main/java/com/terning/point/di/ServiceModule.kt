@@ -1,6 +1,7 @@
 package com.terning.point.di
 
 import com.terning.data.service.MockService
+import com.terning.data.service.SearchService
 import com.terning.point.di.qualifier.OPEN
 import dagger.Module
 import dagger.Provides
@@ -18,4 +19,8 @@ object ServiceModule {
     fun provideMockService(@OPEN retrofit: Retrofit): MockService =
         retrofit.create(MockService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideSearchService(@OPEN retrofit: Retrofit): SearchService =
+        retrofit.create(SearchService::class.java)
 }
