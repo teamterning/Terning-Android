@@ -10,7 +10,7 @@ import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
-import com.terning.domain.repository.ScrapRepository
+import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.month.ScrapCalendarState
 import com.terning.feature.calendar.scrap.model.Scrap
@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val scrapRepository: ScrapRepository
+    private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
     private var _selectedDate:MutableStateFlow<CalendarUiState> = MutableStateFlow(
@@ -83,7 +83,7 @@ class CalendarViewModel @Inject constructor(
         year: Int, month: Int
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            scrapRepository.getScrapMonth(year, month)
+            calendarRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
                 _scrapCalendarState.update { currentState ->

@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.isToday
-import com.terning.domain.entity.response.ScrapModel
+import com.terning.domain.entity.response.CalendarScrapModel
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.month.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthData
@@ -27,7 +27,7 @@ fun CalendarMonth(
     monthData: MonthData,
     onDateSelected: (LocalDate) -> Unit,
     calendarUiState: CalendarUiState,
-    scrapMap: Map<String, List<ScrapModel>> = mapOf()
+    scrapMap: Map<String, List<CalendarScrapModel>> = mapOf()
 ) {
     Column(
         modifier = modifier

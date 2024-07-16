@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.ScrapModel
+import com.terning.domain.entity.response.CalendarScrapModel
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.calendar.CalendarViewModel
@@ -66,7 +66,7 @@ fun HorizontalCalendar(
     pages: Int,
     listState: LazyListState,
     calendarUiState: CalendarUiState,
-    scrapMap: Map<String, List<ScrapModel>>,
+    scrapMap: Map<String, List<CalendarScrapModel>>,
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
