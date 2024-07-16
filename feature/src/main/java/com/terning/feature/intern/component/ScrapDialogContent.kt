@@ -15,9 +15,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -193,7 +191,7 @@ fun ScrapDialogContent(
                 style = TerningTheme.typography.button3,
                 paddingVertical = 12.dp,
                 cornerRadius = 8.dp,
-                text = if (state.isScrapped) {
+                text = if (state.isScrappedState) {
                     if (state.isColorChange)
                         R.string.dialog_content_color_button
                     else R.string.dialog_scrap_button
@@ -201,7 +199,7 @@ fun ScrapDialogContent(
                     R.string.dialog_scrap_button
                 },
                 onButtonClick = {
-                    viewModel.updateScrapped(!state.isScrapped)
+                    viewModel.updateScrapped(!state.isScrappedState)
                     viewModel.updateScrapDialogVisible(false)
                 },
                 modifier = Modifier.padding(bottom = 8.dp)

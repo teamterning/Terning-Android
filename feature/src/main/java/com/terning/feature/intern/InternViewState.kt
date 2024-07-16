@@ -11,6 +11,5 @@ data class InternViewState(
     val isColorChange: Boolean = false,
     val selectedColor: Color = CalRed,
     val isScrapDialogVisible: Boolean = false,
-    val isScrapped: Boolean = false,
-    val viewCount: Int = 0,
+    val isScrappedState: Boolean = false,
 )

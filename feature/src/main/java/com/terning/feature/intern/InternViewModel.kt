@@ -53,7 +53,7 @@ class InternViewModel @Inject constructor(
     }
 
     fun updateScrapped(scrapped: Boolean) {
-        _state.value = _state.value.copy(isScrapped = scrapped)
+        _state.value = _state.value.copy(isScrappedState = scrapped)
     }
 
     fun updateColorChange(change: Boolean) {
