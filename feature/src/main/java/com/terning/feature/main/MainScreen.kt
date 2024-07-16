@@ -58,7 +58,7 @@ fun MainScreen(
                 startDestination = navigator.startDestination
             ) {
                 homeNavGraph()
-                calendarNavGraph()
+                calendarNavGraph(navHostController = navigator.navController)
                 searchNavGraph(navHostController = navigator.navController)
                 myPageNavGraph()
                 signInNavGraph(navHostController = navigator.navController)
