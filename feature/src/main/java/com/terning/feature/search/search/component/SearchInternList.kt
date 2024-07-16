@@ -51,14 +51,12 @@ fun SearchInternList(
                 }
 
                 InternListType.SCRAP -> searchScrapsList?.let {
-                    {
-                        items(it.size) { index ->
-                            SearchIntern(
-                                companyImage = searchScrapsList[index].companyImage,
-                                title = searchScrapsList[index].title,
-                                navController = navController
-                            )
-                        }
+                    items(it.size) { index ->
+                        SearchIntern(
+                            companyImage = searchScrapsList[index].companyImage,
+                            title = searchScrapsList[index].title,
+                            navController = navController
+                        )
                     }
                 }
             }

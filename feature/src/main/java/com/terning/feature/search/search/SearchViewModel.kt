@@ -33,6 +33,7 @@ class SearchViewModel @Inject constructor(
 
     init {
         getSearchViews()
+        getSearchScraps()
     }
 
     fun getSearchViews() {
@@ -52,7 +53,11 @@ class SearchViewModel @Inject constructor(
             }.onFailure {
                 _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
             }
+        }
+    }
 
+    fun getSearchScraps() {
+        viewModelScope.launch {
             searchScrapsRepository.getSearchScrapsList().onSuccess { response ->
                 val searchScrapsList = response.map { entity ->
                     InternScrapsResponseModel(

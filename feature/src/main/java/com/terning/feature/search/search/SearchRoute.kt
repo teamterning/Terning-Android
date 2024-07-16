@@ -47,6 +47,7 @@ fun SearchRoute(
 
     LaunchedEffect(key1 = true) {
         viewModel.getSearchViews()
+        viewModel.getSearchScraps()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
