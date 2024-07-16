@@ -1,10 +1,36 @@
 package com.terning.data.datasourceimpl
 
+import com.terning.data.dto.BaseResponse
+import com.terning.data.dto.request.CalendarDayListRequestDto
 import com.terning.data.dto.request.CalendarMonthListRequestDto
+import com.terning.data.dto.request.CalendarMonthRequestDto
 import com.terning.data.dto.response.CalendarListResponseDto
 import com.terning.data.dto.response.CalendarMonthResponseDto
 
 object CalendarList {
+    fun getCalendarScrapMonth(request: CalendarMonthRequestDto): BaseResponse<List<CalendarMonthResponseDto>> =
+        BaseResponse(
+            status = 200,
+            message = "캘린더 > (월간) 스크랩 된 공고 정보 불러오기를 성공했습니다",
+            result = getMockScrapList(request.year, request.month)
+    )
+
+    fun getCalendarScrapMonthList(request: CalendarMonthListRequestDto): BaseResponse<List<CalendarListResponseDto>> =
+        BaseResponse(
+            status = 200,
+            message = "캘린더 > (월간) 스크랩 된 공고 정보 불러오기를 성공했습니다",
+            result = getMockScrapDetailList(request.year, request.month)
+    )
+
+    fun getCalendarScrapDayList(requestDto: CalendarDayListRequestDto): BaseResponse<List<CalendarListResponseDto>> =
+        BaseResponse(
+            status = 200,
+            message = "캘린더 > (일간) 스크랩 된 공고 정보 불러오기를 성공했습니다",
+            result = getMockDayList(requestDto.date)
+    )
+
+
+
     fun getMockScrapList(year: Int, month: Int): List<CalendarMonthResponseDto> {
         val deadline = month.toString().padStart(2, '0')
         return when (month % 4) {
@@ -790,3 +816,7 @@ fun getMockScrapDetailList(year: Int, month: Int): List<CalendarListResponseDto>
         }
     }
 }
+
+/******************DayList******************/
+
+fun getMockDayList(request: String): List<CalendarListResponseDto> = listOf()
