@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.filtering
+package com.terning.feature.filtering.filtering
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,17 +19,17 @@ import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.component.StatusOneRadioGroup
-import com.terning.feature.onboarding.filtering.navigation.navigateFilteringTwo
+import com.terning.feature.filtering.filtering.component.StatusTwoRadioGroup
+import com.terning.feature.filtering.filtering.navigation.navigateFilteringThree
 
 @Composable
-fun FilteringOneScreen(
-    name: String,
+fun FilteringTwoScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: FilteringViewModel = hiltViewModel(),
     onButtonClick: (Int) -> Unit = {},
 ) {
+
     val isButtonValid = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -46,17 +46,14 @@ fun FilteringOneScreen(
                 .padding(paddingValues)
         ) {
             TerningImage(
-                painter = R.drawable.ic_filtering_status1,
+                painter = R.drawable.ic_filtering_status2,
                 modifier = modifier.padding(
                     top = 20.dp,
                     start = 24.dp
                 )
             )
             Text(
-                text = stringResource(
-                    id = R.string.filtering_status1_title,
-                    name
-                ),
+                text = stringResource(id = R.string.filtering_status2_title),
                 style = TerningTheme.typography.title3,
                 modifier = modifier.padding(
                     top = 19.dp,
@@ -64,10 +61,7 @@ fun FilteringOneScreen(
                 )
             )
             Text(
-                text = stringResource(
-                    id = R.string.filtering_status1_sub,
-                    name
-                ),
+                text = stringResource(id = R.string.filtering_status2_sub),
                 style = TerningTheme.typography.body5,
                 modifier = modifier.padding(
                     top = 3.dp,
@@ -75,11 +69,11 @@ fun FilteringOneScreen(
                     bottom = 25.dp
                 )
             )
-            StatusOneRadioGroup(
-                onButtonClick = { index ->
+            StatusTwoRadioGroup(
+                onButtonClick = {index ->
                     onButtonClick(index)
                     isButtonValid.value = true
-                    viewModel.fetchGrade(index)
+                    viewModel.fetchWorkingPeriod(index)
                 }
             )
             Text(
@@ -95,7 +89,7 @@ fun FilteringOneScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { navController.navigateFilteringTwo() },
+                onButtonClick = { navController.navigateFilteringThree() },
                 modifier = modifier.padding(bottom = 12.dp),
                 isEnabled = isButtonValid.value
             )

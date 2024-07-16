@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.filtering
+package com.terning.feature.filtering.filtering
 
 import androidx.annotation.StringRes
 

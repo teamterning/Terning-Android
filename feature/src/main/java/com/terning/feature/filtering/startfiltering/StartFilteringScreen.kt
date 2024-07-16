@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.startfiltering
+package com.terning.feature.filtering.startfiltering
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.navigation.navigateFilteringOne
+import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
 import kotlinx.coroutines.delay
 
 @Composable

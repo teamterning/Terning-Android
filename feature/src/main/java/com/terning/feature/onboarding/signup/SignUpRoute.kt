@@ -26,7 +26,7 @@ import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 import com.terning.feature.onboarding.signup.component.SignUpProfile
-import com.terning.feature.onboarding.startfiltering.navigation.navigateStartFiltering
+import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
 
 @Composable
 fun SignUpRoute(

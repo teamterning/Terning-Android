@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.starthome
+package com.terning.feature.filtering.starthome
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
