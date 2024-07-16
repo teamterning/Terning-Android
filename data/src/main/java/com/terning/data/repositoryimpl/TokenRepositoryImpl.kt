@@ -20,6 +20,8 @@ class TokenRepositoryImpl @Inject constructor(
         terningDataStore.userId = userId
     }
 
+    override fun getUserId() : Long = terningDataStore.userId
+
     override fun clearInfo() {
         terningDataStore.clearInfo()
     }

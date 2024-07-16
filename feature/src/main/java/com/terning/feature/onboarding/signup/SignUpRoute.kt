@@ -25,7 +25,6 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.navigation.navigateFilteringOne
 import com.terning.feature.onboarding.signup.component.SignUpProfile
 
 @Composable
@@ -38,7 +37,7 @@ fun SignUpRoute(
     SignUpScreen(
         signUpViewModel = signUpViewModel,
         signUpState = signUpState,
-        onButtonClick = { navController.navigateFilteringOne() }
+        onSignUpClick = { signUpViewModel.postSignUpWithServer() }
     )
 }
 
@@ -47,7 +46,7 @@ fun SignUpScreen(
     modifier: Modifier = Modifier,
     signUpState: SignUpState,
     signUpViewModel: SignUpViewModel,
-    onButtonClick: () -> Unit
+    onSignUpClick: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -69,7 +68,10 @@ fun SignUpScreen(
         if (showBottomSheet) {
             SignUpBottomSheet(
                 onDismiss = { showBottomSheet = false },
-                onSaveClick = { showBottomSheet = false }
+                onSaveClick = {
+                    showBottomSheet = false
+                    signUpViewModel.fetchCharacter(it)
+                },
             )
         }
         Text(
@@ -118,7 +120,7 @@ fun SignUpScreen(
             style = TerningTheme.typography.button1,
             paddingVertical = 20.dp,
             text = R.string.sign_up_next_button,
-            onButtonClick = { onButtonClick() },
+            onButtonClick = { onSignUpClick() },
             modifier = modifier.padding(bottom = 12.dp),
             isEnabled = signUpState.isButtonValid
         )

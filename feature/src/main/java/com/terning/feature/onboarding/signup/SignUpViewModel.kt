@@ -1,19 +1,27 @@
 package com.terning.feature.onboarding.signup
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.WarningRed
+import com.terning.domain.entity.request.SignUpRequestModel
+import com.terning.domain.repository.AuthRepository
+import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor() : ViewModel() {
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val tokenRepository: TokenRepository
+) : ViewModel() {
 
     private val _state: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState())
     val state: StateFlow<SignUpState> get() = _state.asStateFlow()
@@ -52,8 +60,32 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun fetchCharacter(character: Int) {
+        _state.value = _state.value.copy(character = character)
+    }
+
+    fun postSignUpWithServer() {
+        viewModelScope.launch {
+            authRepository.postSignUp(
+                tokenRepository.getUserId(),
+                state.value.run {
+                    SignUpRequestModel(
+                        name = name,
+                        profileImage = character,
+                        authType = KAKA0
+                    )
+                }
+            ).onSuccess {
+
+            }.onFailure {
+
+            }
+        }
+    }
+
     companion object {
         const val NAME_ERROR = "[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/]"
         private const val MAX_LENGTH = 12
+        private const val KAKA0 = "KAKAO"
     }
 }

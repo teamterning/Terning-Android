@@ -86,6 +86,7 @@ class SignInViewModel @Inject constructor(
         accessToken: String,
         platform: String = KAKAO
     ) {
+        //  Log.d("LYB", accessToken)
         authRepository.postSignIn(
             accessToken,
             SignInRequestModel(platform)
@@ -107,7 +108,6 @@ class SignInViewModel @Inject constructor(
             _signInState.value = SignInState(UiState.Failure(it.message.toString()))
             _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
         }
-
     }
 
     companion object {
