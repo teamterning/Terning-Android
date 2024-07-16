@@ -10,9 +10,11 @@ import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
+import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.month.CalendarMonthState
+import com.terning.feature.calendar.scrap.CalendarListState
 import com.terning.feature.calendar.scrap.model.Scrap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -40,8 +42,11 @@ class CalendarViewModel @Inject constructor(
 
     val selectedDate get() = _selectedDate.asStateFlow()
 
-    private val _CalendarMonthState = MutableStateFlow(CalendarMonthState())
-    val scrapCalendarState = _CalendarMonthState.asStateFlow()
+    private val _calendarMonthState = MutableStateFlow(CalendarMonthState())
+    val calendarMonthState = _calendarMonthState.asStateFlow()
+
+    private val _calendarListState = MutableStateFlow(CalendarListState())
+    val calendarListState = _calendarListState.asStateFlow()
 
     private val _calendarSideEffect:MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
     val calendarSideEffect = _calendarSideEffect.asSharedFlow()
@@ -86,7 +91,7 @@ class CalendarViewModel @Inject constructor(
             calendarRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
-                _CalendarMonthState.update { currentState ->
+                _calendarMonthState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Success(it)
                     )
@@ -94,6 +99,31 @@ class CalendarViewModel @Inject constructor(
                 _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_success))
             },
             onFailure = {
+                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+            }
+        )
+    }
+
+    fun getScrapMonthList(
+        year: Int, month: Int
+    ) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            calendarRepository.getScrapMonthList(year, month)
+        }.fold(
+            onSuccess = {
+                _calendarListState.update { currentState ->
+                    currentState.copy(
+                        loadState = UiState.Success(it)
+                    )
+                }
+            },
+            onFailure = {
+                _calendarListState.update { currentState ->
+                    currentState.copy(
+                        loadState = UiState.Failure(it.message.toString())
+                    )
+
+                }
                 _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
             }
         )

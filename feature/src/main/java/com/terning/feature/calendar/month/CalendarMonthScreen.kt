@@ -31,7 +31,7 @@ fun CalendarMonthScreen(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val scrapState by viewModel.scrapCalendarState.collectAsState()
+    val scrapState by viewModel.calendarMonthState.collectAsState()
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
