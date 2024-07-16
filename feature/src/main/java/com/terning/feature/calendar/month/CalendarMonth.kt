@@ -14,10 +14,9 @@ import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.isToday
 import com.terning.domain.entity.response.ScrapModel
-import com.terning.feature.calendar.day.CalendarDay
+import com.terning.feature.calendar.calendar.CalendarUiState
+import com.terning.feature.calendar.month.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthData
-import com.terning.feature.calendar.scrap.model.Scrap
-import com.terning.feature.calendar.calendar.SelectedDateState
 import com.terning.feature.calendar.scrap.CalendarScrapStrip
 import java.time.LocalDate
 import java.time.YearMonth
@@ -27,8 +26,7 @@ fun CalendarMonth(
     modifier: Modifier = Modifier,
     monthData: MonthData,
     onDateSelected: (LocalDate) -> Unit,
-    selectedDate: SelectedDateState,
-    scrapLists: List<List<Scrap>> = listOf(),
+    calendarUiState: CalendarUiState,
     scrapMap: Map<String, List<ScrapModel>> = mapOf()
 ) {
     Column(
@@ -50,14 +48,12 @@ fun CalendarMonth(
                     ) {
                         CalendarDay(
                             dayData = day,
-                            isSelected = selectedDate.selectedDate == day.date && selectedDate.isEnabled,
+                            isSelected = calendarUiState.selectedDate == day.date && calendarUiState.isWeekEnabled,
                             isToday = day.date.isToday(),
                             onDateSelected = onDateSelected
                         )
                         if(!day.isOutDate) {
                             val index = day.date.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                            //val index = day.date.dayOfMonth - 1
-
                             CalendarScrapStrip(
                                 scrapLists = scrapMap[index].orEmpty()
                             )
@@ -81,9 +77,8 @@ fun CalendarMonthPreview() {
     TerningPointTheme {
         CalendarMonth(
             monthData = MonthData(YearMonth.now()),
-            selectedDate = SelectedDateState(LocalDate.now(), true),
+            calendarUiState = CalendarUiState(LocalDate.now(), true),
             onDateSelected = {},
-            scrapLists = listOf()
         )
     }
 }

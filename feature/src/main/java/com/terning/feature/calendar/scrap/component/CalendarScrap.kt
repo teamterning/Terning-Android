@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.scrap
+package com.terning.feature.calendar.scrap.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

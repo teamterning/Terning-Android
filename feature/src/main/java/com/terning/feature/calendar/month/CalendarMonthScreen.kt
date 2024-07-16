@@ -9,14 +9,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.ScrapModel
-import com.terning.feature.calendar.calendar.CalendarDefaults.flingBehavior
-import com.terning.feature.calendar.calendar.CalendarState.Companion.getDateByPage
+import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
+import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.month.model.MonthData
-import com.terning.feature.calendar.calendar.SelectedDateState
+import com.terning.feature.calendar.calendar.CalendarUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 import java.time.YearMonth
@@ -25,10 +26,10 @@ import java.time.YearMonth
 fun CalendarMonthScreen(
     pages: Int,
     listState: LazyListState,
-    selectedDate: SelectedDateState,
+    calendarUiState: CalendarUiState,
     onDateSelected: (LocalDate) -> Unit,
-    viewModel: CalendarViewModel,
     modifier: Modifier = Modifier,
+    viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val scrapState by viewModel.scrapCalendarState.collectAsState()
 
@@ -47,10 +48,10 @@ fun CalendarMonthScreen(
         UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
-            CalendarMonthList(
+            HorizontalCalendar(
                 pages = pages,
                 modifier = modifier,
-                selectedDate = selectedDate,
+                calendarUiState = calendarUiState,
                 onDateSelected = onDateSelected,
                 listState = listState,
                 scrapMap = (scrapState.loadState as UiState.Success).data
@@ -61,13 +62,13 @@ fun CalendarMonthScreen(
 
 
 @Composable
-fun CalendarMonthList(
+fun HorizontalCalendar(
     pages: Int,
     listState: LazyListState,
-    modifier: Modifier = Modifier,
-    selectedDate: SelectedDateState,
+    calendarUiState: CalendarUiState,
+    scrapMap: Map<String, List<ScrapModel>>,
     onDateSelected: (LocalDate) -> Unit,
-    scrapMap: Map<String, List<ScrapModel>>
+    modifier: Modifier = Modifier,
 ) {
     LazyRow(
         modifier = modifier
@@ -84,7 +85,7 @@ fun CalendarMonthList(
 
             CalendarMonth(
                 modifier = Modifier.fillParentMaxSize(),
-                selectedDate = selectedDate,
+                calendarUiState = calendarUiState,
                 onDateSelected = onDateSelected,
                 monthData = monthData,
                 scrapMap = scrapMap

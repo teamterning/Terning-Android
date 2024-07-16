@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.calendar
+package com.terning.feature.calendar.calendar.model
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue

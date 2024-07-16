@@ -1,7 +1,6 @@
 package com.terning.feature.calendar.month.model
 
 import androidx.compose.runtime.Immutable
-import com.terning.feature.calendar.day.model.DayClass
 import java.time.YearMonth
 
 /**

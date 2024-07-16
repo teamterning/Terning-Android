@@ -16,9 +16,13 @@ fun NavController.navigateCalendar(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.calendarNavGraph() {
+fun NavGraphBuilder.calendarNavGraph(
+    navHostController: NavController
+) {
     composable<Calendar> {
-        CalendarRoute()
+        CalendarRoute(
+            navController = navHostController
+        )
     }
 }
 

@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.day
+package com.terning.feature.calendar.month.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,7 +22,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.calendar.day.model.DayClass
+import com.terning.feature.calendar.month.model.DayClass
 import java.time.LocalDate
 
 @Composable

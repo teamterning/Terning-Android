@@ -12,15 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.terning.core.extension.getWeekIndexContainingSelectedDate
 import com.terning.core.extension.isToday
-import com.terning.feature.calendar.calendar.SelectedDateState
-import com.terning.feature.calendar.day.CalendarDay
+import com.terning.feature.calendar.calendar.CalendarUiState
+import com.terning.feature.calendar.month.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthData
 import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
 fun CalendarWeek(
-    selectedDate: SelectedDateState,
+    selectedDate: CalendarUiState,
     modifier: Modifier = Modifier,
     onDateSelected: (LocalDate) -> Unit = {}
 ) {
@@ -45,7 +45,7 @@ fun CalendarWeek(
             items(items = monthData.calendarMonth.weekDays[page]) { day ->
                 CalendarDay(
                     dayData = day,
-                    isSelected = selectedDate.selectedDate == day.date && selectedDate.isEnabled,
+                    isSelected = selectedDate.selectedDate == day.date && selectedDate.isWeekEnabled,
                     isToday = day.date.isToday(),
                     onDateSelected = onDateSelected
                 )

@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -31,13 +30,11 @@ import javax.inject.Inject
 class CalendarViewModel @Inject constructor(
     private val scrapRepository: ScrapRepository
 ) : ViewModel() {
-    private val _calendarSideEffect:MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
-    val calendarSideEffect = _calendarSideEffect.asSharedFlow()
 
-    private var _selectedDate:MutableStateFlow<SelectedDateState> = MutableStateFlow(
-        SelectedDateState(
+    private var _selectedDate:MutableStateFlow<CalendarUiState> = MutableStateFlow(
+        CalendarUiState(
             selectedDate = LocalDate.now(),
-            isEnabled = false
+            isListEnabled = false
         )
     )
 
@@ -46,30 +43,38 @@ class CalendarViewModel @Inject constructor(
     private val _scrapCalendarState = MutableStateFlow(ScrapCalendarState())
     val scrapCalendarState = _scrapCalendarState.asStateFlow()
 
-
-
+    private val _calendarSideEffect:MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
+    val calendarSideEffect = _calendarSideEffect.asSharedFlow()
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
         if (_selectedDate.value.selectedDate != date) {
             _selectedDate.update { currentState ->
                 currentState.copy(
                     selectedDate = date,
-                    isEnabled = true
+                    isWeekEnabled = true
                 )
             }
         } else {
             _selectedDate.update { currentState ->
                 currentState.copy(
-                    isEnabled = !currentState.isEnabled
+                    isWeekEnabled = !currentState.isWeekEnabled
                 )
             }
+        }
+    }
+
+    fun changeListVisibility() {
+        _selectedDate.update { currentState ->
+            currentState.copy(
+                isListEnabled = !currentState.isListEnabled
+            )
         }
     }
 
     fun disableWeekCalendar() {
         _selectedDate.update { currentState ->
             currentState.copy(
-                isEnabled = false
+                isWeekEnabled = false
             )
         }
     }

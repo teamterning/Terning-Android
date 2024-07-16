@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.day.model
+package com.terning.feature.calendar.month.model
 
 import androidx.compose.runtime.Immutable
 import java.time.LocalDate

@@ -20,7 +20,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.SelectedDateState
+import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.scrap.model.Scrap
 import com.terning.feature.calendar.scrap.CalendarScrapList
 import java.time.LocalDate
@@ -28,7 +28,7 @@ import java.time.LocalDate
 @Composable
 fun CalendarWeekWithScrap(
     modifier: Modifier = Modifier,
-    selectedDate: SelectedDateState,
+    selectedDate: CalendarUiState,
     scrapLists: List<List<Scrap>> = listOf(),
     onDateSelected: (LocalDate) -> Unit
 ) {

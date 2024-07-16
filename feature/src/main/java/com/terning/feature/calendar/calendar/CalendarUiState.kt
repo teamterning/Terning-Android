@@ -2,7 +2,8 @@ package com.terning.feature.calendar.calendar
 
 import java.time.LocalDate
 
-data class SelectedDateState(
+data class CalendarUiState(
     val selectedDate: LocalDate,
-    val isEnabled: Boolean
+    val isListEnabled: Boolean = false,
+    val isWeekEnabled: Boolean = false
 )
