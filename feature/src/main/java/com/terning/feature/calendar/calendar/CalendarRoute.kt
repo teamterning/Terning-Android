@@ -186,6 +186,7 @@ fun CalendarScreen(
                     scrapList = viewModel.mockScrapList,
                     listState = listState,
                     pages = state.getPageCount(),
+                    viewModel = viewModel,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding())
