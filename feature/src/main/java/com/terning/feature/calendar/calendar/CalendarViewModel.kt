@@ -12,7 +12,7 @@ import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
-import com.terning.feature.calendar.month.ScrapCalendarState
+import com.terning.feature.calendar.month.CalendarMonthState
 import com.terning.feature.calendar.scrap.model.Scrap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -40,8 +40,8 @@ class CalendarViewModel @Inject constructor(
 
     val selectedDate get() = _selectedDate.asStateFlow()
 
-    private val _scrapCalendarState = MutableStateFlow(ScrapCalendarState())
-    val scrapCalendarState = _scrapCalendarState.asStateFlow()
+    private val _CalendarMonthState = MutableStateFlow(CalendarMonthState())
+    val scrapCalendarState = _CalendarMonthState.asStateFlow()
 
     private val _calendarSideEffect:MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
     val calendarSideEffect = _calendarSideEffect.asSharedFlow()
@@ -86,7 +86,7 @@ class CalendarViewModel @Inject constructor(
             calendarRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
-                _scrapCalendarState.update { currentState ->
+                _CalendarMonthState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Success(it)
                     )
