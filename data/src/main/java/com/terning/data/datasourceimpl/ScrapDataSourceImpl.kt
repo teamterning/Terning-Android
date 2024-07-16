@@ -8,6 +8,6 @@ import javax.inject.Inject
 class ScrapDataSourceImpl @Inject constructor(
     private val scrapService: ScrapService,
 ) : ScrapDataSource {
-    override suspend fun postScrap(id: Int, color: Int): NonDataBaseResponse =
+    override suspend fun postScrap(id: Long, color: Int): NonDataBaseResponse =
         scrapService.postScrap(id, color)
 }

@@ -56,6 +56,7 @@ fun InternRoute(
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(1)
+        viewModel.postScrap(announcementId, 1)
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
@@ -77,6 +78,7 @@ fun InternRoute(
             InternScreen(
                 navController = navController,
                 internInfoModel = (state.internInfo as UiState.Success<InternInfoModel>).data
+
             )
         }
     }
@@ -88,6 +90,7 @@ fun InternScreen(
     navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
     internInfoModel: InternInfoModel,
+
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val decimal = DecimalFormat("#,###")

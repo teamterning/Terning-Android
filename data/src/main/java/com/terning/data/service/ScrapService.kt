@@ -8,7 +8,7 @@ import retrofit2.http.Path
 interface ScrapService {
     @POST("api/v1/scraps/{internshipAnnouncementId}")
     suspend fun postScrap(
-        @Path(value = "internshipAnnouncementId") internshipAnnouncementId: Int,
+        @Path(value = "internshipAnnouncementId") internshipAnnouncementId: Long,
         @Body color: Int,
     ): NonDataBaseResponse
 }

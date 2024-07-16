@@ -3,5 +3,8 @@ package com.terning.data.datasource
 import com.terning.data.dto.NonDataBaseResponse
 
 interface ScrapDataSource {
-    suspend fun postScrap(id: Int, color: Int): NonDataBaseResponse
+    suspend fun postScrap(
+        id: Long,
+        color: Int,
+    ): NonDataBaseResponse
 }

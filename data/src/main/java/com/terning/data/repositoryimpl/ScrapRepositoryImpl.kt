@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ScrapRepositoryImpl @Inject constructor(
     private val scrapDataSource: ScrapDataSource,
 ) : ScrapRepository {
-    override suspend fun postScrap(id: Int, color: Int) {
+    override suspend fun postScrap(id: Long, color: Int) {
         scrapDataSource.postScrap(id, color)
     }
 }

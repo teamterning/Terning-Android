@@ -42,8 +42,12 @@ class InternViewModel @Inject constructor(
         }
     }
 
-    fun postScrap(id: Int) {
+    fun postScrap(id: Long, color: Int) {
         viewModelScope.launch {
+            scrapRepository.postScrap(
+                id,
+                color
+            )
         }
     }
 
