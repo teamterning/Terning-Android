@@ -1,5 +1,6 @@
 package com.terning.point.di
 
+import com.terning.data.service.CalendarService
 import com.terning.data.service.MockService
 import com.terning.point.di.qualifier.OPEN
 import dagger.Module
@@ -17,5 +18,10 @@ object ServiceModule {
     @Singleton
     fun provideMockService(@OPEN retrofit: Retrofit): MockService =
         retrofit.create(MockService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCalendarService(@OPEN retrofit: Retrofit): CalendarService =
+        retrofit.create(CalendarService::class.java)
 
 }

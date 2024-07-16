@@ -1,9 +1,9 @@
 package com.terning.point.di
 
 import com.terning.data.repositoryimpl.MockRepositoryImpl
-import com.terning.data.repositoryimpl.ScrapRepositoryImpl
+import com.terning.data.repositoryimpl.CalendarRepositoryImpl
 import com.terning.domain.repository.MockRepository
-import com.terning.domain.repository.ScrapRepository
+import com.terning.domain.repository.CalendarRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,7 +16,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun scrapRepository(scrapRepositoryImpl: ScrapRepositoryImpl): ScrapRepository
+    abstract fun calendarRepository(calendarRepositoryImpl: CalendarRepositoryImpl): CalendarRepository
 
     @Binds
     @Singleton
