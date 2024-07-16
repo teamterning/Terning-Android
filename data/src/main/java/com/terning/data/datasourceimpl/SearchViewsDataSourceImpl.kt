@@ -9,6 +9,15 @@ import javax.inject.Inject
 class SearchViewsDataSourceImpl @Inject constructor(
     private val searchService: SearchService,
 ) : SearchViewsDataSource {
-    override suspend fun getSearchViews(): BaseResponse<SearchViewsResponseDto> =
-        searchService.getSearchViewsList()
+    override suspend fun getSearchViews(): BaseResponse<SearchViewsResponseDto> {
+        return BaseResponse(
+            status = 200,
+            message = "",
+            result = SearchViewsResponseDto(
+                internshipAnnouncementId = 1,
+                title = "어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구어쩌구",
+                companyImage = "https://image.dongascience.com/Photo/2019/09/d2468576cecf1313437de5a883bfa2ed.jpg"
+            )
+        )
+    }
 }

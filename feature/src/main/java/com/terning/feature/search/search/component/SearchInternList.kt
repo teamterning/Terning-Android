@@ -19,7 +19,7 @@ import com.terning.feature.R
 fun SearchInternList(
     type: InternListType,
     searchScrapsList: List<InternshipAnnouncement>?,
-    searchViewsList: List<InternshipAnnouncement>,
+    searchViewsList: List<InternshipAnnouncement>?,
     navController: NavHostController,
 ) {
     Column(modifier = Modifier.padding(horizontal = 24.dp)) {
@@ -44,7 +44,6 @@ fun SearchInternList(
                         SearchIntern(
                             companyImage = searchViewsList[index].companyImage,
                             title = searchViewsList[index].title,
-                            searchViews = searchViewsList[index],
                             navController = navController
                         )
                     }
@@ -55,7 +54,6 @@ fun SearchInternList(
                         SearchIntern(
                             companyImage = searchScrapsList[index].companyImage,
                             title = searchScrapsList[index].title,
-                            searchViews = searchViewsList[index],
                             navController = navController
                         )
                     }
