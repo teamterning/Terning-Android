@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
@@ -30,6 +33,9 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
+import com.terning.core.state.UiState
+import com.terning.domain.entity.response.InternInfoModel
+import com.terning.domain.entity.response.InternshipAnnouncement
 import com.terning.feature.R
 import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
@@ -37,15 +43,44 @@ import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
 import com.terning.feature.intern.component.ScrapCancelDialogContent
 import com.terning.feature.intern.component.ScrapDialogContent
+import com.terning.feature.search.search.SearchScreen
 import java.text.DecimalFormat
 
 @Composable
 fun InternRoute(
     navController: NavHostController,
+    viewModel: InternViewModel = hiltViewModel(),
 ) {
-    InternScreen(
-        navController = navController
-    )
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+
+    LaunchedEffect(key1 = true) {
+        viewModel.getInternInfo(1)
+    }
+
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is InternViewSideEffect.Toast -> {
+                        sideEffect.message
+                    }
+                }
+            }
+    }
+
+    when (state.internInfo) {
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Success -> {
+            InternScreen(
+                navController = navController,
+                internInfo = (state.internInfo as UiState.Success<InternInfoModel>).data
+            )
+        }
+    }
 }
 
 @Composable
@@ -53,6 +88,7 @@ fun InternScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
+    internInfo: InternInfoModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 

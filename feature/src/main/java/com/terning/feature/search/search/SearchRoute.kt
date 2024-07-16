@@ -68,7 +68,6 @@ fun SearchRoute(
                 searchViewsList = (state.searchViewsList as UiState.Success<List<InternshipAnnouncement>>).data
             )
         }
-
     }
 }
 

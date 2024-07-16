@@ -24,10 +24,6 @@ class SearchViewModel @Inject constructor(
     private val _sideEffect: MutableSharedFlow<SearchViewsSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
-    init {
-        getSearchViews()
-    }
-
     fun getSearchViews() {
         viewModelScope.launch {
             searchRepository.getSearchViewsList().onSuccess { searchViewsList ->
