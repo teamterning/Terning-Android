@@ -102,8 +102,6 @@ fun HomeScreen(
     val userNameState = viewModel.userName
     var sheetState by remember { mutableStateOf(false) }
 
-    viewModel.getHomeTodayInternList()
-
     if (sheetState) {
         SortingBottomSheet(
             onDismiss = {
