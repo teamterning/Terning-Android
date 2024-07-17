@@ -85,7 +85,7 @@ class SignInViewModel @Inject constructor(
             when {
                 response.accessToken == null -> _signInSideEffects.emit(
                     SignInSideEffect.NavigateSignUp(
-                        response.authId
+                        response.authId,
                     )
                 )
 
