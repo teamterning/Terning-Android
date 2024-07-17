@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
@@ -40,6 +42,14 @@ fun ChangeFilterScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val isGradeButtonValid = remember {
+        mutableStateOf(viewModel.userName.internFilter?.grade != null)
+    }
+
+    val isWorkingPeriodButtonValid = remember {
+        mutableStateOf(viewModel.userName.internFilter?.workingPeriod != null)
+    }
+
     Scaffold(
         topBar = {
             BackButtonTopAppBar(
@@ -68,7 +78,10 @@ fun ChangeFilterScreen(
             ChangeFilteringRadioGroup(
                 filterType = 0,
                 internFilterData = viewModel.userName.internFilter,
-                onButtonClick = { viewModel.setGrade(it) }
+                onButtonClick = {
+                    viewModel.setGrade(it)
+                    isGradeButtonValid.value = true
+                }
             )
 
             UserNameState(
@@ -93,7 +106,10 @@ fun ChangeFilterScreen(
             ChangeFilteringRadioGroup(
                 filterType = 1,
                 internFilterData = viewModel.userName.internFilter,
-                onButtonClick = { viewModel.setWorkingPeriod(it) }
+                onButtonClick = {
+                    viewModel.setWorkingPeriod(it)
+                    isWorkingPeriodButtonValid.value = true
+                }
             )
 
             ShowTitle(
@@ -119,7 +135,8 @@ fun ChangeFilterScreen(
                 text = R.string.change_filter_save,
                 onButtonClick = {
                     navController.navigateHome()
-                }
+                },
+                isEnabled = isGradeButtonValid.value && isWorkingPeriodButtonValid.value
             )
         }
     }
