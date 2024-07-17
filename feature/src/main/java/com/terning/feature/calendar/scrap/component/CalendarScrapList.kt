@@ -23,7 +23,7 @@ fun CalendarScrapList(
     selectedDate: LocalDate,
     scrapList: List<CalendarScrapDetailModel>,
     onScrapButtonClicked:(Long) -> Unit,
-    onInternshipClicked:(Long) -> Unit,
+    onInternshipClicked:(CalendarScrapDetailModel) -> Unit,
     isFromList: Boolean = false,
     noScrapScreen: @Composable () -> Unit = {}
 ) {

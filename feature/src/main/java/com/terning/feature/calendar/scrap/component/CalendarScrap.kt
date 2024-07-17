@@ -14,12 +14,12 @@ import com.terning.domain.entity.response.CalendarScrapDetailModel
 fun CalendarScrap(
     scrap: CalendarScrapDetailModel,
     onScrapButtonClicked: (Long) -> Unit,
-    onInternshipClicked: (Long) -> Unit,
+    onInternshipClicked: (CalendarScrapDetailModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     ScrapBox(
         modifier = modifier.noRippleClickable {
-            onInternshipClicked(scrap.internshipAnnouncementId)
+            onInternshipClicked(scrap)
         },
         cornerRadius = 10.dp,
         scrapColor = Color(android.graphics.Color.parseColor(scrap.color)),

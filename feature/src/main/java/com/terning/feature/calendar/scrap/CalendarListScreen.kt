@@ -30,15 +30,16 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.state.UiState
+import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
+import com.terning.feature.calendar.calendar.component.InternDialogContent
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
 import com.terning.feature.intern.component.ScrapCancelDialogContent
 import kotlinx.coroutines.flow.distinctUntilChanged
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -118,7 +119,9 @@ fun CalendarListScreen(
                                             viewModel.updateScrapCancelDialogVisible(scrapId)
                                         },
                                         onInternshipClicked = { internshipAnnouncementId ->
-                                            viewModel.updateInternDialogVisible(internshipAnnouncementId)
+                                            viewModel.updateInternDialogVisible(
+                                                internshipAnnouncementId
+                                            )
                                         },
                                         isFromList = true,
                                         noScrapScreen = {})
@@ -139,6 +142,29 @@ fun CalendarListScreen(
                     onClickScrapCancel = {
                         viewModel.updateScrapCancelDialogVisible()
                     }
+                )
+            }
+        }
+        if (uiState.isInternshipClicked) {
+            TerningBasicDialog(
+                onDismissRequest = {
+                    viewModel.updateInternDialogVisible(null)
+                }
+            ) {
+                InternDialogContent(
+                    scrapDetailModel = CalendarScrapDetailModel(
+                        scrapId = 1,
+                        internshipAnnouncementId = 1,
+                        title = "sadsa",
+                        dDay = "D-8",
+                        workingPeriod = "9개월",
+                        color = "0xf3d1e3",
+                        companyImage = "",
+                        startYear = 2024,
+                        startMonth = 8,
+                        deadLine = "2024-07-13",
+                        isScrapped = true
+                    )
                 )
             }
         }

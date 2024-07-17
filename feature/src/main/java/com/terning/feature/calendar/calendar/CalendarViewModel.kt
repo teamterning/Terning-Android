@@ -3,6 +3,7 @@ package com.terning.feature.calendar.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
+import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.month.CalendarMonthState
@@ -88,15 +89,19 @@ class CalendarViewModel @Inject constructor(
                 scrapId = scrapId
             )
         }
+        Timber.tag("CalendarScreen")
+            .d("<showScrapCancel> $scrapId, ${_uiState.value.isScrapButtonClicked}")
     }
 
-    fun updateInternDialogVisible(internshipAnnouncementId: Long = -1) {
+    fun updateInternDialogVisible(scrapDetailModel: CalendarScrapDetailModel?) {
         _uiState.update { currentState ->
             currentState.copy(
                 isInternshipClicked = !currentState.isInternshipClicked,
-                internshipAnnouncementId = internshipAnnouncementId
+                internshipModel = scrapDetailModel
             )
         }
+        Timber.tag("CalendarScreen")
+            .d("<showInternship> ${scrapDetailModel?.internshipAnnouncementId}, ${_uiState.value.isInternshipClicked}")
     }
 
     fun getScrapMonth(

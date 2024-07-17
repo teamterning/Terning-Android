@@ -46,8 +46,8 @@ fun InternItem(
     workingPeriod: String,
     isScraped: Boolean,
     modifier: Modifier = Modifier,
-    scrapId: Int = 0,
-    onScrapButtonClicked: (Int) -> Unit = {},
+    scrapId: Long = 0,
+    onScrapButtonClicked: (Long) -> Unit = {},
 ) {
     Row(
         modifier = modifier
