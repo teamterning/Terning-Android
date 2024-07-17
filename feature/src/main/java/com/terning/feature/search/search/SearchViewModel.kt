@@ -29,25 +29,27 @@ class SearchViewModel @Inject constructor(
 
     fun getSearchViews() {
         viewModelScope.launch {
-            searchRepository.getSearchViewsList().onSuccess { searchViewsList ->
-                _viewState.value = _viewState.value.copy(
-                    searchViewsList = UiState.Success(searchViewsList)
-                )
-            }.onFailure {
-                _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
-            }
+            searchRepository.getSearchViewsList()
+                .onSuccess { searchViewsList ->
+                    _viewState.value = _viewState.value.copy(
+                        searchViewsList = UiState.Success(searchViewsList)
+                    )
+                }.onFailure {
+                    _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
+                }
         }
     }
 
     fun getSearchScraps() {
         viewModelScope.launch {
-            searchRepository.getSearchScrapsList().onSuccess { searchScrapsList ->
-                _scrapState.value = _scrapState.value.copy(
-                    searchScrapsList = UiState.Success(searchScrapsList)
-                )
-            }.onFailure {
-                _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
-            }
+            searchRepository.getSearchScrapsList()
+                .onSuccess { searchScrapsList ->
+                    _scrapState.value = _scrapState.value.copy(
+                        searchScrapsList = UiState.Success(searchScrapsList)
+                    )
+                }.onFailure {
+                    _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
+                }
         }
     }
 }

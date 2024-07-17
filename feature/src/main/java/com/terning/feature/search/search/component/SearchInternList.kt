@@ -1,6 +1,6 @@
 package com.terning.feature.search.search.component
 
-import InternshipAnnouncement
+import InternshipAnnouncementModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,8 +18,8 @@ import com.terning.feature.R
 @Composable
 fun SearchInternList(
     type: InternListType,
-    searchScrapsList: List<InternshipAnnouncement>?,
-    searchViewsList: List<InternshipAnnouncement>?,
+    searchScrapsList: List<InternshipAnnouncementModel>?,
+    searchViewsList: List<InternshipAnnouncementModel>?,
     navController: NavHostController,
 ) {
     Column(modifier = Modifier.padding(horizontal = 24.dp)) {

@@ -1,8 +1,8 @@
 package com.terning.feature.search.search
 
-import InternshipAnnouncement
+import InternshipAnnouncementModel
 import com.terning.core.state.UiState
 
 data class SearchViewsState(
-    var searchViewsList: UiState<List<InternshipAnnouncement>> = UiState.Loading,
+    var searchViewsList: UiState<List<InternshipAnnouncementModel>> = UiState.Loading,
 )
