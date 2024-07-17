@@ -39,8 +39,6 @@ fun SplashScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    var showDialog = remember { mutableStateOf(false) }
-
     LaunchedEffect(key1 = true) {
         viewModel.checkConnectedNetwork(context, lifecycleOwner)
     }
@@ -55,7 +53,6 @@ fun SplashScreen(
                     }
 
                     is SplashState.AlertDialog -> {
-                        showDialog.value = true
                     }
                 }
             }
@@ -63,15 +60,4 @@ fun SplashScreen(
 
     TerningImage(painter = R.drawable.ic_splash, modifier = Modifier.fillMaxSize())
 
-    if (showDialog.value) {
-        SplashDialog(
-            onDismissRequest = {
-                showDialog.value = false
-            },
-            content = {
-                Text(text = "인터넷 연결 확인 바람")
-
-            },
-        )
-    }
 }

@@ -26,11 +26,7 @@ class SplashViewModel @Inject constructor(
 
     fun checkConnectedNetwork(context: Context, lifecycleOwner: LifecycleOwner) {
         viewModelScope.launch {
-            if (NetworkManager.checkNetworkState(context)) {
-                initSplash(lifecycleOwner)
-            } else {
-                _sideEffects.emit(SplashState.AlertDialog)
-            }
+            initSplash(lifecycleOwner)
         }
     }
 
