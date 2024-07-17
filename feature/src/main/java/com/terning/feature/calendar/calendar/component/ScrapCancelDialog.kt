@@ -18,13 +18,6 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable
-fun ScrapCancelDialog(
-
-) {
-
-}
-
-@Composable
 private fun ScrapCancelDialogScreen(
     modifier: Modifier = Modifier
 ) {

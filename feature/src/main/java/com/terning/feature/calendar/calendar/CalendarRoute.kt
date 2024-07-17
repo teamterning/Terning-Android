@@ -60,7 +60,7 @@ private fun CalendarScreen(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val calendarUiState by viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(viewModel.calendarSideEffect, lifecycleOwner) {
         viewModel.calendarSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -163,9 +163,10 @@ private fun CalendarScreen(
                         },
                         contentTwo = {
                             CalendarWeekScreen(
+                                uiState = calendarUiState,
+                                viewModel = viewModel,
                                 modifier = Modifier
                                     .fillMaxSize(),
-                                viewModel = viewModel
                             )
                         }
                     )

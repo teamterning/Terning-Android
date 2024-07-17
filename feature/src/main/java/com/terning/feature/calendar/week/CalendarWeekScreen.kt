@@ -31,6 +31,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
+import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
 import com.terning.feature.intern.component.ScrapCancelDialogContent
@@ -39,10 +40,10 @@ import java.time.LocalDate
 @Composable
 fun CalendarWeekScreen(
     modifier: Modifier = Modifier,
+    uiState: CalendarUiState,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState by viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner)
     val calendarWeekState by viewModel.calendarWeekState.collectAsStateWithLifecycle(lifecycleOwner)
 
     LaunchedEffect(uiState.selectedDate) {
@@ -98,7 +99,7 @@ fun CalendarWeekScreen(
             }
         }
 
-        if(calendarWeekState.isScrapButtonClicked){
+        if(uiState.isScrapButtonClicked){
             TerningBasicDialog(
                 onDismissRequest = {
                     viewModel.updateScrapCancelDialogVisible()
