@@ -7,8 +7,8 @@ import javax.inject.Inject
 class MyPageRepositoryImpl @Inject constructor(
     private val myPageDataSource: MyPageDataSource
 ) : MyPageRepository {
-    override suspend fun patchLogout(): Result<Unit> =
+    override suspend fun postLogout(): Result<Unit> =
         runCatching {
-            myPageDataSource.patchLogout()
+            myPageDataSource.postLogout()
         }
 }

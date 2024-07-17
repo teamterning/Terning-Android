@@ -5,6 +5,5 @@ import retrofit2.http.POST
 
 interface MyPageService {
     @POST("api/v1/auth/logout")
-    suspend fun patchLogout(): NonDataBaseResponse
-
+    suspend fun postLogout(): NonDataBaseResponse
 }

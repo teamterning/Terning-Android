@@ -8,5 +8,5 @@ import javax.inject.Inject
 class MyPageDataSourceImpl @Inject constructor(
     private val myPageService: MyPageService
 ) : MyPageDataSource {
-    override suspend fun patchLogout(): NonDataBaseResponse = myPageService.patchLogout()
+    override suspend fun postLogout(): NonDataBaseResponse = myPageService.patchLogout()
 }

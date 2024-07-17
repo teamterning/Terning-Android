@@ -1,5 +1,5 @@
 package com.terning.domain.repository
 
 interface MyPageRepository {
-    suspend fun patchLogout() : Result<Unit>
+    suspend fun postLogout() : Result<Unit>
 }

@@ -31,16 +31,16 @@ class MyPageViewModel @Inject constructor(
     fun logoutKakao() {
         UserApiClient.instance.logout { error ->
             if (error == null) {
-                patchLogout()
+                postLogout()
             } else {
                 _state.value = _state.value.copy(isSuccess = UiState.Failure(error.toString()))
             }
         }
     }
 
-    private fun patchLogout() {
+    private fun postLogout() {
         viewModelScope.launch {
-            myPageRepository.patchLogout().onSuccess {
+            myPageRepository.postLogout().onSuccess {
                 tokenRepository.clearInfo()
                 _state.value = _state.value.copy(isSuccess = UiState.Success(true))
             }.onFailure {
