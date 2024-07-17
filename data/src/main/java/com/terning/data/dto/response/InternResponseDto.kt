@@ -34,8 +34,8 @@ data class InternResponseDto(
     val detail: String,
     @SerialName("url")
     val url: String,
-    @SerialName("isScrapped")
-    val isScrapped: Boolean,
+    @SerialName("scrapId")
+    val scrapId: Long? = null,
 ) {
     fun toInternEntity(): InternInfoModel {
         return InternInfoModel(
@@ -53,7 +53,7 @@ data class InternResponseDto(
             jobType = jobType,
             detail = detail,
             url = url,
-            isScrapped = isScrapped
+            scrapId = scrapId
         )
     }
 }
