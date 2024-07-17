@@ -1,6 +1,6 @@
 package com.terning.feature.search.search.component
 
-import InternshipAnnouncementModel
+import com.terning.domain.entity.response.InternshipAnnouncementModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

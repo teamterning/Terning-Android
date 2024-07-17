@@ -1,6 +1,6 @@
 package com.terning.feature.search.search
 
-import InternshipAnnouncementModel
+import com.terning.domain.entity.response.InternshipAnnouncementModel
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -60,18 +60,21 @@ fun SearchRoute(
             }
     }
 
-    when (viewState.searchViewsList) {
-        is UiState.Loading -> {}
-        is UiState.Empty -> {}
-        is UiState.Failure -> {}
-        is UiState.Success -> {
-            SearchScreen(
-                navController = navController,
-                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternshipAnnouncementModel>>).data,
-                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternshipAnnouncementModel>>).data
-            )
-        }
+    val searchViewsList = when (viewState.searchViewsList) {
+        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<InternshipAnnouncementModel>>).data
+        else -> emptyList()
     }
+
+    val searchScrapsList = when (scrapState.searchScrapsList) {
+        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<InternshipAnnouncementModel>>).data
+        else -> emptyList()
+    }
+
+    SearchScreen(
+        navController = navController,
+        searchViewsList = searchViewsList,
+        searchScrapsList = searchScrapsList
+    )
 }
 
 @Composable
