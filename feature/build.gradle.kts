@@ -91,6 +91,8 @@ dependencies {
     implementation(libs.ossLicense)
     implementation(libs.lottie)
     implementation(libs.process.phoenix)
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
+    implementation ("androidx.core:core-splashscreen:1.0.1")
 
     // Compose Preview
     debugImplementation(libs.compose.ui.tooling)
