@@ -81,16 +81,22 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun updateScrapCancelDialogVisible(scrapId: Int = -1) {
+    fun updateScrapCancelDialogVisible(scrapId: Long = -1) {
         _uiState.update { currentState ->
             currentState.copy(
                 isScrapButtonClicked = !currentState.isScrapButtonClicked,
                 scrapId = scrapId
             )
         }
-        Timber
-            .tag("CalendarScreen")
-            .d("<CalendarViewModel> ${_uiState.value.isScrapButtonClicked}")
+    }
+
+    fun updateInternDialogVisible(internshipAnnouncementId: Long = -1) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                isInternshipClicked = !currentState.isInternshipClicked,
+                internshipAnnouncementId = internshipAnnouncementId
+            )
+        }
     }
 
     fun getScrapMonth(

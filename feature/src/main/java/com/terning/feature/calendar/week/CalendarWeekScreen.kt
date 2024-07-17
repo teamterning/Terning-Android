@@ -94,6 +94,9 @@ fun CalendarWeekScreen(
                         selectedDate = uiState.selectedDate,
                         onScrapButtonClicked = { scrapId ->
                             viewModel.updateScrapCancelDialogVisible(scrapId)
+                        },
+                        onInternshipClicked = { internshipAnnouncementId ->
+                            viewModel.updateInternDialogVisible(internshipAnnouncementId)
                         })
                 }
             }
@@ -138,13 +141,15 @@ fun CalendarWeekEmpty(
 @Composable
 fun CalendarWeekSuccess(
     scrapList: List<CalendarScrapDetailModel>,
-    onScrapButtonClicked: (Int) -> Unit,
+    onScrapButtonClicked: (Long) -> Unit,
+    onInternshipClicked: (Long) -> Unit,
     selectedDate: LocalDate,
 ) {
     CalendarScrapList(
         selectedDate = selectedDate,
         scrapList = scrapList,
-        onScrapButtonClicked = onScrapButtonClicked
+        onScrapButtonClicked = onScrapButtonClicked,
+        onInternshipClicked = onInternshipClicked
     )
 }
 

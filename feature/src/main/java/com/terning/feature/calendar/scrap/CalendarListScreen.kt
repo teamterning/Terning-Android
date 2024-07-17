@@ -63,7 +63,6 @@ fun CalendarListScreen(
     }
 
     Box {
-
         LazyRow(
             modifier = modifier
                 .background(White),
@@ -117,8 +116,9 @@ fun CalendarListScreen(
                                         scrapList = scrapMap[dateIndex].orEmpty(),
                                         onScrapButtonClicked = { scrapId ->
                                             viewModel.updateScrapCancelDialogVisible(scrapId)
-                                            Timber.tag("CalendarListScreen")
-                                                .d("<CalendarListScreen> $scrapId")
+                                        },
+                                        onInternshipClicked = { internshipAnnouncementId ->
+                                            viewModel.updateInternDialogVisible(internshipAnnouncementId)
                                         },
                                         isFromList = true,
                                         noScrapScreen = {})

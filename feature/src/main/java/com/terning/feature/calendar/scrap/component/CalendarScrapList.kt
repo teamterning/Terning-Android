@@ -22,7 +22,8 @@ import java.time.LocalDate
 fun CalendarScrapList(
     selectedDate: LocalDate,
     scrapList: List<CalendarScrapDetailModel>,
-    onScrapButtonClicked:(Int) -> Unit,
+    onScrapButtonClicked:(Long) -> Unit,
+    onInternshipClicked:(Long) -> Unit,
     isFromList: Boolean = false,
     noScrapScreen: @Composable () -> Unit = {}
 ) {
@@ -56,7 +57,8 @@ fun CalendarScrapList(
             for (scrap in scrapList) {
                 CalendarScrap(
                     scrap = scrap,
-                    onScrapButtonClicked = onScrapButtonClicked
+                    onScrapButtonClicked = onScrapButtonClicked,
+                    onInternshipClicked = onInternshipClicked
                 )
                 Spacer(
                     modifier = Modifier.height(12.dp)

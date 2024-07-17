@@ -7,5 +7,7 @@ data class CalendarUiState(
     val isListEnabled: Boolean = false,
     val isWeekEnabled: Boolean = false,
     val isScrapButtonClicked: Boolean = false,
-    val scrapId: Int = -1
+    val isInternshipClicked: Boolean = false,
+    val internshipAnnouncementId: Long = -1,
+    val scrapId: Long = -1
 )
