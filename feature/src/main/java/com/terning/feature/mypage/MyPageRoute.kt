@@ -50,7 +50,6 @@ fun MyPageRoute(
         MyPageLogoutBottomSheet(
             onDismiss = { showLogoutBottomSheet = false },
             onLogoutClick = {
-                showLogoutBottomSheet = false
                 viewModel.logoutKakao()
             },
         )
@@ -60,7 +59,6 @@ fun MyPageRoute(
         MyPageQuitBottomSheet(
             onDismiss = { showQuitBottomSheet = false },
             onQuitClick = {
-                showQuitBottomSheet = false
                 viewModel.patchQuit()
             }
         )

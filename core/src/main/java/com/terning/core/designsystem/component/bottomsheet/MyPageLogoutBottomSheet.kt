@@ -48,12 +48,7 @@ fun MyPageLogoutBottomSheet(
                     cornerRadius = 10.dp,
                     text = R.string.my_page_logout_button,
                     onButtonClick = {
-                        scope.launch { sheetState.hide() }
-                            .invokeOnCompletion {
-                                if (!sheetState.isVisible) {
-                                    onLogoutClick()
-                                }
-                            }
+                        onLogoutClick()
                     },
                     modifier = modifier.padding(
                         start = 24.dp,
