@@ -16,7 +16,7 @@ class SearchDataSourceImpl @Inject constructor(
     override suspend fun getSearch(request: SearchRequestDto):
             BaseResponse<SearchResultResponseDto> =
         searchService.getSearch(
-            request.query,
+            request.keyword,
             request.sortBy,
             request.page,
             request.size

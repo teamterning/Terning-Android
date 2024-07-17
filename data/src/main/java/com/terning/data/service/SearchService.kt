@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface SearchService {
     @GET("/api/v1/search")
     suspend fun getSearch(
-        @Query("query") keyword: String,
+        @Query("keyword") keyword: String,
         @Query("sortBy") sortBy: String,
         @Query("page") page: Int,
         @Query("size") size: Int = 10,

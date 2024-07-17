@@ -57,7 +57,7 @@ class SearchProcessViewModel @Inject constructor(
     }
 
     fun updateQuery(query: String) {
-        _state.value = _state.value.copy(query = query)
+        _state.value = _state.value.copy(keyword = query)
     }
 
     fun updateShowSearchResults(show: Boolean) {

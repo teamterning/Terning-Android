@@ -19,7 +19,7 @@ class SearchRepositoryImpl @Inject constructor(
         return runCatching {
             searchDataSource.getSearch(
                 SearchRequestDto(
-                    query = query,
+                    keyword = query,
                     sortBy = sortBy,
                     page = page,
                     size = size

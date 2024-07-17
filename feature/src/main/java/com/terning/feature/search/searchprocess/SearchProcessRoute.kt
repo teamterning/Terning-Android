@@ -204,7 +204,7 @@ fun SearchProcessScreen(
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = state.query,
+                                text = state.keyword,
                                 style = TerningTheme.typography.body1,
                                 color = TerningMain,
                                 maxLines = MAX_LINES,

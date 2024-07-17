@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SearchRequestDto(
-    @SerialName("query")
-    val query: String,
+    @SerialName("keyword")
+    val keyword: String,
     @SerialName("sortBy")
     val sortBy: String,
     @SerialName("page")
