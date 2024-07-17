@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.terning.domain.entity.response.HomeTodayInternModel
-import com.terning.feature.home.home.model.ScrapData
 
 @Composable
 fun HomeTodayIntern(internList: List<HomeTodayInternModel>) {
@@ -23,7 +22,6 @@ fun HomeTodayIntern(internList: List<HomeTodayInternModel>) {
             HomeTodayInternItem(
                 title = internList[index].title,
                 scrapColor = Color(android.graphics.Color.parseColor(internList[index].color))
-//                internList[index].scrapColor,
             )
         }
     }
