@@ -1,5 +1,7 @@
 package com.terning.feature.intern
 
+import android.view.ViewGroup
+import android.webkit.WebView
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -100,6 +103,21 @@ fun InternScreen(
 
     val qualificationList = internInfoModel.qualification.split(",").map { it.trim() }
     val jobTypeList = internInfoModel.jobType.split(",").map { it.trim() }
+
+    if (state.showWeb) {
+        AndroidView(
+            factory = {
+                WebView(it).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                    )
+                    loadUrl(internInfoModel.url)
+                }
+            },
+        )
+    }
+
 
     Scaffold(
         modifier = modifier,
