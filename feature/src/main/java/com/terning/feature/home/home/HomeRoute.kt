@@ -3,6 +3,7 @@ package com.terning.feature.home.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,18 +35,23 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
+import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
+import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.UserNameState
@@ -55,7 +62,7 @@ const val NAME_END_LENGTH = 12
 @Composable
 fun HomeRoute(
     navController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val currentSortBy: MutableState<Int> = remember {
         mutableIntStateOf(0)
@@ -65,6 +72,7 @@ fun HomeRoute(
     val context = LocalContext.current
 
     val homeTodayState by viewModel.homeTodayState.collectAsStateWithLifecycle()
+    val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -84,10 +92,31 @@ fun HomeRoute(
         else -> emptyList()
     }
 
+    val homeRecommendInternList = when (homeRecommendInternState) {
+        is UiState.Success -> {
+            (homeRecommendInternState as UiState.Success<List<HomeRecommendInternModel>>).data
+        }
+
+        else -> emptyList()
+    }
+
+    val userNameState = viewModel.userName
+
+    LaunchedEffect(currentSortBy) {
+        with(userNameState.value.internFilter) {
+            viewModel.getRecommendInternsData(
+                sortBy = currentSortBy.value,
+                startYear = this?.startYear ?: viewModel.currentYear,
+                startMonth = this?.startMonth ?: viewModel.currentMonth,
+            )
+        }
+    }
+
     HomeScreen(
         currentSortBy,
-        homeTodayInternList,
-        onChangeFilterClick = { navController.navigateChangeFilter() }
+        homeTodayInternList = homeTodayInternList,
+        recommendInternList = homeRecommendInternList,
+        onChangeFilterClick = { navController.navigateChangeFilter() },
     )
 }
 
@@ -96,6 +125,7 @@ fun HomeRoute(
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
     homeTodayInternList: List<HomeTodayInternModel>,
+    recommendInternList: List<HomeRecommendInternModel>,
     onChangeFilterClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
@@ -135,7 +165,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .padding(bottom = 16.dp)
                     ) {
-                        ShowMainTitleWithName(userNameState)
+                        ShowMainTitleWithName(userNameState.value)
                         ShowTodayIntern(homeTodayInternList = homeTodayInternList)
                     }
                 }
@@ -145,7 +175,7 @@ fun HomeScreen(
                             .background(White)
                     ) {
                         ShowRecommendTitle()
-                        ShowInternFilter(userNameState = userNameState, onChangeFilterClick)
+                        ShowInternFilter(userNameState = userNameState.value, onChangeFilterClick)
 
                         HorizontalDivider(
                             thickness = 4.dp,
@@ -169,14 +199,22 @@ fun HomeScreen(
                         }
                     }
                 }
+
+                if (recommendInternList.isNotEmpty()) {
+                    items(recommendInternList.size) { index ->
+                        ShowRecommendIntern(homeRecommendInternModel = recommendInternList[index])
+                    }
+                }
             }
 
-            if (userNameState.internFilter == null) {
+            if (userNameState.value.internFilter == null) {
                 HomeFilteringEmptyIntern(
                     modifier = Modifier
                         .padding(horizontal = 24.dp)
                         .fillMaxSize()
                 )
+            } else if (recommendInternList.isEmpty()) {
+                HomeRecommendEmptyIntern()
             }
         }
     }
@@ -254,5 +292,30 @@ private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: 
                 onChangeFilterClick = { onChangeFilterClick() },
             )
         }
+    }
+}
+
+@Composable
+private fun ShowRecommendIntern(homeRecommendInternModel: HomeRecommendInternModel) {
+    Box(
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
+            .customShadow(
+                color = Grey200,
+                shadowRadius = 5.dp,
+                shadowWidth = 1.dp
+            )
+            .background(
+                color = White,
+                shape = RoundedCornerShape(10.dp)
+            )
+    ) {
+        InternItem(
+            imageUrl = homeRecommendInternModel.companyImage,
+            title = homeRecommendInternModel.title,
+            dateDeadline = homeRecommendInternModel.dDay,
+            workingPeriod = homeRecommendInternModel.workingPeriod,
+            isScraped = homeRecommendInternModel.isScrapped,
+        )
     }
 }

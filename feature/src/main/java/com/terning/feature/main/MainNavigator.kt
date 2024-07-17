@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.mypage.navigation.MyPage
 import com.terning.feature.mypage.navigation.navigateMyPage
 import com.terning.feature.onboarding.signin.navigation.SignIn
 import com.terning.feature.search.search.navigation.navigateSearch

@@ -43,11 +43,11 @@ fun ChangeFilterScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val isGradeButtonValid = remember {
-        mutableStateOf(viewModel.userName.internFilter?.grade != null)
+        mutableStateOf(viewModel.userName.value.internFilter?.grade != null)
     }
 
     val isWorkingPeriodButtonValid = remember {
-        mutableStateOf(viewModel.userName.internFilter?.workingPeriod != null)
+        mutableStateOf(viewModel.userName.value.internFilter?.workingPeriod != null)
     }
 
     Scaffold(
@@ -77,9 +77,8 @@ fun ChangeFilterScreen(
             )
             ChangeFilteringRadioGroup(
                 filterType = 0,
-                internFilterData = viewModel.userName.internFilter,
+                internFilterData = viewModel.userName.value.internFilter,
                 onButtonClick = {
-                    viewModel.setGrade(it)
                     isGradeButtonValid.value = true
                 }
             )
@@ -105,9 +104,8 @@ fun ChangeFilterScreen(
             )
             ChangeFilteringRadioGroup(
                 filterType = 1,
-                internFilterData = viewModel.userName.internFilter,
+                internFilterData = viewModel.userName.value.internFilter,
                 onButtonClick = {
-                    viewModel.setWorkingPeriod(it)
                     isWorkingPeriodButtonValid.value = true
                 }
             )
