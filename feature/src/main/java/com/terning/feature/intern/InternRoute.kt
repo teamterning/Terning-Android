@@ -372,7 +372,8 @@ fun InternScreen(
                     when (state.isScrappedState) {
                         true -> ScrapCancelDialogContent()
                         else -> ScrapDialogContent(
-                            internInfoList = internInfoList
+                            internInfoList = internInfoList,
+                            internInfoModel = internInfoModel
                         )
                     }
                 },

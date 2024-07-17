@@ -3,7 +3,6 @@ package com.terning.point.di
 import com.terning.data.datasource.AuthDataSource
 import com.terning.data.datasource.CalendarDataSource
 import com.terning.data.datasource.FilteringDataSource
-import com.terning.data.datasource.InternDataSource
 import com.terning.data.datasource.HomeDataSource
 import com.terning.data.datasource.InternDataSource
 import com.terning.data.datasource.ScrapDataSource
@@ -12,7 +11,6 @@ import com.terning.data.datasource.TokenReissueDataSource
 import com.terning.data.datasourceimpl.AuthDataSourceImpl
 import com.terning.data.datasourceimpl.CalendarDataSourceImpl
 import com.terning.data.datasourceimpl.FilteringDataSourceImpl
-import com.terning.data.datasourceimpl.InternDataSourceImpl
 import com.terning.data.datasourceimpl.HomeDataSourceImpl
 import com.terning.data.datasourceimpl.InternDataSourceImpl
 import com.terning.data.datasourceimpl.ScrapDataSourceImpl
@@ -38,7 +36,7 @@ abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindSearchViewsDataSource(searchDataSourceImpl: SearchDataSourceImpl):
+    abstract fun bindSearchDataSource(searchDataSourceImpl: SearchDataSourceImpl):
             SearchDataSource
 
     @Binds
@@ -53,14 +51,14 @@ abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindInternInfoSource(internalInfoDataSourceImpl: InternDataSourceImpl):
-            InternDataSource
-
-    @Binds
-    @Singleton
     abstract fun bindTokenReissueDataSource(tokenReissueDataSourceImpl: TokenReissueDataSourceImpl): TokenReissueDataSource
 
     @Binds
     @Singleton
     abstract fun bindFilteringDataSource(filteringDataSourceImpl: FilteringDataSourceImpl): FilteringDataSource
+
+
+    @Binds
+    @Singleton
+    abstract fun bindHomeDataSource(homeDataSourceImpl: HomeDataSourceImpl): HomeDataSource
 }
