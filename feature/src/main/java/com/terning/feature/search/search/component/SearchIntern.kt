@@ -49,7 +49,7 @@ fun SearchIntern(
             )
             .padding(vertical = 8.dp)
             .noRippleClickable {
-                navController.navigateIntern(announcementId = searchViews.announcementId)
+                navController.navigateIntern()
             }
     ) {
         AsyncImage(

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ScrapRequestDto(
     @SerialName("internshipAnnouncementId")
-    val internshipAnnouncementId: Int,
+    val internshipAnnouncementId: Long,
     @SerialName("color")
     val color: Int,
 )

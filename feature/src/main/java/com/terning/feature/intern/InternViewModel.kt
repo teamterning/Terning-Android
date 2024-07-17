@@ -42,14 +42,14 @@ class InternViewModel @Inject constructor(
         }
     }
 
-    fun postScrap(id: Long, color: Int) {
-        viewModelScope.launch {
-            scrapRepository.postScrap(
-                id,
-                color
-            )
-        }
-    }
+//    fun postScrap(id: Long, color: Int) {
+//        viewModelScope.launch {
+//            scrapRepository.postScrap(
+//                id,
+//                color
+//            )
+//        }
+//    }
 
     fun updateSelectColor(newColor: Color) {
         _state.value = _state.value.copy(selectedColor = newColor)

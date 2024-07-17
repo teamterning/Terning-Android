@@ -56,7 +56,7 @@ fun InternRoute(
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(1)
-        viewModel.postScrap(announcementId, 1)
+//        viewModel.postScrap(announcementId, 1)
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {

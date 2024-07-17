@@ -13,8 +13,6 @@ data class SearchViewsResponseDto(
     @SerialName("title")
     val title: String,
 ) {
-
-
     fun toSearchViewsEntity(): List<InternshipAnnouncement> {
         return listOf(
             InternshipAnnouncement(
