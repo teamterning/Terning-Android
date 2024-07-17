@@ -30,11 +30,13 @@ import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.navigation.navigateFilteringOne
+import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
+import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
 import com.terning.feature.onboarding.signup.component.SignUpProfile
 
 @Composable
 fun SignUpRoute(
+    authId: String,
     viewModel: SignUpViewModel = hiltViewModel(),
     navController: NavController
 ) {
@@ -43,13 +45,17 @@ fun SignUpRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    LaunchedEffect(key1 = true) {
+        viewModel.fetchAuthId(authId)
+    }
+
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SignUpSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is SignUpSideEffect.NavigateToFiltering -> {
-                        navController.navigateFilteringOne()
+                    is SignUpSideEffect.NavigateToStartFiltering -> {
+                        navController.navigateStartFiltering(signUpState.name)
                     }
                 }
             }

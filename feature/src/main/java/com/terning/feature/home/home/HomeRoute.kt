@@ -3,7 +3,6 @@ package com.terning.feature.home.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -42,6 +41,9 @@ import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.toast
+import com.terning.core.state.UiState
+import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
@@ -50,11 +52,9 @@ import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
-import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.UserNameState
-import com.terning.feature.home.home.model.UserScrapState
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -68,12 +68,15 @@ fun HomeRoute(
         mutableIntStateOf(0)
     }
 
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+
+    val homeTodayState by viewModel.homeTodayState.collectAsStateWithLifecycle()
 
     val recommendInternState by viewModel.recommendInternState.collectAsStateWithLifecycle(
         lifecycleOwner = lifecycleOwner
     )
+
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -82,6 +85,14 @@ fun HomeRoute(
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
                 }
             }
+    }
+
+    val homeTodayInternList = when (homeTodayState) {
+        is UiState.Success -> {
+            (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
+        }
+
+        else -> emptyList()
     }
 
     val userNameState = viewModel.userName
@@ -110,8 +121,9 @@ fun HomeRoute(
 
     HomeScreen(
         currentSortBy,
+        homeTodayInternList = homeTodayInternList,
+        recommendInternList = recommendInternList,
         onChangeFilterClick = { navController.navigateChangeFilter() },
-        recommendInternList = recommendInternList
     )
 }
 
@@ -119,12 +131,14 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
-    onChangeFilterClick: () -> Unit,
+    homeTodayInternList: List<HomeTodayInternModel>,
     recommendInternList: List<HomeRecommendInternModel>,
+    onChangeFilterClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val userNameState = viewModel.userName
     val userScrapState by viewModel.scrapData.collectAsStateWithLifecycle()
+    val recommendInternData by viewModel.recommendInternData.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
 
     if (sheetState) {
@@ -161,7 +175,7 @@ fun HomeScreen(
                             .padding(bottom = 16.dp)
                     ) {
                         ShowMainTitleWithName(userNameState)
-                        ShowTodayIntern(userScrapState = userScrapState)
+                        ShowTodayIntern(homeTodayInternList = homeTodayInternList)
                     }
                 }
                 stickyHeader {
@@ -232,15 +246,11 @@ private fun ShowMainTitleWithName(userNameState: UserNameState) {
 }
 
 @Composable
-private fun ShowTodayIntern(userScrapState: UserScrapState) {
-    if (userScrapState.isScrapExist) {
-        if (userScrapState.scrapData == null) {
-            HomeTodayEmptyIntern(isButtonExist = true)
-        } else {
-            HomeTodayIntern(userScrapState.scrapData)
-        }
-    } else {
+private fun ShowTodayIntern(homeTodayInternList: List<HomeTodayInternModel>) {
+    if (homeTodayInternList.isEmpty()) {
         HomeTodayEmptyIntern(isButtonExist = false)
+    } else {
+        HomeTodayIntern(internList = homeTodayInternList)
     }
 }
 

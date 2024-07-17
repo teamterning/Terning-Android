@@ -4,21 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.theme.CalBlue1
-import com.terning.core.designsystem.theme.CalBlue2
-import com.terning.core.designsystem.theme.CalGreen1
-import com.terning.core.designsystem.theme.CalGreen2
-import com.terning.core.designsystem.theme.CalOrange1
-import com.terning.core.designsystem.theme.CalPink
-import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.HomeRecommendInternModel
+import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.feature.R
 import com.terning.feature.home.home.model.InternFilterData
-import com.terning.feature.home.home.model.ScrapData
 import com.terning.feature.home.home.model.UserNameState
-import com.terning.feature.home.home.model.UserScrapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,15 +22,35 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeRepository: HomeRepository
+    private val homeRepository: HomeRepository,
 ) : ViewModel() {
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
     val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
+    private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
+    val homeSideEffect get() = _homeSideEffect.asSharedFlow()
+
+    private val _homeTodayState =
+        MutableStateFlow<UiState<List<HomeTodayInternModel>>>(UiState.Loading)
+    val homeTodayState get() = _homeTodayState.asStateFlow()
+
+    init {
+        getHomeTodayInternList()
+
+        with(_userName.internFilter) {
+            getRecommendInternsData(
+                sortBy = 0,
+                this?.startYear ?: currentYear,
+                this?.startMonth ?: currentMonth
+            )
+        }
+    }
+
     private val _userName by mutableStateOf(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
-            internFilter = InternFilterData(
+            internFilter =
+            InternFilterData(
                 grade = 1,
                 workingPeriod = 1,
                 startYear = 2024,
@@ -74,16 +86,6 @@ class HomeViewModel @Inject constructor(
         userName.internFilter?.workingPeriod = workingPeriod
     }
 
-    init {
-        with(_userName.internFilter) {
-            getRecommendInternsData(
-                sortBy = 0,
-                this?.startYear ?: currentYear,
-                this?.startMonth ?: currentMonth
-            )
-        }
-    }
-
     fun getRecommendInternsData(sortBy: Int, year: Int, month: Int) {
         _recommendInternState.value = UiState.Loading
         viewModelScope.launch {
@@ -106,54 +108,14 @@ class HomeViewModel @Inject constructor(
     }
 }
 
-
-private fun getScrapData(): List<ScrapData> = listOf(
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-        scrapColor = CalBlue1,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 숲 활동가",
-        scrapColor = CalPink,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-        scrapColor = CalYellow,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 숲 활동가",
-        scrapColor = CalBlue2,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-        scrapColor = CalGreen1,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 숲 활동가",
-        scrapColor = CalOrange1,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-        scrapColor = CalGreen2,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 숲 활동가",
-        scrapColor = CalPink,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-        scrapColor = CalBlue1,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 숲 활동가",
-        scrapColor = CalPink,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 w.대학생 숲 활동가",
-        scrapColor = CalBlue1,
-    ),
-    ScrapData(
-        internTitle = "[유한킴벌리] 그린캠프 숲 활동가",
-        scrapColor = CalPink,
-    ),
-)
+fun getHomeTodayInternList() {
+    _homeTodayState.value = UiState.Loading
+    viewModelScope.launch {
+        homeRepository.getHomeTodayInternList().onSuccess { internList ->
+            _homeTodayState.value = UiState.Success(internList)
+        }.onFailure { exception: Throwable ->
+            _homeTodayState.value = UiState.Failure(exception.message ?: "")
+            _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+        }
+    }
+}
