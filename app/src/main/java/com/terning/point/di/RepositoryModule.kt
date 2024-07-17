@@ -3,7 +3,6 @@ package com.terning.point.di
 import com.terning.data.repositoryimpl.AuthRepositoryImpl
 import com.terning.data.repositoryimpl.SearchRepositoryImpl
 import com.terning.data.repositoryimpl.CalendarRepositoryImpl
-import com.terning.data.repositoryimpl.SearchViewsRepositoryImpl
 import com.terning.data.repositoryimpl.TokenReissueRepositoryImpl
 import com.terning.data.repositoryimpl.TokenRepositoryImpl
 import com.terning.domain.repository.AuthRepository
