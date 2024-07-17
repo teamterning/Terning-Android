@@ -1,6 +1,5 @@
 package com.terning.feature.search.search.component
 
-import InternshipAnnouncement
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
