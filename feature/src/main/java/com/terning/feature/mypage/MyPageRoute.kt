@@ -54,8 +54,11 @@ fun MyPageRoute(
     if (showQuitBottomSheet) {
         MyPageQuitBottomSheet(
             onDismiss = { showQuitBottomSheet = false },
-
-            )
+            onQuitClick = {
+                showQuitBottomSheet = false
+                viewModel.patchQuit()
+            }
+        )
     }
 
     MyPageScreen(

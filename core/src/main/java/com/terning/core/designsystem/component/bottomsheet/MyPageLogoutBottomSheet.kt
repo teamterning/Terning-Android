@@ -33,7 +33,7 @@ fun MyPageLogoutBottomSheet(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = stringResource(id = R.string.my_page_logout_title),
+                    text = stringResource(id = R.string.my_page_bottom_sheet_title),
                     style = TerningTheme.typography.heading1,
                     modifier = modifier.padding(top = 35.dp)
                 )

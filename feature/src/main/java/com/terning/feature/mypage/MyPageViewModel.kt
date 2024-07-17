@@ -10,4 +10,8 @@ class MyPageViewModel @Inject constructor() : ViewModel() {
     fun patchLogout() {
 
     }
+
+    fun patchQuit() {
+
+    }
 }

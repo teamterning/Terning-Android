@@ -35,10 +35,12 @@
     <string name="sign_up_bottom_sheet_title">프로필 이미지 선택</string>
     <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
     <string name="sign_up_dialog_start">저장하기</string>
-    <string name="my_page_logout_title">잠깐만요!</string>
+    <string name="my_page_bottom_sheet_title">잠깐만요!</string>
     <string name="my_page_logout_sub">정말 로그아웃 하시겠어요?</string>
     <string name="my_page_logout_button">로그아웃하기</string>
     <string name="my_page_back_button">취소</string>
+    <string name="my_page_quit_sub">탈퇴 시 계정 및 이용 기록은 모두 삭제되며,\n삭제된 데이터는 복구가 불가능합니다.\n\n탈퇴를 진행할까요?</string>
+    <string name="my_page_quit_button">탈퇴하기</string>
 
     <!--Dialog-->
     <string name="dialog_content_scrap_sub_title">공고를 캘린더에 스크랩하시겠어요?</string>
