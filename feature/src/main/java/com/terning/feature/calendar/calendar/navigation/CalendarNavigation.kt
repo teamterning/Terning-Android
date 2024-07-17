@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.navigation
+package com.terning.feature.calendar.calendar.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,9 +16,13 @@ fun NavController.navigateCalendar(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.calendarNavGraph() {
+fun NavGraphBuilder.calendarNavGraph(
+    navHostController: NavController
+) {
     composable<Calendar> {
-        CalendarRoute()
+        CalendarRoute(
+            navController = navHostController
+        )
     }
 }
 

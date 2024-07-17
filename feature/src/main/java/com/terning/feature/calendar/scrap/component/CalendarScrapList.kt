@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.scrap
+package com.terning.feature.calendar.scrap.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,18 +14,20 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getDateStringInKorean
-import com.terning.feature.calendar.models.Scrap
+import com.terning.core.extension.isListNotEmpty
+import com.terning.domain.entity.response.CalendarScrapDetailModel
 import java.time.LocalDate
 
 @Composable
 fun CalendarScrapList(
     selectedDate: LocalDate,
-    scrapLists: List<List<Scrap>>,
+    scrapList: List<CalendarScrapDetailModel>,
     isFromList: Boolean = false,
     noScrapScreen: @Composable () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    if (scrapLists[selectedDate.dayOfMonth - 1].isNotEmpty()) {
+
+    if (scrapList.isListNotEmpty()) {
         Text(
             text = selectedDate.getDateStringInKorean(),
             style = TerningTheme.typography.title5,
@@ -44,13 +46,13 @@ fun CalendarScrapList(
             .padding(horizontal = 24.dp)
     }
 
-    if (scrapLists[selectedDate.dayOfMonth - 1].isEmpty()) {
+    if (!scrapList.isListNotEmpty()) {
         noScrapScreen()
     } else {
         Column(
             modifier = topModifier
         ) {
-            for (scrap in scrapLists[selectedDate.dayOfMonth - 1]) {
+            for (scrap in scrapList) {
                 CalendarScrap(
                     scrap = scrap
                 )

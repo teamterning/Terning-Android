@@ -20,7 +20,7 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleInteractionSource
-import com.terning.feature.calendar.navigation.calendarNavGraph
+import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
 import com.terning.feature.home.changefilter.navigation.changeFilterNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
 import com.terning.feature.intern.navigation.internNavGraph
@@ -59,7 +59,7 @@ fun MainScreen(
                 startDestination = navigator.startDestination
             ) {
                 homeNavGraph(navHostController = navigator.navController)
-                calendarNavGraph()
+                calendarNavGraph(navHostController = navigator.navController)
                 searchNavGraph(navHostController = navigator.navController)
                 myPageNavGraph()
                 signInNavGraph(navHostController = navigator.navController)

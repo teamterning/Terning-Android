@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.models
+package com.terning.feature.calendar.month.model
 
 import androidx.compose.runtime.Immutable
 import java.time.YearMonth
@@ -10,7 +10,7 @@ import java.time.YearMonth
  * [inDays] represents the number of days in the previous month that should be shown before the first day of the month.
  * [outDays] represents the number of days in the next month that should be shown after the last day of the month.]
  * [totalDays] represents the total number of days shown on calendar
- * [calendarMonth] represents the list of days of the month, a list of [DayModel]
+ * [calendarMonth] represents the list of days of the month, a list of [DayClass]
  */
 
 
@@ -29,13 +29,14 @@ data class MonthData(
 
     private val rows = (0 until totalDays).chunked(7)
 
-    val calendarMonth = MonthModel(month, rows.map { week -> week.map {dayOffset -> getDay(dayOffset)}})
+    val calendarMonth =
+        MonthModel(month, rows.map { week -> week.map { dayOffset -> getDay(dayOffset) } })
 
-    private fun getDay(dayOffset: Int): DayModel {
+    private fun getDay(dayOffset: Int): DayClass {
         val firstDayOnCalendar = month.atDay(1).minusDays(inDays.toLong())
         val date = firstDayOnCalendar.plusDays(dayOffset.toLong())
         val isOutDate = YearMonth.of(date.year, date.monthValue) != month
 
-        return DayModel(date, isOutDate)
+        return DayClass(date, isOutDate)
     }
 }

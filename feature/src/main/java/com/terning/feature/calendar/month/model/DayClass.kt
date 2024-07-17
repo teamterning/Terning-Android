@@ -1,10 +1,10 @@
-package com.terning.feature.calendar.models
+package com.terning.feature.calendar.month.model
 
 import androidx.compose.runtime.Immutable
 import java.time.LocalDate
 
 @Immutable
-data class DayModel(
+data class DayClass(
     val date: LocalDate,
     val isOutDate: Boolean = false
 )
