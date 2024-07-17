@@ -32,9 +32,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItemWithShadow
@@ -52,13 +53,30 @@ private const val MAX_LINES = 1
 @Composable
 fun SearchProcessRoute(
     navController: NavHostController,
+    viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     val currentSortBy: MutableState<Int> = remember {
         mutableIntStateOf(0)
     }
+    val searchListState by viewModel.searchListState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is SearchProcessSideEffect.Toast -> {
+                        sideEffect.message
+                    }
+                }
+            }
+    }
+
     SearchProcessScreen(
         navController = navController,
-        currentSortBy = currentSortBy
+        currentSortBy = currentSortBy,
+        viewModel = viewModel,
     )
 }
 
@@ -136,7 +154,7 @@ fun SearchProcessScreen(
                 onDoneAction = {
                     viewModel.getSearchList(
                         query = state.text,
-                        sortBy = SORT_BY,
+                        sortBy = "deadlineSoon",
                         page = 0,
                         size = 10
                     )
@@ -153,7 +171,7 @@ fun SearchProcessScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    if (state.existSearchResults) {
+                    if (internSearchResultData.isNotEmpty()) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -171,13 +189,13 @@ fun SearchProcessScreen(
                             ),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            items(internSearchResultData.size) { index ->
+                            items(viewModel.internSearchResultData.value.size) { index ->
                                 InternItemWithShadow(
-                                    imageUrl = internSearchResultData[index].imgUrl,
+                                    imageUrl = internSearchResultData[index].companyImage,
                                     title = internSearchResultData[index].title,
-                                    dateDeadline = internSearchResultData[index].dDay.toString(),
-                                    workingPeriod = internSearchResultData[index].workingPeriod.toString(),
-                                    isScraped = internSearchResultData[index].isScrapped
+                                    dateDeadline = internSearchResultData[index].dDay,
+                                    workingPeriod = internSearchResultData[index].workingPeriod,
+                                    scrapId = internSearchResultData[index].scrapId
                                 )
                             }
                         }
@@ -236,14 +254,7 @@ fun SearchProcessScreen(
 @Composable
 fun SearchProcessScreenPreview() {
     TerningPointTheme {
-        SearchProcessScreen(
-            navController = rememberNavController(),
-            currentSortBy = remember {
-                mutableIntStateOf(0)
-            }
-        )
     }
 }
-
 
 private const val SORT_BY = "deadlineSoon"

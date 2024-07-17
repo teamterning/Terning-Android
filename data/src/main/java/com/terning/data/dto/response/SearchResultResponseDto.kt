@@ -18,7 +18,7 @@ data class SearchResultResponseDto(
         @SerialName("internshipAnnouncementId")
         val internshipAnnouncementId: Long,
         @SerialName("scrapId")
-        val scrapId: Long,
+        val scrapId: Long?,
         @SerialName("dDay")
         val dDay: String,
         @SerialName("companyImage")
