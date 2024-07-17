@@ -11,4 +11,9 @@ class MyPageRepositoryImpl @Inject constructor(
         runCatching {
             myPageDataSource.postLogout()
         }
+
+    override suspend fun deleteQuit(): Result<Unit> =
+        runCatching{
+            myPageDataSource.deleteQuit()
+        }
 }

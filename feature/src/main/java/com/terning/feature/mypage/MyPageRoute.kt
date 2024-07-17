@@ -59,7 +59,7 @@ fun MyPageRoute(
         MyPageQuitBottomSheet(
             onDismiss = { showQuitBottomSheet = false },
             onQuitClick = {
-                viewModel.patchQuit()
+                viewModel.quitKakao()
             }
         )
     }
