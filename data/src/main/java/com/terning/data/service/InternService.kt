@@ -8,6 +8,6 @@ import retrofit2.http.Path
 interface InternService {
     @GET("api/v1/announcements/{internshipAnnouncementId}")
     suspend fun getInternInfo(
-        @Path("internshipAnnouncementId") internshipAnnouncementId: Int,
+        @Path("internshipAnnouncementId") internshipAnnouncementId: Long,
     ): BaseResponse<InternResponseDto>
 }

@@ -26,7 +26,7 @@ class InternViewModel @Inject constructor(
     private val _sideEffect: MutableSharedFlow<InternViewSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
-    fun getInternInfo(id: Int) {
+    fun getInternInfo(id: Long) {
         viewModelScope.launch {
             internRepository.getInternInfo(id).onSuccess { internInfo ->
                 _state.value = _state.value.copy(

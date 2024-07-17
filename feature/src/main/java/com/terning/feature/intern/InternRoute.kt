@@ -55,7 +55,7 @@ fun InternRoute(
     val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
-        viewModel.getInternInfo(0)
+        viewModel.getInternInfo(announcementId)
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {

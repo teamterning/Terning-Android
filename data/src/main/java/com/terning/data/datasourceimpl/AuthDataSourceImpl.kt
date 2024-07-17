@@ -16,7 +16,7 @@ class AuthDataSourceImpl @Inject constructor(
     override suspend fun postSignIn(
         authorization: String,
         request: SignInRequestDto
-    ): BaseResponse<SignInResponseDto> = authService.postSignIn(authorization, request)
+    ): BaseResponse<SignInResponseDto> = authService.postSignIn("Bearer $authorization", request)
 
     override suspend fun postSignUp(
         authId: String,
