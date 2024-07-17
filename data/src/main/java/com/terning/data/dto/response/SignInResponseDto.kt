@@ -13,7 +13,7 @@ data class SignInResponseDto(
     @SerialName("userId")
     val userId: Long?,
     @SerialName("authId")
-    val authId: String?,
+    val authId: String,
     @SerialName("authType")
     val authType: String,
 ) {

@@ -11,7 +11,6 @@ import kotlinx.serialization.Serializable
 
 fun NavController.navigateSignUp(
     navOptions: NavOptions? = null,
-    //   authId: String
 ) {
     navigate(
         route = SignUp,
@@ -23,19 +22,11 @@ fun NavGraphBuilder.signUpNavGraph(
     navHostController: NavHostController
 ) {
     composable<SignUp> {
-        //    val args = it.toRoute<SignUp>()
         SignUpRoute(
             navController = navHostController,
-            //  authId = args.authId
         )
     }
 }
-//
-//@Serializable
-//data class SignUp(
-//    val authId: String
-//) : Route
-
 
 @Serializable
 data object SignUp : Route

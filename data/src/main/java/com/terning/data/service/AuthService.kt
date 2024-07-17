@@ -19,7 +19,7 @@ interface AuthService {
 
     @POST("api/v1/auth/sign-up")
     suspend fun postSignUp(
-        @Header("userId") authId: String,
+        @Header("authId") authId: String,
         @Body body: SignUpRequestDto,
     ): BaseResponse<SignUpResponseDto>
 }
