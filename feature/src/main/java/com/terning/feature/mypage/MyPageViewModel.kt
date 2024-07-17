@@ -25,6 +25,10 @@ class MyPageViewModel @Inject constructor(
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
+    init {
+        getProfile()
+    }
+
     private val _state: MutableStateFlow<MyPageState> = MutableStateFlow(MyPageState())
     val state: StateFlow<MyPageState> get() = _state.asStateFlow()
 
@@ -33,7 +37,8 @@ class MyPageViewModel @Inject constructor(
             if (error == null) {
                 postLogout()
             } else {
-                _state.value = _state.value.copy(isSuccess = UiState.Failure(error.toString()))
+                _state.value =
+                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(error.toString()))
             }
         }
     }
@@ -42,9 +47,10 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             myPageRepository.postLogout().onSuccess {
                 tokenRepository.clearInfo()
-                _state.value = _state.value.copy(isSuccess = UiState.Success(true))
+                _state.value = _state.value.copy(isLogoutAndQuitSuccess = UiState.Success(true))
             }.onFailure {
-                _state.value = _state.value.copy(isSuccess = UiState.Failure(it.toString()))
+                _state.value =
+                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(it.toString()))
             }
         }
     }
@@ -65,7 +71,8 @@ class MyPageViewModel @Inject constructor(
             if (error == null) {
                 deleteQuit()
             } else {
-                _state.value = _state.value.copy(isSuccess = UiState.Failure(error.toString()))
+                _state.value =
+                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(error.toString()))
             }
         }
     }
@@ -74,10 +81,26 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             myPageRepository.deleteQuit().onSuccess {
                 tokenRepository.clearInfo()
-                _state.value = _state.value.copy(isSuccess = UiState.Success(true))
+                _state.value = _state.value.copy(isLogoutAndQuitSuccess = UiState.Success(true))
             }.onFailure {
-                _state.value = _state.value.copy(isSuccess = UiState.Failure(it.toString()))
+                _state.value =
+                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(it.toString()))
             }
         }
     }
+
+    private fun getProfile() {
+        viewModelScope.launch {
+            myPageRepository.getProfile().onSuccess { response ->
+                _state.value = _state.value.copy(
+                    isGetSuccess = UiState.Success(true),
+                    name = response.name,
+                    authType = response.authType
+                )
+            }.onFailure {
+                _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
+            }
+        }
+    }
+
 }

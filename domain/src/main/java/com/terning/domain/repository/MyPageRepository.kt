@@ -1,7 +1,11 @@
 package com.terning.domain.repository
 
-interface MyPageRepository {
-    suspend fun postLogout() : Result<Unit>
+import com.terning.domain.entity.response.MyPageProfileModel
 
-    suspend fun deleteQuit() : Result<Unit>
+interface MyPageRepository {
+    suspend fun postLogout(): Result<Unit>
+
+    suspend fun deleteQuit(): Result<Unit>
+
+    suspend fun getProfile(): Result<MyPageProfileModel>
 }
