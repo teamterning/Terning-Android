@@ -85,7 +85,7 @@ class SignInViewModel @Inject constructor(
             when {
                 response.accessToken == null -> _signInSideEffects.emit(
                     SignInSideEffect.NavigateSignUp(
-                        response.authId
+                        response.authId ?: ""
                     )
                 )
 
@@ -94,7 +94,7 @@ class SignInViewModel @Inject constructor(
                         response.accessToken ?: return,
                         response.refreshToken ?: return
                     )
-                    tokenRepository.setUserId(response.userId)
+                    tokenRepository.setUserId(response.userId ?: return)
 
                     _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
                 }
