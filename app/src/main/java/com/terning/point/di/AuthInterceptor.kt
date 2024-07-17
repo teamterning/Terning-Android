@@ -26,7 +26,7 @@ class AuthInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
-        Timber.d("GET ACCESS TOKEN : ${terningDataStore.refreshToken}")
+        Timber.d("GET REFRESH TOKEN : ${terningDataStore.refreshToken}")
 
         val authRequest = if (terningDataStore.accessToken.isNotBlank()) {
             originalRequest.newBuilder().newAuthBuilder().build()
