@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -42,9 +42,12 @@ fun ChangeFilterScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val isButtonValid = with(viewModel.userName.internFilter) {
-        if (this?.grade == null) remember { mutableStateListOf(false, false) }
-        else remember { mutableStateListOf(true, true) }
+    val isGradeButtonValid = remember {
+        mutableStateOf(viewModel.userName.internFilter?.grade != null)
+    }
+
+    val isWorkingPeriodButtonValid = remember {
+        mutableStateOf(viewModel.userName.internFilter?.workingPeriod != null)
     }
 
     Scaffold(
@@ -77,7 +80,7 @@ fun ChangeFilterScreen(
                 internFilterData = viewModel.userName.internFilter,
                 onButtonClick = {
                     viewModel.setGrade(it)
-                    isButtonValid[0] = true
+                    isGradeButtonValid.value = true
                 }
             )
 
@@ -105,7 +108,7 @@ fun ChangeFilterScreen(
                 internFilterData = viewModel.userName.internFilter,
                 onButtonClick = {
                     viewModel.setWorkingPeriod(it)
-                    isButtonValid[1] = true
+                    isWorkingPeriodButtonValid.value = true
                 }
             )
 
@@ -133,7 +136,7 @@ fun ChangeFilterScreen(
                 onButtonClick = {
                     navController.navigateHome()
                 },
-                isEnabled = isButtonValid[0] && isButtonValid[1]
+                isEnabled = isGradeButtonValid.value && isWorkingPeriodButtonValid.value
             )
         }
     }
