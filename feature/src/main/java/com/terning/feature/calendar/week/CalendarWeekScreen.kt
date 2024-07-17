@@ -2,6 +2,7 @@ package com.terning.feature.calendar.week
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
@@ -27,9 +29,8 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.scrap.CalendarScrapList
+import com.terning.feature.calendar.scrap.component.CalendarScrapList
 import java.time.LocalDate
 
 @Composable
@@ -63,7 +64,7 @@ fun CalendarWeekScreen(
 
             shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
         ) {
-            CalendarWeek(
+            HorizontalCalendarWeek(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(White),
@@ -77,35 +78,45 @@ fun CalendarWeekScreen(
         when (calendarWeekState.loadState) {
             is UiState.Loading -> {}
             is UiState.Empty -> {
-                Text(
-                    modifier = Modifier
-                        .padding(top = 42.dp)
-                        .fillMaxWidth(),
-                    text = stringResource(id = R.string.calendar_empty_scrap),
-                    textAlign = TextAlign.Center,
-                    style = TerningTheme.typography.body5,
-                    color = Grey400
-                )
+                CalendarWeekEmpty()
             }
-
             is UiState.Failure -> {}
             is UiState.Success -> {
                 val scrapList = (calendarWeekState.loadState as UiState.Success).data
-
-                CalendarScrapList(selectedDate = uiState.selectedDate, scrapList = scrapList) {
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 42.dp)
-                            .fillMaxWidth(),
-                        text = stringResource(id = R.string.calendar_empty_scrap),
-                        textAlign = TextAlign.Center,
-                        style = TerningTheme.typography.body5,
-                        color = Grey400
-                    )
-                }
+                CalendarWeekSuccess(scrapList = scrapList, selectedDate = uiState.selectedDate)
             }
         }
     }
+}
+
+@Composable
+fun CalendarWeekEmpty(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        contentAlignment = Alignment.Center
+    ) {
+
+
+        Text(
+            modifier = Modifier
+                .padding(top = 42.dp)
+                .fillMaxWidth(),
+            text = stringResource(id = R.string.calendar_empty_scrap),
+            textAlign = TextAlign.Center,
+            style = TerningTheme.typography.body5,
+            color = Grey400
+        )
+    }
+}
+
+@Composable
+fun CalendarWeekSuccess(
+    scrapList: List<CalendarScrapDetailModel>,
+    selectedDate: LocalDate,
+) {
+
+    CalendarScrapList(selectedDate = selectedDate, scrapList = scrapList) {}
 }
 
 

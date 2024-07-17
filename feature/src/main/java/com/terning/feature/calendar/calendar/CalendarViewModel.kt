@@ -2,20 +2,11 @@ package com.terning.feature.calendar.calendar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.theme.CalBlue1
-import com.terning.core.designsystem.theme.CalGreen1
-import com.terning.core.designsystem.theme.CalGreen2
-import com.terning.core.designsystem.theme.CalPink
-import com.terning.core.designsystem.theme.CalPurple
-import com.terning.core.designsystem.theme.CalRed
-import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.month.CalendarMonthState
 import com.terning.feature.calendar.scrap.CalendarListState
-import com.terning.feature.calendar.scrap.model.Scrap
 import com.terning.feature.calendar.week.CalendarWeekState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +17,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -142,8 +132,8 @@ class CalendarViewModel @Inject constructor(
             onSuccess = {
                 _calendarWeekState.update { currentState ->
                     currentState.copy(
-                        /*loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty*/
-                        loadState = UiState.Success(it)
+                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
+                        //loadState = UiState.Success(it)
                     )
                 }
                 _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_success))

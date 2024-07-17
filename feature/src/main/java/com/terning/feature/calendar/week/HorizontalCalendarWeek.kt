@@ -19,7 +19,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
-fun CalendarWeek(
+fun HorizontalCalendarWeek(
     selectedDate: CalendarUiState,
     modifier: Modifier = Modifier,
     onDateSelected: (LocalDate) -> Unit = {}

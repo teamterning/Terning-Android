@@ -13,11 +13,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.CalendarScrapModel
+import com.terning.feature.calendar.calendar.CalendarUiState
+import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
-import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.month.model.MonthData
-import com.terning.feature.calendar.calendar.CalendarUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 import java.time.YearMonth

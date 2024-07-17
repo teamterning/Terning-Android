@@ -2,23 +2,19 @@ package com.terning.feature.calendar.scrap
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -27,20 +23,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.theme.Back
-import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getDateAsMapString
-import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
-import com.terning.feature.calendar.scrap.component.CalendarScrap
+import com.terning.feature.calendar.scrap.component.CalendarScrapList
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 
@@ -87,15 +80,20 @@ fun CalendarListScreen(
                     UiState.Loading -> {}
                     UiState.Empty -> {
                         item {
-                            Text(
-                                modifier = Modifier
-                                    .padding(top = 42.dp)
-                                    .fillMaxWidth(),
-                                text = stringResource(id = R.string.calendar_empty_scrap),
-                                textAlign = TextAlign.Center,
-                                style = TerningTheme.typography.body5,
-                                color = Grey400
-                            )
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    modifier = Modifier
+                                        .padding(top = 42.dp)
+                                        .fillMaxWidth(),
+                                    text = stringResource(id = R.string.calendar_empty_scrap),
+                                    textAlign = TextAlign.Center,
+                                    style = TerningTheme.typography.body5,
+                                    color = Grey400
+                                )
+                            }
                         }
                     }
 
@@ -123,48 +121,4 @@ fun CalendarListScreen(
     }
 }
 
-@Composable
-fun CalendarScrapList(
-    selectedDate: LocalDate,
-    scrapList: List<CalendarScrapDetailModel>,
-    isFromList: Boolean = false,
-    noScrapScreen: @Composable () -> Unit
-) {
-    val scrollState = rememberScrollState()
 
-    if (scrapList.isListNotEmpty()) {
-        Text(
-            text = selectedDate.getDateStringInKorean(),
-            style = TerningTheme.typography.title5,
-            color = Black,
-            modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-        )
-    }
-    val topModifier = if (!isFromList) {
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-            .verticalScroll(scrollState)
-    } else {
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-    }
-
-    if (!scrapList.isListNotEmpty()) {
-        noScrapScreen()
-    } else {
-        Column(
-            modifier = topModifier
-        ) {
-            for (scrap in scrapList) {
-                CalendarScrap(
-                    scrap = scrap
-                )
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-            }
-        }
-    }
-}
