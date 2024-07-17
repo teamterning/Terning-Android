@@ -8,13 +8,14 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -33,10 +34,12 @@ import kotlinx.coroutines.launch
 fun SignUpBottomSheet(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
-    onSaveClick: () -> Unit
+    onSaveClick: (Int) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
+
+    var selectedImageIndex by remember { mutableIntStateOf(-1) }
 
     TerningBasicBottomSheet(
         content = {
@@ -50,7 +53,11 @@ fun SignUpBottomSheet(
                             bottom = 25.dp
                         ),
                 )
-                RadioButtonGroup()
+                RadioButtonGroup(
+                    onOptionSelected = { index ->
+                        selectedImageIndex = index
+                    }
+                )
                 Spacer(modifier = modifier.padding(bottom = 24.dp))
                 RoundButton(
                     style = TerningTheme.typography.button0,
@@ -61,7 +68,7 @@ fun SignUpBottomSheet(
                         scope.launch { sheetState.hide() }
                             .invokeOnCompletion {
                                 if (!sheetState.isVisible) {
-                                    onSaveClick()
+                                    onSaveClick(selectedImageIndex)
                                 }
                             }
                     },
@@ -77,7 +84,8 @@ fun SignUpBottomSheet(
 
 @Composable
 fun RadioButtonGroup(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onOptionSelected: (Int) -> Unit
 ) {
     val options = listOf(
         R.drawable.ic_character1,
@@ -97,7 +105,7 @@ fun RadioButtonGroup(
         modifier = modifier
             .padding(horizontal = 42.dp)
     ) {
-        items(options) { option ->
+        itemsIndexed(options) { index, option ->
             Image(
                 painter = painterResource(
                     id = if (option == selectedOption) R.drawable.ic_selected_character
@@ -107,6 +115,7 @@ fun RadioButtonGroup(
                 modifier = modifier
                     .aspectRatio(1f)
                     .noRippleClickable {
+                        onOptionSelected(index)
                         selectedOption = option
                     }
             )
