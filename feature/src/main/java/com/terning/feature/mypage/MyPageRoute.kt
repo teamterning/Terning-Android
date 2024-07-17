@@ -46,6 +46,9 @@ fun MyPageRoute(
     var showLogoutBottomSheet by remember { mutableStateOf(false) }
     var showQuitBottomSheet by remember { mutableStateOf(false) }
 
+    var name by remember { mutableStateOf(state.name) }
+    var authType by remember { mutableStateOf(state.authType) }
+
     if (showLogoutBottomSheet) {
         MyPageLogoutBottomSheet(
             onDismiss = { showLogoutBottomSheet = false },
@@ -59,12 +62,12 @@ fun MyPageRoute(
         MyPageQuitBottomSheet(
             onDismiss = { showQuitBottomSheet = false },
             onQuitClick = {
-                viewModel.patchQuit()
+                viewModel.quitKakao()
             }
         )
     }
 
-    when (state.isSuccess) {
+    when (state.isLogoutAndQuitSuccess) {
         is UiState.Success -> {
             viewModel.restartApp(context)
         }
@@ -74,16 +77,31 @@ fun MyPageRoute(
         is UiState.Failure -> {}
     }
 
+    when (state.isGetSuccess) {
+        is UiState.Success -> {
+            name = state.name
+            authType = state.authType
+        }
+
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
+    }
+
     MyPageScreen(
         onLogoutClick = { showLogoutBottomSheet = true },
-        onQuitClick = { showQuitBottomSheet = true }
+        onQuitClick = { showQuitBottomSheet = true },
+        name = name,
+        authType = authType
     )
 }
 
 @Composable
 fun MyPageScreen(
     onLogoutClick: () -> Unit,
-    onQuitClick: () -> Unit
+    onQuitClick: () -> Unit,
+    name: String = "",
+    authType: String = ""
 ) {
     Scaffold(
         modifier = Modifier,
@@ -96,7 +114,7 @@ fun MyPageScreen(
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding())
         ) {
             Text(
-                text = stringResource(id = R.string.my_page_name, "남지우"),
+                text = stringResource(id = R.string.my_page_name, name),
                 modifier = Modifier.padding(
                     top = 21.dp,
                     start = 24.dp,
