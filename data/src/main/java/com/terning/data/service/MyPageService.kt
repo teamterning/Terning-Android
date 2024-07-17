@@ -1,10 +1,10 @@
 package com.terning.data.service
 
 import com.terning.data.dto.NonDataBaseResponse
-import retrofit2.http.PATCH
+import retrofit2.http.POST
 
 interface MyPageService {
-    @PATCH("api/v1/mypage/logout")
+    @POST("api/v1/auth/logout")
     suspend fun patchLogout(): NonDataBaseResponse
 
 }
