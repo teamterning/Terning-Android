@@ -18,7 +18,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.domain.entity.response.CalendarScrapModel
 
 @Composable
-fun CalendarScrapStrip(
+fun CalendarMonthScrap(
     modifier: Modifier = Modifier,
     scrapLists: List<CalendarScrapModel>
 ) {
