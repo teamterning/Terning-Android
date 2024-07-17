@@ -80,7 +80,7 @@ class SignInViewModel @Inject constructor(
     ) {
         authRepository.postSignIn(
             accessToken,
-            SignInRequestModel(authType)
+            SignInRequestModel(authType = authType)
         ).onSuccess { response ->
             when {
                 response.accessToken == null -> _signInSideEffects.emit(
