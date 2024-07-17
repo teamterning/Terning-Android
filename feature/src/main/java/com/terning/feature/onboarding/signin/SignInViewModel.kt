@@ -1,7 +1,6 @@
 package com.terning.feature.onboarding.signin
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
@@ -79,7 +78,6 @@ class SignInViewModel @Inject constructor(
         accessToken: String,
         authType: String = KAKAO,
     ) {
-        Log.d("LYB", accessToken)
         authRepository.postSignIn(
             accessToken,
             SignInRequestModel(authType = authType)
