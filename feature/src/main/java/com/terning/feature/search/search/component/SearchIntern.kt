@@ -37,6 +37,7 @@ fun SearchIntern(
     companyImage: String,
     title: String,
     navController: NavHostController,
+    announcementId: Long,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -48,7 +49,7 @@ fun SearchIntern(
             )
             .padding(top = 8.dp)
             .noRippleClickable {
-                navController.navigateIntern()
+                navController.navigateIntern(announcementId = announcementId)
             }
     ) {
         AsyncImage(

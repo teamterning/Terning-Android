@@ -23,7 +23,7 @@
     <string name="calendar_button_description_list">list</string>
 
     <!--SortByBottom-->
-    <string name="sort_by_earliest">채용 마감 이른 순</string>
+    <string name="sort_by_earliest">채용 마감 이른순</string>
     <string name="sort_by_shortest">짧은 근무 기간순</string>
     <string name="sort_by_longest">긴 근무 기간순</string>
     <string name="sort_by_scrap">스크랩 많은순</string>

@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
 ) : ViewModel() {
 
     init {
@@ -76,16 +76,16 @@ class SignInViewModel @Inject constructor(
 
     private suspend fun signInSuccess(
         accessToken: String,
-        authType: String = KAKAO
+        authType: String = KAKAO,
     ) {
         authRepository.postSignIn(
-            BEARER + accessToken,
+            accessToken,
             SignInRequestModel(authType = authType)
         ).onSuccess { response ->
             when {
                 response.accessToken == null -> _signInSideEffects.emit(
                     SignInSideEffect.NavigateSignUp(
-                        response.authId
+                        response.authId,
                     )
                 )
 
