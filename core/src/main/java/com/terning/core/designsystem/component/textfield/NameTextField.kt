@@ -17,8 +17,7 @@ fun NameTextField(
     onValueChange: (String) -> Unit,
     hint: String,
     drawLineColor: Color,
-    @StringRes
-    helperMessage: Int,
+    @StringRes helperMessage: Int,
     helperColor: Color,
     helperIcon: Int? = null,
 ) {
