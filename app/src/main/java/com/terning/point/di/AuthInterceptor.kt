@@ -31,7 +31,7 @@ class AuthInterceptor @Inject constructor(
         val authRequest = if (terningDataStore.accessToken.isNotBlank()) {
             originalRequest.newBuilder().newAuthBuilder().build()
         } else {
-            originalRequest
+            originalRequest.newBuilder().newAuthBuilder().build()
         }
 
         val response = chain.proceed(authRequest)

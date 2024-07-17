@@ -40,7 +40,7 @@ fun MyPageScreen(
     Scaffold(
         modifier = Modifier,
         topBar = {
-            MyPageTopAppBar(modifier = Modifier)
+            //MyPageTopAppBar(modifier = Modifier)
         }
     ) { paddingValues ->
 
