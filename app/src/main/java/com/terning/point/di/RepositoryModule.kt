@@ -1,10 +1,12 @@
 package com.terning.point.di
 
 import com.terning.data.repositoryimpl.AuthRepositoryImpl
+import com.terning.data.repositoryimpl.FilteringRepositoryImpl
 import com.terning.data.repositoryimpl.SearchViewsRepositoryImpl
 import com.terning.data.repositoryimpl.TokenReissueRepositoryImpl
 import com.terning.data.repositoryimpl.TokenRepositoryImpl
 import com.terning.domain.repository.AuthRepository
+import com.terning.domain.repository.FilteringRepository
 import com.terning.domain.repository.SearchRepository
 import com.terning.domain.repository.TokenReissueRepository
 import com.terning.domain.repository.TokenRepository
@@ -33,4 +35,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindTokenReissueRepository(tokenReissueRepositoryImpl: TokenReissueRepositoryImpl): TokenReissueRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFilteringRepository(filteringRepositoryImpl: FilteringRepositoryImpl): FilteringRepository
 }

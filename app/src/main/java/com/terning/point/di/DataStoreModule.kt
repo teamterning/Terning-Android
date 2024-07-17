@@ -24,4 +24,5 @@ object DataStoreModule {
     @Singleton
     fun provideTerningDataStore(dataStoreImpl: TerningDataStoreImpl): TerningDataStore =
         dataStoreImpl
+
 }
