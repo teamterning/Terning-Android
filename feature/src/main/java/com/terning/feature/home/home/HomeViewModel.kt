@@ -9,6 +9,7 @@ import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.feature.R
 import com.terning.feature.home.home.model.InternFilterData
+import com.terning.feature.home.home.model.SortBy
 import com.terning.feature.home.home.model.UserNameState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -86,13 +87,5 @@ class HomeViewModel @Inject constructor(
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
         }
-    }
-
-    enum class SortBy(val sortBy: String) {
-        EARLIEST("deadlineSoon"),
-        SHORTEST("shortestDuration"),
-        LONGEST("longestDuration"),
-        SCRAP("mostScrapped"),
-        VIEW_COUNT("mostViewed"),
     }
 }
