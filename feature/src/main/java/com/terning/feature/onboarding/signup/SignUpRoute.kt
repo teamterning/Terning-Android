@@ -35,7 +35,7 @@ import com.terning.feature.onboarding.signup.component.SignUpProfile
 
 @Composable
 fun SignUpRoute(
-    authId: String,
+   // authId: String,
     viewModel: SignUpViewModel = hiltViewModel(),
     navController: NavController
 ) {
@@ -45,7 +45,7 @@ fun SignUpRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(key1 = true) {
-        viewModel.getAuthId(authId)
+      //  viewModel.getAuthId(authId)
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
