@@ -77,7 +77,10 @@ class AuthInterceptor @Inject constructor(
     }
 
     private fun Request.Builder.newAuthBuilder() =
-        this.addHeader(AUTHORIZATION, "$BEARER ${terningDataStore.accessToken}")
+        this.addHeader(
+            AUTHORIZATION, "$BEARER "
+            //+ "$TEMP_TOKEN"
+        )
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401
@@ -85,5 +88,4 @@ class AuthInterceptor @Inject constructor(
         private const val BEARER = "Bearer"
         private const val AUTHORIZATION = "Authorization"
     }
-
 }
