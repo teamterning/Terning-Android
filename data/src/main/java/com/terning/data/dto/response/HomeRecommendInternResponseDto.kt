@@ -19,7 +19,7 @@ data class HomeRecommendInternResponseDto(
     @SerialName("isScrapped")
     val isScrapped: Boolean,
 ) {
-    fun toRecommendInternEntity(): List<HomeRecommendInternModel> = listOf(
+    fun toRecommendInternEntity(): HomeRecommendInternModel =
         HomeRecommendInternModel(
             internshipAnnouncementId = this.internshipAnnouncementId,
             title = this.title,
@@ -28,5 +28,4 @@ data class HomeRecommendInternResponseDto(
             companyImage = this.companyImage,
             isScrapped = this.isScrapped,
         )
-    )
 }

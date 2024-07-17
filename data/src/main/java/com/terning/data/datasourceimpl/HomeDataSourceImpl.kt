@@ -9,6 +9,10 @@ import javax.inject.Inject
 class HomeDataSourceImpl @Inject constructor(
     private val homeService: HomeService
 ) : HomeDataSource {
-    override suspend fun getRecommendIntern(sortBy: String): BaseResponse<HomeRecommendInternResponseDto> =
-        homeService.getRecommendIntern(sortBy = sortBy)
+    override suspend fun getRecommendIntern(
+        sortBy: String,
+        year: Int,
+        month: Int
+    ): BaseResponse<List<HomeRecommendInternResponseDto>> =
+        homeService.getRecommendIntern(sortBy = sortBy, year = year, month = month)
 }

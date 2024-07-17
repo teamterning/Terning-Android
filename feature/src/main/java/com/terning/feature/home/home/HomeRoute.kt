@@ -84,9 +84,16 @@ fun HomeRoute(
             }
     }
 
-    LaunchedEffect(key1 = currentSortBy) {
-        viewModel.getRecommendInternsData(currentSortBy.value)
+    val userNameState = viewModel.userName
 
+    LaunchedEffect(key1 = currentSortBy) {
+        with(userNameState.internFilter) {
+            viewModel.getRecommendInternsData(
+                currentSortBy.value,
+                this?.startYear ?: viewModel.currentYear,
+                this?.startMonth ?: viewModel.currentMonth
+            )
+        }
     }
 
     var recommendInternList = emptyList<HomeRecommendInternModel>()

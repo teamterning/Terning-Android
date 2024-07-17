@@ -9,6 +9,7 @@ interface HomeService {
     @GET("api/v1/home")
     suspend fun getRecommendIntern(
         @Query("sortBy") sortBy: String,
-    ): BaseResponse<HomeRecommendInternResponseDto>
-
+        @Query("year") year: Int,
+        @Query("month") month: Int,
+    ): BaseResponse<List<HomeRecommendInternResponseDto>>
 }

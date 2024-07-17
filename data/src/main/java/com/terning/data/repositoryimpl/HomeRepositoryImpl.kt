@@ -8,8 +8,18 @@ import javax.inject.Inject
 class HomeRepositoryImpl @Inject constructor(
     private val homeDataSource: HomeDataSource,
 ) : HomeRepository {
-    override suspend fun getRecommendIntern(sortBy: String): Result<List<HomeRecommendInternModel>> =
+    override suspend fun getRecommendIntern(
+        sortBy: String,
+        year: Int,
+        month: Int
+    ): Result<List<HomeRecommendInternModel>> =
         runCatching {
-            homeDataSource.getRecommendIntern(sortBy = sortBy).result.toRecommendInternEntity()
+            homeDataSource.getRecommendIntern(
+                sortBy = sortBy,
+                year = year,
+                month = month
+            ).result.map {
+                it.toRecommendInternEntity()
+            }
         }
 }

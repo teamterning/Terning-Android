@@ -25,12 +25,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository
 ) : ViewModel() {
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+    val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+
     private val _userName by mutableStateOf(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
@@ -38,7 +42,7 @@ class HomeViewModel @Inject constructor(
                 grade = 1,
                 workingPeriod = 1,
                 startYear = 2024,
-                startMonth = 7,
+                startMonth = 8,
             )
         )
     )
@@ -62,7 +66,6 @@ class HomeViewModel @Inject constructor(
     private val _homeSortByState = MutableStateFlow(0)
     val homeSortByState get() = _homeSortByState.asStateFlow()
 
-
     fun setGrade(grade: Int) {
         userName.internFilter?.grade = grade
     }
@@ -72,19 +75,25 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
-        getRecommendInternsData(sortBy = 0)
+        with(_userName.internFilter) {
+            getRecommendInternsData(
+                sortBy = 0,
+                this?.startYear ?: currentYear,
+                this?.startMonth ?: currentMonth
+            )
+        }
     }
 
-    fun getRecommendInternsData(sortBy: Int) {
+    fun getRecommendInternsData(sortBy: Int, year: Int, month: Int) {
         _recommendInternState.value = UiState.Loading
         viewModelScope.launch {
-            homeRepository.getRecommendIntern(SortBy.entries[sortBy].sortBy)
+            homeRepository.getRecommendIntern(SortBy.entries[sortBy].sortBy, year, month)
                 .onSuccess { internList ->
                     _recommendInternState.value = UiState.Success(internList)
                 }.onFailure { exception: Throwable ->
-                _recommendInternState.value = UiState.Failure(exception.message ?: "")
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
-            }
+                    _recommendInternState.value = UiState.Failure(exception.message ?: "")
+                    _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+                }
         }
     }
 
