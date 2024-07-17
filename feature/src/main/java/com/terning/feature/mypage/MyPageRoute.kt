@@ -23,6 +23,7 @@ import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
+import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 import com.terning.feature.mypage.component.MyPageItem
 
@@ -31,11 +32,17 @@ fun MyPageRoute(
     myPageViewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
-    MyPageScreen()
+
+    MyPageScreen(
+        onLogoutClick = { /*TODO*/ },
+        onQuitClick = { /*TODO*/ }
+    )
 }
 
 @Composable
 fun MyPageScreen(
+    onLogoutClick: () -> Unit,
+    onQuitClick: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier,
@@ -68,7 +75,11 @@ fun MyPageScreen(
                         shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp)
                     )
             )
-            LogoutAndQuit(modifier = Modifier.fillMaxWidth())
+            LogoutAndQuit(
+                modifier = Modifier.fillMaxWidth(),
+                onLogoutClick = { onLogoutClick() },
+                onQuitClick = { onQuitClick() }
+            )
         }
     }
 }
@@ -118,7 +129,9 @@ fun MyPageInfo(
 
 @Composable
 fun LogoutAndQuit(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onLogoutClick: () -> Unit,
+    onQuitClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -131,6 +144,9 @@ fun LogoutAndQuit(
             text = stringResource(id = R.string.my_page_logout),
             style = TerningTheme.typography.button4,
             color = Grey350,
+            modifier = modifier.noRippleClickable {
+                onLogoutClick()
+            }
         )
         Spacer(modifier = Modifier.padding(end = 10.dp))
         TerningImage(painter = R.drawable.ic_my_page_divider)
@@ -138,7 +154,10 @@ fun LogoutAndQuit(
         Text(
             text = stringResource(id = R.string.my_page_quit),
             style = TerningTheme.typography.button4,
-            color = Grey350
+            color = Grey350,
+            modifier = modifier.noRippleClickable {
+                onQuitClick()
+            }
         )
     }
 }
