@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InternViewModel @Inject constructor(
     private val internRepository: InternRepository,
-    private val scrapRepository: ScrapRepository
+    private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
     private val _internState: MutableStateFlow<InternViewState> =
         MutableStateFlow(InternViewState())
@@ -38,22 +38,36 @@ class InternViewModel @Inject constructor(
 
     fun getInternInfo(id: Long) {
         viewModelScope.launch {
-            internRepository.getInternInfo(id)
-                .onSuccess { internInfo ->
-                    _internState.value = _internState.value.copy(
-                        internInfo = UiState.Success(internInfo)
-                    )
-                }.onFailure {
-                    _sideEffect.emit(
-                        InternViewSideEffect.Toast(R.string.server_failure)
-                    )
+            internRepository.getInternInfo(
+                id
+            ).onSuccess { internInfo ->
+                _internState.update {
+                    it.copy(internInfo = UiState.Success(internInfo))
                 }
+            }.onFailure {
+                _sideEffect.emit(
+                    InternViewSideEffect.Toast(R.string.server_failure)
+                )
+            }
         }
     }
 
-    fun postScrap(id: Long) {
+    fun postScrap(
+        id: Long,
+        color: Int,
+    ) {
         viewModelScope.launch {
-            scrapRepository.postScrap(ScrapRequestModel(id, 1))
+            scrapRepository.postScrap(
+                ScrapRequestModel(id, color)
+            ).onSuccess {
+                _scrapState.update {
+                    it.copy(isScrap = UiState.Success(true))
+                }
+            }.onFailure {
+                _sideEffect.emit(
+                    InternViewSideEffect.Toast(R.string.server_failure)
+                )
+            }
         }
     }
 

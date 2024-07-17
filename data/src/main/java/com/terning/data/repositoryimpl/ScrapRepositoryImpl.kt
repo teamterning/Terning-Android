@@ -8,7 +8,8 @@ import javax.inject.Inject
 class ScrapRepositoryImpl @Inject constructor(
     private val scrapDataSource: ScrapDataSource,
 ) : ScrapRepository {
-    override suspend fun postScrap(scrapRequestModel: ScrapRequestModel) {
+    override suspend fun postScrap(scrapRequestModel: ScrapRequestModel)
+            : Result<Unit> = runCatching {
         scrapDataSource.postScrap(scrapRequestModel)
     }
 }

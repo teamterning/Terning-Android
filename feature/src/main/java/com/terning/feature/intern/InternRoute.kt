@@ -140,7 +140,7 @@ fun InternScreen(
                 url = internInfoModel.url,
                 isScrappedState = state.isScrappedState,
                 onScrapClick = {
-                    viewModel.updateScrapDialogVisible(true)
+                    viewModel.postScrap(1, 1)
                 }
             )
         }
@@ -319,6 +319,7 @@ fun InternScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
+                                // TODO 스크랩 테스트 !
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_second_info_20),
                                     contentDescription = null,
