@@ -73,7 +73,7 @@ fun InternItem(
                 .padding(start = 8.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.intern_item_d_day, dateDeadline),
+                text = dateDeadline,
                 style = TerningTheme.typography.detail0,
                 color = TerningMain,
             )
@@ -95,10 +95,7 @@ fun InternItem(
                 )
 
                 Text(
-                    text = stringResource(
-                        id = R.string.intern_item_working_period_month,
-                        workingPeriod
-                    ),
+                    text = workingPeriod,
                     style = TerningTheme.typography.detail3,
                     color = TerningMain,
                     modifier = Modifier.padding(start = 4.dp)
