@@ -13,16 +13,22 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.toast
 import com.terning.feature.R
+import com.terning.feature.filtering.starthome.navigation.navigateStartHome
 import java.util.Calendar
 
 @Composable
@@ -33,6 +39,11 @@ fun FilteringThreeScreen(
     modifier: Modifier = Modifier,
     viewModel: FilteringViewModel = hiltViewModel(),
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
     val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
@@ -47,6 +58,16 @@ fun FilteringThreeScreen(
     LaunchedEffect(key1 = chosenYear, key2 = chosenMonth) {
         viewModel.fetchStartYear(chosenYear)
         viewModel.fetchStartMonth(chosenMonth)
+    }
+
+    LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
+        viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is FilteringSideEffect.NavigateToStartHome -> navController.navigateStartHome()
+                    is FilteringSideEffect.ShowToast -> context.toast(sideEffect.message)
+                }
+            }
     }
 
     Scaffold(

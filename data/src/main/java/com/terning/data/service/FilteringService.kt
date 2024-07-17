@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface FilteringService {
     @POST("/api/v1/auth/sign-up/filter")
     suspend fun postFilteringService(
-        @Header("userId") userId: Long,
+        @Header("User-Id") userId: Long,
         @Body request: FilteringRequestDto
     ): NonDataBaseResponse
 }
