@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -85,7 +86,6 @@ fun CalendarWeekScreen(
             is UiState.Empty -> {
                 CalendarWeekEmpty()
             }
-
             is UiState.Failure -> {}
             is UiState.Success -> {
                 val scrapList = (calendarWeekState.loadState as UiState.Success).data
@@ -93,6 +93,7 @@ fun CalendarWeekScreen(
                     scrapList = scrapList,
                     selectedDate = uiState.selectedDate,
                     onScrapButtonClicked = { scrapId ->
+                        viewModel.updateScrapCancelDialogVisible()
                     })
             }
         }
@@ -104,10 +105,11 @@ fun CalendarWeekEmpty(
     modifier: Modifier = Modifier
 ) {
     Box(
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            modifier = Modifier
+            modifier =  Modifier
                 .padding(top = 42.dp)
                 .fillMaxWidth(),
             text = stringResource(id = R.string.calendar_empty_scrap),
@@ -124,7 +126,6 @@ fun CalendarWeekSuccess(
     onScrapButtonClicked: (Int) -> Unit,
     selectedDate: LocalDate,
 ) {
-
     CalendarScrapList(
         selectedDate = selectedDate,
         scrapList = scrapList,

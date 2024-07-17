@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -78,6 +79,17 @@ class CalendarViewModel @Inject constructor(
                 isWeekEnabled = false
             )
         }
+    }
+
+    fun updateScrapCancelDialogVisible() {
+        _calendarWeekState.update { currentState ->
+            currentState.copy(
+                isScrapButtonClicked = !currentState.isScrapButtonClicked
+            )
+        }
+        Timber
+            .tag("CalendarScreen")
+            .d("<CalendarViewModel> ${_calendarWeekState.value.isScrapButtonClicked}")
     }
 
     fun getScrapMonth(
