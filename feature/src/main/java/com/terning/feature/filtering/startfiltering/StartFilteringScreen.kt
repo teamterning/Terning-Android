@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.starthome
+package com.terning.feature.filtering.startfiltering
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -25,13 +25,14 @@ import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
 import kotlinx.coroutines.delay
 
 @Composable
-fun StartHomeScreen(
+fun StartFilteringScreen(
+    name: String,
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
 ) {
     var isVisible by remember { mutableStateOf(false) }
 
@@ -49,7 +50,7 @@ fun StartHomeScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = stringResource(id = R.string.start_home_title),
+                text = stringResource(id = R.string.start_filtering_title),
                 style = TerningTheme.typography.title1,
                 modifier = Modifier.padding(bottom = 35.dp),
                 textAlign = TextAlign.Center
@@ -72,8 +73,8 @@ fun StartHomeScreen(
                 RectangleButton(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 20.dp,
-                    text = R.string.start_home_next_button,
-                    onButtonClick = { navController.navigateHome() },
+                    text = R.string.start_filtering_button,
+                    onButtonClick = { navController.navigateFilteringOne(name) },
                 )
             }
         }

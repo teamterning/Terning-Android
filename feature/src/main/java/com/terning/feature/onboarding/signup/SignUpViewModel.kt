@@ -89,7 +89,7 @@ class SignUpViewModel @Inject constructor(
                 tokenRepository.setTokens(response.accessToken, response.refreshToken)
                 tokenRepository.setUserId(response.userId)
 
-                _sideEffects.emit(SignUpSideEffect.NavigateToFiltering)
+                _sideEffects.emit(SignUpSideEffect.NavigateToStartFiltering)
             }.onFailure {
                 _sideEffects.emit(SignUpSideEffect.ShowToast(R.string.server_failure))
             }

@@ -14,7 +14,7 @@ class MyApp : Application() {
 
         initTimber()
         setDayMode()
-        initKakoSdk()
+        initKakaoSdk()
     }
 
     private fun initTimber() {
@@ -25,7 +25,7 @@ class MyApp : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
-    private fun initKakoSdk() {
+    private fun initKakaoSdk() {
         KakaoSdk.init(this, BuildConfig.NATIVE_APP_KEY)
     }
 }
