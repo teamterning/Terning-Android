@@ -1,5 +1,7 @@
 package com.terning.feature.search.searchprocess.models
 
+import com.terning.core.state.UiState
+import com.terning.domain.entity.response.SearchResultModel
 import com.terning.feature.home.home.model.InternData
 
 

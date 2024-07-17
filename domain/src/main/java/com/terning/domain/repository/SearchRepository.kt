@@ -10,7 +10,6 @@ interface SearchRepository {
         page: Int,
         size: Int,
     ): Result<List<SearchResultModel>>
-
     suspend fun getSearchViewsList(): Result<List<InternshipAnnouncementModel>>
     suspend fun getSearchScrapsList(): Result<List<InternshipAnnouncementModel>>
 }

@@ -134,6 +134,12 @@ fun SearchProcessScreen(
                     .focusRequester(focusRequester)
                     .addFocusCleaner(focusManager),
                 onDoneAction = {
+                    viewModel.getSearchList(
+                        query = state.text,
+                        sortBy = SORT_BY,
+                        page = 0,
+                        size = 10
+                    )
                     viewModel.updateQuery(state.text)
                     viewModel.updateShowSearchResults(true)
                     viewModel.updateExistSearchResults(state.text)
@@ -238,3 +244,6 @@ fun SearchProcessScreenPreview() {
         )
     }
 }
+
+
+private const val SORT_BY = "deadlineSoon"
