@@ -5,6 +5,8 @@ import com.terning.data.datasource.SearchDataSource
 import com.terning.data.datasource.TokenReissueDataSource
 import com.terning.data.datasourceimpl.AuthDataSourceImpl
 import com.terning.data.datasourceimpl.SearchDataSourceImpl
+import com.terning.data.datasource.CalendarDataSource
+import com.terning.data.datasourceimpl.CalendarDataSourceImpl
 import com.terning.data.datasourceimpl.TokenReissueDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -15,6 +17,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindCalendarDataSource(calendarDataSourceImpl: CalendarDataSourceImpl): CalendarDataSource
 
     @Binds
     @Singleton
