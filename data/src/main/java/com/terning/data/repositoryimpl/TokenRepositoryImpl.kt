@@ -25,5 +25,4 @@ class TokenRepositoryImpl @Inject constructor(
     override fun clearInfo() {
         terningDataStore.clearInfo()
     }
-
 }

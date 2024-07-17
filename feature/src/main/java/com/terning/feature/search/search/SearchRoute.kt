@@ -1,5 +1,6 @@
 package com.terning.feature.search.search
 
+import InternshipAnnouncement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +28,6 @@ import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternshipAnnouncement
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
@@ -41,31 +41,34 @@ fun SearchRoute(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val scrapState by viewModel.scrapState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getSearchViews()
+        viewModel.getSearchScraps()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SearchViewsSideEffect.Toast -> {
+                    is SearchSideEffect.Toast -> {
                         sideEffect.message
                     }
                 }
             }
     }
 
-    when (state.searchViewsList) {
+    when (viewState.searchViewsList) {
         is UiState.Loading -> {}
         is UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
             SearchScreen(
                 navController = navController,
-                searchViewsList = (state.searchViewsList as UiState.Success<List<InternshipAnnouncement>>).data
+                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternshipAnnouncement>>).data,
+                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternshipAnnouncement>>).data
             )
         }
 
@@ -77,6 +80,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     searchViewsList: List<InternshipAnnouncement>,
+    searchScrapsList: List<InternshipAnnouncement>,
 ) {
     val images = listOf(
         R.drawable.ic_nav_search,
@@ -132,6 +136,7 @@ fun SearchScreen(
             SearchInternList(
                 type = InternListType.VIEW,
                 searchViewsList = searchViewsList,
+                searchScrapsList = searchScrapsList,
                 navController = navController
             )
             HorizontalDivider(
@@ -142,6 +147,7 @@ fun SearchScreen(
             SearchInternList(
                 type = InternListType.SCRAP,
                 searchViewsList = searchViewsList,
+                searchScrapsList = searchScrapsList,
                 navController = navController
             )
         }
