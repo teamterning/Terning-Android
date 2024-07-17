@@ -1,5 +1,7 @@
 package com.terning.feature.intern
 
+import android.view.ViewGroup
+import android.webkit.WebView
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,14 +15,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
@@ -30,6 +36,8 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
+import com.terning.core.state.UiState
+import com.terning.domain.entity.response.InternInfoModel
 import com.terning.feature.R
 import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
@@ -42,10 +50,39 @@ import java.text.DecimalFormat
 @Composable
 fun InternRoute(
     navController: NavHostController,
+    announcementId: Long = 0,
+    viewModel: InternViewModel = hiltViewModel(),
 ) {
-    InternScreen(
-        navController = navController
-    )
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+
+    LaunchedEffect(key1 = true) {
+        viewModel.getInternInfo(announcementId)
+    }
+
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is InternViewSideEffect.Toast -> {
+                        sideEffect.message
+                    }
+                }
+            }
+    }
+
+    when (state.internInfo) {
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Success -> {
+            InternScreen(
+                navController = navController,
+                internInfoModel = (state.internInfo as UiState.Success<InternInfoModel>).data
+            )
+        }
+    }
 }
 
 @Composable
@@ -53,14 +90,34 @@ fun InternScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
+    internInfoModel: InternInfoModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
-        stringResource(id = R.string.intern_info_d_day) to "2024년 7월 23일",
-        stringResource(id = R.string.intern_info_working) to "2개월",
-        stringResource(id = R.string.intern_info_start_date) to "2024년 8월"
+        stringResource(id = R.string.intern_info_d_day) to internInfoModel.deadline,
+        stringResource(id = R.string.intern_info_working) to internInfoModel.workingPeriod,
+        stringResource(id = R.string.intern_info_start_date) to internInfoModel.startDate,
     )
+
+    val qualificationList = internInfoModel.qualification.split(",").map { it.trim() }
+    val jobTypeList = internInfoModel.jobType.split(",").map { it.trim() }
+
+    if (state.showWeb) {
+        AndroidView(
+            factory = {
+                WebView(it).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                    )
+                    loadUrl(internInfoModel.url)
+                }
+            },
+        )
+    }
+
 
     Scaffold(
         modifier = modifier,
@@ -79,7 +136,9 @@ fun InternScreen(
         bottomBar = {
             InternBottomBar(
                 modifier = modifier,
-                isScrap = state.isScrapped,
+                scrapCount = decimal.format(internInfoModel.scrapCount),
+                url = internInfoModel.url,
+                isScrappedState = state.isScrappedState,
                 onScrapClick = {
                     viewModel.updateScrapDialogVisible(true)
                 }
@@ -91,8 +150,6 @@ fun InternScreen(
                 .padding(paddingValues)
         ) {
             item {
-                val decimal = DecimalFormat("#,###")
-
                 Column(
                     modifier = modifier.padding(
                         top = 24.dp,
@@ -114,7 +171,7 @@ fun InternScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = stringResource(id = R.string.terning_post_d_day),
+                            text = internInfoModel.dDay,
                             style = TerningTheme.typography.body0,
                             color = TerningMain,
                             modifier = Modifier.padding(
@@ -124,7 +181,7 @@ fun InternScreen(
                     }
 
                     Text(
-                        text = "[NAVER Cloud] 의료 특화 초거대 언어모델 학습 데이터 구축 및 안전성 평가 업무 (체험형 인턴)",
+                        text = internInfoModel.title,
                         style = TerningTheme.typography.title2,
                         color = Black,
                         modifier = modifier.padding(
@@ -132,6 +189,7 @@ fun InternScreen(
                             bottom = 16.dp
                         )
                     )
+
 
                     Column(
                         modifier = modifier
@@ -148,12 +206,7 @@ fun InternScreen(
                         ),
                         horizontalAlignment = Alignment.Start,
                     ) {
-                        val internInfo = listOf(
-                            stringResource(id = R.string.intern_info_d_day) to "2024년 7월 23일",
-                            stringResource(id = R.string.intern_info_working) to "2개월",
-                            stringResource(id = R.string.intern_info_start_date) to "2024년 8월"
-                        )
-                        internInfo.forEach { (title, value) ->
+                        internInfoList.forEach { (title, value) ->
                             InternInfoRow(title, value)
                         }
                     }
@@ -172,7 +225,7 @@ fun InternScreen(
                             color = Grey400
                         )
                         Text(
-                            text = "${decimal.format(100000)}회",
+                            text = "${decimal.format(internInfoModel.viewCount)}회",
                             style = TerningTheme.typography.button3,
                             color = Grey400,
                         )
@@ -186,7 +239,12 @@ fun InternScreen(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_sub_title_intern_info)
                     )
-                    InternCompanyInfo(modifier = modifier)
+                    InternCompanyInfo(
+                        modifier = modifier,
+                        companyImage = internInfoModel.companyImage,
+                        company = internInfoModel.company,
+                        companyCategory = internInfoModel.companyCategory
+                    )
                     InternPageTitle(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_sub_title_intern_summary)
@@ -229,16 +287,13 @@ fun InternScreen(
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
-                                Text(
-                                    text = "졸업 예정자",
-                                    style = TerningTheme.typography.body4,
-                                    color = Grey400,
-                                )
-                                Text(
-                                    text = "휴학생 가능",
-                                    style = TerningTheme.typography.body4,
-                                    color = Grey400,
-                                )
+                                qualificationList.forEach { qualification ->
+                                    Text(
+                                        text = qualification,
+                                        style = TerningTheme.typography.body4,
+                                        color = Grey400,
+                                    )
+                                }
                             }
                         }
                     }
@@ -278,16 +333,13 @@ fun InternScreen(
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
-                                Text(
-                                    text = "그래픽디자인",
-                                    style = TerningTheme.typography.body4,
-                                    color = Grey400,
-                                )
-                                Text(
-                                    text = "UX/UI/GUI 디자인",
-                                    style = TerningTheme.typography.body4,
-                                    color = Grey400,
-                                )
+                                jobTypeList.forEach { jobType ->
+                                    Text(
+                                        text = jobType,
+                                        style = TerningTheme.typography.body4,
+                                        color = Grey400,
+                                    )
+                                }
                             }
                         }
                     }
@@ -303,13 +355,7 @@ fun InternScreen(
                         )
                     ) {
                         Text(
-                            text = """
-                        모니모니의 마케팅 팀은 소비자에게 삶의 솔루션으로서 ‘사랑’을 제시하는 아주 멋진 팀입니다.
-
-                        ‘사랑’의 가치를 전 세계에 전파하기 위해 마케터는 그 누구보다 넓은 시야를 가져야 합니다. 거시적인 관점과 미시적인 관점을 모두 포괄할 수 있는 통찰력을 바탕으로 나아갑니다.
-
-                        데이터에 근거하여 소통합니다. ‘사랑’,  ‘행복’. ‘같이’와 같은 추상적인 가치들을 수치로 가시화하는 아주 재미있는 작업을 함께합니다.
-                    """.trimIndent(),
+                            text = internInfoModel.detail.trimIndent(),
                             style = TerningTheme.typography.detail1,
                             color = Grey400
                         )
@@ -323,7 +369,7 @@ fun InternScreen(
                     viewModel.updateScrapDialogVisible(false)
                 },
                 content = {
-                    when (state.isScrapped) {
+                    when (state.isScrappedState) {
                         true -> ScrapCancelDialogContent()
                         else -> ScrapDialogContent(
                             internInfoList = internInfoList
@@ -334,5 +380,3 @@ fun InternScreen(
         }
     }
 }
-
-const val DECIMAL_FORMAT = "#,###"

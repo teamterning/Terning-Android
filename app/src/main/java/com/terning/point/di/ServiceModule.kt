@@ -2,6 +2,7 @@ package com.terning.point.di
 
 import com.terning.data.service.AuthService
 import com.terning.data.service.CalendarService
+import com.terning.data.service.InternService
 import com.terning.data.service.FilteringService
 import com.terning.data.service.HomeService
 import com.terning.data.service.SearchService
@@ -28,6 +29,11 @@ object ServiceModule {
     @Singleton
     fun provideSearchService(@JWT retrofit: Retrofit): SearchService =
         retrofit.create(SearchService::class.java)
+
+    @Provides
+    @Singleton
+    fun providerInternService(@JWT retrofit: Retrofit): InternService =
+        retrofit.create(InternService::class.java)
 
     @Provides
     @Singleton

@@ -1,6 +1,6 @@
 package com.terning.feature.search.search
 
-import InternshipAnnouncement
+import InternshipAnnouncementModel
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -67,11 +67,10 @@ fun SearchRoute(
         is UiState.Success -> {
             SearchScreen(
                 navController = navController,
-                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternshipAnnouncement>>).data,
-                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternshipAnnouncement>>).data
+                searchViewsList = (viewState.searchViewsList as UiState.Success<List<InternshipAnnouncementModel>>).data,
+                searchScrapsList = (scrapState.searchScrapsList as UiState.Success<List<InternshipAnnouncementModel>>).data
             )
         }
-
     }
 }
 
@@ -79,8 +78,8 @@ fun SearchRoute(
 fun SearchScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    searchViewsList: List<InternshipAnnouncement>,
-    searchScrapsList: List<InternshipAnnouncement>,
+    searchViewsList: List<InternshipAnnouncementModel>,
+    searchScrapsList: List<InternshipAnnouncementModel>,
 ) {
     val images = listOf(
         R.drawable.ic_nav_search,

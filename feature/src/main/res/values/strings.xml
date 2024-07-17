@@ -120,7 +120,7 @@
     <string name="intern_move_to_site">지원 사이트로 이동하기</string>
     <string name="intern_top_app_bar_title">공고 정보</string>
     <string name="intern_view_count">조회수</string>
-    <string name="intern_view_count_detail">%d회</string>
+    <string name="intern_view_count_detail">%s회</string>
     <string name="intern_info_d_day">서류 마감</string>
     <string name="intern_info_working">근무 기간</string>
     <string name="intern_info_start_date">근무 시작</string>

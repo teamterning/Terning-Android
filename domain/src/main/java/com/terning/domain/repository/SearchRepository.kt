@@ -1,8 +1,8 @@
 package com.terning.domain.repository
 
-import InternshipAnnouncement
+import InternshipAnnouncementModel
 
 interface SearchRepository {
-    suspend fun getSearchViewsList(): Result<List<InternshipAnnouncement>>
-    suspend fun getSearchScrapsList(): Result<List<InternshipAnnouncement>>
+    suspend fun getSearchViewsList(): Result<List<InternshipAnnouncementModel>>
+    suspend fun getSearchScrapsList(): Result<List<InternshipAnnouncementModel>>
 }
