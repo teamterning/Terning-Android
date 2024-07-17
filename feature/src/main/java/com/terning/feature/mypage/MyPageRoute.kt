@@ -100,11 +100,33 @@ fun MyPageScreen(
                         shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp)
                     )
             )
-            LogoutAndQuit(
-                modifier = Modifier.fillMaxWidth(),
-                onLogoutClick = { onLogoutClick() },
-                onQuitClick = { onQuitClick() }
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Back)
+                    .padding(bottom = 17.dp),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = stringResource(id = R.string.my_page_logout),
+                    style = TerningTheme.typography.button4,
+                    color = Grey350,
+                    modifier = Modifier.noRippleClickable {
+                        onLogoutClick()
+                    }
+                )
+                Spacer(modifier = Modifier.padding(end = 10.dp))
+                TerningImage(painter = R.drawable.ic_my_page_divider)
+                Spacer(modifier = Modifier.padding(end = 10.dp))
+                Text(
+                    text = stringResource(id = R.string.my_page_quit),
+                    style = TerningTheme.typography.button4,
+                    color = Grey350,
+                    modifier = Modifier.noRippleClickable {
+                        onQuitClick()
+                    }
+                )
+            }
         }
     }
 }
@@ -149,41 +171,6 @@ fun MyPageInfo(
                 version = VERSION,
             )
         }
-    }
-}
-
-@Composable
-fun LogoutAndQuit(
-    modifier: Modifier = Modifier,
-    onLogoutClick: () -> Unit,
-    onQuitClick: () -> Unit,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(Back)
-            .padding(bottom = 17.dp),
-        horizontalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            text = stringResource(id = R.string.my_page_logout),
-            style = TerningTheme.typography.button4,
-            color = Grey350,
-            modifier = modifier.noRippleClickable {
-                onLogoutClick()
-            }
-        )
-        Spacer(modifier = Modifier.padding(end = 10.dp))
-        TerningImage(painter = R.drawable.ic_my_page_divider)
-        Spacer(modifier = Modifier.padding(end = 10.dp))
-        Text(
-            text = stringResource(id = R.string.my_page_quit),
-            style = TerningTheme.typography.button4,
-            color = Grey350,
-            modifier = modifier.noRippleClickable {
-                onQuitClick()
-            }
-        )
     }
 }
 
