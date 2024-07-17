@@ -14,13 +14,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.button.ChangeFilterButton
+import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.feature.R
-import com.terning.feature.home.home.model.InternFilterData
 
 @Composable
 fun ChangeFilteringRadioGroup(
     filterType: Int,
-    internFilterData: InternFilterData?,
+    filterData: HomeFilteringInfoModel,
     onButtonClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -42,10 +42,10 @@ fun ChangeFilteringRadioGroup(
     val selectedIndex = remember { mutableIntStateOf(0) }
     var selectedButton = remember { mutableStateListOf(false, false, false, false) }
 
-    if (filterType == 0 && internFilterData?.grade != null) {
-        selectedButton[internFilterData.grade] = true
-    } else if(filterType == 1 && internFilterData?.workingPeriod != null) {
-        selectedButton[internFilterData.workingPeriod] = true
+    if (filterType == 0 && filterData.grade != null) {
+        selectedButton[filterData.grade ?: 0] = true
+    } else if (filterType == 1 && filterData.workingPeriod != null) {
+        selectedButton[filterData.workingPeriod ?: 0] = true
     }
 
     LazyVerticalGrid(

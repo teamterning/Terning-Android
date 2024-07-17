@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -12,11 +13,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.state.UiState
+import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.component.ChangeFilteringRadioGroup
 import com.terning.feature.home.changefilter.component.FilteringMainTitleText
@@ -42,12 +46,18 @@ fun ChangeFilterScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val filteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
+    val filterData = when (filteringState) {
+        is UiState.Success -> (filteringState as UiState.Success<HomeFilteringInfoModel>).data
+        else -> HomeFilteringInfoModel(null, null, viewModel.currentYear, viewModel.currentMonth)
+    }
+
     val isGradeButtonValid = remember {
-        mutableStateOf(viewModel.userName.value.internFilter?.grade != null)
+        mutableStateOf(filterData.grade != null)
     }
 
     val isWorkingPeriodButtonValid = remember {
-        mutableStateOf(viewModel.userName.value.internFilter?.workingPeriod != null)
+        mutableStateOf(filterData.workingPeriod != null)
     }
 
     Scaffold(
@@ -77,7 +87,7 @@ fun ChangeFilterScreen(
             )
             ChangeFilteringRadioGroup(
                 filterType = 0,
-                internFilterData = viewModel.userName.value.internFilter,
+                filterData = filterData,
                 onButtonClick = {
                     isGradeButtonValid.value = true
                 }
@@ -104,7 +114,7 @@ fun ChangeFilterScreen(
             )
             ChangeFilteringRadioGroup(
                 filterType = 1,
-                internFilterData = viewModel.userName.value.internFilter,
+                filterData = filterData,
                 onButtonClick = {
                     isWorkingPeriodButtonValid.value = true
                 }
