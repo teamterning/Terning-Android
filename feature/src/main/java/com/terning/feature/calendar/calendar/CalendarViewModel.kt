@@ -2,18 +2,12 @@ package com.terning.feature.calendar.calendar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.theme.CalBlue1
-import com.terning.core.designsystem.theme.CalGreen1
-import com.terning.core.designsystem.theme.CalGreen2
-import com.terning.core.designsystem.theme.CalPink
-import com.terning.core.designsystem.theme.CalPurple
-import com.terning.core.designsystem.theme.CalRed
-import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
-import com.terning.domain.repository.ScrapRepository
+import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
-import com.terning.feature.calendar.month.ScrapCalendarState
-import com.terning.feature.calendar.scrap.model.Scrap
+import com.terning.feature.calendar.month.CalendarMonthState
+import com.terning.feature.calendar.scrap.CalendarListState
+import com.terning.feature.calendar.week.CalendarWeekState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,10 +22,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val scrapRepository: ScrapRepository
+    private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
-    private var _selectedDate:MutableStateFlow<CalendarUiState> = MutableStateFlow(
+    private var _selectedDate: MutableStateFlow<CalendarUiState> = MutableStateFlow(
         CalendarUiState(
             selectedDate = LocalDate.now(),
             isListEnabled = false
@@ -40,10 +34,16 @@ class CalendarViewModel @Inject constructor(
 
     val selectedDate get() = _selectedDate.asStateFlow()
 
-    private val _scrapCalendarState = MutableStateFlow(ScrapCalendarState())
-    val scrapCalendarState = _scrapCalendarState.asStateFlow()
+    private val _calendarMonthState = MutableStateFlow(CalendarMonthState())
+    val calendarMonthState = _calendarMonthState.asStateFlow()
 
-    private val _calendarSideEffect:MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
+    private val _calendarListState = MutableStateFlow(CalendarListState())
+    val calendarListState = _calendarListState.asStateFlow()
+
+    private val _calendarWeekState = MutableStateFlow(CalendarWeekState())
+    val calendarWeekState = _calendarWeekState.asStateFlow()
+
+    private val _calendarSideEffect: MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
     val calendarSideEffect = _calendarSideEffect.asSharedFlow()
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
@@ -54,6 +54,7 @@ class CalendarViewModel @Inject constructor(
                     isWeekEnabled = true
                 )
             }
+            getScrapWeekList()
         } else {
             _selectedDate.update { currentState ->
                 currentState.copy(
@@ -83,15 +84,14 @@ class CalendarViewModel @Inject constructor(
         year: Int, month: Int
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            scrapRepository.getScrapMonth(year, month)
+            calendarRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
-                _scrapCalendarState.update { currentState ->
+                _calendarMonthState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Success(it)
                     )
                 }
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_success))
             },
             onFailure = {
                 _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
@@ -99,122 +99,54 @@ class CalendarViewModel @Inject constructor(
         )
     }
 
-
-    //To be erased in future
-    val mockScrapList: List<List<Scrap>>
-        get() {
-            val list: MutableList<List<Scrap>> = mutableListOf()
-            for (i in 0..30) {
-                when (i % 6) {
-                    0 -> {
-                        list.add(
-                            i,
-                            listOf()
-                        )
-                    }
-
-                    1 -> {
-                        list.add(
-                            i,
-                            listOf(
-                                Scrap(
-                                    "Task1_1",
-                                    CalBlue1,
-                                    dDay = "1",
-                                    period = "3",
-                                    isScraped = true
-                                ),
-                            )
-                        )
-                    }
-
-                    2 -> {
-                        list.add(
-                            i,
-                            listOf(
-                                Scrap(
-                                    "Task2_1",
-                                    CalPink,
-                                    dDay = "2",
-                                    period = "3",
-                                    isScraped = true
-                                ),
-                                Scrap(
-                                    "Task2_2",
-                                    CalGreen1,
-                                    dDay = "2",
-                                    period = "3",
-                                    isScraped = true
-                                )
-                            )
-                        )
-                    }
-
-                    3 -> {
-                        list.add(
-                            i,
-                            listOf()
-                        )
-                    }
-
-                    4 -> {
-                        list.add(
-                            i,
-                            listOf()
-                        )
-                    }
-
-                    5 -> {
-                        list.add(
-                            i,
-                            listOf(
-                                Scrap(
-                                    "Task3_1",
-                                    CalPink,
-                                    dDay = "5",
-                                    period = "3",
-                                    isScraped = true
-                                ),
-                                Scrap(
-                                    "Task3_2",
-                                    CalPurple,
-                                    dDay = "5",
-                                    period = "3",
-                                    isScraped = true
-                                ),
-                                Scrap(
-                                    "Task3_3",
-                                    CalRed,
-                                    dDay = "5",
-                                    period = "3",
-                                    isScraped = true
-                                ),
-                                Scrap(
-                                    "Task3_4",
-                                    CalBlue1,
-                                    dDay = "5",
-                                    period = "3",
-                                    isScraped = true
-                                ),
-                                Scrap(
-                                    "Task3_5",
-                                    CalGreen2,
-                                    dDay = "5",
-                                    period = "3",
-                                    isScraped = true
-                                ),
-                                Scrap(
-                                    "Task3_6",
-                                    CalYellow,
-                                    dDay = "5",
-                                    period = "3",
-                                    isScraped = true
-                                )
-                            )
-                        )
-                    }
+    fun getScrapMonthList(
+        year: Int, month: Int
+    ) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            calendarRepository.getScrapMonthList(year, month)
+        }.fold(
+            onSuccess = {
+                _calendarListState.update { currentState ->
+                    currentState.copy(
+                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
+                        //loadState = UiState.Success(it)
+                    )
                 }
+            },
+            onFailure = {
+                _calendarListState.update { currentState ->
+                    currentState.copy(
+                        loadState = UiState.Failure(it.message.toString())
+                    )
+
+                }
+                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
             }
-            return list.toList()
-        }
+        )
+    }
+
+    fun getScrapWeekList() = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            calendarRepository.getScrapDayList(_selectedDate.value.selectedDate)
+        }.fold(
+            onSuccess = {
+                _calendarWeekState.update { currentState ->
+                    currentState.copy(
+                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
+                        //loadState = UiState.Success(it)
+                    )
+                }
+                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_success))
+            },
+            onFailure = {
+                _calendarWeekState.update { currentState ->
+                    currentState.copy(
+                        loadState = UiState.Failure(it.message.toString())
+                    )
+
+                }
+                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+            }
+        )
+    }
 }

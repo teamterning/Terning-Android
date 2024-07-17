@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.ScrapModel
+import com.terning.domain.entity.response.CalendarScrapModel
+import com.terning.feature.calendar.calendar.CalendarUiState
+import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
-import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.month.model.MonthData
-import com.terning.feature.calendar.calendar.CalendarUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 import java.time.YearMonth
@@ -31,7 +31,7 @@ fun CalendarMonthScreen(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val scrapState by viewModel.scrapCalendarState.collectAsState()
+    val scrapState by viewModel.calendarMonthState.collectAsState()
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
@@ -48,25 +48,25 @@ fun CalendarMonthScreen(
         UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
+            val scrapMap = (scrapState.loadState as UiState.Success).data
             HorizontalCalendar(
                 pages = pages,
-                modifier = modifier,
-                calendarUiState = calendarUiState,
-                onDateSelected = onDateSelected,
                 listState = listState,
-                scrapMap = (scrapState.loadState as UiState.Success).data
+                calendarUiState = calendarUiState,
+                scrapMap = scrapMap,
+                onDateSelected = onDateSelected,
+                modifier = modifier
             )
         }
     }
 }
-
 
 @Composable
 fun HorizontalCalendar(
     pages: Int,
     listState: LazyListState,
     calendarUiState: CalendarUiState,
-    scrapMap: Map<String, List<ScrapModel>>,
+    scrapMap: Map<String, List<CalendarScrapModel>>,
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
