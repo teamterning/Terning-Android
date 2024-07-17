@@ -33,5 +33,5 @@ abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindRecommendInternDataSource(internDataSourceImpl: HomeDataSourceImpl): HomeDataSource
+    abstract fun bindHomeInternDataSource(internDataSourceImpl: HomeDataSourceImpl): HomeDataSource
 }

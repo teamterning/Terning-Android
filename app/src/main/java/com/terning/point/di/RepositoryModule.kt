@@ -38,5 +38,5 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindInternRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
+    abstract fun bindHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
 }

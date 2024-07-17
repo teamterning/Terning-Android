@@ -35,6 +35,6 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideInternService(@OPEN retrofit: Retrofit): HomeService =
+    fun provideHomeService(@JWT retrofit: Retrofit): HomeService =
         retrofit.create(HomeService::class.java)
 }
