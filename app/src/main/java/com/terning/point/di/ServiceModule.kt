@@ -5,6 +5,8 @@ import com.terning.data.service.CalendarService
 import com.terning.data.service.InternService
 import com.terning.data.service.FilteringService
 import com.terning.data.service.HomeService
+import com.terning.data.service.MyPageService
+import com.terning.data.service.ScrapService
 import com.terning.data.service.SearchService
 import com.terning.data.service.TokenReissueService
 import com.terning.point.di.qualifier.JWT
