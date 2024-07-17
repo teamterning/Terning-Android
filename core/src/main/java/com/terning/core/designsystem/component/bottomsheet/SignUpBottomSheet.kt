@@ -15,7 +15,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,7 +39,7 @@ fun SignUpBottomSheet(
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
 
-    var selectedImageIndex by remember { mutableStateOf(-1) }
+    var selectedImageIndex by remember { mutableIntStateOf(-1) }
 
     TerningBasicBottomSheet(
         content = {
