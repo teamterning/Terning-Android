@@ -7,6 +7,30 @@ import com.terning.data.dto.request.CalendarMonthRequestDto
 import com.terning.data.dto.response.CalendarDayListResponseDto
 import com.terning.data.dto.response.CalendarMonthListResponseDto
 import com.terning.data.dto.response.CalendarMonthResponseDto
+import com.terning.data.service.CalendarService
+
+class TempCalendarService: CalendarService {
+    override suspend fun getCalendarScrapMonth(
+        year: Int,
+        month: Int
+    ): BaseResponse<List<CalendarMonthResponseDto>> = CalendarList.getCalendarScrapMonth(
+        CalendarMonthRequestDto(year, month)
+    )
+
+    override suspend fun getCalendarScrapMonthList(
+        year: Int,
+        month: Int
+    ): BaseResponse<List<CalendarMonthListResponseDto>> = CalendarList.getCalendarScrapMonthList(
+        CalendarMonthListRequestDto(year, month)
+    )
+
+    override suspend fun getCalendarScrapDayList(
+        date: String
+    ): BaseResponse<List<CalendarDayListResponseDto>> = CalendarList.getCalendarScrapDayList(
+        CalendarDayListRequestDto(date)
+    )
+
+}
 
 object CalendarList {
     fun getCalendarScrapMonth(request: CalendarMonthRequestDto): BaseResponse<List<CalendarMonthResponseDto>> =

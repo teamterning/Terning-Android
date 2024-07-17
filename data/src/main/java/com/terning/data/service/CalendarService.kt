@@ -1,6 +1,7 @@
 package com.terning.data.service
 
 import com.terning.data.dto.BaseResponse
+import com.terning.data.dto.response.CalendarDayListResponseDto
 import com.terning.data.dto.response.CalendarMonthListResponseDto
 import com.terning.data.dto.response.CalendarMonthResponseDto
 import retrofit2.http.GET
@@ -21,8 +22,6 @@ interface CalendarService{
 
     @GET("/api/v1/calendar/daily")
     suspend fun getCalendarScrapDayList(
-        @Query("year") year: Int,
-        @Query("month") month: Int,
-        @Query("day") day: Int
-    ): BaseResponse<List<CalendarMonthListResponseDto>>
+        @Query("date") date: String
+    ): BaseResponse<List<CalendarDayListResponseDto>>
 }

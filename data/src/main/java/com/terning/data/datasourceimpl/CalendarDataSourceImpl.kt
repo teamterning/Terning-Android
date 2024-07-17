@@ -12,14 +12,16 @@ import com.terning.data.service.CalendarService
 import javax.inject.Inject
 
 class CalendarDataSourceImpl @Inject constructor(
-    private val calendarService: CalendarService
+    //private val calendarService: CalendarService
 ) : CalendarDataSource {
+    private val calendarService = TempCalendarService()
+
     override suspend fun getCalendarMonth(request: CalendarMonthRequestDto): BaseResponse<List<CalendarMonthResponseDto>> =
-        CalendarList.getCalendarScrapMonth(request)
+        calendarService.getCalendarScrapMonth(request.year, request.month)
 
     override suspend fun getCalendarMonthList(request: CalendarMonthListRequestDto): BaseResponse<List<CalendarMonthListResponseDto>> =
-        CalendarList.getCalendarScrapMonthList(request)
+        calendarService.getCalendarScrapMonthList(request.year, request.month)
 
     override suspend fun getCalendarDayList(request: CalendarDayListRequestDto): BaseResponse<List<CalendarDayListResponseDto>> =
-        CalendarList.getCalendarScrapDayList(request)
+        calendarService.getCalendarScrapDayList(request.date)
 }
