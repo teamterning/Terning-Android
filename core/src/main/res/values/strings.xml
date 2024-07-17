@@ -35,6 +35,8 @@
     <string name="sign_up_bottom_sheet_title">프로필 이미지 선택</string>
     <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
     <string name="sign_up_dialog_start">저장하기</string>
+    <string name="my_page_logout_title">잠깐만요!</string>
+    <string name="my_page_logout_sub">정말 로그아웃 하시겠어요?</string>
 
     <!--Dialog-->
     <string name="dialog_content_scrap_sub_title">공고를 캘린더에 스크랩하시겠어요?</string>

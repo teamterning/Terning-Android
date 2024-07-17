@@ -7,5 +7,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor() : ViewModel() {
 
+    fun patchLogout() {
 
+    }
 }

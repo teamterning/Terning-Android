@@ -11,10 +11,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
+import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.MyPageTopAppBar
 import com.terning.core.designsystem.theme.Back
@@ -29,13 +35,32 @@ import com.terning.feature.mypage.component.MyPageItem
 
 @Composable
 fun MyPageRoute(
-    myPageViewModel: MyPageViewModel = hiltViewModel(),
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
 
+    var showLogoutBottomSheet by remember { mutableStateOf(false) }
+    var showQuitBottomSheet by remember { mutableStateOf(false) }
+
+    if (showLogoutBottomSheet) {
+        MyPageLogoutBottomSheet(
+            onDismiss = { showLogoutBottomSheet = false },
+            onLogoutClick = {
+                showLogoutBottomSheet = false
+                viewModel.patchLogout()
+            },
+        )
+    }
+
+    if (showQuitBottomSheet) {
+        MyPageQuitBottomSheet(
+            onDismiss = { showQuitBottomSheet = false },
+
+            )
+    }
 
     MyPageScreen(
-        onLogoutClick = { /*TODO*/ },
-        onQuitClick = { /*TODO*/ }
+        onLogoutClick = { showLogoutBottomSheet = true },
+        onQuitClick = { showQuitBottomSheet = true }
     )
 }
 
