@@ -1,5 +1,6 @@
 package com.terning.feature.search.search.component
 
+import InternshipAnnouncement
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +38,7 @@ fun SearchIntern(
     companyImage: String,
     title: String,
     navController: NavHostController,
+    announcementId: Long,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -48,7 +50,7 @@ fun SearchIntern(
             )
             .padding(top = 8.dp)
             .noRippleClickable {
-                navController.navigateIntern(announcementId = searchViews.announcementId)
+                navController.navigateIntern(announcementId = announcementId)
             }
     ) {
         AsyncImage(

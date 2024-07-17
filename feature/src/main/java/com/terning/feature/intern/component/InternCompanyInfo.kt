@@ -67,7 +67,7 @@ fun InternCompanyInfo(
                             .crossfade(true)
                             .build(),
                         contentDescription = stringResource(id = R.string.search_image),
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.Fit,
                         modifier = modifier
                             .fillMaxWidth()
                             .clip(CircleShape),

@@ -44,7 +44,8 @@ fun SearchInternList(
                         SearchIntern(
                             companyImage = searchViewsList[index].companyImage,
                             title = searchViewsList[index].title,
-                            navController = navController
+                            navController = navController,
+                            announcementId = searchViewsList[index].announcementId
                         )
                     }
                 }
@@ -54,7 +55,8 @@ fun SearchInternList(
                         SearchIntern(
                             companyImage = searchScrapsList[index].companyImage,
                             title = searchScrapsList[index].title,
-                            navController = navController
+                            navController = navController,
+                            announcementId = searchScrapsList[index].announcementId
                         )
                     }
                 }
