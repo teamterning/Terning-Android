@@ -28,7 +28,7 @@ abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindSearchViewsDataSource(searchViewsDataSourceImpl: SearchDataSourceImpl):
+    abstract fun bindSearchViewsDataSource(searchDataSourceImpl: SearchDataSourceImpl):
             SearchDataSource
 
     @Binds

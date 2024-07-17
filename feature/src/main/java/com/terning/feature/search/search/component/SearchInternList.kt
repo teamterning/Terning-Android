@@ -1,5 +1,6 @@
 package com.terning.feature.search.search.component
 
+import InternshipAnnouncement
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -12,14 +13,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.domain.entity.response.InternshipAnnouncement
 import com.terning.feature.R
 
 @Composable
 fun SearchInternList(
     type: InternListType,
-    searchViewsList: List<InternshipAnnouncement>,
-    navController: NavHostController
+    searchScrapsList: List<InternshipAnnouncement>?,
+    searchViewsList: List<InternshipAnnouncement>?,
+    navController: NavHostController,
 ) {
     Column(modifier = Modifier.padding(horizontal = 24.dp)) {
         Text(
@@ -37,11 +38,26 @@ fun SearchInternList(
             modifier = Modifier.padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(searchViewsList.size) { index ->
-                SearchIntern(
-                    searchViews = searchViewsList[index],
-                    navController = navController
-                )
+            when (type) {
+                InternListType.VIEW -> searchViewsList?.let {
+                    items(it.size) { index ->
+                        SearchIntern(
+                            companyImage = searchViewsList[index].companyImage,
+                            title = searchViewsList[index].title,
+                            navController = navController
+                        )
+                    }
+                }
+
+                InternListType.SCRAP -> searchScrapsList?.let {
+                    items(it.size) { index ->
+                        SearchIntern(
+                            companyImage = searchScrapsList[index].companyImage,
+                            title = searchScrapsList[index].title,
+                            navController = navController
+                        )
+                    }
+                }
             }
         }
     }
