@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HomeRecommendInternResponseDto(
-    @SerialName("internshipAnnouncementId")
+    @SerialName("intershipAnnouncementId")
     val internshipAnnouncementId: Long,
     @SerialName("title")
     val title: String,
