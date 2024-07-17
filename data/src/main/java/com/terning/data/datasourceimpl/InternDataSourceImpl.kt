@@ -9,6 +9,6 @@ import javax.inject.Inject
 class InternDataSourceImpl @Inject constructor(
     private val internService: InternService,
 ) : InternDataSource {
-    override suspend fun getInternInfo(id: Int): BaseResponse<InternResponseDto> =
-        internService.getInternInfo(1)
+    override suspend fun getInternInfo(id: Long): BaseResponse<InternResponseDto> =
+        internService.getInternInfo(id)
 }

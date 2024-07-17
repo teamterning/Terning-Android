@@ -1,5 +1,7 @@
 package com.terning.feature.intern
 
+import android.view.ViewGroup
+import android.webkit.WebView
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,7 +47,6 @@ import com.terning.feature.intern.component.ScrapCancelDialogContent
 import com.terning.feature.intern.component.ScrapDialogContent
 import java.text.DecimalFormat
 
-
 @Composable
 fun InternRoute(
     navController: NavHostController,
@@ -56,27 +58,22 @@ fun InternRoute(
     val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
-//        viewModel.getInternInfo(1)
-//        viewModel.postScrap(announcementId, 1)
+        viewModel.getInternInfo(announcementId)
     }
 
-//    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
-//        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-//            .collect { sideEffect ->
-//                when (sideEffect) {
-//                    is InternViewSideEffect.Toast -> {
-//                        sideEffect.message
-//                    }
-//                }
-//            }
-//    }
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is InternViewSideEffect.Toast -> {
+                        sideEffect.message
+                    }
+                }
+            }
+    }
 
     when (state.internInfo) {
-        is UiState.Loading -> {
-            InternScreen(
-                navController = navController,
-            )
-        }
+        is UiState.Loading -> {}
         is UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
@@ -93,29 +90,10 @@ fun InternScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
-    internInfoModel: InternInfoModel = InternInfoModel(
-        title = "제목",
-        company = "회사",
-        companyCategory = "대분류",
-        companyImage = "",
-        dDay = "D-DAY",
-        deadline = "마감일",
-        workingPeriod = "근무기간",
-        startDate = "시작일",
-        scrapCount = 1,
-        viewCount = 1,
-        qualification = "학력",
-        jobType = "근무형태",
-        detail = """
-            
-        """.trimIndent(),
-        url = "",
-        isScrapped = false,
-    ),
-
-    ) {
+    internInfoModel: InternInfoModel,
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val decimal = android.icu.text.DecimalFormat("#,###")
+    val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
         stringResource(id = R.string.intern_info_d_day) to internInfoModel.deadline,
@@ -125,6 +103,21 @@ fun InternScreen(
 
     val qualificationList = internInfoModel.qualification.split(",").map { it.trim() }
     val jobTypeList = internInfoModel.jobType.split(",").map { it.trim() }
+
+    if (state.showWeb) {
+        AndroidView(
+            factory = {
+                WebView(it).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                    )
+                    loadUrl(internInfoModel.url)
+                }
+            },
+        )
+    }
+
 
     Scaffold(
         modifier = modifier,
@@ -196,6 +189,7 @@ fun InternScreen(
                             bottom = 16.dp
                         )
                     )
+
 
                     Column(
                         modifier = modifier
@@ -378,8 +372,7 @@ fun InternScreen(
                     when (state.isScrappedState) {
                         true -> ScrapCancelDialogContent()
                         else -> ScrapDialogContent(
-                            internInfoList = internInfoList,
-                            internInfoModel = internInfoModel
+                            internInfoList = internInfoList
                         )
                     }
                 },

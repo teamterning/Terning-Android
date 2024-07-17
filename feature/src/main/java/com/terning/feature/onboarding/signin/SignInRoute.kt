@@ -40,7 +40,7 @@ fun SignInRoute(
                 when (sideEffect) {
                     is SignInSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is SignInSideEffect.NavigateToHome -> navController.navigateHome()
-                    is SignInSideEffect.NavigateSignUp -> navController.navigateSignUp()
+                    is SignInSideEffect.NavigateSignUp -> navController.navigateSignUp(sideEffect.authId)
                 }
             }
     }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class InternRepositoryImpl @Inject constructor(
     private val internDataSource: InternDataSource,
 ) : InternRepository {
-    override suspend fun getInternInfo(id: Int): Result<InternInfoModel> =
+    override suspend fun getInternInfo(id: Long): Result<InternInfoModel> =
         runCatching {
             internDataSource.getInternInfo(id).result.toInternEntity()
         }

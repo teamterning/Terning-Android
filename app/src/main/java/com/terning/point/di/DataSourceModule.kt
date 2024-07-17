@@ -4,12 +4,16 @@ import com.terning.data.datasource.AuthDataSource
 import com.terning.data.datasource.CalendarDataSource
 import com.terning.data.datasource.FilteringDataSource
 import com.terning.data.datasource.InternDataSource
+import com.terning.data.datasource.HomeDataSource
+import com.terning.data.datasource.InternDataSource
 import com.terning.data.datasource.ScrapDataSource
 import com.terning.data.datasource.SearchDataSource
 import com.terning.data.datasource.TokenReissueDataSource
 import com.terning.data.datasourceimpl.AuthDataSourceImpl
 import com.terning.data.datasourceimpl.CalendarDataSourceImpl
 import com.terning.data.datasourceimpl.FilteringDataSourceImpl
+import com.terning.data.datasourceimpl.InternDataSourceImpl
+import com.terning.data.datasourceimpl.HomeDataSourceImpl
 import com.terning.data.datasourceimpl.InternDataSourceImpl
 import com.terning.data.datasourceimpl.ScrapDataSourceImpl
 import com.terning.data.datasourceimpl.SearchDataSourceImpl
@@ -46,6 +50,11 @@ abstract class DataSourceModule {
     @Singleton
     abstract fun bindScrapDataSource(scrapDataSourceImpl: ScrapDataSourceImpl):
             ScrapDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindInternInfoSource(internalInfoDataSourceImpl: InternDataSourceImpl):
+            InternDataSource
 
     @Binds
     @Singleton
