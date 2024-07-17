@@ -48,7 +48,7 @@ fun ScrapDialogContent(
     viewModel: InternViewModel = hiltViewModel(),
     internInfoModel: InternInfoModel
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.internState.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier

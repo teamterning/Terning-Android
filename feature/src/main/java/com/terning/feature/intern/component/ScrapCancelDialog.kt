@@ -36,7 +36,7 @@ import com.terning.feature.intern.InternViewModel
 fun ScrapCancelDialogContent(
     viewModel: InternViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.internState.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier

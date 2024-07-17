@@ -38,7 +38,7 @@ fun InternBottomBar(
     onScrapClick: () -> Unit,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.internState.collectAsStateWithLifecycle()
 
     Row(
         modifier = modifier

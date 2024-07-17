@@ -55,7 +55,7 @@ fun InternRoute(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val state by viewModel.internState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)
@@ -92,7 +92,7 @@ fun InternScreen(
     viewModel: InternViewModel = hiltViewModel(),
     internInfoModel: InternInfoModel,
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.internState.collectAsStateWithLifecycle()
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(

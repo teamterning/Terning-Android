@@ -4,8 +4,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
+import com.terning.domain.entity.request.ScrapRequestModel
 import com.terning.domain.repository.InternRepository
+import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
+import com.terning.feature.intern.model.InternScrapState
+import com.terning.feature.intern.model.InternViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,10 +23,15 @@ import javax.inject.Inject
 @HiltViewModel
 class InternViewModel @Inject constructor(
     private val internRepository: InternRepository,
+    private val scrapRepository: ScrapRepository
 ) : ViewModel() {
-    private val _state: MutableStateFlow<InternViewState> =
+    private val _internState: MutableStateFlow<InternViewState> =
         MutableStateFlow(InternViewState())
-    val state: StateFlow<InternViewState> = _state.asStateFlow()
+    val internState: StateFlow<InternViewState> = _internState.asStateFlow()
+
+    private val _scrapState: MutableStateFlow<InternScrapState> =
+        MutableStateFlow(InternScrapState())
+    val scrapState: StateFlow<InternScrapState> = _scrapState.asStateFlow()
 
     private val _sideEffect: MutableSharedFlow<InternViewSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
@@ -31,7 +40,7 @@ class InternViewModel @Inject constructor(
         viewModelScope.launch {
             internRepository.getInternInfo(id)
                 .onSuccess { internInfo ->
-                    _state.value = _state.value.copy(
+                    _internState.value = _internState.value.copy(
                         internInfo = UiState.Success(internInfo)
                     )
                 }.onFailure {
@@ -42,32 +51,38 @@ class InternViewModel @Inject constructor(
         }
     }
 
+    fun postScrap(id: Long) {
+        viewModelScope.launch {
+            scrapRepository.postScrap(ScrapRequestModel(id, 1))
+        }
+    }
+
     fun updateSelectColor(newColor: Color) {
-        _state.update {
+        _internState.update {
             it.copy(selectedColor = newColor)
         }
     }
 
     fun updateScrapDialogVisible(visible: Boolean) {
-        _state.update {
+        _internState.update {
             it.copy(isScrapDialogVisible = visible)
         }
     }
 
     fun updateScrapped(scrapped: Boolean) {
-        _state.update {
+        _internState.update {
             it.copy(isScrappedState = scrapped)
         }
     }
 
     fun updateColorChange(change: Boolean) {
-        _state.update {
+        _internState.update {
             it.copy(isColorChange = change)
         }
     }
 
     fun updateShowWeb(show: Boolean) {
-        _state.update {
+        _internState.update {
             it.copy(showWeb = show)
         }
     }

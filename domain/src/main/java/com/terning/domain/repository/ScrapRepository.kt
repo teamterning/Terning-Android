@@ -1,5 +1,7 @@
 package com.terning.domain.repository
 
+import com.terning.domain.entity.request.ScrapRequestModel
+
 interface ScrapRepository {
-    suspend fun postScrap(id: Long, color: Int)
+    suspend fun postScrap(scrapRequestModel: ScrapRequestModel)
 }
