@@ -55,7 +55,7 @@ fun InternRoute(
     val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
-        viewModel.getInternInfo(1)
+        viewModel.getInternInfo(0)
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
@@ -171,6 +171,7 @@ fun InternScreen(
                             bottom = 16.dp
                         )
                     )
+
 
                     Column(
                         modifier = modifier
