@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -31,6 +34,8 @@ fun FilteringOneScreen(
     onButtonClick: (Int) -> Unit = {},
 ) {
     val isButtonValid = remember { mutableStateOf(false) }
+
+    var grade by remember { mutableIntStateOf(-1) }
 
     Scaffold(
         modifier = modifier,
@@ -79,7 +84,7 @@ fun FilteringOneScreen(
                 onButtonClick = { index ->
                     onButtonClick(index)
                     isButtonValid.value = true
-                    viewModel.fetchGrade(index)
+                    grade = index
                 }
             )
             Text(
@@ -95,7 +100,7 @@ fun FilteringOneScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { navController.navigateFilteringTwo() },
+                onButtonClick = { navController.navigateFilteringTwo(grade) },
                 modifier = modifier.padding(bottom = 12.dp),
                 isEnabled = isButtonValid.value
             )

@@ -31,6 +31,7 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
+import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
 import com.terning.feature.onboarding.signup.component.SignUpProfile
 
 @Composable
@@ -48,8 +49,8 @@ fun SignUpRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SignUpSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is SignUpSideEffect.NavigateToFiltering -> {
-                        navController.navigateFilteringOne("name")
+                    is SignUpSideEffect.NavigateToStartFiltering -> {
+                        navController.navigateStartFiltering(signUpState.name)
                     }
                 }
             }

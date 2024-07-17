@@ -27,6 +27,8 @@ import java.util.Calendar
 
 @Composable
 fun FilteringThreeScreen(
+    grade: Int,
+    workingPeriod: Int,
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: FilteringViewModel = hiltViewModel(),
@@ -36,6 +38,11 @@ fun FilteringThreeScreen(
 
     var chosenYear by remember { mutableIntStateOf(currentYear) }
     var chosenMonth by remember { mutableIntStateOf(currentMonth) }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.fetchGrade(grade = grade)
+        viewModel.fetchWorkingPeriod(workingPeriod = workingPeriod)
+    }
 
     LaunchedEffect(key1 = chosenYear, key2 = chosenMonth) {
         viewModel.fetchStartYear(chosenYear)

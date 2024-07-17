@@ -77,7 +77,8 @@ class SignUpViewModel @Inject constructor(
     fun postSignUpWithServer() {
         viewModelScope.launch {
             authRepository.postSignUp(
-                state.value.authId,
+                "3620774317",
+                // state.value.authId,
                 state.value.run {
                     SignUpRequestModel(
                         name = name,
@@ -89,7 +90,7 @@ class SignUpViewModel @Inject constructor(
                 tokenRepository.setTokens(response.accessToken, response.refreshToken)
                 tokenRepository.setUserId(response.userId)
 
-                _sideEffects.emit(SignUpSideEffect.NavigateToFiltering)
+                _sideEffects.emit(SignUpSideEffect.NavigateToStartFiltering)
             }.onFailure {
                 _sideEffects.emit(SignUpSideEffect.ShowToast(R.string.server_failure))
             }

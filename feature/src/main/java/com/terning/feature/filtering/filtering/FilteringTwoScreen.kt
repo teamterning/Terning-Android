@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -24,6 +27,7 @@ import com.terning.feature.filtering.filtering.navigation.navigateFilteringThree
 
 @Composable
 fun FilteringTwoScreen(
+    grade : Int,
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: FilteringViewModel = hiltViewModel(),
@@ -31,6 +35,8 @@ fun FilteringTwoScreen(
 ) {
 
     val isButtonValid = remember { mutableStateOf(false) }
+
+    var workingPeriod by remember{ mutableIntStateOf(-1) }
 
     Scaffold(
         modifier = modifier,
@@ -73,7 +79,7 @@ fun FilteringTwoScreen(
                 onButtonClick = {index ->
                     onButtonClick(index)
                     isButtonValid.value = true
-                    viewModel.fetchWorkingPeriod(index)
+                    workingPeriod = index
                 }
             )
             Text(
@@ -89,7 +95,7 @@ fun FilteringTwoScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { navController.navigateFilteringThree() },
+                onButtonClick = { navController.navigateFilteringThree(grade, workingPeriod) },
                 modifier = modifier.padding(bottom = 12.dp),
                 isEnabled = isButtonValid.value
             )
