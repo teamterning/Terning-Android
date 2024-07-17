@@ -10,6 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.CalendarScrapModel
@@ -31,7 +33,8 @@ fun CalendarMonthScreen(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val scrapState by viewModel.calendarMonthState.collectAsState()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val scrapState by viewModel.calendarMonthState.collectAsStateWithLifecycle(lifecycleOwner)
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
