@@ -6,20 +6,26 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SearchViewsResponseDto(
-    @SerialName("internshipAnnouncementId")
-    val internshipAnnouncementId: Long,
-    @SerialName("companyImage")
-    val companyImage: String,
-    @SerialName("title")
-    val title: String,
+    @SerialName("announcements")
+    val announcements: List<ViewsAnnouncementDto>,
 ) {
+    @Serializable
+    data class ViewsAnnouncementDto(
+        @SerialName("internshipAnnouncementId")
+        val internshipAnnouncementId: Long,
+        @SerialName("companyImage")
+        val companyImage: String,
+        @SerialName("title")
+        val title: String,
+    )
+
     fun toSearchViewsEntity(): List<InternshipAnnouncement> {
-        return listOf(
+        return announcements.map {
             InternshipAnnouncement(
-                announcementId = internshipAnnouncementId,
-                companyImage = companyImage,
-                title = title,
+                announcementId = it.internshipAnnouncementId,
+                companyImage = it.companyImage,
+                title = it.title,
             )
-        )
+        }
     }
 }
