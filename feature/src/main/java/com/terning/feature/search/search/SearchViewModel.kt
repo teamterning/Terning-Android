@@ -18,20 +18,35 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
 ) : ViewModel() {
-    private val _state: MutableStateFlow<SearchViewsState> = MutableStateFlow(SearchViewsState())
-    val state: StateFlow<SearchViewsState> = _state.asStateFlow()
+    private val _viewState: MutableStateFlow<SearchState> = MutableStateFlow(SearchState())
+    val viewState: StateFlow<SearchState> = _viewState.asStateFlow()
 
-    private val _sideEffect: MutableSharedFlow<SearchViewsSideEffect> = MutableSharedFlow()
+    private val _scrapState: MutableStateFlow<SearchState> = MutableStateFlow(SearchState())
+    val scrapState: StateFlow<SearchState> = _scrapState.asStateFlow()
+
+    private val _sideEffect: MutableSharedFlow<SearchSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
     fun getSearchViews() {
         viewModelScope.launch {
             searchRepository.getSearchViewsList().onSuccess { searchViewsList ->
-                _state.value = _state.value.copy(
+                _viewState.value = _viewState.value.copy(
                     searchViewsList = UiState.Success(searchViewsList)
                 )
             }.onFailure {
-                _sideEffect.emit(SearchViewsSideEffect.Toast(R.string.server_failure))
+                _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
+            }
+        }
+    }
+
+    fun getSearchScraps() {
+        viewModelScope.launch {
+            searchRepository.getSearchScrapsList().onSuccess { searchScrapsList ->
+                _scrapState.value = _scrapState.value.copy(
+                    searchScrapsList = UiState.Success(searchScrapsList)
+                )
+            }.onFailure {
+                _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
             }
         }
     }
