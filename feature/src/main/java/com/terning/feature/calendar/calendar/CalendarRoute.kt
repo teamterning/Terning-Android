@@ -177,6 +177,7 @@ private fun CalendarScreen(
                     listState = listState,
                     pages = state.getPageCount(),
                     viewModel = viewModel,
+                    uiState = calendarUiState,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding())

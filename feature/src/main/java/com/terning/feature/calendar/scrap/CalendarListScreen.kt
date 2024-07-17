@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
@@ -30,10 +31,12 @@ import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.state.UiState
 import com.terning.feature.R
+import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
+import com.terning.feature.intern.component.ScrapCancelDialogContent
 import kotlinx.coroutines.flow.distinctUntilChanged
 import timber.log.Timber
 import java.time.LocalDate
@@ -42,6 +45,7 @@ import java.time.LocalDate
 fun CalendarListScreen(
     pages: Int,
     listState: LazyListState,
+    uiState: CalendarUiState,
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
@@ -58,68 +62,84 @@ fun CalendarListScreen(
             }
     }
 
+    Box {
 
-    LazyRow(
-        modifier = modifier
-            .background(White),
-        state = listState,
-        userScrollEnabled = true,
-        flingBehavior = flingBehavior(
-            state = listState
-        )
-    ) {
-        items(pages) { page ->
-            val getDate = getDateByPage(page)
+        LazyRow(
+            modifier = modifier
+                .background(White),
+            state = listState,
+            userScrollEnabled = true,
+            flingBehavior = flingBehavior(
+                state = listState
+            )
+        ) {
+            items(pages) { page ->
+                val getDate = getDateByPage(page)
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillParentMaxWidth()
-                    .fillMaxHeight()
-                    .background(Back)
-            ) {
-                when (scrapState.loadState) {
-                    UiState.Loading -> {}
-                    UiState.Empty -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    modifier = Modifier
-                                        .padding(top = 42.dp)
-                                        .fillMaxWidth(),
-                                    text = stringResource(id = R.string.calendar_empty_scrap),
-                                    textAlign = TextAlign.Center,
-                                    style = TerningTheme.typography.body5,
-                                    color = Grey400
-                                )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                        .fillMaxHeight()
+                        .background(Back)
+                ) {
+                    when (scrapState.loadState) {
+                        UiState.Loading -> {}
+                        UiState.Empty -> {
+                            item {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(top = 42.dp)
+                                            .fillMaxWidth(),
+                                        text = stringResource(id = R.string.calendar_empty_scrap),
+                                        textAlign = TextAlign.Center,
+                                        style = TerningTheme.typography.body5,
+                                        color = Grey400
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    is UiState.Failure -> {}
-                    is UiState.Success -> {
-                        items(getDate.lengthOfMonth()) { day ->
-                            val scrapMap = (scrapState.loadState as UiState.Success).data
-                            val currentDate =
-                                LocalDate.of(getDate.year, getDate.monthValue, day + 1)
-                            val dateIndex = currentDate.getDateAsMapString()
+                        is UiState.Failure -> {}
+                        is UiState.Success -> {
+                            items(getDate.lengthOfMonth()) { day ->
+                                val scrapMap = (scrapState.loadState as UiState.Success).data
+                                val currentDate =
+                                    LocalDate.of(getDate.year, getDate.monthValue, day + 1)
+                                val dateIndex = currentDate.getDateAsMapString()
 
-                            if (scrapMap[dateIndex].isListNotEmpty()) {
-                                CalendarScrapList(
-                                    selectedDate = currentDate,
-                                    scrapList = scrapMap[dateIndex].orEmpty(),
-                                    onScrapButtonClicked = { scrapId ->
-                                        Timber.tag("CalendarListScreen")
-                                            .d("<CalendarListScreen> $scrapId")
-                                    },
-                                    isFromList = true,
-                                    noScrapScreen = {})
+                                if (scrapMap[dateIndex].isListNotEmpty()) {
+                                    CalendarScrapList(
+                                        selectedDate = currentDate,
+                                        scrapList = scrapMap[dateIndex].orEmpty(),
+                                        onScrapButtonClicked = { scrapId ->
+                                            viewModel.updateScrapCancelDialogVisible(scrapId)
+                                            Timber.tag("CalendarListScreen")
+                                                .d("<CalendarListScreen> $scrapId")
+                                        },
+                                        isFromList = true,
+                                        noScrapScreen = {})
+                                }
                             }
                         }
                     }
                 }
+            }
+        }
+        if (uiState.isScrapButtonClicked) {
+            TerningBasicDialog(
+                onDismissRequest = {
+                    viewModel.updateScrapCancelDialogVisible()
+                },
+            ) {
+                ScrapCancelDialogContent(
+                    onClickScrapCancel = {
+                        viewModel.updateScrapCancelDialogVisible()
+                    }
+                )
             }
         }
     }

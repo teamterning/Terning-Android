@@ -92,8 +92,7 @@ fun ScrapCancelDialogContent(
                 style = TerningTheme.typography.body5,
                 color = Grey350,
                 modifier = Modifier.padding(
-                    top = 5.dp,
-                    bottom = 41.dp
+                    top = 5.dp
                 )
             )
             Box(
