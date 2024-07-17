@@ -42,14 +42,10 @@ fun ChangeFilteringRadioGroup(
     val selectedIndex = remember { mutableIntStateOf(0) }
     var selectedButton = remember { mutableStateListOf(false, false, false, false) }
 
-    if (filterType == 0) {
-        selectedButton[
-            internFilterData?.grade ?: 0
-        ] = true
-    } else {
-        selectedButton[
-            internFilterData?.workingPeriod ?: 0
-        ] = true
+    if (filterType == 0 && internFilterData?.grade != null) {
+        selectedButton[internFilterData.grade] = true
+    } else if(filterType == 1 && internFilterData?.workingPeriod != null) {
+        selectedButton[internFilterData.workingPeriod] = true
     }
 
     LazyVerticalGrid(
