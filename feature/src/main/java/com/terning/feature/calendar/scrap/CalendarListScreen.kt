@@ -35,6 +35,7 @@ import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavio
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
 import kotlinx.coroutines.flow.distinctUntilChanged
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -109,8 +110,11 @@ fun CalendarListScreen(
                                 CalendarScrapList(
                                     selectedDate = currentDate,
                                     scrapList = scrapMap[dateIndex].orEmpty(),
+                                    onScrapButtonClicked = { scrapId ->
+                                        Timber.tag("CalendarListScreen")
+                                            .d("<CalendarListScreen> $scrapId")
+                                    },
                                     isFromList = true,
-
                                     noScrapScreen = {})
                             }
                         }

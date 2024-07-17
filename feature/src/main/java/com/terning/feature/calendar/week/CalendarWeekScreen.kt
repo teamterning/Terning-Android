@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -30,7 +31,10 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarViewModel
+import com.terning.feature.calendar.calendar.component.ScrapCancelDialog
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -38,6 +42,7 @@ fun CalendarWeekScreen(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner)
     val calendarWeekState by viewModel.calendarWeekState.collectAsStateWithLifecycle(lifecycleOwner)
@@ -84,7 +89,11 @@ fun CalendarWeekScreen(
             is UiState.Failure -> {}
             is UiState.Success -> {
                 val scrapList = (calendarWeekState.loadState as UiState.Success).data
-                CalendarWeekSuccess(scrapList = scrapList, selectedDate = uiState.selectedDate)
+                CalendarWeekSuccess(
+                    scrapList = scrapList,
+                    selectedDate = uiState.selectedDate,
+                    onScrapButtonClicked = { scrapId ->
+                    })
             }
         }
     }
@@ -97,8 +106,6 @@ fun CalendarWeekEmpty(
     Box(
         contentAlignment = Alignment.Center
     ) {
-
-
         Text(
             modifier = Modifier
                 .padding(top = 42.dp)
@@ -114,10 +121,15 @@ fun CalendarWeekEmpty(
 @Composable
 fun CalendarWeekSuccess(
     scrapList: List<CalendarScrapDetailModel>,
+    onScrapButtonClicked: (Int) -> Unit,
     selectedDate: LocalDate,
 ) {
 
-    CalendarScrapList(selectedDate = selectedDate, scrapList = scrapList) {}
+    CalendarScrapList(
+        selectedDate = selectedDate,
+        scrapList = scrapList,
+        onScrapButtonClicked = onScrapButtonClicked
+    )
 }
 
 

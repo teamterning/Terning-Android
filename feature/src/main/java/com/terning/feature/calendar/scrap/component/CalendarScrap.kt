@@ -11,6 +11,7 @@ import com.terning.domain.entity.response.CalendarScrapDetailModel
 @Composable
 fun CalendarScrap(
     scrap: CalendarScrapDetailModel,
+    onScrapButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     ScrapBox(
@@ -24,7 +25,8 @@ fun CalendarScrap(
             title = scrap.title,
             dateDeadline = scrap.dDay,
             workingPeriod = scrap.workingPeriod,
-            isScraped = scrap.isScrapped
+            isScraped = scrap.isScrapped,
+            onScrapButtonClicked = onScrapButtonClicked
         )
     }
 }
