@@ -16,7 +16,7 @@ fun InternItemWithShadow(
     title: String,
     dateDeadline: String,
     workingPeriod: String,
-    isScraped: Boolean,
+    scrapId: Long?,
 ) {
     Box(
         modifier = Modifier
@@ -35,7 +35,7 @@ fun InternItemWithShadow(
             title = title,
             dateDeadline = dateDeadline,
             workingPeriod = workingPeriod,
-            isScraped = isScraped
+            isScraped = scrapId != null
         )
     }
 }
