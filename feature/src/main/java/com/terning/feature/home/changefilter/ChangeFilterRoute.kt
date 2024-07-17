@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
@@ -40,6 +42,11 @@ fun ChangeFilterScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val isButtonValid = with(viewModel.userName.internFilter) {
+        if (this?.grade == null) remember { mutableStateListOf(false, false) }
+        else remember { mutableStateListOf(true, true) }
+    }
+
     Scaffold(
         topBar = {
             BackButtonTopAppBar(
@@ -68,7 +75,10 @@ fun ChangeFilterScreen(
             ChangeFilteringRadioGroup(
                 filterType = 0,
                 internFilterData = viewModel.userName.internFilter,
-                onButtonClick = { viewModel.setGrade(it) }
+                onButtonClick = {
+                    viewModel.setGrade(it)
+                    isButtonValid[0] = true
+                }
             )
 
             UserNameState(
@@ -93,7 +103,10 @@ fun ChangeFilterScreen(
             ChangeFilteringRadioGroup(
                 filterType = 1,
                 internFilterData = viewModel.userName.internFilter,
-                onButtonClick = { viewModel.setWorkingPeriod(it) }
+                onButtonClick = {
+                    viewModel.setWorkingPeriod(it)
+                    isButtonValid[1] = true
+                }
             )
 
             ShowTitle(
@@ -119,7 +132,8 @@ fun ChangeFilterScreen(
                 text = R.string.change_filter_save,
                 onButtonClick = {
                     navController.navigateHome()
-                }
+                },
+                isEnabled = isButtonValid[0] && isButtonValid[1]
             )
         }
     }
