@@ -1,6 +1,6 @@
 package com.terning.feature.search.search
 
-import InternshipAnnouncementModel
+import com.terning.domain.entity.response.InternshipAnnouncementModel
 import com.terning.core.state.UiState
 
 data class SearchViewsState(
