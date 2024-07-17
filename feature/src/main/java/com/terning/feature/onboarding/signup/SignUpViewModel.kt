@@ -77,8 +77,7 @@ class SignUpViewModel @Inject constructor(
     fun postSignUpWithServer() {
         viewModelScope.launch {
             authRepository.postSignUp(
-                "3620774317",
-                // state.value.authId,
+                state.value.authId,
                 state.value.run {
                     SignUpRequestModel(
                         name = name,
