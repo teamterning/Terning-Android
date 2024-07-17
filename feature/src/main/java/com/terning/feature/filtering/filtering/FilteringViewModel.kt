@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilteringViewModel @Inject constructor(
-    private val filteringRepository: FilteringRepository
+  //  private val filteringRepository: FilteringRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FilteringState())

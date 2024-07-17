@@ -109,6 +109,7 @@ dependencies {
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.timber)
     implementation(libs.ossLicense)
+    implementation(libs.process.phoenix)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

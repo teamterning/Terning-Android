@@ -7,18 +7,14 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.terning.core.state.UiState
 import com.terning.domain.entity.request.SignInRequestModel
 import com.terning.domain.repository.AuthRepository
 import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,10 +27,6 @@ class SignInViewModel @Inject constructor(
     init {
         tokenRepository.clearInfo()
     }
-
-    private val _signInState = MutableStateFlow(SignInState())
-    val signInState: StateFlow<SignInState>
-        get() = _signInState.asStateFlow()
 
     private val _signInSideEffects = MutableSharedFlow<SignInSideEffect>()
     val signInSideEffects: SharedFlow<SignInSideEffect>
@@ -84,30 +76,32 @@ class SignInViewModel @Inject constructor(
 
     private suspend fun signInSuccess(
         accessToken: String,
-        platform: String = KAKAO
+        authType: String = KAKAO
     ) {
         authRepository.postSignIn(
             accessToken,
-            SignInRequestModel(platform)
+            SignInRequestModel(authType)
         ).onSuccess { response ->
             when {
-                response.accessToken == null -> _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
+                response.accessToken == null -> _signInSideEffects.emit(
+                    SignInSideEffect.NavigateSignUp(
+                        response.authId
+                    )
+                )
 
                 else -> {
                     tokenRepository.setTokens(
                         response.accessToken ?: return,
                         response.refreshToken ?: return
                     )
-                    tokenRepository.setUserId(response.userId)
+                    tokenRepository.setUserId(response.userId ?: return)
 
                     _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
                 }
             }
         }.onFailure {
-            _signInState.value = SignInState(UiState.Failure(it.message.toString()))
             _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
         }
-
     }
 
     companion object {

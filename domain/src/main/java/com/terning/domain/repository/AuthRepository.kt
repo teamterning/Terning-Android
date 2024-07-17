@@ -1,7 +1,9 @@
 package com.terning.domain.repository
 
 import com.terning.domain.entity.request.SignInRequestModel
+import com.terning.domain.entity.request.SignUpRequestModel
 import com.terning.domain.entity.response.SignInResponseModel
+import com.terning.domain.entity.response.SignUpResponseModel
 
 interface AuthRepository {
 
@@ -10,8 +12,9 @@ interface AuthRepository {
         request: SignInRequestModel
     ): Result<SignInResponseModel>
 
-    suspend fun postFiltering(
-        userId : Long,
+    suspend fun postSignUp(
+        authId: String,
+        request: SignUpRequestModel
+    ): Result<SignUpResponseModel>
 
-    )
 }
