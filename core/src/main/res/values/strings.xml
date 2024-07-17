@@ -6,7 +6,7 @@
     <string name="ic_20_right">오른쪽 버튼</string>
 
     <!--MyPage-->
-    <string name="my_page_top_app_bar">프로필 수정</string>
+    <string name="my_page_top_app_bar">""</string>
 
     <!--Button-->
     <string name="button_preview">button</string>

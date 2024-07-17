@@ -79,8 +79,8 @@ class SignInViewModel @Inject constructor(
         authType: String = KAKAO
     ) {
         authRepository.postSignIn(
-            accessToken,
-            SignInRequestModel(authType)
+            BEARER + accessToken,
+            SignInRequestModel(authType = authType)
         ).onSuccess { response ->
             when {
                 response.accessToken == null -> _signInSideEffects.emit(
@@ -107,5 +107,6 @@ class SignInViewModel @Inject constructor(
     companion object {
         private const val KAKAO_NOT_LOGGED_IN = "statusCode=302"
         private const val KAKAO = "KAKAO"
+        private const val BEARER = "Bearer "
     }
 }
