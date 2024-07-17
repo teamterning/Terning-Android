@@ -70,7 +70,7 @@ class SignUpViewModel @Inject constructor(
         _state.value = _state.value.copy(character = character)
     }
 
-    fun getAuthId(authId: String) {
+    fun fetchAuthId(authId: String) {
         _state.value = _state.value.copy(authId = authId)
     }
 
