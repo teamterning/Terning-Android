@@ -11,7 +11,13 @@ class ScrapDataSourceImpl @Inject constructor(
 ) : ScrapDataSource {
     override suspend fun postScrap(scrapRequestModel: ScrapRequestModel): NonDataBaseResponse =
         scrapService.postScrap(
-            scrapRequestModel.internshipAnnouncementId,
+            scrapRequestModel.id,
             scrapRequestModel.color
         )
+
+    override suspend fun deleteScrap(scrapRequestModel: ScrapRequestModel): NonDataBaseResponse =
+        scrapService.deleteScrap(scrapRequestModel.id)
+
+    override suspend fun patchScrap(scrapRequestModel: ScrapRequestModel): NonDataBaseResponse =
+        scrapService.patchScrap(scrapRequestModel.id, scrapRequestModel.color)
 }

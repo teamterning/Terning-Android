@@ -1,6 +1,6 @@
 package com.terning.domain.entity.request
 
 data class ScrapRequestModel(
-    val internshipAnnouncementId: Long,
+    val id: Long,
     val color: Int,
 )

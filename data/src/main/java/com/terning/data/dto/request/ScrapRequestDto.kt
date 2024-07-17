@@ -13,4 +13,4 @@ data class ScrapRequestDto(
 )
 
 fun ScrapRequestModel.toScrapRequestDto(): ScrapRequestDto =
-    ScrapRequestDto(internshipAnnouncementId, color)
+    ScrapRequestDto(id, color)
