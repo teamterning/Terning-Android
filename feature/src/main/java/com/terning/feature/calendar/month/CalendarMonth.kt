@@ -1,12 +1,8 @@
-package com.terning.feature.calendar.calendar
+package com.terning.feature.calendar.month
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
@@ -16,11 +12,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isToday
-import com.terning.feature.calendar.models.MonthData
-import com.terning.feature.calendar.models.Scrap
-import com.terning.feature.calendar.models.SelectedDateState
-import com.terning.feature.calendar.scrap.CalendarScrapStrip
+import com.terning.domain.entity.response.CalendarScrapModel
+import com.terning.feature.calendar.calendar.CalendarUiState
+import com.terning.feature.calendar.month.component.CalendarDay
+import com.terning.feature.calendar.month.model.MonthData
+import com.terning.feature.calendar.scrap.CalendarMonthScrap
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -29,8 +27,8 @@ fun CalendarMonth(
     modifier: Modifier = Modifier,
     monthData: MonthData,
     onDateSelected: (LocalDate) -> Unit,
-    selectedDate: SelectedDateState,
-    scrapLists: List<List<Scrap>> = listOf()
+    calendarUiState: CalendarUiState,
+    scrapMap: Map<String, List<CalendarScrapModel>> = mapOf()
 ) {
     Column(
         modifier = modifier
@@ -51,20 +49,20 @@ fun CalendarMonth(
                     ) {
                         CalendarDay(
                             dayData = day,
-                            isSelected = selectedDate.selectedDate == day.date && selectedDate.isEnabled,
+                            isSelected = calendarUiState.selectedDate == day.date && calendarUiState.isWeekEnabled,
                             isToday = day.date.isToday(),
                             onDateSelected = onDateSelected
                         )
-                        if(!day.isOutDate) {
-                            val index = day.date.dayOfMonth - 1
-                            CalendarScrapStrip(
-                                scrapList = scrapLists[index]
+                        if (!day.isOutDate) {
+                            val index = day.date.getDateAsMapString()
+                            CalendarMonthScrap(
+                                scrapLists = scrapMap[index].orEmpty()
                             )
                         }
                     }
                 }
             }
-            if(month.indexOf(week) != month.lastIndex) {
+            if (month.indexOf(week) != month.lastIndex) {
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = Grey150
@@ -80,9 +78,8 @@ fun CalendarMonthPreview() {
     TerningPointTheme {
         CalendarMonth(
             monthData = MonthData(YearMonth.now()),
-            selectedDate = SelectedDateState(LocalDate.now(), true),
+            calendarUiState = CalendarUiState(LocalDate.now(), true),
             onDateSelected = {},
-            scrapLists = listOf()
         )
     }
 }

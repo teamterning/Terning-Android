@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.models
+package com.terning.feature.calendar.calendar.model
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.FlingBehavior
