@@ -7,11 +7,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SignInResponseDto(
     @SerialName("accessToken")
-    val accessToken: String,
+    val accessToken: String?,
     @SerialName("refreshToken")
-    val refreshToken: String,
+    val refreshToken: String?,
     @SerialName("userId")
-    val userId: Long,
+    val userId: Long?,
+    @SerialName("authId")
+    val authId: String,
     @SerialName("authType")
     val authType: String,
 ) {
@@ -19,6 +21,7 @@ data class SignInResponseDto(
         accessToken = accessToken,
         refreshToken = refreshToken,
         userId = userId,
+        authId = authId,
         authType = authType
     )
 }
