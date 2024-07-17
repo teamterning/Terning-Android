@@ -1,4 +1,3 @@
-
 package com.terning.data.dto.response
 
 import com.terning.domain.entity.response.InternshipAnnouncementModel
