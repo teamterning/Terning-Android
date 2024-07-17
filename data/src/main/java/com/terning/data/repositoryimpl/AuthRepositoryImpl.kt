@@ -19,4 +19,8 @@ class AuthRepositoryImpl @Inject constructor(
             request.toSignInRequestDto()
         ).result.toSignInModel()
     }
+
+    override suspend fun postFiltering(userId: Long) {
+        TODO("Not yet implemented")
+    }
 }
