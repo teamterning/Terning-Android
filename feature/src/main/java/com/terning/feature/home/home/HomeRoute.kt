@@ -3,6 +3,7 @@ package com.terning.feature.home.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -41,17 +42,16 @@ import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.toast
-import com.terning.core.state.UiState
-import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.HomeRecommendInternModel
+import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
+import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.UserNameState
@@ -72,10 +72,7 @@ fun HomeRoute(
     val context = LocalContext.current
 
     val homeTodayState by viewModel.homeTodayState.collectAsStateWithLifecycle()
-
-    val recommendInternState by viewModel.recommendInternState.collectAsStateWithLifecycle(
-        lifecycleOwner = lifecycleOwner
-    )
+    val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -95,34 +92,30 @@ fun HomeRoute(
         else -> emptyList()
     }
 
-    val userNameState = viewModel.userName
-
-    LaunchedEffect(key1 = currentSortBy) {
-        with(userNameState.internFilter) {
-            viewModel.getRecommendInternsData(
-                currentSortBy.value,
-                this?.startYear ?: viewModel.currentYear,
-                this?.startMonth ?: viewModel.currentMonth
-            )
+    val homeRecommendInternList = when (homeRecommendInternState) {
+        is UiState.Success -> {
+            (homeRecommendInternState as UiState.Success<List<HomeRecommendInternModel>>).data
         }
+
+        else -> emptyList()
     }
 
-    var recommendInternList = emptyList<HomeRecommendInternModel>()
+    val userNameState = viewModel.userName
 
-    when (recommendInternState) {
-        is UiState.Empty -> {}
-        is UiState.Loading -> {}
-        is UiState.Failure -> {}
-        is UiState.Success -> {
-            recommendInternList =
-                (recommendInternState as UiState.Success<List<HomeRecommendInternModel>>).data
+    LaunchedEffect(currentSortBy) {
+        with(userNameState.value.internFilter) {
+            viewModel.getRecommendInternsData(
+                sortBy = currentSortBy.value,
+                startYear = this?.startYear ?: viewModel.currentYear,
+                startMonth = this?.startMonth ?: viewModel.currentMonth,
+            )
         }
     }
 
     HomeScreen(
         currentSortBy,
         homeTodayInternList = homeTodayInternList,
-        recommendInternList = recommendInternList,
+        recommendInternList = homeRecommendInternList,
         onChangeFilterClick = { navController.navigateChangeFilter() },
     )
 }
@@ -137,8 +130,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val userNameState = viewModel.userName
-    val userScrapState by viewModel.scrapData.collectAsStateWithLifecycle()
-    val recommendInternData by viewModel.recommendInternData.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
 
     if (sheetState) {
@@ -174,7 +165,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .padding(bottom = 16.dp)
                     ) {
-                        ShowMainTitleWithName(userNameState)
+                        ShowMainTitleWithName(userNameState.value)
                         ShowTodayIntern(homeTodayInternList = homeTodayInternList)
                     }
                 }
@@ -184,7 +175,7 @@ fun HomeScreen(
                             .background(White)
                     ) {
                         ShowRecommendTitle()
-                        ShowInternFilter(userNameState = userNameState, onChangeFilterClick)
+                        ShowInternFilter(userNameState = userNameState.value, onChangeFilterClick)
 
                         HorizontalDivider(
                             thickness = 4.dp,
@@ -216,7 +207,7 @@ fun HomeScreen(
                 }
             }
 
-            if (userNameState.internFilter == null) {
+            if (userNameState.value.internFilter == null) {
                 HomeFilteringEmptyIntern(
                     modifier = Modifier
                         .padding(horizontal = 24.dp)

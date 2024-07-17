@@ -1,6 +1,5 @@
 package com.terning.feature.home.home
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,19 +33,23 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<UiState<List<HomeTodayInternModel>>>(UiState.Loading)
     val homeTodayState get() = _homeTodayState.asStateFlow()
 
+    private val _homeRecommendInternState =
+        MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Loading)
+    val homeRecommendInternState get() = _homeRecommendInternState.asStateFlow()
+
+    private val _homeSortByState = MutableStateFlow(0)
+    val homeSortByState get() = _homeSortByState.asStateFlow()
+
     init {
         getHomeTodayInternList()
-
-        with(_userName.internFilter) {
-            getRecommendInternsData(
-                sortBy = 0,
-                this?.startYear ?: currentYear,
-                this?.startMonth ?: currentMonth
-            )
-        }
+        getRecommendInternsData(
+            sortBy = 0,
+            startYear = 2024,
+            startMonth = 8,
+        )
     }
 
-    private val _userName by mutableStateOf(
+    private val _userName = mutableStateOf(
         UserNameState(
             userName = "남지우자랑스러운티엘이되",
             internFilter =
@@ -60,42 +63,28 @@ class HomeViewModel @Inject constructor(
     )
     val userName get() = _userName
 
-    private val _scrapState = MutableStateFlow(
-        UserScrapState(
-            isScrapExist = true,
-            scrapData = getScrapData()
-        )
-    )
-    val scrapData get() = _scrapState.asStateFlow()
-
-    private val _recommendInternState =
-        MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Loading)
-    val recommendInternState get() = _recommendInternState.asStateFlow()
-
-    private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
-    val homeSideEffect get() = _homeSideEffect.asSharedFlow()
-
-    private val _homeSortByState = MutableStateFlow(0)
-    val homeSortByState get() = _homeSortByState.asStateFlow()
-
-    fun setGrade(grade: Int) {
-        userName.internFilter?.grade = grade
-    }
-
-    fun setWorkingPeriod(workingPeriod: Int) {
-        userName.internFilter?.workingPeriod = workingPeriod
-    }
-
-    fun getRecommendInternsData(sortBy: Int, year: Int, month: Int) {
-        _recommendInternState.value = UiState.Loading
+    fun getRecommendInternsData(sortBy: Int, startYear: Int, startMonth: Int) {
+        _homeRecommendInternState.value = UiState.Loading
         viewModelScope.launch {
-            homeRepository.getRecommendIntern(SortBy.entries[sortBy].sortBy, year, month)
+            homeRepository.getRecommendIntern(SortBy.entries[sortBy].sortBy, startYear, startMonth)
                 .onSuccess { internList ->
-                    _recommendInternState.value = UiState.Success(internList)
+                    _homeRecommendInternState.value = UiState.Success(internList)
                 }.onFailure { exception: Throwable ->
-                    _recommendInternState.value = UiState.Failure(exception.message ?: "")
+                    _homeRecommendInternState.value = UiState.Failure(exception.message ?: "")
                     _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
                 }
+        }
+    }
+
+    fun getHomeTodayInternList() {
+        _homeTodayState.value = UiState.Loading
+        viewModelScope.launch {
+            homeRepository.getHomeTodayInternList().onSuccess { internList ->
+                _homeTodayState.value = UiState.Success(internList)
+            }.onFailure { exception: Throwable ->
+                _homeTodayState.value = UiState.Failure(exception.message ?: "")
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+            }
         }
     }
 
@@ -108,14 +97,3 @@ class HomeViewModel @Inject constructor(
     }
 }
 
-fun getHomeTodayInternList() {
-    _homeTodayState.value = UiState.Loading
-    viewModelScope.launch {
-        homeRepository.getHomeTodayInternList().onSuccess { internList ->
-            _homeTodayState.value = UiState.Success(internList)
-        }.onFailure { exception: Throwable ->
-            _homeTodayState.value = UiState.Failure(exception.message ?: "")
-            _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
-        }
-    }
-}

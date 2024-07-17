@@ -9,7 +9,7 @@ interface HomeDataSource {
 
     suspend fun getRecommendIntern(
         sortBy: String,
-        year: Int,
-        month: Int
+        startYear: Int,
+        startMonth: Int
     ): BaseResponse<List<HomeRecommendInternResponseDto>>
 }
