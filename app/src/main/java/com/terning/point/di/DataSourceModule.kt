@@ -36,4 +36,8 @@ abstract class DataSourceModule {
     @Singleton
     abstract fun bindScrapDataSource(scrapDataSourceImpl: ScrapDataSourceImpl):
             ScrapDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindTokenReissueDataSource(tokenReissueDataSourceImpl: TokenReissueDataSourceImpl): TokenReissueDataSource
 }
