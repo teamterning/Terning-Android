@@ -1,6 +1,7 @@
 package com.terning.data.service
 
 import com.terning.data.dto.BaseResponse
+import com.terning.data.dto.response.HomeFilteringInfoResponseDto
 import com.terning.data.dto.response.HomeRecommendInternResponseDto
 import com.terning.data.dto.response.HomeTodayInternResponseDto
 import retrofit2.http.GET
@@ -16,4 +17,7 @@ interface HomeService {
         @Query("startYear") startYear: Int,
         @Query("startMonth") startMonth: Int,
     ): BaseResponse<List<HomeRecommendInternResponseDto>>
+
+    @GET("api/v1/filters")
+    suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto>
 }
