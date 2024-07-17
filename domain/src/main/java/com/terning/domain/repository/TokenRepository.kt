@@ -9,7 +9,5 @@ interface TokenRepository {
 
     fun setUserId(userId: Long)
 
-    fun getUserId(): Long
-
     fun clearInfo()
 }

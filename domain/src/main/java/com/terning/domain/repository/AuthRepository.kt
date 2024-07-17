@@ -13,7 +13,7 @@ interface AuthRepository {
     ): Result<SignInResponseModel>
 
     suspend fun postSignUp(
-        userId: Long,
+        authId: String,
         request: SignUpRequestModel
     ): Result<SignUpResponseModel>
 

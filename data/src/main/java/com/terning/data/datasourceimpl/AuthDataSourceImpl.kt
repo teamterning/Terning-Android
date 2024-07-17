@@ -19,7 +19,7 @@ class AuthDataSourceImpl @Inject constructor(
     ): BaseResponse<SignInResponseDto> = authService.postSignIn(authorization, request)
 
     override suspend fun postSignUp(
-        userId: Long,
+        authId: String,
         request: SignUpRequestDto
-    ): BaseResponse<SignUpResponseDto> = authService.postSignUp(userId, request)
+    ): BaseResponse<SignUpResponseDto> = authService.postSignUp(authId, request)
 }

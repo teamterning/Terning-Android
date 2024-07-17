@@ -12,6 +12,8 @@ data class SignInResponseDto(
     val refreshToken: String,
     @SerialName("userId")
     val userId: Long,
+    @SerialName("authId")
+    val authId: String,
     @SerialName("authType")
     val authType: String,
 ) {
@@ -19,6 +21,7 @@ data class SignInResponseDto(
         accessToken = accessToken,
         refreshToken = refreshToken,
         userId = userId,
+        authId = authId,
         authType = authType
     )
 }

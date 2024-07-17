@@ -13,6 +13,7 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource
 ) : AuthRepository {
+
     override suspend fun postSignIn(
         authorization: String,
         request: SignInRequestModel
@@ -24,11 +25,11 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun postSignUp(
-        userId: Long,
+        authId: String,
         request: SignUpRequestModel
     ): Result<SignUpResponseModel> = runCatching {
         authDataSource.postSignUp(
-            userId,
+            authId,
             request.toSignUpRequestDto()
         ).result.toSignUpModel()
     }

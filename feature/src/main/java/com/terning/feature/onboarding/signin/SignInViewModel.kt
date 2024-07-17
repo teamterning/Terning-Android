@@ -76,14 +76,18 @@ class SignInViewModel @Inject constructor(
 
     private suspend fun signInSuccess(
         accessToken: String,
-        platform: String = KAKAO
+        authType: String = KAKAO
     ) {
         authRepository.postSignIn(
             accessToken,
-            SignInRequestModel(platform)
+            SignInRequestModel(authType)
         ).onSuccess { response ->
             when {
-                response.accessToken == null -> _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
+                response.accessToken == null -> _signInSideEffects.emit(
+                    SignInSideEffect.NavigateSignUp(
+                        response.authId
+                    )
+                )
 
                 else -> {
                     tokenRepository.setTokens(
