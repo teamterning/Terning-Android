@@ -44,8 +44,8 @@ fun CalendarMonthScrap(
             )
         }
 
-        item{
-            if(scrapLists.size > MAX_SCRAP_COUNT) {
+        item {
+            if (scrapLists.size > MAX_SCRAP_COUNT) {
                 Text(
                     text = "+${(scrapLists.size - MAX_SCRAP_COUNT)}",
                     style = TerningTheme.typography.detail4,

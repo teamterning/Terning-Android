@@ -14,7 +14,7 @@ fun ScreenTransition(
     transitionTwo: ContentTransform,
     contentOne: @Composable () -> Unit,
     contentTwo: @Composable () -> Unit
-    ) {
+) {
     AnimatedContent(
         targetState = targetState,
         transitionSpec = {
@@ -28,7 +28,7 @@ fun ScreenTransition(
         },
         label = stringResource(id = R.string.calendar_animation_label)
     ) { state ->
-        if(state) {
+        if (state) {
             contentOne.invoke()
         } else {
             contentTwo.invoke()

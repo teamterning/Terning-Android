@@ -136,7 +136,6 @@ class CalendarViewModel @Inject constructor(
                         //loadState = UiState.Success(it)
                     )
                 }
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_success))
             },
             onFailure = {
                 _calendarWeekState.update { currentState ->

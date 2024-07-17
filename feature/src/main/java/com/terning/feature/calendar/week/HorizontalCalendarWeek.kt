@@ -28,14 +28,15 @@ fun HorizontalCalendarWeek(
     val monthData = MonthData(YearMonth.of(date.year, date.monthValue))
     val currentWeek = date.getWeekIndexContainingSelectedDate(monthData.inDays)
 
-    val pagerState = rememberPagerState (
+    val pagerState = rememberPagerState(
         initialPage = currentWeek,
-        pageCount = {monthData.totalDays / 7}
+        pageCount = { monthData.totalDays / 7 }
     )
 
     HorizontalPager(
         modifier = modifier,
-        state = pagerState) { page ->
+        state = pagerState
+    ) { page ->
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()

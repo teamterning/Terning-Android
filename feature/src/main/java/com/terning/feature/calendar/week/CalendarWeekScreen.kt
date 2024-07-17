@@ -80,6 +80,7 @@ fun CalendarWeekScreen(
             is UiState.Empty -> {
                 CalendarWeekEmpty()
             }
+
             is UiState.Failure -> {}
             is UiState.Success -> {
                 val scrapList = (calendarWeekState.loadState as UiState.Success).data

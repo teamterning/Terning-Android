@@ -53,7 +53,7 @@ fun CalendarMonth(
                             isToday = day.date.isToday(),
                             onDateSelected = onDateSelected
                         )
-                        if(!day.isOutDate) {
+                        if (!day.isOutDate) {
                             val index = day.date.getDateAsMapString()
                             CalendarMonthScrap(
                                 scrapLists = scrapMap[index].orEmpty()
@@ -62,7 +62,7 @@ fun CalendarMonth(
                     }
                 }
             }
-            if(month.indexOf(week) != month.lastIndex) {
+            if (month.indexOf(week) != month.lastIndex) {
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = Grey150

@@ -29,7 +29,8 @@ data class MonthData(
 
     private val rows = (0 until totalDays).chunked(7)
 
-    val calendarMonth = MonthModel(month, rows.map { week -> week.map {dayOffset -> getDay(dayOffset)}})
+    val calendarMonth =
+        MonthModel(month, rows.map { week -> week.map { dayOffset -> getDay(dayOffset) } })
 
     private fun getDay(dayOffset: Int): DayClass {
         val firstDayOnCalendar = month.atDay(1).minusDays(inDays.toLong())

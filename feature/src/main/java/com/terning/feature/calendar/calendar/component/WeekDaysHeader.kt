@@ -22,39 +22,40 @@ import com.terning.feature.R
 fun WeekDaysHeader(
     modifier: Modifier = Modifier,
 ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(
-                    horizontal = 20.dp,
-                    vertical = 18.dp
-                ),
-        ){
-            val dayOfWeek = listOf(
-                R.string.calendar_text_sunday,
-                R.string.calendar_text_monday,
-                R.string.calendar_text_tuesday,
-                R.string.calendar_text_wednesday,
-                R.string.calendar_text_thursday,
-                R.string.calendar_text_friday,
-                R.string.calendar_text_saturday,)
-            dayOfWeek.forEach { day ->
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = stringResource(id = day),
-                    style = TerningTheme.typography.body7,
-                    color = if(day == R.string.calendar_text_sunday) SundayRed else Black,
-                    textAlign = TextAlign.Center
-                )
-            }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(
+                horizontal = 20.dp,
+                vertical = 18.dp
+            ),
+    ) {
+        val dayOfWeek = listOf(
+            R.string.calendar_text_sunday,
+            R.string.calendar_text_monday,
+            R.string.calendar_text_tuesday,
+            R.string.calendar_text_wednesday,
+            R.string.calendar_text_thursday,
+            R.string.calendar_text_friday,
+            R.string.calendar_text_saturday,
+        )
+        dayOfWeek.forEach { day ->
+            Text(
+                modifier = Modifier.weight(1f),
+                text = stringResource(id = day),
+                style = TerningTheme.typography.body7,
+                color = if (day == R.string.calendar_text_sunday) SundayRed else Black,
+                textAlign = TextAlign.Center
+            )
         }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun WeekDaysHeaderPreview() {
-    TerningPointTheme{
+    TerningPointTheme {
         WeekDaysHeader()
     }
 }
