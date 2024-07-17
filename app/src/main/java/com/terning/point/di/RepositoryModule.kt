@@ -6,12 +6,15 @@ import com.terning.data.repositoryimpl.ScrapRepositoryImpl
 import com.terning.data.repositoryimpl.SearchViewsRepositoryImpl
 import com.terning.data.repositoryimpl.SearchRepositoryImpl
 import com.terning.data.repositoryimpl.CalendarRepositoryImpl
+import com.terning.data.repositoryimpl.FilteringRepositoryImpl
+import com.terning.data.repositoryimpl.SearchRepositoryImpl
 import com.terning.data.repositoryimpl.TokenReissueRepositoryImpl
 import com.terning.data.repositoryimpl.TokenRepositoryImpl
 import com.terning.domain.repository.AuthRepository
 import com.terning.domain.repository.InternRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.domain.repository.CalendarRepository
+import com.terning.domain.repository.FilteringRepository
 import com.terning.domain.repository.SearchRepository
 import com.terning.domain.repository.TokenReissueRepository
 import com.terning.domain.repository.TokenRepository
@@ -52,4 +55,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindScrapRepository(scrapRepositoryImpl: ScrapRepositoryImpl): ScrapRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFilteringRepository(filteringRepositoryImpl: FilteringRepositoryImpl): FilteringRepository
 }

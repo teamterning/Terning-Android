@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.filtering
+package com.terning.feature.filtering.filtering
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,18 +22,20 @@ import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.onboarding.filtering.component.StatusTwoRadioGroup
-import com.terning.feature.onboarding.filtering.navigation.navigateFilteringThree
+import com.terning.feature.filtering.filtering.component.StatusOneRadioGroup
+import com.terning.feature.filtering.filtering.navigation.navigateFilteringTwo
 
 @Composable
-fun FilteringTwoScreen(
+fun FilteringOneScreen(
+    name: String,
     navController: NavController,
     modifier: Modifier = Modifier,
-    filteringViewModel: FilteringViewModel = hiltViewModel(),
-    onButtonClick: () -> Unit = {},
+    viewModel: FilteringViewModel = hiltViewModel(),
+    onButtonClick: (Int) -> Unit = {},
 ) {
-
     val isButtonValid = remember { mutableStateOf(false) }
+
+    var grade by remember { mutableIntStateOf(-1) }
 
     Scaffold(
         modifier = modifier,
@@ -46,14 +51,17 @@ fun FilteringTwoScreen(
                 .padding(paddingValues)
         ) {
             TerningImage(
-                painter = R.drawable.ic_filtering_status2,
+                painter = R.drawable.ic_filtering_status1,
                 modifier = modifier.padding(
                     top = 20.dp,
                     start = 24.dp
                 )
             )
             Text(
-                text = stringResource(id = R.string.filtering_status2_title),
+                text = stringResource(
+                    id = R.string.filtering_status1_title,
+                    name
+                ),
                 style = TerningTheme.typography.title3,
                 modifier = modifier.padding(
                     top = 19.dp,
@@ -61,7 +69,10 @@ fun FilteringTwoScreen(
                 )
             )
             Text(
-                text = stringResource(id = R.string.filtering_status2_sub),
+                text = stringResource(
+                    id = R.string.filtering_status1_sub,
+                    name
+                ),
                 style = TerningTheme.typography.body5,
                 modifier = modifier.padding(
                     top = 3.dp,
@@ -69,10 +80,11 @@ fun FilteringTwoScreen(
                     bottom = 25.dp
                 )
             )
-            StatusTwoRadioGroup(
-                onButtonClick = {
-                    onButtonClick()
+            StatusOneRadioGroup(
+                onButtonClick = { index ->
+                    onButtonClick(index)
                     isButtonValid.value = true
+                    grade = index
                 }
             )
             Text(
@@ -88,7 +100,7 @@ fun FilteringTwoScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { navController.navigateFilteringThree() },
+                onButtonClick = { navController.navigateFilteringTwo(grade) },
                 modifier = modifier.padding(bottom = 12.dp),
                 isEnabled = isButtonValid.value
             )

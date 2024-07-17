@@ -1,6 +1,8 @@
 package com.terning.point.di
 
 import com.terning.data.service.AuthService
+import com.terning.data.service.FilteringService
+import com.terning.data.service.CalendarService
 import com.terning.data.service.SearchService
 import com.terning.data.service.TokenReissueService
 import com.terning.point.di.qualifier.JWT
@@ -46,4 +48,9 @@ object ServiceModule {
     @Singleton
     fun provideScrapService(@JWT retrofit: Retrofit): ScrapService =
         retrofit.create(ScrapService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFilteringService(@JWT retrofit: Retrofit): FilteringService =
+        retrofit.create(FilteringService::class.java)
 }
