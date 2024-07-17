@@ -20,7 +20,7 @@ abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindCalendarRepository(calendarDataSourceImpl: CalendarDataSourceImpl): CalendarDataSource
+    abstract fun bindCalendarDataSource(calendarDataSourceImpl: CalendarDataSourceImpl): CalendarDataSource
 
     @Binds
     @Singleton
