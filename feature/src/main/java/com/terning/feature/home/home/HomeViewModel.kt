@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
+import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
@@ -38,13 +39,18 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Loading)
     val homeRecommendInternState get() = _homeRecommendInternState.asStateFlow()
 
+    private val _homeFilteringState =
+        MutableStateFlow<UiState<HomeFilteringInfoModel>>(UiState.Loading)
+    val homeFilteringState get() = _homeFilteringState.asStateFlow()
+
     private val _homeSortByState = MutableStateFlow(0)
     val homeSortByState get() = _homeSortByState.asStateFlow()
 
     init {
+        getFilteringInfo()
         getHomeTodayInternList()
         getRecommendInternsData(
-            sortBy = 0,
+            sortBy = _homeSortByState.value,
             startYear = 2024,
             startMonth = 8,
         )
@@ -84,6 +90,18 @@ class HomeViewModel @Inject constructor(
                 _homeTodayState.value = UiState.Success(internList)
             }.onFailure { exception: Throwable ->
                 _homeTodayState.value = UiState.Failure(exception.message ?: "")
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+            }
+        }
+    }
+
+    fun getFilteringInfo() {
+        _homeFilteringState.value = UiState.Loading
+        viewModelScope.launch {
+            homeRepository.getFilteringInfo().onSuccess { filteringInfo ->
+                _homeFilteringState.value = UiState.Success(filteringInfo)
+            }.onFailure { exception: Throwable ->
+                _homeFilteringState.value = UiState.Failure(exception.message ?: "")
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
         }
