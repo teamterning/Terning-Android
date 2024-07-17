@@ -81,10 +81,11 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun updateScrapCancelDialogVisible() {
+    fun updateScrapCancelDialogVisible(scrapId: Int = -1) {
         _calendarWeekState.update { currentState ->
             currentState.copy(
-                isScrapButtonClicked = !currentState.isScrapButtonClicked
+                isScrapButtonClicked = !currentState.isScrapButtonClicked,
+                scrapId = scrapId
             )
         }
         Timber

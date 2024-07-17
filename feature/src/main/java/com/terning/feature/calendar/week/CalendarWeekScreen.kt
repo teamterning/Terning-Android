@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -32,10 +32,8 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.component.ScrapCancelDialog
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import com.terning.feature.intern.component.ScrapCancelDialogContent
 import java.time.LocalDate
 
 @Composable
@@ -43,7 +41,6 @@ fun CalendarWeekScreen(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.selectedDate.collectAsStateWithLifecycle(lifecycleOwner)
     val calendarWeekState by viewModel.calendarWeekState.collectAsStateWithLifecycle(lifecycleOwner)
@@ -52,49 +49,66 @@ fun CalendarWeekScreen(
         viewModel.getScrapWeekList()
     }
 
-    Column(
-        modifier = modifier
-            .background(Back)
-    ) {
-        Card(
-            modifier = Modifier
-                .border(
-                    width = 0.dp,
-                    color = Grey200,
-                    shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
-                )
-                .shadow(
-                    shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
-                    elevation = 1.dp
-                ),
-
-            shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
+    Box {
+        Column(
+            modifier = modifier
+                .background(Back)
         ) {
-            HorizontalCalendarWeek(
+            Card(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(White),
-                selectedDate = uiState,
-                onDateSelected = {
-                    viewModel.updateSelectedDate(it)
+                    .border(
+                        width = 0.dp,
+                        color = Grey200,
+                        shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
+                    )
+                    .shadow(
+                        shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
+                        elevation = 1.dp
+                    ),
+
+                shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
+            ) {
+                HorizontalCalendarWeek(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(White),
+                    selectedDate = uiState,
+                    onDateSelected = {
+                        viewModel.updateSelectedDate(it)
+                    }
+                )
+            }
+
+            when (calendarWeekState.loadState) {
+                is UiState.Loading -> {}
+                is UiState.Empty -> {
+                    CalendarWeekEmpty()
                 }
-            )
+
+                is UiState.Failure -> {}
+                is UiState.Success -> {
+                    val scrapList = (calendarWeekState.loadState as UiState.Success).data
+                    CalendarWeekSuccess(
+                        scrapList = scrapList,
+                        selectedDate = uiState.selectedDate,
+                        onScrapButtonClicked = { scrapId ->
+                            viewModel.updateScrapCancelDialogVisible(scrapId)
+                        })
+                }
+            }
         }
 
-        when (calendarWeekState.loadState) {
-            is UiState.Loading -> {}
-            is UiState.Empty -> {
-                CalendarWeekEmpty()
-            }
-            is UiState.Failure -> {}
-            is UiState.Success -> {
-                val scrapList = (calendarWeekState.loadState as UiState.Success).data
-                CalendarWeekSuccess(
-                    scrapList = scrapList,
-                    selectedDate = uiState.selectedDate,
-                    onScrapButtonClicked = { scrapId ->
+        if(calendarWeekState.isScrapButtonClicked){
+            TerningBasicDialog(
+                onDismissRequest = {
+                    viewModel.updateScrapCancelDialogVisible()
+                },
+            ) {
+                ScrapCancelDialogContent(
+                    onClickScrapCancel = {
                         viewModel.updateScrapCancelDialogVisible()
-                    })
+                    }
+                )
             }
         }
     }
@@ -109,7 +123,7 @@ fun CalendarWeekEmpty(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            modifier =  Modifier
+            modifier = Modifier
                 .padding(top = 42.dp)
                 .fillMaxWidth(),
             text = stringResource(id = R.string.calendar_empty_scrap),
