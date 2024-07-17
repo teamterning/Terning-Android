@@ -44,6 +44,7 @@ import com.terning.feature.intern.component.ScrapCancelDialogContent
 import com.terning.feature.intern.component.ScrapDialogContent
 import java.text.DecimalFormat
 
+
 @Composable
 fun InternRoute(
     navController: NavHostController,
@@ -55,30 +56,33 @@ fun InternRoute(
     val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
-        viewModel.getInternInfo(1)
+//        viewModel.getInternInfo(1)
 //        viewModel.postScrap(announcementId, 1)
     }
 
-    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
-        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { sideEffect ->
-                when (sideEffect) {
-                    is InternViewSideEffect.Toast -> {
-                        sideEffect.message
-                    }
-                }
-            }
-    }
+//    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+//        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+//            .collect { sideEffect ->
+//                when (sideEffect) {
+//                    is InternViewSideEffect.Toast -> {
+//                        sideEffect.message
+//                    }
+//                }
+//            }
+//    }
 
     when (state.internInfo) {
-        is UiState.Loading -> {}
+        is UiState.Loading -> {
+            InternScreen(
+                navController = navController,
+            )
+        }
         is UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
             InternScreen(
                 navController = navController,
                 internInfoModel = (state.internInfo as UiState.Success<InternInfoModel>).data
-
             )
         }
     }
@@ -89,11 +93,29 @@ fun InternScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
-    internInfoModel: InternInfoModel,
+    internInfoModel: InternInfoModel = InternInfoModel(
+        title = "제목",
+        company = "회사",
+        companyCategory = "대분류",
+        companyImage = "",
+        dDay = "D-DAY",
+        deadline = "마감일",
+        workingPeriod = "근무기간",
+        startDate = "시작일",
+        scrapCount = 1,
+        viewCount = 1,
+        qualification = "학력",
+        jobType = "근무형태",
+        detail = """
+            
+        """.trimIndent(),
+        url = "",
+        isScrapped = false,
+    ),
 
-) {
+    ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val decimal = DecimalFormat("#,###")
+    val decimal = android.icu.text.DecimalFormat("#,###")
 
     val internInfoList = listOf(
         stringResource(id = R.string.intern_info_d_day) to internInfoModel.deadline,
@@ -356,7 +378,8 @@ fun InternScreen(
                     when (state.isScrappedState) {
                         true -> ScrapCancelDialogContent()
                         else -> ScrapDialogContent(
-                            internInfoList = internInfoList
+                            internInfoList = internInfoList,
+                            internInfoModel = internInfoModel
                         )
                     }
                 },

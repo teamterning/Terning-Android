@@ -38,6 +38,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
+import com.terning.domain.entity.response.InternInfoModel
 import com.terning.feature.intern.InternViewModel
 
 
@@ -45,6 +46,7 @@ import com.terning.feature.intern.InternViewModel
 fun ScrapDialogContent(
     internInfoList: List<Pair<String, String>>,
     viewModel: InternViewModel = hiltViewModel(),
+    internInfoModel: InternInfoModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -85,7 +87,7 @@ fun ScrapDialogContent(
                 )
             }
             Text(
-                text = "[한양대학교 컬렉티브임팩트센터] /코이카 영프로페셔널(YP) 모집합니다",
+                text = internInfoModel.title,
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title4,
                 color = Grey500,
@@ -168,7 +170,7 @@ fun ScrapDialogContent(
                     }
                 } else {
                     Text(
-                        text = stringResource(id = R.string.intern_item_d_day),
+                        text = internInfoModel.dDay,
                         style = TerningTheme.typography.body5,
                         color = TerningMain,
                         modifier = Modifier.padding(bottom = 9.dp)
