@@ -60,7 +60,24 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun patchQuit() {
+    fun quitKakao() {
+        UserApiClient.instance.unlink { error ->
+            if (error == null) {
+                deleteQuit()
+            } else {
+                _state.value = _state.value.copy(isSuccess = UiState.Failure(error.toString()))
+            }
+        }
+    }
 
+    private fun deleteQuit() {
+        viewModelScope.launch {
+            myPageRepository.deleteQuit().onSuccess {
+                tokenRepository.clearInfo()
+                _state.value = _state.value.copy(isSuccess = UiState.Success(true))
+            }.onFailure {
+                _state.value = _state.value.copy(isSuccess = UiState.Failure(it.toString()))
+            }
+        }
     }
 }

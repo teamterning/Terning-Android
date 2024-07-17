@@ -16,7 +16,6 @@ import com.terning.core.R
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningTheme
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,12 +49,7 @@ fun MyPageQuitBottomSheet(
                     cornerRadius = 10.dp,
                     text = R.string.my_page_quit_button,
                     onButtonClick = {
-                        scope.launch { sheetState.hide() }
-                            .invokeOnCompletion {
-                                if (!sheetState.isVisible) {
-                                    onQuitClick()
-                                }
-                            }
+                        onQuitClick()
                     },
                     modifier = modifier.padding(
                         start = 24.dp,

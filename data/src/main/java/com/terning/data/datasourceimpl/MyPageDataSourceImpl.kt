@@ -9,4 +9,6 @@ class MyPageDataSourceImpl @Inject constructor(
     private val myPageService: MyPageService
 ) : MyPageDataSource {
     override suspend fun postLogout(): NonDataBaseResponse = myPageService.postLogout()
+
+    override suspend fun deleteQuit(): NonDataBaseResponse = myPageService.deleteQuit()
 }
