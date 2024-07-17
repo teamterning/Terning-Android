@@ -69,12 +69,7 @@ fun MyPageQuitBottomSheet(
                     cornerRadius = 10.dp,
                     text = R.string.my_page_back_button,
                     onButtonClick = {
-                        scope.launch { sheetState.hide() }
-                            .invokeOnCompletion {
-                                if (!sheetState.isVisible) {
-                                    onDismiss()
-                                }
-                            }
+                        onDismiss()
                     },
                     modifier = modifier.padding(
                         start = 24.dp,

@@ -16,9 +16,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
@@ -30,6 +32,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.state.UiState
 import com.terning.feature.R
 import com.terning.feature.mypage.component.MyPageItem
 
@@ -37,6 +40,8 @@ import com.terning.feature.mypage.component.MyPageItem
 fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     var showLogoutBottomSheet by remember { mutableStateOf(false) }
     var showQuitBottomSheet by remember { mutableStateOf(false) }
@@ -45,8 +50,7 @@ fun MyPageRoute(
         MyPageLogoutBottomSheet(
             onDismiss = { showLogoutBottomSheet = false },
             onLogoutClick = {
-                showLogoutBottomSheet = false
-                viewModel.patchLogout()
+                viewModel.logoutKakao()
             },
         )
     }
@@ -55,10 +59,19 @@ fun MyPageRoute(
         MyPageQuitBottomSheet(
             onDismiss = { showQuitBottomSheet = false },
             onQuitClick = {
-                showQuitBottomSheet = false
                 viewModel.patchQuit()
             }
         )
+    }
+
+    when (state.isSuccess) {
+        is UiState.Success -> {
+            viewModel.restartApp(context)
+        }
+
+        is UiState.Loading -> {}
+        is UiState.Empty -> {}
+        is UiState.Failure -> {}
     }
 
     MyPageScreen(
