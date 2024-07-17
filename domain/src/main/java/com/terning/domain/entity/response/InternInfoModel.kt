@@ -15,5 +15,5 @@ data class InternInfoModel(
     val jobType: String,
     val detail: String,
     val url: String,
-    val isScrapped: Boolean,
+    val scrapId: Long? = null,
 )

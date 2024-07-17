@@ -33,8 +33,7 @@ import com.terning.feature.intern.InternViewModel
 fun InternBottomBar(
     modifier: Modifier,
     scrapCount: String,
-    url: String,
-    isScrappedState: Boolean,
+    scrapId: Long? = null,
     onScrapClick: () -> Unit,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
@@ -68,7 +67,7 @@ fun InternBottomBar(
                     Icon(
                         painter = painterResource(
                             id =
-                            if (isScrappedState) R.drawable.ic_scrap_true_24
+                            if (scrapId != null) R.drawable.ic_scrap_true_24
                             else R.drawable.ic_scrap_false_24,
                         ),
                         contentDescription = null,
@@ -79,7 +78,7 @@ fun InternBottomBar(
                             .noRippleClickable {
                                 onScrapClick()
                             },
-                        tint = if (state.isScrappedState) TerningMain
+                        tint = if (scrapId != null) TerningMain
                         else Grey350
                     )
                     Text(

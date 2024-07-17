@@ -137,8 +137,7 @@ fun InternScreen(
             InternBottomBar(
                 modifier = modifier,
                 scrapCount = decimal.format(internInfoModel.scrapCount),
-                url = internInfoModel.url,
-                isScrappedState = state.isScrappedState,
+                scrapId = internInfoModel.scrapId,
                 onScrapClick = {
                     viewModel.postScrap(1, 1)
                 }
@@ -370,7 +369,7 @@ fun InternScreen(
                     viewModel.updateScrapDialogVisible(false)
                 },
                 content = {
-                    when (state.isScrappedState) {
+                    when (internInfoModel.scrapId != null) {
                         true -> ScrapCancelDialogContent()
                         else -> ScrapDialogContent(
                             internInfoList = internInfoList,
