@@ -13,6 +13,7 @@ import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.mypage.navigation.navigateMyPage
 import com.terning.feature.onboarding.signup.navigation.SignUp
+import com.terning.feature.search.search.navigation.Search
 import com.terning.feature.search.search.navigation.navigateSearch
 
 class MainNavigator(
@@ -22,7 +23,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = SignUp
+    val startDestination = Search
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
