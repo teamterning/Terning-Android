@@ -8,7 +8,7 @@ import com.terning.feature.R
 
 data class SignUpState(
     val name: String = "",
-    val character: Int = -1,
+    val character: Int = 0,
     val drawLineColor: Color = Grey500,
     @StringRes val helper: Int = R.string.sign_up_helper,
     val helperIcon: Int? = null,
