@@ -2,9 +2,10 @@ package com.terning.point.di
 
 import com.terning.data.service.AuthService
 import com.terning.data.service.CalendarService
-import com.terning.data.service.InternService
 import com.terning.data.service.FilteringService
 import com.terning.data.service.HomeService
+import com.terning.data.service.InternService
+import com.terning.data.service.MyPageService
 import com.terning.data.service.SearchService
 import com.terning.data.service.TokenReissueService
 import com.terning.point.di.qualifier.JWT
@@ -55,4 +56,9 @@ object ServiceModule {
     @Singleton
     fun provideHomeService(@JWT retrofit: Retrofit): HomeService =
         retrofit.create(HomeService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMyPageService(@JWT retrofit: Retrofit): MyPageService =
+        retrofit.create(MyPageService::class.java)
 }

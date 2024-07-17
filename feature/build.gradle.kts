@@ -90,6 +90,7 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.ossLicense)
     implementation(libs.lottie)
+    implementation(libs.process.phoenix)
 
     // Compose Preview
     debugImplementation(libs.compose.ui.tooling)

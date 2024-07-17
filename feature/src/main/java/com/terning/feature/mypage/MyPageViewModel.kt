@@ -1,14 +1,63 @@
 package com.terning.feature.mypage
 
+import android.content.Context
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.jakewharton.processphoenix.ProcessPhoenix
+import com.kakao.sdk.user.UserApiClient
+import com.terning.core.state.UiState
+import com.terning.domain.repository.MyPageRepository
+import com.terning.domain.repository.TokenRepository
+import com.terning.feature.main.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyPageViewModel @Inject constructor() : ViewModel() {
+class MyPageViewModel @Inject constructor(
+    private val myPageRepository: MyPageRepository,
+    private val tokenRepository: TokenRepository
+) : ViewModel() {
 
-    fun patchLogout() {
+    private val _state: MutableStateFlow<MyPageState> = MutableStateFlow(MyPageState())
+    val state: StateFlow<MyPageState> get() = _state.asStateFlow()
 
+    fun logoutKakao() {
+        UserApiClient.instance.logout { error ->
+            if (error == null) {
+                patchLogout()
+            } else {
+                _state.value = _state.value.copy(isSuccess = UiState.Failure(error.toString()))
+            }
+        }
+    }
+
+    private fun patchLogout() {
+        viewModelScope.launch {
+            myPageRepository.patchLogout().onSuccess {
+                tokenRepository.clearInfo()
+                _state.value = _state.value.copy(isSuccess = UiState.Success(true))
+            }.onFailure {
+                _state.value = _state.value.copy(isSuccess = UiState.Failure(it.toString()))
+            }
+        }
+    }
+
+    fun restartApp(context: Context) {
+        Handler(Looper.getMainLooper()).post {
+            Handler(Looper.getMainLooper()).post {
+                ProcessPhoenix.triggerRebirth(
+                    context,
+                    Intent(context, MainActivity::class.java)
+                )
+            }
+        }
     }
 
     fun patchQuit() {
