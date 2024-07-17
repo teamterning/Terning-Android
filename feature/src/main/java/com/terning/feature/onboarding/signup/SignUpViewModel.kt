@@ -1,22 +1,36 @@
 package com.terning.feature.onboarding.signup
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.WarningRed
+import com.terning.domain.entity.request.SignUpRequestModel
+import com.terning.domain.repository.AuthRepository
+import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor() : ViewModel() {
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val tokenRepository: TokenRepository
+) : ViewModel() {
 
     private val _state: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState())
     val state: StateFlow<SignUpState> get() = _state.asStateFlow()
+
+    private val _sideEffects = MutableSharedFlow<SignUpSideEffect>()
+    val sideEffects: SharedFlow<SignUpSideEffect> get() = _sideEffects.asSharedFlow()
 
     fun isInputValid(name: String) {
         val nameErrorRegex = Regex(NAME_ERROR)
@@ -26,7 +40,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
             nameErrorRegex.containsMatchIn(trimmedName) -> _state.value = _state.value.copy(
                 name = trimmedName,
                 drawLineColor = WarningRed,
-                helper = HELPER_ERROR,
+                helper = R.string.sign_up_helper_error,
                 helperIcon = R.drawable.ic_sign_up_error,
                 helperColor = WarningRed,
                 isButtonValid = false
@@ -35,7 +49,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
             trimmedName.isEmpty() -> _state.value = _state.value.copy(
                 name = trimmedName,
                 drawLineColor = Grey500,
-                helper = HELPER,
+                helper = R.string.sign_up_helper,
                 helperIcon = null,
                 helperColor = Grey400,
                 isButtonValid = false
@@ -44,7 +58,7 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
             else -> _state.value = _state.value.copy(
                 name = trimmedName,
                 drawLineColor = TerningMain,
-                helper = HELPER_AVAILABLE,
+                helper = R.string.sign_up_helper_available,
                 helperIcon = R.drawable.ic_check,
                 helperColor = TerningMain,
                 isButtonValid = true
@@ -52,11 +66,39 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun fetchCharacter(character: Int) {
+        _state.value = _state.value.copy(character = character)
+    }
+
+    fun getAuthId(authId: String) {
+        _state.value = _state.value.copy(authId = authId)
+    }
+
+    fun postSignUpWithServer() {
+        viewModelScope.launch {
+            authRepository.postSignUp(
+                state.value.authId,
+                state.value.run {
+                    SignUpRequestModel(
+                        name = name,
+                        profileImage = character,
+                        authType = KAKA0
+                    )
+                }
+            ).onSuccess { response ->
+                tokenRepository.setTokens(response.accessToken, response.refreshToken)
+                tokenRepository.setUserId(response.userId)
+
+                _sideEffects.emit(SignUpSideEffect.NavigateToFiltering)
+            }.onFailure {
+                _sideEffects.emit(SignUpSideEffect.ShowToast(R.string.server_failure))
+            }
+        }
+    }
+
     companion object {
         const val NAME_ERROR = "[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/]"
-        const val HELPER = "12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가"
         private const val MAX_LENGTH = 12
-        private const val HELPER_ERROR = "이름에 특수문자는 입력할 수 없어요"
-        private const val HELPER_AVAILABLE = "이용 가능한 이름이에요"
+        private const val KAKA0 = "KAKAO"
     }
 }
