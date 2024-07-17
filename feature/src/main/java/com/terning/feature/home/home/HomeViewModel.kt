@@ -46,9 +46,6 @@ class HomeViewModel @Inject constructor(
     )
     val userName get() = _userName
 
-    private val _recommendInternState = MutableStateFlow(0)
-    val recommendInternData get() = _recommendInternState.asStateFlow()
-
     fun setGrade(grade: Int) {
         userName.internFilter?.grade = grade
     }

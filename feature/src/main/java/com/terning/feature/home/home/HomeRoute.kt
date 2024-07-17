@@ -84,7 +84,6 @@ fun HomeRoute(
         else -> emptyList()
     }
 
-
     HomeScreen(
         currentSortBy,
         homeTodayInternList,
@@ -172,21 +171,6 @@ fun HomeScreen(
                         }
                     }
                 }
-//                if (userNameState.internFilter != null && recommendInternData.isNotEmpty()) {
-//                    items(recommendInternData.size) { index ->
-//                        Box(
-//                            modifier = Modifier.padding(horizontal = 24.dp)
-//                        ) {
-//                            InternItemWithShadow(
-//                                imageUrl = recommendInternData[index].imgUrl,
-//                                title = recommendInternData[index].title,
-//                                dateDeadline = recommendInternData[index].dDay.toString(),
-//                                workingPeriod = recommendInternData[index].workingPeriod.toString(),
-//                                isScraped = recommendInternData[index].isScrapped,
-//                            )
-//                        }
-//                    }
-//                }
             }
 
             if (userNameState.internFilter == null) {
@@ -196,9 +180,6 @@ fun HomeScreen(
                         .fillMaxSize()
                 )
             }
-//            else if (recommendInternData.isEmpty()) {
-//                HomeRecommendEmptyIntern()
-//            }
         }
     }
 }
