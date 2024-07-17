@@ -8,6 +8,9 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.terning.core.state.UiState
+import com.terning.domain.entity.request.SignInRequestModel
+import com.terning.domain.repository.AuthRepository
+import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +23,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor() : ViewModel() {
+class SignInViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val tokenRepository: TokenRepository
+) : ViewModel() {
+
+    init {
+        tokenRepository.clearInfo()
+    }
 
     private val _signInState = MutableStateFlow(SignInState())
     val signInState: StateFlow<SignInState>
@@ -47,7 +57,7 @@ class SignInViewModel @Inject constructor() : ViewModel() {
             if (error != null) {
                 signInFailure(context, error)
             } else if (token != null) {
-                signInSuccess(token)
+                signInSuccess(token.accessToken)
             }
         }
     }
@@ -72,15 +82,36 @@ class SignInViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun signInSuccess(token: OAuthToken) {
-        viewModelScope.launch {
-            _signInState.value =
-                _signInState.value.copy(accessToken = UiState.Success(token.accessToken))
-            _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
+    private suspend fun signInSuccess(
+        accessToken: String,
+        platform: String = KAKAO
+    ) {
+        authRepository.postSignIn(
+            accessToken,
+            SignInRequestModel(platform)
+        ).onSuccess { response ->
+            when {
+                response.accessToken == null -> _signInSideEffects.emit(SignInSideEffect.NavigateSignUp)
+
+                else -> {
+                    tokenRepository.setTokens(
+                        response.accessToken ?: return,
+                        response.refreshToken ?: return
+                    )
+                    tokenRepository.setUserId(response.userId)
+
+                    _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
+                }
+            }
+        }.onFailure {
+            _signInState.value = SignInState(UiState.Failure(it.message.toString()))
+            _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
         }
+
     }
 
     companion object {
         private const val KAKAO_NOT_LOGGED_IN = "statusCode=302"
+        private const val KAKAO = "KAKAO"
     }
 }

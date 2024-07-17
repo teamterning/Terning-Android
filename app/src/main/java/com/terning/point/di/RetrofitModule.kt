@@ -2,8 +2,9 @@ package com.terning.point.di
 
 import com.terning.core.extension.isJsonArray
 import com.terning.core.extension.isJsonObject
-import com.terning.point.BuildConfig
-import com.terning.point.di.qualifier.OPEN
+import com.terning.point.BuildConfig.BASE_URL
+import com.terning.point.di.qualifier.JWT
+import com.terning.point.di.qualifier.REISSUE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,22 +58,51 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(
-        loggingInterceptor: Interceptor
+    @JWT
+    fun provideAuthInterceptor(authInterceptor: AuthInterceptor): Interceptor = authInterceptor
+
+    @Provides
+    @Singleton
+    @JWT
+    fun provideJWTOkHttpClient(
+        loggingInterceptor: Interceptor,
+        @JWT authInterceptor: Interceptor,
+    ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .addInterceptor(authInterceptor)
+        .build()
+
+    @Provides
+    @Singleton
+    @REISSUE
+    fun provideReissueOkHttpClient(
+        loggingInterceptor: Interceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .build()
 
     @Provides
     @Singleton
-    @OPEN
-    fun provideOpenRetrofit(
-        client: OkHttpClient,
-        factory: Converter.Factory
+    @JWT
+    fun provideJWTRetrofit(
+        @JWT client: OkHttpClient,
+        factory: Converter.Factory,
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
-        .addConverterFactory(factory)
+        .baseUrl(BASE_URL)
         .client(client)
+        .addConverterFactory(factory)
+        .build()
+
+    @Provides
+    @Singleton
+    @REISSUE
+    fun provideReissueRetrofit(
+        @REISSUE client: OkHttpClient,
+        factory: Converter.Factory,
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(client)
+        .addConverterFactory(factory)
         .build()
 
 }
