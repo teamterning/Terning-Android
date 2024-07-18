@@ -1,7 +1,6 @@
 package com.terning.feature.calendar.week
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,8 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.theme.Back
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -32,22 +32,21 @@ import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
-import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
+import com.terning.feature.calendar.calendar.component.CalendarDialog
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
 fun CalendarWeekScreen(
     modifier: Modifier = Modifier,
-    uiState: CalendarUiState,
+    calendarUiState: CalendarUiState,
+    navController: NavController = rememberNavController(),
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val calendarWeekState by viewModel.calendarWeekState.collectAsStateWithLifecycle(lifecycleOwner)
 
-    LaunchedEffect(uiState.selectedDate) {
+    LaunchedEffect(calendarUiState.selectedDate) {
         viewModel.getScrapWeekList()
     }
 
@@ -69,7 +68,7 @@ fun CalendarWeekScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(White),
-                    selectedDate = uiState,
+                    calendarUiState = calendarUiState,
                     onDateSelected = {
                         viewModel.updateSelectedDate(it)
                     }
@@ -87,37 +86,23 @@ fun CalendarWeekScreen(
                     val scrapList = (calendarWeekState.loadState as UiState.Success).data
                     CalendarWeekSuccess(
                         scrapList = scrapList,
-                        selectedDate = uiState.selectedDate,
+                        selectedDate = calendarUiState.selectedDate,
                         onScrapButtonClicked = { scrapId ->
                             viewModel.updateScrapCancelDialogVisible(scrapId)
                         },
                         onInternshipClicked = { scrapDetailModel ->
-                            viewModel.updateInternDialogVisible(scrapDetailModel)
+                            viewModel.updateInternshipModel(scrapDetailModel)
+                            viewModel.updateInternDialogVisible(true)
                         })
                 }
             }
         }
 
-        if (uiState.isScrapButtonClicked) {
-            CalendarCancelDialog(
-                onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
-                onClickScrapCancel = {
-                    viewModel.updateScrapCancelDialogVisible()
-                }
-            )
-        }
-        if (uiState.isInternshipClicked) {
-            CalendarDetailDialog(
-                onDismissRequest = {viewModel.updateInternDialogVisible(null)},
-                onClickColor = { newColor ->
-                    Timber.tag("CalendarScreen")
-                        .d("<CalendarWeekScreen>: $newColor")
-                },
-                onClickNavigate = {
-                    viewModel.updateInternDialogVisible(null)
-                }
-            )
-        }
+        CalendarDialog(
+            isWeekScreen = true,
+            viewModel = viewModel,
+            navController = navController
+        )
     }
 }
 
