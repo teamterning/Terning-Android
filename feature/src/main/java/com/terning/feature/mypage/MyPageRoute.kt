@@ -88,17 +88,18 @@ fun MyPageRoute(
     }
 
     if (state.showNotice) {
-        WebViewScreen(navController)
-    } else {
-        MyPageScreen(
-            onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
-            onQuitClick = { viewModel.fetchShowLogoutBottomSheet(true) },
-            name = name,
-            authType = authType,
-            onNoticeClick = { viewModel.fetchShowNotice(true) },
-            onOpinionClick = { viewModel.fetchShowOpinion(true) }
-        )
+        viewModel.navigateToNoticeWebView(context)
+        viewModel.fetchShowNotice(false)
     }
+
+    MyPageScreen(
+        onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
+        onQuitClick = { viewModel.fetchShowLogoutBottomSheet(true) },
+        name = name,
+        authType = authType,
+        onNoticeClick = { viewModel.fetchShowNotice(true) },
+        onOpinionClick = { viewModel.fetchShowOpinion(true) }
+    )
 
 }
 
