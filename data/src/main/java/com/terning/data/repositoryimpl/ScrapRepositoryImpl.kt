@@ -17,4 +17,9 @@ class ScrapRepositoryImpl @Inject constructor(
             : Result<Unit> = runCatching {
         scrapDataSource.deleteScrap(scrapRequestModel)
     }
+
+    override suspend fun patchScrap(scrapRequestModel: ScrapRequestModel)
+            : Result<Unit>  = runCatching {
+        scrapDataSource.patchScrap(scrapRequestModel)
+    }
 }
