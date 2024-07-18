@@ -54,6 +54,7 @@ import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
 import com.terning.feature.home.home.component.HomeTodayIntern
+import com.terning.feature.home.home.model.HomeDialogState
 import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.intern.navigation.navigateIntern
 
@@ -87,6 +88,7 @@ fun HomeRoute(
     val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
     val homeFilteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
     val homeUserState by viewModel.homeUserState.collectAsStateWithLifecycle()
+    val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -146,6 +148,7 @@ fun HomeRoute(
         homeFilteringInfo = homeFilteringInfo,
         homeTodayInternList = homeTodayInternList,
         recommendInternList = homeRecommendInternList,
+        homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
         navController = navController
     )
@@ -159,6 +162,7 @@ fun HomeScreen(
     homeFilteringInfo: HomeFilteringInfoModel,
     homeTodayInternList: List<HomeTodayInternModel>,
     recommendInternList: List<HomeRecommendInternModel>,
+    homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
     navController: NavHostController,
@@ -199,7 +203,11 @@ fun HomeScreen(
                             .padding(bottom = 16.dp)
                     ) {
                         ShowMainTitleWithName(homeUserName)
-                        ShowTodayIntern(homeTodayInternList = homeTodayInternList)
+                        ShowTodayIntern(
+                            homeTodayInternList = homeTodayInternList,
+                            homeDialogState = homeDialogState,
+                            navigateToDetail = { navController.navigateIntern(announcementId = it) }
+                        )
                     }
                 }
                 stickyHeader {
@@ -299,11 +307,19 @@ private fun ShowMainTitleWithName(userName: String) {
 }
 
 @Composable
-private fun ShowTodayIntern(homeTodayInternList: List<HomeTodayInternModel>) {
+private fun ShowTodayIntern(
+    homeTodayInternList: List<HomeTodayInternModel>,
+    homeDialogState: HomeDialogState,
+    navigateToDetail: (Long) -> Unit,
+) {
     if (homeTodayInternList.isEmpty()) {
         HomeTodayEmptyWithImg()
     } else {
-        HomeTodayIntern(internList = homeTodayInternList)
+        HomeTodayIntern(
+            internList = homeTodayInternList,
+            homeDialogState = homeDialogState,
+            navigateToDetail = { navigateToDetail(it) },
+        )
     }
 }
 
