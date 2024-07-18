@@ -187,7 +187,7 @@ fun ScrapDialogContent(
                         contentAlignment = Alignment.Center
                     ) {
                         ColorPalette(
-                            initialColor = CalRed,
+                            initialColor = state.selectedColor,
                             onColorSelected = { newColor ->
                                 viewModel.updateSelectColor(newColor)
                             }
