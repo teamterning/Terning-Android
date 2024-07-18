@@ -1,7 +1,6 @@
 package com.terning.feature.calendar.week
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +24,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.theme.Back
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -96,7 +94,7 @@ fun CalendarWeekScreen(
                             viewModel.updateScrapCancelDialogVisible(scrapId)
                         },
                         onInternshipClicked = { scrapDetailModel ->
-                            viewModel.updateIntershipModel(scrapDetailModel)
+                            viewModel.updateInternshipModel(scrapDetailModel)
                             viewModel.updateInternDialogVisible(true)
                         })
                 }
@@ -116,6 +114,7 @@ fun CalendarWeekScreen(
                 scrapDetailModel = uiState.internshipModel,
                 onDismissRequest = {viewModel.updateInternDialogVisible(false)},
                 onClickChangeColorButton = { newColor ->
+                    viewModel.patchScrap(newColor, true)
                     Timber.tag("CalendarScreen")
                         .d("<CalendarWeekScreen>: $newColor")
                 },

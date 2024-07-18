@@ -1,9 +1,19 @@
 package com.terning.feature.calendar.calendar
 
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.devtools.ksp.symbol.Visibility
+import com.terning.core.designsystem.theme.CalBlue1
+import com.terning.core.designsystem.theme.CalBlue2
+import com.terning.core.designsystem.theme.CalGreen1
+import com.terning.core.designsystem.theme.CalGreen2
+import com.terning.core.designsystem.theme.CalOrange1
+import com.terning.core.designsystem.theme.CalOrange2
+import com.terning.core.designsystem.theme.CalPink
+import com.terning.core.designsystem.theme.CalPurple
+import com.terning.core.designsystem.theme.CalRed
+import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
 import com.terning.domain.entity.request.ScrapRequestModel
 import com.terning.domain.entity.response.CalendarScrapDetailModel
@@ -13,7 +23,6 @@ import com.terning.feature.R
 import com.terning.feature.calendar.month.CalendarMonthState
 import com.terning.feature.calendar.scrap.CalendarListState
 import com.terning.feature.calendar.week.CalendarWeekState
-import com.terning.feature.intern.InternViewSideEffect
 import com.terning.feature.intern.model.InternScrapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +33,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -110,7 +118,7 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun updateIntershipModel(scrapDetailModel: CalendarScrapDetailModel?) {
+    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetailModel?) {
         _uiState.update { currentState ->
             currentState.copy(
                 internshipModel = scrapDetailModel
@@ -214,4 +222,43 @@ class CalendarViewModel @Inject constructor(
                 }
             }
     }
+
+    fun patchScrap(color: Color, isFromWeekScreen: Boolean = false) = viewModelScope.launch {
+        val scrap = _uiState.value
+        val colorIndex = getColorIndex(color)
+
+        Log.d("CalendarScreen", "CalendarViewModel colorIndex:$colorIndex, scrapId:${scrap.scrapId}")
+        //여기서 보내줘야 할 데이터 정보는?? 인덱스 or 컬러 코드
+        scrapRepository.patchScrap(ScrapRequestModel(scrap.scrapId, colorIndex))
+            .onSuccess {
+                runCatching {
+                    if (isFromWeekScreen) {
+                        getScrapWeekList()
+                    } else {
+                        getScrapMonth(
+                            _uiState.value.selectedDate.year,
+                            _uiState.value.selectedDate.monthValue
+                        )
+                    }
+                }.onSuccess {
+                    updateScrapCancelDialogVisible()
+                }
+            }.onFailure {
+                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+            }
+    }
+
+    private fun getColorIndex(color: Color): Int = listOf(
+            CalRed,
+            CalOrange2,
+            CalGreen1,
+            CalBlue1,
+            CalPurple,
+            CalOrange1,
+            CalYellow,
+            CalGreen2,
+            CalBlue2,
+            CalPink
+        ).indexOf(color)
+
 }

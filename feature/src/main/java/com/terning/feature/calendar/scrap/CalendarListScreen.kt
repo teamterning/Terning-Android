@@ -122,7 +122,7 @@ fun CalendarListScreen(
                                             viewModel.updateScrapCancelDialogVisible(scrapId)
                                         },
                                         onInternshipClicked = { scrapDetailModel ->
-                                            viewModel.updateIntershipModel(scrapDetailModel)
+                                            viewModel.updateInternshipModel(scrapDetailModel)
                                             viewModel.updateInternDialogVisible(true)
                                         },
                                         isFromList = true,
@@ -147,6 +147,7 @@ fun CalendarListScreen(
                 scrapDetailModel = uiState.internshipModel,
                 onDismissRequest = {viewModel.updateInternDialogVisible(false)},
                 onClickChangeColorButton = { newColor ->
+                    viewModel.patchScrap(newColor)
                     Timber.tag("CalendarScreen")
                         .d("<CalendarListScreen>: $newColor")
                 },
