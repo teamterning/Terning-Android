@@ -1,6 +1,5 @@
 package com.terning.feature.home.home.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,20 +44,20 @@ fun HomeTodayIntern(
                 modifier = Modifier
                     .noRippleClickable {
                         homeViewModel.updateScrapDialogVisible(true)
+                        homeViewModel.updateIsToday(true)
                         selectedIndex = index
                     }
             )
         }
     }
 
-    if (homeDialogState.isScrapDialogVisible) {
+    if (homeDialogState.isScrapDialogVisible && homeDialogState.isToday) {
         TerningBasicDialog(
             onDismissRequest = {
                 homeViewModel.updateScrapDialogVisible(false)
             },
             content = {
                 with(internList[selectedIndex]) {
-                    Log.d("homeDialog", selectedIndex.toString())
                     HomeTodayInternDialog(
                         internInfoList = listOf(
                             stringResource(id = R.string.intern_info_d_day) to deadline,
@@ -72,7 +71,6 @@ fun HomeTodayIntern(
                         homeTodayInternModel = internList[selectedIndex],
                     )
                 }
-
             },
         )
     }

@@ -22,6 +22,7 @@ fun InternItemWithShadow(
     dateDeadline: String,
     workingPeriod: String,
     isScrapped: Boolean,
+    onScrapButtonClicked: (Long) -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -40,7 +41,8 @@ fun InternItemWithShadow(
             title = title,
             dateDeadline = dateDeadline,
             workingPeriod = workingPeriod,
-            isScraped = isScrapped
+            isScraped = isScrapped,
+            onScrapButtonClicked = onScrapButtonClicked
         )
     }
 }

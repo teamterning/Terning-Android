@@ -35,6 +35,8 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
+import com.terning.core.designsystem.component.dialog.ScrapCancelDialogContent
+import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
@@ -52,6 +54,7 @@ import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
+import com.terning.feature.home.home.component.HomeRecommendInternDialog
 import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.HomeDialogState
@@ -168,6 +171,7 @@ fun HomeScreen(
     navController: NavHostController,
 ) {
     var sheetState by remember { mutableStateOf(false) }
+    var scrapId by remember { mutableStateOf(-1) }
 
     if (sheetState) {
         SortingBottomSheet(
@@ -247,7 +251,12 @@ fun HomeScreen(
                     items(recommendInternList.size) { index ->
                         RecommendInternItem(
                             navController = navController,
-                            intern = recommendInternList[index]
+                            intern = recommendInternList[index],
+                            onScrapButtonClicked = {
+                                viewModel.updateScrapDialogVisible(true)
+                                viewModel.updateIsToday(false)
+                                scrapId = index
+                            }
                         )
                     }
                 }
@@ -264,6 +273,54 @@ fun HomeScreen(
             }
         }
     }
+
+    if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
+        TerningBasicDialog(
+            onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
+            content = {
+                if (recommendInternList[scrapId].scrapId != null) {
+                    ScrapCancelDialogContent(
+                        onClickScrapCancel = {
+                            viewModel.updateScrapDialogVisible(false)
+                            viewModel.deleteScrap(
+                                recommendInternList[scrapId].scrapId ?: -1,
+                            )
+                            if(homeDialogState.isScrappedState) {
+                                viewModel.getRecommendInternsData(
+                                    currentSortBy.value,
+                                    homeFilteringInfo.startYear ?: viewModel.currentYear,
+                                    homeFilteringInfo.startMonth ?: viewModel.currentMonth,
+                                )
+                                viewModel.updateScrapped(false)
+                            }
+                        }
+                    )
+                } else {
+                    with(recommendInternList[scrapId]) {
+                        HomeRecommendInternDialog(
+                            internInfoList = listOf(
+                                stringResource(id = R.string.intern_info_d_day) to deadline,
+                                stringResource(id = R.string.intern_info_working) to workingPeriod,
+                                stringResource(id = R.string.intern_info_start_date) to startYearMonth,
+                            ),
+                            clickAction = {
+                                viewModel.updateScrapDialogVisible(false)
+                                if(homeDialogState.isScrappedState) {
+                                    viewModel.getRecommendInternsData(
+                                        currentSortBy.value,
+                                        homeFilteringInfo.startYear ?: viewModel.currentYear,
+                                        homeFilteringInfo.startMonth ?: viewModel.currentMonth,
+                                    )
+                                    viewModel.updateScrapped(false)
+                                }
+                            },
+                            homeRecommendInternModel = this,
+                        )
+                    }
+                }
+            }
+        )
+    }
 }
 
 
@@ -271,6 +328,7 @@ fun HomeScreen(
 private fun RecommendInternItem(
     navController: NavHostController,
     intern: HomeRecommendInternModel,
+    onScrapButtonClicked: (Long) -> Unit,
 ) {
     InternItemWithShadow(
         modifier = Modifier
@@ -286,7 +344,8 @@ private fun RecommendInternItem(
         workingPeriod = intern.workingPeriod,
         isScrapped = intern.isScrapped,
         shadowRadius = 5.dp,
-        shadowWidth = 1.dp
+        shadowWidth = 1.dp,
+        onScrapButtonClicked = onScrapButtonClicked,
     )
 }
 

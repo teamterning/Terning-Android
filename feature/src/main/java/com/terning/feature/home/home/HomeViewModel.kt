@@ -136,6 +136,7 @@ class HomeViewModel @Inject constructor(
             ).onSuccess {
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
+                getHomeTodayInternList()
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
@@ -148,7 +149,8 @@ class HomeViewModel @Inject constructor(
                 ScrapRequestModel(id = scrapId)
             ).onSuccess {
                 updateScrapDialogVisible(visible = false)
-                updateScrapped(scrapped = false)
+                updateScrapped(scrapped = true)
+                getHomeTodayInternList()
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
