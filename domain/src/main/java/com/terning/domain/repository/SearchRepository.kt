@@ -1,7 +1,7 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.response.InternshipAnnouncementModel
 import com.terning.domain.entity.response.SearchResultModel
+import com.terning.domain.entity.response.InternshipAnnouncementModel
 
 interface SearchRepository {
     suspend fun getSearchList(
