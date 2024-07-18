@@ -2,6 +2,7 @@ package com.terning.feature.mypage.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
@@ -15,9 +16,13 @@ fun NavController.navigateMyPage(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.myPageNavGraph() {
+fun NavGraphBuilder.myPageNavGraph(
+    navHostController: NavHostController
+) {
     composable<MyPage> {
-        MyPageRoute()
+        MyPageRoute(
+            navController = navHostController
+        )
     }
 }
 

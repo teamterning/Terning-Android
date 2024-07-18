@@ -91,6 +91,7 @@ fun HomeRoute(
     val homeTodayState by viewModel.homeTodayState.collectAsStateWithLifecycle()
     val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
     val homeFilteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
+    val homeUserState by viewModel.homeUserState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -101,6 +102,21 @@ fun HomeRoute(
                     is HomeSideEffect.NavigateToHome -> navController.navigateHome()
                 }
             }
+    }
+
+    LaunchedEffect(currentSortBy.value) {
+        when (homeFilteringState) {
+            is UiState.Success ->
+                with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
+                    viewModel.getRecommendInternsData(
+                        currentSortBy.value,
+                        startYear ?: viewModel.currentYear,
+                        startMonth ?: viewModel.currentMonth
+                    )
+                }
+
+            else -> {}
+        }
     }
 
     val homeTodayInternList = when (homeTodayState) {
@@ -124,8 +140,14 @@ fun HomeRoute(
         else -> HomeFilteringInfoModel(null, null, viewModel.currentYear, viewModel.currentMonth)
     }
 
+    val homeUserName = when (homeUserState) {
+        is UiState.Success -> (homeUserState as UiState.Success<String>).data
+        else -> ""
+    }
+
     HomeScreen(
         currentSortBy,
+        homeUserName = homeUserName,
         homeFilteringInfo = homeFilteringInfo,
         homeTodayInternList = homeTodayInternList,
         recommendInternList = homeRecommendInternList,
@@ -139,6 +161,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
+    homeUserName: String,
     homeFilteringInfo: HomeFilteringInfoModel,
     homeTodayInternList: List<HomeTodayInternModel>,
     recommendInternList: List<HomeRecommendInternModel>,
@@ -182,7 +205,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .padding(bottom = 16.dp)
                     ) {
-                        ShowMainTitleWithName("남지우자랑스러운티엘이되")
+                        ShowMainTitleWithName(homeUserName)
                         ShowTodayIntern(homeTodayInternList = homeTodayInternList, navController)
                     }
                 }
