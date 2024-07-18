@@ -42,10 +42,10 @@ import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
+import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.HomeRecommendInternModel
@@ -58,6 +58,7 @@ import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.UserNameState
+import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -94,6 +95,7 @@ fun HomeRoute(
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
+                    else -> {}
                 }
             }
     }
@@ -131,6 +133,7 @@ fun HomeRoute(
         homeTodayInternList = homeTodayInternList,
         recommendInternList = homeRecommendInternList,
         onChangeFilterClick = { navController.navigateChangeFilter() },
+        navController = navController
     )
 }
 
@@ -142,6 +145,7 @@ fun HomeScreen(
     recommendInternList: List<HomeRecommendInternModel>,
     onChangeFilterClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavHostController,
 ) {
     val userNameState = viewModel.userName
     var sheetState by remember { mutableStateOf(false) }
@@ -216,7 +220,10 @@ fun HomeScreen(
 
                 if (recommendInternList.isNotEmpty()) {
                     items(recommendInternList.size) { index ->
-                        ShowRecommendIntern(homeRecommendInternModel = recommendInternList[index])
+                        ShowRecommendIntern(
+                            homeRecommendInternModel = recommendInternList[index],
+                            navController = navController
+                        )
                     }
                 }
             }
@@ -310,7 +317,10 @@ private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: 
 }
 
 @Composable
-private fun ShowRecommendIntern(homeRecommendInternModel: HomeRecommendInternModel) {
+private fun ShowRecommendIntern(
+    homeRecommendInternModel: HomeRecommendInternModel,
+    navController: NavHostController,
+) {
     Box(
         modifier = Modifier
             .padding(horizontal = 24.dp)
@@ -323,6 +333,9 @@ private fun ShowRecommendIntern(homeRecommendInternModel: HomeRecommendInternMod
                 color = White,
                 shape = RoundedCornerShape(10.dp)
             )
+            .noRippleClickable {
+                navController.navigateIntern(announcementId = homeRecommendInternModel.internshipAnnouncementId)
+            }
     ) {
         InternItem(
             imageUrl = homeRecommendInternModel.companyImage,
