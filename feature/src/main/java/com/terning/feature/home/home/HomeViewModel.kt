@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
+import com.terning.domain.entity.request.ScrapRequestModel
 import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository
+import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.home.home.model.HomeDialogState
 import com.terning.feature.home.home.model.SortBy
@@ -27,6 +29,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
     private val myPageRepository: MyPageRepository,
+    private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
     val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
@@ -120,6 +123,38 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun postScrap(
+        internshipAnnouncementId: Long,
+        colorIndex: Int,
+    ) {
+        viewModelScope.launch {
+            scrapRepository.postScrap(
+                ScrapRequestModel(
+                    id = internshipAnnouncementId,
+                    color = colorIndex,
+                )
+            ).onSuccess {
+                updateScrapDialogVisible(visible = false)
+                updateScrapped(scrapped = true)
+            }.onFailure {
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+            }
+        }
+    }
+
+    fun deleteScrap(scrapId: Long) {
+        viewModelScope.launch {
+            scrapRepository.deleteScrap(
+                ScrapRequestModel(id = scrapId)
+            ).onSuccess {
+                updateScrapDialogVisible(visible = false)
+                updateScrapped(scrapped = false)
+            }.onFailure {
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+            }
+        }
+    }
+
     fun updateSelectColor(newColor: Color) {
         _homeDialogState.update {
             it.copy(selectedColor = newColor)
@@ -147,6 +182,12 @@ class HomeViewModel @Inject constructor(
     fun updateColorChange(change: Boolean) {
         _homeDialogState.update {
             it.copy(isColorChange = change)
+        }
+    }
+
+    fun updateIsToday(change: Boolean) {
+        _homeDialogState.update {
+            it.copy(isToday = change)
         }
     }
 }

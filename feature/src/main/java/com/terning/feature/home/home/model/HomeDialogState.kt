@@ -9,4 +9,5 @@ data class HomeDialogState(
     val selectedColor: Color = CalRed,
     val isScrapDialogVisible: Boolean = false,
     val isScrappedState: Boolean = false,
+    val isToday: Boolean = false,
 )
