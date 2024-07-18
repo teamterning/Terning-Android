@@ -21,17 +21,18 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
+import com.terning.feature.filtering.filtering.navigation.filteringOneNavGraph
+import com.terning.feature.filtering.filtering.navigation.filteringThreeNavGraph
+import com.terning.feature.filtering.filtering.navigation.filteringTwoNavGraph
+import com.terning.feature.filtering.startfiltering.navigation.startFilteringNavGraph
+import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
 import com.terning.feature.home.changefilter.navigation.changeFilterNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
 import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
-import com.terning.feature.filtering.filtering.navigation.filteringOneNavGraph
-import com.terning.feature.filtering.filtering.navigation.filteringThreeNavGraph
-import com.terning.feature.filtering.filtering.navigation.filteringTwoNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
-import com.terning.feature.filtering.startfiltering.navigation.startFilteringNavGraph
-import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
+import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
 
@@ -58,6 +59,7 @@ fun MainScreen(
                 navController = navigator.navController,
                 startDestination = navigator.startDestination
             ) {
+                splashNavGraph(navHostController = navigator.navController)
                 homeNavGraph(navHostController = navigator.navController)
                 calendarNavGraph(navHostController = navigator.navController)
                 searchNavGraph(navHostController = navigator.navController)
