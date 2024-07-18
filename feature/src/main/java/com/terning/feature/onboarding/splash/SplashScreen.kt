@@ -1,5 +1,7 @@
 package com.terning.feature.onboarding.splash
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +26,8 @@ import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 @Composable
 fun SplashScreen(
     navController: NavController,
-    viewModel: SplashViewModel = hiltViewModel()
+    viewModel: SplashViewModel = hiltViewModel(),
+    modifier : Modifier = Modifier
 ) {
     val systemUiController = rememberSystemUiController()
     SideEffect {
@@ -58,6 +61,14 @@ fun SplashScreen(
             }
     }
 
-    TerningImage(painter = R.drawable.ic_splash, modifier = Modifier.fillMaxSize())
+    Column (
+        modifier = modifier
+            .fillMaxSize()
+            .background(TerningMain),
+    ){
+        TerningImage(painter = R.drawable.ic_splash,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 
 }
