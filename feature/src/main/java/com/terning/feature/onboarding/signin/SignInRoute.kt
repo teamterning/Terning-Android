@@ -68,9 +68,6 @@ fun SignInScreen(
     modifier: Modifier = Modifier,
     onSignInClick: () -> Unit = {},
 ) {
-    val configuration = LocalConfiguration.current
-    val screenHeight = configuration.screenHeightDp
-
     Column(
         modifier = modifier
             .fillMaxSize()
