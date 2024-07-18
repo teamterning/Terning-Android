@@ -73,7 +73,7 @@ fun MainScreen(
                 homeNavGraph(navHostController = navigator.navController)
                 calendarNavGraph(navHostController = navigator.navController)
                 searchNavGraph(navHostController = navigator.navController)
-                myPageNavGraph()
+                myPageNavGraph(navHostController = navigator.navController)
                 signInNavGraph(navHostController = navigator.navController)
                 signUpNavGraph(navHostController = navigator.navController)
                 filteringOneNavGraph(navHostController = navigator.navController)
