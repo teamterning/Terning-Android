@@ -94,6 +94,7 @@ dependencies {
     implementation(libs.accompanist.systemuicontroller)
     implementation (libs.androidx.core.splashscreen)
     implementation ("com.google.accompanist:accompanist-webview:0.24.13-rc")
+    implementation ("androidx.browser:browser:1.4.0")
 
     // Compose Preview
     debugImplementation(libs.compose.ui.tooling)

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jakewharton.processphoenix.ProcessPhoenix
@@ -11,6 +13,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.terning.core.state.UiState
 import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.TokenRepository
+import com.terning.feature.R
 import com.terning.feature.main.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -118,6 +121,12 @@ class MyPageViewModel @Inject constructor(
 
     fun fetchShowQuitBottomSheet(show: Boolean) {
         _state.value = _state.value.copy(showQuitBottomSheet = show)
+    }
+
+    fun navigateToNoticeWebView(context: Context) {
+        val url = context.getString(R.string.my_page_service_url).toUri()
+        val customTabsIntent = CustomTabsIntent.Builder().build()
+        customTabsIntent.launchUrl(context, url)
     }
 
 }
