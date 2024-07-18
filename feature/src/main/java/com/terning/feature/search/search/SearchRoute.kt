@@ -86,9 +86,9 @@ fun SearchScreen(
     searchScrapsList: List<InternshipAnnouncementModel>,
 ) {
     val images = listOf(
-        R.drawable.ic_nav_search,
-        R.drawable.ic_check,
-        R.drawable.ic_nav_my_page,
+        R.drawable.img_ad_1,
+        R.drawable.img_ad_2,
+        R.drawable.img_ad_3,
     )
 
     Scaffold(

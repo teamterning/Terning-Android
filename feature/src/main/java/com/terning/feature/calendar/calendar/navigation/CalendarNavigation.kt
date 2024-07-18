@@ -1,5 +1,7 @@
 package com.terning.feature.calendar.calendar.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -19,7 +21,20 @@ fun NavController.navigateCalendar(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.calendarNavGraph(
     navHostController: NavController
 ) {
-    composable<Calendar> {
+    composable<Calendar>(
+        exitTransition = {
+            ExitTransition.None
+        },
+        popEnterTransition = {
+            EnterTransition.None
+        },
+        enterTransition = {
+            EnterTransition.None
+        },
+        popExitTransition = {
+            ExitTransition.None
+        }
+    ) {
         CalendarRoute(
             navController = navHostController
         )
