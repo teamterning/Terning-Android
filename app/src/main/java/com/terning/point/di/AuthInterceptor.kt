@@ -28,7 +28,7 @@ class AuthInterceptor @Inject constructor(
 
         Timber.d("GET REFRESH TOKEN : ${terningDataStore.refreshToken}")
 
-        val authRequest = if (terningDataStore.accessToken.isNotBlank()) {
+        val authRequest = if (terningDataStore.refreshToken.isNotBlank()) {
             originalRequest.newBuilder().newAuthBuilder().build()
         } else {
             originalRequest

@@ -6,8 +6,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TokenReissueResponseDto(
+    @SerialName("accessToken")
+    val accessToken: String,
     @SerialName("refreshToken")
     val refreshToken: String
 ) {
-    fun toTokenReissueResponseModel() = TokenReissueResponseModel(refreshToken = refreshToken)
+    fun toTokenReissueResponseModel() =
+        TokenReissueResponseModel(
+            accessToken = accessToken,
+            refreshToken = refreshToken
+        )
 }

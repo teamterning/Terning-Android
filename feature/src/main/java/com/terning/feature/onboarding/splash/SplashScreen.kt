@@ -6,14 +6,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.navigation.navigateSignIn
@@ -24,6 +28,9 @@ fun SplashScreen(
     viewModel: SplashViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -44,12 +51,16 @@ fun SplashScreen(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SplashState.GetHasAccessToken -> {
-                        if (sideEffect.hasAccessToken) navController.navigateHome()
+                    is SplashSideEffect.GetHasRefreshToken ->{
+                        if(sideEffect.refreshToken) viewModel.postTokenReissue()
                         else navController.navigateSignIn()
                     }
 
+                    is SplashSideEffect.NavigateToHome -> navController.navigateHome()
+
+                    is SplashSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
+
             }
     }
 
