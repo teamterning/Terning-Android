@@ -6,8 +6,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,12 +21,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.Lottie
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieAnimatable
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.terning.core.designsystem.component.button.RectangleButton
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.home.home.navigation.navigateHome
@@ -31,9 +45,12 @@ import kotlinx.coroutines.delay
 @Composable
 fun StartHomeScreen(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController = rememberNavController()
 ) {
     var isVisible by remember { mutableStateOf(false) }
+
+    val configuration = LocalConfiguration.current
+    val screenHeight = 780f / configuration.screenHeightDp
 
     LaunchedEffect(key1 = true) {
         delay(1000)
@@ -47,23 +64,20 @@ fun StartHomeScreen(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height((128 * screenHeight).dp))
             Text(
                 text = stringResource(id = R.string.start_home_title),
                 style = TerningTheme.typography.title1,
-                modifier = Modifier.padding(bottom = 35.dp),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 30.dp)
             )
-            Image(
-                painter = painterResource(id = R.drawable.img_start),
-                contentDescription = stringResource(id = R.string.start_filtering_main_image),
-            )
-            Spacer(modifier = Modifier.weight(2f))
+            TerningLottieAnimation()
         }
         Box(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 12.dp)
+                .fillMaxSize()
+                .padding(bottom = 12.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
             AnimatedVisibility(
                 visible = isVisible,
@@ -79,3 +93,19 @@ fun StartHomeScreen(
         }
     }
 }
+
+@Composable
+fun TerningLottieAnimation(
+    modifier: Modifier = Modifier
+) {
+    val lottieComposition by rememberLottieComposition(LottieCompositionSpec.Asset("terning_start_home.json"))
+    LottieAnimation(
+        modifier = modifier
+            .fillMaxWidth()
+            .aspectRatio((lottieComposition?.bounds?.width()?.toFloat()?:1f) / (lottieComposition?.bounds?.height()?:1))
+            .padding(horizontal = 24.dp),
+        composition = lottieComposition,
+        iterations = LottieConstants.IterateForever
+    )
+}
+
