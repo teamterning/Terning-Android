@@ -20,7 +20,6 @@ fun TerningLottieAnimation(
     val lottieComposition by rememberLottieComposition(LottieCompositionSpec.Asset(jsonString))
     LottieAnimation(
         modifier = modifier,
-        composition = lottieComposition,
-        iterations = LottieConstants.IterateForever
+        composition = lottieComposition
     )
 }
