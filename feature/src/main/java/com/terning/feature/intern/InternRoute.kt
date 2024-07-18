@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -226,7 +225,7 @@ fun InternScreen(
                         )
                         Text(
                             text = "${decimal.format(internInfoModel.viewCount)}회",
-                            style = TerningTheme.typography.button3,
+                            style = TerningTheme.typography.button4,
                             color = Grey400,
                         )
                     }
@@ -270,8 +269,8 @@ fun InternScreen(
                         ) {
                             Row(
                                 modifier = modifier
-                                    .padding(end = 17.dp),
-                                verticalAlignment = Alignment.CenterVertically,
+                                    .weight(1f),
+                                verticalAlignment = Alignment.Top,
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_first_info_20),
@@ -285,6 +284,9 @@ fun InternScreen(
                             }
 
                             Column(
+                                modifier = modifier
+                                    .weight(4f)
+                                    .padding(start = 8.dp),
                                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
                                 qualificationList.forEach { qualification ->
@@ -314,10 +316,9 @@ fun InternScreen(
                         ) {
                             Row(
                                 modifier = modifier
-                                    .padding(end = 40.dp)
-                                    .wrapContentWidth(),
+                                    .weight(1f),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.Start
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_second_info_20),
@@ -331,6 +332,9 @@ fun InternScreen(
                             }
 
                             Column(
+                                modifier = modifier
+                                    .weight(4f)
+                                    .padding(start = 8.dp),
                                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
                                 jobTypeList.forEach { jobType ->

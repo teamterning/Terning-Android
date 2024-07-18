@@ -37,10 +37,10 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
-import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -128,7 +128,7 @@ fun SearchProcessScreen(
                     Text(
                         text = stringResource(id = R.string.search_process_question_text),
                         style = TerningTheme.typography.heading2,
-                        color = TerningMain,
+                        color = Black,
                         modifier = Modifier.padding(
                             vertical = 16.dp
                         )

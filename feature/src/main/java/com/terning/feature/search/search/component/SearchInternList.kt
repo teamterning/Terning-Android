@@ -1,6 +1,5 @@
 package com.terning.feature.search.search.component
 
-import com.terning.domain.entity.response.InternshipAnnouncementModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -13,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.domain.entity.response.InternshipAnnouncementModel
 import com.terning.feature.R
 
 @Composable
