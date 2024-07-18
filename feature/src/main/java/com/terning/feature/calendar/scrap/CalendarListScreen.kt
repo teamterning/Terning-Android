@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
@@ -34,9 +36,11 @@ import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
+import com.terning.feature.calendar.calendar.component.CalendarDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
+import com.terning.feature.intern.navigation.navigateIntern
 import kotlinx.coroutines.flow.distinctUntilChanged
 import timber.log.Timber
 import java.time.LocalDate
@@ -45,8 +49,8 @@ import java.time.LocalDate
 fun CalendarListScreen(
     pages: Int,
     listState: LazyListState,
-    uiState: CalendarUiState,
     modifier: Modifier = Modifier,
+    navController: NavController = rememberNavController(),
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -117,10 +121,9 @@ fun CalendarListScreen(
                                         onScrapButtonClicked = { scrapId ->
                                             viewModel.updateScrapCancelDialogVisible(scrapId)
                                         },
-                                        onInternshipClicked = { internshipAnnouncementId ->
-                                            viewModel.updateInternDialogVisible(
-                                                internshipAnnouncementId
-                                            )
+                                        onInternshipClicked = { scrapDetailModel ->
+                                            viewModel.updateInternshipModel(scrapDetailModel)
+                                            viewModel.updateInternDialogVisible(true)
                                         },
                                         isFromList = true,
                                         noScrapScreen = {})
@@ -131,26 +134,12 @@ fun CalendarListScreen(
                 }
             }
         }
-        if (uiState.isScrapButtonClicked) {
-            CalendarCancelDialog(
-                onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
-                onClickScrapCancel = {
-                    viewModel.updateScrapCancelDialogVisible()
-                }
-            )
-        }
-        if (uiState.isInternshipClicked) {
-            CalendarDetailDialog(
-                onDismissRequest = {viewModel.updateInternDialogVisible(null)},
-                onClickColor = { newColor ->
-                    Timber.tag("CalendarScreen")
-                        .d("<CalendarListScreen>: $newColor")
-                },
-                onClickNavigate = {
-                    viewModel.updateInternDialogVisible(null)
-                }
-            )
-        }
+
+        CalendarDialog(
+            isWeekScreen = false,
+            viewModel = viewModel,
+            navController = navController
+        )
     }
 }
 

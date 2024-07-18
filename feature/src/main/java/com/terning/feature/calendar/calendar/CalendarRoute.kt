@@ -108,7 +108,7 @@ private fun CalendarScreen(
             CalendarTopAppBar(
                 date = currentDate,
                 isListExpanded = calendarUiState.isListEnabled,
-                isWeekExpanded = calendarUiState.isListEnabled,
+                isWeekExpanded = calendarUiState.isWeekEnabled,
                 onListButtonClicked = {
                     viewModel.changeListVisibility()
                     if (calendarUiState.isWeekEnabled) {
@@ -163,8 +163,9 @@ private fun CalendarScreen(
                         },
                         contentTwo = {
                             CalendarWeekScreen(
-                                uiState = calendarUiState,
+                                calendarUiState = calendarUiState,
                                 viewModel = viewModel,
+                                navController = navController,
                                 modifier = Modifier
                                     .fillMaxSize(),
                             )
@@ -177,7 +178,7 @@ private fun CalendarScreen(
                     listState = listState,
                     pages = state.getPageCount(),
                     viewModel = viewModel,
-                    uiState = calendarUiState,
+                    navController = navController,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding())
