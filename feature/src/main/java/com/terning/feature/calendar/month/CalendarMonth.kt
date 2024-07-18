@@ -14,6 +14,7 @@ import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isToday
+import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.CalendarScrapModel
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.month.component.CalendarDay
@@ -44,6 +45,12 @@ fun CalendarMonth(
                     Column(
                         modifier = Modifier
                             .weight(1f)
+                            .fillMaxSize()
+                            .noRippleClickable {
+                                if(!day.isOutDate) {
+                                    onDateSelected(day.date)
+                                }
+                            }
                             .padding(top = 15.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {

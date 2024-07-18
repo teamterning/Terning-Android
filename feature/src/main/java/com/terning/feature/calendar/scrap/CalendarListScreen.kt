@@ -125,8 +125,8 @@ fun CalendarListScreen(
                                             viewModel.updateInternshipModel(scrapDetailModel)
                                             viewModel.updateInternDialogVisible(true)
                                         },
-                                        isFromList = true,
-                                        noScrapScreen = {})
+                                        isFromList = true
+                                    )
                                 }
                             }
                         }

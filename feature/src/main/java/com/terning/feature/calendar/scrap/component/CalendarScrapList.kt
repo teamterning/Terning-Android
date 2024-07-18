@@ -22,10 +22,9 @@ import java.time.LocalDate
 fun CalendarScrapList(
     selectedDate: LocalDate,
     scrapList: List<CalendarScrapDetailModel>,
-    onScrapButtonClicked:(Long) -> Unit,
-    onInternshipClicked:(CalendarScrapDetailModel) -> Unit,
-    isFromList: Boolean = false,
-    noScrapScreen: @Composable () -> Unit = {}
+    onScrapButtonClicked: (Long) -> Unit,
+    onInternshipClicked: (CalendarScrapDetailModel) -> Unit,
+    isFromList: Boolean = false
 ) {
     val scrollState = rememberScrollState()
 
@@ -47,23 +46,18 @@ fun CalendarScrapList(
             .fillMaxWidth()
             .padding(horizontal = 24.dp)
     }
-
-    if (!scrapList.isListNotEmpty()) {
-        noScrapScreen()
-    } else {
-        Column(
-            modifier = topModifier
-        ) {
-            for (scrap in scrapList) {
-                CalendarScrap(
-                    scrap = scrap,
-                    onScrapButtonClicked = onScrapButtonClicked,
-                    onInternshipClicked = onInternshipClicked
-                )
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-            }
+    Column(
+        modifier = topModifier
+    ) {
+        for (scrap in scrapList) {
+            CalendarScrap(
+                scrap = scrap,
+                onScrapButtonClicked = onScrapButtonClicked,
+                onInternshipClicked = onInternshipClicked
+            )
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
         }
     }
 }
