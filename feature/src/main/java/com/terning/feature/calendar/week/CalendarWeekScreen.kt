@@ -32,8 +32,8 @@ import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.component.InternDetailDialog
-import com.terning.feature.calendar.calendar.component.ScrapCancelDialog
+import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
+import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
 import timber.log.Timber
 import java.time.LocalDate
@@ -104,7 +104,7 @@ fun CalendarWeekScreen(
         }
 
         if (uiState.isScrapButtonClicked) {
-            ScrapCancelDialog(
+            CalendarCancelDialog(
                 onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
                 onClickScrapCancel = {
                     viewModel.updateScrapCancelDialogVisible()
@@ -112,7 +112,7 @@ fun CalendarWeekScreen(
             )
         }
         if (uiState.isInternshipClicked) {
-            InternDetailDialog(
+            CalendarDetailDialog(
                 onDismissRequest = {viewModel.updateInternDialogVisible(null)},
                 onClickColor = { newColor ->
                     Timber.tag("CalendarScreen")

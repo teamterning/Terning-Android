@@ -32,7 +32,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
@@ -49,12 +48,11 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.CalendarScrapDetailModel
-import com.terning.feature.intern.InternViewModel
 import com.terning.feature.intern.InternViewState
 import com.terning.feature.intern.component.InternInfoRow
 
 @Composable
-fun InternDetailDialog(
+fun CalendarDetailDialog(
     onDismissRequest: () -> Unit,
     onClickColor: (Color) -> Unit,
     onClickNavigate: () -> Unit,
@@ -274,7 +272,7 @@ private fun InternDialogContent(
 @Composable
 fun InternDialogContentPreview() {
     TerningPointTheme {
-        InternDetailDialog(
+        CalendarDetailDialog(
             onDismissRequest = {},
             onClickNavigate = {},
             onClickColor = {}

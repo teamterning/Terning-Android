@@ -89,8 +89,6 @@ class CalendarViewModel @Inject constructor(
                 scrapId = scrapId
             )
         }
-        Timber.tag("CalendarScreen")
-            .d("<showScrapCancel> $scrapId, ${_uiState.value.isScrapButtonClicked}")
     }
 
     fun updateInternDialogVisible(scrapDetailModel: CalendarScrapDetailModel?) {
@@ -100,8 +98,6 @@ class CalendarViewModel @Inject constructor(
                 internshipModel = scrapDetailModel
             )
         }
-        Timber.tag("CalendarScreen")
-            .d("<showInternship> ${scrapDetailModel?.internshipAnnouncementId}, ${_uiState.value.isInternshipClicked}")
     }
 
     fun getScrapMonth(

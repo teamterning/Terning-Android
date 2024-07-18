@@ -32,8 +32,8 @@ import com.terning.core.state.UiState
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.component.InternDetailDialog
-import com.terning.feature.calendar.calendar.component.ScrapCancelDialog
+import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
+import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
@@ -132,7 +132,7 @@ fun CalendarListScreen(
             }
         }
         if (uiState.isScrapButtonClicked) {
-            ScrapCancelDialog(
+            CalendarCancelDialog(
                 onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
                 onClickScrapCancel = {
                     viewModel.updateScrapCancelDialogVisible()
@@ -140,7 +140,7 @@ fun CalendarListScreen(
             )
         }
         if (uiState.isInternshipClicked) {
-            InternDetailDialog(
+            CalendarDetailDialog(
                 onDismissRequest = {viewModel.updateInternDialogVisible(null)},
                 onClickColor = { newColor ->
                     Timber.tag("CalendarScreen")
