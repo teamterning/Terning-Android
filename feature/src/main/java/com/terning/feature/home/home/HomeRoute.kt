@@ -35,13 +35,15 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.item.InternItemWithShadow
+import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.noRippleClickable
+import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.HomeRecommendInternModel
@@ -54,7 +56,6 @@ import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.UserNameState
-import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -84,6 +85,8 @@ fun HomeRoute(
 
     val homeTodayState by viewModel.homeTodayState.collectAsStateWithLifecycle()
     val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
+    val homeFilteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
+    val homeUserState by viewModel.homeUserState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -91,8 +94,24 @@ fun HomeRoute(
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
+                    is HomeSideEffect.NavigateToHome -> navController.navigateHome()
                 }
             }
+    }
+
+    LaunchedEffect(currentSortBy.value) {
+        when (homeFilteringState) {
+            is UiState.Success ->
+                with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
+                    viewModel.getRecommendInternsData(
+                        currentSortBy.value,
+                        startYear ?: viewModel.currentYear,
+                        startMonth ?: viewModel.currentMonth
+                    )
+                }
+
+            else -> {}
+        }
     }
 
     val homeTodayInternList = when (homeTodayState) {
@@ -111,20 +130,20 @@ fun HomeRoute(
         else -> emptyList()
     }
 
-    val userNameState = viewModel.userName
+    val homeFilteringInfo = when (homeFilteringState) {
+        is UiState.Success -> (homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data
+        else -> HomeFilteringInfoModel(null, null, viewModel.currentYear, viewModel.currentMonth)
+    }
 
-    LaunchedEffect(currentSortBy) {
-        with(userNameState.value.internFilter) {
-            viewModel.getRecommendInternsData(
-                sortBy = currentSortBy.value,
-                startYear = this?.startYear ?: viewModel.currentYear,
-                startMonth = this?.startMonth ?: viewModel.currentMonth,
-            )
-        }
+    val homeUserName = when (homeUserState) {
+        is UiState.Success -> (homeUserState as UiState.Success<String>).data
+        else -> ""
     }
 
     HomeScreen(
         currentSortBy,
+        homeUserName = homeUserName,
+        homeFilteringInfo = homeFilteringInfo,
         homeTodayInternList = homeTodayInternList,
         recommendInternList = homeRecommendInternList,
         onChangeFilterClick = { navController.navigateChangeFilter() },
@@ -136,13 +155,14 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
+    homeUserName: String,
+    homeFilteringInfo: HomeFilteringInfoModel,
     homeTodayInternList: List<HomeTodayInternModel>,
     recommendInternList: List<HomeRecommendInternModel>,
     onChangeFilterClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
-    val userNameState = viewModel.userName
     var sheetState by remember { mutableStateOf(false) }
 
     if (sheetState) {
@@ -178,7 +198,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .padding(bottom = 16.dp)
                     ) {
-                        ShowMainTitleWithName(userNameState.value)
+                        ShowMainTitleWithName(homeUserName)
                         ShowTodayIntern(homeTodayInternList = homeTodayInternList)
                     }
                 }
@@ -188,7 +208,7 @@ fun HomeScreen(
                             .background(White)
                     ) {
                         ShowRecommendTitle()
-                        ShowInternFilter(userNameState = userNameState.value, onChangeFilterClick)
+                        ShowInternFilter(homeFilteringInfo = homeFilteringInfo, onChangeFilterClick)
 
                         HorizontalDivider(
                             thickness = 4.dp,
@@ -225,7 +245,7 @@ fun HomeScreen(
                 }
             }
 
-            if (userNameState.value.internFilter == null) {
+            if (homeFilteringInfo.grade == null) {
                 HomeFilteringEmptyIntern(
                     modifier = Modifier
                         .padding(horizontal = 24.dp)
@@ -263,12 +283,12 @@ private fun RecommendInternItem(
 }
 
 @Composable
-private fun ShowMainTitleWithName(userNameState: UserNameState) {
+private fun ShowMainTitleWithName(userName: String) {
     Text(
         text = stringResource(
             id = R.string.home_today_title,
-            if (userNameState.userName.length in NAME_START_LENGTH..NAME_END_LENGTH) "\n" + userNameState.userName
-            else userNameState.userName
+            if (userName.length in NAME_START_LENGTH..NAME_END_LENGTH) "\n" + userName
+            else userName
         ),
         modifier = Modifier
             .padding(top = 11.dp, bottom = 19.dp)
@@ -309,8 +329,11 @@ private fun ShowRecommendTitle() {
 }
 
 @Composable
-private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: () -> Unit) {
-    if (userNameState.internFilter?.grade == null) {
+private fun ShowInternFilter(
+    homeFilteringInfo: HomeFilteringInfoModel,
+    onChangeFilterClick: () -> Unit
+) {
+    if (homeFilteringInfo.grade == null) {
         HomeFilteringScreen(
             grade = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
             period = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
@@ -318,9 +341,9 @@ private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: 
             onChangeFilterClick = { onChangeFilterClick() },
         )
     } else {
-        with(userNameState.internFilter) {
+        with(homeFilteringInfo) {
             HomeFilteringScreen(
-                grade = (grade + 1).toString() + stringResource(id = R.string.home_recommend_filtering_grade),
+                grade = (grade?.plus(1)).toString() + stringResource(id = R.string.home_recommend_filtering_grade),
                 period = stringResource(
                     id = when (workingPeriod) {
                         0 -> R.string.filtering_status2_button1

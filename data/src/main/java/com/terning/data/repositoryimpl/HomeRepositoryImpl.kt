@@ -1,6 +1,9 @@
 package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.HomeDataSource
+import com.terning.data.dto.request.toChangeFilterRequestDto
+import com.terning.domain.entity.request.ChangeFilteringRequestModel
+import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
@@ -29,5 +32,17 @@ class HomeRepositoryImpl @Inject constructor(
             ).result.map {
                 it.toRecommendInternEntity()
             }
+        }
+
+    override suspend fun getFilteringInfo(): Result<HomeFilteringInfoModel> =
+        runCatching {
+            homeDataSource.getFilteringInfo().result.toHomeFilteringInfoModel()
+        }
+
+    override suspend fun putFilteringInfo(putFilteringRequest: ChangeFilteringRequestModel): Result<Unit> =
+        runCatching {
+            homeDataSource.putFilteringInfo(
+                putFilteringRequest.toChangeFilterRequestDto()
+            )
         }
 }
