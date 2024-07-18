@@ -2,6 +2,7 @@ package com.terning.feature.search.searchprocess
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -153,8 +154,8 @@ fun SearchProcessScreen(
                     .addFocusCleaner(focusManager),
                 onDoneAction = {
                     viewModel.getSearchList(
-                        query = state.text,
-                        sortBy = "deadlineSoon",
+                        keyword = state.text,
+                        sortBy = SORT_BY,
                         page = 0,
                         size = 10
                     )
