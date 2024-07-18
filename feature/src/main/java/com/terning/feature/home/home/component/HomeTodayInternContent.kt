@@ -52,17 +52,17 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.HomeRecommendInternModel
+import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.feature.home.home.HomeViewModel
 import com.terning.feature.intern.component.InternInfoRow
 
 
 @Composable
-fun HomeScrapInternContent(
+fun HomeTodayInternContent(
     internInfoList: List<Pair<String, String>>,
     navigateTo: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
-    homeRecommendInternModel: HomeRecommendInternModel,
+    homeTodayInternModel: HomeTodayInternModel,
     announcementId: Long,
 ) {
     val state by viewModel.homeScrapViewState.collectAsStateWithLifecycle()
@@ -94,7 +94,7 @@ fun HomeScrapInternContent(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(homeRecommendInternModel.companyImage)
+                    .data(homeTodayInternModel.companyImage)
                     .build(),
                 contentDescription = stringResource(R.string.image_content_descriptin),
                 modifier = Modifier
@@ -110,7 +110,7 @@ fun HomeScrapInternContent(
             )
 
             Text(
-                text = homeRecommendInternModel.title,
+                text = homeTodayInternModel.title,
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title4,
                 color = Grey500,
@@ -120,7 +120,7 @@ fun HomeScrapInternContent(
             )
             Text(
                 text = stringResource(
-                    id = R.string.dialog_content_scrap_sub_title
+                    id = R.string.dialog_today_deadline
                 ),
                 style = TerningTheme.typography.body5,
                 color = Grey350,
@@ -199,7 +199,7 @@ fun HomeScrapInternContent(
                     }
                 } else {
                     Text(
-                        text = homeRecommendInternModel.dDay,
+                        text = homeTodayInternModel.dDay,
                         style = TerningTheme.typography.body5,
                         color = TerningMain,
                         modifier = Modifier.padding(bottom = 9.dp)
@@ -233,7 +233,7 @@ fun HomeScrapInternContent(
                     style = TerningTheme.typography.button3,
                     paddingVertical = 12.dp,
                     cornerRadius = 8.dp,
-                    text = R.string.dialog_scrap_button,
+                    text = R.string.dialog_scrap_move_to_intern,
                     onButtonClick = {
                         if (state.isPaletteOpen) {
                             viewModel.updatePaletteOpen(false)

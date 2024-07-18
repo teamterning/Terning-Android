@@ -131,6 +131,7 @@ fun HomeRoute(
         recommendInternList = homeRecommendInternList,
         onChangeFilterClick = { navController.navigateChangeFilter() },
         homeViewModel = viewModel,
+        navController = navController,
     )
 }
 
@@ -143,9 +144,10 @@ fun HomeScreen(
     recommendInternList: List<HomeRecommendInternModel>,
     onChangeFilterClick: () -> Unit,
     homeViewModel: HomeViewModel,
+    navController: NavHostController,
 ) {
     var sheetState by remember { mutableStateOf(false) }
-    var dialogState: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val dialogState: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     if (sheetState) {
         SortingBottomSheet(
@@ -181,7 +183,7 @@ fun HomeScreen(
                             .padding(bottom = 16.dp)
                     ) {
                         ShowMainTitleWithName("남지우자랑스러운티엘이되")
-                        ShowTodayIntern(homeTodayInternList = homeTodayInternList)
+                        ShowTodayIntern(homeTodayInternList = homeTodayInternList, navController)
                     }
                 }
                 stickyHeader {
@@ -246,6 +248,7 @@ fun HomeScreen(
                                                 ),
                                                 homeRecommendInternModel = recommendInternList[index],
                                                 announcementId = recommendInternList[index].internshipAnnouncementId,
+                                                navigateTo = { navController.navigateHome() },
                                             )
                                         }
                                     }
@@ -286,11 +289,17 @@ private fun ShowMainTitleWithName(userName: String) {
 }
 
 @Composable
-private fun ShowTodayIntern(homeTodayInternList: List<HomeTodayInternModel>) {
+private fun ShowTodayIntern(
+    homeTodayInternList: List<HomeTodayInternModel>,
+    navController: NavHostController,
+) {
     if (homeTodayInternList.isEmpty()) {
         HomeTodayEmptyIntern(isButtonExist = false)
     } else {
-        HomeTodayIntern(internList = homeTodayInternList)
+        HomeTodayIntern(
+            internList = homeTodayInternList,
+            navController = navController,
+        )
     }
 }
 
