@@ -47,7 +47,7 @@ fun TerningBasicDialog(
     ) {
         Box(
             modifier = Modifier
-                .size(width = 300.dp, height = 412.dp)
+                .size(width = 300.dp, height = 472.dp)
                 .background(
                     color = White,
                     shape = RoundedCornerShape(20.dp)

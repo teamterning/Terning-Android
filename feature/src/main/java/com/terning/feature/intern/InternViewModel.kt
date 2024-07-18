@@ -113,6 +113,12 @@ class InternViewModel @Inject constructor(
         }
     }
 
+    fun updatePaletteOpen(open: Boolean) {
+        _internState.update {
+            it.copy(isPaletteOpen = open)
+        }
+    }
+
     fun updateColorChange(change: Boolean) {
         _internState.update {
             it.copy(isColorChange = change)

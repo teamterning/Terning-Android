@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,15 +25,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.item.ColorPalette
+import com.terning.core.designsystem.theme.CalBlue1
 import com.terning.core.designsystem.theme.CalBlue2
+import com.terning.core.designsystem.theme.CalGreen1
 import com.terning.core.designsystem.theme.CalGreen2
+import com.terning.core.designsystem.theme.CalOrange1
+import com.terning.core.designsystem.theme.CalOrange2
+import com.terning.core.designsystem.theme.CalPink
+import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
+import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey500
@@ -46,62 +57,74 @@ import com.terning.feature.intern.InternViewModel
 fun ScrapDialogContent(
     internInfoList: List<Pair<String, String>>,
     viewModel: InternViewModel = hiltViewModel(),
-    internInfoModel: InternInfoModel
+    internInfoModel: InternInfoModel,
+    announcementId: Long,
 ) {
     val state by viewModel.internState.collectAsStateWithLifecycle()
 
+    val colorList = listOf(
+        CalRed,
+        CalOrange1,
+        CalOrange2,
+        CalYellow,
+        CalGreen1,
+        CalGreen2,
+        CalBlue1,
+        CalBlue2,
+        CalPurple,
+        CalPink
+    )
+
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(top = 32.dp),
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(horizontal = 11.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
+            Image(
+                painter = painterResource(
+                    id = R.drawable.ic_character1
+                ),
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(80.dp)
+                    .background(
+                        Grey200,
+                        shape = RoundedCornerShape(size = 15.dp)
+                    )
                     .border(
                         width = 1.dp,
                         color = TerningMain,
                         shape = RoundedCornerShape(size = 15.dp)
-                    )
-            ) {
-                Image(
-                    painter = painterResource(
-                        id = R.drawable.ic_character1
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            Grey200,
-                            shape = RoundedCornerShape(size = 15.dp)
-                        ),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    alignment = Alignment.Center
-                )
-            }
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                alignment = Alignment.Center
+            )
+
             Text(
                 text = internInfoModel.title,
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title4,
                 color = Grey500,
-                modifier = Modifier.padding(top = 20.dp)
+                modifier = Modifier.padding(top = 20.dp),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = stringResource(id = R.string.dialog_content_scrap_sub_title),
                 style = TerningTheme.typography.body5,
                 color = Grey350,
                 modifier = Modifier.padding(
-                    top = 4.dp,
-                    bottom = 13.dp
+                    top = 4.dp
                 )
             )
+            Spacer(modifier = Modifier.height(26.dp))
             Column(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
@@ -112,18 +135,29 @@ fun ScrapDialogContent(
                 Row(
                     modifier = Modifier
                         .background(
-                            color = if (state.selectedColor != CalRed) CalBlue2 else CalGreen2,
+                            color = state.selectedColor,
                             shape = RoundedCornerShape(14.dp)
                         )
                         .noRippleClickable {
-                            viewModel.updateColorChange(!state.isColorChange)
+                            viewModel.updatePaletteOpen(!state.isPaletteOpen)
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 ) {
+
+                    Text(
+                        text = stringResource(id = R.string.dialog_content_color_button),
+                        style = TerningTheme.typography.body5,
+                        color = White,
+                        modifier = Modifier.padding(
+                            start = 13.dp,
+                            top = 5.dp,
+                            bottom = 5.dp
+                        )
+                    )
                     Icon(
                         painter = painterResource(
-                            id = if (state.isColorChange) R.drawable.ic_up_22
+                            id = if (state.isPaletteOpen) R.drawable.ic_up_22
                             else R.drawable.ic_down_22
                         ),
                         contentDescription = stringResource(
@@ -131,16 +165,8 @@ fun ScrapDialogContent(
                         ),
                         tint = White,
                         modifier = Modifier.padding(
-                            start = 7.dp,
-                            top = 2.dp,
-                            bottom = 2.dp
+                            end = 7.dp
                         )
-                    )
-                    Text(
-                        text = stringResource(id = R.string.dialog_content_color_button),
-                        style = TerningTheme.typography.body5,
-                        color = White,
-                        modifier = Modifier.padding(end = 13.dp)
                     )
                 }
                 HorizontalDivider(
@@ -151,7 +177,7 @@ fun ScrapDialogContent(
                         bottom = 8.dp
                     )
                 )
-                if (state.isColorChange) {
+                if (state.isPaletteOpen) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -163,9 +189,9 @@ fun ScrapDialogContent(
                     ) {
                         ColorPalette(
                             initialColor = CalRed,
-                            onColorSelected = {
-                                viewModel.updateSelectColor(it)
-                            },
+                            onColorSelected = { newColor ->
+                                viewModel.updateSelectColor(newColor)
+                            }
                         )
                     }
                 } else {
@@ -183,29 +209,47 @@ fun ScrapDialogContent(
                         ),
                         horizontalAlignment = Alignment.Start,
                     ) {
-                        internInfoList.forEach { (title, value) ->
-                            InternInfoRow(title, value)
+                        internInfoList.forEach {
+                            InternInfoRow(
+                                title = it.first,
+                                value = it.second
+                            )
                         }
                     }
                 }
             }
-            RoundButton(
-                style = TerningTheme.typography.button3,
-                paddingVertical = 12.dp,
-                cornerRadius = 8.dp,
-                text = if (state.isScrappedState) {
-                    if (state.isColorChange)
-                        R.string.dialog_content_color_button
-                    else R.string.dialog_scrap_button
-                } else {
-                    R.string.dialog_scrap_button
-                },
-                onButtonClick = {
-                    viewModel.updateScrapped(!state.isScrappedState)
-                    viewModel.updateScrapDialogVisible(false)
-                },
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+            Spacer(modifier = Modifier.weight(1f))
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                val selectedColorIndex =
+                    colorList.indexOf(state.selectedColor).takeIf { it >= 0 } ?: 0
+
+                RoundButton(
+                    style = TerningTheme.typography.button3,
+                    paddingVertical = 12.dp,
+                    cornerRadius = 8.dp,
+                    text = R.string.dialog_scrap_button,
+                    onButtonClick = {
+                        if (state.isPaletteOpen) {
+                            viewModel.updatePaletteOpen(false)
+                            viewModel.postScrap(announcementId, selectedColorIndex)
+                            viewModel.updateColorChange(false)
+                            viewModel.updateScrapDialogVisible(false)
+                        } else {
+                            if (state.isColorChange) {
+                                viewModel.postScrap(announcementId, selectedColorIndex)
+                                viewModel.updateColorChange(false)
+                            } else {
+                                viewModel.postScrap(announcementId, 0)
+                            }
+                            viewModel.updateScrapDialogVisible(false)
+                        }
+                    },
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
         }
     }
 }

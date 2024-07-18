@@ -381,7 +381,8 @@ fun InternScreen(
 
                         else -> ScrapDialogContent(
                             internInfoList = internInfoList,
-                            internInfoModel = internInfoModel
+                            internInfoModel = internInfoModel,
+                            announcementId = announcementId,
                         )
                     }
                 },
