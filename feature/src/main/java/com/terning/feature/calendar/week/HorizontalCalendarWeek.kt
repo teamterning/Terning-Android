@@ -20,11 +20,11 @@ import java.time.YearMonth
 
 @Composable
 fun HorizontalCalendarWeek(
-    selectedDate: CalendarUiState,
+    calendarUiState: CalendarUiState,
     modifier: Modifier = Modifier,
     onDateSelected: (LocalDate) -> Unit = {}
 ) {
-    val date = selectedDate.selectedDate
+    val date = calendarUiState.selectedDate
     val monthData = MonthData(YearMonth.of(date.year, date.monthValue))
     val currentWeek = date.getWeekIndexContainingSelectedDate(monthData.inDays)
 
@@ -46,7 +46,7 @@ fun HorizontalCalendarWeek(
             items(items = monthData.calendarMonth.weekDays[page]) { day ->
                 CalendarDay(
                     dayData = day,
-                    isSelected = selectedDate.selectedDate == day.date && selectedDate.isWeekEnabled,
+                    isSelected = calendarUiState.selectedDate == day.date && calendarUiState.isWeekEnabled,
                     isToday = day.date.isToday(),
                     onDateSelected = onDateSelected
                 )
