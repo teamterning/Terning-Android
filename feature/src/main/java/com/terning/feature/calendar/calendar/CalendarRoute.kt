@@ -178,6 +178,7 @@ private fun CalendarScreen(
                     listState = listState,
                     pages = state.getPageCount(),
                     viewModel = viewModel,
+                    navController = navController,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding())
