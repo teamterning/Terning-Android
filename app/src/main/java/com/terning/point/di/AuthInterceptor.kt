@@ -28,7 +28,7 @@ class AuthInterceptor @Inject constructor(
 
         Timber.d("GET REFRESH TOKEN : ${terningDataStore.refreshToken}")
 
-        val authRequest = if (terningDataStore.accessToken.isNotBlank()) {
+        val authRequest = if (terningDataStore.refreshToken.isNotBlank()) {
             originalRequest.newBuilder().newAuthBuilder().build()
         } else {
             originalRequest
@@ -36,43 +36,43 @@ class AuthInterceptor @Inject constructor(
 
         val response = chain.proceed(authRequest)
 
-        when (response.code) {
-            CODE_TOKEN_EXPIRED -> {
-                try {
-                    runBlocking {
-                        tokenReissueRepository.postReissueToken(
-                            terningDataStore.refreshToken
-                        )
-                    }.onSuccess { data ->
-                        terningDataStore.apply {
-                            refreshToken = data.refreshToken
-                        }
-
-                        response.close()
-
-                        val newRequest =
-                            authRequest.newBuilder().removeHeader(AUTHORIZATION).newAuthBuilder()
-                                .build()
-
-                        return chain.proceed(newRequest)
-                    }
-                } catch (t: Throwable) {
-                    Timber.d(t.message)
-                }
-
-                terningDataStore.clearInfo()
-
-                Handler(Looper.getMainLooper()).post {
-                    context.stringToast(TOKEN_EXPIRED_ERROR)
-                    Handler(Looper.getMainLooper()).post {
-                        ProcessPhoenix.triggerRebirth(
-                            context,
-                            Intent(context, MainActivity::class.java)
-                        )
-                    }
-                }
-            }
-        }
+//        when (response.code) {
+//            CODE_TOKEN_EXPIRED -> {
+//                try {
+//                    runBlocking {
+//                        tokenReissueRepository.postReissueToken(
+//                            terningDataStore.refreshToken
+//                        )
+//                    }.onSuccess { data ->
+//                        terningDataStore.apply {
+//                            refreshToken = data.refreshToken
+//                        }
+//
+//                        response.close()
+//
+//                        val newRequest =
+//                            authRequest.newBuilder().removeHeader(AUTHORIZATION).newAuthBuilder()
+//                                .build()
+//
+//                        return chain.proceed(newRequest)
+//                    }
+//                } catch (t: Throwable) {
+//                    Timber.d(t.message)
+//                }
+//
+//                terningDataStore.clearInfo()
+//
+//                Handler(Looper.getMainLooper()).post {
+//                    context.stringToast(TOKEN_EXPIRED_ERROR)
+//                    Handler(Looper.getMainLooper()).post {
+//                        ProcessPhoenix.triggerRebirth(
+//                            context,
+//                            Intent(context, MainActivity::class.java)
+//                        )
+//                    }
+//                }
+//            }
+//        }
         return response
     }
 
