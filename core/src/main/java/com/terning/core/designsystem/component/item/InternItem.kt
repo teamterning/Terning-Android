@@ -61,12 +61,11 @@ fun InternItem(
                 .data(imageUrl)
                 .build(),
             contentDescription = title,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(5.dp))
-                .background(color = Grey300)
         )
 
         Column(

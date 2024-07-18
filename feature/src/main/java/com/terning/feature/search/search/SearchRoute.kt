@@ -1,12 +1,12 @@
 package com.terning.feature.search.search
 
-import com.terning.domain.entity.response.InternshipAnnouncementModel
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,6 +28,7 @@ import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
+import com.terning.domain.entity.response.InternshipAnnouncementModel
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
@@ -85,9 +86,9 @@ fun SearchScreen(
     searchScrapsList: List<InternshipAnnouncementModel>,
 ) {
     val images = listOf(
-        R.drawable.ic_nav_search,
-        R.drawable.ic_check,
-        R.drawable.ic_nav_my_page,
+        R.drawable.img_ad_1,
+        R.drawable.img_ad_2,
+        R.drawable.img_ad_3,
     )
 
     Scaffold(
@@ -120,38 +121,38 @@ fun SearchScreen(
                 )
             }
 
-            ImageSlider(
-                images = images
-            )
+            LazyColumn {
+                item {
+                    ImageSlider(images = images)
 
-            Spacer(
-                modifier = Modifier.padding(8.dp)
-            )
+                    Spacer(modifier = Modifier.padding(8.dp))
 
-            Text(
-                text = stringResource(id = R.string.search_today_popular),
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp),
-                style = TerningTheme.typography.title1,
-                color = Black
-            )
+                    Text(
+                        text = stringResource(id = R.string.search_today_popular),
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp),
+                        style = TerningTheme.typography.title1,
+                        color = Black
+                    )
 
-            SearchInternList(
-                type = InternListType.VIEW,
-                searchViewsList = searchViewsList,
-                searchScrapsList = searchScrapsList,
-                navController = navController
-            )
-            HorizontalDivider(
-                thickness = 4.dp,
-                modifier = Modifier.padding(vertical = 8.dp),
-                color = Grey100,
-            )
-            SearchInternList(
-                type = InternListType.SCRAP,
-                searchViewsList = searchViewsList,
-                searchScrapsList = searchScrapsList,
-                navController = navController
-            )
+                    SearchInternList(
+                        type = InternListType.VIEW,
+                        searchViewsList = searchViewsList,
+                        searchScrapsList = searchScrapsList,
+                        navController = navController
+                    )
+                    HorizontalDivider(
+                        thickness = 4.dp,
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = Grey100,
+                    )
+                    SearchInternList(
+                        type = InternListType.SCRAP,
+                        searchViewsList = searchViewsList,
+                        searchScrapsList = searchScrapsList,
+                        navController = navController
+                    )
+                }
+            }
         }
     }
 }

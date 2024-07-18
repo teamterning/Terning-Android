@@ -1,5 +1,7 @@
 package com.terning.feature.home.changefilter.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -19,7 +21,20 @@ fun NavController.navigateChangeFilter(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.changeFilterNavGraph(
     navHostController: NavHostController
 ) {
-    composable<ChangeFilter> {
+    composable<ChangeFilter>(
+        exitTransition = {
+            ExitTransition.None
+        },
+        popEnterTransition = {
+            EnterTransition.None
+        },
+        enterTransition = {
+            EnterTransition.None
+        },
+        popExitTransition = {
+            ExitTransition.None
+        }
+    ) {
         ChangeFilterRoute(
             navController = navHostController
         )

@@ -17,7 +17,7 @@ fun NavController.navigateSignIn(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.signInNavGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
 ) {
     composable<SignIn> {
         SignInRoute(
