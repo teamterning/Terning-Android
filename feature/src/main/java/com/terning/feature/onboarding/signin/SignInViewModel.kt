@@ -107,6 +107,5 @@ class SignInViewModel @Inject constructor(
     companion object {
         private const val KAKAO_NOT_LOGGED_IN = "statusCode=302"
         private const val KAKAO = "KAKAO"
-        private const val BEARER = "Bearer "
     }
 }

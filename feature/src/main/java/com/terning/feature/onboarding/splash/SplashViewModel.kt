@@ -41,8 +41,9 @@ class SplashViewModel @Inject constructor(
 
     fun postTokenReissue() {
         viewModelScope.launch {
+
             tokenReissueRepository.postReissueToken(
-                tokenRepository.getAccessToken(),
+                tokenRepository.getRefreshToken(),
             ).onSuccess { response ->
                 tokenRepository.setTokens(
                     accessToken = response.accessToken,

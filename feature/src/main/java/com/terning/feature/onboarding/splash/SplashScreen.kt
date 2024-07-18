@@ -19,7 +19,7 @@ import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.mypage.navigation.navigateMyPage
 import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 
 @Composable
@@ -51,12 +51,12 @@ fun SplashScreen(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SplashSideEffect.GetHasRefreshToken ->{
-                        if(sideEffect.refreshToken) viewModel.postTokenReissue()
+                    is SplashSideEffect.GetHasRefreshToken -> {
+                        if (sideEffect.refreshToken) viewModel.postTokenReissue()
                         else navController.navigateSignIn()
                     }
 
-                    is SplashSideEffect.NavigateToHome -> navController.navigateHome()
+                    is SplashSideEffect.NavigateToHome -> navController.navigateMyPage()
 
                     is SplashSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
