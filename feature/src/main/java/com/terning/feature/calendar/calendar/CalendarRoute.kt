@@ -165,6 +165,7 @@ private fun CalendarScreen(
                             CalendarWeekScreen(
                                 uiState = calendarUiState,
                                 viewModel = viewModel,
+                                navController = navController,
                                 modifier = Modifier
                                     .fillMaxSize(),
                             )

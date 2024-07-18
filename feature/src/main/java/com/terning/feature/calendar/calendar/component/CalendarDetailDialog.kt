@@ -156,7 +156,7 @@ private fun InternDialogContent(
                 Row(
                     modifier = Modifier
                         .background(
-                            color = if (state.selectedColor != CalRed) CalBlue2 else CalGreen2,
+                            color = if (selectedColor != CalRed) CalBlue2 else CalGreen2,
                             shape = RoundedCornerShape(14.dp)
                         )
                         .noRippleClickable {

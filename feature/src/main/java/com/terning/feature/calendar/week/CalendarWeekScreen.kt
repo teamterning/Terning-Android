@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -35,6 +37,7 @@ import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
+import com.terning.feature.intern.navigation.navigateIntern
 import timber.log.Timber
 import java.time.LocalDate
 
@@ -42,6 +45,7 @@ import java.time.LocalDate
 fun CalendarWeekScreen(
     modifier: Modifier = Modifier,
     uiState: CalendarUiState,
+    navController: NavController = rememberNavController(),
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -92,7 +96,8 @@ fun CalendarWeekScreen(
                             viewModel.updateScrapCancelDialogVisible(scrapId)
                         },
                         onInternshipClicked = { scrapDetailModel ->
-                            viewModel.updateInternDialogVisible(scrapDetailModel)
+                            viewModel.updateIntershipModel(scrapDetailModel)
+                            viewModel.updateInternDialogVisible(true)
                         })
                 }
             }
@@ -108,14 +113,16 @@ fun CalendarWeekScreen(
         }
         if (uiState.isInternshipClicked) {
             CalendarDetailDialog(
-                onDismissRequest = {viewModel.updateInternDialogVisible(null)},
-                onClickColor = { newColor ->
+                onDismissRequest = {viewModel.updateInternDialogVisible(false)},
+                onClickChangeColorButton = { newColor ->
                     Timber.tag("CalendarScreen")
                         .d("<CalendarWeekScreen>: $newColor")
                 },
-                onClickNavigate = {
-                    viewModel.updateInternDialogVisible(null)
-                }
+                onClickNavigateButton = { announcementId ->
+                    viewModel.updateInternDialogVisible(false)
+                    navController.navigateIntern(announcementId = announcementId)
+                },
+
             )
         }
     }

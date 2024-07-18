@@ -3,6 +3,7 @@ package com.terning.feature.calendar.calendar
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.devtools.ksp.symbol.Visibility
 import com.terning.core.state.UiState
 import com.terning.domain.entity.request.ScrapRequestModel
 import com.terning.domain.entity.response.CalendarScrapDetailModel
@@ -101,10 +102,17 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun updateInternDialogVisible(scrapDetailModel: CalendarScrapDetailModel?) {
+    fun updateInternDialogVisible(visibility: Boolean = false) {
         _uiState.update { currentState ->
             currentState.copy(
-                isInternshipClicked = !currentState.isInternshipClicked,
+                isInternshipClicked = visibility
+            )
+        }
+    }
+
+    fun updateIntershipModel(scrapDetailModel: CalendarScrapDetailModel?) {
+        _uiState.update { currentState ->
+            currentState.copy(
                 internshipModel = scrapDetailModel
             )
         }
