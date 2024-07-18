@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HomeRecommendInternResponseDto(
+    @SerialName("scrapId")
+    val scrapId: Long?,
     @SerialName("intershipAnnouncementId")
     val internshipAnnouncementId: Long,
     @SerialName("title")
@@ -21,6 +23,7 @@ data class HomeRecommendInternResponseDto(
 ) {
     fun toRecommendInternEntity(): HomeRecommendInternModel =
         HomeRecommendInternModel(
+            scrapId = this.scrapId,
             internshipAnnouncementId = this.internshipAnnouncementId,
             title = this.title,
             dDay = this.dDay,
