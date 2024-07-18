@@ -1,10 +1,8 @@
 package com.terning.feature.onboarding.splash
 
-import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.terning.domain.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -24,13 +22,7 @@ class SplashViewModel @Inject constructor(
 
     private fun getHasAccessToken(): Boolean = tokenRepository.getAccessToken().isNotBlank()
 
-    fun checkConnectedNetwork(context: Context, lifecycleOwner: LifecycleOwner) {
-        viewModelScope.launch {
-            initSplash(lifecycleOwner)
-        }
-    }
-
-    private fun initSplash(lifecycleOwner: LifecycleOwner) {
+    fun showSplash(lifecycleOwner: LifecycleOwner) {
         lifecycleOwner.lifecycleScope.launch {
             delay(DELAY_TIME)
             _sideEffects.emit(SplashState.GetHasAccessToken(getHasAccessToken()))
