@@ -11,10 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.theme.KakaoYellow
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
@@ -31,7 +31,8 @@ fun KakaoButton(
             .fillMaxWidth()
             .background(
                 shape = RoundedCornerShape(10.dp),
-                color = Color.Yellow,)
+                color = KakaoYellow,
+            )
             .noRippleClickable { onSignInClick() }
             .padding(vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -44,7 +45,7 @@ fun KakaoButton(
         )
         Text(
             text = title,
-            // TODO : style 추가하기
+            style = TerningTheme.typography.title4
         )
     }
 }
