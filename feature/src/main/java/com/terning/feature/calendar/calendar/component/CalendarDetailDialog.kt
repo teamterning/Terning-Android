@@ -112,7 +112,7 @@ private fun InternDialogContent(
         ) {
             Image(
                 painter = painterResource(
-                    id = R.drawable.ic_character1
+                    id = R.drawable.ic_selected_character
                 ),
                 modifier = Modifier
                     .size(80.dp)

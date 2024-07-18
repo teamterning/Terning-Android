@@ -2,13 +2,16 @@ package com.terning.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -20,11 +23,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import kotlinx.coroutines.launch
@@ -108,7 +114,7 @@ fun RadioButtonGroup(
         itemsIndexed(options) { index, option ->
             Image(
                 painter = painterResource(
-                    id = if (option == selectedOption) R.drawable.ic_selected_character
+                    id = if (option == selectedOption) R.drawable.ic_terning_profile_01_selected
                     else option
                 ),
                 contentDescription = stringResource(id = R.string.sign_up_bottom_sheet_description),
@@ -118,6 +124,7 @@ fun RadioButtonGroup(
                         onOptionSelected(index)
                         selectedOption = option
                     }
+                    .clip(shape = RoundedCornerShape(76.dp))
             )
         }
     }
