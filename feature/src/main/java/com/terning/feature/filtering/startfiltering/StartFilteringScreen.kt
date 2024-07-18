@@ -39,7 +39,7 @@ import kotlinx.coroutines.delay
 fun StartFilteringScreen(
     name: String,
     modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController(),
+    navController: NavController
 ) {
     var isVisible by remember { mutableStateOf(false) }
 
@@ -68,7 +68,7 @@ fun StartFilteringScreen(
             Image(
                 painter = painterResource(id = R.drawable.ic_terning_onboarding),
                 contentDescription = stringResource(id = R.string.start_filtering_main_image),
-                modifier = Modifier.fillMaxWidth().padding(24.dp)
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
             )
             Spacer(modifier = Modifier.weight(2f))
         }
@@ -89,15 +89,5 @@ fun StartFilteringScreen(
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun StartFilteringPreview(
-
-) {
-    TerningPointTheme {
-        StartFilteringScreen(name = "")
     }
 }
