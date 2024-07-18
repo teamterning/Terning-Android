@@ -1,5 +1,7 @@
 package com.terning.feature.mypage.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -17,9 +19,22 @@ fun NavController.navigateMyPage(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.myPageNavGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
 ) {
-    composable<MyPage> {
+    composable<MyPage>(
+        exitTransition = {
+            ExitTransition.None
+        },
+        popEnterTransition = {
+            EnterTransition.None
+        },
+        enterTransition = {
+            EnterTransition.None
+        },
+        popExitTransition = {
+            ExitTransition.None
+        }
+    ) {
         MyPageRoute(navController = navHostController)
     }
 }

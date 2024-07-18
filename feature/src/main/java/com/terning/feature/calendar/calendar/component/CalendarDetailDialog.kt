@@ -116,7 +116,6 @@ private fun InternDialogContent(
                     .width(80.dp)
                     .aspectRatio(1f)
                     .clip(RoundedCornerShape(5.dp))
-                    .background(color = Grey300)
                     .border(
                         width = 1.dp,
                         color = TerningMain,
