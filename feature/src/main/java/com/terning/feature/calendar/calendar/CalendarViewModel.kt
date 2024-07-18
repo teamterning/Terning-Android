@@ -3,6 +3,7 @@ package com.terning.feature.calendar.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
+import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.month.CalendarMonthState
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -25,14 +27,14 @@ class CalendarViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
-    private var _selectedDate: MutableStateFlow<CalendarUiState> = MutableStateFlow(
+    private var _uiState: MutableStateFlow<CalendarUiState> = MutableStateFlow(
         CalendarUiState(
             selectedDate = LocalDate.now(),
             isListEnabled = false
         )
     )
 
-    val selectedDate get() = _selectedDate.asStateFlow()
+    val uiState get() = _uiState.asStateFlow()
 
     private val _calendarMonthState = MutableStateFlow(CalendarMonthState())
     val calendarMonthState = _calendarMonthState.asStateFlow()
@@ -47,8 +49,8 @@ class CalendarViewModel @Inject constructor(
     val calendarSideEffect = _calendarSideEffect.asSharedFlow()
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
-        if (_selectedDate.value.selectedDate != date) {
-            _selectedDate.update { currentState ->
+        if (_uiState.value.selectedDate != date) {
+            _uiState.update { currentState ->
                 currentState.copy(
                     selectedDate = date,
                     isWeekEnabled = true
@@ -56,7 +58,7 @@ class CalendarViewModel @Inject constructor(
             }
             getScrapWeekList()
         } else {
-            _selectedDate.update { currentState ->
+            _uiState.update { currentState ->
                 currentState.copy(
                     isWeekEnabled = !currentState.isWeekEnabled
                 )
@@ -65,7 +67,7 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun changeListVisibility() {
-        _selectedDate.update { currentState ->
+        _uiState.update { currentState ->
             currentState.copy(
                 isListEnabled = !currentState.isListEnabled
             )
@@ -73,9 +75,27 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun disableWeekCalendar() {
-        _selectedDate.update { currentState ->
+        _uiState.update { currentState ->
             currentState.copy(
                 isWeekEnabled = false
+            )
+        }
+    }
+
+    fun updateScrapCancelDialogVisible(scrapId: Long = -1) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                isScrapButtonClicked = !currentState.isScrapButtonClicked,
+                scrapId = scrapId
+            )
+        }
+    }
+
+    fun updateInternDialogVisible(scrapDetailModel: CalendarScrapDetailModel?) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                isInternshipClicked = !currentState.isInternshipClicked,
+                internshipModel = scrapDetailModel
             )
         }
     }
@@ -127,7 +147,7 @@ class CalendarViewModel @Inject constructor(
 
     fun getScrapWeekList() = viewModelScope.launch {
         withContext(Dispatchers.IO) {
-            calendarRepository.getScrapDayList(_selectedDate.value.selectedDate)
+            calendarRepository.getScrapDayList(_uiState.value.selectedDate)
         }.fold(
             onSuccess = {
                 _calendarWeekState.update { currentState ->

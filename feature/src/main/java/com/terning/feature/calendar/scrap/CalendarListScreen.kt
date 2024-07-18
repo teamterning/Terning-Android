@@ -30,17 +30,22 @@ import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.state.UiState
 import com.terning.feature.R
+import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
+import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
+import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
 import kotlinx.coroutines.flow.distinctUntilChanged
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
 fun CalendarListScreen(
     pages: Int,
     listState: LazyListState,
+    uiState: CalendarUiState,
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
@@ -57,66 +62,94 @@ fun CalendarListScreen(
             }
     }
 
+    Box {
+        LazyRow(
+            modifier = modifier
+                .background(White),
+            state = listState,
+            userScrollEnabled = true,
+            flingBehavior = flingBehavior(
+                state = listState
+            )
+        ) {
+            items(pages) { page ->
+                val getDate = getDateByPage(page)
 
-    LazyRow(
-        modifier = modifier
-            .background(White),
-        state = listState,
-        userScrollEnabled = true,
-        flingBehavior = flingBehavior(
-            state = listState
-        )
-    ) {
-        items(pages) { page ->
-            val getDate = getDateByPage(page)
-
-            LazyColumn(
-                modifier = Modifier
-                    .fillParentMaxWidth()
-                    .fillMaxHeight()
-                    .background(Back)
-            ) {
-                when (scrapState.loadState) {
-                    UiState.Loading -> {}
-                    UiState.Empty -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    modifier = Modifier
-                                        .padding(top = 42.dp)
-                                        .fillMaxWidth(),
-                                    text = stringResource(id = R.string.calendar_empty_scrap),
-                                    textAlign = TextAlign.Center,
-                                    style = TerningTheme.typography.body5,
-                                    color = Grey400
-                                )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                        .fillMaxHeight()
+                        .background(Back)
+                ) {
+                    when (scrapState.loadState) {
+                        UiState.Loading -> {}
+                        UiState.Empty -> {
+                            item {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(top = 42.dp)
+                                            .fillMaxWidth(),
+                                        text = stringResource(id = R.string.calendar_empty_scrap),
+                                        textAlign = TextAlign.Center,
+                                        style = TerningTheme.typography.body5,
+                                        color = Grey400
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    is UiState.Failure -> {}
-                    is UiState.Success -> {
-                        items(getDate.lengthOfMonth()) { day ->
-                            val scrapMap = (scrapState.loadState as UiState.Success).data
-                            val currentDate =
-                                LocalDate.of(getDate.year, getDate.monthValue, day + 1)
-                            val dateIndex = currentDate.getDateAsMapString()
+                        is UiState.Failure -> {}
+                        is UiState.Success -> {
+                            items(getDate.lengthOfMonth()) { day ->
+                                val scrapMap = (scrapState.loadState as UiState.Success).data
+                                val currentDate =
+                                    LocalDate.of(getDate.year, getDate.monthValue, day + 1)
+                                val dateIndex = currentDate.getDateAsMapString()
 
-                            if (scrapMap[dateIndex].isListNotEmpty()) {
-                                CalendarScrapList(
-                                    selectedDate = currentDate,
-                                    scrapList = scrapMap[dateIndex].orEmpty(),
-                                    isFromList = true,
-
-                                    noScrapScreen = {})
+                                if (scrapMap[dateIndex].isListNotEmpty()) {
+                                    CalendarScrapList(
+                                        selectedDate = currentDate,
+                                        scrapList = scrapMap[dateIndex].orEmpty(),
+                                        onScrapButtonClicked = { scrapId ->
+                                            viewModel.updateScrapCancelDialogVisible(scrapId)
+                                        },
+                                        onInternshipClicked = { internshipAnnouncementId ->
+                                            viewModel.updateInternDialogVisible(
+                                                internshipAnnouncementId
+                                            )
+                                        },
+                                        isFromList = true,
+                                        noScrapScreen = {})
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+        if (uiState.isScrapButtonClicked) {
+            CalendarCancelDialog(
+                onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
+                onClickScrapCancel = {
+                    viewModel.updateScrapCancelDialogVisible()
+                }
+            )
+        }
+        if (uiState.isInternshipClicked) {
+            CalendarDetailDialog(
+                onDismissRequest = {viewModel.updateInternDialogVisible(null)},
+                onClickColor = { newColor ->
+                    Timber.tag("CalendarScreen")
+                        .d("<CalendarListScreen>: $newColor")
+                },
+                onClickNavigate = {
+                    viewModel.updateInternDialogVisible(null)
+                }
+            )
         }
     }
 }
