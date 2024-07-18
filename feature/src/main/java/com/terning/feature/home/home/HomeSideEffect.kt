@@ -4,6 +4,5 @@ import androidx.annotation.StringRes
 
 sealed class HomeSideEffect {
     data object NavigateToChangeFilter : HomeSideEffect()
-    data object NavigateToIntern : HomeSideEffect()
     data class ShowToast(@StringRes val message: Int) : HomeSideEffect()
 }

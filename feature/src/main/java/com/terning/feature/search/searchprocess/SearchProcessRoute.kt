@@ -2,7 +2,6 @@ package com.terning.feature.search.searchprocess
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -47,7 +46,10 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
+import com.terning.core.extension.noRippleClickable
+import com.terning.domain.entity.response.SearchResultModel
 import com.terning.feature.R
+import com.terning.feature.intern.navigation.navigateIntern
 
 private const val MAX_LINES = 1
 
@@ -61,7 +63,6 @@ fun SearchProcessRoute(
     val currentSortBy: MutableState<Int> = remember {
         mutableIntStateOf(0)
     }
-    val searchListState by viewModel.searchListState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -191,12 +192,9 @@ fun SearchProcessScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             items(viewModel.internSearchResultData.value.size) { index ->
-                                InternItemWithShadow(
-                                    imageUrl = internSearchResultData[index].companyImage,
-                                    title = internSearchResultData[index].title,
-                                    dateDeadline = internSearchResultData[index].dDay,
-                                    workingPeriod = internSearchResultData[index].workingPeriod,
-                                    scrapId = internSearchResultData[index].scrapId
+                                SearchResultItem(
+                                    navController = navController,
+                                    intern = internSearchResultData[index]
                                 )
                             }
                         }
@@ -249,6 +247,28 @@ fun SearchProcessScreen(
             }
         }
     }
+}
+
+@Composable
+private fun SearchResultItem(
+    navController: NavHostController,
+    intern: SearchResultModel,
+    modifier: Modifier = Modifier,
+) {
+    InternItemWithShadow(
+        modifier = modifier.noRippleClickable {
+            navController.navigateIntern(
+                announcementId = intern.internshipAnnouncementId
+            )
+        },
+        imageUrl = intern.companyImage,
+        title = intern.title,
+        dateDeadline = intern.dDay,
+        workingPeriod = intern.workingPeriod,
+        isScrapped = intern.scrapId != null,
+        shadowWidth = 2.dp,
+        shadowRadius = 10.dp
+    )
 }
 
 @Preview(showBackground = true)

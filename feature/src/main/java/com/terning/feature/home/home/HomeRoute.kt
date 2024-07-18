@@ -3,7 +3,6 @@ package com.terning.feature.home.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,14 +35,12 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.item.InternItem
+import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
@@ -95,7 +91,6 @@ fun HomeRoute(
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
-                    else -> {}
                 }
             }
     }
@@ -213,16 +208,18 @@ fun HomeScreen(
                                 modifier = Modifier
                                     .padding(vertical = 4.dp)
                             )
-                            Spacer(modifier = Modifier.padding(9.dp))
+                            Spacer(
+                                modifier = Modifier.padding(9.dp)
+                            )
                         }
                     }
                 }
 
                 if (recommendInternList.isNotEmpty()) {
                     items(recommendInternList.size) { index ->
-                        ShowRecommendIntern(
-                            homeRecommendInternModel = recommendInternList[index],
-                            navController = navController
+                        RecommendInternItem(
+                            navController = navController,
+                            intern = recommendInternList[index]
                         )
                     }
                 }
@@ -239,6 +236,30 @@ fun HomeScreen(
             }
         }
     }
+}
+
+
+@Composable
+private fun RecommendInternItem(
+    navController: NavHostController,
+    intern: HomeRecommendInternModel,
+) {
+    InternItemWithShadow(
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
+            .noRippleClickable {
+                navController.navigateIntern(
+                    announcementId = intern.internshipAnnouncementId
+                )
+            },
+        imageUrl = intern.companyImage,
+        title = intern.title,
+        dateDeadline = intern.dDay,
+        workingPeriod = intern.workingPeriod,
+        isScrapped = intern.isScrapped,
+        shadowRadius = 5.dp,
+        shadowWidth = 1.dp
+    )
 }
 
 @Composable
@@ -313,36 +334,5 @@ private fun ShowInternFilter(userNameState: UserNameState, onChangeFilterClick: 
                 onChangeFilterClick = { onChangeFilterClick() },
             )
         }
-    }
-}
-
-@Composable
-private fun ShowRecommendIntern(
-    homeRecommendInternModel: HomeRecommendInternModel,
-    navController: NavHostController,
-) {
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 24.dp)
-            .customShadow(
-                color = Grey200,
-                shadowRadius = 5.dp,
-                shadowWidth = 1.dp
-            )
-            .background(
-                color = White,
-                shape = RoundedCornerShape(10.dp)
-            )
-            .noRippleClickable {
-                navController.navigateIntern(announcementId = homeRecommendInternModel.internshipAnnouncementId)
-            }
-    ) {
-        InternItem(
-            imageUrl = homeRecommendInternModel.companyImage,
-            title = homeRecommendInternModel.title,
-            dateDeadline = homeRecommendInternModel.dDay,
-            workingPeriod = homeRecommendInternModel.workingPeriod,
-            isScraped = homeRecommendInternModel.isScrapped,
-        )
     }
 }
