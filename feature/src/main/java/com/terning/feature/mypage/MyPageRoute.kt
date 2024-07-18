@@ -94,7 +94,7 @@ fun MyPageRoute(
 
     MyPageScreen(
         onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
-        onQuitClick = { viewModel.fetchShowLogoutBottomSheet(true) },
+        onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
         name = name,
         authType = authType,
         onNoticeClick = { viewModel.fetchShowNotice(true) },
