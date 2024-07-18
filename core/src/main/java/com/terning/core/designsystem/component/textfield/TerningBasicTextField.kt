@@ -22,8 +22,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -46,7 +44,7 @@ fun TerningBasicTextField(
     strokeWidth: Float = 1f,
     leftIcon: Int? = null,
     leftIconColor: Color = TerningMain,
-    imeAction: ImeAction? = ImeAction.Done,
+    imeAction: ImeAction = ImeAction.Done,
     maxTextLength: Int? = null,
     showTextLength: Boolean = false,
     hint: String = "",
@@ -55,30 +53,24 @@ fun TerningBasicTextField(
     enabled: Boolean = true,
     helperColor: Color,
     readOnly: Boolean = false,
-    onDoneAction: (() -> Unit)? = null,
+    onDoneAction: () -> Unit? = {},
+    onSearchAction: () -> Unit? = {},
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusManager = LocalFocusManager.current
     val isFocused: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     BasicTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = {
+            if (maxTextLength == null || it.length <= maxTextLength) {
+                onValueChange(it)
+            }
+        },
         singleLine = true,
         maxLines = 1,
-        keyboardOptions = KeyboardOptions(
-            imeAction = imeAction ?: ImeAction.Done
-        ),
+        keyboardOptions = KeyboardOptions(imeAction = imeAction),
         keyboardActions = KeyboardActions(
-            onDone = {
-                if (value.isNotBlank()) {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                    if (onDoneAction != null) {
-                        onDoneAction()
-                    }
-                }
-            }
+            onDone = { onDoneAction() },
+            onSearch = { onSearchAction() },
         ),
 
         modifier = modifier

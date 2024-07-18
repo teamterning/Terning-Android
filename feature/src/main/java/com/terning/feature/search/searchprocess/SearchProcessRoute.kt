@@ -146,7 +146,7 @@ fun SearchProcessScreen(
                         .padding(top = 8.dp)
                         .focusRequester(focusRequester)
                         .addFocusCleaner(focusManager),
-                    onDoneAction = {
+                    onSearchAction = {
                         viewModel.getSearchList(
                             keyword = state.text,
                             sortBy = SORT_BY,
