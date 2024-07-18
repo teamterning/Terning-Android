@@ -12,6 +12,7 @@ import com.terning.feature.intern.navigation.navigateIntern
 
 @Composable
 fun CalendarDialog(
+    isWeekScreen: Boolean,
     navController: NavController = rememberNavController(),
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
@@ -22,7 +23,7 @@ fun CalendarDialog(
         CalendarCancelDialog(
             onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
             onClickScrapCancel = {
-                viewModel.deleteScrap()
+                viewModel.deleteScrap(isWeekScreen)
             }
         )
     }
@@ -32,7 +33,7 @@ fun CalendarDialog(
             scrapDetailModel = uiState.internshipModel,
             onDismissRequest = {viewModel.updateInternDialogVisible(false)},
             onClickChangeColorButton = { newColor ->
-                viewModel.patchScrap(newColor)
+                viewModel.patchScrap(newColor, isWeekScreen)
             },
             onClickNavigateButton = {announcementId ->
                 viewModel.updateInternDialogVisible(false)

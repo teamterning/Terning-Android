@@ -99,6 +99,7 @@ fun CalendarWeekScreen(
         }
 
         CalendarDialog(
+            isWeekScreen = true,
             viewModel = viewModel,
             navController = navController
         )

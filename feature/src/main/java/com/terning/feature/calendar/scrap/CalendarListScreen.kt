@@ -136,6 +136,7 @@ fun CalendarListScreen(
         }
 
         CalendarDialog(
+            isWeekScreen = false,
             viewModel = viewModel,
             navController = navController
         )
