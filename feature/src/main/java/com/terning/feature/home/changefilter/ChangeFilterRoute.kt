@@ -7,6 +7,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
@@ -37,31 +40,22 @@ import com.terning.feature.home.home.navigation.navigateHome
 @Composable
 fun ChangeFilterRoute(
     navController: NavController,
-) {
-    ChangeFilterScreen(navController)
-}
-
-@Composable
-fun ChangeFilterScreen(
-    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
     val filteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
-    val filterData = when (filteringState) {
-        is UiState.Success -> (filteringState as UiState.Success<HomeFilteringInfoModel>).data
-        else -> HomeFilteringInfoModel(null, null, viewModel.currentYear, viewModel.currentMonth)
+
+    when (filteringState) {
+        is UiState.Success -> ChangeFilterScreen(
+            (filteringState as UiState.Success<HomeFilteringInfoModel>).data,
+            navController,
+            viewModel,
+        )
+
+        else -> {}
     }
-
-    var isGradeButtonValid = (filterData.grade != null)
-    var isWorkingPeriodButtonValid = (filterData.workingPeriod != null)
-
-    var currentGrade = -1
-    var currentWorkingPeriod = -1
-    var currentStartYear = -1
-    var currentStartMonth = -1
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -73,6 +67,27 @@ fun ChangeFilterScreen(
                 }
             }
     }
+}
+
+@Composable
+fun ChangeFilterScreen(
+    filterData: HomeFilteringInfoModel,
+    navController: NavController,
+    viewModel: HomeViewModel,
+) {
+    var currentGrade by remember { mutableIntStateOf(filterData.grade ?: -1) }
+    var currentWorkingPeriod by remember { mutableIntStateOf(filterData.workingPeriod ?: -1) }
+    var currentStartYear by remember {
+        mutableIntStateOf(
+            filterData.startYear ?: viewModel.currentYear
+        )
+    }
+    var currentStartMonth by remember {
+        mutableIntStateOf(
+            filterData.startMonth ?: viewModel.currentMonth
+        )
+    }
+
 
     Scaffold(
         topBar = {
@@ -100,10 +115,14 @@ fun ChangeFilterScreen(
                 )
             )
             ChangeFilteringRadioGroup(
-                filterType = 0,
-                filterData = filterData,
+                initOption = filterData.grade ?: -1,
+                optionList = listOf(
+                    R.string.filtering_status1_button1,
+                    R.string.filtering_status1_button2,
+                    R.string.filtering_status1_button3,
+                    R.string.filtering_status1_button4,
+                ),
                 onButtonClick = { index ->
-                    isGradeButtonValid = true
                     currentGrade = index
                 }
             )
@@ -118,10 +137,13 @@ fun ChangeFilterScreen(
                 )
             )
             ChangeFilteringRadioGroup(
-                filterType = 1,
-                filterData = filterData,
+                initOption = filterData.workingPeriod ?: -1,
+                optionList = listOf(
+                    R.string.filtering_status2_button1,
+                    R.string.filtering_status2_button2,
+                    R.string.filtering_status2_button3,
+                ),
                 onButtonClick = { index ->
-                    isWorkingPeriodButtonValid = true
                     currentWorkingPeriod = index
                 }
             )
@@ -159,7 +181,7 @@ fun ChangeFilterScreen(
                         )
                     )
                 },
-                isEnabled = isGradeButtonValid && isWorkingPeriodButtonValid
+                isEnabled = currentGrade in 0..3 && currentWorkingPeriod in 0..2
             )
         }
     }
