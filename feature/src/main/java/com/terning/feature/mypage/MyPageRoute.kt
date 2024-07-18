@@ -92,6 +92,11 @@ fun MyPageRoute(
         viewModel.fetchShowNotice(false)
     }
 
+    if (state.showOpinion) {
+        viewModel.navigateToOpinionWebView(context)
+        viewModel.fetchShowOpinion(false)
+    }
+
     MyPageScreen(
         onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
         onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },

@@ -127,8 +127,15 @@ class MyPageViewModel @Inject constructor(
         customTabsIntent.launchUrl(context, url)
     }
 
+    fun navigateToOpinionWebView(context: Context) {
+        val url = OPINION_URL.toUri()
+        val customTabsIntent = CustomTabsIntent.Builder().build()
+        customTabsIntent.launchUrl(context, url)
+    }
+
     companion object {
         private const val NOTICE_URL =
             "https://abundant-quiver-13f.notion.site/69109213e7db4873be6b9600f2f5163a"
+        private const val OPINION_URL = "https://forms.gle/AaLpVptfg6cATYWa7"
     }
 }
