@@ -93,6 +93,7 @@ dependencies {
     implementation(libs.process.phoenix)
     implementation(libs.accompanist.systemuicontroller)
     implementation (libs.androidx.core.splashscreen)
+    implementation (libs.androidx.browser)
 
     // Compose Preview
     debugImplementation(libs.compose.ui.tooling)
