@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -45,8 +46,8 @@ fun InternItem(
     workingPeriod: String,
     isScraped: Boolean,
     modifier: Modifier = Modifier,
-    scrapId: Int = 0,
-    onScrapButtonClicked: (Int) -> Unit = {},
+    scrapId: Long = 0,
+    onScrapButtonClicked: (Long) -> Unit = {},
 ) {
     Row(
         modifier = modifier
@@ -60,7 +61,8 @@ fun InternItem(
                 .data(imageUrl)
                 .build(),
             contentDescription = title,
-            Modifier
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(5.dp))
@@ -73,7 +75,7 @@ fun InternItem(
                 .padding(start = 8.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.intern_item_d_day, dateDeadline),
+                text = dateDeadline,
                 style = TerningTheme.typography.detail0,
                 color = TerningMain,
             )
@@ -95,10 +97,7 @@ fun InternItem(
                 )
 
                 Text(
-                    text = stringResource(
-                        id = R.string.intern_item_working_period_month,
-                        workingPeriod
-                    ),
+                    text = workingPeriod,
                     style = TerningTheme.typography.detail3,
                     color = TerningMain,
                     modifier = Modifier.padding(start = 4.dp)
