@@ -58,11 +58,6 @@ fun CalendarWeekScreen(
         ) {
             Card(
                 modifier = Modifier
-                    .border(
-                        width = 0.dp,
-                        color = Grey200,
-                        shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
-                    )
                     .shadow(
                         shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
                         elevation = 1.dp

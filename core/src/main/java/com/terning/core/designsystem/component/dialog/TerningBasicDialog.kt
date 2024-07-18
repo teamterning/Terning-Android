@@ -54,20 +54,18 @@ fun TerningBasicDialog(
                 ),
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(18.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(18.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                IconButton(
-                    onClick = { onDismissRequest() }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_dialog_x_32),
-                        contentDescription = null,
-                        tint = Grey300,
-                        modifier = Modifier
-                            .noRippleClickable { onDismissRequest() }
-                    )
-                }
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_dialog_x_32),
+                    contentDescription = null,
+                    tint = Grey300,
+                    modifier = Modifier
+                        .noRippleClickable { onDismissRequest() }
+                )
             }
             content()
         }

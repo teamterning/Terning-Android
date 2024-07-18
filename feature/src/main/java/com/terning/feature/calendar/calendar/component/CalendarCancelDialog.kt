@@ -107,10 +107,7 @@ private fun ScrapCancelDialogContent(
                     paddingVertical = 12.dp,
                     cornerRadius = 8.dp,
                     text = R.string.dialog_scrap_cancel_button,
-                    onButtonClick = /*{
-                        viewModel.updateScrapped(!state.isScrapped)
-                        viewModel.updateScrapDialogVisible(false)
-                    }*/onClickScrapCancel,
+                    onButtonClick = onClickScrapCancel,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
             }
