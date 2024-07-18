@@ -1,5 +1,11 @@
 package com.terning.feature.home.home.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideIn
+import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -17,7 +23,20 @@ fun NavController.navigateHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeNavGraph(navHostController: NavHostController) {
-    composable<Home> {
+    composable<Home>(
+        exitTransition = {
+            ExitTransition.None
+        },
+        popEnterTransition = {
+            EnterTransition.None
+        },
+        enterTransition = {
+            EnterTransition.None
+        },
+        popExitTransition = {
+            ExitTransition.None
+        }
+    ) {
         HomeRoute(navController = navHostController)
     }
 }

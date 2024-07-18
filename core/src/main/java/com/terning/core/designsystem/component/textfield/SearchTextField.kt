@@ -3,6 +3,9 @@ package com.terning.core.designsystem.component.textfield
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
@@ -17,8 +20,11 @@ fun SearchTextField(
     leftIcon: Int,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    onDoneAction: (() -> Unit)? = null,
+    onSearchAction: () -> Unit? = {},
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
     TerningBasicTextField(
         value = text,
         onValueChange = onValueChange,
@@ -32,9 +38,17 @@ fun SearchTextField(
         hintColor = Grey300,
         leftIcon = leftIcon,
         leftIconColor = TerningMain,
+        imeAction = ImeAction.Search,
         enabled = enabled,
         readOnly = readOnly,
-        onDoneAction = onDoneAction,
+        onSearchAction = {
+            if (text.isNotBlank()) {
+                keyboardController?.hide()
+                keyboardController?.hide()
+                focusManager.clearFocus()
+                onSearchAction()
+            }
+        },
         helperColor = TerningMain
     )
 }

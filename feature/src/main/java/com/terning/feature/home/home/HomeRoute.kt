@@ -3,7 +3,6 @@ package com.terning.feature.home.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,14 +35,13 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.item.InternItem
+import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.customShadow
+import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.HomeFilteringInfoModel
@@ -55,9 +52,10 @@ import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
-import com.terning.feature.home.home.component.HomeTodayEmptyIntern
+import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -101,7 +99,7 @@ fun HomeRoute(
             }
     }
 
-    LaunchedEffect(currentSortBy.value) {
+    LaunchedEffect(homeFilteringState, currentSortBy.value) {
         when (homeFilteringState) {
             is UiState.Success ->
                 with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
@@ -149,6 +147,7 @@ fun HomeRoute(
         homeTodayInternList = homeTodayInternList,
         recommendInternList = homeRecommendInternList,
         onChangeFilterClick = { navController.navigateChangeFilter() },
+        navController = navController
     )
 }
 
@@ -161,6 +160,8 @@ fun HomeScreen(
     homeTodayInternList: List<HomeTodayInternModel>,
     recommendInternList: List<HomeRecommendInternModel>,
     onChangeFilterClick: () -> Unit,
+    viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavHostController,
 ) {
     var sheetState by remember { mutableStateOf(false) }
 
@@ -227,14 +228,19 @@ fun HomeScreen(
                                 modifier = Modifier
                                     .padding(vertical = 4.dp)
                             )
-                            Spacer(modifier = Modifier.padding(9.dp))
+                            Spacer(
+                                modifier = Modifier.padding(9.dp)
+                            )
                         }
                     }
                 }
 
                 if (recommendInternList.isNotEmpty()) {
                     items(recommendInternList.size) { index ->
-                        ShowRecommendIntern(homeRecommendInternModel = recommendInternList[index])
+                        RecommendInternItem(
+                            navController = navController,
+                            intern = recommendInternList[index]
+                        )
                     }
                 }
             }
@@ -250,6 +256,30 @@ fun HomeScreen(
             }
         }
     }
+}
+
+
+@Composable
+private fun RecommendInternItem(
+    navController: NavHostController,
+    intern: HomeRecommendInternModel,
+) {
+    InternItemWithShadow(
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
+            .noRippleClickable {
+                navController.navigateIntern(
+                    announcementId = intern.internshipAnnouncementId
+                )
+            },
+        imageUrl = intern.companyImage,
+        title = intern.title,
+        dateDeadline = intern.dDay,
+        workingPeriod = intern.workingPeriod,
+        isScrapped = intern.isScrapped,
+        shadowRadius = 5.dp,
+        shadowWidth = 1.dp
+    )
 }
 
 @Composable
@@ -271,7 +301,7 @@ private fun ShowMainTitleWithName(userName: String) {
 @Composable
 private fun ShowTodayIntern(homeTodayInternList: List<HomeTodayInternModel>) {
     if (homeTodayInternList.isEmpty()) {
-        HomeTodayEmptyIntern(isButtonExist = false)
+        HomeTodayEmptyWithImg()
     } else {
         HomeTodayIntern(internList = homeTodayInternList)
     }
@@ -301,7 +331,7 @@ private fun ShowRecommendTitle() {
 @Composable
 private fun ShowInternFilter(
     homeFilteringInfo: HomeFilteringInfoModel,
-    onChangeFilterClick: () -> Unit
+    onChangeFilterClick: () -> Unit,
 ) {
     if (homeFilteringInfo.grade == null) {
         HomeFilteringScreen(
@@ -327,30 +357,5 @@ private fun ShowInternFilter(
                 onChangeFilterClick = { onChangeFilterClick() },
             )
         }
-    }
-}
-
-@Composable
-private fun ShowRecommendIntern(homeRecommendInternModel: HomeRecommendInternModel) {
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 24.dp)
-            .customShadow(
-                color = Grey200,
-                shadowRadius = 5.dp,
-                shadowWidth = 1.dp
-            )
-            .background(
-                color = White,
-                shape = RoundedCornerShape(10.dp)
-            )
-    ) {
-        InternItem(
-            imageUrl = homeRecommendInternModel.companyImage,
-            title = homeRecommendInternModel.title,
-            dateDeadline = homeRecommendInternModel.dDay,
-            workingPeriod = homeRecommendInternModel.workingPeriod,
-            isScraped = homeRecommendInternModel.isScrapped,
-        )
     }
 }

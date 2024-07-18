@@ -53,11 +53,6 @@ class HomeViewModel @Inject constructor(
         getProfile()
         getFilteringInfo()
         getHomeTodayInternList()
-        getRecommendInternsData(
-            sortBy = _homeSortByState.value,
-            startYear = 2024,
-            startMonth = 8,
-        )
     }
 
     fun getRecommendInternsData(sortBy: Int, startYear: Int, startMonth: Int) {

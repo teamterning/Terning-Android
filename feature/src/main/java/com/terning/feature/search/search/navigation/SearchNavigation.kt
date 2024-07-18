@@ -1,5 +1,7 @@
 package com.terning.feature.search.search.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -19,7 +21,20 @@ fun NavController.navigateSearch(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.searchNavGraph(
     navHostController: NavHostController,
 ) {
-    composable<Search> {
+    composable<Search>(
+        exitTransition = {
+            ExitTransition.None
+        },
+        popEnterTransition = {
+            EnterTransition.None
+        },
+        enterTransition = {
+            EnterTransition.None
+        },
+        popExitTransition = {
+            ExitTransition.None
+        }
+    ) {
         SearchRoute(
             navController = navHostController
         )

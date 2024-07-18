@@ -5,25 +5,30 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
+import com.terning.core.extension.noRippleClickable
 
 @Composable
 fun InternItemWithShadow(
+    modifier: Modifier,
+    shadowRadius: Dp,
+    shadowWidth: Dp,
     imageUrl: String,
     title: String,
     dateDeadline: String,
     workingPeriod: String,
-    scrapId: Long?,
+    isScrapped: Boolean,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .customShadow(
                 color = Grey200,
-                shadowRadius = 10.dp,
-                shadowWidth = 2.dp,
+                shadowRadius = shadowRadius,
+                shadowWidth = shadowWidth,
             )
             .background(
                 color = White,
@@ -35,7 +40,7 @@ fun InternItemWithShadow(
             title = title,
             dateDeadline = dateDeadline,
             workingPeriod = workingPeriod,
-            isScraped = scrapId != null
+            isScraped = isScrapped
         )
     }
 }

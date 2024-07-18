@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -93,7 +94,7 @@ fun DateItemsPicker(
     firstIndex: Int,
     onItemSelected: (String) -> Unit,
     modifier: Modifier = Modifier,
-    isYear: Boolean
+    isYear: Boolean,
 ) {
     val listState = rememberLazyListState(firstIndex)
     val currentValue = remember { mutableStateOf("") }
@@ -133,7 +134,6 @@ fun DateItemsPicker(
                 if (it == firstVisibleItemIndex + 1) {
                     currentValue.value = items[index]
                 }
-                Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text =
                     when (isYear) {
@@ -142,9 +142,9 @@ fun DateItemsPicker(
                     },
                     style = TerningTheme.typography.title3,
                     color = if (it == firstVisibleItemIndex + 1) Grey500 else Grey300,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = modifier.padding(vertical = 8.dp)
                 )
-                Spacer(modifier = Modifier.height(6.dp))
             }
         }
     }
