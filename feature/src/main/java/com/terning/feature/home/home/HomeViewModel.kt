@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
+import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
@@ -103,6 +104,16 @@ class HomeViewModel @Inject constructor(
             }.onFailure { exception: Throwable ->
                 _homeFilteringState.value = UiState.Failure(exception.message ?: "")
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+            }
+        }
+    }
+
+    fun putFilteringInfo(changeFilterRequest: ChangeFilteringRequestModel) {
+        viewModelScope.launch {
+            homeRepository.putFilteringInfo(
+                changeFilterRequest
+            ).onSuccess {
+                _homeSideEffect.emit(HomeSideEffect.NavigateToHome)
             }
         }
     }

@@ -2,6 +2,8 @@ package com.terning.data.datasourceimpl
 
 import com.terning.data.datasource.HomeDataSource
 import com.terning.data.dto.BaseResponse
+import com.terning.data.dto.NonDataBaseResponse
+import com.terning.data.dto.request.ChangeFilterRequestDto
 import com.terning.data.dto.response.HomeFilteringInfoResponseDto
 import com.terning.data.dto.response.HomeRecommendInternResponseDto
 import com.terning.data.dto.response.HomeTodayInternResponseDto
@@ -27,4 +29,7 @@ class HomeDataSourceImpl @Inject constructor(
 
     override suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto> =
         homeService.getFilteringInfo()
+
+    override suspend fun putFilteringInfo(request: ChangeFilterRequestDto): NonDataBaseResponse =
+        homeService.putFilteringInfo(request)
 }
