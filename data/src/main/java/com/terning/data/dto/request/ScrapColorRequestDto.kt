@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ScrapAddRequestDto(
+data class ScrapColorRequestDto(
     @SerialName("color")
-    val color: Int,
+    val color: Int? = null,
 )

@@ -62,22 +62,22 @@ class AuthInterceptor @Inject constructor(
 
                 terningDataStore.clearInfo()
 
-                Handler(Looper.getMainLooper()).post {
-                    context.stringToast(TOKEN_EXPIRED_ERROR)
-                    Handler(Looper.getMainLooper()).post {
-                        ProcessPhoenix.triggerRebirth(
-                            context,
-                            Intent(context, MainActivity::class.java)
-                        )
-                    }
-                }
+//                Handler(Looper.getMainLooper()).post {
+//                    context.stringToast(TOKEN_EXPIRED_ERROR)
+//                    Handler(Looper.getMainLooper()).post {
+//                        ProcessPhoenix.triggerRebirth(
+//                            context,
+//                            Intent(context, MainActivity::class.java)
+//                        )
+//                    }
+//                }
             }
         }
         return response
     }
 
     private fun Request.Builder.newAuthBuilder() =
-        this.addHeader(AUTHORIZATION, "$BEARER ${terningDataStore.refreshToken}")
+        this.addHeader(AUTHORIZATION, "$BEARER eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOjM2MjY0MDY3NDcsImlhdCI6MTcyMTI1NTMzNCwiZXhwIjoxNzIzODQ3MzM0fQ.kXKYa37_pGord_6f78mIPMAV6Zdl-mfTcuV6gKkcRlxbBVXBSpFzXhT8NS6LskKI")
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401

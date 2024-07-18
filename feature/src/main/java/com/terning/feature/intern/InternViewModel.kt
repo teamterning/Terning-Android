@@ -31,7 +31,6 @@ class InternViewModel @Inject constructor(
 
     private val _scrapState: MutableStateFlow<InternScrapState> =
         MutableStateFlow(InternScrapState())
-    val scrapState: StateFlow<InternScrapState> = _scrapState.asStateFlow()
 
     private val _sideEffect: MutableSharedFlow<InternViewSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
@@ -63,6 +62,26 @@ class InternViewModel @Inject constructor(
                 _scrapState.update {
                     it.copy(isScrap = UiState.Success(true))
                 }
+                getInternInfo(id)
+            }.onFailure {
+                _sideEffect.emit(
+                    InternViewSideEffect.Toast(R.string.server_failure)
+                )
+            }
+        }
+    }
+
+    fun deleteScrap(
+        id: Long,
+    ) {
+        viewModelScope.launch {
+            scrapRepository.deleteScrap(
+                ScrapRequestModel(id, null)
+            ).onSuccess {
+                _scrapState.update {
+                    it.copy(isScrap = UiState.Success(false))
+                }
+                getInternInfo(id)
             }.onFailure {
                 _sideEffect.emit(
                     InternViewSideEffect.Toast(R.string.server_failure)

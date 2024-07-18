@@ -79,7 +79,8 @@ fun InternRoute(
         is UiState.Success -> {
             InternScreen(
                 navController = navController,
-                internInfoModel = (state.internInfo as UiState.Success<InternInfoModel>).data
+                internInfoModel = (state.internInfo as UiState.Success<InternInfoModel>).data,
+                announcementId = announcementId
             )
         }
     }
@@ -91,8 +92,9 @@ fun InternScreen(
     navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
     internInfoModel: InternInfoModel,
+    announcementId: Long,
 ) {
-    val state by viewModel.internState.collectAsStateWithLifecycle()
+    val internState by viewModel.internState.collectAsStateWithLifecycle()
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
@@ -104,7 +106,7 @@ fun InternScreen(
     val qualificationList = internInfoModel.qualification.split(",").map { it.trim() }
     val jobTypeList = internInfoModel.jobType.split(",").map { it.trim() }
 
-    if (state.showWeb) {
+    if (internState.showWeb) {
         AndroidView(
             factory = {
                 WebView(it).apply {
@@ -117,7 +119,6 @@ fun InternScreen(
             },
         )
     }
-
 
     Scaffold(
         modifier = modifier,
@@ -139,7 +140,7 @@ fun InternScreen(
                 scrapCount = decimal.format(internInfoModel.scrapCount),
                 scrapId = internInfoModel.scrapId,
                 onScrapClick = {
-                    viewModel.postScrap(1, 1)
+                    viewModel.updateScrapDialogVisible(true)
                 }
             )
         }
@@ -188,7 +189,6 @@ fun InternScreen(
                             bottom = 16.dp
                         )
                     )
-
 
                     Column(
                         modifier = modifier
@@ -318,7 +318,6 @@ fun InternScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                // TODO 스크랩 테스트 !
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_second_info_20),
                                     contentDescription = null,
@@ -363,7 +362,7 @@ fun InternScreen(
                 }
             }
         }
-        if (state.isScrapDialogVisible) {
+        if (internState.isScrapDialogVisible) {
             TerningBasicDialog(
                 onDismissRequest = {
                     viewModel.updateScrapDialogVisible(false)
