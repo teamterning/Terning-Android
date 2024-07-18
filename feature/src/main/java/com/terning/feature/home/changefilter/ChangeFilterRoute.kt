@@ -32,13 +32,7 @@ import com.terning.feature.home.changefilter.component.FilteringSubTitleText
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.HomeSideEffect
 import com.terning.feature.home.home.HomeViewModel
-import com.terning.feature.home.home.model.InternFilterData
-import com.terning.feature.home.home.model.UserNameState
 import com.terning.feature.home.home.navigation.navigateHome
-import java.util.Calendar
-
-val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
 @Composable
 fun ChangeFilterRoute(
@@ -112,16 +106,6 @@ fun ChangeFilterScreen(
                     isGradeButtonValid = true
                     currentGrade = index
                 }
-            )
-
-            UserNameState(
-                userName = "남지우자랑스러운티엘이되",
-                internFilter = InternFilterData(
-                    grade = 4,
-                    workingPeriod = 1,
-                    startYear = 2024,
-                    startMonth = 7,
-                )
             )
 
             ShowTitle(

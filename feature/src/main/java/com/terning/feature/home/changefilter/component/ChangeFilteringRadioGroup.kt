@@ -43,9 +43,9 @@ fun ChangeFilteringRadioGroup(
     var selectedButton = remember { mutableStateListOf(false, false, false, false) }
 
     if (filterType == 0 && filterData.grade != null) {
-        selectedButton[filterData.grade ?: 0] = true
+        selectedButton[filterData.grade as Int] = true
     } else if (filterType == 1 && filterData.workingPeriod != null) {
-        selectedButton[filterData.workingPeriod ?: 0] = true
+        selectedButton[filterData.workingPeriod as Int] = true
     }
 
     LazyVerticalGrid(

@@ -1,6 +1,5 @@
 package com.terning.feature.home.home
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
@@ -10,9 +9,7 @@ import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.feature.R
-import com.terning.feature.home.home.model.InternFilterData
 import com.terning.feature.home.home.model.SortBy
-import com.terning.feature.home.home.model.UserNameState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,20 +53,6 @@ class HomeViewModel @Inject constructor(
             startMonth = 8,
         )
     }
-
-    private val _userName = mutableStateOf(
-        UserNameState(
-            userName = "남지우자랑스러운티엘이되",
-            internFilter =
-            InternFilterData(
-                grade = 1,
-                workingPeriod = 1,
-                startYear = 2024,
-                startMonth = 8,
-            )
-        )
-    )
-    val userName get() = _userName
 
     fun getRecommendInternsData(sortBy: Int, startYear: Int, startMonth: Int) {
         _homeRecommendInternState.value = UiState.Loading
