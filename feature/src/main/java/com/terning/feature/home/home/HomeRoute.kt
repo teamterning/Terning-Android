@@ -35,17 +35,16 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.item.InternItem
+import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
-import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.customShadow
+import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.feature.R
@@ -55,7 +54,8 @@ import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
-import com.terning.feature.home.home.model.UserNameState
+import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -331,7 +331,7 @@ private fun ShowRecommendTitle() {
 @Composable
 private fun ShowInternFilter(
     homeFilteringInfo: HomeFilteringInfoModel,
-    onChangeFilterClick: () -> Unit
+    onChangeFilterClick: () -> Unit,
 ) {
     if (homeFilteringInfo.grade == null) {
         HomeFilteringScreen(
