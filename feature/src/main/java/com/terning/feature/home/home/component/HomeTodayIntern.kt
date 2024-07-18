@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
+import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.feature.intern.navigation.navigateIntern
 
@@ -35,7 +36,7 @@ fun HomeTodayIntern(
             HomeTodayInternItem(
                 title = internList[index].title,
                 scrapColor = Color(android.graphics.Color.parseColor(internList[index].color)),
-                modifier = Modifier.clickable {
+                modifier = Modifier.noRippleClickable {
                     dialogState.value = true
                 }
             )

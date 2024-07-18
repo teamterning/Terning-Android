@@ -10,8 +10,8 @@ import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
-import com.terning.domain.repository.ScrapRepository
 import com.terning.domain.repository.MyPageRepository
+import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.home.home.model.HomeScrapViewState
 import com.terning.feature.home.home.model.SortBy
