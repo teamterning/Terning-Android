@@ -40,10 +40,10 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.response.InternInfoModel
 import com.terning.feature.R
 import com.terning.feature.intern.component.InternBottomBar
+import com.terning.feature.intern.component.InternCancelDialog
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
-import com.terning.feature.intern.component.ScrapCancelDialogContent
 import com.terning.feature.intern.component.ScrapDialogContent
 import java.text.DecimalFormat
 
@@ -55,7 +55,7 @@ fun InternRoute(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val state by viewModel.internState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)
@@ -79,7 +79,8 @@ fun InternRoute(
         is UiState.Success -> {
             InternScreen(
                 navController = navController,
-                internInfoModel = (state.internInfo as UiState.Success<InternInfoModel>).data
+                internInfoModel = (state.internInfo as UiState.Success<InternInfoModel>).data,
+                announcementId = announcementId
             )
         }
     }
@@ -91,8 +92,9 @@ fun InternScreen(
     navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
     internInfoModel: InternInfoModel,
+    announcementId: Long,
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val internState by viewModel.internState.collectAsStateWithLifecycle()
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
@@ -104,7 +106,7 @@ fun InternScreen(
     val qualificationList = internInfoModel.qualification.split(",").map { it.trim() }
     val jobTypeList = internInfoModel.jobType.split(",").map { it.trim() }
 
-    if (state.showWeb) {
+    if (internState.showWeb) {
         AndroidView(
             factory = {
                 WebView(it).apply {
@@ -117,7 +119,6 @@ fun InternScreen(
             },
         )
     }
-
 
     Scaffold(
         modifier = modifier,
@@ -188,7 +189,6 @@ fun InternScreen(
                             bottom = 16.dp
                         )
                     )
-
 
                     Column(
                         modifier = modifier
@@ -362,16 +362,27 @@ fun InternScreen(
                 }
             }
         }
-        if (state.isScrapDialogVisible) {
+        if (internState.isScrapDialogVisible) {
             TerningBasicDialog(
                 onDismissRequest = {
                     viewModel.updateScrapDialogVisible(false)
                 },
                 content = {
                     when (internInfoModel.scrapId != null) {
-                        true -> ScrapCancelDialogContent()
+                        true -> InternCancelDialog(
+                            onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
+                            onClickScrapCancel = {
+                                viewModel.deleteScrap(
+                                    internInfoModel.scrapId,
+                                    announcementId
+                                )
+                            }
+                        )
+
                         else -> ScrapDialogContent(
-                            internInfoList = internInfoList
+                            internInfoList = internInfoList,
+                            internInfoModel = internInfoModel,
+                            announcementId = announcementId,
                         )
                     }
                 },

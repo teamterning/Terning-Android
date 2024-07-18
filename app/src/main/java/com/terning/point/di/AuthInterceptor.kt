@@ -20,7 +20,7 @@ import javax.inject.Inject
 class AuthInterceptor @Inject constructor(
     private val tokenReissueRepository: TokenReissueRepository,
     private val terningDataStore: TerningDataStore,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

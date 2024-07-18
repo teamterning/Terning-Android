@@ -1,13 +1,12 @@
-package com.terning.feature.calendar.calendar.component
+package com.terning.feature.intern.component
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.terning.core.designsystem.component.dialog.ScrapCancelDialogContent
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
-import com.terning.core.designsystem.theme.TerningPointTheme
+
 
 @Composable
-fun CalendarCancelDialog(
+fun InternCancelDialog(
     onDismissRequest: () -> Unit,
     onClickScrapCancel: () -> Unit,
 ) {
@@ -17,18 +16,5 @@ fun CalendarCancelDialog(
         ScrapCancelDialogContent(
             onClickScrapCancel = onClickScrapCancel
         )
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun TerningBasicDialogPreview() {
-    TerningPointTheme {
-        TerningBasicDialog(
-            onDismissRequest = {},
-        ) {
-            ScrapCancelDialogContent()
-        }
     }
 }

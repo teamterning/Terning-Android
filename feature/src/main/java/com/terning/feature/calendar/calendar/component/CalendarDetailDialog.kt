@@ -48,8 +48,8 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.CalendarScrapDetailModel
-import com.terning.feature.intern.InternViewState
 import com.terning.feature.intern.component.InternInfoRow
+import com.terning.feature.intern.model.InternViewState
 
 @Composable
 fun CalendarDetailDialog(
@@ -70,7 +70,7 @@ fun CalendarDetailDialog(
             scrapDetailModel = CalendarScrapDetailModel(
                 scrapId = 1,
                 internshipAnnouncementId = 1,
-                title = "sadsa",
+                title = "안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕",
                 dDay = "D-8",
                 workingPeriod = "9개월",
                 color = "0xf3d1e3",
@@ -83,7 +83,6 @@ fun CalendarDetailDialog(
             state = InternViewState(),
             onClickColor = onClickColor,
             onClickNavigate = onClickNavigate
-
         )
     }
 }
@@ -277,7 +276,5 @@ fun InternDialogContentPreview() {
             onClickNavigate = {},
             onClickColor = {}
         )
-
     }
-
 }
