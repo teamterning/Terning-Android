@@ -2,7 +2,11 @@ package com.terning.feature.onboarding.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -11,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -69,24 +74,32 @@ fun SignInScreen(
     modifier: Modifier = Modifier,
     onSignInClick: () -> Unit = {},
 ) {
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp
+
     Column(
         modifier = modifier
-            .wrapContentHeight()
-            .fillMaxWidth(),
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.img_terning_point),
+            painter = painterResource(id = R.drawable.ic_terning_login),
             contentDescription = null,
             modifier = Modifier
-                .size(500.dp),
+                .aspectRatio(320f / 384f)
+                .padding(top = ( 780f / screenHeight * 118).dp),
         )
+        Spacer(
+            modifier = Modifier
+                .height((780f / screenHeight * 100).dp)
+        )
+
         KakaoButton(
             title = stringResource(id = R.string.sign_in_kakao_button),
             onSignInClick = {
                 onSignInClick()
-            },
-            modifier = modifier.padding(horizontal = 20.dp)
+            }
         )
     }
 }
