@@ -1,5 +1,7 @@
 package com.terning.feature.intern.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -23,7 +25,20 @@ fun NavController.navigateIntern(
 fun NavGraphBuilder.internNavGraph(
     navHostController: NavHostController,
 ) {
-    composable<Intern> {
+    composable<Intern>(
+        exitTransition = {
+            ExitTransition.None
+        },
+        popEnterTransition = {
+            EnterTransition.None
+        },
+        enterTransition = {
+            EnterTransition.None
+        },
+        popExitTransition = {
+            ExitTransition.None
+        }
+    ) {
         val args = it.toRoute<Intern>()
         InternRoute(
             navController = navHostController,

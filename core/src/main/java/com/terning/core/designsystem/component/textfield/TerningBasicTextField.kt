@@ -46,6 +46,7 @@ fun TerningBasicTextField(
     strokeWidth: Float = 1f,
     leftIcon: Int? = null,
     leftIconColor: Color = TerningMain,
+    imeAction: ImeAction? = ImeAction.Done,
     maxTextLength: Int? = null,
     showTextLength: Boolean = false,
     hint: String = "",
@@ -65,7 +66,9 @@ fun TerningBasicTextField(
         onValueChange = onValueChange,
         singleLine = true,
         maxLines = 1,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(
+            imeAction = imeAction ?: ImeAction.Done
+        ),
         keyboardActions = KeyboardActions(
             onDone = {
                 if (value.isNotBlank()) {
