@@ -1,6 +1,5 @@
 package com.terning.feature.intern.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +30,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.item.ColorPalette
@@ -87,22 +90,19 @@ fun ScrapDialogContent(
                 .padding(horizontal = 11.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(
-                    id = R.drawable.ic_character1
-                ),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(internInfoModel.companyImage)
+                    .build(),
+                contentDescription = stringResource(R.string.image_content_descriptin),
                 modifier = Modifier
                     .size(80.dp)
-                    .background(
-                        Grey200,
-                        shape = RoundedCornerShape(size = 15.dp)
-                    )
                     .border(
                         width = 1.dp,
                         color = TerningMain,
                         shape = RoundedCornerShape(size = 15.dp)
-                    ),
-                contentDescription = null,
+                    )
+                    .clip(RoundedCornerShape(size = 15.dp)),
                 contentScale = ContentScale.Fit,
                 alignment = Alignment.Center
             )
@@ -144,7 +144,6 @@ fun ScrapDialogContent(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 ) {
-
                     Text(
                         text = stringResource(id = R.string.dialog_content_color_button),
                         style = TerningTheme.typography.body5,
