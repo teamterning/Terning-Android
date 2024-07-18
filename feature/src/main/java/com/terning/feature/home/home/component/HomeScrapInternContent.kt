@@ -60,10 +60,10 @@ import com.terning.feature.intern.component.InternInfoRow
 @Composable
 fun HomeScrapInternContent(
     internInfoList: List<Pair<String, String>>,
-    navigateTo: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
     homeRecommendInternModel: HomeRecommendInternModel,
     announcementId: Long,
+    onclick: () -> Unit,
 ) {
     val state by viewModel.homeScrapViewState.collectAsStateWithLifecycle()
 
@@ -249,7 +249,7 @@ fun HomeScrapInternContent(
                             }
                             viewModel.updateScrapDialogVisible(false)
                         }
-                        navigateTo()
+                        onclick()
                     },
                     modifier = Modifier.padding(bottom = 8.dp)
                 )

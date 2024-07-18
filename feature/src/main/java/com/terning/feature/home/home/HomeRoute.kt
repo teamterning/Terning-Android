@@ -229,26 +229,27 @@ fun HomeScreen(
                                 TerningBasicDialog(
                                     onDismissRequest = { dialogState.value = false },
                                     content = {
-                                        if (isScrapped) {
+                                        if (scrapId != null) {
                                             InternCancelDialog(
                                                 onDismissRequest = { dialogState.value = false },
                                                 onClickScrapCancel = {
                                                     homeViewModel.deleteScrap(
                                                         scrapId = scrapId,
-                                                        announcementId = recommendInternList[index].internshipAnnouncementId
+                                                        announcementId = internshipAnnouncementId
                                                     )
+                                                    dialogState.value = false
                                                 }
                                             )
                                         } else {
                                             HomeScrapInternContent(
                                                 internInfoList = listOf(
-                                                    stringResource(id = R.string.intern_info_d_day) to dDay,
+                                                    stringResource(id = R.string.intern_info_d_day) to deadline,
                                                     stringResource(id = R.string.intern_info_working) to workingPeriod,
-                                                    stringResource(id = R.string.intern_info_start_date) to "Adfs",
+                                                    stringResource(id = R.string.intern_info_start_date) to startYearMonth,
                                                 ),
                                                 homeRecommendInternModel = recommendInternList[index],
                                                 announcementId = recommendInternList[index].internshipAnnouncementId,
-                                                navigateTo = { navController.navigateHome() },
+                                                onclick = { dialogState.value = false }
                                             )
                                         }
                                     }

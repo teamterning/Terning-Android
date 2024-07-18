@@ -20,6 +20,10 @@ data class HomeRecommendInternResponseDto(
     val companyImage: String,
     @SerialName("isScrapped")
     val isScrapped: Boolean,
+    @SerialName("startYearMonth")
+    val startYearMonth: String,
+    @SerialName("deadline")
+    val deadline: String,
 ) {
     fun toRecommendInternEntity(): HomeRecommendInternModel =
         HomeRecommendInternModel(
@@ -30,5 +34,7 @@ data class HomeRecommendInternResponseDto(
             workingPeriod = this.workingPeriod,
             companyImage = this.companyImage,
             isScrapped = this.isScrapped,
+            startYearMonth = this.startYearMonth,
+            deadline = this.deadline,
         )
 }

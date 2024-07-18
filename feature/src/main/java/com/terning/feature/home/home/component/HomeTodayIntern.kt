@@ -47,9 +47,9 @@ fun HomeTodayIntern(
                         content = {
                             HomeTodayInternContent(
                                 internInfoList = listOf(
-                                    stringResource(id = com.terning.feature.R.string.intern_info_d_day) to dDay,
+                                    stringResource(id = com.terning.feature.R.string.intern_info_d_day) to deadline,
                                     stringResource(id = com.terning.feature.R.string.intern_info_working) to workingPeriod,
-                                    stringResource(id = com.terning.feature.R.string.intern_info_start_date) to "Adfs",
+                                    stringResource(id = com.terning.feature.R.string.intern_info_start_date) to startYearMonth,
                                 ),
                                 homeTodayInternModel = internList[index],
                                 announcementId = internList[index].internshipAnnouncementId,

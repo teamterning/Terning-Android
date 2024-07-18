@@ -237,15 +237,11 @@ fun HomeTodayInternContent(
                     onButtonClick = {
                         if (state.isPaletteOpen) {
                             viewModel.updatePaletteOpen(false)
-                            viewModel.postScrap(announcementId, selectedColorIndex)
                             viewModel.updateColorChange(false)
                             viewModel.updateScrapDialogVisible(false)
                         } else {
                             if (state.isColorChange) {
-                                viewModel.postScrap(announcementId, selectedColorIndex)
                                 viewModel.updateColorChange(false)
-                            } else {
-                                viewModel.postScrap(announcementId, 0)
                             }
                             viewModel.updateScrapDialogVisible(false)
                         }

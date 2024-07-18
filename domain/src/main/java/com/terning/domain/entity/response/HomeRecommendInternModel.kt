@@ -8,4 +8,6 @@ data class HomeRecommendInternModel(
     val workingPeriod: String,
     val companyImage: String,
     val isScrapped: Boolean,
+    val startYearMonth: String,
+    val deadline: String,
 )
