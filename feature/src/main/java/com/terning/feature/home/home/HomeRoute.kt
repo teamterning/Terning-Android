@@ -55,6 +55,7 @@ import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
+import com.terning.feature.home.home.navigation.navigateHome
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -81,6 +82,7 @@ fun HomeRoute(
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
+                    is HomeSideEffect.NavigateToHome -> navController.navigateHome()
                 }
             }
     }

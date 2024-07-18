@@ -5,26 +5,32 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.component.ChangeFilteringRadioGroup
 import com.terning.feature.home.changefilter.component.FilteringMainTitleText
 import com.terning.feature.home.changefilter.component.FilteringSubTitleText
+import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
+import com.terning.feature.home.home.HomeSideEffect
 import com.terning.feature.home.home.HomeViewModel
 import com.terning.feature.home.home.model.InternFilterData
 import com.terning.feature.home.home.model.UserNameState
@@ -46,18 +52,32 @@ fun ChangeFilterScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+
     val filteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
     val filterData = when (filteringState) {
         is UiState.Success -> (filteringState as UiState.Success<HomeFilteringInfoModel>).data
         else -> HomeFilteringInfoModel(null, null, viewModel.currentYear, viewModel.currentMonth)
     }
 
-    val isGradeButtonValid = remember {
-        mutableStateOf(filterData.grade != null)
-    }
+    var isGradeButtonValid = (filterData.grade != null)
+    var isWorkingPeriodButtonValid = (filterData.workingPeriod != null)
 
-    val isWorkingPeriodButtonValid = remember {
-        mutableStateOf(filterData.workingPeriod != null)
+    var currentGrade = -1
+    var currentWorkingPeriod = -1
+    var currentStartYear = -1
+    var currentStartMonth = -1
+
+    LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
+        viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
+                    is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
+                    is HomeSideEffect.NavigateToHome -> navController.navigateHome()
+                }
+            }
     }
 
     Scaffold(
@@ -88,8 +108,9 @@ fun ChangeFilterScreen(
             ChangeFilteringRadioGroup(
                 filterType = 0,
                 filterData = filterData,
-                onButtonClick = {
-                    isGradeButtonValid.value = true
+                onButtonClick = { index ->
+                    isGradeButtonValid = true
+                    currentGrade = index
                 }
             )
 
@@ -115,8 +136,9 @@ fun ChangeFilterScreen(
             ChangeFilteringRadioGroup(
                 filterType = 1,
                 filterData = filterData,
-                onButtonClick = {
-                    isWorkingPeriodButtonValid.value = true
+                onButtonClick = { index ->
+                    isWorkingPeriodButtonValid = true
+                    currentWorkingPeriod = index
                 }
             )
 
@@ -132,8 +154,10 @@ fun ChangeFilterScreen(
 
             Spacer(modifier = Modifier.weight(1f))
             DatePickerUI(
-                chosenYear = currentYear,
-                chosenMonth = currentMonth,
+                chosenYear = filterData.startYear ?: currentStartYear,
+                chosenMonth = filterData.startMonth ?: currentStartMonth,
+                onYearChosen = { currentStartYear = it },
+                onMonthChosen = { currentStartMonth = it }
             )
             Spacer(modifier = Modifier.weight(1f))
 
@@ -142,9 +166,16 @@ fun ChangeFilterScreen(
                 paddingVertical = 19.dp,
                 text = R.string.change_filter_save,
                 onButtonClick = {
-                    navController.navigateHome()
+                    viewModel.putFilteringInfo(
+                        ChangeFilteringRequestModel(
+                            grade = currentGrade,
+                            workingPeriod = currentWorkingPeriod,
+                            startYear = currentStartYear,
+                            startMonth = currentStartMonth,
+                        )
+                    )
                 },
-                isEnabled = isGradeButtonValid.value && isWorkingPeriodButtonValid.value
+                isEnabled = isGradeButtonValid && isWorkingPeriodButtonValid
             )
         }
     }
