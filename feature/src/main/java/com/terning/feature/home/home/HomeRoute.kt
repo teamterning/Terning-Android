@@ -302,7 +302,7 @@ fun HomeScreen(
 @Composable
 private fun RecommendInternItem(
     navController: NavHostController,
-    dialogState : Boolean,
+    dialogState : MutableState<Boolean>,
     intern: HomeRecommendInternModel,
 ) {
     InternItemWithShadow(
@@ -321,10 +321,10 @@ private fun RecommendInternItem(
         shadowRadius = 5.dp,
         shadowWidth = 1.dp,
     )
-
-    onScrapButtonClicked = {
-        dialogState.value = true
-    }
+//
+//    onScrapButtonClicked = {
+//        dialogState.value = true
+//    }
 }
 
 @Composable
@@ -410,34 +410,34 @@ private fun ShowInternFilter(
         }
     }
 }
-
-@Composable
-private fun ShowRecommendIntern(
-    dialogState: MutableState<Boolean>,
-    homeRecommendInternModel: HomeRecommendInternModel,
-) {
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 24.dp)
-            .customShadow(
-                color = Grey200,
-                shadowRadius = 5.dp,
-                shadowWidth = 1.dp
-            )
-            .background(
-                color = White,
-                shape = RoundedCornerShape(10.dp)
-            )
-    ) {
-        InternItem(
-            imageUrl = homeRecommendInternModel.companyImage,
-            title = homeRecommendInternModel.title,
-            dateDeadline = homeRecommendInternModel.dDay,
-            workingPeriod = homeRecommendInternModel.workingPeriod,
-            isScraped = homeRecommendInternModel.isScrapped,
-            onScrapButtonClicked = {
-                dialogState.value = true
-            }
-        )
-    }
-}
+//
+//@Composable
+//private fun ShowRecommendIntern(
+//    dialogState: MutableState<Boolean>,
+//    homeRecommendInternModel: HomeRecommendInternModel,
+//) {
+//    Box(
+//        modifier = Modifier
+//            .padding(horizontal = 24.dp)
+//            .customShadow(
+//                color = Grey200,
+//                shadowRadius = 5.dp,
+//                shadowWidth = 1.dp
+//            )
+//            .background(
+//                color = White,
+//                shape = RoundedCornerShape(10.dp)
+//            )
+//    ) {
+//        InternItem(
+//            imageUrl = homeRecommendInternModel.companyImage,
+//            title = homeRecommendInternModel.title,
+//            dateDeadline = homeRecommendInternModel.dDay,
+//            workingPeriod = homeRecommendInternModel.workingPeriod,
+//            isScraped = homeRecommendInternModel.isScrapped,
+//            onScrapButtonClicked = {
+//                dialogState.value = true
+//            }
+//        )
+//    }
+//}
