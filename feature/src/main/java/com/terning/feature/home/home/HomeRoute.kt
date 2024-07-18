@@ -42,7 +42,6 @@ import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
@@ -99,6 +98,21 @@ fun HomeRoute(
                     is HomeSideEffect.NavigateToHome -> navController.navigateHome()
                 }
             }
+    }
+
+    LaunchedEffect(currentSortBy.value) {
+        when (homeFilteringState) {
+            is UiState.Success ->
+                with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
+                    viewModel.getRecommendInternsData(
+                        currentSortBy.value,
+                        startYear ?: viewModel.currentYear,
+                        startMonth ?: viewModel.currentMonth
+                    )
+                }
+
+            else -> {}
+        }
     }
 
     val homeTodayInternList = when (homeTodayState) {
