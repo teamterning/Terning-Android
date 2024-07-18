@@ -3,7 +3,6 @@ package com.terning.core.designsystem.component.textfield
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.text.input.ImeAction
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
@@ -33,11 +32,6 @@ fun SearchTextField(
         hintColor = Grey300,
         leftIcon = leftIcon,
         leftIconColor = TerningMain,
-        imeAction = if (text.isNotBlank()) {
-            ImeAction.Search
-        } else {
-            ImeAction.Done
-        },
         enabled = enabled,
         readOnly = readOnly,
         onDoneAction = onDoneAction,
