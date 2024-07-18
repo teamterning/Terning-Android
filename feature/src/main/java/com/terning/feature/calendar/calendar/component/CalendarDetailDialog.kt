@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -24,14 +27,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
@@ -40,6 +47,7 @@ import com.terning.core.designsystem.theme.CalBlue2
 import com.terning.core.designsystem.theme.CalGreen2
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
@@ -50,9 +58,11 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.model.InternViewState
+import java.time.LocalDate
 
 @Composable
 fun CalendarDetailDialog(
+    scrapDetailModel: CalendarScrapDetailModel?,
     onDismissRequest: () -> Unit,
     onClickChangeColorButton: (Color) -> Unit,
     onClickNavigateButton: (Long) -> Unit,
@@ -67,20 +77,7 @@ fun CalendarDetailDialog(
         )
     ) {
         InternDialogContent(
-            scrapDetailModel = CalendarScrapDetailModel(
-                scrapId = 1,
-                internshipAnnouncementId = 1,
-                title = "안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕",
-                dDay = "D-8",
-                workingPeriod = "9개월",
-                color = "0xf3d1e3",
-                companyImage = "",
-                startYear = 2024,
-                startMonth = 8,
-                deadLine = "2024-07-13",
-                isScrapped = true
-            ),
-            state = InternViewState(),
+            scrapDetailModel = scrapDetailModel,
             onClickChangeColorButton = onClickChangeColorButton,
             onClickNavigateButton = onClickNavigateButton
         )
@@ -90,13 +87,12 @@ fun CalendarDetailDialog(
 
 @Composable
 private fun InternDialogContent(
-    scrapDetailModel: CalendarScrapDetailModel,
-    state: InternViewState,
+    scrapDetailModel: CalendarScrapDetailModel?,
     onClickChangeColorButton: (Color) -> Unit,
     onClickNavigateButton: (Long) -> Unit
 ) {
     var isPaletteOpen by remember { mutableStateOf(false) }
-    var selectedColor by remember {mutableStateOf(Color.Red)}
+    var selectedColor by remember {mutableStateOf(Color(android.graphics.Color.parseColor(scrapDetailModel?.color)))}
 
     Box(
         modifier = Modifier
@@ -110,28 +106,25 @@ private fun InternDialogContent(
                 .padding(horizontal = 11.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(
-                    id = R.drawable.ic_character1
-                ),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(scrapDetailModel?.companyImage)
+                    .build(),
+                contentDescription = scrapDetailModel?.title,
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .size(80.dp)
-                    .background(
-                        Grey200,
-                        shape = RoundedCornerShape(size = 15.dp)
-                    )
+                    .width(80.dp)
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(5.dp))
+                    .background(color = Grey300)
                     .border(
                         width = 1.dp,
                         color = TerningMain,
-                        shape = RoundedCornerShape(size = 15.dp)
-                    ),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                alignment = Alignment.Center
+                        shape = RoundedCornerShape(size = 5.dp)
+                    )
             )
-
             Text(
-                text = scrapDetailModel.title,
+                text = scrapDetailModel?.title.orEmpty(),
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title4,
                 color = Grey500,
@@ -156,7 +149,7 @@ private fun InternDialogContent(
                 Row(
                     modifier = Modifier
                         .background(
-                            color = if (selectedColor != CalRed) CalBlue2 else CalGreen2,
+                            color = selectedColor,
                             shape = RoundedCornerShape(14.dp)
                         )
                         .noRippleClickable {
@@ -214,7 +207,7 @@ private fun InternDialogContent(
                     }
                 } else {
                     Text(
-                        text = scrapDetailModel.dDay,
+                        text = scrapDetailModel?.dDay.orEmpty(),
                         style = TerningTheme.typography.body5,
                         color = TerningMain,
                         modifier = Modifier.padding(bottom = 9.dp)
@@ -229,15 +222,16 @@ private fun InternDialogContent(
                     ) {
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_d_day),
-                            value = scrapDetailModel.title
+                            value = scrapDetailModel?.title.orEmpty()
                         )
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_working),
-                            value = scrapDetailModel.workingPeriod
+                            value = scrapDetailModel?.workingPeriod.orEmpty()
                         )
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_start_date),
-                            value = "${scrapDetailModel.startYear}년 ${scrapDetailModel.startMonth}월"
+                            value = "${scrapDetailModel?.startYear?:LocalDate.now().year}년 " +
+                                    "${scrapDetailModel?.startMonth?:LocalDate.now().monthValue}월"
                         )
                     }
                 }
@@ -257,7 +251,7 @@ private fun InternDialogContent(
                             onClickChangeColorButton(selectedColor)
                             isPaletteOpen = false
                         } else {
-                            onClickNavigateButton(scrapDetailModel.internshipAnnouncementId)
+                            onClickNavigateButton(scrapDetailModel?.internshipAnnouncementId?:0)
                         }
                     },
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -274,7 +268,20 @@ fun InternDialogContentPreview() {
         CalendarDetailDialog(
             onDismissRequest = {},
             onClickChangeColorButton = {},
-            onClickNavigateButton = {}
+            onClickNavigateButton = {},
+            scrapDetailModel = CalendarScrapDetailModel(
+                scrapId = 123,
+                internshipAnnouncementId = 123,
+                title = "테스트",
+                dDay = "asdas",
+                workingPeriod = "asdas",
+                startYear = 2023,
+                startMonth = 1,
+                isScrapped = true,
+                color = "0xFF4c3552",
+                companyImage = "",
+                deadLine = "sads"
+            )
         )
     }
 }

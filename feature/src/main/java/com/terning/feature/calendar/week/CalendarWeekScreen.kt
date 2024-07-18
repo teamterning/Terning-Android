@@ -113,6 +113,7 @@ fun CalendarWeekScreen(
         }
         if (uiState.isInternshipClicked) {
             CalendarDetailDialog(
+                scrapDetailModel = uiState.internshipModel,
                 onDismissRequest = {viewModel.updateInternDialogVisible(false)},
                 onClickChangeColorButton = { newColor ->
                     Timber.tag("CalendarScreen")
@@ -122,7 +123,6 @@ fun CalendarWeekScreen(
                     viewModel.updateInternDialogVisible(false)
                     navController.navigateIntern(announcementId = announcementId)
                 },
-
             )
         }
     }
