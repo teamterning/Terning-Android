@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +20,8 @@ import com.terning.feature.R
 fun MyPageItem(
     modifier: Modifier = Modifier,
     text: String,
-    version: String = ""
+    version: String = "",
+    icon: Int
 ) {
     Row(
         modifier = modifier
@@ -32,8 +34,10 @@ fun MyPageItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TerningImage(
-                painter = R.drawable.ic_my_page,
-                modifier = modifier.padding(start = 16.dp)
+                painter = icon,
+                modifier = modifier
+                    .padding(start = 11.dp)
+                    .size(28.dp)
             )
             Text(
                 text = text,
@@ -49,7 +53,7 @@ fun MyPageItem(
             )
         else TerningImage(
             painter = R.drawable.ic_my_page_go,
-            modifier = modifier.padding(end = 16.dp)
+            modifier = modifier.padding(end = 11.dp)
         )
     }
 }
@@ -58,6 +62,9 @@ fun MyPageItem(
 @Composable
 fun MyPageItemPreview() {
     TerningPointTheme {
-        MyPageItem(text = "공지사항")
+        MyPageItem(
+            text = "공지사항",
+            icon = R.drawable.ic_my_page_notice
+        )
     }
 }

@@ -194,15 +194,18 @@ fun MyPageInfo(
         ) {
             MyPageItem(
                 text = stringResource(id = R.string.my_page_notice),
-                modifier = Modifier.padding(bottom = 6.dp)
+                modifier = Modifier.padding(bottom = 6.dp),
+                icon = R.drawable.ic_my_page_notice
             )
             MyPageItem(
                 text = stringResource(id = R.string.my_page_send),
-                modifier = Modifier.padding(bottom = 6.dp)
+                modifier = Modifier.padding(bottom = 6.dp),
+                icon = R.drawable.ic_my_page_opinion
             )
             MyPageItem(
                 text = stringResource(id = R.string.my_page_version),
                 version = VERSION,
+                icon = R.drawable.ic_my_page_version
             )
         }
     }
