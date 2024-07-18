@@ -90,6 +90,9 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.ossLicense)
     implementation(libs.lottie)
+    implementation(libs.process.phoenix)
+    implementation(libs.accompanist.systemuicontroller)
+    implementation (libs.androidx.core.splashscreen)
 
     // Compose Preview
     debugImplementation(libs.compose.ui.tooling)

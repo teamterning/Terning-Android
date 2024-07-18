@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -18,12 +18,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
 import com.terning.feature.R
+import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.component.KakaoButton
 import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 
@@ -32,16 +35,26 @@ fun SignInRoute(
     viewModel: SignInViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
+
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = White
+        )
+        systemUiController.setNavigationBarColor(
+            color = White
+        )
+    }
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val signInState by viewModel.signInState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(viewModel.signInSideEffects, lifecycleOwner) {
         viewModel.signInSideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SignInSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is SignInSideEffect.NavigateToHome -> navController.navigateSignUp()
+                    is SignInSideEffect.NavigateToHome -> navController.navigateHome()
+                    is SignInSideEffect.NavigateSignUp -> navController.navigateSignUp(sideEffect.authId)
                 }
             }
     }
