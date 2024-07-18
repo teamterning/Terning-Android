@@ -1,5 +1,6 @@
 package com.terning.feature.onboarding.signin
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -71,6 +72,7 @@ fun SignInScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(color = White)
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
