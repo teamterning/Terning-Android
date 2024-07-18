@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 
 @Composable
@@ -21,12 +22,16 @@ fun MyPageItem(
     modifier: Modifier = Modifier,
     text: String,
     version: String = "",
-    icon: Int
+    icon: Int,
+    onButtonClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 5.dp),
+            .padding(vertical = 5.dp)
+            .noRippleClickable {
+                onButtonClick()
+            },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

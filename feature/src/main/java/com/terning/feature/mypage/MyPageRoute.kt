@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
@@ -38,29 +39,27 @@ import com.terning.feature.mypage.component.MyPageItem
 
 @Composable
 fun MyPageRoute(
+    navController: NavHostController,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    var showLogoutBottomSheet by remember { mutableStateOf(false) }
-    var showQuitBottomSheet by remember { mutableStateOf(false) }
-
     var name by remember { mutableStateOf(state.name) }
     var authType by remember { mutableStateOf(state.authType) }
 
-    if (showLogoutBottomSheet) {
+    if (state.showLogoutBottomSheet) {
         MyPageLogoutBottomSheet(
-            onDismiss = { showLogoutBottomSheet = false },
+            onDismiss = { viewModel.fetchShowLogoutBottomSheet(false) },
             onLogoutClick = {
                 viewModel.logoutKakao()
             },
         )
     }
 
-    if (showQuitBottomSheet) {
+    if (state.showQuitBottomSheet) {
         MyPageQuitBottomSheet(
-            onDismiss = { showQuitBottomSheet = false },
+            onDismiss = { viewModel.fetchShowQuitBottomSheet(false) },
             onQuitClick = {
                 viewModel.quitKakao()
             }
@@ -88,12 +87,19 @@ fun MyPageRoute(
         is UiState.Failure -> {}
     }
 
-    MyPageScreen(
-        onLogoutClick = { showLogoutBottomSheet = true },
-        onQuitClick = { showQuitBottomSheet = true },
-        name = name,
-        authType = authType
-    )
+    if (state.showNotice) {
+        WebViewScreen(navController)
+    } else {
+        MyPageScreen(
+            onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
+            onQuitClick = { viewModel.fetchShowLogoutBottomSheet(true) },
+            name = name,
+            authType = authType,
+            onNoticeClick = { viewModel.fetchShowNotice(true) },
+            onOpinionClick = { viewModel.fetchShowOpinion(true) }
+        )
+    }
+
 }
 
 @Composable
@@ -101,7 +107,9 @@ fun MyPageScreen(
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
     name: String = "",
-    authType: String = ""
+    authType: String = "",
+    onNoticeClick: () -> Unit,
+    onOpinionClick: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier,
@@ -132,7 +140,9 @@ fun MyPageScreen(
                     .background(
                         color = Back,
                         shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp)
-                    )
+                    ),
+                onNoticeClick = { onNoticeClick() },
+                onOpinionClick = { onOpinionClick() }
             )
             Row(
                 modifier = Modifier
@@ -167,7 +177,9 @@ fun MyPageScreen(
 
 @Composable
 fun MyPageInfo(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNoticeClick: () -> Unit,
+    onOpinionClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -195,12 +207,14 @@ fun MyPageInfo(
             MyPageItem(
                 text = stringResource(id = R.string.my_page_notice),
                 modifier = Modifier.padding(bottom = 6.dp),
-                icon = R.drawable.ic_my_page_notice
+                icon = R.drawable.ic_my_page_notice,
+                onButtonClick = { onNoticeClick() }
             )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_send),
+                text = stringResource(id = R.string.my_page_opinion),
                 modifier = Modifier.padding(bottom = 6.dp),
-                icon = R.drawable.ic_my_page_opinion
+                icon = R.drawable.ic_my_page_opinion,
+                onButtonClick = { onOpinionClick() }
             )
             MyPageItem(
                 text = stringResource(id = R.string.my_page_version),

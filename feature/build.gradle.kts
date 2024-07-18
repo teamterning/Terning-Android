@@ -93,6 +93,7 @@ dependencies {
     implementation(libs.process.phoenix)
     implementation(libs.accompanist.systemuicontroller)
     implementation (libs.androidx.core.splashscreen)
+    implementation ("com.google.accompanist:accompanist-webview:0.24.13-rc")
 
     // Compose Preview
     debugImplementation(libs.compose.ui.tooling)

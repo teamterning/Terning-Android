@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -101,6 +102,22 @@ class MyPageViewModel @Inject constructor(
                 _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
             }
         }
+    }
+
+    fun fetchShowNotice(show: Boolean) {
+        _state.value = _state.value.copy(showNotice = show)
+    }
+
+    fun fetchShowOpinion(show: Boolean) {
+        _state.value = _state.value.copy(showOpinion = show)
+    }
+
+    fun fetchShowLogoutBottomSheet(show: Boolean) {
+        _state.value = _state.value.copy(showLogoutBottomSheet = show)
+    }
+
+    fun fetchShowQuitBottomSheet(show: Boolean) {
+        _state.value = _state.value.copy(showQuitBottomSheet = show)
     }
 
 }
