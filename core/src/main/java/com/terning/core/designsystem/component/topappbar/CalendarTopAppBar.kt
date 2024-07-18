@@ -54,7 +54,7 @@ fun CalendarTopAppBar(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_calendar_previous),
                     contentDescription = stringResource(id = R.string.calendar_button_description_previous),
-                    tint = Grey300,
+                    tint = TerningMain,
                     modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(-1) }
                 )
             }
@@ -68,7 +68,7 @@ fun CalendarTopAppBar(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_calendar_next),
                     contentDescription = stringResource(id = R.string.calendar_button_description_next),
-                    tint = Grey300,
+                    tint = TerningMain,
                     modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(1) }
                 )
             }

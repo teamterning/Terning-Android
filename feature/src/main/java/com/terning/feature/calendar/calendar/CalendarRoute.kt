@@ -108,7 +108,7 @@ private fun CalendarScreen(
             CalendarTopAppBar(
                 date = currentDate,
                 isListExpanded = calendarUiState.isListEnabled,
-                isWeekExpanded = calendarUiState.isListEnabled,
+                isWeekExpanded = calendarUiState.isWeekEnabled,
                 onListButtonClicked = {
                     viewModel.changeListVisibility()
                     if (calendarUiState.isWeekEnabled) {
