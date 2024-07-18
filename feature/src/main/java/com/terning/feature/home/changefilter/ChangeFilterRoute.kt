@@ -165,7 +165,7 @@ fun ChangeFilterScreen(
             Spacer(modifier = Modifier.weight(1f))
             DatePickerUI(
                 chosenYear = filterData.startYear ?: currentStartYear,
-                chosenMonth = filterData.startMonth ?: currentStartMonth,
+                chosenMonth = filterData.startMonth?.minus(1) ?: currentStartMonth,
                 onYearChosen = { currentStartYear = it },
                 onMonthChosen = { currentStartMonth = it }
             )

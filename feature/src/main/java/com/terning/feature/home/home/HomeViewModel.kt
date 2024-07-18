@@ -8,6 +8,7 @@ import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
+import com.terning.domain.repository.MyPageRepository
 import com.terning.feature.R
 import com.terning.feature.home.home.model.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
+    private val myPageRepository: MyPageRepository,
 ) : ViewModel() {
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
     val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
@@ -44,7 +46,11 @@ class HomeViewModel @Inject constructor(
     private val _homeSortByState = MutableStateFlow(0)
     val homeSortByState get() = _homeSortByState.asStateFlow()
 
+    private val _homeUserState = MutableStateFlow<UiState<String>>(UiState.Loading)
+    val homeUserState get() = _homeUserState.asStateFlow()
+
     init {
+        getProfile()
         getFilteringInfo()
         getHomeTodayInternList()
         getRecommendInternsData(
@@ -97,6 +103,17 @@ class HomeViewModel @Inject constructor(
                 changeFilterRequest
             ).onSuccess {
                 _homeSideEffect.emit(HomeSideEffect.NavigateToHome)
+            }
+        }
+    }
+
+    private fun getProfile() {
+        viewModelScope.launch {
+            myPageRepository.getProfile().onSuccess { response ->
+                _homeUserState.value = UiState.Success(response.name)
+            }.onFailure { exception: Throwable ->
+                _homeUserState.value = UiState.Failure(exception.message ?: "")
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }
