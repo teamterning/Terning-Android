@@ -86,7 +86,10 @@ class SignUpViewModel @Inject constructor(
                     )
                 }
             ).onSuccess { response ->
-                tokenRepository.setTokens(response.accessToken, response.refreshToken)
+                tokenRepository.setTokens(
+                    accessToken = response.accessToken,
+                    refreshToken = response.refreshToken
+                )
                 tokenRepository.setUserId(response.userId)
 
                 _sideEffects.emit(SignUpSideEffect.NavigateToStartFiltering)

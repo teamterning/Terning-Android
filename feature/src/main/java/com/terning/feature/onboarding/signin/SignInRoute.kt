@@ -1,18 +1,17 @@
 package com.terning.feature.onboarding.signin
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,7 +20,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
@@ -71,23 +70,23 @@ fun SignInScreen(
 ) {
     Column(
         modifier = modifier
-            .wrapContentHeight()
-            .fillMaxWidth(),
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.img_terning_point),
-            contentDescription = null,
-            modifier = Modifier
-                .size(500.dp),
+        Spacer(modifier = modifier.weight(1f))
+        TerningImage(
+            painter = R.drawable.ic_terning_login,
+            modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = modifier.weight(1f))
         KakaoButton(
             title = stringResource(id = R.string.sign_in_kakao_button),
             onSignInClick = {
                 onSignInClick()
-            },
-            modifier = modifier.padding(horizontal = 20.dp)
+            }
         )
+        Spacer(modifier = modifier.weight(1f))
     }
 }
 

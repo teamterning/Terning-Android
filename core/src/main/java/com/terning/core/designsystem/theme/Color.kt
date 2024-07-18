@@ -44,3 +44,4 @@ val CalPink = Color(0xFFF260AC)
 // Other
 val WarningRed = Color(0xFFF54645)
 val SundayRed = Color(0xFFEB1211)
+val KakaoYellow = Color(0xFFFEE500)
