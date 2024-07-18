@@ -167,16 +167,6 @@ fun SearchProcessScreen(
                         verticalArrangement = Arrangement.Center
                     ) {
                         if (internSearchResultData.isNotEmpty()) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.End,
-                            ) {
-                                SortingButton(
-                                    sortBy = currentSortBy.value,
-                                    onCLick = { sheetState = true },
-                                )
-                            }
                             LazyColumn(
                                 contentPadding = PaddingValues(
                                     top = 12.dp,
