@@ -36,6 +36,7 @@ import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
+import com.terning.feature.calendar.calendar.component.CalendarDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
@@ -48,7 +49,6 @@ import java.time.LocalDate
 fun CalendarListScreen(
     pages: Int,
     listState: LazyListState,
-    uiState: CalendarUiState,
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
     viewModel: CalendarViewModel = hiltViewModel()
@@ -134,27 +134,11 @@ fun CalendarListScreen(
                 }
             }
         }
-        if (uiState.isScrapButtonClicked) {
-            CalendarCancelDialog(
-                onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
-                onClickScrapCancel = {
-                    viewModel.deleteScrap()
-                }
-            )
-        }
-        if (uiState.isInternshipClicked) {
-            CalendarDetailDialog(
-                scrapDetailModel = uiState.internshipModel,
-                onDismissRequest = {viewModel.updateInternDialogVisible(false)},
-                onClickChangeColorButton = { newColor ->
-                    viewModel.patchScrap(newColor)
-                },
-                onClickNavigateButton = {announcementId ->
-                    viewModel.updateInternDialogVisible(false)
-                    navController.navigateIntern(announcementId = announcementId)
-                }
-            )
-        }
+
+        CalendarDialog(
+            viewModel = viewModel,
+            navController = navController
+        )
     }
 }
 

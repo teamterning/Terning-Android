@@ -163,7 +163,7 @@ private fun CalendarScreen(
                         },
                         contentTwo = {
                             CalendarWeekScreen(
-                                uiState = calendarUiState,
+                                calendarUiState = calendarUiState,
                                 viewModel = viewModel,
                                 navController = navController,
                                 modifier = Modifier

@@ -32,24 +32,21 @@ import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
-import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
+import com.terning.feature.calendar.calendar.component.CalendarDialog
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
-import com.terning.feature.intern.navigation.navigateIntern
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
 fun CalendarWeekScreen(
     modifier: Modifier = Modifier,
-    uiState: CalendarUiState,
+    calendarUiState: CalendarUiState,
     navController: NavController = rememberNavController(),
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val calendarWeekState by viewModel.calendarWeekState.collectAsStateWithLifecycle(lifecycleOwner)
 
-    LaunchedEffect(uiState.selectedDate) {
+    LaunchedEffect(calendarUiState.selectedDate) {
         viewModel.getScrapWeekList()
     }
 
@@ -71,7 +68,7 @@ fun CalendarWeekScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(White),
-                    selectedDate = uiState,
+                    calendarUiState = calendarUiState,
                     onDateSelected = {
                         viewModel.updateSelectedDate(it)
                     }
@@ -89,7 +86,7 @@ fun CalendarWeekScreen(
                     val scrapList = (calendarWeekState.loadState as UiState.Success).data
                     CalendarWeekSuccess(
                         scrapList = scrapList,
-                        selectedDate = uiState.selectedDate,
+                        selectedDate = calendarUiState.selectedDate,
                         onScrapButtonClicked = { scrapId ->
                             viewModel.updateScrapCancelDialogVisible(scrapId)
                         },
@@ -101,27 +98,10 @@ fun CalendarWeekScreen(
             }
         }
 
-        if (uiState.isScrapButtonClicked) {
-            CalendarCancelDialog(
-                onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
-                onClickScrapCancel = {
-                    viewModel.deleteScrap(true)
-                }
-            )
-        }
-        if (uiState.isInternshipClicked) {
-            CalendarDetailDialog(
-                scrapDetailModel = uiState.internshipModel,
-                onDismissRequest = {viewModel.updateInternDialogVisible(false)},
-                onClickChangeColorButton = { newColor ->
-                    viewModel.patchScrap(newColor, true)
-                },
-                onClickNavigateButton = { announcementId ->
-                    viewModel.updateInternDialogVisible(false)
-                    navController.navigateIntern(announcementId = announcementId)
-                },
-            )
-        }
+        CalendarDialog(
+            viewModel = viewModel,
+            navController = navController
+        )
     }
 }
 
