@@ -1,14 +1,19 @@
 package com.terning.feature.calendar.calendar
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
+import com.terning.domain.entity.request.ScrapRequestModel
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.domain.repository.CalendarRepository
+import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.month.CalendarMonthState
 import com.terning.feature.calendar.scrap.CalendarListState
 import com.terning.feature.calendar.week.CalendarWeekState
+import com.terning.feature.intern.InternViewSideEffect
+import com.terning.feature.intern.model.InternScrapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -24,7 +29,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val calendarRepository: CalendarRepository
+    private val calendarRepository: CalendarRepository,
+    private val scrapRepository: ScrapRepository
 ) : ViewModel() {
 
     private var _uiState: MutableStateFlow<CalendarUiState> = MutableStateFlow(
@@ -44,6 +50,10 @@ class CalendarViewModel @Inject constructor(
 
     private val _calendarWeekState = MutableStateFlow(CalendarWeekState())
     val calendarWeekState = _calendarWeekState.asStateFlow()
+
+    private val _scrapState: MutableStateFlow<InternScrapState> =
+        MutableStateFlow(InternScrapState())
+    val scrapState = _scrapState.asStateFlow()
 
     private val _calendarSideEffect: MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
     val calendarSideEffect = _calendarSideEffect.asSharedFlow()
@@ -167,5 +177,33 @@ class CalendarViewModel @Inject constructor(
                 _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
             }
         )
+    }
+
+    fun deleteScrap(isFromWeekScreen: Boolean = true) = viewModelScope.launch {
+        _calendarWeekState.value.loadState
+            .takeIf { it is UiState.Success }
+            ?.let { ScrapRequestModel(_uiState.value.scrapId, null) }?.let { scrapRequestModel ->
+                Log.d("calendarViewModel", uiState.value.scrapId.toString())
+                scrapRepository.deleteScrap(
+                    scrapRequestModel
+                ).onSuccess {
+                    runCatching {
+                        if (isFromWeekScreen) {
+                            getScrapWeekList()
+                        } else {
+                            getScrapMonth(
+                                _uiState.value.selectedDate.year,
+                                _uiState.value.selectedDate.monthValue
+                            )
+                        }
+                    }.onSuccess {
+                        updateScrapCancelDialogVisible()
+                    }
+                }.onFailure {
+                    _calendarSideEffect.emit(
+                        CalendarSideEffect.ShowToast(R.string.server_failure)
+                    )
+                }
+            }
     }
 }

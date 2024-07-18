@@ -54,8 +54,8 @@ import com.terning.feature.intern.model.InternViewState
 @Composable
 fun CalendarDetailDialog(
     onDismissRequest: () -> Unit,
-    onClickColor: (Color) -> Unit,
-    onClickNavigate: () -> Unit,
+    onClickChangeColorButton: (Color) -> Unit,
+    onClickNavigateButton: (Long) -> Unit,
 ) {
     TerningBasicDialog(
         onDismissRequest = onDismissRequest,
@@ -81,8 +81,8 @@ fun CalendarDetailDialog(
                 isScrapped = true
             ),
             state = InternViewState(),
-            onClickColor = onClickColor,
-            onClickNavigate = onClickNavigate
+            onClickChangeColorButton = onClickChangeColorButton,
+            onClickNavigateButton = onClickNavigateButton
         )
     }
 }
@@ -92,8 +92,8 @@ fun CalendarDetailDialog(
 private fun InternDialogContent(
     scrapDetailModel: CalendarScrapDetailModel,
     state: InternViewState,
-    onClickColor: (Color) -> Unit,
-    onClickNavigate: () -> Unit
+    onClickChangeColorButton: (Color) -> Unit,
+    onClickNavigateButton: (Long) -> Unit
 ) {
     var isPaletteOpen by remember { mutableStateOf(false) }
     var selectedColor by remember {mutableStateOf(Color.Red)}
@@ -254,10 +254,10 @@ private fun InternDialogContent(
                     else R.string.dialog_scrap_move_to_intern,
                     onButtonClick = {
                         if (isPaletteOpen) {
-                            onClickColor(selectedColor)
+                            onClickChangeColorButton(selectedColor)
                             isPaletteOpen = false
                         } else {
-                            onClickNavigate()
+                            onClickNavigateButton(scrapDetailModel.internshipAnnouncementId)
                         }
                     },
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -273,8 +273,8 @@ fun InternDialogContentPreview() {
     TerningPointTheme {
         CalendarDetailDialog(
             onDismissRequest = {},
-            onClickNavigate = {},
-            onClickColor = {}
+            onClickChangeColorButton = {},
+            onClickNavigateButton = {}
         )
     }
 }

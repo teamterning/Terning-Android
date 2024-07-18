@@ -102,7 +102,7 @@ fun CalendarWeekScreen(
             CalendarCancelDialog(
                 onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
                 onClickScrapCancel = {
-                    viewModel.updateScrapCancelDialogVisible()
+                    viewModel.deleteScrap()
                 }
             )
         }

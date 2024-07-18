@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
@@ -135,18 +136,18 @@ fun CalendarListScreen(
             CalendarCancelDialog(
                 onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
                 onClickScrapCancel = {
-                    viewModel.updateScrapCancelDialogVisible()
+                    viewModel.deleteScrap()
                 }
             )
         }
         if (uiState.isInternshipClicked) {
             CalendarDetailDialog(
                 onDismissRequest = {viewModel.updateInternDialogVisible(null)},
-                onClickColor = { newColor ->
+                onClickChangeColorButton = { newColor ->
                     Timber.tag("CalendarScreen")
                         .d("<CalendarListScreen>: $newColor")
                 },
-                onClickNavigate = {
+                onClickNavigateButton = {
                     viewModel.updateInternDialogVisible(null)
                 }
             )
