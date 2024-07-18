@@ -99,7 +99,7 @@ fun HomeRoute(
             }
     }
 
-    LaunchedEffect(currentSortBy.value) {
+    LaunchedEffect(homeFilteringState, currentSortBy.value) {
         when (homeFilteringState) {
             is UiState.Success ->
                 with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
