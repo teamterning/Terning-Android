@@ -64,6 +64,9 @@ class InternViewModel @Inject constructor(
                 }
                 getInternInfo(id)
                 updateScrapDialogVisible(false)
+                _sideEffect.emit(
+                    InternViewSideEffect.Toast(R.string.intern_scrap_add_toast_message)
+                )
             }.onFailure {
                 _sideEffect.emit(
                     InternViewSideEffect.Toast(R.string.server_failure)
@@ -86,6 +89,7 @@ class InternViewModel @Inject constructor(
                     }
                     getInternInfo(announcementId)
                     updateScrapDialogVisible(false)
+                    _sideEffect.emit(InternViewSideEffect.Toast(R.string.intern_scrap_delete_toast_message))
                 }.onFailure {
                     _sideEffect.emit(
                         InternViewSideEffect.Toast(R.string.server_failure)

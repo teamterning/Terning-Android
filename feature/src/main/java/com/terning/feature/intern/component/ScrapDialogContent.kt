@@ -242,6 +242,7 @@ fun ScrapDialogContent(
                                 viewModel.updateColorChange(false)
                             } else {
                                 viewModel.postScrap(announcementId, 0)
+
                             }
                             viewModel.updateScrapDialogVisible(false)
                         }

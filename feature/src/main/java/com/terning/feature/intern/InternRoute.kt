@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.InternInfoModel
 import com.terning.feature.R
@@ -53,6 +55,7 @@ fun InternRoute(
     announcementId: Long = 0,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val state by viewModel.internState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
@@ -65,9 +68,7 @@ fun InternRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is InternViewSideEffect.Toast -> {
-                        sideEffect.message
-                    }
+                    is InternViewSideEffect.Toast -> context.toast(sideEffect.message)
                 }
             }
     }
