@@ -3,6 +3,7 @@ package com.terning.feature.onboarding.signup.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -38,6 +39,7 @@ fun SignUpProfile(
             contentDescription = stringResource(id = R.string.sign_up_profile_image),
             modifier = modifier
                 .clip(shape = RoundedCornerShape(76.dp))
+                .size(80.dp)
                 .aspectRatio(1f),
             contentScale = ContentScale.Crop
         )
