@@ -209,7 +209,7 @@ fun InternDialogContent(
                 style = TerningTheme.typography.button3,
                 paddingVertical = 12.dp,
                 cornerRadius = 8.dp,
-                text = if (state.isScrapped) {
+                text = if (state.isScrappedState) {
                     if (state.isColorChange)
                         R.string.dialog_content_calendar_color_change
                     else R.string.dialog_scrap_button
@@ -217,7 +217,7 @@ fun InternDialogContent(
                     R.string.dialog_scrap_button
                 },
                 onButtonClick = {
-                    viewModel.updateScrapped(!state.isScrapped)
+                    viewModel.updateScrapped(!state.isScrappedState)
                     viewModel.updateScrapDialogVisible(false)
                 },
                 modifier = Modifier.padding(bottom = 8.dp)

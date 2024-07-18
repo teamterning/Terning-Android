@@ -35,10 +35,10 @@ import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.component.InternDialogContent
+import com.terning.feature.calendar.calendar.component.ScrapCancelDialogContent
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
-import com.terning.feature.intern.component.ScrapCancelDialogContent
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 

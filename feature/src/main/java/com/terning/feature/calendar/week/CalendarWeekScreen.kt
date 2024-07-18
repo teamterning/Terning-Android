@@ -34,9 +34,8 @@ import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.component.InternDialogContent
+import com.terning.feature.calendar.calendar.component.ScrapCancelDialogContent
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
-import com.terning.feature.intern.component.ScrapCancelDialogContent
-import com.terning.feature.intern.component.ScrapDialogContent
 import java.time.LocalDate
 
 @Composable
