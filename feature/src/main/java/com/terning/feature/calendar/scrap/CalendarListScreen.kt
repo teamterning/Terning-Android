@@ -148,8 +148,6 @@ fun CalendarListScreen(
                 onDismissRequest = {viewModel.updateInternDialogVisible(false)},
                 onClickChangeColorButton = { newColor ->
                     viewModel.patchScrap(newColor)
-                    Timber.tag("CalendarScreen")
-                        .d("<CalendarListScreen>: $newColor")
                 },
                 onClickNavigateButton = {announcementId ->
                     viewModel.updateInternDialogVisible(false)

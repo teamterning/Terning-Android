@@ -105,7 +105,7 @@ fun CalendarWeekScreen(
             CalendarCancelDialog(
                 onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
                 onClickScrapCancel = {
-                    viewModel.deleteScrap()
+                    viewModel.deleteScrap(true)
                 }
             )
         }
@@ -115,8 +115,6 @@ fun CalendarWeekScreen(
                 onDismissRequest = {viewModel.updateInternDialogVisible(false)},
                 onClickChangeColorButton = { newColor ->
                     viewModel.patchScrap(newColor, true)
-                    Timber.tag("CalendarScreen")
-                        .d("<CalendarWeekScreen>: $newColor")
                 },
                 onClickNavigateButton = { announcementId ->
                     viewModel.updateInternDialogVisible(false)

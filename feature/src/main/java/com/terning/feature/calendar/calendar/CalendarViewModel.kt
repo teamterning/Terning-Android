@@ -60,10 +60,6 @@ class CalendarViewModel @Inject constructor(
     private val _calendarWeekState = MutableStateFlow(CalendarWeekState())
     val calendarWeekState = _calendarWeekState.asStateFlow()
 
-    private val _scrapState: MutableStateFlow<InternScrapState> =
-        MutableStateFlow(InternScrapState())
-    val scrapState = _scrapState.asStateFlow()
-
     private val _calendarSideEffect: MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
     val calendarSideEffect = _calendarSideEffect.asSharedFlow()
 
@@ -179,7 +175,6 @@ class CalendarViewModel @Inject constructor(
                 _calendarWeekState.update { currentState ->
                     currentState.copy(
                         loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
-                        //loadState = UiState.Success(it)
                     )
                 }
             },
@@ -195,11 +190,10 @@ class CalendarViewModel @Inject constructor(
         )
     }
 
-    fun deleteScrap(isFromWeekScreen: Boolean = true) = viewModelScope.launch {
+    fun deleteScrap(isFromWeekScreen: Boolean = false) = viewModelScope.launch {
         _calendarWeekState.value.loadState
             .takeIf { it is UiState.Success }
             ?.let { ScrapRequestModel(_uiState.value.scrapId, null) }?.let { scrapRequestModel ->
-                Log.d("calendarViewModel", uiState.value.scrapId.toString())
                 scrapRepository.deleteScrap(
                     scrapRequestModel
                 ).onSuccess {
@@ -207,7 +201,7 @@ class CalendarViewModel @Inject constructor(
                         if (isFromWeekScreen) {
                             getScrapWeekList()
                         } else {
-                            getScrapMonth(
+                            getScrapMonthList(
                                 _uiState.value.selectedDate.year,
                                 _uiState.value.selectedDate.monthValue
                             )
@@ -224,24 +218,20 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun patchScrap(color: Color, isFromWeekScreen: Boolean = false) = viewModelScope.launch {
-        val scrap = _uiState.value
+        val scrapId = _uiState.value.internshipModel?.scrapId ?: 0
         val colorIndex = getColorIndex(color)
 
-        Log.d("CalendarScreen", "CalendarViewModel colorIndex:$colorIndex, scrapId:${scrap.scrapId}")
-        //여기서 보내줘야 할 데이터 정보는?? 인덱스 or 컬러 코드
-        scrapRepository.patchScrap(ScrapRequestModel(scrap.scrapId, colorIndex))
+        scrapRepository.patchScrap(ScrapRequestModel(scrapId, colorIndex))
             .onSuccess {
                 runCatching {
                     if (isFromWeekScreen) {
                         getScrapWeekList()
                     } else {
-                        getScrapMonth(
+                        getScrapMonthList(
                             _uiState.value.selectedDate.year,
                             _uiState.value.selectedDate.monthValue
                         )
                     }
-                }.onSuccess {
-                    updateScrapCancelDialogVisible()
                 }
             }.onFailure {
                 _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
@@ -249,16 +239,16 @@ class CalendarViewModel @Inject constructor(
     }
 
     private fun getColorIndex(color: Color): Int = listOf(
-            CalRed,
-            CalOrange2,
-            CalGreen1,
-            CalBlue1,
-            CalPurple,
-            CalOrange1,
-            CalYellow,
-            CalGreen2,
-            CalBlue2,
-            CalPink
-        ).indexOf(color)
+        CalRed,
+        CalOrange1,
+        CalOrange2,
+        CalYellow,
+        CalGreen1,
+        CalGreen2,
+        CalBlue1,
+        CalBlue2,
+        CalPurple,
+        CalPink
+    ).indexOf(color)
 
 }
