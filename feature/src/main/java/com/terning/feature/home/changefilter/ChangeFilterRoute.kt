@@ -37,6 +37,10 @@ import com.terning.feature.home.home.HomeSideEffect
 import com.terning.feature.home.home.HomeViewModel
 import com.terning.feature.home.home.navigation.navigateHome
 
+const val MIN_INDEX = 0
+const val MAX_WORKING_INDEX = 2
+const val MAX_GRADE_INDEX = 3
+
 @Composable
 fun ChangeFilterRoute(
     navController: NavController,
@@ -181,7 +185,7 @@ fun ChangeFilterScreen(
                         )
                     )
                 },
-                isEnabled = currentGrade in 0..3 && currentWorkingPeriod in 0..2
+                isEnabled = currentGrade in MIN_INDEX..MAX_GRADE_INDEX && currentWorkingPeriod in MIN_INDEX..MAX_WORKING_INDEX
             )
         }
     }

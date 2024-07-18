@@ -19,7 +19,7 @@ data class HomeFilteringInfoResponseDto(
         HomeFilteringInfoModel(
             grade = this.grade,
             workingPeriod = this.workingPeriod,
-            startYear = startYear,
-            startMonth = startMonth,
+            startYear = this.startYear,
+            startMonth = this.startMonth,
         )
 }
