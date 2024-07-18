@@ -1,6 +1,7 @@
 package com.terning.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,9 +9,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -30,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
@@ -112,20 +116,40 @@ fun RadioButtonGroup(
             .padding(horizontal = 42.dp)
     ) {
         itemsIndexed(options) { index, option ->
+            val imageModifier = if (selectedOption == options[index]) {
+                modifier
+                    .border(
+                        color = TerningMain,
+                        width = 2.dp,
+                        shape = CircleShape
+                    )
+            } else {
+                modifier
+            }
+
             Image(
                 painter = painterResource(
-                    id = if (option == selectedOption) R.drawable.ic_terning_profile_01_selected
-                    else option
+                    id = option
                 ),
                 contentDescription = stringResource(id = R.string.sign_up_bottom_sheet_description),
-                modifier = modifier
+                modifier = imageModifier
                     .aspectRatio(1f)
                     .noRippleClickable {
                         onOptionSelected(index)
                         selectedOption = option
                     }
-                    .clip(shape = RoundedCornerShape(76.dp))
+                    .clip(shape = CircleShape)
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SignUpBottomSheetPreview() {
+    TerningPointTheme {
+        RadioButtonGroup(
+            onOptionSelected = {}
+        )
     }
 }
