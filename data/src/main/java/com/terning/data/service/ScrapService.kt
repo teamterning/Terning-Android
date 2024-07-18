@@ -1,6 +1,7 @@
 package com.terning.data.service
 
 import com.terning.data.dto.NonDataBaseResponse
+import com.terning.data.dto.request.ScrapAddRequestDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.PATCH
@@ -11,7 +12,7 @@ interface ScrapService {
     @POST("api/v1/scraps/{internshipAnnouncementId}")
     suspend fun postScrap(
         @Path(value = "internshipAnnouncementId") internshipAnnouncementId: Long,
-        @Body color: Int,
+        @Body body: ScrapAddRequestDto,
     ): NonDataBaseResponse
 
     @DELETE("api/v1/scraps/{scrapId}")

@@ -36,13 +36,13 @@ class SearchProcessViewModel @Inject constructor(
         _internSearchResultData.asStateFlow()
 
     fun getSearchList(
-        query: String,
+        keyword: String,
         sortBy: String,
         page: Int,
         size: Int,
     ) {
         viewModelScope.launch {
-            searchRepository.getSearchList(query, sortBy, page, size)
+            searchRepository.getSearchList(keyword, sortBy, page, size)
                 .onSuccess {
                     _internSearchResultData.value = it
                 }

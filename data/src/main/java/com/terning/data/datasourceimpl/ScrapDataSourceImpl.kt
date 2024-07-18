@@ -2,6 +2,7 @@ package com.terning.data.datasourceimpl
 
 import com.terning.data.datasource.ScrapDataSource
 import com.terning.data.dto.NonDataBaseResponse
+import com.terning.data.dto.request.ScrapAddRequestDto
 import com.terning.data.service.ScrapService
 import com.terning.domain.entity.request.ScrapRequestModel
 import javax.inject.Inject
@@ -12,7 +13,7 @@ class ScrapDataSourceImpl @Inject constructor(
     override suspend fun postScrap(scrapRequestModel: ScrapRequestModel): NonDataBaseResponse =
         scrapService.postScrap(
             scrapRequestModel.id,
-            scrapRequestModel.color
+            ScrapAddRequestDto(scrapRequestModel.color)
         )
 
     override suspend fun deleteScrap(scrapRequestModel: ScrapRequestModel): NonDataBaseResponse =
