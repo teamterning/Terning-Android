@@ -52,7 +52,7 @@ import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
-import com.terning.feature.home.home.component.HomeTodayEmptyIntern
+import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.intern.navigation.navigateIntern
@@ -99,7 +99,7 @@ fun HomeRoute(
             }
     }
 
-    LaunchedEffect(currentSortBy.value) {
+    LaunchedEffect(homeFilteringState, currentSortBy.value) {
         when (homeFilteringState) {
             is UiState.Success ->
                 with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
@@ -301,7 +301,7 @@ private fun ShowMainTitleWithName(userName: String) {
 @Composable
 private fun ShowTodayIntern(homeTodayInternList: List<HomeTodayInternModel>) {
     if (homeTodayInternList.isEmpty()) {
-        HomeTodayEmptyIntern(isButtonExist = false)
+        HomeTodayEmptyWithImg()
     } else {
         HomeTodayIntern(internList = homeTodayInternList)
     }

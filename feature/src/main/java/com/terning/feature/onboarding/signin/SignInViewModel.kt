@@ -91,8 +91,8 @@ class SignInViewModel @Inject constructor(
 
                 else -> {
                     tokenRepository.setTokens(
-                        response.accessToken ?: return,
-                        response.refreshToken ?: return
+                        accessToken = response.accessToken ?: return,
+                        refreshToken = response.refreshToken ?: return
                     )
                     tokenRepository.setUserId(response.userId ?: return)
 

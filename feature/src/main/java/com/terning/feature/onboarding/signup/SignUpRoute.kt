@@ -30,7 +30,6 @@ import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
 import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
 import com.terning.feature.onboarding.signup.component.SignUpProfile
 
@@ -118,7 +117,8 @@ fun SignUpScreen(
             SignUpProfile(
                 modifier = modifier.noRippleClickable {
                     showBottomSheet = true
-                }
+                },
+                index = signUpState.character
             )
         }
         Column(

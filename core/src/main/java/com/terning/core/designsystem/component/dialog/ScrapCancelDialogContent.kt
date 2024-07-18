@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -19,8 +21,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey500
@@ -34,7 +41,7 @@ fun ScrapCancelDialogContent(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 60.dp),
+            .padding(top = 50.dp),
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
@@ -43,26 +50,9 @@ fun ScrapCancelDialogContent(
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(
-                    id = R.drawable.ic_character1
-                ),
-                modifier = Modifier
-                    .padding(horizontal = 4.dp)
-                    .fillMaxWidth()
-                    .aspectRatio(1.3f)
-                    .background(
-                        Grey200,
-                        shape = RoundedCornerShape(size = 15.dp)
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = TerningMain,
-                        shape = RoundedCornerShape(size = 15.dp)
-                    ),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                alignment = Alignment.Center
+            TerningLottieAnimation(
+                jsonString = "terning_scrap_cancel.json",
+                modifier = Modifier.fillMaxWidth().aspectRatio(1f)
             )
 
             Text(
@@ -70,7 +60,6 @@ fun ScrapCancelDialogContent(
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title4,
                 color = Grey500,
-                modifier = Modifier.padding(top = 21.dp)
             )
             Text(
                 text = stringResource(id = R.string.dialog_content_scrap_cancel_sub_title),
