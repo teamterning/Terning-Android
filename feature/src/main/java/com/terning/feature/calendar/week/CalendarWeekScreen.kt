@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -33,9 +32,10 @@ import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.component.InternDialogContent
-import com.terning.feature.calendar.calendar.component.ScrapCancelDialogContent
+import com.terning.feature.calendar.calendar.component.InternDetailDialog
+import com.terning.feature.calendar.calendar.component.ScrapCancelDialog
 import com.terning.feature.calendar.scrap.component.CalendarScrapList
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -104,41 +104,24 @@ fun CalendarWeekScreen(
         }
 
         if (uiState.isScrapButtonClicked) {
-            TerningBasicDialog(
-                onDismissRequest = {
+            ScrapCancelDialog(
+                onDismissRequest = { viewModel.updateScrapCancelDialogVisible() },
+                onClickScrapCancel = {
                     viewModel.updateScrapCancelDialogVisible()
-                },
-            ) {
-                ScrapCancelDialogContent(
-                    onClickScrapCancel = {
-                        viewModel.updateScrapCancelDialogVisible()
-                    }
-                )
-            }
+                }
+            )
         }
         if (uiState.isInternshipClicked) {
-            TerningBasicDialog(
-                onDismissRequest = {
+            InternDetailDialog(
+                onDismissRequest = {viewModel.updateInternDialogVisible(null)},
+                onClickColor = { newColor ->
+                    Timber.tag("CalendarScreen")
+                        .d("<CalendarWeekScreen>: $newColor")
+                },
+                onClickNavigate = {
                     viewModel.updateInternDialogVisible(null)
                 }
-            ) {
-                InternDialogContent(
-                    scrapDetailModel = CalendarScrapDetailModel(
-                        scrapId = 1,
-                        internshipAnnouncementId = 1,
-                        title = "sadsa",
-                        dDay = "D-8",
-                        workingPeriod = "9개월",
-                        color = "0xf3d1e3",
-                        companyImage = "",
-                        startYear = 2024,
-                        startMonth = 8,
-                        deadLine = "2024-07-13",
-                        isScrapped = true
-                    )
-                )
-            }
-
+            )
         }
     }
 }

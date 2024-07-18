@@ -38,9 +38,23 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.intern.InternViewModel
 
+@Composable
+fun ScrapCancelDialog(
+    onDismissRequest: () -> Unit,
+    onClickScrapCancel: () -> Unit
+) {
+    TerningBasicDialog(
+        onDismissRequest = onDismissRequest
+    ) {
+        ScrapCancelDialogContent(
+            onClickScrapCancel = onClickScrapCancel
+        )
+    }
+}
+
 
 @Composable
-fun ScrapCancelDialogContent(
+private fun ScrapCancelDialogContent(
     onClickScrapCancel: () -> Unit = {}
 ) {
     Box(

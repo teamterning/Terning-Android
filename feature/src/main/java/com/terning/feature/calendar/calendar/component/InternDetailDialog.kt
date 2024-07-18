@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,20 +18,21 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
@@ -46,53 +50,89 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.intern.InternViewModel
+import com.terning.feature.intern.InternViewState
 import com.terning.feature.intern.component.InternInfoRow
+
+@Composable
+fun InternDetailDialog(
+    onDismissRequest: () -> Unit,
+    onClickColor: (Color) -> Unit,
+    onClickNavigate: () -> Unit,
+) {
+    TerningBasicDialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            decorFitsSystemWindows = true,
+            dismissOnBackPress = true,
+            dismissOnClickOutside = false,
+        )
+    ) {
+        InternDialogContent(
+            scrapDetailModel = CalendarScrapDetailModel(
+                scrapId = 1,
+                internshipAnnouncementId = 1,
+                title = "sadsa",
+                dDay = "D-8",
+                workingPeriod = "9개월",
+                color = "0xf3d1e3",
+                companyImage = "",
+                startYear = 2024,
+                startMonth = 8,
+                deadLine = "2024-07-13",
+                isScrapped = true
+            ),
+            state = InternViewState(),
+            onClickColor = onClickColor,
+            onClickNavigate = onClickNavigate
+
+        )
+    }
+}
 
 
 @Composable
-fun InternDialogContent(
+private fun InternDialogContent(
     scrapDetailModel: CalendarScrapDetailModel,
-    viewModel: InternViewModel = hiltViewModel(),
+    state: InternViewState,
+    onClickColor: (Color) -> Unit,
+    onClickNavigate: () -> Unit
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner)
+    var isPaletteOpen by remember { mutableStateOf(false) }
+    var selectedColor by remember {mutableStateOf(Color.Red)}
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(top = 32.dp),
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(horizontal = 11.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
+            Image(
+                painter = painterResource(
+                    id = R.drawable.ic_character1
+                ),
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(80.dp)
+                    .background(
+                        Grey200,
+                        shape = RoundedCornerShape(size = 15.dp)
+                    )
                     .border(
                         width = 1.dp,
                         color = TerningMain,
                         shape = RoundedCornerShape(size = 15.dp)
-                    )
-            ) {
-                Image(
-                    painter = painterResource(
-                        id = R.drawable.ic_character1
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            Grey200,
-                            shape = RoundedCornerShape(size = 15.dp)
-                        ),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    alignment = Alignment.Center
-                )
-            }
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                alignment = Alignment.Center
+            )
+
             Text(
                 text = scrapDetailModel.title,
                 textAlign = TextAlign.Center,
@@ -101,14 +141,14 @@ fun InternDialogContent(
                 modifier = Modifier.padding(top = 20.dp)
             )
             Text(
-                text = stringResource(id = R.string.dialog_content_scrap_sub_title),
+                text = stringResource(id = R.string.dialog_scrap_mine),
                 style = TerningTheme.typography.body5,
                 color = Grey350,
                 modifier = Modifier.padding(
-                    top = 4.dp,
-                    bottom = 13.dp
+                    top = 4.dp
                 )
             )
+            Spacer(modifier = Modifier.height(26.dp))
             Column(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
@@ -123,14 +163,14 @@ fun InternDialogContent(
                             shape = RoundedCornerShape(14.dp)
                         )
                         .noRippleClickable {
-                            viewModel.updateColorChange(!state.isColorChange)
+                            isPaletteOpen = !isPaletteOpen
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Icon(
                         painter = painterResource(
-                            id = if (state.isColorChange) R.drawable.ic_up_22
+                            id = if (isPaletteOpen) R.drawable.ic_up_22
                             else R.drawable.ic_down_22
                         ),
                         contentDescription = stringResource(
@@ -158,7 +198,7 @@ fun InternDialogContent(
                         bottom = 8.dp
                     )
                 )
-                if (state.isColorChange) {
+                if (isPaletteOpen) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -170,9 +210,9 @@ fun InternDialogContent(
                     ) {
                         ColorPalette(
                             initialColor = CalRed,
-                            onColorSelected = {
-                                viewModel.updateSelectColor(it)
-                            },
+                            onColorSelected = { newColor ->
+                                selectedColor = newColor
+                            }
                         )
                     }
                 } else {
@@ -205,23 +245,27 @@ fun InternDialogContent(
                     }
                 }
             }
-            RoundButton(
-                style = TerningTheme.typography.button3,
-                paddingVertical = 12.dp,
-                cornerRadius = 8.dp,
-                text = if (state.isScrappedState) {
-                    if (state.isColorChange)
-                        R.string.dialog_content_calendar_color_change
-                    else R.string.dialog_scrap_button
-                } else {
-                    R.string.dialog_scrap_button
-                },
-                onButtonClick = {
-                    viewModel.updateScrapped(!state.isScrappedState)
-                    viewModel.updateScrapDialogVisible(false)
-                },
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                RoundButton(
+                    style = TerningTheme.typography.button3,
+                    paddingVertical = 12.dp,
+                    cornerRadius = 8.dp,
+                    text = if (isPaletteOpen) R.string.dialog_content_calendar_color_change
+                    else R.string.dialog_scrap_move_to_intern,
+                    onButtonClick = {
+                        if (isPaletteOpen) {
+                            onClickColor(selectedColor)
+                            isPaletteOpen = false
+                        } else {
+                            onClickNavigate()
+                        }
+                    },
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
         }
     }
 }
@@ -230,25 +274,12 @@ fun InternDialogContent(
 @Composable
 fun InternDialogContentPreview() {
     TerningPointTheme {
-        TerningBasicDialog(
-            onDismissRequest = {
-            }
-        ) {
-            InternDialogContent(
-                scrapDetailModel = CalendarScrapDetailModel(
-                    scrapId = 1,
-                    internshipAnnouncementId = 1,
-                    title = "sadsa",
-                    dDay = "D-8",
-                    workingPeriod = "9개월",
-                    color = "0xf3d1e3",
-                    companyImage = "",
-                    startYear = 2024,
-                    startMonth = 8,
-                    deadLine = "2024-07-13",
-                    isScrapped = true
-                )
-            )
-        }
+        InternDetailDialog(
+            onDismissRequest = {},
+            onClickNavigate = {},
+            onClickColor = {}
+        )
+
     }
+
 }
