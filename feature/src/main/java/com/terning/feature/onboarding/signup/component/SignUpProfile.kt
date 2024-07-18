@@ -47,7 +47,6 @@ fun SignUpProfile(
             Image(
                 painterResource(id = R.drawable.ic_sign_up_button),
                 contentDescription = stringResource(id = R.string.sign_up_profile_button),
-
                 )
         }
     }
