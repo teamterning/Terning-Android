@@ -37,14 +37,12 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.dialog.ScrapDialogContent
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
@@ -58,9 +56,11 @@ import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
+import com.terning.feature.home.home.component.HomeScrapInternContent
 import com.terning.feature.home.home.component.HomeTodayEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.intern.component.InternCancelDialog
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -130,6 +130,7 @@ fun HomeRoute(
         homeTodayInternList = homeTodayInternList,
         recommendInternList = homeRecommendInternList,
         onChangeFilterClick = { navController.navigateChangeFilter() },
+        homeViewModel = viewModel,
     )
 }
 
@@ -141,8 +142,10 @@ fun HomeScreen(
     homeTodayInternList: List<HomeTodayInternModel>,
     recommendInternList: List<HomeRecommendInternModel>,
     onChangeFilterClick: () -> Unit,
+    homeViewModel: HomeViewModel,
 ) {
     var sheetState by remember { mutableStateOf(false) }
+    var dialogState: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     if (sheetState) {
         SortingBottomSheet(
@@ -151,23 +154,6 @@ fun HomeScreen(
             },
             currentSortBy = currentSortBy.value,
             newSortBy = currentSortBy
-        )
-    }
-
-    if (dialogState) {
-        TerningBasicDialog(
-            onDismissRequest = { viewModel.setDialogState() },
-            content = {
-                ScrapDialogContent(
-                    onDismissRequest = { /*TODO*/ },
-                    isScrapped = false,
-                    internInfoList = listOf(
-                        Pair("서류 마감", "2024년 7월 23일"),
-                        Pair("근무 기간", "2개월"),
-                        Pair("근무 시작", "2024년 8월"),
-                    )
-                )
-            }
         )
     }
 
@@ -231,7 +217,41 @@ fun HomeScreen(
 
                 if (recommendInternList.isNotEmpty()) {
                     items(recommendInternList.size) { index ->
-                        ShowRecommendIntern(homeRecommendInternModel = recommendInternList[index])
+                        ShowRecommendIntern(
+                            dialogState = dialogState,
+                            homeRecommendInternModel = recommendInternList[index],
+                        )
+
+                        if (dialogState.value) {
+                            with(recommendInternList[index]) {
+                                TerningBasicDialog(
+                                    onDismissRequest = { dialogState.value = false },
+                                    content = {
+                                        if (isScrapped) {
+                                            InternCancelDialog(
+                                                onDismissRequest = { dialogState.value = false },
+                                                onClickScrapCancel = {
+                                                    homeViewModel.deleteScrap(
+                                                        scrapId = scrapId,
+                                                        announcementId = recommendInternList[index].internshipAnnouncementId
+                                                    )
+                                                }
+                                            )
+                                        } else {
+                                            HomeScrapInternContent(
+                                                internInfoList = listOf(
+                                                    stringResource(id = R.string.intern_info_d_day) to dDay,
+                                                    stringResource(id = R.string.intern_info_working) to workingPeriod,
+                                                    stringResource(id = R.string.intern_info_start_date) to "Adfs",
+                                                ),
+                                                homeRecommendInternModel = recommendInternList[index],
+                                                announcementId = recommendInternList[index].internshipAnnouncementId,
+                                            )
+                                        }
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -328,7 +348,10 @@ private fun ShowInternFilter(
 }
 
 @Composable
-private fun ShowRecommendIntern(homeRecommendInternModel: HomeRecommendInternModel) {
+private fun ShowRecommendIntern(
+    dialogState: MutableState<Boolean>,
+    homeRecommendInternModel: HomeRecommendInternModel,
+) {
     Box(
         modifier = Modifier
             .padding(horizontal = 24.dp)
@@ -348,6 +371,9 @@ private fun ShowRecommendIntern(homeRecommendInternModel: HomeRecommendInternMod
             dateDeadline = homeRecommendInternModel.dDay,
             workingPeriod = homeRecommendInternModel.workingPeriod,
             isScraped = homeRecommendInternModel.isScrapped,
+            onScrapButtonClicked = {
+                dialogState.value = true
+            }
         )
     }
 }
