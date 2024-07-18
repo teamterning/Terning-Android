@@ -48,8 +48,8 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.CalendarScrapDetailModel
-import com.terning.feature.intern.InternViewState
 import com.terning.feature.intern.component.InternInfoRow
+import com.terning.feature.intern.model.InternViewState
 
 @Composable
 fun CalendarDetailDialog(

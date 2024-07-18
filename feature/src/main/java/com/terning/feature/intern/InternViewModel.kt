@@ -63,6 +63,7 @@ class InternViewModel @Inject constructor(
                     it.copy(isScrap = UiState.Success(true))
                 }
                 getInternInfo(id)
+                updateScrapDialogVisible(false)
             }.onFailure {
                 _sideEffect.emit(
                     InternViewSideEffect.Toast(R.string.server_failure)
@@ -72,20 +73,24 @@ class InternViewModel @Inject constructor(
     }
 
     fun deleteScrap(
-        id: Long,
+        scrapId: Long?,
+        announcementId: Long,
     ) {
         viewModelScope.launch {
-            scrapRepository.deleteScrap(
-                ScrapRequestModel(id, null)
-            ).onSuccess {
-                _scrapState.update {
-                    it.copy(isScrap = UiState.Success(false))
+            scrapId?.let { ScrapRequestModel(it, null) }?.let { scrapRequestModel ->
+                scrapRepository.deleteScrap(
+                    scrapRequestModel
+                ).onSuccess {
+                    _scrapState.update {
+                        it.copy(isScrap = UiState.Success(false))
+                    }
+                    getInternInfo(announcementId)
+                    updateScrapDialogVisible(false)
+                }.onFailure {
+                    _sideEffect.emit(
+                        InternViewSideEffect.Toast(R.string.server_failure)
+                    )
                 }
-                getInternInfo(id)
-            }.onFailure {
-                _sideEffect.emit(
-                    InternViewSideEffect.Toast(R.string.server_failure)
-                )
             }
         }
     }
