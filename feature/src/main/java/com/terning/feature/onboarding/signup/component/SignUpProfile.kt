@@ -14,7 +14,9 @@ import com.terning.feature.R
 fun SignUpProfile(
     modifier: Modifier = Modifier
 ) {
-    Box {
+    Box(
+        modifier = modifier
+    ) {
         Image(
             painterResource(id = R.drawable.ic_sign_up_profile),
             contentDescription = stringResource(id = R.string.sign_up_profile_image)

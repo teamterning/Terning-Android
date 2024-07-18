@@ -88,12 +88,12 @@ fun RadioButtonGroup(
     onOptionSelected: (Int) -> Unit
 ) {
     val options = listOf(
-        R.drawable.ic_character1,
-        R.drawable.ic_character2,
-        R.drawable.ic_character3,
-        R.drawable.ic_character4,
-        R.drawable.ic_character5,
-        R.drawable.ic_character6
+        R.drawable.ic_terning_profile_00,
+        R.drawable.ic_terning_profile_01,
+        R.drawable.ic_terning_profile_02,
+        R.drawable.ic_terning_profile_03,
+        R.drawable.ic_terning_profile_04,
+        R.drawable.ic_terning_profile_05
     )
 
     var selectedOption by rememberSaveable { mutableIntStateOf(options[0]) }
