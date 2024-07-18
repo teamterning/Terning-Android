@@ -13,13 +13,11 @@ import com.kakao.sdk.user.UserApiClient
 import com.terning.core.state.UiState
 import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.TokenRepository
-import com.terning.feature.R
 import com.terning.feature.main.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -124,9 +122,13 @@ class MyPageViewModel @Inject constructor(
     }
 
     fun navigateToNoticeWebView(context: Context) {
-        val url = context.getString(R.string.my_page_service_url).toUri()
+        val url = NOTICE_URL.toUri()
         val customTabsIntent = CustomTabsIntent.Builder().build()
         customTabsIntent.launchUrl(context, url)
     }
 
+    companion object {
+        private const val NOTICE_URL =
+            "https://abundant-quiver-13f.notion.site/69109213e7db4873be6b9600f2f5163a"
+    }
 }
