@@ -71,7 +71,7 @@ fun StartHomeScreen(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 30.dp)
             )
-            TerningLottieAnimation()
+            StartHomeLottieAnimation()
         }
         Box(
             modifier = Modifier
@@ -95,7 +95,7 @@ fun StartHomeScreen(
 }
 
 @Composable
-fun TerningLottieAnimation(
+fun StartHomeLottieAnimation(
     modifier: Modifier = Modifier
 ) {
     val lottieComposition by rememberLottieComposition(LottieCompositionSpec.Asset("terning_start_home.json"))
