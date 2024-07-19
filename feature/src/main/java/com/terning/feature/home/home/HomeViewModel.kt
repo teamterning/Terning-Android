@@ -136,6 +136,7 @@ class HomeViewModel @Inject constructor(
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
                 getHomeTodayInternList()
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_add_toast_message))
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
@@ -150,6 +151,7 @@ class HomeViewModel @Inject constructor(
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
                 getHomeTodayInternList()
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_delete_toast_message))
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }

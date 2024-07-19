@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,14 +44,26 @@ import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.CalBlue1
+import com.terning.core.designsystem.theme.CalBlue2
+import com.terning.core.designsystem.theme.CalGreen1
+import com.terning.core.designsystem.theme.CalGreen2
+import com.terning.core.designsystem.theme.CalOrange1
+import com.terning.core.designsystem.theme.CalOrange2
+import com.terning.core.designsystem.theme.CalPink
+import com.terning.core.designsystem.theme.CalPurple
+import com.terning.core.designsystem.theme.CalRed
+import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.extension.toast
+import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.feature.R
-import com.terning.feature.intern.component.ScrapDialogContent
+import com.terning.feature.home.home.component.HomeRecommendInternDialog
 import com.terning.feature.intern.navigation.navigateIntern
 
 private const val MAX_LINES = 1
@@ -60,6 +73,7 @@ fun SearchProcessRoute(
     navController: NavHostController,
     viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val currentSortBy: MutableState<Int> = remember {
@@ -70,16 +84,10 @@ fun SearchProcessRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SearchProcessSideEffect.Toast -> {
-                        sideEffect.message
-                    }
+                    is SearchProcessSideEffect.Toast -> context.toast(sideEffect.message)
 
                     is SearchProcessSideEffect.ScrapUpdate -> {
                         sideEffect.keyword
-                    }
-
-                    else -> {
-
                     }
                 }
             }
@@ -110,6 +118,15 @@ fun SearchProcessScreen(
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
+    }
+
+    LaunchedEffect(true) {
+        viewModel.getSearchList(
+            keyword = state.text,
+            sortBy = SORT_BY,
+            page = 0,
+            size = 10
+        )
     }
 
     Scaffold(
@@ -280,27 +297,80 @@ fun SearchProcessScreen(
                             onClickScrapCancel = {
                                 viewModel.updateScrapDialogVisible(false)
                                 viewModel.deleteScrap(
-                                    selectedIntern.scrapId ?: -1,
+                                    internSearchResultData[selectedIndex].scrapId ?: -1,
                                 )
                                 if (dialogState.isScrappedState) {
+                                    viewModel.getSearchList(
+                                        keyword = state.text,
+                                        sortBy = SORT_BY,
+                                        page = 0,
+                                        size = 10
+                                    )
                                     viewModel.updateScrapped(false)
                                 }
+                                viewModel.updateSelectColor(CalRed)
                             }
                         )
                     } else {
-                        val internInfoList = listOf(
-                            stringResource(id = R.string.intern_info_d_day) to selectedIntern.deadline,
-                            stringResource(id = R.string.intern_info_working) to selectedIntern.workingPeriod,
-                            stringResource(id = R.string.intern_info_start_date) to selectedIntern.startYearMonth,
+                        val colorList = listOf(
+                            CalRed,
+                            CalOrange1,
+                            CalOrange2,
+                            CalYellow,
+                            CalGreen1,
+                            CalGreen2,
+                            CalBlue1,
+                            CalBlue2,
+                            CalPurple,
+                            CalPink,
                         )
-                        ScrapDialogContent(
-                            internInfoList = internInfoList,
-                            dDay = selectedIntern.dDay,
-                            title = selectedIntern.title,
-                            companyImage = selectedIntern.companyImage,
-                            announcementId = selectedIntern.internshipAnnouncementId,
-                            type = 1
-                        )
+
+                        val selectedColorIndex =
+                            colorList.indexOf(dialogState.selectedColor).takeIf { it >= 0 } ?: 0
+
+                        with(selectedIntern) {
+                            HomeRecommendInternDialog(
+                                internInfoList = listOf(
+                                    stringResource(id = R.string.intern_info_d_day) to deadline,
+                                    stringResource(id = R.string.intern_info_working) to workingPeriod,
+                                    stringResource(id = R.string.intern_info_start_date) to startYearMonth,
+                                ),
+                                clickAction = {
+                                    if (dialogState.isPaletteOpen) {
+                                        viewModel.updatePaletteOpen(false)
+                                        viewModel.postScrap(
+                                            internshipAnnouncementId = internshipAnnouncementId,
+                                            selectedColorIndex,
+                                        )
+                                        viewModel.updateColorChange(false)
+                                        viewModel.updateScrapDialogVisible(false)
+                                    } else {
+                                        if (dialogState.isColorChange) {
+                                            viewModel.postScrap(
+                                                internshipAnnouncementId,
+                                                selectedColorIndex
+                                            )
+                                            viewModel.updateColorChange(false)
+                                        } else {
+                                            viewModel.postScrap(internshipAnnouncementId, 0)
+
+                                        }
+                                        viewModel.updateScrapDialogVisible(false)
+                                    }
+                                },
+                                homeRecommendInternModel = HomeRecommendInternModel(
+                                    scrapId = scrapId,
+                                    internshipAnnouncementId = internshipAnnouncementId,
+                                    companyImage = companyImage,
+                                    title = title,
+                                    deadline = deadline,
+                                    workingPeriod = workingPeriod,
+                                    startYearMonth = startYearMonth,
+                                    isScrapped = scrapId != null,
+                                    dDay = dDay
+                                ),
+                            )
+                        }
                     }
                 }
             }
