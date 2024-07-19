@@ -7,6 +7,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.terning.core.extension.getFullDateStringInKorean
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.intern.navigation.navigateIntern
 
@@ -30,6 +31,7 @@ fun CalendarDialog(
 
     if (uiState.isInternshipClicked) {
         CalendarDetailDialog(
+            deadline = uiState.selectedDate.getFullDateStringInKorean(),
             scrapDetailModel = uiState.internshipModel,
             onDismissRequest = {viewModel.updateInternDialogVisible(false)},
             onClickChangeColorButton = { newColor ->

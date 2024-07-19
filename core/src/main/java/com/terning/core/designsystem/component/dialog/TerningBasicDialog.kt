@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,7 +48,8 @@ fun TerningBasicDialog(
     ) {
         Box(
             modifier = Modifier
-                .size(width = 300.dp, height = 472.dp)
+                .wrapContentSize()
+                .padding(horizontal = 27.dp)
                 .background(
                     color = White,
                     shape = RoundedCornerShape(20.dp)
