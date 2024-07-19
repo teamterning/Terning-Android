@@ -242,6 +242,7 @@ fun HomeRecommendInternDialog(
                             if (state.isColorChange) {
                                 viewModel.updateColorChange(false)
                             }
+                            viewModel.updatePaletteOpen(false)
                             viewModel.updateScrapDialogVisible(false)
                         }
                         viewModel.postScrap(

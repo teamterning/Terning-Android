@@ -45,6 +45,13 @@ fun HomeTodayIntern(
                     .noRippleClickable {
                         homeViewModel.updateScrapDialogVisible(true)
                         homeViewModel.updateIsToday(true)
+                        homeViewModel.updateSelectColor(
+                            Color(
+                                android.graphics.Color.parseColor(
+                                    internList[index].color
+                                )
+                            )
+                        )
                         selectedIndex = index
                     }
             )
@@ -55,6 +62,7 @@ fun HomeTodayIntern(
         TerningBasicDialog(
             onDismissRequest = {
                 homeViewModel.updateScrapDialogVisible(false)
+                homeViewModel.updatePaletteOpen(false)
             },
             content = {
                 with(internList[selectedIndex]) {

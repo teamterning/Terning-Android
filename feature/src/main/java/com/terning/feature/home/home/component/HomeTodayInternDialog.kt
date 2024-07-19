@@ -217,25 +217,34 @@ fun HomeTodayInternDialog(
         val selectedColorIndex =
             colorList.indexOf(state.selectedColor).takeIf { it >= 0 } ?: 0
 
-        RoundButton(
-            style = TerningTheme.typography.button3,
-            paddingVertical = 12.dp,
-            cornerRadius = 8.dp,
-            text = R.string.dialog_scrap_move_to_intern,
-            onButtonClick = {
-                if (state.isPaletteOpen) {
-                    viewModel.updatePaletteOpen(false)
-                    viewModel.updateColorChange(false)
-                    viewModel.updateScrapDialogVisible(false)
-                } else {
-                    if (state.isColorChange) {
-                        viewModel.updateColorChange(false)
-                    }
-                    viewModel.updateScrapDialogVisible(false)
-                }
-                navigateTo()
-            },
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+                RoundButton(
+                    style = TerningTheme.typography.button3,
+                    paddingVertical = 12.dp,
+                    cornerRadius = 8.dp,
+                    text = if (state.isPaletteOpen) R.string.dialog_content_calendar_color_change else R.string.dialog_scrap_move_to_intern,
+                    onButtonClick = {
+                        if (state.isPaletteOpen) {
+                            viewModel.updatePaletteOpen(false)
+                            viewModel.updateColorChange(false)
+                            viewModel.patchScrap(
+                                scrapId = homeTodayInternModel.scrapId,
+                                colorIndex = selectedColorIndex,
+                            )
+                        } else {
+                            if (state.isColorChange) {
+                                viewModel.updateColorChange(false)
+                                viewModel.patchScrap(
+                                    scrapId = homeTodayInternModel.scrapId,
+                                    colorIndex = selectedColorIndex,
+                                )
+                            }
+                            viewModel.updateScrapDialogVisible(false)
+                            navigateTo()
+                        }
+                    },
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+        }
     }
 }

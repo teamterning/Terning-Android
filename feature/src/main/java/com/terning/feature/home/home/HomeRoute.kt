@@ -58,7 +58,6 @@ import com.terning.feature.home.home.component.HomeRecommendInternDialog
 import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.HomeDialogState
-import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7
@@ -93,13 +92,17 @@ fun HomeRoute(
     val homeUserState by viewModel.homeUserState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
+    val homeTodayInternList: MutableState<List<HomeTodayInternModel>> = remember {
+        mutableStateOf(emptyList())
+    }
+
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
-                    is HomeSideEffect.NavigateToHome -> navController.navigateHome()
+                    is HomeSideEffect.NavigateToHome -> navController.navigateUp()
                 }
             }
     }
@@ -119,12 +122,20 @@ fun HomeRoute(
         }
     }
 
-    val homeTodayInternList = when (homeTodayState) {
+    LaunchedEffect(homeFilteringState) {
+        viewModel.getHomeTodayInternList()
+    }
+
+    when (homeTodayState) {
         is UiState.Success -> {
-            (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
+            homeTodayInternList.value =
+                (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
         }
 
-        else -> emptyList()
+        is UiState.Loading -> {}
+        else -> {
+            homeTodayInternList.value = emptyList()
+        }
     }
 
     val homeRecommendInternList = when (homeRecommendInternState) {
@@ -149,7 +160,7 @@ fun HomeRoute(
         currentSortBy,
         homeUserName = homeUserName,
         homeFilteringInfo = homeFilteringInfo,
-        homeTodayInternList = homeTodayInternList,
+        homeTodayInternList = homeTodayInternList.value,
         recommendInternList = homeRecommendInternList,
         homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
@@ -276,7 +287,10 @@ fun HomeScreen(
 
     if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
         TerningBasicDialog(
-            onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
+            onDismissRequest = {
+                viewModel.updateScrapDialogVisible(false)
+                viewModel.updatePaletteOpen(false)
+            },
             content = {
                 if (recommendInternList[scrapId].scrapId != null) {
                     ScrapCancelDialogContent(
@@ -285,7 +299,7 @@ fun HomeScreen(
                             viewModel.deleteScrap(
                                 recommendInternList[scrapId].scrapId ?: -1,
                             )
-                            if(homeDialogState.isScrappedState) {
+                            if (homeDialogState.isScrappedState) {
                                 viewModel.getRecommendInternsData(
                                     currentSortBy.value,
                                     homeFilteringInfo.startYear ?: viewModel.currentYear,
@@ -305,7 +319,7 @@ fun HomeScreen(
                             ),
                             clickAction = {
                                 viewModel.updateScrapDialogVisible(false)
-                                if(homeDialogState.isScrappedState) {
+                                if (homeDialogState.isScrappedState) {
                                     viewModel.getRecommendInternsData(
                                         currentSortBy.value,
                                         homeFilteringInfo.startYear ?: viewModel.currentYear,
