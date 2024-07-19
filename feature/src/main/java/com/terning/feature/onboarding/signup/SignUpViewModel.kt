@@ -34,15 +34,12 @@ class SignUpViewModel @Inject constructor(
 
     fun isInputValid(name: String) {
         val nameErrorRegex = Regex(NAME_ERROR)
-//        val outOfBoundName = if(name.length > MAX_LENGTH + 1) name.substring(0, MAX_LENGTH) else name
-        var trimmedName : String = ""
-        var trimmedNameOutOfBound : String = ""
-        var outOfBoundName : Boolean = false
-        if(name.length > MAX_LENGTH) {
+        var trimmedName = ""
+        var outOfBoundName = false
+        if (name.length > MAX_LENGTH) {
             trimmedName = name.substring(0, MAX_LENGTH)
-            trimmedNameOutOfBound = name.substring(0, MAX_LENGTH + 1)
             outOfBoundName = true
-        }else trimmedName = name
+        } else trimmedName = name
 
         when {
             nameErrorRegex.containsMatchIn(trimmedName) -> _state.value = _state.value.copy(
@@ -64,11 +61,11 @@ class SignUpViewModel @Inject constructor(
             )
 
             outOfBoundName -> _state.value = _state.value.copy(
-                name = trimmedNameOutOfBound,
-                drawLineColor = WarningRed,
+                name = trimmedName,
+                drawLineColor = Grey500,
                 helper = R.string.sign_up_helper,
-                helperIcon = R.drawable.ic_sign_up_error,
-                helperColor = WarningRed,
+                helperIcon = null,
+                helperColor = Grey400,
                 isButtonValid = false
             )
 
