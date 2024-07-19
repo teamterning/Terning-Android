@@ -61,7 +61,7 @@ fun TerningBasicTextField(
     BasicTextField(
         value = value,
         onValueChange = {
-            if (maxTextLength == null || it.length <= maxTextLength) {
+            if (maxTextLength == null || it.length <= maxTextLength + 1) {
                 onValueChange(it)
             }
         },
