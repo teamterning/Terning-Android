@@ -101,11 +101,11 @@ private fun InternDialogContent(
                 modifier = Modifier
                     .width(80.dp)
                     .aspectRatio(1f)
-                    .clip(RoundedCornerShape(5.dp))
+                    .clip(RoundedCornerShape(15.dp))
                     .border(
                         width = 1.dp,
                         color = TerningMain,
-                        shape = RoundedCornerShape(size = 5.dp)
+                        shape = RoundedCornerShape(size = 15.dp)
                     )
             )
             Text(
