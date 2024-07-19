@@ -81,6 +81,7 @@ class SearchProcessViewModel @Inject constructor(
                     page = 0,
                     size = 10
                 )
+                _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.intern_scrap_add_toast_message))
             }.onFailure {
                 _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.server_failure))
             }
@@ -99,6 +100,7 @@ class SearchProcessViewModel @Inject constructor(
                     page = 0,
                     size = 10
                 )
+                _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.intern_scrap_delete_toast_message))
             }.onFailure {
                 _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.server_failure))
             }

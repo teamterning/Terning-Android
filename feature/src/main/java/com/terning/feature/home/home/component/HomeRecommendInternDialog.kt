@@ -66,19 +66,6 @@ fun HomeRecommendInternDialog(
 ) {
     val state by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
-    val colorList = listOf(
-        CalRed,
-        CalOrange1,
-        CalOrange2,
-        CalYellow,
-        CalGreen1,
-        CalGreen2,
-        CalBlue1,
-        CalBlue2,
-        CalPurple,
-        CalPink,
-    )
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -225,29 +212,12 @@ fun HomeRecommendInternDialog(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                val selectedColorIndex =
-                    colorList.indexOf(state.selectedColor).takeIf { it >= 0 } ?: 0
-
                 RoundButton(
                     style = TerningTheme.typography.button3,
                     paddingVertical = 12.dp,
                     cornerRadius = 8.dp,
                     text = R.string.dialog_scrap_button,
                     onButtonClick = {
-                        if (state.isPaletteOpen) {
-                            viewModel.updatePaletteOpen(false)
-                            viewModel.updateColorChange(false)
-                            viewModel.updateScrapDialogVisible(false)
-                        } else {
-                            if (state.isColorChange) {
-                                viewModel.updateColorChange(false)
-                            }
-                            viewModel.updateScrapDialogVisible(false)
-                        }
-                        viewModel.postScrap(
-                            homeRecommendInternModel.internshipAnnouncementId,
-                            selectedColorIndex,
-                        )
                         clickAction()
                     },
                     modifier = Modifier.padding(bottom = 8.dp)
