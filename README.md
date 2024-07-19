@@ -1,7 +1,7 @@
-<img src="https://github.com/user-attachments/assets/264d7a13-ed5f-4944-99bc-55c3d0eaeb19" width=120 />
+<img src="https://github.com/user-attachments/assets/0a16569c-2480-4af8-bf3b-37b3f8ef58a0" width=120 />
 
 # terning
-<p align="center"><img src="https://github.com/user-attachments/assets/ad4e7283-8d66-43b5-951a-99008439695a"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/984e7795-3746-4e7a-ad6c-cb1cb376c481"></p>
 
 **내 계획에 딱 맞는 대학생 인턴의 시작, 터닝**
 
