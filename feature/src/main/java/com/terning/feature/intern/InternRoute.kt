@@ -270,7 +270,7 @@ fun InternScreen(
                         ) {
                             Row(
                                 modifier = modifier
-                                    .weight(1f),
+                                    .weight(2f),
                                 verticalAlignment = Alignment.Top,
                             ) {
                                 Icon(
@@ -286,7 +286,7 @@ fun InternScreen(
 
                             Column(
                                 modifier = modifier
-                                    .weight(4f)
+                                    .weight(5f)
                                     .padding(start = 8.dp),
                                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
@@ -317,7 +317,7 @@ fun InternScreen(
                         ) {
                             Row(
                                 modifier = modifier
-                                    .weight(1f),
+                                    .weight(2f),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Start
                             ) {
@@ -334,7 +334,7 @@ fun InternScreen(
 
                             Column(
                                 modifier = modifier
-                                    .weight(4f)
+                                    .weight(5f)
                                     .padding(start = 8.dp),
                                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
