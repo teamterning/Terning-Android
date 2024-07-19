@@ -62,10 +62,10 @@ class SignUpViewModel @Inject constructor(
 
             outOfBoundName -> _state.value = _state.value.copy(
                 name = trimmedName,
-                drawLineColor = Grey500,
-                helper = R.string.sign_up_helper,
-                helperIcon = null,
-                helperColor = Grey400,
+                drawLineColor =WarningRed,
+                helper = R.string.sign_up_helper_out,
+                helperIcon = R.drawable.ic_sign_up_error,
+                helperColor =  WarningRed,
                 isButtonValid = false
             )
 
@@ -114,7 +114,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     companion object {
-        const val NAME_ERROR = "[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/]"
+        const val NAME_ERROR = "[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/\\-=+~`\\p{S}\\p{P}]"
         private const val MAX_LENGTH = 12
         private const val KAKA0 = "KAKAO"
     }

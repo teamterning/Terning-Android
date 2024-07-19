@@ -44,7 +44,6 @@ fun SearchTextField(
         onSearchAction = {
             if (text.isNotBlank()) {
                 keyboardController?.hide()
-                keyboardController?.hide()
                 focusManager.clearFocus()
                 onSearchAction()
             }
