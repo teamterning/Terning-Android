@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -184,7 +185,7 @@ fun HomeTodayInternDialog(
                     contentAlignment = Alignment.Center
                 ) {
                     ColorPalette(
-                        initialColor = CalRed,
+                        initialColor = Color(android.graphics.Color.parseColor(homeTodayInternModel.color)),
                         onColorSelected = { newColor ->
                             viewModel.updateSelectColor(newColor)
                         }
