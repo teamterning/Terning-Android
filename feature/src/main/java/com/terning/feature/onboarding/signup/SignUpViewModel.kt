@@ -46,7 +46,7 @@ class SignUpViewModel @Inject constructor(
                 isButtonValid = false
             )
 
-            trimmedName.isEmpty() -> _state.value = _state.value.copy(
+            trimmedName.isEmpty() || trimmedName.isBlank() -> _state.value = _state.value.copy(
                 name = trimmedName,
                 drawLineColor = Grey500,
                 helper = R.string.sign_up_helper,
