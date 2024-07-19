@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -52,6 +53,7 @@ import com.terning.feature.intern.component.InternInfoRow
 fun HomeRecommendInternDialog(
     internInfoList: List<Pair<String, String>>,
     clickAction: () -> Unit,
+    onColorSelected:(Color) -> Unit = {},
     homeRecommendInternModel: HomeRecommendInternModel,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
@@ -171,6 +173,7 @@ fun HomeRecommendInternDialog(
                             initialColor = CalRed,
                             onColorSelected = { newColor ->
                                 viewModel.updateSelectColor(newColor)
+                                onColorSelected(newColor)
                             }
                         )
                     }

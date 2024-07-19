@@ -1,5 +1,6 @@
 package com.terning.feature.search.searchprocess
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -352,11 +353,13 @@ fun SearchProcessScreen(
                                             )
                                             viewModel.updateColorChange(false)
                                         } else {
-                                            viewModel.postScrap(internshipAnnouncementId, 0)
-
+                                            viewModel.postScrap(internshipAnnouncementId, colorList.indexOf(dialogState.selectedColor))
                                         }
                                         viewModel.updateScrapDialogVisible(false)
                                     }
+                                },
+                                onColorSelected = { newColor ->
+                                    viewModel.updateSelectColor(newColor)
                                 },
                                 homeRecommendInternModel = HomeRecommendInternModel(
                                     scrapId = scrapId,
