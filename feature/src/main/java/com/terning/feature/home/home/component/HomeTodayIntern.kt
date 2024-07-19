@@ -62,6 +62,7 @@ fun HomeTodayIntern(
         TerningBasicDialog(
             onDismissRequest = {
                 homeViewModel.updateScrapDialogVisible(false)
+                homeViewModel.updatePaletteOpen(false)
             },
             content = {
                 with(internList[selectedIndex]) {

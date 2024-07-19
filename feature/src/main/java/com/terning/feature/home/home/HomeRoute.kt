@@ -128,10 +128,13 @@ fun HomeRoute(
 
     when (homeTodayState) {
         is UiState.Success -> {
-            homeTodayInternList.value = (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
+            homeTodayInternList.value =
+                (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
         }
-        is UiState.Loading ->  { }
-        else -> {homeTodayInternList.value = emptyList()
+
+        is UiState.Loading -> {}
+        else -> {
+            homeTodayInternList.value = emptyList()
         }
     }
 
@@ -284,7 +287,10 @@ fun HomeScreen(
 
     if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
         TerningBasicDialog(
-            onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
+            onDismissRequest = {
+                viewModel.updateScrapDialogVisible(false)
+                viewModel.updatePaletteOpen(false)
+            },
             content = {
                 if (recommendInternList[scrapId].scrapId != null) {
                     ScrapCancelDialogContent(
