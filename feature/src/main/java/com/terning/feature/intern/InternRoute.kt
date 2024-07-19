@@ -172,10 +172,11 @@ fun InternScreen(
                     ) {
                         Text(
                             text = internInfoModel.dDay,
-                            style = TerningTheme.typography.body0,
+                            style = TerningTheme.typography.title5,
                             color = TerningMain,
                             modifier = Modifier.padding(
-                                start = 14.dp, end = 15.dp
+                                horizontal = 12.dp,
+                                vertical = 2.dp
                             )
                         )
                     }
@@ -386,8 +387,11 @@ fun InternScreen(
 
                         else -> ScrapDialogContent(
                             internInfoList = internInfoList,
-                            internInfoModel = internInfoModel,
+                            dDay = internInfoModel.dDay,
+                            title = internInfoModel.title,
+                            companyImage = internInfoModel.companyImage,
                             announcementId = announcementId,
+                            type = 0
                         )
                     }
                 },

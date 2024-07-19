@@ -37,6 +37,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.terning.core.designsystem.component.dialog.ScrapCancelDialogContent
+import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
@@ -47,8 +49,8 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.SearchResultModel
 import com.terning.feature.R
+import com.terning.feature.intern.component.ScrapDialogContent
 import com.terning.feature.intern.navigation.navigateIntern
 
 private const val MAX_LINES = 1
@@ -71,6 +73,14 @@ fun SearchProcessRoute(
                     is SearchProcessSideEffect.Toast -> {
                         sideEffect.message
                     }
+
+                    is SearchProcessSideEffect.ScrapUpdate -> {
+                        sideEffect.keyword
+                    }
+
+                    else -> {
+
+                    }
                 }
             }
     }
@@ -92,6 +102,8 @@ fun SearchProcessScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }
     val internSearchResultData by viewModel.internSearchResultData.collectAsStateWithLifecycle()
+    val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
+    val selectedInternIndex = remember { mutableStateOf(-1) }
 
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -175,9 +187,25 @@ fun SearchProcessScreen(
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 items(viewModel.internSearchResultData.value.size) { index ->
-                                    SearchResultItem(
-                                        navController = navController,
-                                        intern = internSearchResultData[index]
+                                    InternItemWithShadow(
+                                        modifier = modifier.noRippleClickable {
+                                            navController.navigateIntern(
+                                                announcementId = internSearchResultData[index]
+                                                    .internshipAnnouncementId
+                                            )
+                                        },
+                                        imageUrl = internSearchResultData[index].companyImage,
+                                        title = internSearchResultData[index].title,
+                                        dateDeadline = internSearchResultData[index].dDay,
+                                        workingPeriod = internSearchResultData[index].workingPeriod,
+                                        isScrapped = internSearchResultData[index].scrapId != null,
+                                        shadowWidth = 2.dp,
+                                        shadowRadius = 10.dp,
+                                        onScrapButtonClicked = {
+                                            viewModel.updateScrapDialogVisible(true)
+                                            viewModel.updateScrapped(scrapped = internSearchResultData[index].scrapId != null)
+                                            selectedInternIndex.value = index
+                                        }
                                     )
                                 }
                             }
@@ -239,35 +267,51 @@ fun SearchProcessScreen(
             }
         }
     }
-}
 
-@Composable
-private fun SearchResultItem(
-    navController: NavHostController,
-    intern: SearchResultModel,
-    modifier: Modifier = Modifier,
-) {
-    InternItemWithShadow(
-        modifier = modifier.noRippleClickable {
-            navController.navigateIntern(
-                announcementId = intern.internshipAnnouncementId
-            )
-        },
-        imageUrl = intern.companyImage,
-        title = intern.title,
-        dateDeadline = intern.dDay,
-        workingPeriod = intern.workingPeriod,
-        isScrapped = intern.scrapId != null,
-        shadowWidth = 2.dp,
-        shadowRadius = 10.dp
-    )
+    if (dialogState.isScrapDialogVisible) {
+        TerningBasicDialog(
+            onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
+            content = {
+                val selectedIndex = selectedInternIndex.value
+                if (selectedIndex != -1) {
+                    val selectedIntern = internSearchResultData[selectedIndex]
+                    if (selectedIntern.scrapId != null) {
+                        ScrapCancelDialogContent(
+                            onClickScrapCancel = {
+                                viewModel.updateScrapDialogVisible(false)
+                                viewModel.deleteScrap(
+                                    selectedIntern.scrapId ?: -1,
+                                )
+                                if (dialogState.isScrappedState) {
+                                    viewModel.updateScrapped(false)
+                                }
+                            }
+                        )
+                    } else {
+                        val internInfoList = listOf(
+                            stringResource(id = R.string.intern_info_d_day) to selectedIntern.deadline,
+                            stringResource(id = R.string.intern_info_working) to selectedIntern.workingPeriod,
+                            stringResource(id = R.string.intern_info_start_date) to selectedIntern.startYearMonth,
+                        )
+                        ScrapDialogContent(
+                            internInfoList = internInfoList,
+                            dDay = selectedIntern.dDay,
+                            title = selectedIntern.title,
+                            companyImage = selectedIntern.companyImage,
+                            announcementId = selectedIntern.internshipAnnouncementId,
+                            type = 1
+                        )
+                    }
+                }
+            }
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SearchProcessScreenPreview() {
-    TerningPointTheme {
-    }
+    TerningPointTheme {}
 }
 
 private const val SORT_BY = "deadlineSoon"

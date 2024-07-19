@@ -7,4 +7,7 @@ data class SearchResultModel(
     val workingPeriod: String,
     val companyImage: String,
     val scrapId: Long?,
+    val deadline: String,
+    val startYearMonth: String,
+    val color: String?,
 )

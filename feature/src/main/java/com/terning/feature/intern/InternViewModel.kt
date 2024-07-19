@@ -10,6 +10,7 @@ import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.intern.model.InternScrapState
 import com.terning.feature.intern.model.InternViewState
+import com.terning.feature.search.searchprocess.SearchProcessSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -108,12 +109,6 @@ class InternViewModel @Inject constructor(
     fun updateScrapDialogVisible(visible: Boolean) {
         _internState.update {
             it.copy(isScrapDialogVisible = visible)
-        }
-    }
-
-    fun updateScrapped(scrapped: Boolean) {
-        _internState.update {
-            it.copy(isScrappedState = scrapped)
         }
     }
 
