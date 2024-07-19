@@ -30,6 +30,7 @@ fun CalendarDialog(
 
     if (uiState.isInternshipClicked) {
         CalendarDetailDialog(
+            deadline = uiState.selectedDate.toString(),
             scrapDetailModel = uiState.internshipModel,
             onDismissRequest = {viewModel.updateInternDialogVisible(false)},
             onClickChangeColorButton = { newColor ->

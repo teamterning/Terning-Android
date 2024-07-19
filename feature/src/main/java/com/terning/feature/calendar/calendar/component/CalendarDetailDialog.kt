@@ -56,6 +56,7 @@ import java.time.LocalDate
 
 @Composable
 fun CalendarDetailDialog(
+    deadline: String,
     scrapDetailModel: CalendarScrapDetailModel?,
     onDismissRequest: () -> Unit,
     onClickChangeColorButton: (Color) -> Unit,
@@ -65,6 +66,7 @@ fun CalendarDetailDialog(
         onDismissRequest = onDismissRequest
     ) {
         InternDialogContent(
+            deadline = deadline,
             scrapDetailModel = scrapDetailModel,
             onClickChangeColorButton = onClickChangeColorButton,
             onClickNavigateButton = onClickNavigateButton
@@ -75,6 +77,7 @@ fun CalendarDetailDialog(
 
 @Composable
 private fun InternDialogContent(
+    deadline: String,
     scrapDetailModel: CalendarScrapDetailModel?,
     onClickChangeColorButton: (Color) -> Unit,
     onClickNavigateButton: (Long) -> Unit
@@ -216,7 +219,7 @@ private fun InternDialogContent(
                     ) {
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_d_day),
-                            value = scrapDetailModel?.deadLine.toString()
+                            value = deadline
                         )
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_working),
@@ -248,30 +251,5 @@ private fun InternDialogContent(
             )
 
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun InternDialogContentPreview() {
-    TerningPointTheme {
-        CalendarDetailDialog(
-            onDismissRequest = {},
-            onClickChangeColorButton = {},
-            onClickNavigateButton = {},
-            scrapDetailModel = CalendarScrapDetailModel(
-                scrapId = 123,
-                internshipAnnouncementId = 123,
-                title = "테스트",
-                dDay = "asdas",
-                workingPeriod = "asdas",
-                startYear = 2023,
-                startMonth = 1,
-                isScrapped = true,
-                color = "0xFF4c3552",
-                companyImage = "",
-                deadLine = "sads"
-            )
-        )
     }
 }
