@@ -53,7 +53,12 @@ fun SplashScreen(
                                 inclusive = true
                             ).build()
                         )
-                        else navController.navigateSignIn()
+                        else navController.navigateSignIn(
+                            navOptions = NavOptions.Builder().setPopUpTo(
+                                route = Splash,
+                                inclusive = true
+                            ).build()
+                        )
                     }
                 }
             }

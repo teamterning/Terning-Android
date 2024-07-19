@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.Lottie
 import com.airbnb.lottie.compose.LottieAnimation
@@ -39,7 +40,10 @@ import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
+import com.terning.feature.filtering.starthome.navigation.StartHome
 import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.onboarding.signin.navigation.SignIn
+import com.terning.feature.onboarding.splash.navigation.Splash
 import kotlinx.coroutines.delay
 
 @Composable
@@ -87,7 +91,12 @@ fun StartHomeScreen(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 20.dp,
                     text = R.string.start_home_next_button,
-                    onButtonClick = { navController.navigateHome() },
+                    onButtonClick = { navController.navigateHome(
+                        navOptions = NavOptions.Builder().setPopUpTo(
+                            route = SignIn,
+                            inclusive = true
+                        ).build()
+                    ) },
                 )
             }
         }
