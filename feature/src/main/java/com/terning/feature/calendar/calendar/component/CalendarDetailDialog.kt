@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -78,17 +80,24 @@ private fun InternDialogContent(
     onClickNavigateButton: (Long) -> Unit
 ) {
     var isPaletteOpen by remember { mutableStateOf(false) }
-    var selectedColor by remember {mutableStateOf(Color(android.graphics.Color.parseColor(scrapDetailModel?.color)))}
+    var selectedColor by remember {
+        mutableStateOf(
+            Color(
+                android.graphics.Color.parseColor(
+                    scrapDetailModel?.color
+                )
+            )
+        )
+    }
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .wrapContentSize()
             .padding(top = 32.dp),
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(horizontal = 11.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -215,33 +224,29 @@ private fun InternDialogContent(
                         )
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_start_date),
-                            value = "${scrapDetailModel?.startYear?:LocalDate.now().year}년 " +
-                                    "${scrapDetailModel?.startMonth?:LocalDate.now().monthValue}월"
+                            value = "${scrapDetailModel?.startYear ?: LocalDate.now().year}년 " +
+                                    "${scrapDetailModel?.startMonth ?: LocalDate.now().monthValue}월"
                         )
                     }
                 }
             }
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.BottomCenter
-            ) {
-                RoundButton(
-                    style = TerningTheme.typography.button3,
-                    paddingVertical = 12.dp,
-                    cornerRadius = 8.dp,
-                    text = if (isPaletteOpen) R.string.dialog_content_calendar_color_change
-                    else R.string.dialog_scrap_move_to_intern,
-                    onButtonClick = {
-                        if (isPaletteOpen) {
-                            onClickChangeColorButton(selectedColor)
-                            isPaletteOpen = false
-                        } else {
-                            onClickNavigateButton(scrapDetailModel?.internshipAnnouncementId?:0)
-                        }
-                    },
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            }
+            RoundButton(
+                style = TerningTheme.typography.button3,
+                paddingVertical = 12.dp,
+                cornerRadius = 8.dp,
+                text = if (isPaletteOpen) R.string.dialog_content_calendar_color_change
+                else R.string.dialog_scrap_move_to_intern,
+                onButtonClick = {
+                    if (isPaletteOpen) {
+                        onClickChangeColorButton(selectedColor)
+                        isPaletteOpen = false
+                    } else {
+                        onClickNavigateButton(scrapDetailModel?.internshipAnnouncementId ?: 0)
+                    }
+                },
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
         }
     }
 }
