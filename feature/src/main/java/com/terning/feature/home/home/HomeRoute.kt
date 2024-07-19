@@ -92,6 +92,10 @@ fun HomeRoute(
     val homeUserState by viewModel.homeUserState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
+    val homeTodayInternList: MutableState<List<HomeTodayInternModel>> = remember {
+        mutableStateOf(emptyList())
+    }
+
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -122,12 +126,13 @@ fun HomeRoute(
         viewModel.getHomeTodayInternList()
     }
 
-    val homeTodayInternList = when (homeTodayState) {
+    when (homeTodayState) {
         is UiState.Success -> {
-            (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
+            homeTodayInternList.value = (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
         }
-
-        else -> emptyList()
+        is UiState.Loading ->  { }
+        else -> {homeTodayInternList.value = emptyList()
+        }
     }
 
     val homeRecommendInternList = when (homeRecommendInternState) {
@@ -152,7 +157,7 @@ fun HomeRoute(
         currentSortBy,
         homeUserName = homeUserName,
         homeFilteringInfo = homeFilteringInfo,
-        homeTodayInternList = homeTodayInternList,
+        homeTodayInternList = homeTodayInternList.value,
         recommendInternList = homeRecommendInternList,
         homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
