@@ -45,6 +45,13 @@ fun HomeTodayIntern(
                     .noRippleClickable {
                         homeViewModel.updateScrapDialogVisible(true)
                         homeViewModel.updateIsToday(true)
+                        homeViewModel.updateSelectColor(
+                            Color(
+                                android.graphics.Color.parseColor(
+                                    internList[index].color
+                                )
+                            )
+                        )
                         selectedIndex = index
                     }
             )
