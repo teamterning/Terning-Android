@@ -1,5 +1,6 @@
 package com.terning.feature.calendar.scrap.component
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,21 +23,11 @@ import java.time.LocalDate
 fun CalendarScrapList(
     selectedDate: LocalDate,
     scrapList: List<CalendarScrapDetailModel>,
-    onScrapButtonClicked:(Long) -> Unit,
-    onInternshipClicked:(CalendarScrapDetailModel) -> Unit,
-    isFromList: Boolean = false,
-    noScrapScreen: @Composable () -> Unit = {}
+    onScrapButtonClicked: (Long) -> Unit,
+    onInternshipClicked: (CalendarScrapDetailModel) -> Unit,
+    isFromList: Boolean = false
 ) {
     val scrollState = rememberScrollState()
-
-    if (scrapList.isListNotEmpty()) {
-        Text(
-            text = selectedDate.getDateStringInKorean(),
-            style = TerningTheme.typography.title5,
-            color = Black,
-            modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-        )
-    }
     val topModifier = if (!isFromList) {
         Modifier
             .fillMaxWidth()
@@ -48,22 +39,28 @@ fun CalendarScrapList(
             .padding(horizontal = 24.dp)
     }
 
-    if (!scrapList.isListNotEmpty()) {
-        noScrapScreen()
-    } else {
-        Column(
-            modifier = topModifier
-        ) {
-            for (scrap in scrapList) {
-                CalendarScrap(
-                    scrap = scrap,
-                    onScrapButtonClicked = onScrapButtonClicked,
-                    onInternshipClicked = onInternshipClicked
-                )
-                Spacer(
-                    modifier = Modifier.height(12.dp)
-                )
-            }
+    if (scrapList.isListNotEmpty()) {
+        Text(
+            text = selectedDate.getDateStringInKorean(),
+            style = TerningTheme.typography.title5,
+            color = Black,
+            modifier = Modifier
+                .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
+        )
+    }
+
+    Column(
+        modifier = topModifier
+    ) {
+        for (scrap in scrapList) {
+            CalendarScrap(
+                scrap = scrap,
+                onScrapButtonClicked = onScrapButtonClicked,
+                onInternshipClicked = onInternshipClicked
+            )
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
         }
     }
 }
