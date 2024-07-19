@@ -120,6 +120,15 @@ fun SearchProcessScreen(
         focusRequester.requestFocus()
     }
 
+    LaunchedEffect(true) {
+        viewModel.getSearchList(
+            keyword = state.text,
+            sortBy = SORT_BY,
+            page = 0,
+            size = 10
+        )
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -348,10 +357,6 @@ fun SearchProcessScreen(
                                         }
                                         viewModel.updateScrapDialogVisible(false)
                                     }
-                                    viewModel.postScrap(
-                                        internshipAnnouncementId = internshipAnnouncementId,
-                                        selectedColorIndex,
-                                    )
                                 },
                                 homeRecommendInternModel = HomeRecommendInternModel(
                                     scrapId = scrapId,
