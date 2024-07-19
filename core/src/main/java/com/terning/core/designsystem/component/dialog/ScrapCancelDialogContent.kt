@@ -52,7 +52,9 @@ fun ScrapCancelDialogContent(
         ) {
             TerningLottieAnimation(
                 jsonString = "terning_scrap_cancel.json",
-                modifier = Modifier.fillMaxWidth().aspectRatio(1f)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
             )
 
             Text(
@@ -69,19 +71,14 @@ fun ScrapCancelDialogContent(
                     top = 5.dp
                 )
             )
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.BottomCenter
-            ) {
-                RoundButton(
-                    style = TerningTheme.typography.button3,
-                    paddingVertical = 12.dp,
-                    cornerRadius = 8.dp,
-                    text = R.string.dialog_scrap_cancel_button,
-                    onButtonClick = onClickScrapCancel,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            }
+            RoundButton(
+                style = TerningTheme.typography.button3,
+                paddingVertical = 12.dp,
+                cornerRadius = 8.dp,
+                text = R.string.dialog_scrap_cancel_button,
+                onButtonClick = onClickScrapCancel,
+                modifier = Modifier.padding(bottom = 8.dp, top = 40.dp)
+            )
         }
     }
 }

@@ -28,11 +28,11 @@ fun CalendarMonthScrap(
         items(scrapLists.subList(0, MAX_SCRAP_COUNT.coerceAtMost(scrapLists.size))) { scrap ->
             Text(
                 text = scrap.title,
-                style = TerningTheme.typography.body5,
+                style = TerningTheme.typography.button5,
                 textAlign = TextAlign.Center,
                 color = White,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                overflow = TextOverflow.Clip,
                 modifier = Modifier
                     .padding(top = 2.dp)
                     .padding(horizontal = 2.dp)

@@ -11,6 +11,8 @@ fun LocalDate.getStringAsTitle(): String =
 fun LocalDate.getDateStringInKorean(): String =
     "${monthValue}월 ${dayOfMonth}일 ${dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)}"
 
+fun LocalDate.getFullDateStringInKorean(): String = "${year}년 ${monthValue}월 ${dayOfMonth}일"
+
 fun LocalDate.getDateAsMapString(): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     return format(formatter)
