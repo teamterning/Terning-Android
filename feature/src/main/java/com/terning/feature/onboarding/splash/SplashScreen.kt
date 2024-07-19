@@ -11,12 +11,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.feature.R
 import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.navigation.navigateSignIn
+import com.terning.feature.onboarding.splash.navigation.Splash
 
 @Composable
 fun SplashScreen(
@@ -45,12 +47,17 @@ fun SplashScreen(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SplashState.GetHasAccessToken -> {
-                        if (sideEffect.hasAccessToken) navController.navigateHome()
+                        if (sideEffect.hasAccessToken) navController.navigateHome(
+                            navOptions = NavOptions.Builder().setPopUpTo(
+                                 route = Splash,
+                                inclusive = true
+                            ).build()
+                        )
                         else navController.navigateSignIn()
                     }
-
                 }
             }
+
     }
 
     Column(
