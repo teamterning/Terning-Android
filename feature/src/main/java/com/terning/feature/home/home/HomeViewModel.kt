@@ -3,6 +3,7 @@ package com.terning.feature.home.home
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.entity.request.ScrapRequestModel
@@ -135,7 +136,9 @@ class HomeViewModel @Inject constructor(
             ).onSuccess {
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
+                updateSelectColor(CalRed)
                 getHomeTodayInternList()
+                getFilteringInfo()
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_add_toast_message))
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
@@ -151,6 +154,7 @@ class HomeViewModel @Inject constructor(
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
                 getHomeTodayInternList()
+                getFilteringInfo()
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_delete_toast_message))
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
@@ -171,6 +175,7 @@ class HomeViewModel @Inject constructor(
             ).onSuccess {
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
+                updateSelectColor(CalRed)
                 getHomeTodayInternList()
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
