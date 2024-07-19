@@ -58,7 +58,6 @@ import com.terning.feature.home.home.component.HomeRecommendInternDialog
 import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.HomeDialogState
-import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7
@@ -117,6 +116,10 @@ fun HomeRoute(
 
             else -> {}
         }
+    }
+
+    LaunchedEffect(homeFilteringState) {
+        viewModel.getHomeTodayInternList()
     }
 
     val homeTodayInternList = when (homeTodayState) {
@@ -285,7 +288,7 @@ fun HomeScreen(
                             viewModel.deleteScrap(
                                 recommendInternList[scrapId].scrapId ?: -1,
                             )
-                            if(homeDialogState.isScrappedState) {
+                            if (homeDialogState.isScrappedState) {
                                 viewModel.getRecommendInternsData(
                                     currentSortBy.value,
                                     homeFilteringInfo.startYear ?: viewModel.currentYear,
@@ -305,7 +308,7 @@ fun HomeScreen(
                             ),
                             clickAction = {
                                 viewModel.updateScrapDialogVisible(false)
-                                if(homeDialogState.isScrappedState) {
+                                if (homeDialogState.isScrappedState) {
                                     viewModel.getRecommendInternsData(
                                         currentSortBy.value,
                                         homeFilteringInfo.startYear ?: viewModel.currentYear,
