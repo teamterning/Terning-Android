@@ -22,6 +22,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.noRippleClickable
 import com.terning.feature.calendar.month.model.DayClass
 import java.time.LocalDate
 
@@ -31,7 +32,7 @@ fun CalendarDay(
     dayData: DayClass,
     isSelected: Boolean,
     isToday: Boolean,
-    onDateSelected: (LocalDate) -> Unit
+    onDateSelected: (LocalDate) -> Unit = {}
 ) {
     val backgroundColor =
         if (isSelected) TerningMain else if (isToday) Grey200 else Color.Transparent
@@ -52,15 +53,11 @@ fun CalendarDay(
         Box(
             modifier = Modifier
                 .size(22.dp)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = {
-                        if (!dayData.isOutDate) {
-                            onDateSelected(dayData.date)
-                        }
+                .noRippleClickable {
+                    if (!dayData.isOutDate) {
+                        onDateSelected(dayData.date)
                     }
-                )
+                }
                 .background(
                     color = backgroundColor,
                     shape = CircleShape

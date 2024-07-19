@@ -14,7 +14,7 @@ val Grey500 = Color(0xFF373737)
 val Black = Color(0xFF171717)
 
 // Main Color
-val TerningMain = Color(0xFF1EA65E)
+val TerningMain = Color(0xFF1EAC61)
 val TerningMain2 = Color(0xFF179653)
 
 // Sub Color

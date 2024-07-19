@@ -40,6 +40,16 @@ import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.CalBlue1
+import com.terning.core.designsystem.theme.CalBlue2
+import com.terning.core.designsystem.theme.CalGreen1
+import com.terning.core.designsystem.theme.CalGreen2
+import com.terning.core.designsystem.theme.CalOrange1
+import com.terning.core.designsystem.theme.CalOrange2
+import com.terning.core.designsystem.theme.CalPink
+import com.terning.core.designsystem.theme.CalPurple
+import com.terning.core.designsystem.theme.CalRed
+import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -58,7 +68,6 @@ import com.terning.feature.home.home.component.HomeRecommendInternDialog
 import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.HomeDialogState
-import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7
@@ -93,13 +102,17 @@ fun HomeRoute(
     val homeUserState by viewModel.homeUserState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
+    val homeTodayInternList: MutableState<List<HomeTodayInternModel>> = remember {
+        mutableStateOf(emptyList())
+    }
+
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
-                    is HomeSideEffect.NavigateToHome -> navController.navigateHome()
+                    is HomeSideEffect.NavigateToHome -> navController.navigateUp()
                 }
             }
     }
@@ -119,12 +132,24 @@ fun HomeRoute(
         }
     }
 
-    val homeTodayInternList = when (homeTodayState) {
+    LaunchedEffect(homeFilteringState) {
+        viewModel.getHomeTodayInternList()
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.getFilteringInfo()
+    }
+
+    when (homeTodayState) {
         is UiState.Success -> {
-            (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
+            homeTodayInternList.value =
+                (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
         }
 
-        else -> emptyList()
+        is UiState.Loading -> {}
+        else -> {
+            homeTodayInternList.value = emptyList()
+        }
     }
 
     val homeRecommendInternList = when (homeRecommendInternState) {
@@ -149,7 +174,7 @@ fun HomeRoute(
         currentSortBy,
         homeUserName = homeUserName,
         homeFilteringInfo = homeFilteringInfo,
-        homeTodayInternList = homeTodayInternList,
+        homeTodayInternList = homeTodayInternList.value,
         recommendInternList = homeRecommendInternList,
         homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
@@ -276,7 +301,10 @@ fun HomeScreen(
 
     if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
         TerningBasicDialog(
-            onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
+            onDismissRequest = {
+                viewModel.updateScrapDialogVisible(false)
+                viewModel.updatePaletteOpen(false)
+            },
             content = {
                 if (recommendInternList[scrapId].scrapId != null) {
                     ScrapCancelDialogContent(
@@ -285,7 +313,7 @@ fun HomeScreen(
                             viewModel.deleteScrap(
                                 recommendInternList[scrapId].scrapId ?: -1,
                             )
-                            if(homeDialogState.isScrappedState) {
+                            if (homeDialogState.isScrappedState) {
                                 viewModel.getRecommendInternsData(
                                     currentSortBy.value,
                                     homeFilteringInfo.startYear ?: viewModel.currentYear,
@@ -296,6 +324,22 @@ fun HomeScreen(
                         }
                     )
                 } else {
+                    val colorList = listOf(
+                        CalRed,
+                        CalOrange1,
+                        CalOrange2,
+                        CalYellow,
+                        CalGreen1,
+                        CalGreen2,
+                        CalBlue1,
+                        CalBlue2,
+                        CalPurple,
+                        CalPink,
+                    )
+
+                    val selectedColorIndex =
+                        colorList.indexOf(homeDialogState.selectedColor).takeIf { it >= 0 } ?: 0
+
                     with(recommendInternList[scrapId]) {
                         HomeRecommendInternDialog(
                             internInfoList = listOf(
@@ -304,8 +348,22 @@ fun HomeScreen(
                                 stringResource(id = R.string.intern_info_start_date) to startYearMonth,
                             ),
                             clickAction = {
+                                if (homeDialogState.isPaletteOpen) {
+                                    viewModel.updatePaletteOpen(false)
+                                    viewModel.updateColorChange(false)
+                                    viewModel.updateScrapDialogVisible(false)
+                                } else {
+                                    if (homeDialogState.isColorChange) {
+                                        viewModel.updateColorChange(false)
+                                    }
+                                    viewModel.updateScrapDialogVisible(false)
+                                }
+                                viewModel.postScrap(
+                                    recommendInternList[scrapId].internshipAnnouncementId,
+                                    selectedColorIndex,
+                                )
                                 viewModel.updateScrapDialogVisible(false)
-                                if(homeDialogState.isScrappedState) {
+                                if (homeDialogState.isScrappedState) {
                                     viewModel.getRecommendInternsData(
                                         currentSortBy.value,
                                         homeFilteringInfo.startYear ?: viewModel.currentYear,

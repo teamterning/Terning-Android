@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -19,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -36,6 +36,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.InternInfoModel
 import com.terning.feature.R
@@ -53,6 +54,7 @@ fun InternRoute(
     announcementId: Long = 0,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val state by viewModel.internState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
@@ -65,9 +67,7 @@ fun InternRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is InternViewSideEffect.Toast -> {
-                        sideEffect.message
-                    }
+                    is InternViewSideEffect.Toast -> context.toast(sideEffect.message)
                 }
             }
     }
@@ -172,10 +172,11 @@ fun InternScreen(
                     ) {
                         Text(
                             text = internInfoModel.dDay,
-                            style = TerningTheme.typography.body0,
+                            style = TerningTheme.typography.title5,
                             color = TerningMain,
                             modifier = Modifier.padding(
-                                start = 14.dp, end = 15.dp
+                                horizontal = 12.dp,
+                                vertical = 2.dp
                             )
                         )
                     }
@@ -225,7 +226,7 @@ fun InternScreen(
                         )
                         Text(
                             text = "${decimal.format(internInfoModel.viewCount)}회",
-                            style = TerningTheme.typography.button3,
+                            style = TerningTheme.typography.button4,
                             color = Grey400,
                         )
                     }
@@ -269,8 +270,8 @@ fun InternScreen(
                         ) {
                             Row(
                                 modifier = modifier
-                                    .padding(end = 17.dp),
-                                verticalAlignment = Alignment.CenterVertically,
+                                    .weight(2f),
+                                verticalAlignment = Alignment.Top,
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_first_info_20),
@@ -284,6 +285,9 @@ fun InternScreen(
                             }
 
                             Column(
+                                modifier = modifier
+                                    .weight(5f)
+                                    .padding(start = 8.dp),
                                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
                                 qualificationList.forEach { qualification ->
@@ -313,10 +317,9 @@ fun InternScreen(
                         ) {
                             Row(
                                 modifier = modifier
-                                    .padding(end = 40.dp)
-                                    .wrapContentWidth(),
+                                    .weight(2f),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.Start
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_second_info_20),
@@ -330,6 +333,9 @@ fun InternScreen(
                             }
 
                             Column(
+                                modifier = modifier
+                                    .weight(5f)
+                                    .padding(start = 8.dp),
                                 verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                             ) {
                                 jobTypeList.forEach { jobType ->
@@ -381,8 +387,11 @@ fun InternScreen(
 
                         else -> ScrapDialogContent(
                             internInfoList = internInfoList,
-                            internInfoModel = internInfoModel,
+                            dDay = internInfoModel.dDay,
+                            title = internInfoModel.title,
+                            companyImage = internInfoModel.companyImage,
                             announcementId = announcementId,
+                            type = 0
                         )
                     }
                 },

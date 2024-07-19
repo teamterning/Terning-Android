@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -62,6 +63,17 @@ private fun CalendarScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
+
+
+    val state by remember { mutableStateOf(CalendarState()) }
+
+    val listState = rememberLazyListState(
+        initialFirstVisibleItemIndex = state.getInitialPage()
+    )
+
+    var currentDate by rememberSaveable { mutableStateOf(YearMonth.now()) }
+    var currentPage by rememberSaveable { mutableIntStateOf(listState.firstVisibleItemIndex) }
+
     LaunchedEffect(viewModel.calendarSideEffect, lifecycleOwner) {
         viewModel.calendarSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -70,15 +82,6 @@ private fun CalendarScreen(
                 }
             }
     }
-
-    val state by remember { mutableStateOf(CalendarState()) }
-
-    val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = state.getInitialPage()
-    )
-
-    var currentDate by remember { mutableStateOf(YearMonth.now()) }
-    var currentPage by remember { mutableIntStateOf(listState.firstVisibleItemIndex) }
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }

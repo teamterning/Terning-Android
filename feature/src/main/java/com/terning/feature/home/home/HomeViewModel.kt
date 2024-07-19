@@ -62,7 +62,6 @@ class HomeViewModel @Inject constructor(
     init {
         getProfile()
         getFilteringInfo()
-        getHomeTodayInternList()
     }
 
     fun getRecommendInternsData(sortBy: Int, startYear: Int, startMonth: Int) {
@@ -137,6 +136,7 @@ class HomeViewModel @Inject constructor(
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
                 getHomeTodayInternList()
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_add_toast_message))
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
@@ -147,6 +147,27 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             scrapRepository.deleteScrap(
                 ScrapRequestModel(id = scrapId)
+            ).onSuccess {
+                updateScrapDialogVisible(visible = false)
+                updateScrapped(scrapped = true)
+                getHomeTodayInternList()
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_delete_toast_message))
+            }.onFailure {
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+            }
+        }
+    }
+
+    fun patchScrap(
+        scrapId: Long,
+        colorIndex: Int,
+    ) {
+        viewModelScope.launch {
+            scrapRepository.patchScrap(
+                ScrapRequestModel(
+                    id = scrapId,
+                    color = colorIndex,
+                )
             ).onSuccess {
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)

@@ -6,5 +6,4 @@ data class SearchProcessState(
     val keyword: String = "",
     val showSearchResults: Boolean = false,
     val existSearchResults: Boolean = false,
-//    val searchResults: List<InternData> = emptyList(),
 )
