@@ -52,6 +52,7 @@
     <string name="dialog_scrap_cancel_button">스크랩 취소하기</string>
     <string name="dialog_scrap_mine">내가 스크랩한 관심 공고에요!</string>
     <string name="dialog_scrap_move_to_intern">공고 상세 정보 보러가기</string>
+    <string name="dialog_today_deadline">오늘 마감되는 공고예요!</string>
 
     <!--Intern-->
     <string name="intern_info_d_day">서류 마감</string>
