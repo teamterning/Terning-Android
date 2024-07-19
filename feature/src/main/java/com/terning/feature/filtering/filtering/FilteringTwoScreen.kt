@@ -15,11 +15,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.filtering.filtering.component.StatusTwoRadioGroup
@@ -27,16 +27,15 @@ import com.terning.feature.filtering.filtering.navigation.navigateFilteringThree
 
 @Composable
 fun FilteringTwoScreen(
-    grade : Int,
+    grade: Int,
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: FilteringViewModel = hiltViewModel(),
     onButtonClick: (Int) -> Unit = {},
 ) {
 
     val isButtonValid = remember { mutableStateOf(false) }
 
-    var workingPeriod by remember{ mutableIntStateOf(-1) }
+    var workingPeriod by remember { mutableIntStateOf(-1) }
 
     Scaffold(
         modifier = modifier,
@@ -69,6 +68,7 @@ fun FilteringTwoScreen(
             Text(
                 text = stringResource(id = R.string.filtering_status2_sub),
                 style = TerningTheme.typography.body5,
+                color = Grey300,
                 modifier = modifier.padding(
                     top = 3.dp,
                     start = 24.dp,
@@ -76,19 +76,11 @@ fun FilteringTwoScreen(
                 )
             )
             StatusTwoRadioGroup(
-                onButtonClick = {index ->
+                onButtonClick = { index ->
                     onButtonClick(index)
                     isButtonValid.value = true
                     workingPeriod = index
                 }
-            )
-            Text(
-                text = stringResource(id = R.string.filtering_status1_warning),
-                style = TerningTheme.typography.detail3,
-                modifier = modifier.padding(
-                    start = 24.dp,
-                    top = 9.dp
-                )
             )
             Spacer(modifier = modifier.weight(1f))
             RectangleButton(

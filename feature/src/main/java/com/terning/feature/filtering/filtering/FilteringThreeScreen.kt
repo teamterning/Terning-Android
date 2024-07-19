@@ -18,13 +18,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
@@ -39,7 +39,6 @@ fun FilteringThreeScreen(
     modifier: Modifier = Modifier,
     viewModel: FilteringViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -101,6 +100,7 @@ fun FilteringThreeScreen(
             Text(
                 text = stringResource(id = R.string.filtering_status3_sub),
                 style = TerningTheme.typography.body5,
+                color = Grey300,
                 modifier = modifier.padding(
                     top = 3.dp,
                     start = 24.dp,
