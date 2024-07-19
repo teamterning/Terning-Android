@@ -2,9 +2,11 @@ package com.terning.feature.calendar.scrap
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -25,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.theme.Back
+import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -126,6 +129,14 @@ fun CalendarListScreen(
                                             viewModel.updateInternDialogVisible(true)
                                         },
                                         isFromList = true
+                                    )
+
+                                    Spacer(
+                                        modifier = Modifier
+                                            .padding(top = 4.dp)
+                                            .fillMaxWidth()
+                                            .height(4.dp)
+                                            .background(Grey200)
                                     )
                                 }
                             }
