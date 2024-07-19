@@ -3,18 +3,14 @@ package com.terning.core.designsystem.component.bottomsheet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -29,12 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import kotlinx.coroutines.launch
@@ -44,12 +38,13 @@ import kotlinx.coroutines.launch
 fun SignUpBottomSheet(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
-    onSaveClick: (Int) -> Unit
+    onSaveClick: (Int) -> Unit,
+    initialSelectedOption: Int
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
 
-    var selectedImageIndex by remember { mutableIntStateOf(-1) }
+    var selectedImageIndex by remember { mutableIntStateOf(initialSelectedOption) }
 
     TerningBasicBottomSheet(
         content = {
@@ -66,7 +61,8 @@ fun SignUpBottomSheet(
                 RadioButtonGroup(
                     onOptionSelected = { index ->
                         selectedImageIndex = index
-                    }
+                    },
+                    initialSelectedOption = initialSelectedOption
                 )
                 Spacer(modifier = modifier.padding(bottom = 24.dp))
                 RoundButton(
@@ -95,7 +91,8 @@ fun SignUpBottomSheet(
 @Composable
 fun RadioButtonGroup(
     modifier: Modifier = Modifier,
-    onOptionSelected: (Int) -> Unit
+    onOptionSelected: (Int) -> Unit,
+    initialSelectedOption: Int
 ) {
     val options = listOf(
         R.drawable.ic_terning_profile_00,
@@ -106,7 +103,7 @@ fun RadioButtonGroup(
         R.drawable.ic_terning_profile_05
     )
 
-    var selectedOption by rememberSaveable { mutableIntStateOf(options[0]) }
+    var selectedOption by rememberSaveable { mutableIntStateOf(options[initialSelectedOption]) }
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -141,15 +138,5 @@ fun RadioButtonGroup(
                     .clip(shape = CircleShape)
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SignUpBottomSheetPreview() {
-    TerningPointTheme {
-        RadioButtonGroup(
-            onOptionSelected = {}
-        )
     }
 }
