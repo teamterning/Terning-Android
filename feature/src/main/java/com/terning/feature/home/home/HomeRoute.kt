@@ -126,6 +126,10 @@ fun HomeRoute(
         viewModel.getHomeTodayInternList()
     }
 
+    LaunchedEffect(key1 = true) {
+        viewModel.getFilteringInfo()
+    }
+
     when (homeTodayState) {
         is UiState.Success -> {
             homeTodayInternList.value =
