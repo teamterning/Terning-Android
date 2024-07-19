@@ -27,6 +27,12 @@ data class SearchResultResponseDto(
         val title: String,
         @SerialName("workingPeriod")
         val workingPeriod: String,
+        @SerialName("startYearMonth")
+        val startYearMonth: String,
+        @SerialName("color")
+        val color: String?,
+        @SerialName("deadline")
+        val deadline: String,
     )
 
     fun toSearchResultEntity(): List<SearchResultModel> {
@@ -38,6 +44,9 @@ data class SearchResultResponseDto(
                 workingPeriod = it.workingPeriod,
                 companyImage = it.companyImage,
                 scrapId = it.scrapId,
+                deadline = it.deadline,
+                startYearMonth = it.startYearMonth,
+                color = it.color
             )
         }
     }

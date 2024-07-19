@@ -52,7 +52,6 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.InternInfoModel
 import com.terning.feature.intern.InternViewModel
 
 
@@ -60,8 +59,11 @@ import com.terning.feature.intern.InternViewModel
 fun ScrapDialogContent(
     internInfoList: List<Pair<String, String>>,
     viewModel: InternViewModel = hiltViewModel(),
-    internInfoModel: InternInfoModel,
+    dDay: String,
+    companyImage: String,
+    title: String,
     announcementId: Long,
+    type: Int,
 ) {
     val state by viewModel.internState.collectAsStateWithLifecycle()
 
@@ -92,7 +94,7 @@ fun ScrapDialogContent(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(internInfoModel.companyImage)
+                    .data(companyImage)
                     .build(),
                 contentDescription = stringResource(R.string.image_content_descriptin),
                 modifier = Modifier
@@ -108,7 +110,7 @@ fun ScrapDialogContent(
             )
 
             Text(
-                text = internInfoModel.title,
+                text = title,
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title4,
                 color = Grey500,
@@ -187,7 +189,7 @@ fun ScrapDialogContent(
                         contentAlignment = Alignment.Center
                     ) {
                         ColorPalette(
-                            initialColor = CalRed,
+                            initialColor = state.selectedColor,
                             onColorSelected = { newColor ->
                                 viewModel.updateSelectColor(newColor)
                             }
@@ -195,7 +197,7 @@ fun ScrapDialogContent(
                     }
                 } else {
                     Text(
-                        text = internInfoModel.dDay,
+                        text = dDay,
                         style = TerningTheme.typography.body5,
                         color = TerningMain,
                         modifier = Modifier.padding(bottom = 9.dp)

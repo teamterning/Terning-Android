@@ -184,7 +184,7 @@ private fun InternDialogContent(
                         contentAlignment = Alignment.Center
                     ) {
                         ColorPalette(
-                            initialColor = CalRed,
+                            initialColor = selectedColor,
                             onColorSelected = { newColor ->
                                 selectedColor = newColor
                             }
@@ -207,7 +207,7 @@ private fun InternDialogContent(
                     ) {
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_d_day),
-                            value = scrapDetailModel?.title.orEmpty()
+                            value = scrapDetailModel?.deadLine.toString()
                         )
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_working),
