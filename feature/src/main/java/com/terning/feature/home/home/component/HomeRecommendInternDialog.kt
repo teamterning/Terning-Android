@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -81,13 +82,13 @@ fun HomeRecommendInternDialog(
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .wrapContentSize()
             .padding(top = 32.dp),
         contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .wrapContentSize()
                 .padding(horizontal = 11.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -220,7 +221,6 @@ fun HomeRecommendInternDialog(
                     }
                 }
             }
-            Spacer(modifier = Modifier.weight(1f))
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.BottomCenter
