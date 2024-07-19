@@ -22,7 +22,7 @@ fun SignUpProfile(
     modifier: Modifier = Modifier,
     index: Int
 ) {
-    var grade = when (index) {
+    val grade = when (index) {
         0 -> R.drawable.ic_terning_profile_00
         1 -> R.drawable.ic_terning_profile_01
         2 -> R.drawable.ic_terning_profile_02

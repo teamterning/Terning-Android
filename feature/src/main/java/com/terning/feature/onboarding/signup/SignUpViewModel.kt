@@ -34,7 +34,12 @@ class SignUpViewModel @Inject constructor(
 
     fun isInputValid(name: String) {
         val nameErrorRegex = Regex(NAME_ERROR)
-        val trimmedName = if (name.length > MAX_LENGTH) name.substring(0, MAX_LENGTH) else name
+        var trimmedName = ""
+        var outOfBoundName = false
+        if (name.length > MAX_LENGTH) {
+            trimmedName = name.substring(0, MAX_LENGTH)
+            outOfBoundName = true
+        } else trimmedName = name
 
         when {
             nameErrorRegex.containsMatchIn(trimmedName) -> _state.value = _state.value.copy(
@@ -46,7 +51,16 @@ class SignUpViewModel @Inject constructor(
                 isButtonValid = false
             )
 
-            trimmedName.isEmpty() -> _state.value = _state.value.copy(
+            trimmedName.isEmpty() || trimmedName.isBlank() -> _state.value = _state.value.copy(
+                name = trimmedName,
+                drawLineColor = Grey500,
+                helper = R.string.sign_up_helper,
+                helperIcon = null,
+                helperColor = Grey400,
+                isButtonValid = false
+            )
+
+            outOfBoundName -> _state.value = _state.value.copy(
                 name = trimmedName,
                 drawLineColor = Grey500,
                 helper = R.string.sign_up_helper,

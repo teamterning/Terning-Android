@@ -135,7 +135,7 @@
 
     <!--MyPage-->
     <string name="my_page_name">%s님</string>
-    <string name="my_page_notice">공지사항</string>
+    <string name="my_page_notice">약관 및 정책</string>
     <string name="my_page_opinion">의견 보내기</string>
     <string name="my_page_version">버전정보</string>
     <string name="my_page_logout">로그아웃</string>

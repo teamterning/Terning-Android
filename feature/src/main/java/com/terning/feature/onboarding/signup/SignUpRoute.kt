@@ -98,6 +98,7 @@ fun SignUpScreen(
                     showBottomSheet = false
                     signUpViewModel.fetchCharacter(it)
                 },
+                initialSelectedOption = signUpState.character
             )
         }
         Text(
