@@ -94,7 +94,7 @@ fun HomeRoute(
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
-                    is HomeSideEffect.NavigateToHome -> navController.navigateHome()
+                    is HomeSideEffect.NavigateToHome -> navController.navigateUp()
                 }
             }
     }
