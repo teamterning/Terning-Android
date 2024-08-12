@@ -30,6 +30,11 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
 
+/**
+ * 기본 버튼 입니다.
+ *
+ * @param shape 버튼의 모양 설정
+ */
 @Composable
 fun TerningBasicButton(
     shape: Shape,
