@@ -27,4 +27,3 @@ jobs:
         with:
           BRANCH: gh-pages
           FOLDER: core/build/dokka/html
-          TARGET_FOLDER: 'designsystem'
