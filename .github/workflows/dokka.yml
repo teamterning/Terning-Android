@@ -1,0 +1,30 @@
+name: TerningPoint DesignSystem CI
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 18
+        uses: actions/setup-java@v4
+        with:
+          java-version: 18
+          distribution: "temurin"
+
+      - name: permissions
+        run: chmod +x gradlew
+
+      - name: Build Documentation
+        run: ./gradlew dokkaHtml
+
+      - name: Deploy Documentation to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          BRANCH: gh-pages
+          FOLDER: core/build/dokka/html
+          TARGET_FOLDER: 'designsystem'
