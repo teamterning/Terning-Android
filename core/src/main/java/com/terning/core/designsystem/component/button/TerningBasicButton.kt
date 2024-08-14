@@ -31,9 +31,15 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
 
 /**
- * 기본 버튼 입니다.
+ * 기본 버튼 함수입니다.
  *
- * @param shape 버튼의 모양 설정
+ * @param shape 버튼의 모양을 설정합니다.
+ * @param style 버튼 텍스트의 스타일을 정의합니다.
+ * @param paddingVertical 버튼의 위아래 패딩을 설정합니다. 패딩 값은 Dp 단위입니다.
+ * @param text 버튼에 표시될 텍스트입니다.
+ * @param onButtonClick 버튼 클릭 시 호출될 콜백 함수입니다.
+ * @param modifier 버튼에 적용할 Modifier입니다.
+ * @param isEnabled 버튼의 활성화 상태를 정의합니다.
  */
 @Composable
 fun TerningBasicButton(
