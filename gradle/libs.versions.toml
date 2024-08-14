@@ -91,7 +91,7 @@ processPhoenix = "2.0.0"
 browser = "1.4.0"
 
 ## dokka
-dokka = "1.6.10"
+dokka = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }

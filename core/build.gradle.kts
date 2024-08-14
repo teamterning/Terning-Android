@@ -41,6 +41,12 @@ android {
     }
 }
 
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-base:1.6.10")
+    }
+}
+
 tasks.dokkaHtml.configure {
     dokkaSourceSets {
         named("main") {
