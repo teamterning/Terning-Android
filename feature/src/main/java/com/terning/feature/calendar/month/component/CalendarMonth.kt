@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.month
+package com.terning.feature.calendar.month.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,9 +17,8 @@ import com.terning.core.extension.isToday
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.CalendarScrapModel
 import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.month.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthData
-import com.terning.feature.calendar.list.CalendarMonthScrap
+import com.terning.feature.calendar.list.component.CalendarMonthScrap
 import java.time.LocalDate
 import java.time.YearMonth
 
