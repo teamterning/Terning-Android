@@ -1,6 +1,5 @@
 package com.terning.feature.search.searchprocess
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -62,7 +61,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
-import com.terning.domain.entity.response.HomeRecommendInternModel
+import com.terning.domain.entity.HomeRecommendInternModel
 import com.terning.feature.R
 import com.terning.feature.home.home.component.HomeRecommendInternDialog
 import com.terning.feature.intern.navigation.navigateIntern

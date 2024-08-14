@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.HomeFilteringInfoModel
+import com.terning.domain.entity.HomeFilteringInfoModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

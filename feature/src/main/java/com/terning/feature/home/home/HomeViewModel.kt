@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
+import com.terning.domain.entity.HomeFilteringInfoModel
+import com.terning.domain.entity.HomeRecommendInternModel
+import com.terning.domain.entity.HomeTodayInternModel
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.entity.request.ScrapRequestModel
-import com.terning.domain.entity.response.HomeFilteringInfoModel
-import com.terning.domain.entity.response.HomeRecommendInternModel
-import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.ScrapRepository

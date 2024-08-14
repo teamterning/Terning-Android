@@ -2,10 +2,10 @@ package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.HomeDataSource
 import com.terning.data.dto.request.toChangeFilterRequestDto
+import com.terning.domain.entity.HomeFilteringInfoModel
+import com.terning.domain.entity.HomeRecommendInternModel
+import com.terning.domain.entity.HomeTodayInternModel
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
-import com.terning.domain.entity.response.HomeFilteringInfoModel
-import com.terning.domain.entity.response.HomeRecommendInternModel
-import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
 import javax.inject.Inject
 

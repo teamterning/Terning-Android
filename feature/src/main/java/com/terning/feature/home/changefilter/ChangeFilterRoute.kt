@@ -26,8 +26,8 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.domain.entity.HomeFilteringInfoModel
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
-import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.component.ChangeFilteringRadioGroup
 import com.terning.feature.home.changefilter.component.FilteringMainTitleText
@@ -35,7 +35,6 @@ import com.terning.feature.home.changefilter.component.FilteringSubTitleText
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.HomeSideEffect
 import com.terning.feature.home.home.HomeViewModel
-import com.terning.feature.home.home.navigation.navigateHome
 
 const val MIN_INDEX = 0
 const val MAX_WORKING_INDEX = 2

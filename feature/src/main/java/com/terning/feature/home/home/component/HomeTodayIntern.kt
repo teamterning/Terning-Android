@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.HomeTodayInternModel
+import com.terning.domain.entity.HomeTodayInternModel
 import com.terning.feature.R
 import com.terning.feature.home.home.HomeViewModel
 import com.terning.feature.home.home.model.HomeDialogState

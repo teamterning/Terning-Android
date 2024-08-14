@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.HomeRecommendInternModel
+import com.terning.domain.entity.HomeRecommendInternModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
