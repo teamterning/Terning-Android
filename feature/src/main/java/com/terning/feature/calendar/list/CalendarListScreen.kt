@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.scrap
+package com.terning.feature.calendar.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -35,17 +35,12 @@ import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.state.UiState
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
-import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.calendar.component.CalendarDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
-import com.terning.feature.calendar.scrap.component.CalendarScrapList
-import com.terning.feature.intern.navigation.navigateIntern
+import com.terning.feature.calendar.list.component.CalendarScrapList
 import kotlinx.coroutines.flow.distinctUntilChanged
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable

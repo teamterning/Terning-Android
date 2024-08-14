@@ -30,10 +30,11 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.CalendarUiState
+import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.component.CalendarDialog
-import com.terning.feature.calendar.scrap.component.CalendarScrapList
+import com.terning.feature.calendar.list.component.CalendarScrapList
+import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
 import java.time.LocalDate
 
 @Composable
