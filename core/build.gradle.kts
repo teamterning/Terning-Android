@@ -44,6 +44,7 @@ android {
 tasks.dokkaHtml.configure {
     dokkaSourceSets {
         named("main") {
+            includes.from("docs.md")
             noAndroidSdkLink.set(false)
         }
     }
