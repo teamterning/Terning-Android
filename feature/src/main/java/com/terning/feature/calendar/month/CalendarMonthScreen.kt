@@ -1,8 +1,6 @@
 package com.terning.feature.calendar.month
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -11,19 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.CalendarScrapModel
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
-import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
-import com.terning.feature.calendar.month.component.CalendarMonth
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
 import com.terning.feature.calendar.month.component.HorizontalCalendar
-import com.terning.feature.calendar.month.model.MonthData
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
-import java.time.YearMonth
 
 @Composable
 fun CalendarMonthScreen(

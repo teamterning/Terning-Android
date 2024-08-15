@@ -17,7 +17,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -36,9 +35,9 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.extension.toast
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
-import com.terning.feature.calendar.calendar.model.CalendarState
-import com.terning.feature.calendar.month.CalendarMonthScreen
+import com.terning.feature.calendar.calendar.model.CalendarModel
 import com.terning.feature.calendar.list.CalendarListScreen
+import com.terning.feature.calendar.month.CalendarMonthScreen
 import com.terning.feature.calendar.week.CalendarWeekScreen
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -61,11 +60,11 @@ private fun CalendarScreen(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val state = CalendarState()
+    val state = CalendarModel()
     val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = state.getInitialPage()
+        initialFirstVisibleItemIndex = state.initialPage
     )
 
     var currentDate by rememberSaveable { mutableStateOf(YearMonth.now()) }
@@ -158,7 +157,7 @@ private fun CalendarScreen(
                                     viewModel.updateSelectedDate(it)
                                 },
                                 listState = listState,
-                                pages = state.getPageCount(),
+                                pages = state.pageCount,
                             )
                         },
                         contentTwo = {
@@ -176,7 +175,7 @@ private fun CalendarScreen(
             contentTwo = {
                 CalendarListScreen(
                     listState = listState,
-                    pages = state.getPageCount(),
+                    pages = state.pageCount,
                     viewModel = viewModel,
                     navController = navController,
                     modifier = Modifier
