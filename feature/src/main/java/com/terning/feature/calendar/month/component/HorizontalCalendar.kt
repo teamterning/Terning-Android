@@ -9,7 +9,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.domain.entity.response.CalendarScrapModel
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
-import com.terning.feature.calendar.month.model.MonthData
+import com.terning.feature.calendar.month.model.MonthModel
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -34,12 +34,12 @@ internal fun HorizontalCalendar(
     ) {
         items(pages) { page ->
             val date = getDateByPage(page)
-            val monthData = MonthData(YearMonth.of(date.year, date.month))
+            val monthModel = MonthModel(YearMonth.of(date.year, date.month))
 
             CalendarMonth(
                 modifier = Modifier.fillParentMaxSize(),
                 onDateSelected = onDateSelected,
-                monthData = monthData,
+                monthModel = monthModel,
                 scrapMap = scrapMap,
                 selectedDate = selectedDate,
                 isWeekEnabled = isWeekEnabled

@@ -16,8 +16,7 @@ import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isToday
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.response.CalendarScrapModel
-import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.month.model.MonthData
+import com.terning.feature.calendar.month.model.MonthModel
 import com.terning.feature.calendar.list.component.CalendarMonthScrap
 import java.time.LocalDate
 import java.time.YearMonth
@@ -25,7 +24,7 @@ import java.time.YearMonth
 @Composable
 fun CalendarMonth(
     isWeekEnabled: Boolean,
-    monthData: MonthData,
+    monthModel: MonthModel,
     onDateSelected: (LocalDate) -> Unit,
     selectedDate: LocalDate,
     modifier: Modifier = Modifier,
@@ -36,7 +35,7 @@ fun CalendarMonth(
             .fillMaxSize()
             .padding(horizontal = 20.dp),
     ) {
-        val month = monthData.calendarMonth.weekDays
+        val month = monthModel.calendarMonth.weekDays
         for (week in month) {
             Row(
                 modifier = Modifier.weight(1f),
@@ -84,7 +83,7 @@ fun CalendarMonth(
 fun CalendarMonthPreview() {
     TerningPointTheme {
         CalendarMonth(
-            monthData = MonthData(YearMonth.now()),
+            monthModel = MonthModel(YearMonth.now()),
             onDateSelected = {},
             selectedDate = LocalDate.now(),
             isWeekEnabled = true
