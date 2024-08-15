@@ -4,8 +4,8 @@ import com.terning.data.datasource.CalendarDataSource
 import com.terning.data.dto.request.CalendarDayListRequestDto
 import com.terning.data.dto.request.CalendarMonthListRequestDto
 import com.terning.data.dto.request.CalendarMonthRequestDto
-import com.terning.domain.entity.response.CalendarScrapDetailModel
-import com.terning.domain.entity.response.CalendarScrapModel
+import com.terning.domain.entity.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrap
 import com.terning.domain.repository.CalendarRepository
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -17,7 +17,7 @@ class CalendarRepositoryImpl @Inject constructor(
     override suspend fun getScrapMonth(
         year: Int,
         month: Int
-    ): Result<Map<String, List<CalendarScrapModel>>> =
+    ): Result<Map<String, List<CalendarScrap>>> =
         runCatching {
             val result = calendarDataSource.getCalendarMonth(
                 request = CalendarMonthRequestDto(

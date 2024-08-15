@@ -28,7 +28,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapDetailModel
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel

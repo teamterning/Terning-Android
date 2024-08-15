@@ -14,8 +14,8 @@ import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
-import com.terning.domain.entity.request.ScrapRequestModel
-import com.terning.domain.entity.response.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapRequest
+import com.terning.domain.entity.CalendarScrapDetailModel
 import com.terning.domain.repository.CalendarRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
@@ -192,7 +192,7 @@ class CalendarViewModel @Inject constructor(
     fun deleteScrap(isFromWeekScreen: Boolean = false) = viewModelScope.launch {
         _calendarWeekState.value.loadState
             .takeIf { it is UiState.Success }
-            ?.let { ScrapRequestModel(_uiState.value.scrapId, null) }?.let { scrapRequestModel ->
+            ?.let { CalendarScrapRequest(_uiState.value.scrapId, null) }?.let { scrapRequestModel ->
                 scrapRepository.deleteScrap(
                     scrapRequestModel
                 ).onSuccess {
@@ -220,7 +220,7 @@ class CalendarViewModel @Inject constructor(
         val scrapId = _uiState.value.internshipModel?.scrapId ?: 0
         val colorIndex = getColorIndex(color)
 
-        scrapRepository.patchScrap(ScrapRequestModel(scrapId, colorIndex))
+        scrapRepository.patchScrap(CalendarScrapRequest(scrapId, colorIndex))
             .onSuccess {
                 runCatching {
                     if (isFromWeekScreen) {

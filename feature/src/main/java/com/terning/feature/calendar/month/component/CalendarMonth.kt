@@ -15,7 +15,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isToday
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.CalendarScrapModel
+import com.terning.domain.entity.CalendarScrap
 import com.terning.feature.calendar.month.model.MonthModel
 import com.terning.feature.calendar.list.component.CalendarMonthScrap
 import java.time.LocalDate
@@ -28,7 +28,7 @@ fun CalendarMonth(
     onDateSelected: (LocalDate) -> Unit,
     selectedDate: LocalDate,
     modifier: Modifier = Modifier,
-    scrapMap: Map<String, List<CalendarScrapModel>> = mapOf()
+    scrapMap: Map<String, List<CalendarScrap>> = mapOf()
 ) {
     Column(
         modifier = modifier

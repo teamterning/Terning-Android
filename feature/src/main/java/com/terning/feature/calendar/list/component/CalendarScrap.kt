@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.item.ScrapBox
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapDetailModel
 
 @Composable
 fun CalendarScrap(

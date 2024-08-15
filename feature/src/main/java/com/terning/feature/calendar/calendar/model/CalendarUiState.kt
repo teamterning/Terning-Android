@@ -1,6 +1,6 @@
 package com.terning.feature.calendar.calendar.model
 
-import com.terning.domain.entity.response.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapDetailModel
 import java.time.LocalDate
 
 data class CalendarUiState(

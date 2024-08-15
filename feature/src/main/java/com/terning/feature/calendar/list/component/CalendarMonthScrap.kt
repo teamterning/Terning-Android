@@ -15,12 +15,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.domain.entity.response.CalendarScrapModel
+import com.terning.domain.entity.CalendarScrap
 
 @Composable
 fun CalendarMonthScrap(
     modifier: Modifier = Modifier,
-    scrapLists: List<CalendarScrapModel>
+    scrapLists: List<CalendarScrap>
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth()

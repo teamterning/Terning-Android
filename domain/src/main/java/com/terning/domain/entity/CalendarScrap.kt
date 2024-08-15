@@ -1,6 +1,6 @@
-package com.terning.domain.entity.response
+package com.terning.domain.entity
 
-data class CalendarScrapModel(
+data class CalendarScrap(
     val scrapId: Long,
     val title: String,
     val deadLine: String,

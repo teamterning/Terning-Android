@@ -6,7 +6,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.terning.core.designsystem.theme.White
-import com.terning.domain.entity.response.CalendarScrapModel
+import com.terning.domain.entity.CalendarScrap
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
 import com.terning.feature.calendar.month.model.MonthModel
@@ -19,7 +19,7 @@ internal fun HorizontalCalendar(
     listState: LazyListState,
     isWeekEnabled: Boolean,
     selectedDate: LocalDate,
-    scrapMap: Map<String, List<CalendarScrapModel>>,
+    scrapMap: Map<String, List<CalendarScrap>>,
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
