@@ -20,7 +20,7 @@ import com.terning.domain.repository.CalendarRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.month.model.CalendarMonthState
+import com.terning.feature.calendar.month.model.MonthUiState
 import com.terning.feature.calendar.list.model.CalendarListState
 import com.terning.feature.calendar.week.model.CalendarWeekState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,8 +50,8 @@ class CalendarViewModel @Inject constructor(
 
     val uiState get() = _uiState.asStateFlow()
 
-    private val _calendarMonthState = MutableStateFlow(CalendarMonthState())
-    val calendarMonthState = _calendarMonthState.asStateFlow()
+    private val _MonthUiState = MutableStateFlow(MonthUiState())
+    val calendarMonthState = _MonthUiState.asStateFlow()
 
     private val _calendarListState = MutableStateFlow(CalendarListState())
     val calendarListState = _calendarListState.asStateFlow()
@@ -128,7 +128,7 @@ class CalendarViewModel @Inject constructor(
             calendarRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
-                _calendarMonthState.update { currentState ->
+                _MonthUiState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Success(it)
                     )
