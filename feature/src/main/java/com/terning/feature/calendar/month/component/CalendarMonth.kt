@@ -24,10 +24,11 @@ import java.time.YearMonth
 
 @Composable
 fun CalendarMonth(
-    modifier: Modifier = Modifier,
+    isWeekEnabled: Boolean,
     monthData: MonthData,
     onDateSelected: (LocalDate) -> Unit,
-    calendarUiState: CalendarUiState,
+    selectedDate: LocalDate,
+    modifier: Modifier = Modifier,
     scrapMap: Map<String, List<CalendarScrapModel>> = mapOf()
 ) {
     Column(
@@ -55,7 +56,7 @@ fun CalendarMonth(
                     ) {
                         CalendarDay(
                             dayData = day,
-                            isSelected = calendarUiState.selectedDate == day.date && calendarUiState.isWeekEnabled,
+                            isSelected = selectedDate == day.date && isWeekEnabled,
                             isToday = day.date.isToday(),
                             onDateSelected = onDateSelected
                         )
@@ -84,8 +85,9 @@ fun CalendarMonthPreview() {
     TerningPointTheme {
         CalendarMonth(
             monthData = MonthData(YearMonth.now()),
-            calendarUiState = CalendarUiState(LocalDate.now(), true),
             onDateSelected = {},
+            selectedDate = LocalDate.now(),
+            isWeekEnabled = true
         )
     }
 }

@@ -55,9 +55,10 @@ fun CalendarMonthScreen(
             HorizontalCalendar(
                 pages = pages,
                 listState = listState,
-                calendarUiState = calendarUiState,
+                isWeekEnabled = calendarUiState.isWeekEnabled,
                 scrapMap = scrapMap,
                 onDateSelected = onDateSelected,
+                selectedDate = calendarUiState.selectedDate,
                 modifier = modifier
             )
         }
@@ -68,7 +69,8 @@ fun CalendarMonthScreen(
 fun HorizontalCalendar(
     pages: Int,
     listState: LazyListState,
-    calendarUiState: CalendarUiState,
+    isWeekEnabled: Boolean,
+    selectedDate: LocalDate,
     scrapMap: Map<String, List<CalendarScrapModel>>,
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
@@ -88,10 +90,11 @@ fun HorizontalCalendar(
 
             CalendarMonth(
                 modifier = Modifier.fillParentMaxSize(),
-                calendarUiState = calendarUiState,
                 onDateSelected = onDateSelected,
                 monthData = monthData,
-                scrapMap = scrapMap
+                scrapMap = scrapMap,
+                selectedDate = selectedDate,
+                isWeekEnabled = isWeekEnabled
             )
         }
     }
