@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.scrap
+package com.terning.feature.calendar.list.model
 
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.CalendarScrapDetailModel

@@ -1,6 +1,5 @@
-package com.terning.feature.calendar.scrap.component
+package com.terning.feature.calendar.list.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
