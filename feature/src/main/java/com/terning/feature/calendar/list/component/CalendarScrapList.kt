@@ -1,6 +1,5 @@
-package com.terning.feature.calendar.scrap.component
+package com.terning.feature.calendar.list.component
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth

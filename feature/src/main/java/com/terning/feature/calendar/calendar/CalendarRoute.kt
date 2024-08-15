@@ -38,7 +38,7 @@ import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarState
 import com.terning.feature.calendar.month.CalendarMonthScreen
-import com.terning.feature.calendar.scrap.CalendarListScreen
+import com.terning.feature.calendar.list.CalendarListScreen
 import com.terning.feature.calendar.week.CalendarWeekScreen
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch

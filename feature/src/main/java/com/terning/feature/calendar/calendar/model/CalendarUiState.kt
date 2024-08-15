@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.calendar
+package com.terning.feature.calendar.calendar.model
 
 import com.terning.domain.entity.response.CalendarScrapDetailModel
 import java.time.LocalDate

@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.scrap.model
+package com.terning.feature.calendar.list.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
