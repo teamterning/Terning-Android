@@ -19,6 +19,7 @@ import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarState.Companion.getDateByPage
 import com.terning.feature.calendar.month.component.CalendarMonth
+import com.terning.feature.calendar.month.component.HorizontalCalendar
 import com.terning.feature.calendar.month.model.MonthData
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
@@ -65,37 +66,4 @@ fun CalendarMonthScreen(
     }
 }
 
-@Composable
-fun HorizontalCalendar(
-    pages: Int,
-    listState: LazyListState,
-    isWeekEnabled: Boolean,
-    selectedDate: LocalDate,
-    scrapMap: Map<String, List<CalendarScrapModel>>,
-    onDateSelected: (LocalDate) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    LazyRow(
-        modifier = modifier
-            .background(White),
-        state = listState,
-        userScrollEnabled = true,
-        flingBehavior = flingBehavior(
-            state = listState
-        )
-    ) {
-        items(pages) { page ->
-            val date = getDateByPage(page)
-            val monthData = MonthData(YearMonth.of(date.year, date.month))
 
-            CalendarMonth(
-                modifier = Modifier.fillParentMaxSize(),
-                onDateSelected = onDateSelected,
-                monthData = monthData,
-                scrapMap = scrapMap,
-                selectedDate = selectedDate,
-                isWeekEnabled = isWeekEnabled
-            )
-        }
-    }
-}

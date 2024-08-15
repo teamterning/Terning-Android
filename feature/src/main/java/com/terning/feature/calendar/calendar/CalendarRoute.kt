@@ -61,11 +61,8 @@ private fun CalendarScreen(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val state = CalendarState()
     val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
-
-
-
-    val state by remember { mutableStateOf(CalendarState()) }
 
     val listState = rememberLazyListState(
         initialFirstVisibleItemIndex = state.getInitialPage()
