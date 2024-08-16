@@ -22,7 +22,6 @@ fun CalendarMonthScreen(
     pages: Int,
     listState: LazyListState,
     calendarUiState: CalendarUiState,
-    onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
@@ -50,7 +49,7 @@ fun CalendarMonthScreen(
                 listState = listState,
                 isWeekEnabled = calendarUiState.isWeekEnabled,
                 scrapMap = scrapMap,
-                onDateSelected = onDateSelected,
+                onDateSelected = { viewModel.updateSelectedDate(it) },
                 selectedDate = calendarUiState.selectedDate,
                 modifier = modifier
             )

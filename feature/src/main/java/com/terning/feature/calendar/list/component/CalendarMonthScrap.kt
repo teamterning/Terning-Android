@@ -23,7 +23,7 @@ fun CalendarMonthScrap(
     scrapLists: List<CalendarScrap>
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
     ) {
         items(scrapLists.subList(0, MAX_SCRAP_COUNT.coerceAtMost(scrapLists.size))) { scrap ->
             Text(

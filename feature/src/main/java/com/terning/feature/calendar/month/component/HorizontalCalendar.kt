@@ -24,8 +24,7 @@ internal fun HorizontalCalendar(
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
-        modifier = modifier
-            .background(White),
+        modifier = modifier,
         state = listState,
         userScrollEnabled = true,
         flingBehavior = flingBehavior(

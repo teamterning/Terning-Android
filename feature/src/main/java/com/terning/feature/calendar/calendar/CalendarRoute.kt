@@ -6,6 +6,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
@@ -151,13 +153,12 @@ private fun CalendarScreen(
                                 slideOutVertically { fullHeight -> -fullHeight },
                         contentOne = {
                             CalendarMonthScreen(
-                                modifier = Modifier.fillMaxSize(),
                                 calendarUiState = calendarUiState,
-                                onDateSelected = {
-                                    viewModel.updateSelectedDate(it)
-                                },
                                 listState = listState,
                                 pages = state.pageCount,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(White),
                             )
                         },
                         contentTwo = {
