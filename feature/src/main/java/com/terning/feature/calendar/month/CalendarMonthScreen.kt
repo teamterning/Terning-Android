@@ -10,15 +10,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.state.UiState
-import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
+import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.month.component.HorizontalCalendar
 import kotlinx.coroutines.flow.distinctUntilChanged
-import java.time.LocalDate
 
 @Composable
-fun CalendarMonthScreen(
+internal fun CalendarMonthScreen(
     pages: Int,
     listState: LazyListState,
     calendarUiState: CalendarUiState,

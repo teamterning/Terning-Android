@@ -23,7 +23,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
-fun CalendarMonth(
+internal fun CalendarMonth(
     isWeekEnabled: Boolean,
     monthModel: MonthModel,
     onDateSelected: (LocalDate) -> Unit,
@@ -82,7 +82,7 @@ fun CalendarMonth(
 
 @Preview(showBackground = true)
 @Composable
-fun CalendarMonthPreview() {
+private fun CalendarMonthPreview() {
     TerningPointTheme {
         CalendarMonth(
             monthModel = MonthModel(YearMonth.now()),

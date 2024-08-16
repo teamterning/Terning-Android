@@ -10,15 +10,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.entity.CalendarScrap
+import com.terning.feature.R
+
+private const val MAX_SCRAP_COUNT = 3
 
 @Composable
-fun CalendarMonthScrap(
+internal fun CalendarMonthScrap(
     modifier: Modifier = Modifier,
     scrapLists: List<CalendarScrap>
 ) {
@@ -47,7 +51,7 @@ fun CalendarMonthScrap(
         item {
             if (scrapLists.size > MAX_SCRAP_COUNT) {
                 Text(
-                    text = "+${(scrapLists.size - MAX_SCRAP_COUNT)}",
+                    text = stringResource(id = R.string.calendar_scrap_overflow, (scrapLists.size - MAX_SCRAP_COUNT)),
                     style = TerningTheme.typography.detail4,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
@@ -56,6 +60,4 @@ fun CalendarMonthScrap(
         }
     }
 }
-
-private const val MAX_SCRAP_COUNT = 3
 
