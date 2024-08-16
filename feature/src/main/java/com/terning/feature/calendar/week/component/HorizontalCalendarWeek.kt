@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.extension.getWeekIndexContainingSelectedDate
 import com.terning.core.extension.isToday
 import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.month.component.CalendarDay
+import com.terning.feature.calendar.calendar.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthModel
 import java.time.LocalDate
 import java.time.YearMonth

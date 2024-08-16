@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.list.component
+package com.terning.feature.calendar.month.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth

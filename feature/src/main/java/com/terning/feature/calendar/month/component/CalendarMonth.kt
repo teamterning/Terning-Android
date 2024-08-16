@@ -17,8 +17,8 @@ import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isToday
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.CalendarScrap
+import com.terning.feature.calendar.calendar.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthModel
-import com.terning.feature.calendar.list.component.CalendarMonthScrap
 import java.time.LocalDate
 import java.time.YearMonth
 

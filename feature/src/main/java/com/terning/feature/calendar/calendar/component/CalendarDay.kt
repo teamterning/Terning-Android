@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.month.component
+package com.terning.feature.calendar.calendar.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
