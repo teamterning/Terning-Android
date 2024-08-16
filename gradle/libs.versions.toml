@@ -90,6 +90,9 @@ processPhoenix = "2.0.0"
 ## Web
 browser = "1.4.0"
 
+## dokka
+dokka = "1.9.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
@@ -183,3 +186,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlinParcelize" }
+dokka = {id = "org.jetbrains.dokka", version.ref = "dokka"}
