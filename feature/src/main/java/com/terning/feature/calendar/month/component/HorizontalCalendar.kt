@@ -1,11 +1,9 @@
 package com.terning.feature.calendar.month.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.terning.core.designsystem.theme.White
 import com.terning.domain.entity.CalendarScrap
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
