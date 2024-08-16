@@ -9,15 +9,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Set up JDK 18
         uses: actions/setup-java@v4
         with:
           java-version: 18
           distribution: "temurin"
 
-      - name: permissions
+      - name: Change gradlew permissions
         run: chmod +x gradlew
+
+      - name: Create Local Properties
+        run: touch local.properties
+
+      - name: Set Local Properties
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          NATIVE_APP_KEY: ${{ secrets.NATIVE_APP_KEY }}
+          NATIVEAPPKEY: ${{ secrets.NATIVEAPPKEY }}
+        run: |
+          echo base.url=\"$BASE_URL\" >> local.properties
+          echo native.app.key=\"$NATIVE_APP_KEY\" >> local.properties
+          echo nativeAppKey=\"$NATIVEAPPKEY\" >> local.properties
 
       - name: Build Documentation
         run: ./gradlew dokkaHtml
