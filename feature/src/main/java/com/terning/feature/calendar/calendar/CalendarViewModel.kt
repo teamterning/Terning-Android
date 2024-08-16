@@ -15,7 +15,7 @@ import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapRequest
-import com.terning.domain.entity.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.domain.repository.CalendarRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
@@ -113,7 +113,7 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetailModel?) {
+    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetail?) {
         _uiState.update { currentState ->
             currentState.copy(
                 internshipModel = scrapDetailModel

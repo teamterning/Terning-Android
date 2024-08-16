@@ -20,14 +20,4 @@ data class CalendarMonthResponseDto(
         @SerialName("color")
         val color: String
     )
-
-    fun toScrapModelList(): List<CalendarScrap> = scraps.map { scrap ->
-        CalendarScrap(
-            scrapId = scrap.scrapId,
-            title = scrap.title,
-            color = scrap.color,
-            deadLine = deadline,
-            isScrapped = true
-        )
-    }
 }

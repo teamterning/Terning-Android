@@ -4,7 +4,10 @@ import com.terning.data.datasource.CalendarDataSource
 import com.terning.data.dto.request.CalendarDayListRequestDto
 import com.terning.data.dto.request.CalendarMonthListRequestDto
 import com.terning.data.dto.request.CalendarMonthRequestDto
-import com.terning.domain.entity.CalendarScrapDetailModel
+import com.terning.data.mapper.toCalendarScrapDetail
+import com.terning.data.mapper.toCalendarScrapDetailList
+import com.terning.data.mapper.toCalendarScrapList
+import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.domain.entity.CalendarScrap
 import com.terning.domain.repository.CalendarRepository
 import java.time.LocalDate
@@ -27,7 +30,7 @@ class CalendarRepositoryImpl @Inject constructor(
             ).result
 
             val scrapModelMapByDeadLine = result.flatMap { dto ->
-                dto.toScrapModelList()
+                dto.toCalendarScrapList()
             }.groupBy { it.deadLine }
 
             scrapModelMapByDeadLine
@@ -36,7 +39,7 @@ class CalendarRepositoryImpl @Inject constructor(
     override suspend fun getScrapMonthList(
         year: Int,
         month: Int
-    ): Result<Map<String, List<CalendarScrapDetailModel>>> =
+    ): Result<Map<String, List<CalendarScrapDetail>>> =
         runCatching {
             val result = calendarDataSource.getCalendarMonthList(
                 request = CalendarMonthListRequestDto(
@@ -46,7 +49,7 @@ class CalendarRepositoryImpl @Inject constructor(
             ).result
 
             val scrapModelMapByDeadLine = result.flatMap { dto ->
-                dto.toScrapDetailModelList()
+                dto.toCalendarScrapDetailList()
             }.groupBy { it.deadLine }
 
             scrapModelMapByDeadLine
@@ -54,13 +57,13 @@ class CalendarRepositoryImpl @Inject constructor(
 
     override suspend fun getScrapDayList(
         currentDate: LocalDate
-    ): Result<List<CalendarScrapDetailModel>> =
+    ): Result<List<CalendarScrapDetail>> =
         runCatching {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             val request = CalendarDayListRequestDto(currentDate.format(formatter))
             val response = calendarDataSource.getCalendarDayList(request)
             val scrapModelList = response.result.map { scrap ->
-                scrap.toScrapDetailModelList()
+                scrap.toCalendarScrapDetail()
             }
             scrapModelList
         }

@@ -45,14 +45,14 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.intern.component.InternInfoRow
 import java.time.LocalDate
 
 @Composable
 fun CalendarDetailDialog(
     deadline: String,
-    scrapDetailModel: CalendarScrapDetailModel?,
+    scrapDetailModel: CalendarScrapDetail?,
     onDismissRequest: () -> Unit,
     onClickChangeColorButton: (Color) -> Unit,
     onClickNavigateButton: (Long) -> Unit,
@@ -73,7 +73,7 @@ fun CalendarDetailDialog(
 @Composable
 private fun InternDialogContent(
     deadline: String,
-    scrapDetailModel: CalendarScrapDetailModel?,
+    scrapDetailModel: CalendarScrapDetail?,
     onClickChangeColorButton: (Color) -> Unit,
     onClickNavigateButton: (Long) -> Unit
 ) {

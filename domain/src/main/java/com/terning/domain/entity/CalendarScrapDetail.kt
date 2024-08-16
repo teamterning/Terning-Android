@@ -1,6 +1,6 @@
 package com.terning.domain.entity
 
-data class CalendarScrapDetailModel(
+data class CalendarScrapDetail(
     val scrapId: Long,
     val internshipAnnouncementId: Long,
     val title: String,

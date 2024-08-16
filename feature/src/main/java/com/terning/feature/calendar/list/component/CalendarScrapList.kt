@@ -15,15 +15,15 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
-import com.terning.domain.entity.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapDetail
 import java.time.LocalDate
 
 @Composable
 fun CalendarScrapList(
     selectedDate: LocalDate,
-    scrapList: List<CalendarScrapDetailModel>,
+    scrapList: List<CalendarScrapDetail>,
     onScrapButtonClicked: (Long) -> Unit,
-    onInternshipClicked: (CalendarScrapDetailModel) -> Unit,
+    onInternshipClicked: (CalendarScrapDetail) -> Unit,
     isFromList: Boolean = false
 ) {
     val scrollState = rememberScrollState()
