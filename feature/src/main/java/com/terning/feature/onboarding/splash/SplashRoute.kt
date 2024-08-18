@@ -46,7 +46,7 @@ fun SplashRoute(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SplashState.GetAccessToken -> {
+                    is SplashState.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) navController.navigateHome(
                             navOptions = NavOptions.Builder().setPopUpTo(
                                 route = Splash,
@@ -62,7 +62,6 @@ fun SplashRoute(
                     }
                 }
             }
-
     }
 
     SplashScreen()
