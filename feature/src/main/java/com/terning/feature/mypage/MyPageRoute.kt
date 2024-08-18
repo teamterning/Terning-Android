@@ -243,8 +243,6 @@ fun MyPageInfo(
     }
 }
 
-private const val VERSION = "1.0.0"
-
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
@@ -258,3 +256,5 @@ fun MyPageScreenPreview() {
         )
     }
 }
+
+private const val VERSION = "1.0.0"
