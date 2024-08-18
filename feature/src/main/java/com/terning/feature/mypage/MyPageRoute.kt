@@ -1,18 +1,15 @@
 package com.terning.feature.mypage
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,7 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,7 +28,6 @@ import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
-import com.terning.core.designsystem.component.topappbar.MyPageTopAppBar
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey350
@@ -120,7 +115,7 @@ fun MyPageRoute(
 fun MyPageScreen(
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
-    modifier : Modifier = Modifier,
+    modifier: Modifier = Modifier,
     name: String = "",
     authType: String = "",
     onNoticeClick: () -> Unit,
@@ -130,12 +125,10 @@ fun MyPageScreen(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
-        Image(
+        TerningImage(
             modifier = Modifier.fillMaxSize(),
-            painter = painterResource(id = R.drawable.ic_terning_mypage),
-            contentDescription = ""
+            painter = R.drawable.ic_terning_mypage,
         )
-
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -243,18 +236,18 @@ fun MyPageInfo(
     }
 }
 
+private const val VERSION = "1.0.0"
+
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
     TerningPointTheme {
         MyPageScreen(
-            onLogoutClick = {},
-            onQuitClick = {},
             name = "터닝이",
             onNoticeClick = {},
-            onOpinionClick = {}
+            onOpinionClick = {},
+            onLogoutClick = {},
+            onQuitClick = {}
         )
     }
 }
-
-private const val VERSION = "1.0.0"
