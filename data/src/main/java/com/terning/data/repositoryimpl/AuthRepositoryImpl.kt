@@ -1,12 +1,14 @@
 package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.AuthDataSource
-import com.terning.data.dto.request.toSignInRequestDto
-import com.terning.data.dto.request.toSignUpRequestDto
-import com.terning.domain.entity.request.SignInRequestModel
-import com.terning.domain.entity.request.SignUpRequestModel
-import com.terning.domain.entity.response.SignInResponseModel
-import com.terning.domain.entity.response.SignUpResponseModel
+import com.terning.data.mapper.auth.toSignInModel
+import com.terning.data.mapper.auth.toSignInRequestDto
+import com.terning.data.mapper.auth.toSignUpModel
+import com.terning.data.mapper.auth.toSignUpRequestDto
+import com.terning.domain.entity.auth.SignInRequestModel
+import com.terning.domain.entity.auth.SignInResponseModel
+import com.terning.domain.entity.auth.SignUpRequestModel
+import com.terning.domain.entity.auth.SignUpResponseModel
 import com.terning.domain.repository.AuthRepository
 import javax.inject.Inject
 

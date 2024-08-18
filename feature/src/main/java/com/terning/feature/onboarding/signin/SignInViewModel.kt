@@ -7,7 +7,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.terning.domain.entity.request.SignInRequestModel
+import com.terning.domain.entity.auth.SignInRequestModel
 import com.terning.domain.repository.AuthRepository
 import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R

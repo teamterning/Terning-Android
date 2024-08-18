@@ -1,4 +1,4 @@
-package com.terning.domain.entity.request
+package com.terning.domain.entity.auth
 
 data class SignInRequestModel(
     val authType: String
