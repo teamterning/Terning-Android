@@ -1,6 +1,6 @@
 package com.terning.feature.calendar.calendar.model
 
-import com.terning.domain.entity.response.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapDetail
 import java.time.LocalDate
 
 data class CalendarUiState(
@@ -9,6 +9,6 @@ data class CalendarUiState(
     val isWeekEnabled: Boolean = false,
     val isScrapButtonClicked: Boolean = false,
     val isInternshipClicked: Boolean = false,
-    val internshipModel: CalendarScrapDetailModel? = null,
+    val internshipModel: CalendarScrapDetail? = null,
     val scrapId: Long = -1
 )

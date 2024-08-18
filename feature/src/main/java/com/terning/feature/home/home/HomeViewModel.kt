@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
-import com.terning.domain.entity.request.ScrapRequestModel
+import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
@@ -129,7 +129,7 @@ class HomeViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             scrapRepository.postScrap(
-                ScrapRequestModel(
+                CalendarScrapRequest(
                     id = internshipAnnouncementId,
                     color = colorIndex,
                 )
@@ -149,7 +149,7 @@ class HomeViewModel @Inject constructor(
     fun deleteScrap(scrapId: Long) {
         viewModelScope.launch {
             scrapRepository.deleteScrap(
-                ScrapRequestModel(id = scrapId)
+                CalendarScrapRequest(id = scrapId)
             ).onSuccess {
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
@@ -168,7 +168,7 @@ class HomeViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             scrapRepository.patchScrap(
-                ScrapRequestModel(
+                CalendarScrapRequest(
                     id = scrapId,
                     color = colorIndex,
                 )

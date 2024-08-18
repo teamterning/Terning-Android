@@ -4,24 +4,24 @@ import com.terning.data.datasource.ScrapDataSource
 import com.terning.data.dto.NonDataBaseResponse
 import com.terning.data.dto.request.ScrapColorRequestDto
 import com.terning.data.service.ScrapService
-import com.terning.domain.entity.request.ScrapRequestModel
+import com.terning.domain.entity.CalendarScrapRequest
 import javax.inject.Inject
 
 class ScrapDataSourceImpl @Inject constructor(
     private val scrapService: ScrapService,
 ) : ScrapDataSource {
-    override suspend fun postScrap(scrapRequestModel: ScrapRequestModel): NonDataBaseResponse =
+    override suspend fun postScrap(calendarScrapRequest: CalendarScrapRequest): NonDataBaseResponse =
         scrapService.postScrap(
-            scrapRequestModel.id,
-            ScrapColorRequestDto(scrapRequestModel.color)
+            calendarScrapRequest.id,
+            ScrapColorRequestDto(calendarScrapRequest.color)
         )
 
-    override suspend fun deleteScrap(scrapRequestModel: ScrapRequestModel): NonDataBaseResponse =
-        scrapService.deleteScrap(scrapRequestModel.id)
+    override suspend fun deleteScrap(calendarScrapRequest: CalendarScrapRequest): NonDataBaseResponse =
+        scrapService.deleteScrap(calendarScrapRequest.id)
 
-    override suspend fun patchScrap(scrapRequestModel: ScrapRequestModel): NonDataBaseResponse =
+    override suspend fun patchScrap(calendarScrapRequest: CalendarScrapRequest): NonDataBaseResponse =
         scrapService.patchScrap(
-            scrapRequestModel.id,
-            ScrapColorRequestDto(scrapRequestModel.color)
+            calendarScrapRequest.id,
+            ScrapColorRequestDto(calendarScrapRequest.color)
         )
 }

@@ -6,6 +6,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,7 +18,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -33,12 +33,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
-import com.terning.feature.calendar.calendar.model.CalendarState
-import com.terning.feature.calendar.month.CalendarMonthScreen
+import com.terning.feature.calendar.calendar.model.CalendarModel
 import com.terning.feature.calendar.list.CalendarListScreen
+import com.terning.feature.calendar.month.CalendarMonthScreen
 import com.terning.feature.calendar.week.CalendarWeekScreen
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -61,14 +62,11 @@ private fun CalendarScreen(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val state = CalendarModel()
     val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
-
-
-    val state by remember { mutableStateOf(CalendarState()) }
-
     val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = state.getInitialPage()
+        initialFirstVisibleItemIndex = state.initialPage
     )
 
     var currentDate by rememberSaveable { mutableStateOf(YearMonth.now()) }
@@ -155,13 +153,12 @@ private fun CalendarScreen(
                                 slideOutVertically { fullHeight -> -fullHeight },
                         contentOne = {
                             CalendarMonthScreen(
-                                modifier = Modifier.fillMaxSize(),
                                 calendarUiState = calendarUiState,
-                                onDateSelected = {
-                                    viewModel.updateSelectedDate(it)
-                                },
                                 listState = listState,
-                                pages = state.getPageCount(),
+                                pages = state.pageCount,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(White),
                             )
                         },
                         contentTwo = {
@@ -179,7 +176,7 @@ private fun CalendarScreen(
             contentTwo = {
                 CalendarListScreen(
                     listState = listState,
-                    pages = state.getPageCount(),
+                    pages = state.pageCount,
                     viewModel = viewModel,
                     navController = navController,
                     modifier = Modifier
