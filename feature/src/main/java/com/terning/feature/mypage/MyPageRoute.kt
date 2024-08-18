@@ -120,79 +120,74 @@ fun MyPageRoute(
 fun MyPageScreen(
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
+    modifier : Modifier = Modifier,
     name: String = "",
     authType: String = "",
     onNoticeClick: () -> Unit,
     onOpinionClick: () -> Unit
 ) {
-    Scaffold(
-        modifier = Modifier
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding()),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painterResource(id = R.drawable.ic_terning_mypage),
-                contentDescription = ""
-            )
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(id = R.drawable.ic_terning_mypage),
+            contentDescription = ""
+        )
 
-            Column(
-                modifier = Modifier.fillMaxSize()
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                text = stringResource(id = R.string.my_page_name, name),
+                modifier = Modifier.padding(
+                    top = 21.dp,
+                    start = 24.dp,
+                ),
+                style = TerningTheme.typography.heading1,
+            )
+            Spacer(modifier = Modifier.weight(2f))
+            MyPageInfo(
+                modifier = Modifier
+                    .customShadow(
+                        color = Grey200,
+                        shadowRadius = 30.dp,
+                        shadowWidth = 2.dp
+                    )
+                    .background(
+                        color = Back,
+                        shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp)
+                    ),
+                onNoticeClick = { onNoticeClick() },
+                onOpinionClick = { onOpinionClick() }
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Back)
+                    .padding(bottom = 17.dp),
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = stringResource(id = R.string.my_page_name, name),
-                    modifier = Modifier.padding(
-                        top = 21.dp,
-                        start = 24.dp,
-                    ),
-                    style = TerningTheme.typography.heading1,
+                    text = stringResource(id = R.string.my_page_logout),
+                    style = TerningTheme.typography.button4,
+                    color = Grey350,
+                    modifier = Modifier.noRippleClickable {
+                        onLogoutClick()
+                    }
                 )
-                Spacer(modifier = Modifier.weight(2f))
-                MyPageInfo(
-                    modifier = Modifier
-                        .customShadow(
-                            color = Grey200,
-                            shadowRadius = 30.dp,
-                            shadowWidth = 2.dp
-                        )
-                        .background(
-                            color = Back,
-                            shape = RoundedCornerShape(topEnd = 30.dp, topStart = 30.dp)
-                        ),
-                    onNoticeClick = { onNoticeClick() },
-                    onOpinionClick = { onOpinionClick() }
+                Spacer(modifier = Modifier.padding(end = 10.dp))
+                TerningImage(painter = R.drawable.ic_my_page_divider)
+                Spacer(modifier = Modifier.padding(end = 10.dp))
+                Text(
+                    text = stringResource(id = R.string.my_page_quit),
+                    style = TerningTheme.typography.button4,
+                    color = Grey350,
+                    modifier = Modifier.noRippleClickable {
+                        onQuitClick()
+                    }
                 )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Back)
-                        .padding(bottom = 17.dp),
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.my_page_logout),
-                        style = TerningTheme.typography.button4,
-                        color = Grey350,
-                        modifier = Modifier.noRippleClickable {
-                            onLogoutClick()
-                        }
-                    )
-                    Spacer(modifier = Modifier.padding(end = 10.dp))
-                    TerningImage(painter = R.drawable.ic_my_page_divider)
-                    Spacer(modifier = Modifier.padding(end = 10.dp))
-                    Text(
-                        text = stringResource(id = R.string.my_page_quit),
-                        style = TerningTheme.typography.button4,
-                        color = Grey350,
-                        modifier = Modifier.noRippleClickable {
-                            onQuitClick()
-                        }
-                    )
-                }
             }
         }
     }
@@ -250,15 +245,14 @@ fun MyPageInfo(
 
 private const val VERSION = "1.0.0"
 
-
 @Preview(showBackground = true)
 @Composable
-fun MyPageScreenPreview(){
+fun MyPageScreenPreview() {
     TerningPointTheme {
         MyPageScreen(
             onLogoutClick = {},
             onQuitClick = {},
-            name = "이석준",
+            name = "터닝이",
             onNoticeClick = {},
             onOpinionClick = {}
         )
