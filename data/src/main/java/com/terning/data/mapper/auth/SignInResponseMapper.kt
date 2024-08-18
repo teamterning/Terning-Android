@@ -1,10 +1,10 @@
 package com.terning.data.mapper.auth
 
 import com.terning.data.dto.response.SignInResponseDto
-import com.terning.domain.entity.auth.SignInResponseModel
+import com.terning.domain.entity.auth.SignInResponse
 
-fun SignInResponseDto.toSignInModel(): SignInResponseModel =
-    SignInResponseModel(
+fun SignInResponseDto.toSignInResponse(): SignInResponse =
+    SignInResponse(
         accessToken = accessToken,
         refreshToken = refreshToken,
         userId = userId,

@@ -1,20 +1,20 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.auth.SignInRequestModel
-import com.terning.domain.entity.auth.SignUpRequestModel
-import com.terning.domain.entity.auth.SignInResponseModel
-import com.terning.domain.entity.auth.SignUpResponseModel
+import com.terning.domain.entity.auth.SignInRequest
+import com.terning.domain.entity.auth.SignUpRequest
+import com.terning.domain.entity.auth.SignInResponse
+import com.terning.domain.entity.auth.SignUpResponse
 
 interface AuthRepository {
 
     suspend fun postSignIn(
         authorization: String,
-        request: SignInRequestModel
-    ): Result<SignInResponseModel>
+        request: SignInRequest
+    ): Result<SignInResponse>
 
     suspend fun postSignUp(
         authId: String,
-        request: SignUpRequestModel
-    ): Result<SignUpResponseModel>
+        request: SignUpRequest
+    ): Result<SignUpResponse>
 
 }

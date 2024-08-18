@@ -1,6 +1,6 @@
 package com.terning.domain.entity.auth
 
-data class SignUpResponseModel(
+data class SignUpResponse(
     val accessToken: String,
     val refreshToken: String,
     val userId: Long,

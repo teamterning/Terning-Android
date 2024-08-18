@@ -1,5 +1,5 @@
 package com.terning.domain.entity.auth
 
-data class SignInRequestModel(
+data class SignInRequest(
     val authType: String
 )
