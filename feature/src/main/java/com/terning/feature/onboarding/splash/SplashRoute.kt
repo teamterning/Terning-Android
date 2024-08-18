@@ -21,12 +21,12 @@ import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 import com.terning.feature.onboarding.splash.navigation.Splash
 
 @Composable
-fun SplashScreen(
+fun SplashRoute(
     navController: NavController,
     viewModel: SplashViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
 ) {
     val systemUiController = rememberSystemUiController()
+
     SideEffect {
         systemUiController.setStatusBarColor(
             color = TerningMain
@@ -46,10 +46,10 @@ fun SplashScreen(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SplashState.GetHasAccessToken -> {
+                    is SplashState.GetAccessToken -> {
                         if (sideEffect.hasAccessToken) navController.navigateHome(
                             navOptions = NavOptions.Builder().setPopUpTo(
-                                 route = Splash,
+                                route = Splash,
                                 inclusive = true
                             ).build()
                         )
@@ -65,6 +65,13 @@ fun SplashScreen(
 
     }
 
+    SplashScreen()
+}
+
+@Composable
+fun SplashScreen(
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -75,5 +82,4 @@ fun SplashScreen(
             modifier = Modifier.fillMaxSize()
         )
     }
-
 }
