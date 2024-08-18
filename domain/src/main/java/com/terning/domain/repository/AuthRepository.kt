@@ -1,9 +1,9 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.auth.SignInRequest
-import com.terning.domain.entity.auth.SignUpRequest
-import com.terning.domain.entity.auth.SignInResponse
-import com.terning.domain.entity.auth.SignUpResponse
+import com.terning.domain.entity.onboarding.SignInRequest
+import com.terning.domain.entity.onboarding.SignUpRequest
+import com.terning.domain.entity.onboarding.SignInResponse
+import com.terning.domain.entity.onboarding.SignUpResponse
 
 interface AuthRepository {
 

@@ -1,7 +1,7 @@
-package com.terning.data.mapper.auth
+package com.terning.data.mapper.onboarding
 
 import com.terning.data.dto.response.SignUpResponseDto
-import com.terning.domain.entity.auth.SignUpResponse
+import com.terning.domain.entity.onboarding.SignUpResponse
 
 fun SignUpResponseDto.toSignUpResponse(): SignUpResponse =
     SignUpResponse(

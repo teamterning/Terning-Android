@@ -1,4 +1,4 @@
-package com.terning.domain.entity.auth
+package com.terning.domain.entity.onboarding
 
 data class SignUpResponse(
     val accessToken: String,

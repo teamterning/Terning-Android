@@ -6,7 +6,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.WarningRed
-import com.terning.domain.entity.auth.SignUpRequest
+import com.terning.domain.entity.onboarding.SignUpRequest
 import com.terning.domain.repository.AuthRepository
 import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
