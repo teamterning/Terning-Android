@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -47,7 +46,7 @@ fun StartFilteringScreen(
     val screenHeight = 780f / configuration.screenHeightDp
 
     LaunchedEffect(key1 = true) {
-        delay(1000)
+        delay(DELAY)
         isVisible = true
     }
 
@@ -68,7 +67,9 @@ fun StartFilteringScreen(
             Image(
                 painter = painterResource(id = R.drawable.ic_terning_onboarding),
                 contentDescription = stringResource(id = R.string.start_filtering_main_image),
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
             )
             Spacer(modifier = Modifier.weight(2f))
         }
@@ -89,5 +90,19 @@ fun StartFilteringScreen(
                 )
             }
         }
+    }
+}
+
+private const val DELAY: Long = 1000
+
+@Preview(showBackground = true)
+@Composable
+fun StartFilteringScreenPreview() {
+    val navController = rememberNavController()
+    TerningPointTheme {
+        StartFilteringScreen(
+            name = "터닝이",
+            navController = navController
+        )
     }
 }
