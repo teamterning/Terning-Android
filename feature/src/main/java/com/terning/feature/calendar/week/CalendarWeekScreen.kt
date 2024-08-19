@@ -28,7 +28,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.CalendarViewModel
@@ -129,9 +129,9 @@ fun CalendarWeekEmpty(
 
 @Composable
 fun CalendarWeekSuccess(
-    scrapList: List<CalendarScrapDetailModel>,
+    scrapList: List<CalendarScrapDetail>,
     onScrapButtonClicked: (Long) -> Unit,
-    onInternshipClicked: (CalendarScrapDetailModel) -> Unit,
+    onInternshipClicked: (CalendarScrapDetail) -> Unit,
     selectedDate: LocalDate,
 ) {
     CalendarScrapList(

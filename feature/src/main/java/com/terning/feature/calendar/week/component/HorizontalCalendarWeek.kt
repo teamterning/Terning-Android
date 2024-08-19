@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.extension.getWeekIndexContainingSelectedDate
 import com.terning.core.extension.isToday
 import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.month.component.CalendarDay
-import com.terning.feature.calendar.month.model.MonthData
+import com.terning.feature.calendar.calendar.component.CalendarDay
+import com.terning.feature.calendar.month.model.MonthModel
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -25,12 +25,12 @@ fun HorizontalCalendarWeek(
     onDateSelected: (LocalDate) -> Unit = {}
 ) {
     val date = calendarUiState.selectedDate
-    val monthData = MonthData(YearMonth.of(date.year, date.monthValue))
-    val currentWeek = date.getWeekIndexContainingSelectedDate(monthData.inDays)
+    val monthModel = MonthModel(YearMonth.of(date.year, date.monthValue))
+    val currentWeek = date.getWeekIndexContainingSelectedDate(monthModel.inDays)
 
     val pagerState = rememberPagerState(
         initialPage = currentWeek,
-        pageCount = { monthData.totalDays / 7 }
+        pageCount = { monthModel.totalDays / 7 }
     )
 
     HorizontalPager(
@@ -43,7 +43,7 @@ fun HorizontalCalendarWeek(
                 .padding(horizontal = 32.dp, vertical = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            items(items = monthData.calendarMonth.weekDays[page]) { day ->
+            items(items = monthModel.calendarMonth.weekDays[page]) { day ->
                 CalendarDay(
                     dayData = day,
                     isSelected = calendarUiState.selectedDate == day.date && calendarUiState.isWeekEnabled,

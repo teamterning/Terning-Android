@@ -1,15 +1,12 @@
-package com.terning.feature.calendar.month.component
+package com.terning.feature.calendar.calendar.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,13 +20,13 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
-import com.terning.feature.calendar.month.model.DayClass
+import com.terning.feature.calendar.month.model.DayModel
 import java.time.LocalDate
 
 @Composable
 fun CalendarDay(
     modifier: Modifier = Modifier,
-    dayData: DayClass,
+    dayData: DayModel,
     isSelected: Boolean,
     isToday: Boolean,
     onDateSelected: (LocalDate) -> Unit = {}
@@ -79,19 +76,19 @@ fun CalendarDayPreview() {
     TerningPointTheme {
         Row {
             CalendarDay(
-                dayData = DayClass(LocalDate.now(), false),
+                dayData = DayModel(LocalDate.now(), false),
                 isSelected = true,
                 isToday = true,
                 onDateSelected = {}
             )
             CalendarDay(
-                dayData = DayClass(LocalDate.now(), false),
+                dayData = DayModel(LocalDate.now(), false),
                 isSelected = false,
                 isToday = true,
                 onDateSelected = {}
             )
             CalendarDay(
-                dayData = DayClass(LocalDate.now(), false),
+                dayData = DayModel(LocalDate.now(), false),
                 isSelected = false,
                 isToday = false,
                 onDateSelected = {}

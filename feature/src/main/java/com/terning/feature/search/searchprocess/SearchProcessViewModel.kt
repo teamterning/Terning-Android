@@ -3,7 +3,7 @@ package com.terning.feature.search.searchprocess
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.domain.entity.request.ScrapRequestModel
+import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.entity.response.SearchResultModel
 import com.terning.domain.repository.ScrapRepository
 import com.terning.domain.repository.SearchRepository
@@ -69,7 +69,7 @@ class SearchProcessViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             scrapRepository.postScrap(
-                ScrapRequestModel(
+                CalendarScrapRequest(
                     id = internshipAnnouncementId,
                     color = colorIndex,
                 )
@@ -91,7 +91,7 @@ class SearchProcessViewModel @Inject constructor(
     fun deleteScrap(scrapId: Long) {
         viewModelScope.launch {
             scrapRepository.deleteScrap(
-                ScrapRequestModel(id = scrapId)
+                CalendarScrapRequest(id = scrapId)
             ).onSuccess {
                 updateScrapDialogVisible(visible = false)
                 getSearchList(
