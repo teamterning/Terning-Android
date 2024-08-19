@@ -8,6 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.terning.core.designsystem.theme.White
 
+/**
+ * 기본 바텀시트 함수입니다.
+ *
+ * @param content 바텀시트에 표시할 내용을 담은 Composable 함수입니다.
+ * @param onDismissRequest 바텀시트가 닫히는 요청 시 호출되는 콜백 함수입니다.
+ * @param sheetState 바텀시트의 상태를 관리하는 SheetState 객체입니다.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TerningBasicBottomSheet(

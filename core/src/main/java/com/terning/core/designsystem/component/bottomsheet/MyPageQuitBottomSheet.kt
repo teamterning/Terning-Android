@@ -17,6 +17,15 @@ import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningTheme
 
+/**
+ * 회원탈퇴를 할 수 있는 바텀시트입니다.
+ *
+ * 회원탈퇴 버튼과, 취소 버튼으로 이루어져있습니다.
+ *
+ * @param modifier 바텀시트에 적용할 Modifier입니다.
+ * @param onDismiss 취소 버튼 클릭 시, 바텀시트가 닫히면서 호출되는 함수입니다.
+ * @param onQuitClick 회원탈퇴 버튼 클릭 시, 호출되는 콜백 함수입니다.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPageQuitBottomSheet(
