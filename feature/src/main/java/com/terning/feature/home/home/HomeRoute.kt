@@ -58,7 +58,7 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.HomeFilteringInfo
 import com.terning.domain.entity.HomeRecommendIntern
-import com.terning.domain.entity.HomeTodayInternModel
+import com.terning.domain.entity.HomeTodayIntern
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
@@ -102,7 +102,7 @@ fun HomeRoute(
     val homeUserState by viewModel.homeUserState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
-    val homeTodayInternList: MutableState<List<HomeTodayInternModel>> = remember {
+    val homeTodayInternList: MutableState<List<HomeTodayIntern>> = remember {
         mutableStateOf(emptyList())
     }
 
@@ -143,7 +143,7 @@ fun HomeRoute(
     when (homeTodayState) {
         is UiState.Success -> {
             homeTodayInternList.value =
-                (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
+                (homeTodayState as UiState.Success<List<HomeTodayIntern>>).data
         }
 
         is UiState.Loading -> {}
@@ -188,7 +188,7 @@ fun HomeScreen(
     currentSortBy: MutableState<Int>,
     homeUserName: String,
     homeFilteringInfo: HomeFilteringInfo,
-    homeTodayInternList: List<HomeTodayInternModel>,
+    homeTodayInternList: List<HomeTodayIntern>,
     recommendInternList: List<HomeRecommendIntern>,
     homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
@@ -425,7 +425,7 @@ private fun ShowMainTitleWithName(userName: String) {
 
 @Composable
 private fun ShowTodayIntern(
-    homeTodayInternList: List<HomeTodayInternModel>,
+    homeTodayInternList: List<HomeTodayIntern>,
     homeDialogState: HomeDialogState,
     navigateToDetail: (Long) -> Unit,
 ) {

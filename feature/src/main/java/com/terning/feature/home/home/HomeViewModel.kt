@@ -8,7 +8,7 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.entity.HomeFilteringInfo
 import com.terning.domain.entity.HomeRecommendIntern
-import com.terning.domain.entity.HomeTodayInternModel
+import com.terning.domain.entity.HomeTodayIntern
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository
@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
     private val _homeTodayState =
-        MutableStateFlow<UiState<List<HomeTodayInternModel>>>(UiState.Loading)
+        MutableStateFlow<UiState<List<HomeTodayIntern>>>(UiState.Loading)
     val homeTodayState get() = _homeTodayState.asStateFlow()
 
     private val _homeRecommendInternState =
