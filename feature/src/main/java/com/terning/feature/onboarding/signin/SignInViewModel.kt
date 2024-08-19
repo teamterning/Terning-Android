@@ -22,6 +22,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val tokenRepository: TokenRepository,
+//application context -> 앱 거
 ) : ViewModel() {
 
     init {
@@ -54,7 +55,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private fun signInFailure(context: Context, error: Throwable?) {
+    private fun signInFailure(context: Context, error: Throwable) {
         if (error.toString().contains(KAKAO_NOT_LOGGED_IN)) {
             UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
                 signInResult(context, token, error)
