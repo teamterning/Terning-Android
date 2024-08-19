@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.CalendarScrapModel
+import com.terning.domain.entity.CalendarScrap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,14 +20,4 @@ data class CalendarMonthResponseDto(
         @SerialName("color")
         val color: String
     )
-
-    fun toScrapModelList(): List<CalendarScrapModel> = scraps.map { scrap ->
-        CalendarScrapModel(
-            scrapId = scrap.scrapId,
-            title = scrap.title,
-            color = scrap.color,
-            deadLine = deadline,
-            isScrapped = true
-        )
-    }
 }

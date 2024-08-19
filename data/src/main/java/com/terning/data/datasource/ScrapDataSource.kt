@@ -1,18 +1,18 @@
 package com.terning.data.datasource
 
 import com.terning.data.dto.NonDataBaseResponse
-import com.terning.domain.entity.request.ScrapRequestModel
+import com.terning.domain.entity.CalendarScrapRequest
 
 interface ScrapDataSource {
     suspend fun postScrap(
-        scrapRequestModel: ScrapRequestModel,
+        calendarScrapRequest: CalendarScrapRequest,
     ): NonDataBaseResponse
 
     suspend fun deleteScrap(
-        scrapRequestModel: ScrapRequestModel,
+        calendarScrapRequest: CalendarScrapRequest,
     ): NonDataBaseResponse
 
     suspend fun patchScrap(
-        scrapRequestModel: ScrapRequestModel,
+        calendarScrapRequest: CalendarScrapRequest,
     ): NonDataBaseResponse
 }

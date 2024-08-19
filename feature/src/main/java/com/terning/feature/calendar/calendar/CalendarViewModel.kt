@@ -14,13 +14,13 @@ import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
-import com.terning.domain.entity.request.ScrapRequestModel
-import com.terning.domain.entity.response.CalendarScrapDetailModel
+import com.terning.domain.entity.CalendarScrapRequest
+import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.domain.repository.CalendarRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.month.model.CalendarMonthState
+import com.terning.feature.calendar.month.model.MonthUiState
 import com.terning.feature.calendar.list.model.CalendarListState
 import com.terning.feature.calendar.week.model.CalendarWeekState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,8 +50,8 @@ class CalendarViewModel @Inject constructor(
 
     val uiState get() = _uiState.asStateFlow()
 
-    private val _calendarMonthState = MutableStateFlow(CalendarMonthState())
-    val calendarMonthState = _calendarMonthState.asStateFlow()
+    private val _MonthUiState = MutableStateFlow(MonthUiState())
+    val calendarMonthState = _MonthUiState.asStateFlow()
 
     private val _calendarListState = MutableStateFlow(CalendarListState())
     val calendarListState = _calendarListState.asStateFlow()
@@ -113,7 +113,7 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetailModel?) {
+    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetail?) {
         _uiState.update { currentState ->
             currentState.copy(
                 internshipModel = scrapDetailModel
@@ -128,7 +128,7 @@ class CalendarViewModel @Inject constructor(
             calendarRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
-                _calendarMonthState.update { currentState ->
+                _MonthUiState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Success(it)
                     )
@@ -192,7 +192,7 @@ class CalendarViewModel @Inject constructor(
     fun deleteScrap(isFromWeekScreen: Boolean = false) = viewModelScope.launch {
         _calendarWeekState.value.loadState
             .takeIf { it is UiState.Success }
-            ?.let { ScrapRequestModel(_uiState.value.scrapId, null) }?.let { scrapRequestModel ->
+            ?.let { CalendarScrapRequest(_uiState.value.scrapId, null) }?.let { scrapRequestModel ->
                 scrapRepository.deleteScrap(
                     scrapRequestModel
                 ).onSuccess {
@@ -220,7 +220,7 @@ class CalendarViewModel @Inject constructor(
         val scrapId = _uiState.value.internshipModel?.scrapId ?: 0
         val colorIndex = getColorIndex(color)
 
-        scrapRepository.patchScrap(ScrapRequestModel(scrapId, colorIndex))
+        scrapRepository.patchScrap(CalendarScrapRequest(scrapId, colorIndex))
             .onSuccess {
                 runCatching {
                     if (isFromWeekScreen) {

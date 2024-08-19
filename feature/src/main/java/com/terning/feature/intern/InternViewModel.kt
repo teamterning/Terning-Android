@@ -4,13 +4,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.request.ScrapRequestModel
+import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.repository.InternRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.intern.model.InternScrapState
 import com.terning.feature.intern.model.InternViewState
-import com.terning.feature.search.searchprocess.SearchProcessSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,7 +57,7 @@ class InternViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             scrapRepository.postScrap(
-                ScrapRequestModel(id, color)
+                CalendarScrapRequest(id, color)
             ).onSuccess {
                 _scrapState.update {
                     it.copy(isScrap = UiState.Success(true))
@@ -81,7 +80,7 @@ class InternViewModel @Inject constructor(
         announcementId: Long,
     ) {
         viewModelScope.launch {
-            scrapId?.let { ScrapRequestModel(it, null) }?.let { scrapRequestModel ->
+            scrapId?.let { CalendarScrapRequest(it, null) }?.let { scrapRequestModel ->
                 scrapRepository.deleteScrap(
                     scrapRequestModel
                 ).onSuccess {
