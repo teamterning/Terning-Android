@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.HomeRecommendInternModel
+import com.terning.domain.entity.HomeRecommendIntern
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -25,8 +25,8 @@ data class HomeRecommendInternResponseDto(
     @SerialName("isScrapped")
     val isScrapped: Boolean,
 ) {
-    fun toRecommendInternEntity(): HomeRecommendInternModel =
-        HomeRecommendInternModel(
+    fun toRecommendInternEntity(): HomeRecommendIntern =
+        HomeRecommendIntern(
             scrapId = this.scrapId,
             internshipAnnouncementId = this.internshipAnnouncementId,
             title = this.title,

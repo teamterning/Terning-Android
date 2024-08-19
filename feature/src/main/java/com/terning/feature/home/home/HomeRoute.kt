@@ -56,8 +56,8 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.HomeFilteringInfoModel
-import com.terning.domain.entity.HomeRecommendInternModel
+import com.terning.domain.entity.HomeFilteringInfo
+import com.terning.domain.entity.HomeRecommendIntern
 import com.terning.domain.entity.HomeTodayInternModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
@@ -120,7 +120,7 @@ fun HomeRoute(
     LaunchedEffect(homeFilteringState, currentSortBy.value) {
         when (homeFilteringState) {
             is UiState.Success ->
-                with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
+                with((homeFilteringState as UiState.Success<HomeFilteringInfo>).data) {
                     viewModel.getRecommendInternsData(
                         currentSortBy.value,
                         startYear ?: viewModel.currentYear,
@@ -154,15 +154,15 @@ fun HomeRoute(
 
     val homeRecommendInternList = when (homeRecommendInternState) {
         is UiState.Success -> {
-            (homeRecommendInternState as UiState.Success<List<HomeRecommendInternModel>>).data
+            (homeRecommendInternState as UiState.Success<List<HomeRecommendIntern>>).data
         }
 
         else -> emptyList()
     }
 
     val homeFilteringInfo = when (homeFilteringState) {
-        is UiState.Success -> (homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data
-        else -> HomeFilteringInfoModel(null, null, viewModel.currentYear, viewModel.currentMonth)
+        is UiState.Success -> (homeFilteringState as UiState.Success<HomeFilteringInfo>).data
+        else -> HomeFilteringInfo(null, null, viewModel.currentYear, viewModel.currentMonth)
     }
 
     val homeUserName = when (homeUserState) {
@@ -187,9 +187,9 @@ fun HomeRoute(
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
     homeUserName: String,
-    homeFilteringInfo: HomeFilteringInfoModel,
+    homeFilteringInfo: HomeFilteringInfo,
     homeTodayInternList: List<HomeTodayInternModel>,
-    recommendInternList: List<HomeRecommendInternModel>,
+    recommendInternList: List<HomeRecommendIntern>,
     homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
@@ -372,7 +372,7 @@ fun HomeScreen(
                                     viewModel.updateScrapped(false)
                                 }
                             },
-                            homeRecommendInternModel = this,
+                            homeRecommendIntern = this,
                         )
                     }
                 }
@@ -385,7 +385,7 @@ fun HomeScreen(
 @Composable
 private fun RecommendInternItem(
     navController: NavHostController,
-    intern: HomeRecommendInternModel,
+    intern: HomeRecommendIntern,
     onScrapButtonClicked: (Long) -> Unit,
 ) {
     InternItemWithShadow(
@@ -463,7 +463,7 @@ private fun ShowRecommendTitle() {
 
 @Composable
 private fun ShowInternFilter(
-    homeFilteringInfo: HomeFilteringInfoModel,
+    homeFilteringInfo: HomeFilteringInfo,
     onChangeFilterClick: () -> Unit,
 ) {
     if (homeFilteringInfo.grade == null) {

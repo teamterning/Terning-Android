@@ -1,6 +1,6 @@
 package com.terning.domain.entity
 
-data class HomeFilteringInfoModel(
+data class HomeFilteringInfo(
     val grade: Int?,
     val workingPeriod: Int?,
     val startYear: Int?,

@@ -44,7 +44,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.HomeRecommendInternModel
+import com.terning.domain.entity.HomeRecommendIntern
 import com.terning.feature.home.home.HomeViewModel
 import com.terning.feature.intern.component.InternInfoRow
 
@@ -54,7 +54,7 @@ fun HomeRecommendInternDialog(
     internInfoList: List<Pair<String, String>>,
     clickAction: () -> Unit,
     onColorSelected:(Color) -> Unit = {},
-    homeRecommendInternModel: HomeRecommendInternModel,
+    homeRecommendIntern: HomeRecommendIntern,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.homeDialogState.collectAsStateWithLifecycle()
@@ -73,7 +73,7 @@ fun HomeRecommendInternDialog(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(homeRecommendInternModel.companyImage)
+                    .data(homeRecommendIntern.companyImage)
                     .build(),
                 contentDescription = stringResource(R.string.image_content_descriptin),
                 modifier = Modifier
@@ -89,7 +89,7 @@ fun HomeRecommendInternDialog(
             )
 
             Text(
-                text = homeRecommendInternModel.title,
+                text = homeRecommendIntern.title,
                 textAlign = TextAlign.Center,
                 style = TerningTheme.typography.title4,
                 color = Grey500,
@@ -179,7 +179,7 @@ fun HomeRecommendInternDialog(
                     }
                 } else {
                     Text(
-                        text = homeRecommendInternModel.dDay,
+                        text = homeRecommendIntern.dDay,
                         style = TerningTheme.typography.body5,
                         color = TerningMain,
                         modifier = Modifier.padding(bottom = 9.dp)

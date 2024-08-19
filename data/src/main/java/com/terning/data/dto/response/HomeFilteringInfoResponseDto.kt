@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.HomeFilteringInfoModel
+import com.terning.domain.entity.HomeFilteringInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,8 +15,8 @@ data class HomeFilteringInfoResponseDto(
     @SerialName("startMonth")
     val startMonth: Int?,
 ) {
-    fun toHomeFilteringInfoModel(): HomeFilteringInfoModel =
-        HomeFilteringInfoModel(
+    fun toHomeFilteringInfoModel(): HomeFilteringInfo =
+        HomeFilteringInfo(
             grade = this.grade,
             workingPeriod = this.workingPeriod,
             startYear = this.startYear,

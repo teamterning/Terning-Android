@@ -1,7 +1,7 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.HomeFilteringInfoModel
-import com.terning.domain.entity.HomeRecommendInternModel
+import com.terning.domain.entity.HomeFilteringInfo
+import com.terning.domain.entity.HomeRecommendIntern
 import com.terning.domain.entity.HomeTodayInternModel
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 
@@ -12,9 +12,9 @@ interface HomeRepository {
         sortBy: String,
         startYear: Int,
         startMonth: Int
-    ): Result<List<HomeRecommendInternModel>>
+    ): Result<List<HomeRecommendIntern>>
 
-    suspend fun getFilteringInfo(): Result<HomeFilteringInfoModel>
+    suspend fun getFilteringInfo(): Result<HomeFilteringInfo>
 
     suspend fun putFilteringInfo(
         putFilteringRequest: ChangeFilteringRequestModel,

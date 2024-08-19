@@ -2,8 +2,8 @@ package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.HomeDataSource
 import com.terning.data.dto.request.toChangeFilterRequestDto
-import com.terning.domain.entity.HomeFilteringInfoModel
-import com.terning.domain.entity.HomeRecommendInternModel
+import com.terning.domain.entity.HomeFilteringInfo
+import com.terning.domain.entity.HomeRecommendIntern
 import com.terning.domain.entity.HomeTodayInternModel
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.repository.HomeRepository
@@ -23,7 +23,7 @@ class HomeRepositoryImpl @Inject constructor(
         sortBy: String,
         startYear: Int,
         startMonth: Int
-    ): Result<List<HomeRecommendInternModel>> =
+    ): Result<List<HomeRecommendIntern>> =
         runCatching {
             homeDataSource.getRecommendIntern(
                 sortBy = sortBy,
@@ -34,7 +34,7 @@ class HomeRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getFilteringInfo(): Result<HomeFilteringInfoModel> =
+    override suspend fun getFilteringInfo(): Result<HomeFilteringInfo> =
         runCatching {
             homeDataSource.getFilteringInfo().result.toHomeFilteringInfoModel()
         }
