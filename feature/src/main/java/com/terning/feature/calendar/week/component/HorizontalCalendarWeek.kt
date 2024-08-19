@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.week
+package com.terning.feature.calendar.week.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.terning.core.extension.getWeekIndexContainingSelectedDate
 import com.terning.core.extension.isToday
-import com.terning.feature.calendar.calendar.CalendarUiState
+import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.month.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthData
 import java.time.LocalDate

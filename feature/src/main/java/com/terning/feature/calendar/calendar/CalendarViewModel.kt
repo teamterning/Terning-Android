@@ -1,6 +1,5 @@
 package com.terning.feature.calendar.calendar
 
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,10 +19,10 @@ import com.terning.domain.entity.response.CalendarScrapDetailModel
 import com.terning.domain.repository.CalendarRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
-import com.terning.feature.calendar.month.CalendarMonthState
-import com.terning.feature.calendar.scrap.CalendarListState
-import com.terning.feature.calendar.week.CalendarWeekState
-import com.terning.feature.intern.model.InternScrapState
+import com.terning.feature.calendar.calendar.model.CalendarUiState
+import com.terning.feature.calendar.month.model.CalendarMonthState
+import com.terning.feature.calendar.list.model.CalendarListState
+import com.terning.feature.calendar.week.model.CalendarWeekState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
