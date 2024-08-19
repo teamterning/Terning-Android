@@ -1,7 +1,5 @@
 package com.terning.feature.filtering.startfiltering.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -9,6 +7,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
+import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
 import com.terning.feature.filtering.startfiltering.StartFilteringScreen
 import kotlinx.serialization.Serializable
 
@@ -28,8 +27,9 @@ fun NavGraphBuilder.startFilteringNavGraph(
     composable<StartFiltering> {
         val args = it.toRoute<StartFiltering>()
         StartFilteringScreen(
-            name = args.name,
-            navController = navHostController,
+            onNextButtonClick = {
+                navHostController.navigateFilteringOne(args.name)
+            }
         )
     }
 }

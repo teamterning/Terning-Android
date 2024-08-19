@@ -25,20 +25,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
 import kotlinx.coroutines.delay
 
 @Composable
 fun StartFilteringScreen(
-    name: String,
     modifier: Modifier = Modifier,
-    navController: NavController
+    onNextButtonClick: () -> Unit
 ) {
     var isVisible by remember { mutableStateOf(false) }
 
@@ -86,7 +82,7 @@ fun StartFilteringScreen(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 20.dp,
                     text = R.string.start_filtering_button,
-                    onButtonClick = { navController.navigateFilteringOne(name) },
+                    onButtonClick = { onNextButtonClick() },
                 )
             }
         }
@@ -98,11 +94,9 @@ private const val DELAY: Long = 1000
 @Preview(showBackground = true)
 @Composable
 fun StartFilteringScreenPreview() {
-    val navController = rememberNavController()
     TerningPointTheme {
         StartFilteringScreen(
-            name = "터닝이",
-            navController = navController
+            onNextButtonClick = {}
         )
     }
 }
