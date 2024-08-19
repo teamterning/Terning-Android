@@ -34,7 +34,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun StartFilteringScreen(
     modifier: Modifier = Modifier,
-    onNextButtonClick: () -> Unit
+    onNextClick: () -> Unit
 ) {
     var isVisible by remember { mutableStateOf(false) }
 
@@ -82,7 +82,7 @@ fun StartFilteringScreen(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 20.dp,
                     text = R.string.start_filtering_button,
-                    onButtonClick = { onNextButtonClick() },
+                    onButtonClick = { onNextClick() },
                 )
             }
         }
@@ -96,7 +96,7 @@ private const val DELAY: Long = 1000
 fun StartFilteringScreenPreview() {
     TerningPointTheme {
         StartFilteringScreen(
-            onNextButtonClick = {}
+            onNextClick = {}
         )
     }
 }

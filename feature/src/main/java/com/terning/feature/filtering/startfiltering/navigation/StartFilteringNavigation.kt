@@ -27,7 +27,7 @@ fun NavGraphBuilder.startFilteringNavGraph(
     composable<StartFiltering> {
         val args = it.toRoute<StartFiltering>()
         StartFilteringScreen(
-            onNextButtonClick = {
+            onNextClick = {
                 navHostController.navigateFilteringOne(args.name)
             }
         )
