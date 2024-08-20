@@ -1,6 +1,6 @@
-package com.terning.domain.entity.response
+package com.terning.domain.entity.onboarding
 
-data class SignInResponseModel(
+data class SignInResponse(
     val accessToken: String?,
     val refreshToken: String?,
     val userId: Long?,

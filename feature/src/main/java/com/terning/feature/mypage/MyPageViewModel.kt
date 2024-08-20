@@ -93,7 +93,8 @@ class MyPageViewModel @Inject constructor(
 
     private fun getProfile() {
         viewModelScope.launch {
-            myPageRepository.getProfile().onSuccess { response ->
+            myPageRepository.getProfile()
+                .onSuccess { response ->
                 _state.value = _state.value.copy(
                     isGetSuccess = UiState.Success(true),
                     name = response.name,

@@ -21,7 +21,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavController
 import com.terning.core.designsystem.component.bottomsheet.SignUpBottomSheet
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.textfield.NameTextField
@@ -30,7 +29,6 @@ import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
 import com.terning.feature.onboarding.signup.component.SignUpProfile
 
 @Composable

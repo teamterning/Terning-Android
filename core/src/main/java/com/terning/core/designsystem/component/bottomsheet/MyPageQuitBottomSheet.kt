@@ -16,6 +16,7 @@ import com.terning.core.R
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningTheme
+import kotlinx.coroutines.launch
 
 /**
  * 회원탈퇴를 할 수 있는 바텀시트입니다.
@@ -72,7 +73,12 @@ fun MyPageQuitBottomSheet(
                     cornerRadius = 10.dp,
                     text = R.string.my_page_back_button,
                     onButtonClick = {
-                        onDismiss()
+                        scope.launch { sheetState.hide() }
+                            .invokeOnCompletion {
+                                if (!sheetState.isVisible) {
+                                    onDismiss()
+                                }
+                            }
                     },
                     modifier = modifier.padding(
                         start = 24.dp,

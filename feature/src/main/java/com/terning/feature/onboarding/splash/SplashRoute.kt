@@ -18,13 +18,13 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.feature.R
 
 @Composable
-fun SplashScreen(
-    modifier: Modifier = Modifier,
+fun SplashRoute(
     viewModel: SplashViewModel = hiltViewModel(),
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
+
     SideEffect {
         systemUiController.setStatusBarColor(
             color = TerningMain
@@ -44,7 +44,7 @@ fun SplashScreen(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SplashState.GetHasAccessToken -> {
+                    is SplashState.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) navigateToHome()
                         else navigateToSignIn()
                     }
@@ -52,6 +52,13 @@ fun SplashScreen(
             }
     }
 
+    SplashScreen()
+}
+
+@Composable
+fun SplashScreen(
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -68,9 +75,6 @@ fun SplashScreen(
 @Composable
 fun SplashScreenPreview() {
     TerningPointTheme {
-        SplashScreen(
-            navigateToHome = {},
-            navigateToSignIn = {}
-        )
+        SplashScreen()
     }
 }

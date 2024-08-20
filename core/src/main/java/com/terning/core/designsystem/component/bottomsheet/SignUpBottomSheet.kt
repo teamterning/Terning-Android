@@ -96,6 +96,13 @@ fun SignUpBottomSheet(
     )
 }
 
+/**
+ * 6개의 프로필 이미지 중, 하나의 이미지만 선택할 수 있는 라디오 버튼입니다.
+ *
+ * @param modifier 라디오 버튼에 적용할 Modifier입니다.
+ * @param onOptionSelected 선택된 이미지의 인덱스 값을 나타내는 콜백 함수입니다.
+ * @param initialSelectedOption 초기에 선택된 이미지를 나타내는 인덱스 값입니다.
+ */
 @Composable
 fun RadioButtonGroup(
     modifier: Modifier = Modifier,

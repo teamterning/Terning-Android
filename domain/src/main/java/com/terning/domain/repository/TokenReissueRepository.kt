@@ -1,9 +1,9 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.response.TokenReissueResponseModel
+import com.terning.domain.entity.auth.TokenReissue
 
 interface TokenReissueRepository {
     suspend fun postReissueToken(
         authorization: String,
-    ): Result<TokenReissueResponseModel>
+    ): Result<TokenReissue>
 }
