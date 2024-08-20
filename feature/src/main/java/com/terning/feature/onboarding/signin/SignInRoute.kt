@@ -1,5 +1,6 @@
 package com.terning.feature.onboarding.signin
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.user.UserApiClient
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
@@ -52,12 +55,37 @@ fun SignInRoute(
                     is SignInSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is SignInSideEffect.NavigateToHome -> navigateToHome()
                     is SignInSideEffect.NavigateSignUp -> navigateToSignUp(sideEffect.authId)
+                    is SignInSideEffect.StartKakaoTalkLogin -> startKakoTalkLogIn(context = context) { token, error ->
+                        viewModel.signInResult(token = token, error = error)
+                    }
+
+                    is SignInSideEffect.StartKakaoWebLogin -> startKakaoWebLogIn(context = context) { token, error ->
+                        viewModel.signInResult(token = token, error = error)
+                    }
+
+                    is SignInSideEffect.SignInFailure ->
+                        signInFailure(context = context,
+                            error = sideEffect.error,
+                            signInResult = { token, error ->
+                                viewModel.signInResult(token = token, error = error)
+                            },
+                            sigInCancellationOrError = { error ->
+                                viewModel.sigInCancellationOrError(error)
+                            }
+                        )
+
                 }
             }
     }
 
     SignInScreen(
-        onSignInClick = { viewModel.startKakaoLogIn(context) }
+        onSignInClick = {
+            viewModel.startKakaoLogIn(
+                isKakaoAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(
+                    context
+                )
+            )
+        }
     )
 }
 
@@ -88,6 +116,39 @@ fun SignInScreen(
         Spacer(modifier = modifier.weight(1f))
     }
 }
+
+private fun startKakoTalkLogIn(
+    context: Context,
+    signInResult: (OAuthToken?, Throwable?) -> Unit,
+) {
+    UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+        signInResult(token, error)
+    }
+}
+
+private fun startKakaoWebLogIn(
+    context: Context,
+    signInResult: (OAuthToken?, Throwable?) -> Unit,
+) {
+    UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
+        signInResult(token, error)
+    }
+}
+
+private fun signInFailure(
+    context: Context,
+    error: Throwable,
+    signInResult: (OAuthToken?, Throwable?) -> Unit,
+    sigInCancellationOrError: (Throwable) -> Unit
+) {
+    if (error.toString().contains(KAKAO_NOT_LOGGED_IN)) {
+        UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
+            signInResult(token, error)
+        }
+    } else sigInCancellationOrError(error)
+}
+
+private const val KAKAO_NOT_LOGGED_IN = "statusCode=302"
 
 @Preview(showBackground = true)
 @Composable
