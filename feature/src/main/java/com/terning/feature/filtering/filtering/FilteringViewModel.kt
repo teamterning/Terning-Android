@@ -2,7 +2,7 @@ package com.terning.feature.filtering.filtering
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.domain.entity.request.FilteringRequestModel
+import com.terning.domain.entity.filtering.Filtering
 import com.terning.domain.repository.FilteringRepository
 import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
@@ -49,7 +49,7 @@ class FilteringViewModel @Inject constructor(
             filteringRepository.postFiltering(
                 tokenRepository.getUserId(),
                 state.value.run {
-                    FilteringRequestModel(
+                    Filtering(
                         grade = grade,
                         workingPeriod = workingPeriod,
                         startYear = startYear,

@@ -5,7 +5,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.terning.core.designsystem.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)

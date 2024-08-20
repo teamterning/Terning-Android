@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -25,10 +25,13 @@ import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.filtering.starthome.navigation.navigateStartHome
+import com.terning.feature.main.MainNavigator
+import com.terning.feature.main.rememberMainNavigator
 import java.util.Calendar
 
 @Composable
@@ -69,18 +72,14 @@ fun FilteringThreeScreen(
             }
     }
 
-    Scaffold(
+    Column(
         modifier = modifier,
-        topBar = {
-            BackButtonTopAppBar(
-                onBackButtonClick = { navController.navigateUp() }
-            )
-        }
-    ) { paddingValues ->
+    ) {
+        BackButtonTopAppBar(
+            onBackButtonClick = { navController.navigateUp() }
+        )
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+            modifier = Modifier.fillMaxSize()
         ) {
             TerningImage(
                 painter = R.drawable.ic_filtering_status3,
@@ -123,5 +122,18 @@ fun FilteringThreeScreen(
                 modifier = modifier.padding(bottom = 12.dp),
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FilteringThreeScreenPreview() {
+    val navigator: MainNavigator = rememberMainNavigator()
+    TerningPointTheme {
+        FilteringThreeScreen(
+            grade = 1,
+            workingPeriod = 1,
+            navController = navigator.navController
+        )
     }
 }

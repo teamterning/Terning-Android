@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.Route
-import com.terning.feature.onboarding.splash.SplashScreen
+import com.terning.feature.onboarding.splash.SplashRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateSplash(navOptions: NavOptions? = null) {
@@ -35,7 +35,7 @@ fun NavGraphBuilder.splashNavGraph(
             EnterTransition.None
         }
     ) {
-        SplashScreen(
+        SplashRoute(
             navController = navHostController,
         )
     }
