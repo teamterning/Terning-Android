@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -24,6 +25,7 @@ import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.bottomsheet.SignUpBottomSheet
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.textfield.NameTextField
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
@@ -59,9 +61,14 @@ fun SignUpRoute(
     }
 
     SignUpScreen(
-        signUpViewModel = viewModel,
         signUpState = signUpState,
-        onSignUpClick = { viewModel.postSignUpWithServer() }
+        onSignUpClick = { viewModel.postSignUpWithServer() },
+        onInputChange = { name ->
+            viewModel.isInputValid(name)
+        },
+        onFetchCharacter = { index ->
+            viewModel.fetchCharacter(index)
+        }
     )
 }
 
@@ -69,8 +76,9 @@ fun SignUpRoute(
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     signUpState: SignUpState,
-    signUpViewModel: SignUpViewModel,
-    onSignUpClick: () -> Unit
+    onSignUpClick: () -> Unit,
+    onInputChange: (String) -> Unit,
+    onFetchCharacter: (Int) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -92,9 +100,9 @@ fun SignUpScreen(
         if (showBottomSheet) {
             SignUpBottomSheet(
                 onDismiss = { showBottomSheet = false },
-                onSaveClick = {
+                onSaveClick = { index ->
                     showBottomSheet = false
-                    signUpViewModel.fetchCharacter(it)
+                    onFetchCharacter(index)
                 },
                 initialSelectedOption = signUpState.character
             )
@@ -132,7 +140,7 @@ fun SignUpScreen(
             NameTextField(
                 value = signUpState.name,
                 onValueChange = { name ->
-                    signUpViewModel.isInputValid(name)
+                    onInputChange(name)
                 },
                 hint = stringResource(id = R.string.sign_up_hint),
                 drawLineColor = signUpState.drawLineColor,
@@ -149,6 +157,19 @@ fun SignUpScreen(
             onButtonClick = { onSignUpClick() },
             modifier = modifier.padding(bottom = 12.dp),
             isEnabled = signUpState.isButtonValid
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SignUpScreenPreview() {
+    TerningPointTheme {
+        SignUpScreen(
+            signUpState = SignUpState(),
+            onSignUpClick = {},
+            onInputChange = {},
+            onFetchCharacter = {}
         )
     }
 }
