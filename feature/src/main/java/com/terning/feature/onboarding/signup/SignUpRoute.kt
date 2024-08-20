@@ -37,7 +37,7 @@ import com.terning.feature.onboarding.signup.component.SignUpProfile
 fun SignUpRoute(
     authId: String,
     viewModel: SignUpViewModel = hiltViewModel(),
-    navController: NavController
+    navigateToStartFiltering: (String) -> Unit
 ) {
     val signUpState by viewModel.state.collectAsStateWithLifecycle()
 
@@ -54,7 +54,7 @@ fun SignUpRoute(
                 when (sideEffect) {
                     is SignUpSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is SignUpSideEffect.NavigateToStartFiltering -> {
-                        navController.navigateStartFiltering(signUpState.name)
+                        navigateToStartFiltering(signUpState.name)
                     }
                 }
             }
