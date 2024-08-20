@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.image.TerningImage
@@ -29,16 +28,15 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.filtering.starthome.navigation.navigateStartHome
 import java.util.Calendar
 
 @Composable
 fun FilteringThreeRoute(
     grade: Int,
     workingPeriod: Int,
-    navController: NavController,
+    navigateUp: () -> Unit,
+    navigateToStartHome: () -> Unit,
     viewModel: FilteringViewModel = hiltViewModel(),
-    navigateUp: () -> Unit
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -63,7 +61,7 @@ fun FilteringThreeRoute(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is FilteringSideEffect.NavigateToStartHome -> navController.navigateStartHome()
+                    is FilteringSideEffect.NavigateToStartHome -> navigateToStartHome()
                     is FilteringSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
@@ -146,8 +144,13 @@ fun FilteringThreeScreen(
 @Composable
 fun FilteringThreeScreenPreview() {
     TerningPointTheme {
-//        FilteringThreeScreen(
-//
-//        )
+        FilteringThreeScreen(
+            navigateUp = { },
+            chosenYear = 2024,
+            chosenMonth = 8,
+            onYearChosen = {},
+            onMonthChosen = {},
+            onNextClick = {}
+        )
     }
 }

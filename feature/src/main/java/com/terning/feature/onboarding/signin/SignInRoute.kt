@@ -11,7 +11,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,21 +18,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.component.KakaoButton
-import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 
 @Composable
 fun SignInRoute(
+    navigateToHome: () -> Unit,
+    navigateToSignUp: (String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel(),
-    navController: NavHostController,
 ) {
 
     val systemUiController = rememberSystemUiController()
@@ -53,8 +50,8 @@ fun SignInRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SignInSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is SignInSideEffect.NavigateToHome -> navController.navigateHome()
-                    is SignInSideEffect.NavigateSignUp -> navController.navigateSignUp(sideEffect.authId)
+                    is SignInSideEffect.NavigateToHome -> navigateToHome()
+                    is SignInSideEffect.NavigateSignUp -> navigateToSignUp(sideEffect.authId)
                 }
             }
     }

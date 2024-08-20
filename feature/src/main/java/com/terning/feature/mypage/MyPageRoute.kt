@@ -113,11 +113,11 @@ fun MyPageRoute(
 fun MyPageScreen(
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
+    onNoticeClick: () -> Unit,
+    onOpinionClick: () -> Unit,
     modifier: Modifier = Modifier,
     name: String = "",
     authType: String = "",
-    onNoticeClick: () -> Unit,
-    onOpinionClick: () -> Unit
 ) {
     Box(
         modifier = modifier.fillMaxSize(),

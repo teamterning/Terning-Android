@@ -36,8 +36,8 @@ import com.terning.feature.onboarding.signup.component.SignUpProfile
 @Composable
 fun SignUpRoute(
     authId: String,
+    navigateToStartFiltering: (String) -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
-    navigateToStartFiltering: (String) -> Unit
 ) {
     val signUpState by viewModel.state.collectAsStateWithLifecycle()
 
@@ -53,16 +53,17 @@ fun SignUpRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SignUpSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is SignUpSideEffect.NavigateToStartFiltering -> {
+                    is SignUpSideEffect.NavigateToStartFiltering ->
                         navigateToStartFiltering(signUpState.name)
-                    }
                 }
             }
     }
 
     SignUpScreen(
         signUpState = signUpState,
-        onSignUpClick = { viewModel.postSignUpWithServer() },
+        onSignUpClick = {
+            viewModel.postSignUpWithServer()
+        },
         onInputChange = { name ->
             viewModel.isInputValid(name)
         },
@@ -74,11 +75,11 @@ fun SignUpRoute(
 
 @Composable
 fun SignUpScreen(
-    modifier: Modifier = Modifier,
     signUpState: SignUpState,
     onSignUpClick: () -> Unit,
     onInputChange: (String) -> Unit,
-    onFetchCharacter: (Int) -> Unit
+    onFetchCharacter: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
     var showBottomSheet by remember { mutableStateOf(false) }

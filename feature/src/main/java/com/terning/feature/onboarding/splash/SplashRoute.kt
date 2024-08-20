@@ -19,9 +19,9 @@ import com.terning.feature.R
 
 @Composable
 fun SplashRoute(
-    viewModel: SplashViewModel = hiltViewModel(),
     navigateToHome: () -> Unit,
-    navigateToSignIn: () -> Unit
+    navigateToSignIn: () -> Unit,
+    viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
 
