@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.SearchResultModel
+import com.terning.domain.entity.search.SearchResult
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -35,9 +35,9 @@ data class SearchResultResponseDto(
         val deadline: String,
     )
 
-    fun toSearchResultEntity(): List<SearchResultModel> {
+    fun toSearchResultEntity(): List<SearchResult> {
         return announcements.map {
-            SearchResultModel(
+            SearchResult(
                 internshipAnnouncementId = it.internshipAnnouncementId,
                 title = it.title,
                 dDay = it.dDay,

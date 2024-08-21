@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.domain.entity.response.SearchAnnouncement
+import com.terning.domain.entity.search.SearchAnnouncement
 import com.terning.feature.R
 
 @Composable

@@ -1,4 +1,4 @@
-package com.terning.domain.entity.response
+package com.terning.domain.entity.search
 
 data class SearchAnnouncement(
     val title: String,

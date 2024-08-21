@@ -3,8 +3,8 @@ package com.terning.data.repositoryimpl
 import com.terning.data.datasource.SearchDataSource
 import com.terning.data.dto.request.SearchRequestDto
 import com.terning.data.mapper.search.toSearchAnnouncementList
-import com.terning.domain.entity.response.SearchAnnouncement
-import com.terning.domain.entity.response.SearchResultModel
+import com.terning.domain.entity.search.SearchAnnouncement
+import com.terning.domain.entity.search.SearchResult
 import com.terning.domain.repository.SearchRepository
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class SearchRepositoryImpl @Inject constructor(
         sortBy: String,
         page: Int,
         size: Int,
-    ): Result<List<SearchResultModel>> {
+    ): Result<List<SearchResult>> {
         return runCatching {
             searchDataSource.getSearch(
                 SearchRequestDto(
