@@ -20,12 +20,12 @@ class SplashViewModel @Inject constructor(
     private val _sideEffects = MutableSharedFlow<SplashState>()
     val sideEffects: SharedFlow<SplashState> get() = _sideEffects.asSharedFlow()
 
-    private fun getHasAccessToken(): Boolean = tokenRepository.getAccessToken().isNotBlank()
+    private fun getAccessToken(): Boolean = tokenRepository.getAccessToken().isNotBlank()
 
     fun showSplash(lifecycleOwner: LifecycleOwner) {
         lifecycleOwner.lifecycleScope.launch {
             delay(DELAY_TIME)
-            _sideEffects.emit(SplashState.GetHasAccessToken(getHasAccessToken()))
+            _sideEffects.emit(SplashState.HasAccessToken(getAccessToken()))
         }
     }
 

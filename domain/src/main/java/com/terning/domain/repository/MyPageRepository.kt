@@ -1,6 +1,6 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.response.MyPageProfileModel
+import com.terning.domain.entity.mypage.MyPageProfileModel
 
 interface MyPageRepository {
     suspend fun postLogout(): Result<Unit>

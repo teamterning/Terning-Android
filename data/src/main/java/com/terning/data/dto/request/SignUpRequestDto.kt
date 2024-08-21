@@ -1,6 +1,5 @@
 package com.terning.data.dto.request
 
-import com.terning.domain.entity.request.SignUpRequestModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,10 +12,3 @@ data class SignUpRequestDto(
     @SerialName("authType")
     val authType: String
 )
-
-fun SignUpRequestModel.toSignUpRequestDto(): SignUpRequestDto =
-    SignUpRequestDto(
-        name = name,
-        profileImage = profileImage,
-        authType = authType
-    )

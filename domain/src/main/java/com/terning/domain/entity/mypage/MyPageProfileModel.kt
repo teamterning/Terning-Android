@@ -1,4 +1,4 @@
-package com.terning.domain.entity.response
+package com.terning.domain.entity.mypage
 
 data class MyPageProfileModel(
     val name: String,

@@ -1,8 +1,8 @@
 package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.MyPageDataSource
-import com.terning.data.dto.response.toMyPageProfileModel
-import com.terning.domain.entity.response.MyPageProfileModel
+import com.terning.data.mapper.mypage.toMyPageProfile
+import com.terning.domain.entity.mypage.MyPageProfileModel
 import com.terning.domain.repository.MyPageRepository
 import javax.inject.Inject
 
@@ -21,6 +21,6 @@ class MyPageRepositoryImpl @Inject constructor(
 
     override suspend fun getProfile(): Result<MyPageProfileModel> =
         runCatching {
-            myPageDataSource.getProfile().result.toMyPageProfileModel()
+            myPageDataSource.getProfile().result.toMyPageProfile()
         }
 }
