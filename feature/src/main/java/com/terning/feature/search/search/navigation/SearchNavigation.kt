@@ -39,7 +39,7 @@ fun NavGraphBuilder.searchNavGraph(
     ) {
         SearchRoute(
             navigateToSearchProcess = { navHostController.navigateSearchProcess() },
-            navigateToIntern = { announcementId -> navHostController.navigateIntern() }
+            navigateToIntern = { announcementId -> navHostController.navigateIntern(announcementId) }
         )
     }
 }
