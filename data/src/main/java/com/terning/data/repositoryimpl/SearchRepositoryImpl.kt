@@ -2,8 +2,9 @@ package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.SearchDataSource
 import com.terning.data.dto.request.SearchRequestDto
-import com.terning.data.mapper.search.toSearchAnnouncementList
-import com.terning.domain.entity.search.SearchAnnouncement
+import com.terning.data.mapper.search.toSearchPopularAnnouncementList
+import com.terning.data.mapper.search.toSearchResultList
+import com.terning.domain.entity.search.SearchPopularAnnouncement
 import com.terning.domain.entity.search.SearchResult
 import com.terning.domain.repository.SearchRepository
 import javax.inject.Inject
@@ -25,17 +26,17 @@ class SearchRepositoryImpl @Inject constructor(
                     page = page,
                     size = size
                 )
-            ).result.toSearchResultEntity()
+            ).result.toSearchResultList()
         }
     }
 
-    override suspend fun getSearchViewsList(): Result<List<SearchAnnouncement>> =
+    override suspend fun getSearchViewsList(): Result<List<SearchPopularAnnouncement>> =
         runCatching {
-            searchDataSource.getSearchViews().result.toSearchAnnouncementList()
+            searchDataSource.getSearchViews().result.toSearchPopularAnnouncementList()
         }
 
-    override suspend fun getSearchScrapsList(): Result<List<SearchAnnouncement>> =
+    override suspend fun getSearchScrapsList(): Result<List<SearchPopularAnnouncement>> =
         runCatching {
-            searchDataSource.getSearchScraps().result.toSearchAnnouncementList()
+            searchDataSource.getSearchScraps().result.toSearchPopularAnnouncementList()
         }
 }

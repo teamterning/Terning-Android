@@ -1,11 +1,11 @@
 package com.terning.data.mapper.search
 
 import com.terning.data.dto.response.SearchAnnouncementResponseDto
-import com.terning.domain.entity.search.SearchAnnouncement
+import com.terning.domain.entity.search.SearchPopularAnnouncement
 
-fun SearchAnnouncementResponseDto.toSearchAnnouncementList(): List<SearchAnnouncement> {
+fun SearchAnnouncementResponseDto.toSearchPopularAnnouncementList(): List<SearchPopularAnnouncement> {
     return announcements.map {
-        SearchAnnouncement(
+        SearchPopularAnnouncement(
             announcementId = it.internshipAnnouncementId,
             companyImage = it.companyImage,
             title = it.title,

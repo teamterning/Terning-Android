@@ -1,7 +1,7 @@
 package com.terning.domain.repository
 
 import com.terning.domain.entity.search.SearchResult
-import com.terning.domain.entity.search.SearchAnnouncement
+import com.terning.domain.entity.search.SearchPopularAnnouncement
 
 interface SearchRepository {
     suspend fun getSearchList(
@@ -10,6 +10,6 @@ interface SearchRepository {
         page: Int,
         size: Int,
     ): Result<List<SearchResult>>
-    suspend fun getSearchViewsList(): Result<List<SearchAnnouncement>>
-    suspend fun getSearchScrapsList(): Result<List<SearchAnnouncement>>
+    suspend fun getSearchViewsList(): Result<List<SearchPopularAnnouncement>>
+    suspend fun getSearchScrapsList(): Result<List<SearchPopularAnnouncement>>
 }

@@ -34,20 +34,4 @@ data class SearchResultResponseDto(
         @SerialName("deadline")
         val deadline: String,
     )
-
-    fun toSearchResultEntity(): List<SearchResult> {
-        return announcements.map {
-            SearchResult(
-                internshipAnnouncementId = it.internshipAnnouncementId,
-                title = it.title,
-                dDay = it.dDay,
-                workingPeriod = it.workingPeriod,
-                companyImage = it.companyImage,
-                scrapId = it.scrapId,
-                deadline = it.deadline,
-                startYearMonth = it.startYearMonth,
-                color = it.color
-            )
-        }
-    }
 }
