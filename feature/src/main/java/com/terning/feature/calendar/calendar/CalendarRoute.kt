@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -38,39 +39,24 @@ import com.terning.core.extension.toast
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarModel
+import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.CalendarListScreen
 import com.terning.feature.calendar.month.CalendarMonthScreen
-import com.terning.feature.calendar.week.CalendarWeekScreen
+import com.terning.feature.calendar.week.CalendarWeekRoute
+import com.terning.feature.intern.navigation.navigateIntern
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.YearMonth
 
 @Composable
 fun CalendarRoute(
-    navController: NavController
-) {
-    CalendarScreen(
-        navController = navController
-    )
-}
-
-@Composable
-private fun CalendarScreen(
-    modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController(),
+    navController: NavController,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val state = CalendarModel()
+
     val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
-
-    val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = state.initialPage
-    )
-
-    var currentDate by rememberSaveable { mutableStateOf(YearMonth.now()) }
-    var currentPage by rememberSaveable { mutableIntStateOf(listState.firstVisibleItemIndex) }
 
     LaunchedEffect(viewModel.calendarSideEffect, lifecycleOwner) {
         viewModel.calendarSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -78,17 +64,6 @@ private fun CalendarScreen(
                 when (sideEffect) {
                     is CalendarSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
-            }
-    }
-
-    LaunchedEffect(key1 = listState) {
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .distinctUntilChanged()
-            .collect {
-                val swipeDirection =
-                    (listState.firstVisibleItemIndex - currentPage).coerceIn(-1, 1).toLong()
-                currentDate = currentDate.plusMonths(swipeDirection)
-                currentPage = listState.firstVisibleItemIndex
             }
     }
 
@@ -101,6 +76,44 @@ private fun CalendarScreen(
             navController.navigateUp()
         }
     }
+
+    CalendarScreen(
+        navController = navController,
+        calendarUiState = calendarUiState,
+        viewModel = viewModel
+    )
+}
+
+@Composable
+private fun CalendarScreen(
+    modifier: Modifier = Modifier,
+    calendarUiState: CalendarUiState,
+    navController: NavController = rememberNavController(),
+    viewModel: CalendarViewModel = hiltViewModel()
+) {
+    val calendarModel = remember { CalendarModel() }
+
+    val listState = rememberLazyListState(
+        initialFirstVisibleItemIndex = calendarModel.initialPage
+    )
+
+    var currentDate by rememberSaveable { mutableStateOf(YearMonth.now()) }
+    var currentPage by rememberSaveable { mutableIntStateOf(listState.firstVisibleItemIndex) }
+
+
+
+    LaunchedEffect(key1 = listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }
+            .distinctUntilChanged()
+            .collect {
+                val swipeDirection =
+                    (listState.firstVisibleItemIndex - currentPage).coerceIn(-1, 1).toLong()
+                currentDate = currentDate.plusMonths(swipeDirection)
+                currentPage = listState.firstVisibleItemIndex
+            }
+    }
+
+
 
     Scaffold(
         modifier = modifier,
@@ -155,19 +168,23 @@ private fun CalendarScreen(
                             CalendarMonthScreen(
                                 calendarUiState = calendarUiState,
                                 listState = listState,
-                                pages = state.pageCount,
+                                pages = calendarModel.pageCount,
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(White),
                             )
                         },
                         contentTwo = {
-                            CalendarWeekScreen(
+                            CalendarWeekRoute(
                                 calendarUiState = calendarUiState,
-                                viewModel = viewModel,
-                                navController = navController,
                                 modifier = Modifier
                                     .fillMaxSize(),
+                                navigateToAnnouncement = { announcementId ->
+                                    navController.navigateIntern(announcementId = announcementId)
+                                },
+                                updateSelectedDate = { newDate ->
+                                    viewModel.updateSelectedDate(newDate)
+                                }
                             )
                         }
                     )
@@ -176,7 +193,7 @@ private fun CalendarScreen(
             contentTwo = {
                 CalendarListScreen(
                     listState = listState,
-                    pages = state.pageCount,
+                    pages = calendarModel.pageCount,
                     viewModel = viewModel,
                     navController = navController,
                     modifier = Modifier

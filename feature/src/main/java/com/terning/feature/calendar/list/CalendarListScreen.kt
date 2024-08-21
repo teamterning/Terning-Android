@@ -40,6 +40,7 @@ import com.terning.feature.calendar.calendar.component.CalendarDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
 import com.terning.feature.calendar.list.component.CalendarScrapList
+import com.terning.feature.intern.navigation.navigateIntern
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 
@@ -143,8 +144,10 @@ fun CalendarListScreen(
 
         CalendarDialog(
             isWeekScreen = false,
-            viewModel = viewModel,
-            navController = navController
+            navigateToAnnouncement = {announcementId ->
+                viewModel.updateInternDialogVisible(false)
+                navController.navigateIntern(announcementId = announcementId)
+            }
         )
     }
 }

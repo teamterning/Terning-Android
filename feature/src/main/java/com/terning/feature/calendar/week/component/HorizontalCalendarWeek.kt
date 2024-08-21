@@ -20,13 +20,12 @@ import java.time.YearMonth
 
 @Composable
 fun HorizontalCalendarWeek(
-    calendarUiState: CalendarUiState,
-    modifier: Modifier = Modifier,
-    onDateSelected: (LocalDate) -> Unit = {}
+    selectedDate: LocalDate,
+    onDateSelected: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val date = calendarUiState.selectedDate
-    val monthModel = MonthModel(YearMonth.of(date.year, date.monthValue))
-    val currentWeek = date.getWeekIndexContainingSelectedDate(monthModel.inDays)
+    val monthModel = MonthModel(YearMonth.of(selectedDate.year, selectedDate.monthValue))
+    val currentWeek = selectedDate.getWeekIndexContainingSelectedDate(monthModel.inDays)
 
     val pagerState = rememberPagerState(
         initialPage = currentWeek,
@@ -46,7 +45,7 @@ fun HorizontalCalendarWeek(
             items(items = monthModel.calendarMonth.weekDays[page]) { day ->
                 CalendarDay(
                     dayData = day,
-                    isSelected = calendarUiState.selectedDate == day.date && calendarUiState.isWeekEnabled,
+                    isSelected = day.date == selectedDate,
                     isToday = day.date.isToday(),
                     onDateSelected = onDateSelected
                 )

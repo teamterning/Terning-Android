@@ -150,7 +150,7 @@ class CalendarViewModel @Inject constructor(
                 _calendarListState.update { currentState ->
                     currentState.copy(
                         loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
-                        //loadState = UiState.Success(it)
+                        //loadState = UiS tate.Success(it)
                     )
                 }
             },
