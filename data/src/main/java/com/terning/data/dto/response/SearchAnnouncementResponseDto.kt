@@ -1,12 +1,11 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.SearchAnnouncement
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class SearchScrapsResponseDto(
+data class SearchAnnouncementResponseDto(
     @SerialName("announcements")
     val announcements: List<ScrapsAnnouncementDto>,
 ) {
@@ -19,14 +18,4 @@ data class SearchScrapsResponseDto(
         @SerialName("title")
         val title: String,
     )
-
-    fun toSearchScrapsEntity(): List<SearchAnnouncement> {
-        return announcements.map {
-            SearchAnnouncement(
-                announcementId = it.internshipAnnouncementId,
-                companyImage = it.companyImage,
-                title = it.title,
-            )
-        }
-    }
 }

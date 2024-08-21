@@ -2,6 +2,7 @@ package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.SearchDataSource
 import com.terning.data.dto.request.SearchRequestDto
+import com.terning.data.mapper.search.toSearchAnnouncementList
 import com.terning.domain.entity.response.SearchAnnouncement
 import com.terning.domain.entity.response.SearchResultModel
 import com.terning.domain.repository.SearchRepository
@@ -30,11 +31,11 @@ class SearchRepositoryImpl @Inject constructor(
 
     override suspend fun getSearchViewsList(): Result<List<SearchAnnouncement>> =
         runCatching {
-            searchDataSource.getSearchViews().result.toSearchViewsEntity()
+            searchDataSource.getSearchViews().result.toSearchAnnouncementList()
         }
 
     override suspend fun getSearchScrapsList(): Result<List<SearchAnnouncement>> =
         runCatching {
-            searchDataSource.getSearchScraps().result.toSearchScrapsEntity()
+            searchDataSource.getSearchScraps().result.toSearchAnnouncementList()
         }
 }
