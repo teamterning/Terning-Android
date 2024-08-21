@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.common.collect.ImmutableList
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
@@ -90,6 +89,7 @@ fun CalendarWeekRoute(
     CalendarWeekScreen(
         modifier = modifier,
         uiState = uiState,
+        selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
         onScrapButtonClicked = { scrapId->
             with(viewModel) {
@@ -109,6 +109,7 @@ fun CalendarWeekRoute(
 @Composable
 private fun CalendarWeekScreen(
     uiState: CalendarWeekState,
+    selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
@@ -128,7 +129,7 @@ private fun CalendarWeekScreen(
             shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
         ) {
             HorizontalCalendarWeek(
-                selectedDate = uiState.selectedDate,
+                selectedDate = selectedDate,
                 onDateSelected = updateSelectedDate,
                 modifier = Modifier
                     .fillMaxWidth()
