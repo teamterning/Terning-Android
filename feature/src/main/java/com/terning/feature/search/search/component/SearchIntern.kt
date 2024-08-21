@@ -24,7 +24,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.terning.core.designsystem.theme.Black
@@ -34,14 +33,13 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
-import com.terning.feature.intern.navigation.navigateIntern
 
 @Composable
 fun SearchIntern(
     companyImage: String,
     title: String,
-    navController: NavHostController,
     announcementId: Long,
+    navigateToIntern: (Long) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -63,7 +61,7 @@ fun SearchIntern(
             )
             .padding(top = 8.dp)
             .noRippleClickable {
-                navController.navigateIntern(announcementId = announcementId)
+                navigateToIntern(announcementId)
             }
     ) {
         AsyncImage(
