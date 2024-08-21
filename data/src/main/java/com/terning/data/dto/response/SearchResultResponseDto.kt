@@ -1,6 +1,5 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.search.SearchResult
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
