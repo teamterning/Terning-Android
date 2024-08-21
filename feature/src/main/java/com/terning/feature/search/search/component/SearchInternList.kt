@@ -12,14 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.domain.entity.response.InternshipAnnouncementModel
+import com.terning.domain.entity.response.SearchAnnouncement
 import com.terning.feature.R
 
 @Composable
 fun SearchInternList(
     type: InternListType,
-    searchScrapsList: List<InternshipAnnouncementModel>?,
-    searchViewsList: List<InternshipAnnouncementModel>?,
+    searchScrapsList: List<SearchAnnouncement>?,
+    searchViewsList: List<SearchAnnouncement>?,
     navController: NavHostController,
 ) {
     Column(modifier = Modifier.padding(horizontal = 24.dp)) {

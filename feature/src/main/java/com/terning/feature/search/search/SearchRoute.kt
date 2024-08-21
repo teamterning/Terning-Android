@@ -28,7 +28,7 @@ import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternshipAnnouncementModel
+import com.terning.domain.entity.response.SearchAnnouncement
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
@@ -62,12 +62,12 @@ fun SearchRoute(
     }
 
     val searchViewsList = when (viewState.searchViewsList) {
-        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<InternshipAnnouncementModel>>).data
+        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<SearchAnnouncement>>).data
         else -> emptyList()
     }
 
     val searchScrapsList = when (scrapState.searchScrapsList) {
-        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<InternshipAnnouncementModel>>).data
+        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<SearchAnnouncement>>).data
         else -> emptyList()
     }
 
@@ -82,8 +82,8 @@ fun SearchRoute(
 fun SearchScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    searchViewsList: List<InternshipAnnouncementModel>,
-    searchScrapsList: List<InternshipAnnouncementModel>,
+    searchViewsList: List<SearchAnnouncement>,
+    searchScrapsList: List<SearchAnnouncement>,
 ) {
     val images = listOf(
         R.drawable.img_ad_1,
