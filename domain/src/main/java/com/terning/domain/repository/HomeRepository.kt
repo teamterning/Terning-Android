@@ -1,8 +1,8 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.HomeFilteringInfo
-import com.terning.domain.entity.HomeRecommendIntern
-import com.terning.domain.entity.HomeTodayIntern
+import com.terning.domain.entity.home.HomeFilteringInfo
+import com.terning.domain.entity.home.HomeRecommendIntern
+import com.terning.domain.entity.home.HomeTodayIntern
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 
 interface HomeRepository {

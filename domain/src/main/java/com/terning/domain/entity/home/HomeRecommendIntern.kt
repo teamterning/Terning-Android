@@ -1,4 +1,4 @@
-package com.terning.domain.entity
+package com.terning.domain.entity.home
 
 data class HomeRecommendIntern(
     val scrapId: Long?,

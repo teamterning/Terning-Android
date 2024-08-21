@@ -1,7 +1,7 @@
-package com.terning.data.mapper
+package com.terning.data.mapper.home
 
 import com.terning.data.dto.response.HomeRecommendInternResponseDto
-import com.terning.domain.entity.HomeRecommendIntern
+import com.terning.domain.entity.home.HomeRecommendIntern
 
 fun HomeRecommendInternResponseDto.toHomeRecommendIntern(): HomeRecommendIntern =
     HomeRecommendIntern(

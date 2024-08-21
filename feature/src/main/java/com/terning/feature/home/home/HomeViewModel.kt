@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapRequest
-import com.terning.domain.entity.HomeFilteringInfo
-import com.terning.domain.entity.HomeRecommendIntern
-import com.terning.domain.entity.HomeTodayIntern
+import com.terning.domain.entity.home.HomeFilteringInfo
+import com.terning.domain.entity.home.HomeRecommendIntern
+import com.terning.domain.entity.home.HomeTodayIntern
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository

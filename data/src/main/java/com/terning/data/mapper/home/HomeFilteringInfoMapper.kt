@@ -1,7 +1,7 @@
-package com.terning.data.mapper
+package com.terning.data.mapper.home
 
 import com.terning.data.dto.response.HomeFilteringInfoResponseDto
-import com.terning.domain.entity.HomeFilteringInfo
+import com.terning.domain.entity.home.HomeFilteringInfo
 
 fun HomeFilteringInfoResponseDto.toHomeFilteringInfo(): HomeFilteringInfo =
     HomeFilteringInfo(

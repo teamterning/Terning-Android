@@ -44,7 +44,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.HomeRecommendIntern
+import com.terning.domain.entity.home.HomeRecommendIntern
 import com.terning.feature.home.home.HomeViewModel
 import com.terning.feature.intern.component.InternInfoRow
 
