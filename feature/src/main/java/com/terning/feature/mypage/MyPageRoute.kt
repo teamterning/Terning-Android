@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
@@ -42,7 +41,6 @@ import com.terning.feature.mypage.component.MyPageItem
 
 @Composable
 fun MyPageRoute(
-    navController: NavHostController,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -115,11 +113,11 @@ fun MyPageRoute(
 fun MyPageScreen(
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
+    onNoticeClick: () -> Unit,
+    onOpinionClick: () -> Unit,
     modifier: Modifier = Modifier,
     name: String = "",
     authType: String = "",
-    onNoticeClick: () -> Unit,
-    onOpinionClick: () -> Unit
 ) {
     Box(
         modifier = modifier.fillMaxSize(),

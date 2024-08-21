@@ -18,7 +18,7 @@ import com.terning.feature.R
 @Composable
 fun StatusTwoRadioGroup(
     onButtonClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val options = listOf(
         R.string.filtering_status2_button1,

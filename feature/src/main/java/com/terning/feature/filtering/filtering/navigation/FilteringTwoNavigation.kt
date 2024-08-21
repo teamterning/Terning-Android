@@ -27,7 +27,13 @@ fun NavGraphBuilder.filteringTwoNavGraph(
         val args = it.toRoute<FilteringTwo>()
         FilteringTwoScreen(
             grade = args.grade,
-            navController = navHostController
+            onNextClick = { _, workingPeriod ->
+                navHostController.navigateFilteringThree(
+                    grade = args.grade,
+                    workingPeriod = workingPeriod
+                )
+            },
+            navigateUp = { navHostController.navigateUp() }
         )
     }
 }

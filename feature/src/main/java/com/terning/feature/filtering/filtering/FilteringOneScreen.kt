@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
@@ -24,14 +23,12 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.filtering.filtering.component.StatusOneRadioGroup
-import com.terning.feature.filtering.filtering.navigation.navigateFilteringTwo
-import com.terning.feature.main.MainNavigator
-import com.terning.feature.main.rememberMainNavigator
 
 @Composable
 fun FilteringOneScreen(
     name: String,
-    navController: NavController,
+    onNextClick: (Int) -> Unit,
+    navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     onButtonClick: (Int) -> Unit = {},
 ) {
@@ -43,7 +40,7 @@ fun FilteringOneScreen(
         modifier = modifier
     ) {
         BackButtonTopAppBar(
-            onBackButtonClick = { navController.navigateUp() }
+            onBackButtonClick = { navigateUp() }
         )
         Column(
             modifier = Modifier.fillMaxSize()
@@ -99,7 +96,7 @@ fun FilteringOneScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { navController.navigateFilteringTwo(grade) },
+                onButtonClick = { onNextClick(grade) },
                 modifier = modifier.padding(bottom = 12.dp),
                 isEnabled = isButtonValid.value
             )
@@ -110,12 +107,12 @@ fun FilteringOneScreen(
 @Preview(showBackground = true)
 @Composable
 fun FilteringOneScreenPreview() {
-    val navigator: MainNavigator = rememberMainNavigator()
     TerningPointTheme {
         FilteringOneScreen(
             name = "터닝이",
-            navController = navigator.navController,
-            onButtonClick = {}
+            onButtonClick = {},
+            onNextClick = {},
+            navigateUp = {}
         )
     }
 }
