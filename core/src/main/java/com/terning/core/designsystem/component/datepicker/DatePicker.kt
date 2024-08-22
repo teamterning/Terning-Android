@@ -39,6 +39,16 @@ private val years =
 private val monthsNumber =
     (listOf("") + (START_MONTH..END_MONTH).map { it.toString() } + listOf("") + listOf("")).toImmutableList()
 
+/**
+ * 데이트 피커를 나타냅니다.
+ *
+ * 사용자가 원하는 연도와 월을 설정할 수 있습니다.
+ *
+ * @param chosenYear 선택된 연도를 나타내는 값입니다.
+ * @param chosenMonth 선택된 월을 나타내는 값입니다.
+ * @param onYearChosen 연도가 선택되었을 때 호출되는 콜백 함수입니다.
+ * @param onMonthChosen 월이 선택되었을 때 호출되는 콜백 함수입니다.
+ */
 @Composable
 fun DatePickerUI(
     chosenYear: Int,
@@ -60,6 +70,14 @@ fun DatePickerUI(
     }
 }
 
+/**
+ * 연도와 월을 선택할 수 있는 두 개의 피커를 제공합니다.
+ *
+ * @param chosenYear 선택된 연도를 나타내는 값입니다.
+ * @param chosenMonth 선택된 월을 나타내는 값입니다.
+ * @param onYearChosen 연도가 선택되었을 때 호출되는 콜백 함수입니다.
+ * @param onMonthChosen 월이 선택되었을 때 호출되는 콜백 함수입니다.
+ */
 @Composable
 fun DateSelectionSection(
     chosenYear: Int,
@@ -87,6 +105,15 @@ fun DateSelectionSection(
     }
 }
 
+/**
+ * 사용자가 스크롤을 통해 연도 또는 월을 선택할 수 있는 피커입니다.
+ *
+ * @param items 선택 가능한 항목들의 리스트입니다. (연도 또는 월)
+ * @param firstIndex 초기 선택된 항목의 인덱스입니다. (연도 또는 월)
+ * @param onItemSelected 항목이 선택되었을 때 호출되는 콜백 함수입니다.
+ * @param modifier 레이아웃, 동작 등을 수정할 수 있는 Modifier 옵션입니다.
+ * @param isYear 이 피커가 연도를 선택하는 것인지에 대한 여부입니다.
+ */
 @Composable
 fun DateItemsPicker(
     items: List<String>,

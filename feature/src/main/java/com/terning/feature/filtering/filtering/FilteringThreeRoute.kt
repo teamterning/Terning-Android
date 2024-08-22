@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.image.TerningImage
@@ -29,20 +28,16 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.filtering.starthome.navigation.navigateStartHome
-import com.terning.feature.main.MainNavigator
-import com.terning.feature.main.rememberMainNavigator
 import java.util.Calendar
 
 @Composable
-fun FilteringThreeScreen(
+fun FilteringThreeRoute(
     grade: Int,
     workingPeriod: Int,
-    navController: NavController,
-    modifier: Modifier = Modifier,
+    navigateUp: () -> Unit,
+    navigateToStartHome: () -> Unit,
     viewModel: FilteringViewModel = hiltViewModel(),
 ) {
-
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -66,17 +61,37 @@ fun FilteringThreeScreen(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is FilteringSideEffect.NavigateToStartHome -> navController.navigateStartHome()
+                    is FilteringSideEffect.NavigateToStartHome -> navigateToStartHome()
                     is FilteringSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
     }
 
+    FilteringThreeScreen(
+        navigateUp = { navigateUp() },
+        chosenYear = chosenYear,
+        chosenMonth = chosenMonth,
+        onNextClick = { viewModel.postFilteringWithServer() },
+        onYearChosen = { chosenYear = it },
+        onMonthChosen = { chosenMonth = it }
+    )
+}
+
+@Composable
+fun FilteringThreeScreen(
+    modifier: Modifier = Modifier,
+    navigateUp: () -> Unit,
+    chosenYear: Int,
+    chosenMonth: Int,
+    onYearChosen: (Int) -> Unit,
+    onMonthChosen: (Int) -> Unit,
+    onNextClick: () -> Unit,
+) {
     Column(
         modifier = modifier,
     ) {
         BackButtonTopAppBar(
-            onBackButtonClick = { navController.navigateUp() }
+            onBackButtonClick = { navigateUp() }
         )
         Column(
             modifier = Modifier.fillMaxSize()
@@ -110,15 +125,15 @@ fun FilteringThreeScreen(
             DatePickerUI(
                 chosenYear = chosenYear,
                 chosenMonth = chosenMonth,
-                onYearChosen = { chosenYear = it },
-                onMonthChosen = { chosenMonth = it },
+                onYearChosen = { onYearChosen(it) },
+                onMonthChosen = { onMonthChosen(it) },
             )
             Spacer(modifier = modifier.weight(3f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { viewModel.postFilteringWithServer() },
+                onButtonClick = { onNextClick() },
                 modifier = modifier.padding(bottom = 12.dp),
             )
         }
@@ -128,12 +143,14 @@ fun FilteringThreeScreen(
 @Preview(showBackground = true)
 @Composable
 fun FilteringThreeScreenPreview() {
-    val navigator: MainNavigator = rememberMainNavigator()
     TerningPointTheme {
         FilteringThreeScreen(
-            grade = 1,
-            workingPeriod = 1,
-            navController = navigator.navController
+            navigateUp = { },
+            chosenYear = 2024,
+            chosenMonth = 8,
+            onYearChosen = {},
+            onMonthChosen = {},
+            onNextClick = {}
         )
     }
 }
