@@ -3,7 +3,7 @@ package com.terning.data.mapper.home
 import com.terning.data.dto.response.HomeRecommendInternResponseDto
 import com.terning.domain.entity.home.HomeRecommendIntern
 
-fun HomeRecommendInternResponseDto.toHomeRecommendIntern(): HomeRecommendIntern =
+fun HomeRecommendInternResponseDto.toHomeRecommendInternList(): HomeRecommendIntern =
     HomeRecommendIntern(
         scrapId = this.scrapId,
         internshipAnnouncementId = this.internshipAnnouncementId,

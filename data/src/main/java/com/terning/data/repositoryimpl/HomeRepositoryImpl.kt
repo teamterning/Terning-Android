@@ -3,7 +3,7 @@ package com.terning.data.repositoryimpl
 import com.terning.data.datasource.HomeDataSource
 import com.terning.data.dto.request.toChangeFilterRequestDto
 import com.terning.data.mapper.home.toHomeFilteringInfo
-import com.terning.data.mapper.home.toHomeRecommendIntern
+import com.terning.data.mapper.home.toHomeRecommendInternList
 import com.terning.data.mapper.home.toHomeTodayInternList
 import com.terning.domain.entity.home.HomeFilteringInfo
 import com.terning.domain.entity.home.HomeRecommendIntern
@@ -33,7 +33,7 @@ class HomeRepositoryImpl @Inject constructor(
                 startYear = startYear,
                 startMonth = startMonth
             ).result.map { homeRecommendInternResponseDto ->
-                homeRecommendInternResponseDto.toHomeRecommendIntern()
+                homeRecommendInternResponseDto.toHomeRecommendInternList()
             }
         }
 
