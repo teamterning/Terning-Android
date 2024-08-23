@@ -38,9 +38,6 @@ class HomeViewModel @Inject constructor(
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
-    private val _homeSortByState = MutableStateFlow(0)
-    val homeSortByState get() = _homeSortByState.asStateFlow()
-
     private val _homeDialogState: MutableStateFlow<HomeDialogState> =
         MutableStateFlow(HomeDialogState())
     val homeDialogState get() = _homeDialogState.asStateFlow()
