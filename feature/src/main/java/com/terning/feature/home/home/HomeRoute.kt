@@ -130,14 +130,6 @@ fun HomeRoute(
 //            else -> {}
 //        }
 //    }
-//
-//    LaunchedEffect(homeFilteringState) {
-//        viewModel.getHomeTodayInternList()
-//    }
-
-    LaunchedEffect(key1 = true) {
-        viewModel.getFilteringInfo()
-    }
 
     when (homeTodayState) {
         is UiState.Success -> {

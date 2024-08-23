@@ -7,7 +7,6 @@ import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
-import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
@@ -74,7 +73,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getHomeTodayInternList() {
+    private fun getHomeTodayInternList() {
         _homeTodayState.value = UiState.Loading
         viewModelScope.launch {
             homeRepository.getHomeTodayInternList().onSuccess { internList ->
@@ -91,6 +90,12 @@ class HomeViewModel @Inject constructor(
             homeRepository.getFilteringInfo().onSuccess { filteringInfo ->
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Success(filteringInfo)
+                )
+                getHomeTodayInternList()
+                getRecommendInternsData(
+                    sortBy = _homeState.value.sortBy.ordinal,
+                    startYear = filteringInfo.startYear ?: currentYear,
+                    startMonth = filteringInfo.startMonth ?: currentMonth,
                 )
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
