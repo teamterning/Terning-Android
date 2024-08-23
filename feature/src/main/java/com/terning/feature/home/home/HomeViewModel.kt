@@ -8,7 +8,6 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
-import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.ScrapRepository
@@ -40,10 +39,6 @@ class HomeViewModel @Inject constructor(
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
-    private val _homeTodayState =
-        MutableStateFlow<UiState<List<HomeTodayInternModel>>>(UiState.Loading)
-    val homeTodayState get() = _homeTodayState.asStateFlow()
-
     private val _homeRecommendInternState =
         MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Loading)
     val homeRecommendInternState get() = _homeRecommendInternState.asStateFlow()
@@ -74,12 +69,15 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getHomeTodayInternList() {
-        _homeTodayState.value = UiState.Loading
         viewModelScope.launch {
             homeRepository.getHomeTodayInternList().onSuccess { internList ->
-                _homeTodayState.value = UiState.Success(internList)
+                _homeState.value = _homeState.value.copy(
+                    homeTodayInternState = UiState.Success(internList)
+                )
             }.onFailure { exception: Throwable ->
-                _homeTodayState.value = UiState.Failure(exception.message ?: "")
+                _homeState.value = _homeState.value.copy(
+                    homeTodayInternState = UiState.Failure(exception.toString())
+                )
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
         }

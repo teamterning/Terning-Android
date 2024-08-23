@@ -97,7 +97,6 @@ fun HomeRoute(
     val context = LocalContext.current
 
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
-    val homeTodayState by viewModel.homeTodayState.collectAsStateWithLifecycle()
     val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
@@ -131,18 +130,6 @@ fun HomeRoute(
 //        }
 //    }
 
-    when (homeTodayState) {
-        is UiState.Success -> {
-            homeTodayInternList.value =
-                (homeTodayState as UiState.Success<List<HomeTodayInternModel>>).data
-        }
-
-        is UiState.Loading -> {}
-        else -> {
-            homeTodayInternList.value = emptyList()
-        }
-    }
-
     val homeRecommendInternList = when (homeRecommendInternState) {
         is UiState.Success -> {
             (homeRecommendInternState as UiState.Success<List<HomeRecommendInternModel>>).data
@@ -165,7 +152,7 @@ fun HomeRoute(
         currentSortBy,
         homeUserName = homeUserName,
         homeFilteringInfo = homeFilteringInfo,
-        homeTodayInternList = homeTodayInternList.value,
+        homeTodayInternState = homeState.homeTodayInternState,
         recommendInternList = homeRecommendInternList,
         homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
@@ -179,7 +166,7 @@ fun HomeScreen(
     currentSortBy: MutableState<Int>,
     homeUserName: String,
     homeFilteringInfo: HomeFilteringInfoModel,
-    homeTodayInternList: List<HomeTodayInternModel>,
+    homeTodayInternState: UiState<List<HomeTodayInternModel>>,
     recommendInternList: List<HomeRecommendInternModel>,
     homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
@@ -224,7 +211,7 @@ fun HomeScreen(
                     ) {
                         ShowMainTitleWithName(homeUserName)
                         ShowTodayIntern(
-                            homeTodayInternList = homeTodayInternList,
+                            homeTodayInternState = homeTodayInternState,
                             homeDialogState = homeDialogState,
                             navigateToIntern = { navigateToIntern(it) }
                         )
@@ -414,18 +401,25 @@ private fun ShowMainTitleWithName(userName: String) {
 
 @Composable
 private fun ShowTodayIntern(
-    homeTodayInternList: List<HomeTodayInternModel>,
+    homeTodayInternState: UiState<List<HomeTodayInternModel>>,
     homeDialogState: HomeDialogState,
     navigateToIntern: (Long) -> Unit,
 ) {
-    if (homeTodayInternList.isEmpty()) {
-        HomeTodayEmptyWithImg()
-    } else {
-        HomeTodayIntern(
-            internList = homeTodayInternList,
-            homeDialogState = homeDialogState,
-            navigateToIntern = { navigateToIntern(it) },
-        )
+    when (homeTodayInternState) {
+        is UiState.Success -> {
+            if (homeTodayInternState.data.isEmpty()) {
+                HomeTodayEmptyWithImg()
+            } else {
+                HomeTodayIntern(
+                    internList = homeTodayInternState.data,
+                    homeDialogState = homeDialogState,
+                    navigateToIntern = { navigateToIntern(it) },
+                )
+            }
+        }
+
+        is UiState.Loading -> HomeTodayEmptyWithImg()
+        else -> {}
     }
 }
 
