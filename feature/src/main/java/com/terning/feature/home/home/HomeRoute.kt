@@ -96,10 +96,10 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
+    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
     val homeTodayState by viewModel.homeTodayState.collectAsStateWithLifecycle()
     val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
     val homeFilteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
-    val homeUserState by viewModel.homeUserState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
     val homeTodayInternList: MutableState<List<HomeTodayInternModel>> = remember {
@@ -165,8 +165,8 @@ fun HomeRoute(
         else -> HomeFilteringInfoModel(null, null, viewModel.currentYear, viewModel.currentMonth)
     }
 
-    val homeUserName = when (homeUserState) {
-        is UiState.Success -> (homeUserState as UiState.Success<String>).data
+    val homeUserName = when (homeState.homeUserNameState) {
+        is UiState.Success -> (homeState.homeUserNameState as UiState.Success<String>).data
         else -> ""
     }
 

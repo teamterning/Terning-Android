@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
-import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.entity.CalendarScrapRequest
+import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.entity.response.HomeFilteringInfoModel
 import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.entity.response.HomeTodayInternModel
@@ -35,6 +35,9 @@ class HomeViewModel @Inject constructor(
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
     val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
+    private val _homeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
+    val homeState get() = _homeState.asStateFlow()
+
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
@@ -52,9 +55,6 @@ class HomeViewModel @Inject constructor(
 
     private val _homeSortByState = MutableStateFlow(0)
     val homeSortByState get() = _homeSortByState.asStateFlow()
-
-    private val _homeUserState = MutableStateFlow<UiState<String>>(UiState.Loading)
-    val homeUserState get() = _homeUserState.asStateFlow()
 
     private val _homeDialogState: MutableStateFlow<HomeDialogState> =
         MutableStateFlow(HomeDialogState())
@@ -115,9 +115,12 @@ class HomeViewModel @Inject constructor(
     private fun getProfile() {
         viewModelScope.launch {
             myPageRepository.getProfile().onSuccess { response ->
-                _homeUserState.value = UiState.Success(response.name)
+                _homeState.value = _homeState.value.copy(
+                    homeUserNameState = UiState.Success(response.name)
+                )
             }.onFailure { exception: Throwable ->
-                _homeUserState.value = UiState.Failure(exception.message ?: "")
+                _homeState.value =
+                    _homeState.value.copy(homeUserNameState = UiState.Failure(exception.toString()))
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
         }
