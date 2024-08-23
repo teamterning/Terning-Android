@@ -159,8 +159,8 @@ fun HomeScreen(
                 sheetState = false
                 viewModel.getRecommendInternsData(
                     currentSortBy.value,
-                    homeFilteringInfo.startYear ?: viewModel.currentYear,
-                    homeFilteringInfo.startMonth ?: viewModel.currentMonth,
+                    homeFilteringInfo.startYear,
+                    homeFilteringInfo.startMonth,
                 )
             },
             currentSortBy = currentSortBy.value,
@@ -276,8 +276,8 @@ fun HomeScreen(
                             if (homeDialogState.isScrappedState) {
                                 viewModel.getRecommendInternsData(
                                     currentSortBy.value,
-                                    homeFilteringInfo.startYear ?: viewModel.currentYear,
-                                    homeFilteringInfo.startMonth ?: viewModel.currentMonth,
+                                    homeFilteringInfo.startYear,
+                                    homeFilteringInfo.startMonth,
                                 )
                                 viewModel.updateScrapped(false)
                             }
@@ -326,8 +326,8 @@ fun HomeScreen(
                                 if (homeDialogState.isScrappedState) {
                                     viewModel.getRecommendInternsData(
                                         currentSortBy.value,
-                                        homeFilteringInfo.startYear ?: viewModel.currentYear,
-                                        homeFilteringInfo.startMonth ?: viewModel.currentMonth,
+                                        homeFilteringInfo.startYear,
+                                        homeFilteringInfo.startMonth,
                                     )
                                     viewModel.updateScrapped(false)
                                 }

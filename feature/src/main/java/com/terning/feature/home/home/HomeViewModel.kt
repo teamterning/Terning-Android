@@ -50,9 +50,13 @@ class HomeViewModel @Inject constructor(
         getFilteringInfo()
     }
 
-    fun getRecommendInternsData(sortBy: Int, startYear: Int, startMonth: Int) {
+    fun getRecommendInternsData(sortBy: Int, startYear: Int?, startMonth: Int?) {
         viewModelScope.launch {
-            homeRepository.getRecommendIntern(SortBy.entries[sortBy].sortBy, startYear, startMonth)
+            homeRepository.getRecommendIntern(
+                SortBy.entries[sortBy].sortBy,
+                startYear ?: currentYear,
+                startMonth ?: currentMonth,
+            )
                 .onSuccess { internList ->
                     _homeState.value = _homeState.value.copy(
                         homeRecommendInternState = UiState.Success(internList)
@@ -90,8 +94,8 @@ class HomeViewModel @Inject constructor(
                 getHomeTodayInternList()
                 getRecommendInternsData(
                     sortBy = _homeState.value.sortBy.ordinal,
-                    startYear = filteringInfo.startYear ?: currentYear,
-                    startMonth = filteringInfo.startMonth ?: currentMonth,
+                    startYear = filteringInfo.startYear,
+                    startMonth = filteringInfo.startMonth,
                 )
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
