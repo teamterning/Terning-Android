@@ -99,7 +99,6 @@ fun HomeRoute(
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
     val homeTodayState by viewModel.homeTodayState.collectAsStateWithLifecycle()
     val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
-    val homeFilteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
     val homeTodayInternList: MutableState<List<HomeTodayInternModel>> = remember {
@@ -117,24 +116,24 @@ fun HomeRoute(
             }
     }
 
-    LaunchedEffect(homeFilteringState, currentSortBy.value) {
-        when (homeFilteringState) {
-            is UiState.Success ->
-                with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
-                    viewModel.getRecommendInternsData(
-                        currentSortBy.value,
-                        startYear ?: viewModel.currentYear,
-                        startMonth ?: viewModel.currentMonth
-                    )
-                }
-
-            else -> {}
-        }
-    }
-
-    LaunchedEffect(homeFilteringState) {
-        viewModel.getHomeTodayInternList()
-    }
+//    LaunchedEffect(homeFilteringState, currentSortBy.value) {
+//        when (homeFilteringState) {
+//            is UiState.Success ->
+//                with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
+//                    viewModel.getRecommendInternsData(
+//                        currentSortBy.value,
+//                        startYear ?: viewModel.currentYear,
+//                        startMonth ?: viewModel.currentMonth
+//                    )
+//                }
+//
+//            else -> {}
+//        }
+//    }
+//
+//    LaunchedEffect(homeFilteringState) {
+//        viewModel.getHomeTodayInternList()
+//    }
 
     LaunchedEffect(key1 = true) {
         viewModel.getFilteringInfo()
@@ -160,14 +159,14 @@ fun HomeRoute(
         else -> emptyList()
     }
 
-    val homeFilteringInfo = when (homeFilteringState) {
-        is UiState.Success -> (homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data
-        else -> HomeFilteringInfoModel(null, null, viewModel.currentYear, viewModel.currentMonth)
-    }
-
     val homeUserName = when (homeState.homeUserNameState) {
         is UiState.Success -> (homeState.homeUserNameState as UiState.Success<String>).data
         else -> ""
+    }
+
+    val homeFilteringInfo = when (homeState.homeFilteringInfoState) {
+        is UiState.Success -> (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfoModel>).data
+        else -> HomeFilteringInfoModel(null, null, null, null)
     }
 
     HomeScreen(

@@ -49,10 +49,6 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Loading)
     val homeRecommendInternState get() = _homeRecommendInternState.asStateFlow()
 
-    private val _homeFilteringState =
-        MutableStateFlow<UiState<HomeFilteringInfoModel>>(UiState.Loading)
-    val homeFilteringState get() = _homeFilteringState.asStateFlow()
-
     private val _homeSortByState = MutableStateFlow(0)
     val homeSortByState get() = _homeSortByState.asStateFlow()
 
@@ -91,12 +87,15 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getFilteringInfo() {
-        _homeFilteringState.value = UiState.Loading
         viewModelScope.launch {
             homeRepository.getFilteringInfo().onSuccess { filteringInfo ->
-                _homeFilteringState.value = UiState.Success(filteringInfo)
+                _homeState.value = _homeState.value.copy(
+                    homeFilteringInfoState = UiState.Success(filteringInfo)
+                )
             }.onFailure { exception: Throwable ->
-                _homeFilteringState.value = UiState.Failure(exception.message ?: "")
+                _homeState.value = _homeState.value.copy(
+                    homeFilteringInfoState = UiState.Failure(exception.toString())
+                )
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
         }
