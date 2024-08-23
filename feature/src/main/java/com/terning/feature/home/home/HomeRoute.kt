@@ -97,12 +97,7 @@ fun HomeRoute(
     val context = LocalContext.current
 
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
-    val homeRecommendInternState by viewModel.homeRecommendInternState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
-
-    val homeTodayInternList: MutableState<List<HomeTodayInternModel>> = remember {
-        mutableStateOf(emptyList())
-    }
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -115,45 +110,17 @@ fun HomeRoute(
             }
     }
 
-//    LaunchedEffect(homeFilteringState, currentSortBy.value) {
-//        when (homeFilteringState) {
-//            is UiState.Success ->
-//                with((homeFilteringState as UiState.Success<HomeFilteringInfoModel>).data) {
-//                    viewModel.getRecommendInternsData(
-//                        currentSortBy.value,
-//                        startYear ?: viewModel.currentYear,
-//                        startMonth ?: viewModel.currentMonth
-//                    )
-//                }
-//
-//            else -> {}
-//        }
-//    }
-
-    val homeRecommendInternList = when (homeRecommendInternState) {
-        is UiState.Success -> {
-            (homeRecommendInternState as UiState.Success<List<HomeRecommendInternModel>>).data
-        }
-
-        else -> emptyList()
-    }
-
     val homeUserName = when (homeState.homeUserNameState) {
         is UiState.Success -> (homeState.homeUserNameState as UiState.Success<String>).data
         else -> ""
     }
 
-    val homeFilteringInfo = when (homeState.homeFilteringInfoState) {
-        is UiState.Success -> (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfoModel>).data
-        else -> HomeFilteringInfoModel(null, null, null, null)
-    }
-
     HomeScreen(
         currentSortBy,
         homeUserName = homeUserName,
-        homeFilteringInfo = homeFilteringInfo,
+        homeFilteringInfoState = homeState.homeFilteringInfoState,
         homeTodayInternState = homeState.homeTodayInternState,
-        recommendInternList = homeRecommendInternList,
+        homeRecommendInternState = homeState.homeRecommendInternState,
         homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
         navigateToIntern = { navController.navigateIntern(announcementId = it) }
@@ -165,14 +132,24 @@ fun HomeRoute(
 fun HomeScreen(
     currentSortBy: MutableState<Int>,
     homeUserName: String,
-    homeFilteringInfo: HomeFilteringInfoModel,
+    homeFilteringInfoState: UiState<HomeFilteringInfoModel>,
     homeTodayInternState: UiState<List<HomeTodayInternModel>>,
-    recommendInternList: List<HomeRecommendInternModel>,
+    homeRecommendInternState: UiState<List<HomeRecommendInternModel>>,
     homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
     navigateToIntern: (Long) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    val homeFilteringInfo = when (homeFilteringInfoState) {
+        is UiState.Success -> homeFilteringInfoState.data
+        else -> HomeFilteringInfoModel(null, null, null, null)
+    }
+
+    val homeRecommendInternList = when (homeRecommendInternState) {
+        is UiState.Success -> homeRecommendInternState.data
+        else -> listOf()
+    }
+
     var sheetState by remember { mutableStateOf(false) }
     var scrapId by remember { mutableStateOf(-1) }
 
@@ -180,6 +157,11 @@ fun HomeScreen(
         SortingBottomSheet(
             onDismiss = {
                 sheetState = false
+                viewModel.getRecommendInternsData(
+                    currentSortBy.value,
+                    homeFilteringInfo.startYear ?: viewModel.currentYear,
+                    homeFilteringInfo.startMonth ?: viewModel.currentMonth,
+                )
             },
             currentSortBy = currentSortBy.value,
             newSortBy = currentSortBy
@@ -250,11 +232,11 @@ fun HomeScreen(
                     }
                 }
 
-                if (recommendInternList.isNotEmpty()) {
-                    items(recommendInternList.size) { index ->
+                if (homeRecommendInternList.isNotEmpty()) {
+                    items(homeRecommendInternList.size) { index ->
                         RecommendInternItem(
                             navigateToIntern = navigateToIntern,
-                            intern = recommendInternList[index],
+                            intern = homeRecommendInternList[index],
                             onScrapButtonClicked = {
                                 viewModel.updateScrapDialogVisible(true)
                                 viewModel.updateIsToday(false)
@@ -265,13 +247,13 @@ fun HomeScreen(
                 }
             }
 
-            if (homeFilteringInfo.grade == null) {
+            if (homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
                 HomeFilteringEmptyIntern(
                     modifier = Modifier
                         .padding(horizontal = 24.dp)
                         .fillMaxSize()
                 )
-            } else if (recommendInternList.isEmpty()) {
+            } else if (homeRecommendInternList.isEmpty()) {
                 HomeRecommendEmptyIntern()
             }
         }
@@ -284,12 +266,12 @@ fun HomeScreen(
                 viewModel.updatePaletteOpen(false)
             },
             content = {
-                if (recommendInternList[scrapId].scrapId != null) {
+                if (homeRecommendInternList[scrapId].scrapId != null) {
                     ScrapCancelDialogContent(
                         onClickScrapCancel = {
                             viewModel.updateScrapDialogVisible(false)
                             viewModel.deleteScrap(
-                                recommendInternList[scrapId].scrapId ?: -1,
+                                homeRecommendInternList[scrapId].scrapId ?: -1,
                             )
                             if (homeDialogState.isScrappedState) {
                                 viewModel.getRecommendInternsData(
@@ -318,7 +300,7 @@ fun HomeScreen(
                     val selectedColorIndex =
                         colorList.indexOf(homeDialogState.selectedColor).takeIf { it >= 0 } ?: 0
 
-                    with(recommendInternList[scrapId]) {
+                    with(homeRecommendInternList[scrapId]) {
                         HomeRecommendInternDialog(
                             internInfoList = listOf(
                                 stringResource(id = R.string.intern_info_d_day) to deadline,
@@ -337,7 +319,7 @@ fun HomeScreen(
                                     viewModel.updateScrapDialogVisible(false)
                                 }
                                 viewModel.postScrap(
-                                    recommendInternList[scrapId].internshipAnnouncementId,
+                                    homeRecommendInternList[scrapId].internshipAnnouncementId,
                                     selectedColorIndex,
                                 )
                                 viewModel.updateScrapDialogVisible(false)

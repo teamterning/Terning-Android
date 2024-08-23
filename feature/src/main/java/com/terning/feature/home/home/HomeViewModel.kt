@@ -7,7 +7,6 @@ import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
-import com.terning.domain.entity.response.HomeRecommendInternModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.ScrapRepository
@@ -39,10 +38,6 @@ class HomeViewModel @Inject constructor(
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
-    private val _homeRecommendInternState =
-        MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Loading)
-    val homeRecommendInternState get() = _homeRecommendInternState.asStateFlow()
-
     private val _homeSortByState = MutableStateFlow(0)
     val homeSortByState get() = _homeSortByState.asStateFlow()
 
@@ -56,13 +51,16 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getRecommendInternsData(sortBy: Int, startYear: Int, startMonth: Int) {
-        _homeRecommendInternState.value = UiState.Loading
         viewModelScope.launch {
             homeRepository.getRecommendIntern(SortBy.entries[sortBy].sortBy, startYear, startMonth)
                 .onSuccess { internList ->
-                    _homeRecommendInternState.value = UiState.Success(internList)
+                    _homeState.value = _homeState.value.copy(
+                        homeRecommendInternState = UiState.Success(internList)
+                    )
                 }.onFailure { exception: Throwable ->
-                    _homeRecommendInternState.value = UiState.Failure(exception.message ?: "")
+                    _homeState.value = _homeState.value.copy(
+                        homeRecommendInternState = UiState.Failure(exception.toString())
+                    )
                     _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
                 }
         }
