@@ -25,7 +25,7 @@ import com.terning.feature.home.home.model.HomeDialogState
 fun HomeTodayIntern(
     internList: List<HomeTodayInternModel>,
     homeDialogState: HomeDialogState,
-    navigateToDetail: (Long) -> Unit,
+    navigateToIntern: (Long) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     var selectedIndex by remember {
@@ -73,7 +73,7 @@ fun HomeTodayIntern(
                             stringResource(id = R.string.intern_info_start_date) to startYearMonth,
                         ),
                         navigateTo = {
-                            navigateToDetail(internshipAnnouncementId)
+                            navigateToIntern(internshipAnnouncementId)
                             homeViewModel.updateScrapDialogVisible(false)
                         },
                         homeTodayInternModel = internList[selectedIndex],

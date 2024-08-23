@@ -178,7 +178,7 @@ fun HomeRoute(
         recommendInternList = homeRecommendInternList,
         homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
-        navController = navController
+        navigateToIntern = { navController.navigateIntern(announcementId = it) }
     )
 }
 
@@ -192,8 +192,8 @@ fun HomeScreen(
     recommendInternList: List<HomeRecommendInternModel>,
     homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
+    navigateToIntern: (Long) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
-    navController: NavHostController,
 ) {
     var sheetState by remember { mutableStateOf(false) }
     var scrapId by remember { mutableStateOf(-1) }
@@ -235,7 +235,7 @@ fun HomeScreen(
                         ShowTodayIntern(
                             homeTodayInternList = homeTodayInternList,
                             homeDialogState = homeDialogState,
-                            navigateToDetail = { navController.navigateIntern(announcementId = it) }
+                            navigateToIntern = { navigateToIntern(it) }
                         )
                     }
                 }
@@ -275,7 +275,7 @@ fun HomeScreen(
                 if (recommendInternList.isNotEmpty()) {
                     items(recommendInternList.size) { index ->
                         RecommendInternItem(
-                            navController = navController,
+                            navigateToIntern = navigateToIntern,
                             intern = recommendInternList[index],
                             onScrapButtonClicked = {
                                 viewModel.updateScrapDialogVisible(true)
@@ -384,17 +384,15 @@ fun HomeScreen(
 
 @Composable
 private fun RecommendInternItem(
-    navController: NavHostController,
     intern: HomeRecommendInternModel,
+    navigateToIntern: (Long) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,
 ) {
     InternItemWithShadow(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .noRippleClickable {
-                navController.navigateIntern(
-                    announcementId = intern.internshipAnnouncementId
-                )
+                navigateToIntern(intern.internshipAnnouncementId)
             },
         imageUrl = intern.companyImage,
         title = intern.title,
@@ -427,7 +425,7 @@ private fun ShowMainTitleWithName(userName: String) {
 private fun ShowTodayIntern(
     homeTodayInternList: List<HomeTodayInternModel>,
     homeDialogState: HomeDialogState,
-    navigateToDetail: (Long) -> Unit,
+    navigateToIntern: (Long) -> Unit,
 ) {
     if (homeTodayInternList.isEmpty()) {
         HomeTodayEmptyWithImg()
@@ -435,7 +433,7 @@ private fun ShowTodayIntern(
         HomeTodayIntern(
             internList = homeTodayInternList,
             homeDialogState = homeDialogState,
-            navigateToDetail = { navigateToDetail(it) },
+            navigateToIntern = { navigateToIntern(it) },
         )
     }
 }
