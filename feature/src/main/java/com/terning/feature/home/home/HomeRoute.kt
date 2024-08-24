@@ -120,14 +120,15 @@ fun HomeRoute(
     }
 
     HomeScreen(
-        currentSortBy,
+        currentSortBy = currentSortBy,
         homeUserName = homeUserName,
         homeFilteringInfoState = homeState.homeFilteringInfoState,
         homeTodayInternState = homeState.homeTodayInternState,
         homeRecommendInternState = homeState.homeRecommendInternState,
         homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
-        navigateToIntern = { navController.navigateIntern(announcementId = it) }
+        navigateToIntern = { navController.navigateIntern(announcementId = it) },
+        viewModel = viewModel,
     )
 }
 
@@ -142,7 +143,7 @@ fun HomeScreen(
     homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
     navigateToIntern: (Long) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel,
 ) {
     val homeFilteringInfo = when (homeFilteringInfoState) {
         is UiState.Success -> homeFilteringInfoState.data
@@ -155,7 +156,7 @@ fun HomeScreen(
     }
 
     var sheetState by remember { mutableStateOf(false) }
-    var scrapId by remember { mutableStateOf(-1) }
+    var scrapId by remember { mutableIntStateOf(-1) }
 
     if (sheetState) {
         SortingBottomSheet(
