@@ -99,6 +99,10 @@ fun HomeRoute(
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(key1 = true) {
+        viewModel.getFilteringInfo()
+    }
+
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->

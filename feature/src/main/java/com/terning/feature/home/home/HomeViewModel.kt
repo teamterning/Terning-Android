@@ -82,7 +82,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getFilteringInfo() {
+    fun getFilteringInfo() {
         viewModelScope.launch {
             homeRepository.getFilteringInfo().onSuccess { filteringInfo ->
                 _homeState.value = _homeState.value.copy(
