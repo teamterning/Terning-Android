@@ -35,7 +35,6 @@ import com.terning.feature.home.changefilter.component.FilteringSubTitleText
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.HomeSideEffect
 import com.terning.feature.home.home.HomeViewModel
-import com.terning.feature.home.home.navigation.navigateHome
 
 const val MIN_INDEX = 0
 const val MAX_WORKING_INDEX = 2
@@ -49,11 +48,11 @@ fun ChangeFilterRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    val filteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
+    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
 
-    when (filteringState) {
+    when (homeState.homeFilteringInfoState) {
         is UiState.Success -> ChangeFilterScreen(
-            (filteringState as UiState.Success<HomeFilteringInfoModel>).data,
+            (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfoModel>).data,
             navController,
             viewModel,
         )
