@@ -52,8 +52,8 @@ fun ChangeFilterRoute(
 
     when (homeState.homeFilteringInfoState) {
         is UiState.Success -> ChangeFilterScreen(
-            (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfoModel>).data,
-            navController,
+            filterData = (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfoModel>).data,
+            navigateToHome = { navController.popBackStack() },
             viewModel,
         )
 
@@ -75,7 +75,7 @@ fun ChangeFilterRoute(
 @Composable
 fun ChangeFilterScreen(
     filterData: HomeFilteringInfoModel,
-    navController: NavController,
+    navigateToHome: () -> Unit,
     viewModel: HomeViewModel,
 ) {
     var currentGrade by remember { mutableIntStateOf(filterData.grade ?: -1) }
@@ -96,7 +96,7 @@ fun ChangeFilterScreen(
         topBar = {
             BackButtonTopAppBar(
                 title = stringResource(id = R.string.change_filter_top_bar_title),
-                onBackButtonClick = { navController.popBackStack() },
+                onBackButtonClick = { navigateToHome() },
                 modifier = Modifier
                     .shadow(elevation = 2.dp)
             )
