@@ -78,7 +78,6 @@ fun HomeRoute(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -87,10 +86,6 @@ fun HomeRoute(
         systemUiController.setNavigationBarColor(
             color = White
         )
-    }
-
-    val currentSortBy: MutableState<Int> = remember {
-        mutableIntStateOf(0)
     }
 
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -120,7 +115,6 @@ fun HomeRoute(
     }
 
     HomeScreen(
-        currentSortBy = currentSortBy,
         homeUserName = homeUserName,
         homeFilteringInfoState = homeState.homeFilteringInfoState,
         homeTodayInternState = homeState.homeTodayInternState,
@@ -135,7 +129,6 @@ fun HomeRoute(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
-    currentSortBy: MutableState<Int>,
     homeUserName: String,
     homeFilteringInfoState: UiState<HomeFilteringInfoModel>,
     homeTodayInternState: UiState<List<HomeTodayInternModel>>,
@@ -155,6 +148,7 @@ fun HomeScreen(
         else -> listOf()
     }
 
+    val currentSortBy: MutableState<Int> = remember { mutableIntStateOf(0) }
     var sheetState by remember { mutableStateOf(false) }
     var scrapId by remember { mutableIntStateOf(-1) }
 
