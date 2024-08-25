@@ -29,6 +29,14 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun updatePage(page: Int) = viewModelScope.launch {
+        _uiState.update { currentState ->
+            currentState.copy(
+                currentPage = page
+            )
+        }
+    }
+
     fun updateListVisibility(
         visibility: Boolean
     ) {

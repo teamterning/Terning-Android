@@ -6,7 +6,7 @@ import java.time.Year
 import java.time.YearMonth
 
 @Immutable
-internal class CalendarModel internal constructor(
+class CalendarModel internal constructor(
     startYear: Int = START_YEAR,
     endYear: Int = END_YEAR
 ) {

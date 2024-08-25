@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -28,23 +27,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarModel
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getYearMonthByPage
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
-import com.terning.feature.intern.navigation.navigateIntern
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import java.time.YearMonth
+import java.time.LocalDate
 
 @Composable
 fun CalendarRoute(
@@ -53,12 +49,12 @@ fun CalendarRoute(
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     BackHandler {
-        if (calendarUiState.isWeekEnabled) {
-            viewModel.updateSelectedDate(calendarUiState.selectedDate)
-        } else if (calendarUiState.isListEnabled) {
+        if (uiState.isWeekEnabled) {
+            viewModel.updateSelectedDate(uiState.selectedDate)
+        } else if (uiState.isListEnabled) {
             viewModel.updateListVisibility(false)
         } else {
             navigateUp()
@@ -66,48 +62,48 @@ fun CalendarRoute(
     }
 
     CalendarScreen(
-        calendarUiState = calendarUiState,
+        uiState = uiState,
         navigateToAnnouncement = navigateToAnnouncement,
-        viewModel = viewModel
+        updateSelectedDate = viewModel::updateSelectedDate,
+        updatePage = viewModel::updatePage,
+        onClickListButton = {
+            viewModel.updateListVisibility(!uiState.isListEnabled)
+            if (uiState.isWeekEnabled) { viewModel.updateWeekVisibility(false) }
+        }
     )
 }
 
 @Composable
 private fun CalendarScreen(
-    modifier: Modifier = Modifier,
-    calendarUiState: CalendarUiState,
+    uiState: CalendarUiState,
     navigateToAnnouncement: (Long) -> Unit,
-    viewModel: CalendarViewModel = hiltViewModel()
+    updateSelectedDate: (LocalDate) -> Unit,
+    updatePage: (Int) -> Unit,
+    onClickListButton: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val calendarModel = remember { CalendarModel() }
+    val coroutineScope = rememberCoroutineScope()
 
     val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = calendarModel.initialPage
+        initialFirstVisibleItemIndex = uiState.calendarModel.initialPage
     )
 
-    var currentPage by rememberSaveable { mutableIntStateOf(listState.firstVisibleItemIndex) }
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
             .collect {
-                currentPage = listState.firstVisibleItemIndex
+                updatePage(listState.firstVisibleItemIndex)
             }
     }
 
     Scaffold(
         modifier = modifier,
         topBar = {
-            val coroutineScope = rememberCoroutineScope()
             CalendarTopAppBar(
-                date = getYearMonthByPage(currentPage),
-                isListExpanded = calendarUiState.isListEnabled,
-                isWeekExpanded = calendarUiState.isWeekEnabled,
-                onListButtonClicked = {
-                    viewModel.updateListVisibility(!calendarUiState.isListEnabled)
-                    if (calendarUiState.isWeekEnabled) {
-                        viewModel.updateWeekVisibility(false)
-                    }
-                },
+                date = getYearMonthByPage(uiState.currentPage),
+                isListExpanded = uiState.isListEnabled,
+                isWeekExpanded = uiState.isWeekEnabled,
+                onListButtonClicked = onClickListButton,
                 onMonthNavigationButtonClicked = { direction ->
                     coroutineScope.launch {
                         listState.animateScrollToItem(
@@ -119,7 +115,7 @@ private fun CalendarScreen(
         }
     ) { paddingValues ->
         ScreenTransition(
-            targetState = !calendarUiState.isListEnabled,
+            targetState = !uiState.isListEnabled,
             transitionOne = slideInHorizontally { fullWidth -> -fullWidth } togetherWith
                     slideOutHorizontally { fullWidth -> fullWidth },
             transitionTwo = slideInHorizontally { fullWidth -> fullWidth } togetherWith
@@ -138,7 +134,7 @@ private fun CalendarScreen(
                     )
 
                     ScreenTransition(
-                        targetState = !calendarUiState.isWeekEnabled,
+                        targetState = !uiState.isWeekEnabled,
                         transitionOne = slideInVertically { fullHeight -> -fullHeight } togetherWith
                                 slideOutVertically { fullHeight -> fullHeight },
                         transitionTwo = slideInVertically { fullHeight -> fullHeight } togetherWith
@@ -146,9 +142,9 @@ private fun CalendarScreen(
                         contentOne = {
                             CalendarMonthRoute(
                                 listState = listState,
-                                pages = calendarModel.pageCount,
-                                selectedDate = calendarUiState.selectedDate,
-                                updateSelectedDate = { newDate -> viewModel.updateSelectedDate(newDate) },
+                                pages = uiState.calendarModel.pageCount,
+                                selectedDate = uiState.selectedDate,
+                                updateSelectedDate = updateSelectedDate,
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(White),
@@ -156,13 +152,11 @@ private fun CalendarScreen(
                         },
                         contentTwo = {
                             CalendarWeekRoute(
-                                calendarUiState = calendarUiState,
+                                calendarUiState = uiState,
                                 modifier = Modifier
                                     .fillMaxSize(),
                                 navigateToAnnouncement = navigateToAnnouncement,
-                                updateSelectedDate = { newDate ->
-                                    viewModel.updateSelectedDate(newDate)
-                                }
+                                updateSelectedDate = updateSelectedDate
                             )
                         }
                     )
@@ -171,7 +165,7 @@ private fun CalendarScreen(
             contentTwo = {
                 CalendarListRoute(
                     listState = listState,
-                    pages = calendarModel.pageCount,
+                    pages = uiState.calendarModel.pageCount,
                     navigateToAnnouncement = navigateToAnnouncement,
                     modifier = Modifier
                         .fillMaxSize()
