@@ -6,7 +6,7 @@ import com.terning.core.state.UiState
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarSideEffect
-import com.terning.feature.calendar.month.model.MonthUiState
+import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,8 +22,8 @@ import javax.inject.Inject
 class CalendarMonthViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ): ViewModel() {
-    private val _monthUiState = MutableStateFlow(MonthUiState())
-    val calendarMonthState = _monthUiState.asStateFlow()
+    private val _Calendar_monthUiState = MutableStateFlow(CalendarMonthUiState())
+    val calendarMonthState = _Calendar_monthUiState.asStateFlow()
 
     private val _calendarSideEffect: MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
     val calendarSideEffect = _calendarSideEffect.asSharedFlow()
@@ -35,7 +35,7 @@ class CalendarMonthViewModel @Inject constructor(
             calendarRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
-                _monthUiState.update { currentState ->
+                _Calendar_monthUiState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Success(it)
                     )

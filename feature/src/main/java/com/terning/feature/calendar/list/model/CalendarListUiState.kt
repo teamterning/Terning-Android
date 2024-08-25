@@ -4,7 +4,7 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
 import java.time.LocalDate
 
-data class ListUiState(
+data class CalendarListUiState(
     val loadState: UiState<Map<String, List<CalendarScrapDetail>>> = UiState.Loading,
     val currentDate: LocalDate = LocalDate.now(),
     val scrapDialogVisibility: Boolean = false,

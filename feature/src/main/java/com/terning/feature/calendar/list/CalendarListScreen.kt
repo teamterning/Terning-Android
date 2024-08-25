@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.devtools.ksp.symbol.Visibility
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -42,7 +41,7 @@ import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
 import com.terning.feature.calendar.list.component.CalendarScrapList
-import com.terning.feature.calendar.list.model.ListUiState
+import com.terning.feature.calendar.list.model.CalendarListUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 
@@ -93,7 +92,7 @@ fun CalendarListRoute(
 private fun CalendarListScreen(
     pages: Int,
     listState: LazyListState,
-    uiState: ListUiState,
+    uiState: CalendarListUiState,
     navigateToAnnouncement: (Long) -> Unit,
     onDismissCancelDialog: () -> Unit,
     onDismissInternDialog: () -> Unit,

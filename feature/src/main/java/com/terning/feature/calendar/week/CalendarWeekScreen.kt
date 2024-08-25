@@ -34,7 +34,7 @@ import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
-import com.terning.feature.calendar.week.model.CalendarWeekState
+import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import okhttp3.internal.toImmutableList
 import java.time.LocalDate
 
@@ -108,7 +108,7 @@ fun CalendarWeekRoute(
 
 @Composable
 private fun CalendarWeekScreen(
-    uiState: CalendarWeekState,
+    uiState: CalendarWeekUiState,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,

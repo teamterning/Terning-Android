@@ -1,7 +1,5 @@
 package com.terning.feature.calendar.month
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
@@ -14,7 +12,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrap
@@ -23,7 +20,7 @@ import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavio
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
 import com.terning.feature.calendar.month.component.CalendarMonth
 import com.terning.feature.calendar.month.model.MonthModel
-import com.terning.feature.calendar.month.model.MonthUiState
+import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 import java.time.YearMonth
@@ -62,7 +59,7 @@ fun CalendarMonthRoute(
 
     CalendarMonthScreen(
         selectedDate = selectedDate,
-        monthUiState = monthUiState,
+        calendarMonthUiState = monthUiState,
         listState = listState,
         pages = pages,
         updateSelectedDate = updateSelectedDate,
@@ -73,18 +70,18 @@ fun CalendarMonthRoute(
 @Composable
 private fun CalendarMonthScreen(
     listState: LazyListState,
-    monthUiState: MonthUiState,
+    calendarMonthUiState: CalendarMonthUiState,
     pages: Int,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    when (monthUiState.loadState) {
+    when (calendarMonthUiState.loadState) {
         UiState.Loading -> {}
         UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
-            val scrapMap = monthUiState.loadState.data
+            val scrapMap = calendarMonthUiState.loadState.data
 
             MonthSuccessScreen(
                 pages = pages,

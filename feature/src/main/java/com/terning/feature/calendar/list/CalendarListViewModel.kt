@@ -20,7 +20,7 @@ import com.terning.domain.repository.CalendarRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.CalendarSideEffect
-import com.terning.feature.calendar.list.model.ListUiState
+import com.terning.feature.calendar.list.model.CalendarListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -38,7 +38,7 @@ class CalendarListViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository,
     private val scrapRepository: ScrapRepository
 ): ViewModel(){
-    private val _uiState = MutableStateFlow(ListUiState())
+    private val _uiState = MutableStateFlow(CalendarListUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _calendarSideEffect: MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
