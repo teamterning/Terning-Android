@@ -31,7 +31,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
@@ -71,15 +70,17 @@ fun CalendarRoute(
         if (calendarUiState.isWeekEnabled) {
             viewModel.updateSelectedDate(calendarUiState.selectedDate)
         } else if (calendarUiState.isListEnabled) {
-            viewModel.changeListVisibility()
+            viewModel.updateListVisibility(false)
         } else {
             navController.navigateUp()
         }
     }
 
     CalendarScreen(
-        navController = navController,
         calendarUiState = calendarUiState,
+        navigateToAnnouncement = { announcementId ->
+            navController.navigateIntern(announcementId = announcementId)
+        },
         viewModel = viewModel
     )
 }
@@ -88,7 +89,7 @@ fun CalendarRoute(
 private fun CalendarScreen(
     modifier: Modifier = Modifier,
     calendarUiState: CalendarUiState,
-    navController: NavController = rememberNavController(),
+    navigateToAnnouncement: (Long) -> Unit,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val calendarModel = remember { CalendarModel() }
@@ -124,9 +125,9 @@ private fun CalendarScreen(
                 isListExpanded = calendarUiState.isListEnabled,
                 isWeekExpanded = calendarUiState.isWeekEnabled,
                 onListButtonClicked = {
-                    viewModel.changeListVisibility()
+                    viewModel.updateListVisibility(!calendarUiState.isListEnabled)
                     if (calendarUiState.isWeekEnabled) {
-                        viewModel.disableWeekCalendar()
+                        viewModel.updateWeekVisibility(false)
                     }
                 },
                 onMonthNavigationButtonClicked = { direction ->
@@ -169,9 +170,7 @@ private fun CalendarScreen(
                                 listState = listState,
                                 pages = calendarModel.pageCount,
                                 selectedDate = calendarUiState.selectedDate,
-                                updateSelectedDate = { newDate ->
-                                    viewModel.updateSelectedDate(newDate)
-                                },
+                                updateSelectedDate = { newDate -> viewModel.updateSelectedDate(newDate) },
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(White),
@@ -182,9 +181,7 @@ private fun CalendarScreen(
                                 calendarUiState = calendarUiState,
                                 modifier = Modifier
                                     .fillMaxSize(),
-                                navigateToAnnouncement = { announcementId ->
-                                    navController.navigateIntern(announcementId = announcementId)
-                                },
+                                navigateToAnnouncement = navigateToAnnouncement,
                                 updateSelectedDate = { newDate ->
                                     viewModel.updateSelectedDate(newDate)
                                 }
@@ -197,9 +194,7 @@ private fun CalendarScreen(
                 CalendarListRoute(
                     listState = listState,
                     pages = calendarModel.pageCount,
-                    navigateToAnnouncement = {announcementId ->
-                        navController.navigateIntern(announcementId = announcementId)
-                    },
+                    navigateToAnnouncement = navigateToAnnouncement,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding())

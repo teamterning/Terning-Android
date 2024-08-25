@@ -1,5 +1,7 @@
 package com.terning.feature.calendar.month
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
@@ -12,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrap
