@@ -19,7 +19,6 @@ import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.repository.CalendarRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.CalendarSideEffect
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -41,8 +40,8 @@ class CalendarListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CalendarListUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _calendarSideEffect: MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
-    val calendarSideEffect = _calendarSideEffect.asSharedFlow()
+    private val _sideEffect: MutableSharedFlow<CalendarListSideEffect> = MutableSharedFlow()
+    val sideEffect = _sideEffect.asSharedFlow()
 
     fun updateCurrentDate(date: LocalDate) {
         _uiState.update { currentState ->
@@ -107,7 +106,7 @@ class CalendarListViewModel @Inject constructor(
                     )
 
                 }
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
             }
         )
     }
@@ -127,9 +126,7 @@ class CalendarListViewModel @Inject constructor(
                         updateScrapCancelDialogVisibility(false)
                     }
                 }.onFailure {
-                    _calendarSideEffect.emit(
-                        CalendarSideEffect.ShowToast(R.string.server_failure)
-                    )
+                    _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
                 }
             }
     }
@@ -146,7 +143,7 @@ class CalendarListViewModel @Inject constructor(
                     getScrapMonthList(_uiState.value.currentDate)
                 }
             }.onFailure {
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
             }
     }
 

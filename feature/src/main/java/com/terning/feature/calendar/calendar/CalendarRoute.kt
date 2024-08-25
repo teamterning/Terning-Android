@@ -24,20 +24,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.toast
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarModel
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getYearMonthByPage
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
@@ -52,19 +51,8 @@ fun CalendarRoute(
     navController: NavController,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
     val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
-
-    LaunchedEffect(viewModel.calendarSideEffect, lifecycleOwner) {
-        viewModel.calendarSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { sideEffect ->
-                when (sideEffect) {
-                    is CalendarSideEffect.ShowToast -> context.toast(sideEffect.message)
-                }
-            }
-    }
 
     BackHandler {
         if (calendarUiState.isWeekEnabled) {
@@ -101,27 +89,20 @@ private fun CalendarScreen(
     var currentDate by rememberSaveable { mutableStateOf(YearMonth.now()) }
     var currentPage by rememberSaveable { mutableIntStateOf(listState.firstVisibleItemIndex) }
 
-
-
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
             .collect {
-                val swipeDirection =
-                    (listState.firstVisibleItemIndex - currentPage).coerceIn(-1, 1).toLong()
-                currentDate = currentDate.plusMonths(swipeDirection)
                 currentPage = listState.firstVisibleItemIndex
             }
     }
-
-
 
     Scaffold(
         modifier = modifier,
         topBar = {
             val coroutineScope = rememberCoroutineScope()
             CalendarTopAppBar(
-                date = currentDate,
+                date = getYearMonthByPage(currentPage),
                 isListExpanded = calendarUiState.isListEnabled,
                 isWeekExpanded = calendarUiState.isWeekEnabled,
                 onListButtonClicked = {

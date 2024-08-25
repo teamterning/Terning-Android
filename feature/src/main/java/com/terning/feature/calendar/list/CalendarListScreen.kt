@@ -19,12 +19,14 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -33,13 +35,14 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.getFullDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -56,12 +59,22 @@ fun CalendarListRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
 
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is CalendarListSideEffect.ShowToast -> context.toast(sideEffect.message)
+                }
+            }
+    }
+
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
             .collect {
                 val page = listState.firstVisibleItemIndex
-                val date = getDateByPage(page)
+                val date = getLocalDateByPage(page)
                 viewModel.updateCurrentDate(date)
                 viewModel.getScrapMonthList(date)
             }
@@ -113,7 +126,7 @@ private fun CalendarListScreen(
             )
         ) {
             items(pages) { page ->
-                val getDate = getDateByPage(page)
+                val getDate = getLocalDateByPage(page)
 
                 LazyColumn(
                     modifier = Modifier

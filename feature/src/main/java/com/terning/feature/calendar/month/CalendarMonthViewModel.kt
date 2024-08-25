@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.CalendarSideEffect
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,11 +21,11 @@ import javax.inject.Inject
 class CalendarMonthViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ): ViewModel() {
-    private val _Calendar_monthUiState = MutableStateFlow(CalendarMonthUiState())
-    val calendarMonthState = _Calendar_monthUiState.asStateFlow()
+    private val _uiState = MutableStateFlow(CalendarMonthUiState())
+    val uiState = _uiState.asStateFlow()
 
-    private val _calendarSideEffect: MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
-    val calendarSideEffect = _calendarSideEffect.asSharedFlow()
+    private val _sideEffect: MutableSharedFlow<CalendarMonthSideEffect> = MutableSharedFlow()
+    val sideEffect = _sideEffect.asSharedFlow()
 
     fun getScrapMonth(
         year: Int, month: Int
@@ -35,14 +34,14 @@ class CalendarMonthViewModel @Inject constructor(
             calendarRepository.getScrapMonth(year, month)
         }.fold(
             onSuccess = {
-                _Calendar_monthUiState.update { currentState ->
+                _uiState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Success(it)
                     )
                 }
             },
             onFailure = {
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(CalendarMonthSideEffect.ShowToast(R.string.server_failure))
             }
         )
     }

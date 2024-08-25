@@ -16,17 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getFullDateStringInKorean
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
@@ -50,6 +53,16 @@ fun CalendarWeekRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
 
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is CalendarWeekSideEffect.ShowToast -> context.toast(sideEffect.message)
+                }
+            }
+    }
+
     LaunchedEffect(key1 = calendarUiState.selectedDate) {
         viewModel.updateSelectedDate(selectedDate = calendarUiState.selectedDate)
     }
@@ -69,8 +82,10 @@ fun CalendarWeekRoute(
         onClickChangeColor = { viewModel.patchScrap(it) },
         onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
         onClickScrapButton = {scrapId ->
-            viewModel.updateScrapId(scrapId)
-            viewModel.updateScrapCancelDialogVisibility(true)
+            with(viewModel) {
+                updateScrapId(scrapId)
+                updateScrapCancelDialogVisibility(true)
+            }
         },
         onClickInternship = { scrapDetail ->
             with(viewModel) {

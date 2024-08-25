@@ -15,11 +15,10 @@ import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrap
-import com.terning.feature.calendar.calendar.CalendarSideEffect
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
-import com.terning.feature.calendar.month.component.CalendarMonth
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.month.model.MonthModel
+import com.terning.feature.calendar.month.component.CalendarMonth
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
@@ -36,13 +35,13 @@ fun CalendarMonthRoute(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val monthUiState by viewModel.calendarMonthState.collectAsStateWithLifecycle(lifecycleOwner)
+    val monthUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
 
-    LaunchedEffect(viewModel.calendarSideEffect, lifecycleOwner) {
-        viewModel.calendarSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is CalendarSideEffect.ShowToast -> context.toast(sideEffect.message)
+                    is CalendarMonthSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
     }
@@ -52,7 +51,7 @@ fun CalendarMonthRoute(
             .distinctUntilChanged()
             .collect {
                 val page = listState.firstVisibleItemIndex
-                val date = getDateByPage(page)
+                val date = getLocalDateByPage(page)
                 viewModel.getScrapMonth(date.year, date.monthValue)
             }
     }
@@ -113,7 +112,7 @@ private fun MonthSuccessScreen(
         )
     ) {
         items(pages) { page ->
-            val date = getDateByPage(page)
+            val date = getLocalDateByPage(page)
             val monthModel = MonthModel(YearMonth.of(date.year, date.month))
 
             CalendarMonth(

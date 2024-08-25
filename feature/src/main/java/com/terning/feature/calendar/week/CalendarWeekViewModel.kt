@@ -19,7 +19,6 @@ import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.repository.CalendarRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.CalendarSideEffect
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -41,8 +40,8 @@ class CalendarWeekViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CalendarWeekUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _calendarSideEffect: MutableSharedFlow<CalendarSideEffect> = MutableSharedFlow()
-    val calendarSideEffect = _calendarSideEffect.asSharedFlow()
+    private val _sideEffect: MutableSharedFlow<CalendarWeekSideEffect> = MutableSharedFlow()
+    val sideEffect = _sideEffect.asSharedFlow()
 
     fun updateSelectedDate(selectedDate: LocalDate) {
         _uiState.update { currentState ->
@@ -102,7 +101,7 @@ class CalendarWeekViewModel @Inject constructor(
                     )
 
                 }
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(CalendarWeekSideEffect.ShowToast(R.string.server_failure))
             }
         )
     }
@@ -120,8 +119,8 @@ class CalendarWeekViewModel @Inject constructor(
                         updateScrapCancelDialogVisibility(false)
                     }
                 }.onFailure {
-                    _calendarSideEffect.emit(
-                        CalendarSideEffect.ShowToast(R.string.server_failure)
+                    _sideEffect.emit(
+                        CalendarWeekSideEffect.ShowToast(R.string.server_failure)
                     )
                 }
             }
@@ -137,7 +136,7 @@ class CalendarWeekViewModel @Inject constructor(
                     getScrapWeekList(selectedDate = _uiState.value.selectedDate)
                 }
             }.onFailure {
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(CalendarWeekSideEffect.ShowToast(R.string.server_failure))
             }
     }
 
