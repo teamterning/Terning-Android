@@ -4,10 +4,12 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.calendar.calendar.CalendarRoute
+import com.terning.feature.intern.navigation.navigateIntern
 import kotlinx.serialization.Serializable
 
 
@@ -36,7 +38,8 @@ fun NavGraphBuilder.calendarNavGraph(
         }
     ) {
         CalendarRoute(
-            navController = navHostController
+            navigateUp = navHostController::navigateUp,
+            navigateToAnnouncement = navHostController::navigateIntern
         )
     }
 }

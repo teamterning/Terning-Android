@@ -48,7 +48,8 @@ import java.time.YearMonth
 
 @Composable
 fun CalendarRoute(
-    navController: NavController,
+    navigateUp: () -> Unit,
+    navigateToAnnouncement: (Long) -> Unit,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -60,15 +61,13 @@ fun CalendarRoute(
         } else if (calendarUiState.isListEnabled) {
             viewModel.updateListVisibility(false)
         } else {
-            navController.navigateUp()
+            navigateUp()
         }
     }
 
     CalendarScreen(
         calendarUiState = calendarUiState,
-        navigateToAnnouncement = { announcementId ->
-            navController.navigateIntern(announcementId = announcementId)
-        },
+        navigateToAnnouncement = navigateToAnnouncement,
         viewModel = viewModel
     )
 }
@@ -86,9 +85,7 @@ private fun CalendarScreen(
         initialFirstVisibleItemIndex = calendarModel.initialPage
     )
 
-    var currentDate by rememberSaveable { mutableStateOf(YearMonth.now()) }
     var currentPage by rememberSaveable { mutableIntStateOf(listState.firstVisibleItemIndex) }
-
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
