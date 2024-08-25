@@ -70,7 +70,6 @@ class CalendarViewModel @Inject constructor(
                     isWeekEnabled = true
                 )
             }
-            getScrapWeekList()
         } else {
             _uiState.update { currentState ->
                 currentState.copy(
@@ -121,25 +120,6 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun getScrapMonth(
-        year: Int, month: Int
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            calendarRepository.getScrapMonth(year, month)
-        }.fold(
-            onSuccess = {
-                _MonthUiState.update { currentState ->
-                    currentState.copy(
-                        loadState = UiState.Success(it)
-                    )
-                }
-            },
-            onFailure = {
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
-            }
-        )
-    }
-
     fun getScrapMonthList(
         year: Int, month: Int
     ) = viewModelScope.launch {
@@ -166,30 +146,7 @@ class CalendarViewModel @Inject constructor(
         )
     }
 
-    fun getScrapWeekList() = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            calendarRepository.getScrapDayList(_uiState.value.selectedDate)
-        }.fold(
-            onSuccess = {
-                _calendarWeekState.update { currentState ->
-                    currentState.copy(
-                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
-                    )
-                }
-            },
-            onFailure = {
-                _calendarWeekState.update { currentState ->
-                    currentState.copy(
-                        loadState = UiState.Failure(it.message.toString())
-                    )
-
-                }
-                _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))
-            }
-        )
-    }
-
-    fun deleteScrap(isFromWeekScreen: Boolean = false) = viewModelScope.launch {
+    fun deleteScrap() = viewModelScope.launch {
         _calendarWeekState.value.loadState
             .takeIf { it is UiState.Success }
             ?.let { CalendarScrapRequest(_uiState.value.scrapId, null) }?.let { scrapRequestModel ->
@@ -197,14 +154,11 @@ class CalendarViewModel @Inject constructor(
                     scrapRequestModel
                 ).onSuccess {
                     runCatching {
-                        if (isFromWeekScreen) {
-                            getScrapWeekList()
-                        } else {
-                            getScrapMonthList(
-                                _uiState.value.selectedDate.year,
-                                _uiState.value.selectedDate.monthValue
-                            )
-                        }
+                        getScrapMonthList(
+                            _uiState.value.selectedDate.year,
+                            _uiState.value.selectedDate.monthValue
+                        )
+
                     }.onSuccess {
                         updateScrapCancelDialogVisible()
                     }
@@ -216,21 +170,17 @@ class CalendarViewModel @Inject constructor(
             }
     }
 
-    fun patchScrap(color: Color, isFromWeekScreen: Boolean = false) = viewModelScope.launch {
+    fun patchScrap(color: Color) = viewModelScope.launch {
         val scrapId = _uiState.value.internshipModel?.scrapId ?: 0
         val colorIndex = getColorIndex(color)
 
         scrapRepository.patchScrap(CalendarScrapRequest(scrapId, colorIndex))
             .onSuccess {
                 runCatching {
-                    if (isFromWeekScreen) {
-                        getScrapWeekList()
-                    } else {
-                        getScrapMonthList(
-                            _uiState.value.selectedDate.year,
-                            _uiState.value.selectedDate.monthValue
-                        )
-                    }
+                    getScrapMonthList(
+                        _uiState.value.selectedDate.year,
+                        _uiState.value.selectedDate.monthValue
+                    )
                 }
             }.onFailure {
                 _calendarSideEffect.emit(CalendarSideEffect.ShowToast(R.string.server_failure))

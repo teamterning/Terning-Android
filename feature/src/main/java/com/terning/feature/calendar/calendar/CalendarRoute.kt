@@ -41,7 +41,7 @@ import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarModel
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.CalendarListScreen
-import com.terning.feature.calendar.month.CalendarMonthScreen
+import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
 import com.terning.feature.intern.navigation.navigateIntern
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -165,10 +165,13 @@ private fun CalendarScreen(
                         transitionTwo = slideInVertically { fullHeight -> fullHeight } togetherWith
                                 slideOutVertically { fullHeight -> -fullHeight },
                         contentOne = {
-                            CalendarMonthScreen(
-                                calendarUiState = calendarUiState,
+                            CalendarMonthRoute(
                                 listState = listState,
                                 pages = calendarModel.pageCount,
+                                selectedDate = calendarUiState.selectedDate,
+                                updateSelectedDate = { newDate ->
+                                    viewModel.updateSelectedDate(newDate)
+                                },
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(White),
