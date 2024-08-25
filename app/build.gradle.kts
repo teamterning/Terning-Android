@@ -116,8 +116,8 @@ dependencies {
     implementation(libs.ossLicense)
     implementation(libs.process.phoenix)
 
-    implementation(libs.androidx.ui.tooling)
-    implementation(libs.androidx.ui.test.manifest)
+    // Compose Preview
+    implementation(libs.compose.ui.tooling)
 
     // KakaoDependencies
     implementation(libs.kakao.user)
