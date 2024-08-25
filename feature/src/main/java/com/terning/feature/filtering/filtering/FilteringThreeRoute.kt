@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,31 +14,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.filtering.starthome.navigation.navigateStartHome
 import java.util.Calendar
 
 @Composable
-fun FilteringThreeScreen(
+fun FilteringThreeRoute(
     grade: Int,
     workingPeriod: Int,
-    navController: NavController,
-    modifier: Modifier = Modifier,
+    navigateUp: () -> Unit,
+    navigateToStartHome: () -> Unit,
     viewModel: FilteringViewModel = hiltViewModel(),
 ) {
-
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -63,24 +61,40 @@ fun FilteringThreeScreen(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is FilteringSideEffect.NavigateToStartHome -> navController.navigateStartHome()
+                    is FilteringSideEffect.NavigateToStartHome -> navigateToStartHome()
                     is FilteringSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
     }
 
-    Scaffold(
+    FilteringThreeScreen(
+        navigateUp = { navigateUp() },
+        chosenYear = chosenYear,
+        chosenMonth = chosenMonth,
+        onNextClick = { viewModel.postFilteringWithServer() },
+        onYearChosen = { chosenYear = it },
+        onMonthChosen = { chosenMonth = it }
+    )
+}
+
+@Composable
+fun FilteringThreeScreen(
+    modifier: Modifier = Modifier,
+    navigateUp: () -> Unit,
+    chosenYear: Int,
+    chosenMonth: Int,
+    onYearChosen: (Int) -> Unit,
+    onMonthChosen: (Int) -> Unit,
+    onNextClick: () -> Unit,
+) {
+    Column(
         modifier = modifier,
-        topBar = {
-            BackButtonTopAppBar(
-                onBackButtonClick = { navController.navigateUp() }
-            )
-        }
-    ) { paddingValues ->
+    ) {
+        BackButtonTopAppBar(
+            onBackButtonClick = { navigateUp() }
+        )
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+            modifier = Modifier.fillMaxSize()
         ) {
             TerningImage(
                 painter = R.drawable.ic_filtering_status3,
@@ -111,17 +125,32 @@ fun FilteringThreeScreen(
             DatePickerUI(
                 chosenYear = chosenYear,
                 chosenMonth = chosenMonth,
-                onYearChosen = { chosenYear = it },
-                onMonthChosen = { chosenMonth = it },
+                onYearChosen = { onYearChosen(it) },
+                onMonthChosen = { onMonthChosen(it) },
             )
             Spacer(modifier = modifier.weight(3f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { viewModel.postFilteringWithServer() },
+                onButtonClick = { onNextClick() },
                 modifier = modifier.padding(bottom = 12.dp),
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FilteringThreeScreenPreview() {
+    TerningPointTheme {
+        FilteringThreeScreen(
+            navigateUp = { },
+            chosenYear = 2024,
+            chosenMonth = 8,
+            onYearChosen = {},
+            onMonthChosen = {},
+            onNextClick = {}
+        )
     }
 }

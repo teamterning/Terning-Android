@@ -1,6 +1,5 @@
 package com.terning.data.dto.request
 
-import com.terning.domain.entity.request.FilteringRequestModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,11 +14,3 @@ data class FilteringRequestDto(
     @SerialName("startMonth")
     val startMonth: Int
 )
-
-fun FilteringRequestModel.toFilteringRequestDto(): FilteringRequestDto =
-    FilteringRequestDto(
-        grade = grade,
-        workingPeriod = workingPeriod,
-        startYear = startYear,
-        startMonth = startMonth
-    )

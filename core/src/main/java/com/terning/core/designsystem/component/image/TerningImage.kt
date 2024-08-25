@@ -9,6 +9,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.terning.core.R
 import com.terning.core.designsystem.theme.TerningPointTheme
 
+/**
+ * contentDescription을 사용하지 않고 Image를 편리하게 사용할 수 있는 함수입니다.
+ *
+ * @param painter 이미지 리소스 ID입니다.
+ * @param modifier Image의 Modifier입니다.
+ */
 @Composable
 fun TerningImage(
     painter: Int,

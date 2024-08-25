@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -31,16 +32,19 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.terning.core.designsystem.component.button.RectangleButton
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.main.MainNavigator
+import com.terning.feature.main.rememberMainNavigator
 import com.terning.feature.onboarding.signin.navigation.SignIn
 import kotlinx.coroutines.delay
 
 @Composable
 fun StartHomeScreen(
     modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController()
+    navigateToHome: () -> Unit
 ) {
     var isVisible by remember { mutableStateOf(false) }
 
@@ -48,7 +52,7 @@ fun StartHomeScreen(
     val screenHeight = 780f / configuration.screenHeightDp
 
     LaunchedEffect(key1 = true) {
-        delay(1000)
+        delay(DELAY)
         isVisible = true
     }
 
@@ -83,18 +87,15 @@ fun StartHomeScreen(
                     paddingVertical = 20.dp,
                     text = R.string.start_home_next_button,
                     onButtonClick = {
-                        navController.navigateHome(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = SignIn,
-                                inclusive = true
-                            ).build()
-                        )
+                        navigateToHome()
                     },
                 )
             }
         }
     }
 }
+
+private const val DELAY : Long = 1000
 
 @Composable
 fun StartHomeLottieAnimation(
@@ -114,4 +115,14 @@ fun StartHomeLottieAnimation(
         composition = lottieComposition,
         iterations = LottieConstants.IterateForever
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun StartHomeScreenPreview() {
+    TerningPointTheme {
+        StartHomeScreen(
+            navigateToHome = {}
+        )
+    }
 }

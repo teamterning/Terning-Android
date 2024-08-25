@@ -1,6 +1,5 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.SignInResponseModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,12 +15,4 @@ data class SignInResponseDto(
     val authId: String,
     @SerialName("authType")
     val authType: String,
-) {
-    fun toSignInModel() = SignInResponseModel(
-        accessToken = accessToken,
-        refreshToken = refreshToken,
-        userId = userId,
-        authId = authId,
-        authType = authType
-    )
-}
+)

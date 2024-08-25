@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,41 +13,37 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import com.terning.feature.filtering.filtering.component.StatusTwoRadioGroup
-import com.terning.feature.filtering.filtering.navigation.navigateFilteringThree
 
 @Composable
 fun FilteringTwoScreen(
     grade: Int,
-    navController: NavController,
+    onNextClick: (Int, Int) -> Unit,
+    navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     onButtonClick: (Int) -> Unit = {},
 ) {
-
     val isButtonValid = remember { mutableStateOf(false) }
 
     var workingPeriod by remember { mutableIntStateOf(-1) }
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            BackButtonTopAppBar(
-                onBackButtonClick = { navController.navigateUp() }
-            )
-        }
-    ) { paddingValues ->
+    Column(
+        modifier = modifier
+    ) {
+        BackButtonTopAppBar(
+            onBackButtonClick = { navigateUp() }
+        )
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+            modifier = Modifier.fillMaxSize()
         ) {
             TerningImage(
                 painter = R.drawable.ic_filtering_status2,
@@ -87,10 +82,22 @@ fun FilteringTwoScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { navController.navigateFilteringThree(grade, workingPeriod) },
+                onButtonClick = { onNextClick(grade, workingPeriod) },
                 modifier = modifier.padding(bottom = 12.dp),
                 isEnabled = isButtonValid.value
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FilteringTwoScreenPreview() {
+    TerningPointTheme {
+        FilteringTwoScreen(
+            grade = 1,
+            onNextClick = { _, _ -> },
+            navigateUp = { }
+        )
     }
 }

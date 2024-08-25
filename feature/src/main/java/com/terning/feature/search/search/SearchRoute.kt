@@ -20,7 +20,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
@@ -28,16 +27,17 @@ import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternshipAnnouncementModel
+import com.terning.domain.entity.search.SearchPopularAnnouncement
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
 import com.terning.feature.search.search.component.SearchInternList
-import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
+import okhttp3.internal.toImmutableList
 
 @Composable
 fun SearchRoute(
-    navController: NavHostController,
+    navigateToSearchProcess: () -> Unit,
+    navigateToIntern: (Long) -> Unit,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -62,29 +62,32 @@ fun SearchRoute(
     }
 
     val searchViewsList = when (viewState.searchViewsList) {
-        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<InternshipAnnouncementModel>>).data
+        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<SearchPopularAnnouncement>>).data.toImmutableList()
         else -> emptyList()
     }
 
     val searchScrapsList = when (scrapState.searchScrapsList) {
-        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<InternshipAnnouncementModel>>).data
+        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<SearchPopularAnnouncement>>).data.toImmutableList()
         else -> emptyList()
     }
 
     SearchScreen(
-        navController = navController,
         searchViewsList = searchViewsList,
-        searchScrapsList = searchScrapsList
+        searchScrapsList = searchScrapsList,
+        navigateToSearchProcess = navigateToSearchProcess,
+        navigateToIntern = navigateToIntern,
     )
 }
 
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
-    searchViewsList: List<InternshipAnnouncementModel>,
-    searchScrapsList: List<InternshipAnnouncementModel>,
+    searchViewsList: List<SearchPopularAnnouncement>,
+    searchScrapsList: List<SearchPopularAnnouncement>,
+    navigateToSearchProcess: () -> Unit,
+    navigateToIntern: (Long) -> Unit,
 ) {
+
     val images = listOf(
         R.drawable.img_ad_1,
         R.drawable.img_ad_2,
@@ -109,7 +112,7 @@ fun SearchScreen(
                         vertical = 16.dp
                     )
                     .noRippleClickable {
-                        navController.navigateSearchProcess()
+                        navigateToSearchProcess()
                     }
             ) {
                 SearchTextField(
@@ -133,12 +136,11 @@ fun SearchScreen(
                         style = TerningTheme.typography.title1,
                         color = Black
                     )
-
                     SearchInternList(
                         type = InternListType.VIEW,
                         searchViewsList = searchViewsList,
                         searchScrapsList = searchScrapsList,
-                        navController = navController
+                        navigateToIntern = navigateToIntern,
                     )
                     HorizontalDivider(
                         thickness = 4.dp,
@@ -149,7 +151,7 @@ fun SearchScreen(
                         type = InternListType.SCRAP,
                         searchViewsList = searchViewsList,
                         searchScrapsList = searchScrapsList,
-                        navController = navController
+                        navigateToIntern = navigateToIntern,
                     )
                 }
             }

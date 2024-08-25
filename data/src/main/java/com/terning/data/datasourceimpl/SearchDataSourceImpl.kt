@@ -4,8 +4,7 @@ import com.terning.data.datasource.SearchDataSource
 import com.terning.data.dto.BaseResponse
 import com.terning.data.dto.request.SearchRequestDto
 import com.terning.data.dto.response.SearchResultResponseDto
-import com.terning.data.dto.response.SearchScrapsResponseDto
-import com.terning.data.dto.response.SearchViewsResponseDto
+import com.terning.data.dto.response.SearchAnnouncementResponseDto
 import com.terning.data.service.SearchService
 import javax.inject.Inject
 
@@ -22,9 +21,9 @@ class SearchDataSourceImpl @Inject constructor(
             request.size
         )
 
-    override suspend fun getSearchViews(): BaseResponse<SearchViewsResponseDto> =
+    override suspend fun getSearchViews(): BaseResponse<SearchAnnouncementResponseDto> =
         searchService.getSearchViewsList()
 
-    override suspend fun getSearchScraps(): BaseResponse<SearchScrapsResponseDto> =
+    override suspend fun getSearchScraps(): BaseResponse<SearchAnnouncementResponseDto> =
         searchService.getSearchScrapsList()
 }

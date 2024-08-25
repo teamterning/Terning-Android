@@ -27,7 +27,8 @@ fun NavGraphBuilder.filteringOneNavGraph(
         val args = it.toRoute<FilteringOne>()
         FilteringOneScreen(
             name = args.name,
-            navController = navHostController
+            onNextClick = { grade -> navHostController.navigateFilteringTwo(grade) },
+            navigateUp = { navHostController.navigateUp() }
         )
     }
 }
