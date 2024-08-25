@@ -69,7 +69,7 @@ dependencies {
     implementation(libs.androidx.material3.android)
 
     // Compose Preview
-    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
 
     // Test Dependency
