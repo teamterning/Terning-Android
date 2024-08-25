@@ -21,7 +21,7 @@ import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.month.model.MonthUiState
-import com.terning.feature.calendar.list.model.CalendarListState
+import com.terning.feature.calendar.list.model.ListUiState
 import com.terning.feature.calendar.week.model.CalendarWeekState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -53,8 +53,8 @@ class CalendarViewModel @Inject constructor(
     private val _MonthUiState = MutableStateFlow(MonthUiState())
     val calendarMonthState = _MonthUiState.asStateFlow()
 
-    private val _calendarListState = MutableStateFlow(CalendarListState())
-    val calendarListState = _calendarListState.asStateFlow()
+    private val _ListUiState = MutableStateFlow(ListUiState())
+    val calendarListState = _ListUiState.asStateFlow()
 
     private val _calendarWeekState = MutableStateFlow(CalendarWeekState())
     val calendarWeekState = _calendarWeekState.asStateFlow()
@@ -127,7 +127,7 @@ class CalendarViewModel @Inject constructor(
             calendarRepository.getScrapMonthList(year, month)
         }.fold(
             onSuccess = {
-                _calendarListState.update { currentState ->
+                _ListUiState.update { currentState ->
                     currentState.copy(
                         loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
                         //loadState = UiS tate.Success(it)
@@ -135,7 +135,7 @@ class CalendarViewModel @Inject constructor(
                 }
             },
             onFailure = {
-                _calendarListState.update { currentState ->
+                _ListUiState.update { currentState ->
                     currentState.copy(
                         loadState = UiState.Failure(it.message.toString())
                     )

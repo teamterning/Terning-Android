@@ -40,7 +40,7 @@ import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarModel
 import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.list.CalendarListScreen
+import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
 import com.terning.feature.intern.navigation.navigateIntern
@@ -194,11 +194,12 @@ private fun CalendarScreen(
                 }
             },
             contentTwo = {
-                CalendarListScreen(
+                CalendarListRoute(
                     listState = listState,
                     pages = calendarModel.pageCount,
-                    viewModel = viewModel,
-                    navController = navController,
+                    navigateToAnnouncement = {announcementId ->
+                        navController.navigateIntern(announcementId = announcementId)
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding())
