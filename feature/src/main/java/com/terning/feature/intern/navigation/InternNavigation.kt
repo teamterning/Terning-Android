@@ -13,8 +13,8 @@ import com.terning.feature.intern.InternRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateIntern(
-    navOptions: NavOptions? = null,
     announcementId: Long = 0,
+    navOptions: NavOptions? = null,
 ) {
     navigate(
         route = Intern(announcementId),

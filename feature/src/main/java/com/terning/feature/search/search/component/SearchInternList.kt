@@ -9,18 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.domain.entity.response.InternshipAnnouncementModel
+import com.terning.domain.entity.search.SearchPopularAnnouncement
 import com.terning.feature.R
 
 @Composable
 fun SearchInternList(
     type: InternListType,
-    searchScrapsList: List<InternshipAnnouncementModel>?,
-    searchViewsList: List<InternshipAnnouncementModel>?,
-    navController: NavHostController,
+    searchScrapsList: List<SearchPopularAnnouncement>?,
+    searchViewsList: List<SearchPopularAnnouncement>?,
+    navigateToIntern: (Long) -> Unit,
 ) {
     Column(modifier = Modifier.padding(horizontal = 24.dp)) {
         Text(
@@ -44,8 +43,8 @@ fun SearchInternList(
                         SearchIntern(
                             companyImage = searchViewsList[index].companyImage,
                             title = searchViewsList[index].title,
-                            navController = navController,
-                            announcementId = searchViewsList[index].announcementId
+                            announcementId = searchViewsList[index].announcementId,
+                            navigateToIntern = navigateToIntern,
                         )
                     }
                 }
@@ -55,8 +54,8 @@ fun SearchInternList(
                         SearchIntern(
                             companyImage = searchScrapsList[index].companyImage,
                             title = searchScrapsList[index].title,
-                            navController = navController,
-                            announcementId = searchScrapsList[index].announcementId
+                            announcementId = searchScrapsList[index].announcementId,
+                            navigateToIntern = navigateToIntern,
                         )
                     }
                 }

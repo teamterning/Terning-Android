@@ -1,6 +1,6 @@
-package com.terning.domain.entity.response
+package com.terning.domain.entity.search
 
-data class InternshipAnnouncementModel(
+data class SearchPopularAnnouncement(
     val title: String,
     val companyImage: String,
     val announcementId: Long,
