@@ -16,11 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,7 +28,6 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
-import com.terning.feature.calendar.calendar.model.CalendarModel
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getYearMonthByPage
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.CalendarListRoute
