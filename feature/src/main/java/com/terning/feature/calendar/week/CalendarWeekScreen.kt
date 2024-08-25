@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -57,47 +58,21 @@ fun CalendarWeekRoute(
         viewModel.getScrapWeekList(selectedDate = uiState.selectedDate)
     }
 
-    if (uiState.scrapDialogVisibility) {
-        CalendarCancelDialog(
-            onDismissRequest = {
-                viewModel.updateScrapCancelDialogVisibility(false)
-            },
-            onClickScrapCancel = {
-                viewModel.updateScrapCancelDialogVisibility(false)
-                uiState.scrapId?.let { viewModel.deleteScrap(it) }
-            }
-        )
-    }
-
-    if (uiState.internDialogVisibility) {
-        CalendarDetailDialog(
-            deadline = uiState.selectedDate.getFullDateStringInKorean(),
-            scrapDetailModel = uiState.internshipModel,
-            onDismissRequest = {
-                viewModel.updateInternDialogVisibility(false)
-            },
-            onClickChangeColorButton = { newColor ->
-                viewModel.patchScrap(newColor)
-            },
-            onClickNavigateButton = { announcementId ->
-                navigateToAnnouncement(announcementId)
-                viewModel.updateInternDialogVisibility(false)
-            }
-        )
-    }
-
     CalendarWeekScreen(
         modifier = modifier,
         uiState = uiState,
         selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
-        onScrapButtonClicked = { scrapId->
-            with(viewModel) {
-                updateScrapCancelDialogVisibility(true)
-                updateScrapId(scrapId)
-            }
+        navigateToAnnouncement = navigateToAnnouncement,
+        onDismissCancelDialog = { viewModel.updateScrapCancelDialogVisibility(false) },
+        onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
+        onClickChangeColor = { viewModel.patchScrap(it) },
+        onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
+        onClickScrapButton = {scrapId ->
+            viewModel.updateScrapId(scrapId)
+            viewModel.updateScrapCancelDialogVisibility(true)
         },
-        onInternshipClicked = { scrapDetail ->
+        onClickInternship = { scrapDetail ->
             with(viewModel) {
                 updateInternDialogVisibility(true)
                 updateInternshipModel(scrapDetail)
@@ -111,8 +86,13 @@ private fun CalendarWeekScreen(
     uiState: CalendarWeekUiState,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
-    onScrapButtonClicked: (Long) -> Unit,
-    onInternshipClicked: (CalendarScrapDetail) -> Unit,
+    onDismissCancelDialog: () -> Unit,
+    onDismissInternDialog: () -> Unit,
+    onClickChangeColor: (Color) -> Unit,
+    onClickScrapCancel: () -> Unit,
+    onClickInternship: (CalendarScrapDetail) -> Unit,
+    onClickScrapButton: (Long) -> Unit,
+    navigateToAnnouncement: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -147,11 +127,34 @@ private fun CalendarWeekScreen(
                 CalendarWeekSuccess(
                     scrapList = uiState.loadState.data.toImmutableList(),
                     selectedDate = uiState.selectedDate,
-                    onScrapButtonClicked = onScrapButtonClicked,
-                    onInternshipClicked = onInternshipClicked
+                    onScrapButtonClicked = onClickScrapButton,
+                    onInternshipClicked = onClickInternship
                 )
             }
         }
+    }
+
+    if (uiState.scrapDialogVisibility) {
+        CalendarCancelDialog(
+            onDismissRequest = onDismissCancelDialog,
+            onClickScrapCancel = {
+                onClickScrapCancel()
+                onDismissCancelDialog()
+            }
+        )
+    }
+
+    if (uiState.internDialogVisibility) {
+        CalendarDetailDialog(
+            deadline = uiState.selectedDate.getFullDateStringInKorean(),
+            scrapDetailModel = uiState.internshipModel,
+            onDismissRequest = onDismissInternDialog,
+            onClickChangeColorButton = onClickChangeColor,
+            onClickNavigateButton = { announcementId ->
+                navigateToAnnouncement(announcementId)
+                onDismissInternDialog()
+            }
+        )
     }
 }
 
