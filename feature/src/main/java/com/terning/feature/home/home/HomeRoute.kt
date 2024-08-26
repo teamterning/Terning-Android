@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +22,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -37,8 +37,8 @@ import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.dialog.ScrapCancelDialogContent
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
+import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
-import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.CalBlue1
 import com.terning.core.designsystem.theme.CalBlue2
@@ -167,94 +167,92 @@ fun HomeScreen(
         )
     }
 
-    Scaffold(
-        modifier = Modifier,
-        topBar = {
-            LogoTopAppBar()
-        }
-    ) { paddingValues ->
-        Column(
+    Column(
+        horizontalAlignment = Alignment.Start,
+    ) {
+        TerningImage(
+            painter = R.drawable.ic_terning_logo_typo,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding()),
+                .padding(start = 24.dp, top = 16.dp, bottom = 16.dp)
+        )
+
+        LazyColumn(
+            contentPadding = PaddingValues(
+                top = 2.dp,
+                bottom = 20.dp,
+            ),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier
+                .fillMaxWidth(),
         ) {
-            LazyColumn(
-                contentPadding = PaddingValues(
-                    top = 2.dp,
-                    bottom = 20.dp,
-                ),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                item {
-                    Column(
-                        modifier = Modifier
-                            .padding(bottom = 16.dp)
-                    ) {
-                        ShowMainTitleWithName(homeUserName)
-                        ShowTodayIntern(
-                            homeTodayInternState = homeTodayInternState,
-                            homeDialogState = homeDialogState,
-                            navigateToIntern = { navigateToIntern(it) }
-                        )
-                    }
-                }
-                stickyHeader {
-                    Column(
-                        modifier = Modifier
-                            .background(White)
-                    ) {
-                        ShowRecommendTitle()
-                        ShowInternFilter(homeFilteringInfo = homeFilteringInfo, onChangeFilterClick)
-
-                        HorizontalDivider(
-                            thickness = 4.dp,
-                            color = Grey150,
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                        )
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End,
-                        ) {
-                            SortingButton(
-                                sortBy = currentSortBy.value,
-                                onCLick = { sheetState = true },
-                                modifier = Modifier
-                                    .padding(vertical = 4.dp)
-                            )
-                            Spacer(
-                                modifier = Modifier.padding(9.dp)
-                            )
-                        }
-                    }
-                }
-
-                if (homeRecommendInternList.isNotEmpty()) {
-                    items(homeRecommendInternList.size) { index ->
-                        RecommendInternItem(
-                            navigateToIntern = navigateToIntern,
-                            intern = homeRecommendInternList[index],
-                            onScrapButtonClicked = {
-                                viewModel.updateScrapDialogVisible(true)
-                                viewModel.updateIsToday(false)
-                                scrapId = index
-                            }
-                        )
-                    }
-                }
-            }
-
-            if (homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
-                HomeFilteringEmptyIntern(
+            item {
+                Column(
                     modifier = Modifier
-                        .padding(horizontal = 24.dp)
-                        .fillMaxSize()
-                )
-            } else if (homeRecommendInternList.isEmpty()) {
-                HomeRecommendEmptyIntern()
+                        .padding(bottom = 16.dp)
+                ) {
+                    ShowMainTitleWithName(homeUserName)
+                    ShowTodayIntern(
+                        homeTodayInternState = homeTodayInternState,
+                        homeDialogState = homeDialogState,
+                        navigateToIntern = { navigateToIntern(it) }
+                    )
+                }
             }
+            stickyHeader {
+                Column(
+                    modifier = Modifier
+                        .background(White)
+                ) {
+                    ShowRecommendTitle()
+                    ShowInternFilter(homeFilteringInfo = homeFilteringInfo, onChangeFilterClick)
+
+                    HorizontalDivider(
+                        thickness = 4.dp,
+                        color = Grey150,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                    )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                    ) {
+                        SortingButton(
+                            sortBy = currentSortBy.value,
+                            onCLick = { sheetState = true },
+                            modifier = Modifier
+                                .padding(vertical = 4.dp)
+                        )
+                        Spacer(
+                            modifier = Modifier.padding(9.dp)
+                        )
+                    }
+                }
+            }
+
+            if (homeRecommendInternList.isNotEmpty()) {
+                items(homeRecommendInternList.size) { index ->
+                    RecommendInternItem(
+                        navigateToIntern = navigateToIntern,
+                        intern = homeRecommendInternList[index],
+                        onScrapButtonClicked = {
+                            viewModel.updateScrapDialogVisible(true)
+                            viewModel.updateIsToday(false)
+                            scrapId = index
+                        }
+                    )
+                }
+            }
+        }
+        if (homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
+            HomeFilteringEmptyIntern(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .fillMaxSize()
+            )
+        } else if (homeRecommendInternList.isEmpty()) {
+            HomeRecommendEmptyIntern()
         }
     }
 
