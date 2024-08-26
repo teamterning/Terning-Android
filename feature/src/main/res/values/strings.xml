@@ -136,7 +136,6 @@
     <string name="intern_scrap_delete_toast_message">관심 공고가 캘린더에서 사라졌어요!</string>
 
     <!--MyPage-->
-    <string name="my_page_name">%s님</string>
     <string name="my_page_notice">약관 및 정책</string>
     <string name="my_page_opinion">의견 보내기</string>
     <string name="my_page_version">버전정보</string>

@@ -33,6 +33,7 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
 import com.terning.feature.R
 import com.terning.feature.mypage.component.MyPageItem
+import com.terning.feature.mypage.component.MyPageProfile
 
 @Composable
 fun MyPageRoute(
@@ -162,17 +163,25 @@ fun MyPageScreen(
 
 @Composable
 fun UserProfile(
-    name: String,
-    modifier: Modifier = Modifier
+    name: String = "남지우",
+    modifier: Modifier = Modifier,
+    profile: String = "PROFILE_00",
 ) {
-    Text(
-        text = stringResource(id = R.string.my_page_name, name),
-        modifier = Modifier.padding(
-            top = 21.dp,
-            start = 24.dp,
-        ),
-        style = TerningTheme.typography.heading1,
-    )
+    Row(
+        modifier = modifier
+    ) {
+        MyPageProfile(
+            profile = profile
+        )
+        Column(
+            modifier = Modifier
+        ) {
+            Text(
+                text = name,
+                style = TerningTheme.typography.title1,
+            )
+        }
+    }
 }
 
 @Composable
