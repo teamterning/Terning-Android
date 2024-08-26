@@ -91,7 +91,6 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
     val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = true) {
@@ -109,16 +108,7 @@ fun HomeRoute(
             }
     }
 
-    val homeUserName = when (homeState.homeUserNameState) {
-        is UiState.Success -> (homeState.homeUserNameState as UiState.Success<String>).data
-        else -> ""
-    }
-
     HomeScreen(
-        homeUserName = homeUserName,
-        homeFilteringInfoState = homeState.homeFilteringInfoState,
-        homeTodayInternState = homeState.homeTodayInternState,
-        homeRecommendInternState = homeState.homeRecommendInternState,
         homeDialogState = homeDialogState,
         onChangeFilterClick = { navController.navigateChangeFilter() },
         navigateToIntern = { navController.navigateIntern(announcementId = it) },
@@ -129,22 +119,25 @@ fun HomeRoute(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
-    homeUserName: String,
-    homeFilteringInfoState: UiState<HomeFilteringInfo>,
-    homeTodayInternState: UiState<List<HomeTodayIntern>>,
-    homeRecommendInternState: UiState<List<HomeRecommendIntern>>,
     homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
     navigateToIntern: (Long) -> Unit,
     viewModel: HomeViewModel,
 ) {
-    val homeFilteringInfo = when (homeFilteringInfoState) {
-        is UiState.Success -> homeFilteringInfoState.data
+    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
+
+    val homeUserName = when (homeState.homeUserNameState) {
+        is UiState.Success -> (homeState.homeUserNameState as UiState.Success<String>).data
+        else -> ""
+    }
+
+    val homeFilteringInfo = when (homeState.homeFilteringInfoState) {
+        is UiState.Success -> (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfo>).data
         else -> HomeFilteringInfo(null, null, null, null)
     }
 
-    val homeRecommendInternList = when (homeRecommendInternState) {
-        is UiState.Success -> homeRecommendInternState.data
+    val homeRecommendInternList = when (homeState.homeRecommendInternState) {
+        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<List<HomeRecommendIntern>>).data
         else -> listOf()
     }
 
@@ -192,7 +185,7 @@ fun HomeScreen(
                 ) {
                     ShowMainTitleWithName(homeUserName)
                     ShowTodayIntern(
-                        homeTodayInternState = homeTodayInternState,
+                        homeTodayInternState = homeState.homeTodayInternState,
                         homeDialogState = homeDialogState,
                         navigateToIntern = { navigateToIntern(it) }
                     )
@@ -245,7 +238,7 @@ fun HomeScreen(
                 }
             }
         }
-        if (homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
+        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
             HomeFilteringEmptyIntern(
                 modifier = Modifier
                     .padding(horizontal = 24.dp)
