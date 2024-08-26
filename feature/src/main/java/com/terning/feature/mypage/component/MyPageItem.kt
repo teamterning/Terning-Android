@@ -19,10 +19,10 @@ import com.terning.feature.R
 
 @Composable
 fun MyPageItem(
-    modifier: Modifier = Modifier,
     text: String,
-    version: String = "",
     icon: Int,
+    modifier: Modifier = Modifier,
+    version: String = "",
     onButtonClick: () -> Unit = {}
 ) {
     Row(

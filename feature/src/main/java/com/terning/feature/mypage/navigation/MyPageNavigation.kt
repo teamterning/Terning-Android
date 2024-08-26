@@ -35,7 +35,7 @@ fun NavGraphBuilder.myPageNavGraph(
             ExitTransition.None
         }
     ) {
-        MyPageRoute(navController = navHostController)
+        MyPageRoute()
     }
 }
 

@@ -8,7 +8,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
+import com.terning.feature.intern.navigation.navigateIntern
 import com.terning.feature.search.search.SearchRoute
+import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateSearch(navOptions: NavOptions? = null) {
@@ -36,7 +38,8 @@ fun NavGraphBuilder.searchNavGraph(
         }
     ) {
         SearchRoute(
-            navController = navHostController
+            navigateToSearchProcess = { navHostController.navigateSearchProcess() },
+            navigateToIntern = { announcementId -> navHostController.navigateIntern(announcementId) }
         )
     }
 }
