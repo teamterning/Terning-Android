@@ -26,6 +26,7 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.domain.entity.home.HomeFilteringInfo
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.component.ChangeFilteringRadioGroup

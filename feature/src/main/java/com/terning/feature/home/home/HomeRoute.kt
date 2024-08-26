@@ -56,6 +56,9 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.domain.entity.home.HomeFilteringInfo
+import com.terning.domain.entity.home.HomeRecommendIntern
+import com.terning.domain.entity.home.HomeTodayIntern
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
@@ -127,9 +130,9 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     homeUserName: String,
-    homeFilteringInfoState: UiState<HomeFilteringInfoModel>,
-    homeTodayInternState: UiState<List<HomeTodayInternModel>>,
-    homeRecommendInternState: UiState<List<HomeRecommendInternModel>>,
+    homeFilteringInfoState: UiState<HomeFilteringInfo>,
+    homeTodayInternState: UiState<List<HomeTodayIntern>>,
+    homeRecommendInternState: UiState<List<HomeRecommendIntern>>,
     homeDialogState: HomeDialogState,
     onChangeFilterClick: () -> Unit,
     navigateToIntern: (Long) -> Unit,
@@ -137,7 +140,7 @@ fun HomeScreen(
 ) {
     val homeFilteringInfo = when (homeFilteringInfoState) {
         is UiState.Success -> homeFilteringInfoState.data
-        else -> HomeFilteringInfoModel(null, null, null, null)
+        else -> HomeFilteringInfo(null, null, null, null)
     }
 
     val homeRecommendInternList = when (homeRecommendInternState) {
@@ -340,7 +343,7 @@ fun HomeScreen(
 
 @Composable
 private fun RecommendInternItem(
-    intern: HomeRecommendInternModel,
+    intern: HomeRecommendIntern,
     navigateToIntern: (Long) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,
 ) {
