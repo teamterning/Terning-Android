@@ -66,7 +66,7 @@ lottieVersion = "6.0.0"
 accompanistSystemuicontroller = "0.28.0"
 coreSplashscreen = "1.0.1"
 
-# ui
+# UI
 uiTooling = "1.6.8"
 
 ## Test
@@ -120,9 +120,6 @@ compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compil
 
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
@@ -174,7 +171,6 @@ kakao-user = {group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoVer
 
 process-phoenix = {group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix"}
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

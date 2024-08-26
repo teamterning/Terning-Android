@@ -96,7 +96,7 @@ dependencies {
     implementation (libs.androidx.browser)
 
     // Compose Preview
-    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling)
 
     // KakaoDependencies
     implementation(libs.kakao.user)
