@@ -41,7 +41,7 @@ fun MyPageItem(
             TerningImage(
                 painter = icon,
                 modifier = modifier
-                    .padding(start = 11.dp)
+                    .padding(start = 16.dp)
                     .size(28.dp)
             )
             Text(
@@ -58,7 +58,7 @@ fun MyPageItem(
             )
         else TerningImage(
             painter = R.drawable.ic_my_page_go,
-            modifier = modifier.padding(end = 11.dp)
+            modifier = modifier.padding(end = 9.dp)
         )
     }
 }
