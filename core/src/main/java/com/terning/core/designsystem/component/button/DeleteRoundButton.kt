@@ -1,7 +1,6 @@
 package com.terning.core.designsystem.component.button
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,9 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
+import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
 
 /**
@@ -55,12 +54,11 @@ fun DeleteRoundButton(
             interactionSource = interactionSource,
             enabled = isEnabled,
             colors = ButtonDefaults.buttonColors(
-                containerColor = White,
+                containerColor = Grey150,
                 contentColor = Grey400,
             ),
             shape = RoundedCornerShape(cornerRadius),
             onClick = { onButtonClick() },
-            border = BorderStroke(width = 1.dp, color = Grey400)
         ) {
             Text(
                 text = stringResource(id = text),
