@@ -1,20 +1,20 @@
 package com.terning.domain.repository
 
+import com.terning.domain.entity.home.HomeFilteringInfo
+import com.terning.domain.entity.home.HomeRecommendIntern
+import com.terning.domain.entity.home.HomeTodayIntern
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
-import com.terning.domain.entity.response.HomeFilteringInfoModel
-import com.terning.domain.entity.response.HomeRecommendInternModel
-import com.terning.domain.entity.response.HomeTodayInternModel
 
 interface HomeRepository {
-    suspend fun getHomeTodayInternList(): Result<List<HomeTodayInternModel>>
+    suspend fun getHomeTodayInternList(): Result<List<HomeTodayIntern>>
 
     suspend fun getRecommendIntern(
         sortBy: String,
         startYear: Int,
         startMonth: Int
-    ): Result<List<HomeRecommendInternModel>>
+    ): Result<List<HomeRecommendIntern>>
 
-    suspend fun getFilteringInfo(): Result<HomeFilteringInfoModel>
+    suspend fun getFilteringInfo(): Result<HomeFilteringInfo>
 
     suspend fun putFilteringInfo(
         putFilteringRequest: ChangeFilteringRequestModel,

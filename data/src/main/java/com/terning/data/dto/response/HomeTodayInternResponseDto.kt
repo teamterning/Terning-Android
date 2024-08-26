@@ -1,6 +1,5 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.HomeTodayInternModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -25,17 +24,4 @@ data class HomeTodayInternResponseDto(
     @SerialName("startYearMonth")
     val startYearMonth: String,
 
-) {
-    fun toHomeTodayInternList(): HomeTodayInternModel =
-        HomeTodayInternModel(
-            scrapId = this.scrapId,
-            internshipAnnouncementId = this.internshipAnnouncementId,
-            companyImage = this.companyImage,
-            title = this.title,
-            dDay = this.dDay,
-            deadline = this.deadline,
-            workingPeriod = this.workingPeriod,
-            startYearMonth = this.startYearMonth,
-            color = this.color,
-        )
-}
+)
