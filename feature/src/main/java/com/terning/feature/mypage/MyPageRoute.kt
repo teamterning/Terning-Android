@@ -3,12 +3,16 @@ package com.terning.feature.mypage
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +32,9 @@ import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomShe
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.Back
+import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -46,7 +52,8 @@ fun MyPageRoute(
     val context = LocalContext.current
 
     var name by remember { mutableStateOf(state.name) }
-    var authType by remember { mutableStateOf(state.authType) }
+    // TODO: 프로필로 바꾸기
+    var profile by remember { mutableStateOf(state.authType) }
 
     val systemUiController = rememberSystemUiController()
 
@@ -87,7 +94,8 @@ fun MyPageRoute(
     when (state.isGetSuccess) {
         is UiState.Success -> {
             name = state.name
-            authType = state.authType
+            // TODO: 프로필로 바꾸기
+            profile = state.authType
         }
 
         is UiState.Loading -> {}
@@ -108,10 +116,11 @@ fun MyPageRoute(
     MyPageScreen(
         onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
         onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
-        name = name,
-        authType = authType,
         onNoticeClick = { viewModel.fetchShowNotice(true) },
-        onOpinionClick = { viewModel.fetchShowOpinion(true) }
+        onOpinionClick = { viewModel.fetchShowOpinion(true) },
+        onEditClick = { /*TODO: 프로필 수정으로 이동*/ },
+        name = name,
+        profile = profile
     )
 }
 
@@ -121,9 +130,10 @@ fun MyPageScreen(
     onQuitClick: () -> Unit,
     onNoticeClick: () -> Unit,
     onOpinionClick: () -> Unit,
+    onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
     name: String = "",
-    authType: String = "",
+    profile: String = ""
 ) {
     Column(
         modifier = modifier
@@ -132,6 +142,8 @@ fun MyPageScreen(
     ) {
         UserProfile(
             name = name,
+            profile = profile,
+            onEditClick = { onEditClick() }
         )
         TerningCommunity(
             onNoticeClick = { onNoticeClick() },
@@ -143,6 +155,7 @@ fun MyPageScreen(
         )
         Row(
             modifier = Modifier
+                .height(IntrinsicSize.Min)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -156,9 +169,14 @@ fun MyPageScreen(
                     }
                     .padding(end = 10.dp)
             )
-            TerningImage(
-                painter = R.drawable.ic_my_page_divider,
-                modifier = Modifier.padding(end = 10.dp)
+            VerticalDivider(
+                thickness = 1.dp,
+                color = Grey350,
+                modifier = Modifier.padding(
+                    end = 10.dp,
+                    top = 1.dp,
+                    bottom = 1.dp
+                )
             )
             Text(
                 text = stringResource(id = R.string.my_page_quit),
@@ -175,6 +193,7 @@ fun MyPageScreen(
 @Composable
 fun UserProfile(
     name: String,
+    onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
     profile: String = "PROFILE_00",
 ) {
@@ -196,7 +215,10 @@ fun UserProfile(
                     bottom = 7.dp
                 )
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.noRippleClickable {
+                    onEditClick()
+                }) {
                 Text(
                     text = stringResource(id = R.string.my_page_edit_profile),
                     modifier = Modifier.padding(start = 16.dp, end = 7.dp),
@@ -230,24 +252,39 @@ fun TerningCommunity(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 20.dp)
+                .padding(
+                    top = 16.dp,
+                    bottom = 20.dp,
+                    start = 16.dp,
+                    end = 9.dp
+                )
         ) {
+            Text(
+                text = stringResource(id = R.string.my_page_terning_community),
+                style = TerningTheme.typography.body6,
+                color = Grey400,
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_notice),
-                modifier = Modifier.padding(bottom = 6.dp),
+                text = stringResource(id = R.string.my_page_information),
                 icon = R.drawable.ic_my_page_notice,
                 onButtonClick = { onNoticeClick() }
             )
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp),
+                thickness = 1.dp,
+                color = Grey150
+            )
             MyPageItem(
                 text = stringResource(id = R.string.my_page_opinion),
-                modifier = Modifier.padding(bottom = 6.dp),
                 icon = R.drawable.ic_my_page_opinion,
                 onButtonClick = { onOpinionClick() }
             )
         }
     }
 }
-
 
 @Composable
 fun ServiceInfo(
@@ -270,19 +307,42 @@ fun ServiceInfo(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 20.dp)
+                .padding(
+                    top = 16.dp,
+                    bottom = 20.dp,
+                    start = 16.dp,
+                    end = 9.dp
+                )
         ) {
+            Text(
+                text = stringResource(id = R.string.my_page_service_info),
+                style = TerningTheme.typography.body6,
+                color = Grey400,
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
             MyPageItem(
                 text = stringResource(id = R.string.my_page_notice),
-                modifier = Modifier.padding(bottom = 6.dp),
                 icon = R.drawable.ic_my_page_notice,
                 onButtonClick = { onNoticeClick() }
             )
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp),
+                thickness = 1.dp,
+                color = Grey150
+            )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_opinion),
-                modifier = Modifier.padding(bottom = 6.dp),
+                text = stringResource(id = R.string.my_page_private_information),
                 icon = R.drawable.ic_my_page_opinion,
                 onButtonClick = { onOpinionClick() }
+            )
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp),
+                thickness = 1.dp,
+                color = Grey150
             )
             MyPageItem(
                 text = stringResource(id = R.string.my_page_version),
@@ -304,7 +364,8 @@ fun MyPageScreenPreview() {
             onNoticeClick = {},
             onOpinionClick = {},
             onLogoutClick = {},
-            onQuitClick = {}
+            onQuitClick = {},
+            onEditClick = {}
         )
     }
 }

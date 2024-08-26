@@ -40,9 +40,7 @@ fun MyPageItem(
         ) {
             TerningImage(
                 painter = icon,
-                modifier = modifier
-                    .padding(start = 16.dp)
-                    .size(28.dp)
+                modifier = modifier.size(28.dp)
             )
             Text(
                 text = text,
@@ -56,10 +54,7 @@ fun MyPageItem(
                 modifier = modifier.padding(end = 16.dp),
                 style = TerningTheme.typography.button4
             )
-        else TerningImage(
-            painter = R.drawable.ic_my_page_go_detail,
-            modifier = modifier.padding(end = 9.dp)
-        )
+        else TerningImage(painter = R.drawable.ic_my_page_go_detail)
     }
 }
 
