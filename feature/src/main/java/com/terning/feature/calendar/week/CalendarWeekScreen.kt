@@ -44,10 +44,10 @@ import java.time.LocalDate
 
 @Composable
 fun CalendarWeekRoute(
-    modifier: Modifier = Modifier,
     calendarUiState: CalendarUiState,
     navigateToAnnouncement: (Long) -> Unit,
     updateSelectedDate: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: CalendarWeekViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
