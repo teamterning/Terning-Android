@@ -174,8 +174,8 @@ fun MyPageScreen(
                 color = Grey350,
                 modifier = Modifier.padding(
                     end = 10.dp,
-                    top = 1.dp,
-                    bottom = 1.dp
+                    top = 2.dp,
+                    bottom = 2.dp
                 )
             )
             Text(
@@ -222,7 +222,8 @@ fun UserProfile(
                 Text(
                     text = stringResource(id = R.string.my_page_edit_profile),
                     modifier = Modifier.padding(start = 16.dp, end = 7.dp),
-                    style = TerningTheme.typography.button3
+                    style = TerningTheme.typography.button3,
+                    color = Grey400
                 )
                 TerningImage(painter = R.drawable.ic_my_page_go_edit)
             }
