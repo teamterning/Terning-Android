@@ -9,7 +9,7 @@ import com.terning.domain.repository.InternRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.intern.model.InternScrapState
-import com.terning.feature.intern.model.InternViewState
+import com.terning.feature.intern.model.InternState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,9 +25,9 @@ class InternViewModel @Inject constructor(
     private val internRepository: InternRepository,
     private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
-    private val _internState: MutableStateFlow<InternViewState> =
-        MutableStateFlow(InternViewState())
-    val internState: StateFlow<InternViewState> = _internState.asStateFlow()
+    private val _internState: MutableStateFlow<InternState> =
+        MutableStateFlow(InternState())
+    val state: StateFlow<InternState> = _internState.asStateFlow()
 
     private val _scrapState: MutableStateFlow<InternScrapState> =
         MutableStateFlow(InternScrapState())
@@ -40,9 +40,6 @@ class InternViewModel @Inject constructor(
             internRepository.getInternInfo(
                 id
             ).onSuccess { internInfo ->
-                _internState.update {
-                    it.copy(internInfo = UiState.Success(internInfo))
-                }
             }.onFailure {
                 _sideEffect.emit(
                     InternViewSideEffect.Toast(R.string.server_failure)

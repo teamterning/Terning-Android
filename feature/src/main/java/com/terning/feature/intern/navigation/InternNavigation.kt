@@ -4,7 +4,6 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
@@ -22,9 +21,7 @@ fun NavController.navigateIntern(
     )
 }
 
-fun NavGraphBuilder.internNavGraph(
-    navHostController: NavHostController,
-) {
+fun NavGraphBuilder.internNavGraph() {
     composable<Intern>(
         exitTransition = {
             ExitTransition.None
@@ -41,7 +38,6 @@ fun NavGraphBuilder.internNavGraph(
     ) {
         val args = it.toRoute<Intern>()
         InternRoute(
-            navController = navHostController,
             announcementId = args.announcementId,
         )
     }

@@ -21,43 +21,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
-import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternInfoModel
 import com.terning.feature.R
 import com.terning.feature.intern.component.InternBottomBar
-import com.terning.feature.intern.component.InternCancelDialog
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
-import com.terning.feature.intern.component.ScrapDialogContent
+import com.terning.feature.intern.model.InternState
 import java.text.DecimalFormat
 
 @Composable
 fun InternRoute(
-    navController: NavHostController,
     announcementId: Long = 0,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
+    val internState by viewModel.state.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
-    val state by viewModel.internState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)
@@ -72,39 +69,27 @@ fun InternRoute(
             }
     }
 
-    when (state.internInfo) {
-        is UiState.Loading -> {}
-        is UiState.Empty -> {}
-        is UiState.Failure -> {}
-        is UiState.Success -> {
-            InternScreen(
-                navController = navController,
-                internInfoModel = (state.internInfo as UiState.Success<InternInfoModel>).data,
-                announcementId = announcementId
-            )
-        }
-    }
+    InternScreen(
+        internState = internState
+    )
 }
 
 @Composable
 fun InternScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
-    internInfoModel: InternInfoModel,
-    announcementId: Long,
+    internState: InternState,
 ) {
-    val internState by viewModel.internState.collectAsStateWithLifecycle()
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
-        stringResource(id = R.string.intern_info_d_day) to internInfoModel.deadline,
-        stringResource(id = R.string.intern_info_working) to internInfoModel.workingPeriod,
-        stringResource(id = R.string.intern_info_start_date) to internInfoModel.startDate,
+        stringResource(id = R.string.intern_info_d_day) to internState.deadline,
+        stringResource(id = R.string.intern_info_working) to internState.workingPeriod,
+        stringResource(id = R.string.intern_info_start_date) to internState.startDate,
     )
 
-    val qualificationList = internInfoModel.qualification.split(",").map { it.trim() }
-    val jobTypeList = internInfoModel.jobType.split(",").map { it.trim() }
+    val qualificationList = internState.qualification.split(",").map { it.trim() }
+    val jobTypeList = internState.jobType.split(",").map { it.trim() }
 
     if (internState.showWeb) {
         AndroidView(
@@ -114,7 +99,7 @@ fun InternScreen(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT,
                     )
-                    loadUrl(internInfoModel.url)
+                    loadUrl(internState.url)
                 }
             },
         )
@@ -130,15 +115,14 @@ fun InternScreen(
                     offsetY = 2.dp
                 ),
                 onBackButtonClick = {
-                    navController.navigateUp()
                 },
             )
         },
         bottomBar = {
             InternBottomBar(
                 modifier = modifier,
-                scrapCount = decimal.format(internInfoModel.scrapCount),
-                scrapId = internInfoModel.scrapId,
+                scrapCount = decimal.format(internState.scrapCount),
+                scrapId = internState.scrapId,
                 onScrapClick = {
                     viewModel.updateScrapDialogVisible(true)
                 }
@@ -171,7 +155,7 @@ fun InternScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = internInfoModel.dDay,
+                            text = internState.dDay,
                             style = TerningTheme.typography.title5,
                             color = TerningMain,
                             modifier = Modifier.padding(
@@ -182,7 +166,7 @@ fun InternScreen(
                     }
 
                     Text(
-                        text = internInfoModel.title,
+                        text = internState.title,
                         style = TerningTheme.typography.title2,
                         color = Black,
                         modifier = modifier.padding(
@@ -225,7 +209,7 @@ fun InternScreen(
                             color = Grey400
                         )
                         Text(
-                            text = "${decimal.format(internInfoModel.viewCount)}회",
+                            text = "${decimal.format(internState.viewCount)}회",
                             style = TerningTheme.typography.button4,
                             color = Grey400,
                         )
@@ -241,9 +225,9 @@ fun InternScreen(
                     )
                     InternCompanyInfo(
                         modifier = modifier,
-                        companyImage = internInfoModel.companyImage,
-                        company = internInfoModel.company,
-                        companyCategory = internInfoModel.companyCategory
+                        companyImage = internState.companyImage,
+                        company = internState.company,
+                        companyCategory = internState.companyCategory
                     )
                     InternPageTitle(
                         modifier = modifier,
@@ -360,7 +344,7 @@ fun InternScreen(
                         )
                     ) {
                         Text(
-                            text = internInfoModel.detail.trimIndent(),
+                            text = internState.detail.trimIndent(),
                             style = TerningTheme.typography.detail1,
                             color = Grey400
                         )
@@ -373,29 +357,18 @@ fun InternScreen(
                 onDismissRequest = {
                     viewModel.updateScrapDialogVisible(false)
                 },
-                content = {
-                    when (internInfoModel.scrapId != null) {
-                        true -> InternCancelDialog(
-                            onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
-                            onClickScrapCancel = {
-                                viewModel.deleteScrap(
-                                    internInfoModel.scrapId,
-                                    announcementId
-                                )
-                            }
-                        )
-
-                        else -> ScrapDialogContent(
-                            internInfoList = internInfoList,
-                            dDay = internInfoModel.dDay,
-                            title = internInfoModel.title,
-                            companyImage = internInfoModel.companyImage,
-                            announcementId = announcementId,
-                            type = 0
-                        )
-                    }
-                },
+                content = {},
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InternScreenPreview() {
+    TerningPointTheme {
+        InternScreen(
+            internState = InternState(),
+        )
     }
 }

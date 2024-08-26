@@ -77,7 +77,7 @@ fun MainScreen(
                 changeFilterNavGraph(navHostController = navigator.navController)
                 startFilteringNavGraph(navHostController = navigator.navController)
                 startHomeNavGraph(navHostController = navigator.navController)
-                internNavGraph(navHostController = navigator.navController)
+                internNavGraph()
             }
         }
     }
