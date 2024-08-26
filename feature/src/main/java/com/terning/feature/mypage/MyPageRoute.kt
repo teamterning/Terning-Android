@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
@@ -45,6 +47,14 @@ fun MyPageRoute(
 
     var name by remember { mutableStateOf(state.name) }
     var authType by remember { mutableStateOf(state.authType) }
+
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = Back
+        )
+    }
 
     if (state.showLogoutBottomSheet) {
         MyPageLogoutBottomSheet(
