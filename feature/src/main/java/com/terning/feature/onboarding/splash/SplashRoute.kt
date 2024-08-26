@@ -7,22 +7,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.feature.R
-import com.terning.feature.home.home.navigation.navigateHome
-import com.terning.feature.onboarding.signin.navigation.navigateSignIn
-import com.terning.feature.onboarding.splash.navigation.Splash
 
 @Composable
 fun SplashRoute(
-    navController: NavController,
+    navigateToHome: () -> Unit,
+    navigateToSignIn: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
@@ -47,18 +45,8 @@ fun SplashRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SplashState.HasAccessToken -> {
-                        if (sideEffect.hasAccessToken) navController.navigateHome(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash,
-                                inclusive = true
-                            ).build()
-                        )
-                        else navController.navigateSignIn(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash,
-                                inclusive = true
-                            ).build()
-                        )
+                        if (sideEffect.hasAccessToken) navigateToHome()
+                        else navigateToSignIn()
                     }
                 }
             }
@@ -80,5 +68,13 @@ fun SplashScreen(
             painter = R.drawable.ic_splash,
             modifier = Modifier.fillMaxSize()
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SplashScreenPreview() {
+    TerningPointTheme {
+        SplashScreen()
     }
 }

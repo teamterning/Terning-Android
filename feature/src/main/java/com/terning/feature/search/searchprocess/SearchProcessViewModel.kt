@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.domain.entity.CalendarScrapRequest
-import com.terning.domain.entity.response.SearchResultModel
+import com.terning.domain.entity.search.SearchResult
 import com.terning.domain.repository.ScrapRepository
 import com.terning.domain.repository.SearchRepository
 import com.terning.feature.R
@@ -37,8 +37,8 @@ class SearchProcessViewModel @Inject constructor(
         MutableStateFlow(SearchResultState())
     val searchListState: StateFlow<SearchResultState> = _searchListState.asStateFlow()
 
-    private val _internSearchResultData = MutableStateFlow<List<SearchResultModel>>(emptyList())
-    val internSearchResultData: StateFlow<List<SearchResultModel>> =
+    private val _internSearchResultData = MutableStateFlow<List<SearchResult>>(emptyList())
+    val internSearchResultData: StateFlow<List<SearchResult>> =
         _internSearchResultData.asStateFlow()
 
     private val _dialogState: MutableStateFlow<SearchDialogState> =

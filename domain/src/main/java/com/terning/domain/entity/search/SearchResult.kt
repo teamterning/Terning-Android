@@ -1,6 +1,6 @@
-package com.terning.domain.entity.response
+package com.terning.domain.entity.search
 
-data class SearchResultModel(
+data class SearchResult(
     val internshipAnnouncementId: Long,
     val title: String,
     val dDay: String,

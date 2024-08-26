@@ -44,7 +44,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun StartHomeScreen(
     modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController()
+    navigateToHome: () -> Unit
 ) {
     var isVisible by remember { mutableStateOf(false) }
 
@@ -87,12 +87,7 @@ fun StartHomeScreen(
                     paddingVertical = 20.dp,
                     text = R.string.start_home_next_button,
                     onButtonClick = {
-                        navController.navigateHome(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = SignIn,
-                                inclusive = true
-                            ).build()
-                        )
+                        navigateToHome()
                     },
                 )
             }
@@ -126,6 +121,8 @@ fun StartHomeLottieAnimation(
 @Composable
 fun StartHomeScreenPreview() {
     TerningPointTheme {
-        StartHomeScreen()
+        StartHomeScreen(
+            navigateToHome = {}
+        )
     }
 }
