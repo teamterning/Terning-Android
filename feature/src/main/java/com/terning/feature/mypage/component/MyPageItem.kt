@@ -28,7 +28,6 @@ fun MyPageItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 5.dp)
             .noRippleClickable {
                 onButtonClick()
             },
