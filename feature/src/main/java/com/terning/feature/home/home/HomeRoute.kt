@@ -56,9 +56,6 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.HomeFilteringInfoModel
-import com.terning.domain.entity.response.HomeRecommendInternModel
-import com.terning.domain.entity.response.HomeTodayInternModel
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
@@ -331,7 +328,7 @@ fun HomeScreen(
                                     viewModel.updateScrapped(false)
                                 }
                             },
-                            homeRecommendInternModel = this,
+                            homeRecommendIntern = this,
                         )
                     }
                 }
@@ -382,7 +379,7 @@ private fun ShowMainTitleWithName(userName: String) {
 
 @Composable
 private fun ShowTodayIntern(
-    homeTodayInternState: UiState<List<HomeTodayInternModel>>,
+    homeTodayInternState: UiState<List<HomeTodayIntern>>,
     homeDialogState: HomeDialogState,
     navigateToIntern: (Long) -> Unit,
 ) {
@@ -427,7 +424,7 @@ private fun ShowRecommendTitle() {
 
 @Composable
 private fun ShowInternFilter(
-    homeFilteringInfo: HomeFilteringInfoModel,
+    homeFilteringInfo: HomeFilteringInfo,
     onChangeFilterClick: () -> Unit,
 ) {
     if (homeFilteringInfo.grade == null) {
