@@ -57,7 +57,7 @@ fun MyPageItem(
                 style = TerningTheme.typography.button4
             )
         else TerningImage(
-            painter = R.drawable.ic_my_page_go,
+            painter = R.drawable.ic_my_page_go_detail,
             modifier = modifier.padding(end = 9.dp)
         )
     }

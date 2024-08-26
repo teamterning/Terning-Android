@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -163,23 +164,36 @@ fun MyPageScreen(
 
 @Composable
 fun UserProfile(
-    name: String = "남지우",
+    name: String,
     modifier: Modifier = Modifier,
     profile: String = "PROFILE_00",
 ) {
     Row(
-        modifier = modifier
-    ) {
-        MyPageProfile(
-            profile = profile
+        modifier = modifier.padding(
+            start = 24.dp,
+            top = 24.dp,
+            bottom = 32.dp
         )
-        Column(
-            modifier = Modifier
-        ) {
+    ) {
+        MyPageProfile(profile = profile)
+        Column {
             Text(
                 text = name,
                 style = TerningTheme.typography.title1,
+                modifier = Modifier.padding(
+                    top = 12.dp,
+                    start = 16.dp,
+                    bottom = 7.dp
+                )
             )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(id = R.string.my_page_edit_profile),
+                    modifier = Modifier.padding(start = 16.dp, end = 7.dp),
+                    style = TerningTheme.typography.button3
+                )
+                TerningImage(painter = R.drawable.ic_my_page_go_edit)
+            }
         }
     }
 }

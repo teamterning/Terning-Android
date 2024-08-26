@@ -1,16 +1,13 @@
 package com.terning.feature.mypage.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
+import com.terning.core.designsystem.component.image.TerningImage
 
 @Composable
 fun MyPageProfile(
@@ -35,12 +32,10 @@ fun MyPageProfile(
         else -> options[5]
     }
 
-    Image(
-        painter = painterResource(id = option),
-        contentDescription = stringResource(id = R.string.sign_up_bottom_sheet_description),
+    TerningImage(
+        painter = option,
         modifier = modifier
-            //.aspectRatio(1f)
-            .size(50.dp)
+            .size(72.dp)
             .clip(shape = CircleShape)
     )
 }
