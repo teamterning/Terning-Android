@@ -273,7 +273,6 @@ fun TerningCommunity(
             )
             HorizontalDivider(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
@@ -328,7 +327,6 @@ fun ServiceInfo(
             )
             HorizontalDivider(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
@@ -340,7 +338,6 @@ fun ServiceInfo(
             )
             HorizontalDivider(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
