@@ -24,14 +24,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.bottomsheet.SignUpBottomSheet
 import com.terning.core.designsystem.component.button.RectangleButton
+import com.terning.core.designsystem.component.item.ProfileWithPlusButton
 import com.terning.core.designsystem.component.textfield.NameTextField
+import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.onboarding.signup.component.SignUpProfile
 
 @Composable
 fun SignUpRoute(
@@ -115,14 +116,15 @@ fun SignUpScreen(
                 .padding(
                     start = 24.dp,
                     bottom = 20.dp
-                )
+                ),
+            color = Grey500
         )
         Column(
             modifier = modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 52.dp)
         ) {
-            SignUpProfile(
+            ProfileWithPlusButton(
                 modifier = modifier.noRippleClickable {
                     showBottomSheet = true
                 },

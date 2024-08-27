@@ -143,5 +143,8 @@
     <string name="my_page_logout">로그아웃</string>
     <string name="my_page_quit">탈퇴하기</string>
 
+    <!--ProfileEidt-->
+    <string name="profile_edit_title">프로필 수정</string>
+
     <!--Onboarding-->
 </resources>
