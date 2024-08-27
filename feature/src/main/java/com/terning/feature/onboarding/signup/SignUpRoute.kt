@@ -45,6 +45,8 @@ fun SignUpRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    var showBottomSheet by remember { mutableStateOf(false) }
+
     LaunchedEffect(key1 = true) {
         viewModel.fetchAuthId(authId)
     }
@@ -60,6 +62,17 @@ fun SignUpRoute(
             }
     }
 
+    if (showBottomSheet) {
+        SignUpBottomSheet(
+            onDismiss = { showBottomSheet = false },
+            onSaveClick = { index ->
+                showBottomSheet = false
+                viewModel.fetchCharacter(index)
+            },
+            initialSelectedOption = signUpState.character
+        )
+    }
+
     SignUpScreen(
         signUpState = signUpState,
         onSignUpClick = {
@@ -68,8 +81,8 @@ fun SignUpRoute(
         onInputChange = { name ->
             viewModel.isInputValid(name)
         },
-        onFetchCharacter = { index ->
-            viewModel.fetchCharacter(index)
+        onProfileEditClick = { isVisible ->
+            showBottomSheet = isVisible
         }
     )
 }
@@ -79,11 +92,10 @@ fun SignUpScreen(
     signUpState: SignUpState,
     onSignUpClick: () -> Unit,
     onInputChange: (String) -> Unit,
-    onFetchCharacter: (Int) -> Unit,
+    onProfileEditClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
-    var showBottomSheet by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -99,16 +111,6 @@ fun SignUpScreen(
                 start = 24.dp
             )
         )
-        if (showBottomSheet) {
-            SignUpBottomSheet(
-                onDismiss = { showBottomSheet = false },
-                onSaveClick = { index ->
-                    showBottomSheet = false
-                    onFetchCharacter(index)
-                },
-                initialSelectedOption = signUpState.character
-            )
-        }
         Text(
             text = stringResource(id = R.string.sign_up_profile_image),
             style = TerningTheme.typography.body2,
@@ -126,7 +128,7 @@ fun SignUpScreen(
         ) {
             ProfileWithPlusButton(
                 modifier = modifier.noRippleClickable {
-                    showBottomSheet = true
+                    onProfileEditClick(true)
                 },
                 index = signUpState.character
             )
@@ -172,7 +174,7 @@ fun SignUpScreenPreview() {
             signUpState = SignUpState(),
             onSignUpClick = {},
             onInputChange = {},
-            onFetchCharacter = {}
+            onProfileEditClick = {}
         )
     }
 }

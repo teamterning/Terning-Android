@@ -32,9 +32,9 @@ import com.terning.feature.R
 
 @Composable
 fun ProfileEditRoute(
+    navigateUp: () -> Unit,
     viewModel: ProfileEditViewModel = hiltViewModel(),
-    initialName: String = "남지우",
-    navigateUp: () -> Unit
+    initialName: String = "",
 ) {
     val profileEditState by viewModel.state.collectAsStateWithLifecycle()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -50,6 +50,7 @@ fun ProfileEditRoute(
             initialSelectedOption = profileEditState.character
         )
     }
+
     ProfileEditScreen(
         profileEditState = profileEditState,
         onProfileEditClick = { isVisible ->
@@ -67,15 +68,16 @@ fun ProfileEditRoute(
 
 @Composable
 fun ProfileEditScreen(
-    modifier: Modifier = Modifier,
     profileEditState: ProfileEditState,
     onProfileEditClick: (Boolean) -> Unit,
     onInputChange: (String) -> Unit,
     onSaveClick: () -> Unit,
     name: String,
-    onBackButtonClick: () -> Unit
+    onBackButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
+
     Column(
         modifier = modifier
             .fillMaxSize()

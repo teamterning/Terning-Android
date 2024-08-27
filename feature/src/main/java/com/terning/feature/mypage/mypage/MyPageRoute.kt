@@ -24,8 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
@@ -40,12 +38,9 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
 import com.terning.feature.R
 import com.terning.feature.mypage.mypage.component.MyPageItem
-import com.terning.feature.mypage.mypage.navigation.navigateMyPage
-import com.terning.feature.mypage.profileedit.navigation.navigateProfileEdit
 
 @Composable
 fun MyPageRoute(
-    navController: NavController,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -104,7 +99,7 @@ fun MyPageRoute(
     }
 
     MyPageScreen(
-        onLogoutClick = { navController.navigateProfileEdit() },
+        onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
         onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
         name = name,
         authType = authType,

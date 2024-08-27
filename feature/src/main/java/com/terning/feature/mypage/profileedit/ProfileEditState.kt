@@ -14,5 +14,5 @@ data class ProfileEditState(
     val helperIcon: Int? = null,
     val helperColor: Color = Grey400,
     val isButtonValid: Boolean = true,
-    val authType: String = "카카오 로그인"
+    val authType: String = ""
 )
