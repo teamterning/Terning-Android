@@ -33,11 +33,14 @@ import com.terning.feature.R
 @Composable
 fun ProfileEditRoute(
     viewModel: ProfileEditViewModel = hiltViewModel(),
+    initialName: String = "남지우",
+    navigateUp: () -> Unit
 ) {
     val profileEditState by viewModel.state.collectAsStateWithLifecycle()
     var showBottomSheet by remember { mutableStateOf(false) }
+    var name by remember { mutableStateOf(initialName) }
 
-    if (profileEditState.showBottomSheet) {
+    if (showBottomSheet) {
         SignUpBottomSheet(
             onDismiss = { showBottomSheet = false },
             onSaveClick = { index ->
@@ -50,12 +53,15 @@ fun ProfileEditRoute(
     ProfileEditScreen(
         profileEditState = profileEditState,
         onProfileEditClick = { isVisible ->
-            viewModel.showBottomSheet(isVisible)
+            showBottomSheet = isVisible
         },
-        onInputChange = { name ->
-            viewModel.isInputValid(name)
+        onInputChange = { editName ->
+            name = editName
+            viewModel.isInputValid(editName)
         },
-        onSaveClick = {/*TODO: 수정사항 저장 로직*/ }
+        onSaveClick = {/*TODO: 수정사항 저장 로직*/ },
+        name = name,
+        onBackButtonClick = { navigateUp() }
     )
 }
 
@@ -65,17 +71,21 @@ fun ProfileEditScreen(
     profileEditState: ProfileEditState,
     onProfileEditClick: (Boolean) -> Unit,
     onInputChange: (String) -> Unit,
-    onSaveClick: () -> Unit
+    onSaveClick: () -> Unit,
+    name: String,
+    onBackButtonClick: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     Column(
-        modifier = modifier.addFocusCleaner(focusManager)
+        modifier = modifier
+            .fillMaxSize()
+            .addFocusCleaner(focusManager)
     ) {
         BackButtonTopAppBar(
-            onBackButtonClick = {},
+            onBackButtonClick = { onBackButtonClick() },
             title = stringResource(id = R.string.profile_edit_title)
         )
-        Column(modifier = modifier.fillMaxSize()) {
+        Column {
             Spacer(modifier = modifier.weight(1f))
             Text(
                 text = stringResource(id = R.string.sign_up_profile_image),
@@ -110,15 +120,25 @@ fun ProfileEditScreen(
                     color = Grey500
                 )
                 NameTextField(
-                    value = profileEditState.name,
-                    onValueChange = { name ->
-                        onInputChange(name)
+                    value = name,
+                    onValueChange = { editName ->
+                        onInputChange(editName)
                     },
                     hint = stringResource(id = R.string.sign_up_hint),
                     drawLineColor = profileEditState.drawLineColor,
                     helperMessage = profileEditState.helper,
                     helperIcon = profileEditState.helperIcon,
                     helperColor = profileEditState.helperColor
+                )
+                Text(
+                    text = stringResource(id = R.string.profile_edit_auth_type),
+                    style = TerningTheme.typography.body2,
+                    color = Grey500,
+                    modifier = Modifier.padding(bottom = 11.dp, top = 48.dp)
+                )
+                Text(
+                    text = profileEditState.authType,
+                    style = TerningTheme.typography.detail0
                 )
             }
             Spacer(modifier = modifier.weight(5f))
@@ -142,7 +162,9 @@ fun ProfileEditScreenPreview() {
             profileEditState = ProfileEditState(),
             onProfileEditClick = {},
             onInputChange = {},
-            onSaveClick = {}
+            onSaveClick = {},
+            name = "터닝이",
+            onBackButtonClick = {}
         )
     }
 }

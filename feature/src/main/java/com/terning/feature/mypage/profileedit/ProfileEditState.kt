@@ -13,6 +13,6 @@ data class ProfileEditState(
     @StringRes val helper: Int = R.string.sign_up_helper,
     val helperIcon: Int? = null,
     val helperColor: Color = Grey400,
-    val isButtonValid: Boolean = false,
-    val showBottomSheet: Boolean = false
+    val isButtonValid: Boolean = true,
+    val authType: String = "카카오 로그인"
 )

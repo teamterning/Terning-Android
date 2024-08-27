@@ -21,7 +21,9 @@ fun NavGraphBuilder.profileEditNavGraph(
 ) {
     composable<ProfileEdit>(
     ) {
-        ProfileEditRoute()
+        ProfileEditRoute(
+            navigateUp = { navHostController.navigateUp() }
+        )
     }
 }
 

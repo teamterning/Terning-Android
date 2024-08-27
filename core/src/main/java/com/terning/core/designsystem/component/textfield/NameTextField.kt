@@ -2,7 +2,6 @@ package com.terning.core.designsystem.component.textfield
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -23,6 +22,7 @@ fun NameTextField(
     drawLineColor: Color,
     @StringRes helperMessage: Int,
     helperColor: Color,
+    modifier: Modifier = Modifier,
     helperIcon: Int? = null,
 ) {
     val focusManager = LocalFocusManager.current
@@ -31,7 +31,7 @@ fun NameTextField(
     TerningBasicTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier,
+        modifier = modifier,
         textStyle = TerningTheme.typography.detail1,
         textColor = Black,
         drawLineColor = drawLineColor,

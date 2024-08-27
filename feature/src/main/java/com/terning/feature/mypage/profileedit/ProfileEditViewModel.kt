@@ -72,12 +72,6 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun showBottomSheet(isVisible: Boolean) {
-        _state.value = _state.value.copy(
-            showBottomSheet = isVisible
-        )
-    }
-
     fun fetchCharacter(character: Int) {
         _state.value = _state.value.copy(character = character)
     }
