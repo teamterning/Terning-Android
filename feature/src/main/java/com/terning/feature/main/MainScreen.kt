@@ -34,6 +34,7 @@ import com.terning.feature.home.changefilter.navigation.changeFilterNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
 import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.mypage.mypage.navigation.myPageNavGraph
+import com.terning.feature.mypage.profileedit.navigation.profileEditNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.onboarding.splash.navigation.splashNavGraph
@@ -78,6 +79,7 @@ fun MainScreen(
                 startFilteringNavGraph(navHostController = navigator.navController)
                 startHomeNavGraph(navHostController = navigator.navController)
                 internNavGraph(navHostController = navigator.navController)
+                profileEditNavGraph(navHostController = navigator.navController)
             }
         }
     }
