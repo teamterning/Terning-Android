@@ -33,7 +33,7 @@ import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
 import com.terning.feature.home.changefilter.navigation.changeFilterNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
 import com.terning.feature.intern.navigation.internNavGraph
-import com.terning.feature.mypage.navigation.myPageNavGraph
+import com.terning.feature.mypage.mypage.navigation.myPageNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.onboarding.splash.navigation.splashNavGraph

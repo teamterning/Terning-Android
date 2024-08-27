@@ -1,4 +1,4 @@
-package com.terning.feature.mypage
+package com.terning.feature.mypage.mypage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +37,7 @@ import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
 import com.terning.feature.R
-import com.terning.feature.mypage.component.MyPageItem
+import com.terning.feature.mypage.mypage.component.MyPageItem
 
 @Composable
 fun MyPageRoute(

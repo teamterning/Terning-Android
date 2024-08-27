@@ -1,4 +1,4 @@
-package com.terning.feature.mypage
+package com.terning.feature.mypage.mypage
 
 import android.content.Context
 import android.content.Intent

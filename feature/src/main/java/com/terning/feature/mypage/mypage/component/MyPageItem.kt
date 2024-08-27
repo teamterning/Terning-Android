@@ -1,4 +1,4 @@
-package com.terning.feature.mypage.component
+package com.terning.feature.mypage.mypage.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
