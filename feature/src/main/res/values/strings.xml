@@ -145,6 +145,7 @@
 
     <!--ProfileEidt-->
     <string name="profile_edit_title">프로필 수정</string>
+    <string name="profile_edit_save">저장하기</string>
 
     <!--Onboarding-->
 </resources>
