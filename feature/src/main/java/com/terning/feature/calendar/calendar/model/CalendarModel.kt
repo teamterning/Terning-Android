@@ -2,6 +2,7 @@ package com.terning.feature.calendar.calendar.model
 
 import androidx.compose.runtime.Immutable
 import java.time.LocalDate
+import java.time.YearMonth
 
 @Immutable
 class CalendarModel internal constructor(
@@ -19,10 +20,15 @@ class CalendarModel internal constructor(
         const val START_YEAR = 2020
         const val END_YEAR = 2030
 
-        fun getDateByPage(page: Int): LocalDate = LocalDate.of(
+        fun getLocalDateByPage(page: Int): LocalDate = LocalDate.of(
             START_YEAR + page / 12,
             page % 12 + 1,
             1
+        )
+
+        fun getYearMonthByPage(page: Int): YearMonth = YearMonth.of(
+            START_YEAR + page / 12,
+            page % 12 + 1,
         )
     }
 }
