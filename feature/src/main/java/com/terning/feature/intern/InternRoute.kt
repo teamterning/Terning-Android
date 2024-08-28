@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -18,6 +20,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,9 +32,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
@@ -141,30 +148,12 @@ fun InternScreen(
                         end = 24.dp
                     )
                 ) {
-                    Row(
-                        modifier = modifier
-                            .border(
-                                width = 1.dp,
-                                color = TerningMain,
-                                shape = RoundedCornerShape(size = 12.dp)
-                            ),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            0.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = internState.dDay,
-                            style = TerningTheme.typography.title5,
-                            color = TerningMain,
-                            modifier = Modifier.padding(
-                                horizontal = 12.dp,
-                                vertical = 2.dp
-                            )
-                        )
-                    }
-
+                    InternCompanyInfo(
+                        modifier = modifier,
+                        companyImage = internState.companyImage,
+                        company = internState.company,
+                        companyCategory = internState.companyCategory
+                    )
                     Text(
                         text = internState.title,
                         style = TerningTheme.typography.title2,
@@ -223,12 +212,7 @@ fun InternScreen(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_sub_title_intern_info)
                     )
-                    InternCompanyInfo(
-                        modifier = modifier,
-                        companyImage = internState.companyImage,
-                        company = internState.company,
-                        companyCategory = internState.companyCategory
-                    )
+
                     InternPageTitle(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_sub_title_intern_summary)
