@@ -4,6 +4,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
@@ -21,7 +22,9 @@ fun NavController.navigateIntern(
     )
 }
 
-fun NavGraphBuilder.internNavGraph() {
+fun NavGraphBuilder.internNavGraph(
+    navHostController: NavHostController,
+) {
     composable<Intern>(
         exitTransition = {
             ExitTransition.None
