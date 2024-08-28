@@ -14,5 +14,6 @@ data class ProfileEditState(
     val helperIcon: Int? = null,
     val helperColor: Color = Grey400,
     val isButtonValid: Boolean = true,
-    val authType: String = ""
+    val authType: String = "",
+    val showBottomSheet: Boolean = false
 )

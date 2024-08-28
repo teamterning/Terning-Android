@@ -9,9 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -41,16 +38,14 @@ fun ProfileEditRoute(
     initialName: String = "",
 ) {
     val profileEditState by viewModel.state.collectAsStateWithLifecycle()
-    var showBottomSheet by remember { mutableStateOf(false) }
-    var name by remember { mutableStateOf(initialName) }
 
     val lifecycleOwner = LocalLifecycleOwner.current
-    if (showBottomSheet) {
+    if (profileEditState.showBottomSheet) {
         SignUpBottomSheet(
-            onDismiss = { showBottomSheet = false },
+            onDismiss = { viewModel.updateBottomSheet(false) },
             onSaveClick = { index ->
-                showBottomSheet = false
-                viewModel.fetchCharacter(index)
+                viewModel.updateBottomSheet(false)
+                viewModel.updateCharacter(index)
             },
             initialSelectedOption = profileEditState.character
         )
@@ -68,14 +63,13 @@ fun ProfileEditRoute(
     ProfileEditScreen(
         profileEditState = profileEditState,
         onProfileEditClick = { isVisible ->
-            showBottomSheet = isVisible
+            viewModel.updateBottomSheet(isVisible)
         },
         onInputChange = { editName ->
-            name = editName
             viewModel.isInputValid(editName)
         },
         onSaveClick = {/*TODO: 수정사항 저장 로직*/ },
-        name = name,
+        name = initialName,
         onBackButtonClick = { viewModel.navigateUp() }
     )
 }

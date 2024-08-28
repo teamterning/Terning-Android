@@ -74,11 +74,19 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun fetchCharacter(character: Int) {
+    fun updateCharacter(character: Int) {
         _state.value = _state.value.copy(character = character)
     }
 
     fun navigateUp() = viewModelScope.launch { _sideEffects.emit(ProfileEditSideEffect.NavigateUp) }
+
+    fun updateBottomSheet(isVisible: Boolean) {
+        _state.value = _state.value.copy(showBottomSheet = isVisible)
+    }
+
+    fun updateName(name: String){
+        _state.value = _state.value.copy(name = name)
+    }
 
     companion object {
         const val NAME_ERROR = "[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/\\-=+~`\\p{S}\\p{P}]"
