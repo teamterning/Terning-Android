@@ -84,7 +84,7 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
         _state.value = _state.value.copy(showBottomSheet = isVisible)
     }
 
-    fun updateName(name: String){
+    fun updateName(name: String) {
         _state.value = _state.value.copy(name = name)
     }
 

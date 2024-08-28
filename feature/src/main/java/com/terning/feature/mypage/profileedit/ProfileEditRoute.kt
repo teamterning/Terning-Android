@@ -40,6 +40,11 @@ fun ProfileEditRoute(
     val profileEditState by viewModel.state.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.updateName(initialName)
+    }
+
     if (profileEditState.showBottomSheet) {
         SignUpBottomSheet(
             onDismiss = { viewModel.updateBottomSheet(false) },
@@ -69,7 +74,7 @@ fun ProfileEditRoute(
             viewModel.isInputValid(editName)
         },
         onSaveClick = {/*TODO: 수정사항 저장 로직*/ },
-        name = initialName,
+        name = profileEditState.name,
         onBackButtonClick = { viewModel.navigateUp() }
     )
 }
