@@ -1,4 +1,5 @@
 package com.terning.feature.mypage.profileedit
 
-class ProfileEditSideEffect {
+sealed class ProfileEditSideEffect {
+    data object NavigateUp : ProfileEditSideEffect()
 }

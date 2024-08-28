@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,7 +19,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.bottomsheet.SignUpBottomSheet
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.item.ProfileWithPlusButton
@@ -41,6 +44,7 @@ fun ProfileEditRoute(
     var showBottomSheet by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf(initialName) }
 
+    val lifecycleOwner = LocalLifecycleOwner.current
     if (showBottomSheet) {
         SignUpBottomSheet(
             onDismiss = { showBottomSheet = false },
@@ -50,6 +54,15 @@ fun ProfileEditRoute(
             },
             initialSelectedOption = profileEditState.character
         )
+    }
+
+    LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
+        viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is ProfileEditSideEffect.NavigateUp -> navigateUp()
+                }
+            }
     }
 
     ProfileEditScreen(
@@ -63,7 +76,7 @@ fun ProfileEditRoute(
         },
         onSaveClick = {/*TODO: 수정사항 저장 로직*/ },
         name = name,
-        onBackButtonClick = { navigateUp() }
+        onBackButtonClick = { viewModel.navigateUp() }
     )
 }
 

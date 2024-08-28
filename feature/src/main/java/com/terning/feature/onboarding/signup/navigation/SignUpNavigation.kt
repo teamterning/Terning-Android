@@ -29,7 +29,6 @@ fun NavGraphBuilder.signUpNavGraph(
         SignUpRoute(
             authId = args.authId,
             navigateToStartFiltering = { name -> navHostController.navigateFilteringOne(name) }
-
         )
     }
 }
