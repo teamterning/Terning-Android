@@ -3,6 +3,7 @@ package com.terning.feature.mypage.profileedit
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -87,72 +88,64 @@ fun ProfileEditScreen(
             onBackButtonClick = { onBackButtonClick() },
             title = stringResource(id = R.string.profile_edit_title)
         )
-        Column {
-            Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = modifier.weight(1f))
+        Column(
+            modifier = modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(horizontal = 24.dp)
+        ) {
             Text(
                 text = stringResource(id = R.string.sign_up_profile_image),
                 style = TerningTheme.typography.body2,
-                modifier = modifier
-                    .padding(
-                        start = 24.dp,
-                        bottom = 20.dp
-                    ),
                 color = Grey500
             )
-            Column(
+            Spacer(modifier = Modifier.height(20.dp))
+            ProfileWithPlusButton(
                 modifier = modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 48.dp)
-            ) {
-                ProfileWithPlusButton(
-                    modifier = modifier.noRippleClickable {
+                    .noRippleClickable {
                         onProfileEditClick(true)
-                    },
-                    index = profileEditState.character
-                )
-            }
-            Column(
-                modifier = modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(horizontal = 24.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.sign_up_name),
-                    modifier = modifier.padding(bottom = 20.dp),
-                    color = Grey500
-                )
-                NameTextField(
-                    value = name,
-                    onValueChange = { editName ->
-                        onInputChange(editName)
-                    },
-                    hint = stringResource(id = R.string.sign_up_hint),
-                    drawLineColor = profileEditState.drawLineColor,
-                    helperMessage = profileEditState.helper,
-                    helperIcon = profileEditState.helperIcon,
-                    helperColor = profileEditState.helperColor
-                )
-                Text(
-                    text = stringResource(id = R.string.profile_edit_auth_type),
-                    style = TerningTheme.typography.body2,
-                    color = Grey500,
-                    modifier = Modifier.padding(bottom = 11.dp, top = 48.dp)
-                )
-                Text(
-                    text = profileEditState.authType,
-                    style = TerningTheme.typography.detail0
-                )
-            }
-            Spacer(modifier = modifier.weight(5f))
-            RectangleButton(
-                style = TerningTheme.typography.button1,
-                paddingVertical = 20.dp,
-                text = R.string.profile_edit_save,
-                onButtonClick = { onSaveClick() },
-                modifier = modifier.padding(bottom = 12.dp),
-                isEnabled = profileEditState.isButtonValid
+                    }
+                    .align(Alignment.CenterHorizontally),
+                index = profileEditState.character
+            )
+            Spacer(modifier = Modifier.height(48.dp))
+            Text(
+                text = stringResource(id = R.string.sign_up_name),
+                color = Grey500
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            NameTextField(
+                value = name,
+                onValueChange = { editName ->
+                    onInputChange(editName)
+                },
+                hint = stringResource(id = R.string.sign_up_hint),
+                drawLineColor = profileEditState.drawLineColor,
+                helperMessage = profileEditState.helper,
+                helperIcon = profileEditState.helperIcon,
+                helperColor = profileEditState.helperColor
+            )
+            Spacer(modifier = Modifier.height(48.dp))
+            Text(
+                text = stringResource(id = R.string.profile_edit_auth_type),
+                style = TerningTheme.typography.body2,
+                color = Grey500,
+            )
+            Spacer(modifier = Modifier.height(11.dp))
+            Text(
+                text = profileEditState.authType,
+                style = TerningTheme.typography.detail0
             )
         }
+        Spacer(modifier = modifier.weight(5f))
+        RectangleButton(
+            style = TerningTheme.typography.button1,
+            paddingVertical = 20.dp,
+            text = R.string.profile_edit_save,
+            onButtonClick = { onSaveClick() },
+            isEnabled = profileEditState.isButtonValid
+        )
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
