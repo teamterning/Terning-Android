@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -54,7 +53,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.response.HomeTodayInternModel
+import com.terning.domain.entity.home.HomeTodayIntern
 import com.terning.feature.home.home.HomeViewModel
 import com.terning.feature.intern.component.InternInfoRow
 
@@ -63,7 +62,7 @@ import com.terning.feature.intern.component.InternInfoRow
 fun HomeTodayInternDialog(
     internInfoList: List<Pair<String, String>>,
     navigateTo: () -> Unit,
-    homeTodayInternModel: HomeTodayInternModel,
+    homeTodayIntern: HomeTodayIntern,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.homeDialogState.collectAsStateWithLifecycle()
@@ -88,7 +87,7 @@ fun HomeTodayInternDialog(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(homeTodayInternModel.companyImage)
+                .data(homeTodayIntern.companyImage)
                 .build(),
             contentDescription = stringResource(R.string.image_content_descriptin),
             modifier = Modifier
@@ -104,7 +103,7 @@ fun HomeTodayInternDialog(
         )
 
         Text(
-            text = homeTodayInternModel.title,
+            text = homeTodayIntern.title,
             textAlign = TextAlign.Center,
             style = TerningTheme.typography.title4,
             color = Grey500,
@@ -185,7 +184,7 @@ fun HomeTodayInternDialog(
                     contentAlignment = Alignment.Center
                 ) {
                     ColorPalette(
-                        initialColor = Color(android.graphics.Color.parseColor(homeTodayInternModel.color)),
+                        initialColor = Color(android.graphics.Color.parseColor(homeTodayIntern.color)),
                         onColorSelected = { newColor ->
                             viewModel.updateSelectColor(newColor)
                         }
@@ -193,7 +192,7 @@ fun HomeTodayInternDialog(
                 }
             } else {
                 Text(
-                    text = homeTodayInternModel.dDay,
+                    text = homeTodayIntern.dDay,
                     style = TerningTheme.typography.body5,
                     color = TerningMain,
                     modifier = Modifier.padding(bottom = 9.dp)
@@ -228,14 +227,14 @@ fun HomeTodayInternDialog(
                     viewModel.updatePaletteOpen(false)
                     viewModel.updateColorChange(false)
                     viewModel.patchScrap(
-                        scrapId = homeTodayInternModel.scrapId,
+                        scrapId = homeTodayIntern.scrapId,
                         colorIndex = selectedColorIndex,
                     )
                 } else {
                     if (state.isColorChange) {
                         viewModel.updateColorChange(false)
                         viewModel.patchScrap(
-                            scrapId = homeTodayInternModel.scrapId,
+                            scrapId = homeTodayIntern.scrapId,
                             colorIndex = selectedColorIndex,
                         )
                     }

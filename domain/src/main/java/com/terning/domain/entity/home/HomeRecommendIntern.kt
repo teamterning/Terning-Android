@@ -1,13 +1,13 @@
-package com.terning.domain.entity.response
+package com.terning.domain.entity.home
 
-data class HomeTodayInternModel(
-    val scrapId: Long,
+data class HomeRecommendIntern(
+    val scrapId: Long?,
     val internshipAnnouncementId: Long,
-    val companyImage: String,
     val title: String,
     val dDay: String,
     val deadline: String,
     val workingPeriod: String,
-    val color: String,
     val startYearMonth: String,
+    val companyImage: String,
+    val isScrapped: Boolean,
 )

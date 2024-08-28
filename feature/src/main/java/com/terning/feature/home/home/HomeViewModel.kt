@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
-import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.entity.CalendarScrapRequest
-import com.terning.domain.entity.response.HomeFilteringInfoModel
-import com.terning.domain.entity.response.HomeRecommendInternModel
-import com.terning.domain.entity.response.HomeTodayInternModel
+import com.terning.domain.entity.home.HomeFilteringInfo
+import com.terning.domain.entity.home.HomeRecommendIntern
+import com.terning.domain.entity.home.HomeTodayIntern
+import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.ScrapRepository
@@ -39,15 +39,15 @@ class HomeViewModel @Inject constructor(
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
     private val _homeTodayState =
-        MutableStateFlow<UiState<List<HomeTodayInternModel>>>(UiState.Loading)
+        MutableStateFlow<UiState<List<HomeTodayIntern>>>(UiState.Loading)
     val homeTodayState get() = _homeTodayState.asStateFlow()
 
     private val _homeRecommendInternState =
-        MutableStateFlow<UiState<List<HomeRecommendInternModel>>>(UiState.Loading)
+        MutableStateFlow<UiState<List<HomeRecommendIntern>>>(UiState.Loading)
     val homeRecommendInternState get() = _homeRecommendInternState.asStateFlow()
 
     private val _homeFilteringState =
-        MutableStateFlow<UiState<HomeFilteringInfoModel>>(UiState.Loading)
+        MutableStateFlow<UiState<HomeFilteringInfo>>(UiState.Loading)
     val homeFilteringState get() = _homeFilteringState.asStateFlow()
 
     private val _homeSortByState = MutableStateFlow(0)
