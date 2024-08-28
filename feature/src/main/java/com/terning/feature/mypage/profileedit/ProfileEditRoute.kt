@@ -37,7 +37,7 @@ fun ProfileEditRoute(
     viewModel: ProfileEditViewModel = hiltViewModel(),
     initialName: String = "",
 ) {
-    val profileEditState by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -45,14 +45,14 @@ fun ProfileEditRoute(
         viewModel.updateName(initialName)
     }
 
-    if (profileEditState.showBottomSheet) {
+    if (state.showBottomSheet) {
         SignUpBottomSheet(
             onDismiss = { viewModel.updateBottomSheet(false) },
             onSaveClick = { index ->
                 viewModel.updateBottomSheet(false)
                 viewModel.updateCharacter(index)
             },
-            initialSelectedOption = profileEditState.character
+            initialSelectedOption = state.character
         )
     }
 
@@ -66,7 +66,7 @@ fun ProfileEditRoute(
     }
 
     ProfileEditScreen(
-        profileEditState = profileEditState,
+        profileEditState = state,
         onProfileEditClick = { isVisible ->
             viewModel.updateBottomSheet(isVisible)
         },
@@ -74,7 +74,7 @@ fun ProfileEditRoute(
             viewModel.isInputValid(editName)
         },
         onSaveClick = {/*TODO: 수정사항 저장 로직*/ },
-        name = profileEditState.name,
+        name = state.name,
         onBackButtonClick = { viewModel.navigateUp() }
     )
 }
