@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Terning-Android</string>
+    <string name="app_name">terning</string>
 
     <string name="server_success">서버통신에 성공했어요</string>
     <string name="server_failure">서버통신에 실패했어요</string>
