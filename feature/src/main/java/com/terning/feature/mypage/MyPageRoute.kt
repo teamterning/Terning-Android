@@ -234,7 +234,7 @@ fun MyPageInfo(
     }
 }
 
-private const val VERSION = "1.0.1"
+private const val VERSION = "1.0.2"
 
 @Preview(showBackground = true)
 @Composable
