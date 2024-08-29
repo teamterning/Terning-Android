@@ -18,52 +18,103 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getDateAsMapString
+import com.terning.core.extension.getFullDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.component.CalendarDialog
+import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
+import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.list.component.CalendarScrapList
+import com.terning.feature.calendar.list.model.CalendarListUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 
 @Composable
-fun CalendarListScreen(
+fun CalendarListRoute(
     pages: Int,
     listState: LazyListState,
     modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController(),
-    viewModel: CalendarViewModel = hiltViewModel()
+    navigateToAnnouncement: (Long) -> Unit,
+    viewModel: CalendarListViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val scrapState by viewModel.calendarListState.collectAsStateWithLifecycle(lifecycleOwner)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
+
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is CalendarListSideEffect.ShowToast -> context.toast(sideEffect.message)
+                }
+            }
+    }
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
             .collect {
                 val page = listState.firstVisibleItemIndex
-                val date = getDateByPage(page)
-                viewModel.getScrapMonthList(date.year, date.monthValue)
+                val date = getLocalDateByPage(page)
+                viewModel.updateCurrentDate(date)
+                viewModel.getScrapMonthList(date)
             }
     }
 
+    CalendarListScreen(
+        pages = pages,
+        listState = listState,
+        uiState = uiState,
+        modifier = modifier,
+        navigateToAnnouncement = navigateToAnnouncement,
+        onDismissCancelDialog = { viewModel.updateScrapCancelDialogVisibility(false) },
+        onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
+        onClickChangeColor = { newColor -> viewModel.patchScrap(newColor) },
+        onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
+        onClickScrapButton = { scrapId ->
+            viewModel.updateScrapId(scrapId)
+            viewModel.updateScrapCancelDialogVisibility(true)
+        },
+        onClickInternship = { calendarScrapDetail ->
+            viewModel.updateInternshipModel(calendarScrapDetail)
+            viewModel.updateInternDialogVisibility(true)
+        }
+    )
+}
+
+@Composable
+private fun CalendarListScreen(
+    pages: Int,
+    listState: LazyListState,
+    uiState: CalendarListUiState,
+    navigateToAnnouncement: (Long) -> Unit,
+    onDismissCancelDialog: () -> Unit,
+    onDismissInternDialog: () -> Unit,
+    onClickChangeColor: (Color) -> Unit,
+    onClickScrapCancel: () -> Unit,
+    onClickInternship: (CalendarScrapDetail) -> Unit,
+    onClickScrapButton: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box {
         LazyRow(
             modifier = modifier
@@ -75,7 +126,7 @@ fun CalendarListScreen(
             )
         ) {
             items(pages) { page ->
-                val getDate = getDateByPage(page)
+                val getDate = getLocalDateByPage(page)
 
                 LazyColumn(
                     modifier = Modifier
@@ -83,7 +134,7 @@ fun CalendarListScreen(
                         .fillMaxHeight()
                         .background(Back)
                 ) {
-                    when (scrapState.loadState) {
+                    when (uiState.loadState) {
                         UiState.Loading -> {}
                         UiState.Empty -> {
                             item {
@@ -107,7 +158,7 @@ fun CalendarListScreen(
                         is UiState.Failure -> {}
                         is UiState.Success -> {
                             items(getDate.lengthOfMonth()) { day ->
-                                val scrapMap = (scrapState.loadState as UiState.Success).data
+                                val scrapMap = uiState.loadState.data
                                 val currentDate =
                                     LocalDate.of(getDate.year, getDate.monthValue, day + 1)
                                 val dateIndex = currentDate.getDateAsMapString()
@@ -116,13 +167,8 @@ fun CalendarListScreen(
                                     CalendarScrapList(
                                         selectedDate = currentDate,
                                         scrapList = scrapMap[dateIndex].orEmpty(),
-                                        onScrapButtonClicked = { scrapId ->
-                                            viewModel.updateScrapCancelDialogVisible(scrapId)
-                                        },
-                                        onInternshipClicked = { scrapDetailModel ->
-                                            viewModel.updateInternshipModel(scrapDetailModel)
-                                            viewModel.updateInternDialogVisible(true)
-                                        },
+                                        onScrapButtonClicked = onClickScrapButton,
+                                        onInternshipClicked = onClickInternship,
                                         isFromList = true
                                     )
 
@@ -140,11 +186,28 @@ fun CalendarListScreen(
                 }
             }
         }
+    }
 
-        CalendarDialog(
-            isWeekScreen = false,
-            viewModel = viewModel,
-            navController = navController
+    if (uiState.scrapDialogVisibility) {
+        CalendarCancelDialog(
+            onDismissRequest = onDismissCancelDialog,
+            onClickScrapCancel = {
+                onClickScrapCancel()
+                onDismissCancelDialog()
+            }
+        )
+    }
+
+    if (uiState.internDialogVisibility) {
+        CalendarDetailDialog(
+            deadline = uiState.currentDate.getFullDateStringInKorean(),
+            scrapDetailModel = uiState.internshipModel,
+            onDismissRequest = onDismissInternDialog,
+            onClickChangeColorButton = onClickChangeColor,
+            onClickNavigateButton = { announcementId ->
+                navigateToAnnouncement(announcementId)
+                onDismissInternDialog()
+            }
         )
     }
 }
