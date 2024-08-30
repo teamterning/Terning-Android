@@ -103,10 +103,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun putFilteringInfo(changeFilterRequest: ChangeFilteringRequestModel) {
+    fun putFilteringInfo(grade: Int, workingPeriod: Int, year: Int, month: Int) {
         viewModelScope.launch {
             homeRepository.putFilteringInfo(
-                changeFilterRequest
+                ChangeFilteringRequestModel(grade, workingPeriod, year, month)
             ).onSuccess {
                 _homeSideEffect.emit(HomeSideEffect.NavigateToHome)
             }

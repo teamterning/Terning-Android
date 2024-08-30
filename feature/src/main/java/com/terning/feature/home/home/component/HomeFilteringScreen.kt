@@ -53,7 +53,7 @@ fun HomeFilteringScreen(
                     shape = RoundedCornerShape(5.dp)
                 )
                 .align(Alignment.CenterVertically)
-                .noRippleClickable { onChangeFilterClick() },
+                .noRippleClickable(onChangeFilterClick),
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_home_filtering_28),

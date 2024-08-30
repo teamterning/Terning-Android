@@ -58,8 +58,11 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.home.HomeFilteringInfo
 import com.terning.domain.entity.home.HomeRecommendIntern
 import com.terning.domain.entity.home.HomeTodayIntern
+import com.terning.domain.type.Grade
+import com.terning.domain.type.WorkingPeriod
 import com.terning.feature.R
 import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
+import com.terning.feature.home.home.component.HomeFilteringBottomSheet
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
@@ -141,13 +144,14 @@ fun HomeScreen(
     }
 
     val currentSortBy: MutableState<Int> = remember { mutableIntStateOf(0) }
-    var sheetState by remember { mutableStateOf(false) }
+    var sortingSheetState by remember { mutableStateOf(false) }
+    var changeFilteringSheetState by remember { mutableStateOf(false) }
     var scrapId by remember { mutableIntStateOf(-1) }
 
-    if (sheetState) {
+    if (sortingSheetState) {
         SortingBottomSheet(
             onDismiss = {
-                sheetState = false
+                sortingSheetState = false
                 viewModel.getRecommendInternsData(
                     currentSortBy.value,
                     homeFilteringInfo.startYear,
@@ -157,6 +161,26 @@ fun HomeScreen(
             currentSortBy = currentSortBy.value,
             newSortBy = currentSortBy
         )
+    }
+
+    if (changeFilteringSheetState) {
+        HomeFilteringBottomSheet(
+            defaultGrade = homeFilteringInfo.grade?.let { Grade.entries[it] },
+            defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let { WorkingPeriod.entries[it] },
+            defaultStartYear = homeFilteringInfo.startYear,
+            defaultStartMonth = homeFilteringInfo.startMonth,
+            onDismiss = { changeFilteringSheetState = false },
+            onChangeButtonClick = { grade, workingPeriod, year, month ->
+                viewModel.putFilteringInfo(grade, workingPeriod, year, month)
+                changeFilteringSheetState = false
+            }
+        )
+    }
+
+    LaunchedEffect(changeFilteringSheetState) {
+        if (!changeFilteringSheetState) {
+            viewModel.getFilteringInfo()
+        }
     }
 
     Column(
@@ -196,7 +220,10 @@ fun HomeScreen(
                         .background(White)
                 ) {
                     ShowRecommendTitle()
-                    ShowInternFilter(homeFilteringInfo = homeFilteringInfo, onChangeFilterClick)
+                    ShowInternFilter(
+                        homeFilteringInfo = homeFilteringInfo,
+                        onChangeFilterClick = { changeFilteringSheetState = true },
+                    )
 
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -227,7 +254,7 @@ fun HomeScreen(
                         Row {
                             SortingButton(
                                 sortBy = currentSortBy.value,
-                                onCLick = { sheetState = true },
+                                onCLick = { sortingSheetState = true },
                                 modifier = Modifier
                                     .padding(vertical = 4.dp)
                             )
