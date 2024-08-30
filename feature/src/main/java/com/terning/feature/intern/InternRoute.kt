@@ -2,10 +2,12 @@ package com.terning.feature.intern
 
 import android.view.ViewGroup
 import android.webkit.WebView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,6 +35,7 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
+import com.terning.core.designsystem.theme.TerningSub3
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
@@ -150,12 +153,40 @@ fun InternScreen(
                         end = 24.dp
                     )
                 ) {
+                    Spacer(modifier = modifier.padding(top = 16.dp))
+
                     InternCompanyInfo(
                         modifier = modifier,
                         companyImage = internInfoModel.companyImage,
                         company = internInfoModel.company,
                         companyCategory = internInfoModel.companyCategory
                     )
+
+                    Spacer(modifier = modifier.padding(top = 20.dp))
+
+                    Row(
+                        modifier = modifier
+                            .background(
+                                color = TerningSub3,
+                                shape = RoundedCornerShape(size = 5.dp)
+                            ),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            0.dp,
+                            Alignment.CenterHorizontally
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = internInfoModel.dDay,
+                            style = TerningTheme.typography.title3,
+                            color = TerningMain,
+                            modifier = Modifier.padding(
+                                horizontal = 19.5.dp,
+                                vertical = 1.5.dp
+                            )
+                        )
+                    }
+
                     Text(
                         text = internInfoModel.title,
                         style = TerningTheme.typography.heading2,
@@ -194,11 +225,6 @@ fun InternScreen(
                                 top = 9.dp,
                             )
                     ) {
-                        Text(
-                            text = stringResource(id = R.string.intern_view_count),
-                            style = TerningTheme.typography.detail3,
-                            color = Grey400
-                        )
                         Text(
                             text = "${decimal.format(internInfoModel.viewCount)}회",
                             style = TerningTheme.typography.button4,

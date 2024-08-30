@@ -51,7 +51,6 @@ fun InternCompanyInfo(
                     color = Grey150,
                     shape = RoundedCornerShape(size = 20.dp)
                 )
-                .padding(top = 12.dp)
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -59,7 +58,7 @@ fun InternCompanyInfo(
                     .data(companyImage)
                     .build(),
                 contentDescription = stringResource(id = R.string.search_image),
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(CircleShape),
