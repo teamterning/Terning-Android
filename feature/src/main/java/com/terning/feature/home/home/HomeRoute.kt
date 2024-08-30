@@ -61,7 +61,6 @@ import com.terning.domain.entity.home.HomeTodayIntern
 import com.terning.domain.type.Grade
 import com.terning.domain.type.WorkingPeriod
 import com.terning.feature.R
-import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
 import com.terning.feature.home.home.component.HomeFilteringBottomSheet
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
@@ -104,7 +103,6 @@ fun HomeRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
                     is HomeSideEffect.NavigateToHome -> navController.navigateUp()
                 }
             }
@@ -112,7 +110,6 @@ fun HomeRoute(
 
     HomeScreen(
         homeDialogState = homeDialogState,
-        onChangeFilterClick = { navController.navigateChangeFilter() },
         navigateToIntern = { navController.navigateIntern(announcementId = it) },
         viewModel = viewModel,
     )
@@ -122,7 +119,6 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     homeDialogState: HomeDialogState,
-    onChangeFilterClick: () -> Unit,
     navigateToIntern: (Long) -> Unit,
     viewModel: HomeViewModel,
 ) {

@@ -30,7 +30,6 @@ import com.terning.feature.filtering.filtering.navigation.filteringThreeNavGraph
 import com.terning.feature.filtering.filtering.navigation.filteringTwoNavGraph
 import com.terning.feature.filtering.startfiltering.navigation.startFilteringNavGraph
 import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
-import com.terning.feature.home.changefilter.navigation.changeFilterNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
 import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.mypage.navigation.myPageNavGraph
@@ -74,7 +73,6 @@ fun MainScreen(
                 filteringTwoNavGraph(navHostController = navigator.navController)
                 filteringThreeNavGraph(navHostController = navigator.navController)
                 searchProcessNavGraph(navHostController = navigator.navController)
-                changeFilterNavGraph(navHostController = navigator.navController)
                 startFilteringNavGraph(navHostController = navigator.navController)
                 startHomeNavGraph(navHostController = navigator.navController)
                 internNavGraph(navHostController = navigator.navController)
