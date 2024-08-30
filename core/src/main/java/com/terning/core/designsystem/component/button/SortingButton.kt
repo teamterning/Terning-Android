@@ -17,13 +17,13 @@ import com.terning.core.extension.noRippleClickable
 
 @Composable
 fun SortingButton(
-    sortBy: Int = 0,
     modifier: Modifier = Modifier,
+    sortBy: Int = 0,
     onCLick: () -> Unit,
 ) {
     Row(
         modifier = modifier
-            .noRippleClickable { onCLick() }
+            .noRippleClickable { onCLick() },
     ) {
         Text(
             text = stringResource(
@@ -31,19 +31,22 @@ fun SortingButton(
             ),
             style = TerningTheme.typography.button3,
             color = Black,
-            modifier = modifier
+            modifier = Modifier
                 .padding(
                     top = 6.dp,
-                    bottom = 5.dp,
-                    start = 12.dp,
+                    bottom = 6.dp,
                 )
         )
         Image(
             painter = painterResource(id = R.drawable.ic_down_18),
             contentDescription = stringResource(id = R.string.sort_button_description),
-            modifier = modifier
-                .padding(vertical = 5.dp)
-                .padding(end = 2.dp)
+            modifier = Modifier
+                .padding(
+                    start = 2.dp,
+                    end = 2.dp,
+                    top = 6.dp,
+                    bottom = 4.dp,
+                )
         )
     }
 }
