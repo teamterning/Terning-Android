@@ -21,10 +21,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.theme.Grey400
+import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.Grey375
+import com.terning.core.designsystem.theme.Grey50
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningSub1
-import com.terning.core.designsystem.theme.TerningSub5
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
@@ -42,16 +43,16 @@ fun ChangeFilterButton(
     val isPressed by interactionSource.collectIsPressedAsState()
     val backgroundColor = when {
         !isSelected && !isPressed -> White
-        !isSelected && isPressed -> TerningSub5
-        else -> TerningMain
-    }
-    val textColor = when {
-        !isSelected -> Grey400
+        !isSelected && isPressed -> Grey50
         else -> White
     }
+    val textColor = when {
+        !isSelected -> Grey375
+        else -> TerningMain
+    }
     val borderColor = when {
-        !isSelected && !isPressed -> TerningMain
-        !isSelected && isPressed -> TerningSub1
+        !isSelected && !isPressed -> Grey150
+        !isSelected && isPressed -> Grey200
         else -> TerningMain
     }
 
