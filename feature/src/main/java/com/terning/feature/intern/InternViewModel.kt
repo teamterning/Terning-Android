@@ -9,11 +9,10 @@ import com.terning.domain.repository.InternRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.intern.model.InternScrapState
-import com.terning.feature.intern.model.InternState
+import com.terning.feature.intern.model.InternUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,9 +24,8 @@ class InternViewModel @Inject constructor(
     private val internRepository: InternRepository,
     private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
-    private val _internState: MutableStateFlow<InternState> =
-        MutableStateFlow(InternState())
-    val state: StateFlow<InternState> = _internState.asStateFlow()
+    private val _internUiState = MutableStateFlow(InternUiState())
+    val internUiState get() = _internUiState.asStateFlow()
 
     private val _scrapState: MutableStateFlow<InternScrapState> =
         MutableStateFlow(InternScrapState())
@@ -97,31 +95,31 @@ class InternViewModel @Inject constructor(
     }
 
     fun updateSelectColor(newColor: Color) {
-        _internState.update {
+        _internUiState.update {
             it.copy(selectedColor = newColor)
         }
     }
 
     fun updateScrapDialogVisible(visible: Boolean) {
-        _internState.update {
+        _internUiState.update {
             it.copy(isScrapDialogVisible = visible)
         }
     }
 
     fun updatePaletteOpen(open: Boolean) {
-        _internState.update {
+        _internUiState.update {
             it.copy(isPaletteOpen = open)
         }
     }
 
     fun updateColorChange(change: Boolean) {
-        _internState.update {
+        _internUiState.update {
             it.copy(isColorChange = change)
         }
     }
 
     fun updateShowWeb(show: Boolean) {
-        _internState.update {
+        _internUiState.update {
             it.copy(showWeb = show)
         }
     }

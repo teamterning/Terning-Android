@@ -73,7 +73,6 @@ fun InternCompanyInfo(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
                 .padding(
-                    vertical = 20.dp
                 )
         ) {
             Text(

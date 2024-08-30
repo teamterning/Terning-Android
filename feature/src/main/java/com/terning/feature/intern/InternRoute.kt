@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -20,37 +18,32 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
+import com.terning.core.state.UiState
+import com.terning.domain.entity.response.InternInfoModel
 import com.terning.feature.R
 import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
-import com.terning.feature.intern.model.InternState
+import com.terning.feature.intern.model.InternUiState
 import java.text.DecimalFormat
 
 @Composable
@@ -58,7 +51,7 @@ fun InternRoute(
     announcementId: Long = 0,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
-    val internState by viewModel.state.collectAsStateWithLifecycle()
+    val internState by viewModel.internUiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -76,29 +69,38 @@ fun InternRoute(
             }
     }
 
-    InternScreen(
-        internState = internState
-    )
+    when (internState.loadState) {
+        UiState.Loading -> {}
+        UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Success -> {
+            InternScreen(
+                internUiState = internState,
+                internInfoModel = (internState.loadState as UiState.Success).data
+            )
+        }
+    }
 }
 
 @Composable
 fun InternScreen(
     modifier: Modifier = Modifier,
     viewModel: InternViewModel = hiltViewModel(),
-    internState: InternState,
+    internUiState: InternUiState,
+    internInfoModel: InternInfoModel,
 ) {
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
-        stringResource(id = R.string.intern_info_d_day) to internState.deadline,
-        stringResource(id = R.string.intern_info_working) to internState.workingPeriod,
-        stringResource(id = R.string.intern_info_start_date) to internState.startDate,
+        stringResource(id = R.string.intern_info_d_day) to internInfoModel.deadline,
+        stringResource(id = R.string.intern_info_working) to internInfoModel.workingPeriod,
+        stringResource(id = R.string.intern_info_start_date) to internInfoModel.startDate,
     )
 
-    val qualificationList = internState.qualification.split(",").map { it.trim() }
-    val jobTypeList = internState.jobType.split(",").map { it.trim() }
+    val qualificationList = internInfoModel.qualification.split(",").map { it.trim() }
+    val jobTypeList = internInfoModel.jobType.split(",").map { it.trim() }
 
-    if (internState.showWeb) {
+    if (internUiState.showWeb) {
         AndroidView(
             factory = {
                 WebView(it).apply {
@@ -106,7 +108,7 @@ fun InternScreen(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT,
                     )
-                    loadUrl(internState.url)
+                    loadUrl(internInfoModel.url)
                 }
             },
         )
@@ -128,8 +130,8 @@ fun InternScreen(
         bottomBar = {
             InternBottomBar(
                 modifier = modifier,
-                scrapCount = decimal.format(internState.scrapCount),
-                scrapId = internState.scrapId,
+                scrapCount = decimal.format(internInfoModel.scrapCount),
+                scrapId = internInfoModel.scrapId,
                 onScrapClick = {
                     viewModel.updateScrapDialogVisible(true)
                 }
@@ -150,13 +152,13 @@ fun InternScreen(
                 ) {
                     InternCompanyInfo(
                         modifier = modifier,
-                        companyImage = internState.companyImage,
-                        company = internState.company,
-                        companyCategory = internState.companyCategory
+                        companyImage = internInfoModel.companyImage,
+                        company = internInfoModel.company,
+                        companyCategory = internInfoModel.companyCategory
                     )
                     Text(
-                        text = internState.title,
-                        style = TerningTheme.typography.title2,
+                        text = internInfoModel.title,
+                        style = TerningTheme.typography.heading2,
                         color = Black,
                         modifier = modifier.padding(
                             top = 4.dp,
@@ -198,7 +200,7 @@ fun InternScreen(
                             color = Grey400
                         )
                         Text(
-                            text = "${decimal.format(internState.viewCount)}회",
+                            text = "${decimal.format(internInfoModel.viewCount)}회",
                             style = TerningTheme.typography.button4,
                             color = Grey400,
                         )
@@ -328,7 +330,7 @@ fun InternScreen(
                         )
                     ) {
                         Text(
-                            text = internState.detail.trimIndent(),
+                            text = internInfoModel.detail.trimIndent(),
                             style = TerningTheme.typography.detail1,
                             color = Grey400
                         )
@@ -336,7 +338,7 @@ fun InternScreen(
                 }
             }
         }
-        if (internState.isScrapDialogVisible) {
+        if (internUiState.isScrapDialogVisible) {
             TerningBasicDialog(
                 onDismissRequest = {
                     viewModel.updateScrapDialogVisible(false)
@@ -344,15 +346,5 @@ fun InternScreen(
                 content = {},
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun InternScreenPreview() {
-    TerningPointTheme {
-        InternScreen(
-            internState = InternState(),
-        )
     }
 }
