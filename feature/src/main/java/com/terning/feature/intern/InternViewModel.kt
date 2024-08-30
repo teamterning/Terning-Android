@@ -35,16 +35,18 @@ class InternViewModel @Inject constructor(
 
     fun getInternInfo(id: Long) {
         viewModelScope.launch {
-            internRepository.getInternInfo(
-                id
-            ).onSuccess { internInfo ->
-            }.onFailure {
-                _sideEffect.emit(
-                    InternViewSideEffect.Toast(R.string.server_failure)
-                )
-            }
+            internRepository.getInternInfo(id)
+                .onSuccess { internInfoModel ->
+                    _internUiState.update { currentState ->
+                        currentState.copy(loadState = UiState.Success(internInfoModel))
+                    }
+                }
+                .onFailure {
+                    _sideEffect.emit(InternViewSideEffect.Toast(R.string.server_failure))
+                }
         }
     }
+
 
     fun postScrap(
         id: Long,
