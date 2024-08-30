@@ -96,7 +96,7 @@ fun ChangeFilterScreen(
         topBar = {
             BackButtonTopAppBar(
                 title = stringResource(id = R.string.change_filter_top_bar_title),
-                onBackButtonClick = { navigateToHome() },
+                onBackButtonClick = navigateToHome,
                 modifier = Modifier
                     .shadow(elevation = 2.dp)
             )

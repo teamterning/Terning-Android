@@ -202,8 +202,6 @@ fun HomeScreen(
                     HorizontalDivider(
                         thickness = 4.dp,
                         color = Grey150,
-                        modifier = Modifier
-                            .fillMaxWidth(),
                     )
 
                     Row(
@@ -426,7 +424,7 @@ private fun ShowInternFilter(
             grade = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
             period = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
             startYear = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            onChangeFilterClick = { onChangeFilterClick() },
+            onChangeFilterClick = onChangeFilterClick,
         )
     } else {
         with(homeFilteringInfo) {
@@ -442,7 +440,7 @@ private fun ShowInternFilter(
                 ),
                 startYear = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
                         + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
-                onChangeFilterClick = { onChangeFilterClick() },
+                onChangeFilterClick = onChangeFilterClick,
             )
         }
     }
