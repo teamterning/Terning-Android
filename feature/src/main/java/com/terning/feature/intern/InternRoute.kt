@@ -2,7 +2,6 @@ package com.terning.feature.intern
 
 import android.view.ViewGroup
 import android.webkit.WebView
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,7 +34,6 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningSub3
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
@@ -46,6 +44,7 @@ import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
+import com.terning.feature.intern.component.InternTitle
 import com.terning.feature.intern.model.InternUiState
 import java.text.DecimalFormat
 
@@ -164,37 +163,11 @@ fun InternScreen(
 
                     Spacer(modifier = modifier.padding(top = 20.dp))
 
-                    Row(
-                        modifier = modifier
-                            .background(
-                                color = TerningSub3,
-                                shape = RoundedCornerShape(size = 5.dp)
-                            ),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            0.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = internInfoModel.dDay,
-                            style = TerningTheme.typography.title3,
-                            color = TerningMain,
-                            modifier = Modifier.padding(
-                                horizontal = 19.5.dp,
-                                vertical = 1.5.dp
-                            )
-                        )
-                    }
-
-                    Text(
-                        text = internInfoModel.title,
-                        style = TerningTheme.typography.heading2,
-                        color = Black,
-                        modifier = modifier.padding(
-                            top = 4.dp,
-                            bottom = 16.dp
-                        )
+                    InternTitle(
+                        modifier = modifier,
+                        dDay = internInfoModel.dDay,
+                        title = internInfoModel.title,
+                        viewCount = decimal.format(internInfoModel.viewCount)
                     )
 
                     Column(
@@ -215,21 +188,6 @@ fun InternScreen(
                         internInfoList.forEach { (title, value) ->
                             InternInfoRow(title, value)
                         }
-                    }
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.End),
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(
-                                top = 9.dp,
-                            )
-                    ) {
-                        Text(
-                            text = "${decimal.format(internInfoModel.viewCount)}회",
-                            style = TerningTheme.typography.button4,
-                            color = Grey400,
-                        )
                     }
                 }
 
