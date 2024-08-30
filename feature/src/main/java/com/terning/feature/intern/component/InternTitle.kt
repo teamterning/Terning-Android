@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.Grey400
+import com.terning.core.designsystem.theme.Grey375
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningSub3
 import com.terning.core.designsystem.theme.TerningTheme
@@ -77,8 +77,8 @@ fun InternTitle(
             )
             Text(
                 text = stringResource(id = R.string.intern_view_count_detail, viewCount),
-                style = TerningTheme.typography.button4,
-                color = Grey400,
+                style = TerningTheme.typography.detail2,
+                color = Grey375,
             )
         }
     }
