@@ -6,12 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,7 +48,8 @@ import com.terning.core.designsystem.theme.CalPink
 import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
-import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey400
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
@@ -200,19 +199,39 @@ fun HomeScreen(
                     ShowInternFilter(homeFilteringInfo = homeFilteringInfo, onChangeFilterClick)
 
                     Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
+                            .fillMaxWidth()
+                            .padding(start = 24.dp, end = 18.dp),
                     ) {
-                        SortingButton(
-                            sortBy = currentSortBy.value,
-                            onCLick = { sheetState = true },
-                            modifier = Modifier
-                                .padding(vertical = 4.dp)
-                        )
-                        Spacer(
-                            modifier = Modifier.padding(9.dp)
-                        )
+                        Row {
+                            Text(
+                                text = stringResource(id = R.string.home_recommend_total),
+                                style = TerningTheme.typography.detail1,
+                                color = Grey400,
+                                modifier = Modifier
+                                    .padding(end = 3.dp),
+                            )
+                            Text(
+                                text = "0",
+                                style = TerningTheme.typography.button3,
+                                color = TerningMain,
+                            )
+                            Text(
+                                text = stringResource(id = R.string.home_recommend_count),
+                                style = TerningTheme.typography.detail1,
+                                color = Grey400,
+                            )
+                        }
+                        Row {
+                            SortingButton(
+                                sortBy = currentSortBy.value,
+                                onCLick = { sheetState = true },
+                                modifier = Modifier
+                                    .padding(vertical = 4.dp)
+                            )
+                        }
                     }
                 }
             }
