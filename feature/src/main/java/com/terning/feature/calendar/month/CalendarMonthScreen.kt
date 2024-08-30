@@ -1,56 +1,127 @@
 package com.terning.feature.calendar.month
 
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.feature.calendar.calendar.CalendarViewModel
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getDateByPage
-import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.month.component.HorizontalCalendar
+import com.terning.domain.entity.CalendarScrap
+import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
+import com.terning.feature.calendar.month.model.MonthModel
+import com.terning.feature.calendar.month.component.CalendarMonth
+import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
+import java.time.LocalDate
+import java.time.YearMonth
 
 @Composable
-internal fun CalendarMonthScreen(
-    pages: Int,
+fun CalendarMonthRoute(
     listState: LazyListState,
-    calendarUiState: CalendarUiState,
+    pages: Int,
+    selectedDate: LocalDate,
+    updateSelectedDate: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: CalendarViewModel = hiltViewModel()
+    viewModel: CalendarMonthViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val scrapState by viewModel.calendarMonthState.collectAsStateWithLifecycle(lifecycleOwner)
+    val monthUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
+
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is CalendarMonthSideEffect.ShowToast -> context.toast(sideEffect.message)
+                }
+            }
+    }
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
             .collect {
                 val page = listState.firstVisibleItemIndex
-                val date = getDateByPage(page)
+                val date = getLocalDateByPage(page)
                 viewModel.getScrapMonth(date.year, date.monthValue)
             }
     }
 
-    when (scrapState.loadState) {
+    CalendarMonthScreen(
+        selectedDate = selectedDate,
+        calendarMonthUiState = monthUiState,
+        listState = listState,
+        pages = pages,
+        updateSelectedDate = updateSelectedDate,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun CalendarMonthScreen(
+    listState: LazyListState,
+    calendarMonthUiState: CalendarMonthUiState,
+    pages: Int,
+    selectedDate: LocalDate,
+    updateSelectedDate: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    when (calendarMonthUiState.loadState) {
         UiState.Loading -> {}
         UiState.Empty -> {}
         is UiState.Failure -> {}
         is UiState.Success -> {
-            val scrapMap = (scrapState.loadState as UiState.Success).data
-            HorizontalCalendar(
+            val scrapMap = calendarMonthUiState.loadState.data
+
+            MonthSuccessScreen(
                 pages = pages,
                 listState = listState,
-                isWeekEnabled = calendarUiState.isWeekEnabled,
                 scrapMap = scrapMap,
-                onDateSelected = { viewModel.updateSelectedDate(it) },
-                selectedDate = calendarUiState.selectedDate,
+                onDateSelected = updateSelectedDate,
+                selectedDate = selectedDate,
                 modifier = modifier
+            )
+        }
+    }
+}
+
+@Composable
+private fun MonthSuccessScreen(
+    pages: Int,
+    listState: LazyListState,
+    selectedDate: LocalDate,
+    scrapMap: Map<String, List<CalendarScrap>>,
+    onDateSelected: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyRow(
+        modifier = modifier,
+        state = listState,
+        userScrollEnabled = true,
+        flingBehavior = flingBehavior(
+            state = listState
+        )
+    ) {
+        items(pages) { page ->
+            val date = getLocalDateByPage(page)
+            val monthModel = MonthModel(YearMonth.of(date.year, date.month))
+
+            CalendarMonth(
+                modifier = Modifier.fillParentMaxSize(),
+                onDateSelected = onDateSelected,
+                monthModel = monthModel,
+                scrapMap = scrapMap,
+                selectedDate = selectedDate,
+                isWeekEnabled = false
             )
         }
     }

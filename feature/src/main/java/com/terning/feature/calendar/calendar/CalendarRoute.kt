@@ -16,106 +16,89 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.toast
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
-import com.terning.feature.calendar.calendar.model.CalendarModel
-import com.terning.feature.calendar.list.CalendarListScreen
-import com.terning.feature.calendar.month.CalendarMonthScreen
-import com.terning.feature.calendar.week.CalendarWeekScreen
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getYearMonthByPage
+import com.terning.feature.calendar.calendar.model.CalendarUiState
+import com.terning.feature.calendar.list.CalendarListRoute
+import com.terning.feature.calendar.month.CalendarMonthRoute
+import com.terning.feature.calendar.week.CalendarWeekRoute
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import java.time.YearMonth
+import java.time.LocalDate
 
 @Composable
 fun CalendarRoute(
-    navController: NavController
+    navigateUp: () -> Unit,
+    navigateToAnnouncement: (Long) -> Unit,
+    viewModel: CalendarViewModel = hiltViewModel()
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+
+    BackHandler {
+        if (uiState.isWeekEnabled) {
+            viewModel.updateSelectedDate(uiState.selectedDate)
+        } else if (uiState.isListEnabled) {
+            viewModel.updateListVisibility(false)
+        } else {
+            navigateUp()
+        }
+    }
+
     CalendarScreen(
-        navController = navController
+        uiState = uiState,
+        navigateToAnnouncement = navigateToAnnouncement,
+        updateSelectedDate = viewModel::updateSelectedDate,
+        updatePage = viewModel::updatePage,
+        onClickListButton = {
+            viewModel.updateListVisibility(!uiState.isListEnabled)
+            if (uiState.isWeekEnabled) { viewModel.updateWeekVisibility(false) }
+        }
     )
 }
 
 @Composable
 private fun CalendarScreen(
+    uiState: CalendarUiState,
+    navigateToAnnouncement: (Long) -> Unit,
+    updateSelectedDate: (LocalDate) -> Unit,
+    updatePage: (Int) -> Unit,
+    onClickListButton: () -> Unit,
     modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController(),
-    viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val state = CalendarModel()
-    val calendarUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val coroutineScope = rememberCoroutineScope()
 
     val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = state.initialPage
+        initialFirstVisibleItemIndex = uiState.calendarModel.initialPage
     )
-
-    var currentDate by rememberSaveable { mutableStateOf(YearMonth.now()) }
-    var currentPage by rememberSaveable { mutableIntStateOf(listState.firstVisibleItemIndex) }
-
-    LaunchedEffect(viewModel.calendarSideEffect, lifecycleOwner) {
-        viewModel.calendarSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { sideEffect ->
-                when (sideEffect) {
-                    is CalendarSideEffect.ShowToast -> context.toast(sideEffect.message)
-                }
-            }
-    }
 
     LaunchedEffect(key1 = listState) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .distinctUntilChanged()
             .collect {
-                val swipeDirection =
-                    (listState.firstVisibleItemIndex - currentPage).coerceIn(-1, 1).toLong()
-                currentDate = currentDate.plusMonths(swipeDirection)
-                currentPage = listState.firstVisibleItemIndex
+                updatePage(listState.firstVisibleItemIndex)
             }
-    }
-
-    BackHandler {
-        if (calendarUiState.isWeekEnabled) {
-            viewModel.updateSelectedDate(calendarUiState.selectedDate)
-        } else if (calendarUiState.isListEnabled) {
-            viewModel.changeListVisibility()
-        } else {
-            navController.navigateUp()
-        }
     }
 
     Scaffold(
         modifier = modifier,
         topBar = {
-            val coroutineScope = rememberCoroutineScope()
             CalendarTopAppBar(
-                date = currentDate,
-                isListExpanded = calendarUiState.isListEnabled,
-                isWeekExpanded = calendarUiState.isWeekEnabled,
-                onListButtonClicked = {
-                    viewModel.changeListVisibility()
-                    if (calendarUiState.isWeekEnabled) {
-                        viewModel.disableWeekCalendar()
-                    }
-                },
+                date = getYearMonthByPage(uiState.currentPage),
+                isListExpanded = uiState.isListEnabled,
+                isWeekExpanded = uiState.isWeekEnabled,
+                onListButtonClicked = onClickListButton,
                 onMonthNavigationButtonClicked = { direction ->
                     coroutineScope.launch {
                         listState.animateScrollToItem(
@@ -127,7 +110,7 @@ private fun CalendarScreen(
         }
     ) { paddingValues ->
         ScreenTransition(
-            targetState = !calendarUiState.isListEnabled,
+            targetState = !uiState.isListEnabled,
             transitionOne = slideInHorizontally { fullWidth -> -fullWidth } togetherWith
                     slideOutHorizontally { fullWidth -> fullWidth },
             transitionTwo = slideInHorizontally { fullWidth -> fullWidth } togetherWith
@@ -146,39 +129,39 @@ private fun CalendarScreen(
                     )
 
                     ScreenTransition(
-                        targetState = !calendarUiState.isWeekEnabled,
+                        targetState = !uiState.isWeekEnabled,
                         transitionOne = slideInVertically { fullHeight -> -fullHeight } togetherWith
                                 slideOutVertically { fullHeight -> fullHeight },
                         transitionTwo = slideInVertically { fullHeight -> fullHeight } togetherWith
                                 slideOutVertically { fullHeight -> -fullHeight },
                         contentOne = {
-                            CalendarMonthScreen(
-                                calendarUiState = calendarUiState,
+                            CalendarMonthRoute(
                                 listState = listState,
-                                pages = state.pageCount,
+                                pages = uiState.calendarModel.pageCount,
+                                selectedDate = uiState.selectedDate,
+                                updateSelectedDate = updateSelectedDate,
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(White),
                             )
                         },
                         contentTwo = {
-                            CalendarWeekScreen(
-                                calendarUiState = calendarUiState,
-                                viewModel = viewModel,
-                                navController = navController,
+                            CalendarWeekRoute(
+                                calendarUiState = uiState,
                                 modifier = Modifier
                                     .fillMaxSize(),
+                                navigateToAnnouncement = navigateToAnnouncement,
+                                updateSelectedDate = updateSelectedDate
                             )
                         }
                     )
                 }
             },
             contentTwo = {
-                CalendarListScreen(
+                CalendarListRoute(
                     listState = listState,
-                    pages = state.pageCount,
-                    viewModel = viewModel,
-                    navController = navController,
+                    pages = uiState.calendarModel.pageCount,
+                    navigateToAnnouncement = navigateToAnnouncement,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = paddingValues.calculateTopPadding())
