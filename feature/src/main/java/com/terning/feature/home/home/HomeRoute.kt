@@ -383,7 +383,7 @@ private fun ShowTodayIntern(
                 HomeTodayIntern(
                     internList = homeTodayInternState.data,
                     homeDialogState = homeDialogState,
-                    navigateToIntern = { navigateToIntern(it) },
+                    navigateToIntern = navigateToIntern
                 )
             }
         }
@@ -423,7 +423,7 @@ private fun ShowInternFilter(
         HomeFilteringScreen(
             grade = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
             period = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            startYear = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
+            startYearMonth = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
             onChangeFilterClick = onChangeFilterClick,
         )
     } else {
@@ -438,7 +438,7 @@ private fun ShowInternFilter(
                         else -> R.string.home_recommend_no_filtering_hyphen
                     }
                 ),
-                startYear = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
+                startYearMonth = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
                         + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
                 onChangeFilterClick = onChangeFilterClick,
             )

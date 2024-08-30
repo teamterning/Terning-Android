@@ -39,8 +39,7 @@ fun HomeTodayIntern(
     ) {
         items(internList.size) { index ->
             HomeTodayInternItem(
-                title = internList[index].title,
-                scrapColor = Color(android.graphics.Color.parseColor(internList[index].color)),
+                homeTodayIntern = internList[index],
                 modifier = Modifier
                     .noRippleClickable {
                         homeViewModel.updateScrapDialogVisible(true)
