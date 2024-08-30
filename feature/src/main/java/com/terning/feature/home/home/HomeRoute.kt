@@ -199,11 +199,6 @@ fun HomeScreen(
                     ShowRecommendTitle()
                     ShowInternFilter(homeFilteringInfo = homeFilteringInfo, onChangeFilterClick)
 
-                    HorizontalDivider(
-                        thickness = 4.dp,
-                        color = Grey150,
-                    )
-
                     Row(
                         modifier = Modifier
                             .fillMaxWidth(),
