@@ -100,7 +100,7 @@ fun HomeTodayInternItem(
                         color = Grey500,
                         maxLines = 1,
                         modifier = Modifier
-                            .padding(start = 6.dp)
+                            .padding(start = 6.dp, end = 15.dp)
                             .weight(1f)
                     )
 
