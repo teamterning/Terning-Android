@@ -1,7 +1,6 @@
 package com.terning.feature.home.home.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -10,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -23,7 +23,6 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 
@@ -37,35 +36,36 @@ fun HomeFilteringScreen(
 ) {
     Row(
         modifier = modifier
-            .padding(top = 10.dp, bottom = 11.dp)
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = 24.dp, vertical = 12.dp)
             .height(IntrinsicSize.Min)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
-            modifier = modifier
-                .background(
+            modifier = Modifier
+                .border(
+                    width = 1.dp,
                     color = TerningMain,
-                    shape = RoundedCornerShape(5.dp),
+                    shape = RoundedCornerShape(5.dp)
                 )
                 .align(Alignment.CenterVertically)
                 .noRippleClickable { onChangeFilterClick() },
         ) {
-            Image(
+            Icon(
                 painter = painterResource(id = R.drawable.ic_home_filtering_28),
                 contentDescription = stringResource(id = R.string.home_recommend_filtering),
                 modifier = modifier
-                    .padding(horizontal = 2.dp),
+                    .padding(start = 1.dp),
+                tint = TerningMain,
             )
             Text(
                 text = stringResource(id = R.string.home_recommend_filtering),
-                style = TerningTheme.typography.button4,
-                color = White,
+                style = TerningTheme.typography.button3,
+                color = TerningMain,
                 textAlign = TextAlign.Center,
-                modifier = modifier
-                    .padding(end = 6.dp)
-                    .align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .padding(start = 5.dp, end = 10.dp)
+                    .align(Alignment.CenterVertically),
             )
         }
 
