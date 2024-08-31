@@ -33,7 +33,6 @@
 
     <!--bottom_sheet-->
     <string name="sign_up_bottom_sheet_title">프로필 이미지 선택</string>
-    <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
     <string name="sign_up_dialog_start">저장하기</string>
     <string name="my_page_bottom_sheet_title">잠깐만요!</string>
     <string name="my_page_logout_sub">정말 로그아웃 하시겠어요?</string>

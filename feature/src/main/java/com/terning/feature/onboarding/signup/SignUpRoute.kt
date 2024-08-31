@@ -22,7 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.terning.core.designsystem.component.bottomsheet.SignUpBottomSheet
+import com.terning.core.designsystem.component.bottomsheet.ProfileBottomSheet
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.item.ProfileWithPlusButton
 import com.terning.core.designsystem.component.textfield.NameTextField
@@ -63,7 +63,7 @@ fun SignUpRoute(
     }
 
     if (showBottomSheet) {
-        SignUpBottomSheet(
+        ProfileBottomSheet(
             onDismiss = { showBottomSheet = false },
             onSaveClick = { index ->
                 showBottomSheet = false

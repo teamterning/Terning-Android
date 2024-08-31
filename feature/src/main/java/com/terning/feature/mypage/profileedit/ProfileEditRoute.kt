@@ -21,7 +21,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.terning.core.designsystem.component.bottomsheet.SignUpBottomSheet
+import com.terning.core.designsystem.component.bottomsheet.ProfileBottomSheet
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.item.ProfileWithPlusButton
 import com.terning.core.designsystem.component.textfield.NameTextField
@@ -57,7 +57,7 @@ fun ProfileEditRoute(
     }
 
     if (state.showBottomSheet) {
-        SignUpBottomSheet(
+        ProfileBottomSheet(
             onDismiss = { viewModel.updateBottomSheet(false) },
             onSaveClick = { index ->
                 viewModel.updateBottomSheet(false)

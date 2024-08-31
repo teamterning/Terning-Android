@@ -34,7 +34,7 @@ import com.terning.core.extension.noRippleClickable
 import kotlinx.coroutines.launch
 
 /**
- * 회원가입을 할 때 프로필 이미지를 선택할 수 있는 바텀시트입니다.
+ * 프로필 이미지를 선택할 수 있는 바텀시트입니다.
  *
  * @param modifier 바텀시트에 적용할 Modifier입니다.
  * @param onDismiss 바텀시트가 닫힐 때 호출되는 콜백 함수입니다.
@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpBottomSheet(
+fun ProfileBottomSheet(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     onSaveClick: (Int) -> Unit,
@@ -143,7 +143,7 @@ fun RadioButtonGroup(
                 painter = painterResource(
                     id = option
                 ),
-                contentDescription = stringResource(id = R.string.sign_up_bottom_sheet_description),
+                contentDescription = "profile image",
                 modifier = imageModifier
                     .aspectRatio(1f)
                     .noRippleClickable {
