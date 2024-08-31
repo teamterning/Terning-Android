@@ -1,23 +1,24 @@
 package com.terning.feature.main
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import com.terning.core.designsystem.theme.Grey300
@@ -56,19 +57,38 @@ fun MainScreen(
         },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize(),
         ) {
             NavHost(
+                enterTransition = {
+                    EnterTransition.None
+                },
+                exitTransition = {
+                    ExitTransition.None
+                },
+                popEnterTransition = {
+                    EnterTransition.None
+                },
+                popExitTransition = {
+                    ExitTransition.None
+                },
                 navController = navigator.navController,
                 startDestination = navigator.startDestination
             ) {
-                splashNavGraph(navHostController = navigator.navController)
-                homeNavGraph(navHostController = navigator.navController)
+                splashNavGraph(
+                    paddingValues = innerPadding,
+                    navHostController = navigator.navController
+                )
+                homeNavGraph(
+                    paddingValues = innerPadding,
+                    navHostController = navigator.navController
+                )
                 calendarNavGraph(navHostController = navigator.navController)
                 searchNavGraph(navHostController = navigator.navController)
-                myPageNavGraph(navHostController = navigator.navController)
+                myPageNavGraph(
+                    paddingValues = innerPadding,
+                    navHostController = navigator.navController
+                )
                 signInNavGraph(navHostController = navigator.navController)
                 signUpNavGraph(navHostController = navigator.navController)
                 filteringOneNavGraph(navHostController = navigator.navController)
@@ -79,7 +99,10 @@ fun MainScreen(
                 startFilteringNavGraph(navHostController = navigator.navController)
                 startHomeNavGraph(navHostController = navigator.navController)
                 internNavGraph(navHostController = navigator.navController)
-                profileEditNavGraph(navHostController = navigator.navController)
+                profileEditNavGraph(
+                    paddingValues = innerPadding,
+                    navHostController = navigator.navController
+                )
             }
         }
     }
@@ -94,10 +117,8 @@ private fun MainBottomBar(
 ) {
     AnimatedVisibility(
         visible = isVisible,
-        enter = expandVertically(expandFrom = Alignment.Top) { 20 },
-        exit = shrinkVertically(animationSpec = tween()) { fullHeight ->
-            fullHeight / 2
-        },
+        enter = fadeIn() + slideIn { IntOffset(0, 0) },
+        exit = fadeOut() + slideOut { IntOffset(0, 0) }
     ) {
         NavigationBar(containerColor = White) {
             tabs.forEach { itemType ->

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,6 +47,7 @@ import com.terning.feature.mypage.mypage.component.MyPageItem
 
 @Composable
 fun MyPageRoute(
+    paddingValues: PaddingValues,
     viewModel: MyPageViewModel = hiltViewModel(),
     navigateToProfileEdit: (String) -> Unit
 ) {
@@ -101,6 +103,7 @@ fun MyPageRoute(
     when (state.isGetSuccess) {
         is UiState.Success -> {
             MyPageScreen(
+                paddingValues = paddingValues,
                 onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
                 onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
                 onNoticeClick = { viewModel.fetchShowNotice(true) },
@@ -129,6 +132,7 @@ fun MyPageRoute(
 
 @Composable
 fun MyPageScreen(
+    paddingValues: PaddingValues = PaddingValues(),
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
     onNoticeClick: () -> Unit,
@@ -142,6 +146,7 @@ fun MyPageScreen(
         modifier = modifier
             .fillMaxSize()
             .background(Back)
+            .padding(paddingValues)
     ) {
         UserProfile(
             name = name,

@@ -2,7 +2,9 @@ package com.terning.feature.onboarding.splash
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -19,6 +21,7 @@ import com.terning.feature.R
 
 @Composable
 fun SplashRoute(
+    paddingValues: PaddingValues,
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),
@@ -52,15 +55,17 @@ fun SplashRoute(
             }
     }
 
-    SplashScreen()
+    SplashScreen(paddingValues = paddingValues)
 }
 
 @Composable
 fun SplashScreen(
+    paddingValues: PaddingValues = PaddingValues(),
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
+            .padding(paddingValues)
             .fillMaxSize()
             .background(TerningMain),
     ) {

@@ -4,6 +4,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -25,6 +26,7 @@ fun NavController.navigateProfileEdit(
 }
 
 fun NavGraphBuilder.profileEditNavGraph(
+    paddingValues: PaddingValues,
     navHostController: NavHostController,
 ) {
     composable<ProfileEdit>(
@@ -43,6 +45,7 @@ fun NavGraphBuilder.profileEditNavGraph(
     ) {
         val args = it.toRoute<ProfileEdit>()
         ProfileEditRoute(
+            paddingValues = paddingValues,
             initialName = args.name,
             navigateUp = { navHostController.navigateUp() }
         )

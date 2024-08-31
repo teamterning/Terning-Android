@@ -1,7 +1,9 @@
 package com.terning.feature.mypage.profileedit
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -37,6 +39,7 @@ import com.terning.feature.R
 
 @Composable
 fun ProfileEditRoute(
+    paddingValues: PaddingValues,
     navigateUp: () -> Unit,
     viewModel: ProfileEditViewModel = hiltViewModel(),
     initialName: String,
@@ -78,6 +81,7 @@ fun ProfileEditRoute(
     }
 
     ProfileEditScreen(
+        paddingValues = paddingValues,
         profileEditState = state,
         onProfileEditClick = { isVisible ->
             viewModel.updateBottomSheet(isVisible)
@@ -96,6 +100,7 @@ fun ProfileEditRoute(
 
 @Composable
 fun ProfileEditScreen(
+    paddingValues: PaddingValues = PaddingValues(),
     profileEditState: ProfileEditState,
     onProfileEditClick: (Boolean) -> Unit,
     onInputChange: (String) -> Unit,
@@ -112,15 +117,15 @@ fun ProfileEditScreen(
             .fillMaxSize()
             .addFocusCleaner(focusManager)
             .background(White)
+            .padding(paddingValues)
     ) {
         BackButtonTopAppBar(
             onBackButtonClick = { onBackButtonClick() },
             title = stringResource(id = R.string.profile_edit_title)
         )
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = modifier.height(24.dp))
         Column(
             modifier = modifier
-                .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 24.dp)
         ) {
             Text(
@@ -165,15 +170,15 @@ fun ProfileEditScreen(
                 style = TerningTheme.typography.detail0
             )
         }
-        Spacer(modifier = modifier.weight(5f))
+
         RectangleButton(
             style = TerningTheme.typography.button1,
             paddingVertical = 20.dp,
             text = R.string.profile_edit_save,
             onButtonClick = { onSaveClick() },
-            isEnabled = profileEditState.isButtonValid
+            isEnabled = profileEditState.isButtonValid,
         )
-        Spacer(modifier = Modifier.height(12.dp))
+       Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
