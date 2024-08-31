@@ -143,15 +143,15 @@ fun MyPageScreen(
         UserProfile(
             name = name,
             profile = profile,
-            onEditClick = { onEditClick() }
+            onEditClick = onEditClick
         )
         TerningCommunity(
-            onNoticeClick = { onNoticeClick() },
-            onOpinionClick = { onOpinionClick() }
+            onNoticeClick =  onNoticeClick,
+            onOpinionClick = onOpinionClick
         )
         ServiceInfo(
-            onNoticeClick = { onNoticeClick() },
-            onOpinionClick = { onOpinionClick() }
+            onNoticeClick = onNoticeClick,
+            onOpinionClick = onOpinionClick
         )
         Row(
             modifier = Modifier
