@@ -23,7 +23,7 @@ fun SignUpProfile(
     index: Int,
     modifier: Modifier = Modifier,
 ) {
-    val grade = when (index) {
+    val profile = when (index) {
         0 -> R.drawable.ic_terning_profile_00
         1 -> R.drawable.ic_terning_profile_01
         2 -> R.drawable.ic_terning_profile_02
@@ -36,7 +36,7 @@ fun SignUpProfile(
         modifier = modifier.wrapContentWidth()
     ) {
         Image(
-            painterResource(id = grade),
+            painterResource(id = profile),
             contentDescription = stringResource(id = R.string.sign_up_profile_image),
             modifier = modifier
                 .clip(shape = RoundedCornerShape(76.dp))
