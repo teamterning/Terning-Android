@@ -130,7 +130,6 @@ fun RadioButtonGroup(
                 ),
                 contentDescription = "profile image",
                 modifier = imageModifier
-                    .aspectRatio(1f)
                     .noRippleClickable {
                         onOptionSelected(index)
                         selectedOption = option

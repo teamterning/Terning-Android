@@ -100,5 +100,4 @@ dependencies {
 
     // KakaoDependencies
     implementation(libs.kakao.user)
-
 }

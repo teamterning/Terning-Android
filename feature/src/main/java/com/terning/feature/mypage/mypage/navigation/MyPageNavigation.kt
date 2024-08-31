@@ -34,7 +34,7 @@ fun NavGraphBuilder.myPageNavGraph(
         },
         popExitTransition = {
             ExitTransition.None
-        }
+        },
     ) {
         MyPageRoute(
             navigateToProfileEdit = { name -> navHostController.navigateProfileEdit(name) }

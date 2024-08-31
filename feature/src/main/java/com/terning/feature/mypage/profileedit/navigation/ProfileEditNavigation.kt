@@ -1,5 +1,9 @@
 package com.terning.feature.mypage.profileedit.navigation
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -23,7 +27,20 @@ fun NavController.navigateProfileEdit(
 fun NavGraphBuilder.profileEditNavGraph(
     navHostController: NavHostController,
 ) {
-    composable<ProfileEdit> {
+    composable<ProfileEdit>(
+        enterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { it },
+                animationSpec = tween(durationMillis = 700, easing = LinearOutSlowInEasing)
+            )
+        },
+        popExitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { it },
+                animationSpec = tween(durationMillis = 700, easing = LinearOutSlowInEasing)
+            )
+        },
+    ) {
         val args = it.toRoute<ProfileEdit>()
         ProfileEditRoute(
             initialName = args.name,

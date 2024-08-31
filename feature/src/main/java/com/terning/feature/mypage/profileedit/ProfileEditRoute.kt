@@ -1,5 +1,6 @@
 package com.terning.feature.mypage.profileedit
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -84,7 +85,7 @@ fun ProfileEditRoute(
         onInputChange = { editName ->
             viewModel.updateName(editName)
         },
-        onSaveClick = {/*TODO: 수정사항 저장 로직*/ },
+        onSaveClick = { viewModel.navigateUp() },
         name = state.name,
         onBackButtonClick = { viewModel.navigateUp() },
         onValidationChanged = { isValid ->
@@ -110,6 +111,7 @@ fun ProfileEditScreen(
         modifier = modifier
             .fillMaxSize()
             .addFocusCleaner(focusManager)
+            .background(White)
     ) {
         BackButtonTopAppBar(
             onBackButtonClick = { onBackButtonClick() },
