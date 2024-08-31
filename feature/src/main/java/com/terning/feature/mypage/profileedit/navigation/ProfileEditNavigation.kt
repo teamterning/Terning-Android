@@ -26,7 +26,6 @@ fun NavController.navigateProfileEdit(
 }
 
 fun NavGraphBuilder.profileEditNavGraph(
-    paddingValues: PaddingValues,
     navHostController: NavHostController,
 ) {
     composable<ProfileEdit>(
@@ -45,7 +44,6 @@ fun NavGraphBuilder.profileEditNavGraph(
     ) {
         val args = it.toRoute<ProfileEdit>()
         ProfileEditRoute(
-            paddingValues = paddingValues,
             initialName = args.name,
             navigateUp = { navHostController.navigateUp() }
         )

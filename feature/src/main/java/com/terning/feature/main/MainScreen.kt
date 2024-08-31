@@ -9,6 +9,7 @@ import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -57,7 +58,7 @@ fun MainScreen(
         },
     ) { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
         ) {
             NavHost(
                 enterTransition = {
@@ -99,10 +100,7 @@ fun MainScreen(
                 startFilteringNavGraph(navHostController = navigator.navController)
                 startHomeNavGraph(navHostController = navigator.navController)
                 internNavGraph(navHostController = navigator.navController)
-                profileEditNavGraph(
-                    paddingValues = innerPadding,
-                    navHostController = navigator.navController
-                )
+                profileEditNavGraph(navHostController = navigator.navController)
             }
         }
     }

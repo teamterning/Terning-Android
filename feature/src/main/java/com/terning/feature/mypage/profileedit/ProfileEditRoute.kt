@@ -1,13 +1,13 @@
 package com.terning.feature.mypage.profileedit
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,7 +39,6 @@ import com.terning.feature.R
 
 @Composable
 fun ProfileEditRoute(
-    paddingValues: PaddingValues,
     navigateUp: () -> Unit,
     viewModel: ProfileEditViewModel = hiltViewModel(),
     initialName: String,
@@ -81,7 +80,6 @@ fun ProfileEditRoute(
     }
 
     ProfileEditScreen(
-        paddingValues = paddingValues,
         profileEditState = state,
         onProfileEditClick = { isVisible ->
             viewModel.updateBottomSheet(isVisible)
@@ -100,7 +98,6 @@ fun ProfileEditRoute(
 
 @Composable
 fun ProfileEditScreen(
-    paddingValues: PaddingValues = PaddingValues(),
     profileEditState: ProfileEditState,
     onProfileEditClick: (Boolean) -> Unit,
     onInputChange: (String) -> Unit,
@@ -114,14 +111,15 @@ fun ProfileEditScreen(
 
     Column(
         modifier = modifier
+            .statusBarsPadding()
+            .navigationBarsPadding()
             .fillMaxSize()
             .addFocusCleaner(focusManager)
             .background(White)
-            .padding(paddingValues)
     ) {
         BackButtonTopAppBar(
             onBackButtonClick = { onBackButtonClick() },
-            title = stringResource(id = R.string.profile_edit_title)
+            title = stringResource(id = R.string.profile_edit_title),
         )
         Spacer(modifier = modifier.height(24.dp))
         Column(
@@ -133,7 +131,7 @@ fun ProfileEditScreen(
                 style = TerningTheme.typography.body2,
                 color = Grey500
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = modifier.height(20.dp))
             ProfileWithPlusButton(
                 modifier = modifier
                     .noRippleClickable {
@@ -142,12 +140,12 @@ fun ProfileEditScreen(
                     .align(Alignment.CenterHorizontally),
                 index = profileEditState.character
             )
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = modifier.height(48.dp))
             Text(
                 text = stringResource(id = R.string.sign_up_name),
                 color = Grey500
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = modifier.height(20.dp))
             NameTextField(
                 value = name,
                 onValueChange = { editName ->
@@ -158,19 +156,19 @@ fun ProfileEditScreen(
                     onValidationChanged(isValid)
                 }
             )
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = modifier.height(48.dp))
             Text(
                 text = stringResource(id = R.string.profile_edit_auth_type),
                 style = TerningTheme.typography.body2,
                 color = Grey500,
             )
-            Spacer(modifier = Modifier.height(11.dp))
+            Spacer(modifier = modifier.height(11.dp))
             Text(
                 text = profileEditState.authType,
                 style = TerningTheme.typography.detail0
             )
         }
-
+        Spacer(modifier = modifier.weight(1f))
         RectangleButton(
             style = TerningTheme.typography.button1,
             paddingVertical = 20.dp,
@@ -178,7 +176,7 @@ fun ProfileEditScreen(
             onButtonClick = { onSaveClick() },
             isEnabled = profileEditState.isButtonValid,
         )
-       Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = modifier.height(12.dp))
     }
 }
 
