@@ -105,7 +105,7 @@ fun SignUpScreen(
                     showBottomSheet = false
                     onFetchCharacter(index)
                 },
-                initialSelectedOption = signUpState.character
+                initialSelectedOption = signUpState.profileImage
             )
         }
         Text(
@@ -126,7 +126,7 @@ fun SignUpScreen(
                 modifier = modifier.noRippleClickable {
                     showBottomSheet = true
                 },
-                index = signUpState.character
+                index = signUpState.profileImage
             )
         }
         Column(
