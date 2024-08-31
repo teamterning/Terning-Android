@@ -8,6 +8,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.calendar.calendar.CalendarRoute
+import com.terning.feature.intern.navigation.navigateIntern
 import kotlinx.serialization.Serializable
 
 
@@ -36,7 +37,8 @@ fun NavGraphBuilder.calendarNavGraph(
         }
     ) {
         CalendarRoute(
-            navController = navHostController
+            navigateUp = navHostController::navigateUp,
+            navigateToAnnouncement = navHostController::navigateIntern
         )
     }
 }

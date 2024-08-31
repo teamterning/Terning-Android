@@ -19,11 +19,12 @@ import com.terning.domain.entity.CalendarScrapDetail
 import java.time.LocalDate
 
 @Composable
-fun CalendarScrapList(
+internal fun CalendarScrapList(
     selectedDate: LocalDate,
     scrapList: List<CalendarScrapDetail>,
     onScrapButtonClicked: (Long) -> Unit,
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
+    modifier: Modifier = Modifier,
     isFromList: Boolean = false
 ) {
     val scrollState = rememberScrollState()
