@@ -54,7 +54,7 @@ fun NameTextField(
                 name = trimmedName,
                 lineColor = WarningRed,
                 helperMessage = R.string.sign_up_helper_error,
-                helperIcon = R.drawable.ic_sign_up_error,
+                helperIcon = R.drawable.ic_name_text_field_error,
                 helperColor = WarningRed,
                 isValid = false
             )
@@ -76,7 +76,7 @@ fun NameTextField(
                 name = trimmedName,
                 lineColor = WarningRed,
                 helperMessage = R.string.sign_up_helper_out,
-                helperIcon = R.drawable.ic_sign_up_error,
+                helperIcon = R.drawable.ic_name_text_field_error,
                 helperColor = WarningRed,
                 isValid = false
             )
@@ -87,7 +87,7 @@ fun NameTextField(
                 name = trimmedName,
                 lineColor = TerningMain,
                 helperMessage = R.string.sign_up_helper_available,
-                helperIcon = R.drawable.ic_check,
+                helperIcon = R.drawable.ic_name_text_field_check,
                 helperColor = TerningMain,
                 isValid = true
             )

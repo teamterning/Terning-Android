@@ -16,6 +16,7 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,8 +53,7 @@ fun MyPageRoute(
     val context = LocalContext.current
 
     var name by remember { mutableStateOf(state.name) }
-    // TODO: 프로필로 바꾸기
-    var profile by remember { mutableStateOf(state.authType) }
+    var profile by remember { mutableIntStateOf(state.profile) }
 
     val systemUiController = rememberSystemUiController()
 
@@ -94,8 +94,7 @@ fun MyPageRoute(
     when (state.isGetSuccess) {
         is UiState.Success -> {
             name = state.name
-            // TODO: 프로필로 바꾸기
-            profile = state.authType
+            profile = state.profile
         }
 
         is UiState.Loading -> {}
@@ -133,7 +132,7 @@ fun MyPageScreen(
     onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
     name: String = "",
-    profile: String = ""
+    profile: Int = 0
 ) {
     Column(
         modifier = modifier
@@ -195,7 +194,7 @@ fun UserProfile(
     name: String,
     onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
-    profile: String = "PROFILE_00",
+    profile: Int = 0,
 ) {
     Row(
         modifier = modifier.padding(

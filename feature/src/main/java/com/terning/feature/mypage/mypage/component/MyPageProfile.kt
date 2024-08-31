@@ -12,7 +12,7 @@ import com.terning.core.designsystem.component.image.TerningImage
 @Composable
 fun MyPageProfile(
     modifier: Modifier = Modifier,
-    profile: String
+    profile: Int
 ) {
     val options = listOf(
         R.drawable.ic_terning_profile_00,
@@ -24,11 +24,11 @@ fun MyPageProfile(
     )
 
     val option = when (profile) {
-        "PROFILE_00" -> options[0]
-        "PROFILE_01" -> options[1]
-        "PROFILE_02" -> options[2]
-        "PROFILE_03" -> options[3]
-        "PROFILE_04" -> options[4]
+        0 -> options[0]
+        1 -> options[1]
+        2 -> options[2]
+        3 -> options[3]
+        4 -> options[4]
         else -> options[5]
     }
 
