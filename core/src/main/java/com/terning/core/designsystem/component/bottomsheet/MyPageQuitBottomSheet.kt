@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import kotlinx.coroutines.launch
 
@@ -51,7 +52,8 @@ fun MyPageQuitBottomSheet(
                     text = stringResource(id = R.string.my_page_quit_sub),
                     style = TerningTheme.typography.body3,
                     modifier = modifier.padding(top = 54.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Grey400
                 )
                 RoundButton(
                     style = TerningTheme.typography.button2,

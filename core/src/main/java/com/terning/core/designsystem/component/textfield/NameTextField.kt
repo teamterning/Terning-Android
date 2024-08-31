@@ -28,13 +28,13 @@ fun NameTextField(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val nameErrorRegex = Regex(NAME_ERROR)
-    var trimmedName = ""
-    var outOfBoundName = false
-    if (name.length > MAX_LENGTH) {
-        trimmedName = name.substring(0, MAX_LENGTH)
-        outOfBoundName = true
-    } else trimmedName = name
+//    val nameErrorRegex = Regex(NAME_ERROR)
+//    var trimmedName = ""
+//    var outOfBoundName = false
+//    if (name.length > MAX_LENGTH) {
+//        trimmedName = name.substring(0, MAX_LENGTH)
+//        outOfBoundName = true
+//    } else trimmedName = name
 
     TerningBasicTextField(
         value = value,

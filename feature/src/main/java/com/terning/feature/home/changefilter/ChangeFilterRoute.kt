@@ -48,12 +48,12 @@ fun ChangeFilterRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    val filteringState by viewModel.homeFilteringState.collectAsStateWithLifecycle()
+    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
 
-    when (filteringState) {
+    when (homeState.homeFilteringInfoState) {
         is UiState.Success -> ChangeFilterScreen(
-            (filteringState as UiState.Success<HomeFilteringInfo>).data,
-            navController,
+            filterData = (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfo>).data,
+            navigateToHome = { navController.popBackStack() },
             viewModel,
         )
 
@@ -75,7 +75,7 @@ fun ChangeFilterRoute(
 @Composable
 fun ChangeFilterScreen(
     filterData: HomeFilteringInfo,
-    navController: NavController,
+    navigateToHome: () -> Unit,
     viewModel: HomeViewModel,
 ) {
     var currentGrade by remember { mutableIntStateOf(filterData.grade ?: -1) }
@@ -96,7 +96,7 @@ fun ChangeFilterScreen(
         topBar = {
             BackButtonTopAppBar(
                 title = stringResource(id = R.string.change_filter_top_bar_title),
-                onBackButtonClick = { navController.popBackStack() },
+                onBackButtonClick = navigateToHome,
                 modifier = Modifier
                     .shadow(elevation = 2.dp)
             )

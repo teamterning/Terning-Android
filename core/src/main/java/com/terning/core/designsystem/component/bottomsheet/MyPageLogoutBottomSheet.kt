@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import kotlinx.coroutines.launch
 
@@ -48,7 +49,8 @@ fun MyPageLogoutBottomSheet(
                 )
                 Text(
                     text = stringResource(id = R.string.my_page_logout_sub),
-                    style = TerningTheme.typography.body3,
+                    style = TerningTheme.typography.body4,
+                    color = Grey400,
                     modifier = modifier.padding(top = 54.dp)
                 )
                 RoundButton(
@@ -63,7 +65,7 @@ fun MyPageLogoutBottomSheet(
                         start = 24.dp,
                         top = 72.dp,
                         end = 24.dp
-                    )
+                    ),
                 )
                 DeleteRoundButton(
                     style = TerningTheme.typography.button2,
