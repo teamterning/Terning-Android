@@ -9,6 +9,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.mypage.mypage.MyPageRoute
+import com.terning.feature.mypage.profileedit.navigation.navigateProfileEdit
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateMyPage(navOptions: NavOptions? = null) {
@@ -35,7 +36,9 @@ fun NavGraphBuilder.myPageNavGraph(
             ExitTransition.None
         }
     ) {
-        MyPageRoute()
+        MyPageRoute(
+            navigateToProfileEdit = { navHostController.navigateProfileEdit() }
+        )
     }
 }
 

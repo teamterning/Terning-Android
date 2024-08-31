@@ -14,6 +14,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -27,7 +28,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
@@ -48,9 +51,11 @@ import com.terning.feature.mypage.mypage.component.MyPageItem
 @Composable
 fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
+    navigateToProfileEdit: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     var name by remember { mutableStateOf(state.name) }
     var profile by remember { mutableIntStateOf(state.profile) }
@@ -61,6 +66,15 @@ fun MyPageRoute(
         systemUiController.setStatusBarColor(
             color = Back
         )
+    }
+
+    LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
+        viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit()
+                }
+            }
     }
 
     if (state.showLogoutBottomSheet) {
@@ -117,7 +131,7 @@ fun MyPageRoute(
         onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
         onNoticeClick = { viewModel.fetchShowNotice(true) },
         onOpinionClick = { viewModel.fetchShowOpinion(true) },
-        onEditClick = { /*TODO: 프로필 수정으로 이동*/ },
+        onEditClick = { viewModel.navigateToProfileEdit() },
         name = name,
         profile = profile
     )

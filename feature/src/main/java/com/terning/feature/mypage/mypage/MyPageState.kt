@@ -7,6 +7,7 @@ data class MyPageState(
     val isGetSuccess: UiState<Boolean> = UiState.Loading,
     val name: String = "",
     val profile: Int = 0,
+    val authType : String ="",
     val showNotice: Boolean = false,
     val showOpinion: Boolean = false,
     val showLogoutBottomSheet : Boolean = false,
