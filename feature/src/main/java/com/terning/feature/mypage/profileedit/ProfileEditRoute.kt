@@ -71,11 +71,12 @@ fun ProfileEditRoute(
             viewModel.updateBottomSheet(isVisible)
         },
         onInputChange = { editName ->
-            viewModel.isInputValid(editName)
+            viewModel.updateName(editName)
         },
         onSaveClick = {/*TODO: 수정사항 저장 로직*/ },
         name = state.name,
-        onBackButtonClick = { viewModel.navigateUp() }
+        onBackButtonClick = { viewModel.navigateUp() },
+        onValidationChanged = { isValid -> viewModel.updateButtonValidation(isValid) }
     )
 }
 
@@ -88,6 +89,7 @@ fun ProfileEditScreen(
     name: String,
     onBackButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onValidationChanged: (Boolean) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -132,10 +134,7 @@ fun ProfileEditScreen(
                     onInputChange(editName)
                 },
                 hint = stringResource(id = R.string.sign_up_hint),
-                drawLineColor = profileEditState.drawLineColor,
-                helperMessage = profileEditState.helper,
-                helperIcon = profileEditState.helperIcon,
-                helperColor = profileEditState.helperColor
+                onValidationChanged = { isValid -> onValidationChanged(isValid) }
             )
             Spacer(modifier = Modifier.height(48.dp))
             Text(
@@ -171,7 +170,8 @@ fun ProfileEditScreenPreview() {
             onInputChange = {},
             onSaveClick = {},
             name = "터닝이",
-            onBackButtonClick = {}
+            onBackButtonClick = {},
+            onValidationChanged = {}
         )
     }
 }

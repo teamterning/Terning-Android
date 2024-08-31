@@ -79,10 +79,13 @@ fun SignUpRoute(
             viewModel.postSignUpWithServer()
         },
         onInputChange = { name ->
-            viewModel.isInputValid(name)
+            viewModel.updateName(name)
         },
         onProfileEditClick = { isVisible ->
             showBottomSheet = isVisible
+        },
+        onValidationChanged = { isVisible ->
+            viewModel.updateButtonValidation(isVisible)
         }
     )
 }
@@ -94,6 +97,7 @@ fun SignUpScreen(
     onInputChange: (String) -> Unit,
     onProfileEditClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    onValidationChanged: (Boolean) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -148,10 +152,7 @@ fun SignUpScreen(
                     onInputChange(name)
                 },
                 hint = stringResource(id = R.string.sign_up_hint),
-                drawLineColor = signUpState.drawLineColor,
-                helperMessage = signUpState.helper,
-                helperIcon = signUpState.helperIcon,
-                helperColor = signUpState.helperColor
+                onValidationChanged = { isValid -> onValidationChanged(isValid) }
             )
         }
         Spacer(modifier = modifier.weight(5f))
@@ -174,7 +175,8 @@ fun SignUpScreenPreview() {
             signUpState = SignUpState(),
             onSignUpClick = {},
             onInputChange = {},
-            onProfileEditClick = {}
+            onProfileEditClick = {},
+            onValidationChanged = {}
         )
     }
 }

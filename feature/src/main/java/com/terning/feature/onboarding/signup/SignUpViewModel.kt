@@ -2,10 +2,6 @@ package com.terning.feature.onboarding.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.Grey500
-import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.WarningRed
 import com.terning.domain.entity.onboarding.SignUpRequest
 import com.terning.domain.repository.AuthRepository
 import com.terning.domain.repository.TokenRepository
@@ -32,52 +28,12 @@ class SignUpViewModel @Inject constructor(
     private val _sideEffects = MutableSharedFlow<SignUpSideEffect>()
     val sideEffects: SharedFlow<SignUpSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun isInputValid(name: String) {
-        val nameErrorRegex = Regex(NAME_ERROR)
-        var trimmedName = ""
-        var outOfBoundName = false
-        if (name.length > MAX_LENGTH) {
-            trimmedName = name.substring(0, MAX_LENGTH)
-            outOfBoundName = true
-        } else trimmedName = name
+    fun updateButtonValidation(isValid: Boolean) {
+        _state.value = _state.value.copy(isButtonValid = isValid)
+    }
 
-        when {
-            nameErrorRegex.containsMatchIn(trimmedName) -> _state.value = _state.value.copy(
-                name = trimmedName,
-                drawLineColor = WarningRed,
-                helper = R.string.sign_up_helper_error,
-                helperIcon = R.drawable.ic_sign_up_error,
-                helperColor = WarningRed,
-                isButtonValid = false
-            )
-
-            trimmedName.isEmpty() || trimmedName.isBlank() -> _state.value = _state.value.copy(
-                name = trimmedName,
-                drawLineColor = Grey500,
-                helper = R.string.sign_up_helper,
-                helperIcon = null,
-                helperColor = Grey400,
-                isButtonValid = false
-            )
-
-            outOfBoundName -> _state.value = _state.value.copy(
-                name = trimmedName,
-                drawLineColor =WarningRed,
-                helper = R.string.sign_up_helper_out,
-                helperIcon = R.drawable.ic_sign_up_error,
-                helperColor =  WarningRed,
-                isButtonValid = false
-            )
-
-            else -> _state.value = _state.value.copy(
-                name = trimmedName,
-                drawLineColor = TerningMain,
-                helper = R.string.sign_up_helper_available,
-                helperIcon = R.drawable.ic_check,
-                helperColor = TerningMain,
-                isButtonValid = true
-            )
-        }
+    fun updateName(name: String) {
+        _state.value = _state.value.copy(name = name)
     }
 
     fun fetchCharacter(character: Int) {
@@ -114,8 +70,6 @@ class SignUpViewModel @Inject constructor(
     }
 
     companion object {
-        const val NAME_ERROR = "[!@#\$%^&*(),.?\":{}|<>\\[\\]\\\\/\\-=+~`\\p{S}\\p{P}]"
-        private const val MAX_LENGTH = 12
         private const val KAKA0 = "KAKAO"
     }
 }
