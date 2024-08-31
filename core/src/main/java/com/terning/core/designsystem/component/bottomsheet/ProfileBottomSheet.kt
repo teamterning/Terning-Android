@@ -17,7 +17,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -27,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
-import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
@@ -52,8 +50,6 @@ fun ProfileBottomSheet(
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
 
-    var selectedImageIndex by remember { mutableIntStateOf(initialSelectedOption) }
-
     TerningBasicBottomSheet(
         content = {
             Column {
@@ -68,27 +64,16 @@ fun ProfileBottomSheet(
                 )
                 RadioButtonGroup(
                     onOptionSelected = { index ->
-                        selectedImageIndex = index
-                    },
-                    initialSelectedOption = initialSelectedOption
-                )
-                Spacer(modifier = modifier.padding(bottom = 24.dp))
-                RoundButton(
-                    style = TerningTheme.typography.button0,
-                    paddingVertical = 19.dp,
-                    cornerRadius = 10.dp,
-                    text = R.string.sign_up_dialog_start,
-                    onButtonClick = {
                         scope.launch { sheetState.hide() }
                             .invokeOnCompletion {
                                 if (!sheetState.isVisible) {
-                                    onSaveClick(selectedImageIndex)
+                                    onSaveClick(index)
                                 }
                             }
                     },
-                    modifier = modifier.padding(horizontal = 24.dp)
+                    initialSelectedOption = initialSelectedOption
                 )
-                Spacer(modifier = modifier.padding(bottom = 15.dp))
+                Spacer(modifier = modifier.padding(bottom = 26.dp))
             }
         },
         onDismissRequest = { onDismiss() },

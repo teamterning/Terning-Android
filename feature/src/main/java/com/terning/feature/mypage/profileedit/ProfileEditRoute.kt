@@ -87,7 +87,9 @@ fun ProfileEditRoute(
         onSaveClick = {/*TODO: 수정사항 저장 로직*/ },
         name = state.name,
         onBackButtonClick = { viewModel.navigateUp() },
-        onValidationChanged = { isValid -> viewModel.updateButtonValidation(isValid) }
+        onValidationChanged = { isValid ->
+            viewModel.updateButtonValidation(isValid)
+        }
     )
 }
 
@@ -145,7 +147,9 @@ fun ProfileEditScreen(
                     onInputChange(editName)
                 },
                 hint = stringResource(id = R.string.sign_up_hint),
-                onValidationChanged = { isValid -> onValidationChanged(isValid) }
+                onValidationChanged = { isValid ->
+                    onValidationChanged(isValid)
+                }
             )
             Spacer(modifier = Modifier.height(48.dp))
             Text(
