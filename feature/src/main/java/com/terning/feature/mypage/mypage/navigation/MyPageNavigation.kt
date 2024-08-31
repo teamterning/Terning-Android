@@ -37,7 +37,7 @@ fun NavGraphBuilder.myPageNavGraph(
         }
     ) {
         MyPageRoute(
-            navigateToProfileEdit = { navHostController.navigateProfileEdit() }
+            navigateToProfileEdit = { name -> navHostController.navigateProfileEdit(name) }
         )
     }
 }

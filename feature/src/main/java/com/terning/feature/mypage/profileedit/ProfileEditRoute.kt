@@ -38,7 +38,7 @@ import com.terning.feature.R
 fun ProfileEditRoute(
     navigateUp: () -> Unit,
     viewModel: ProfileEditViewModel = hiltViewModel(),
-    initialName: String = "",
+    initialName: String,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 

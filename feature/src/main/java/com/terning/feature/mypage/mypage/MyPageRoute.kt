@@ -17,10 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -51,14 +47,11 @@ import com.terning.feature.mypage.mypage.component.MyPageItem
 @Composable
 fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
-    navigateToProfileEdit: () -> Unit
+    navigateToProfileEdit: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
-    var name by remember { mutableStateOf(state.name) }
-    var profile by remember { mutableIntStateOf(state.profile) }
 
     val systemUiController = rememberSystemUiController()
 
@@ -72,7 +65,7 @@ fun MyPageRoute(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit()
+                    is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit(state.name)
                 }
             }
     }
@@ -107,8 +100,15 @@ fun MyPageRoute(
 
     when (state.isGetSuccess) {
         is UiState.Success -> {
-            name = state.name
-            profile = state.profile
+            MyPageScreen(
+                onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
+                onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
+                onNoticeClick = { viewModel.fetchShowNotice(true) },
+                onOpinionClick = { viewModel.fetchShowOpinion(true) },
+                onEditClick = { viewModel.navigateToProfileEdit() },
+                name = state.name,
+                profile = state.profile
+            )
         }
 
         is UiState.Loading -> {}
@@ -125,16 +125,6 @@ fun MyPageRoute(
         viewModel.navigateToOpinionWebView(context)
         viewModel.fetchShowOpinion(false)
     }
-
-    MyPageScreen(
-        onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
-        onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
-        onNoticeClick = { viewModel.fetchShowNotice(true) },
-        onOpinionClick = { viewModel.fetchShowOpinion(true) },
-        onEditClick = { viewModel.navigateToProfileEdit() },
-        name = name,
-        profile = profile
-    )
 }
 
 @Composable

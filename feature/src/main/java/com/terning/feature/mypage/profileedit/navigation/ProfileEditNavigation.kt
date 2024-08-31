@@ -5,13 +5,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.mypage.profileedit.ProfileEditRoute
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateProfileEdit(navOptions: NavOptions? = null) {
+fun NavController.navigateProfileEdit(
+    name: String,
+    navOptions: NavOptions? = null
+) {
     navigate(
-        route = ProfileEdit,
+        route = ProfileEdit(name = name),
         navOptions = navOptions
     )
 }
@@ -19,13 +23,16 @@ fun NavController.navigateProfileEdit(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.profileEditNavGraph(
     navHostController: NavHostController,
 ) {
-    composable<ProfileEdit>(
-    ) {
+    composable<ProfileEdit> {
+        val args = it.toRoute<ProfileEdit>()
         ProfileEditRoute(
+            initialName = args.name,
             navigateUp = { navHostController.navigateUp() }
         )
     }
 }
 
 @Serializable
-data object ProfileEdit : Route
+data class ProfileEdit(
+    val name: String
+) : Route
