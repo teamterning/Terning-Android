@@ -53,9 +53,20 @@ fun ScrapCancelDialog(
             }
     }
 
+    ScrapCancelScreen(
+        onDismissRequest = { onDismissRequest(false) },
+        onClickScrapCancel = { viewModel.deleteScrap(scrapId) }
+    )
 
+}
+
+@Composable
+private fun ScrapCancelScreen(
+    onDismissRequest: () -> Unit,
+    onClickScrapCancel: () -> Unit,
+) {
     TerningBasicDialog(
-        onDismissRequest = { onDismissRequest(false) }
+        onDismissRequest = onDismissRequest
     ) {
         Box(
             modifier = Modifier
@@ -95,7 +106,7 @@ fun ScrapCancelDialog(
                     paddingVertical = 12.dp,
                     cornerRadius = 8.dp,
                     text = R.string.dialog_scrap_cancel_button,
-                    onButtonClick = { viewModel.deleteScrap(scrapId) },
+                    onButtonClick = onClickScrapCancel,
                     modifier = Modifier.padding(bottom = 8.dp, top = 40.dp)
                 )
             }
@@ -108,8 +119,8 @@ fun ScrapCancelDialog(
 @Composable
 private fun TerningBasicDialogPreview() {
     TerningPointTheme {
-        ScrapCancelDialog(
-            scrapId = 1,
+        ScrapCancelScreen(
+            onClickScrapCancel = {},
             onDismissRequest = {}
         )
     }
