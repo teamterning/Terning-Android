@@ -12,10 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -110,12 +115,43 @@ private fun CalendarWeekScreen(
     navigateToAnnouncement: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var initialTouchPosition by remember { mutableStateOf<Offset?>(null) }
+    var hideComponent by remember { mutableStateOf(false) }
+
+    LaunchedEffect(hideComponent) {
+        if(hideComponent) {
+            updateSelectedDate(selectedDate)
+        }
+    }
+
+    val swipeModifier = Modifier.pointerInput(Unit) {
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                val position = event.changes.first().position
+
+                if (event.changes.first().pressed) {
+                    if (initialTouchPosition == null) {
+                        initialTouchPosition = position
+                    } else {
+                        val deltaY = initialTouchPosition?.let { position.y - it.y }
+                        if (deltaY != null && deltaY > 300f) {
+                            hideComponent = true
+                        }
+                    }
+                } else {
+                    initialTouchPosition = null
+                }
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .background(Back)
     ) {
         Card(
-            modifier = Modifier
+            modifier = swipeModifier
                 .shadow(
                     shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
                     elevation = 1.dp
