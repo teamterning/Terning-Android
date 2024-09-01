@@ -1,6 +1,8 @@
 package com.terning.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -41,18 +43,20 @@ fun MyPageLogoutBottomSheet(
         content = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
             ) {
+                Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = stringResource(id = R.string.my_page_bottom_sheet_title),
                     style = TerningTheme.typography.heading1,
-                    modifier = modifier.padding(top = 35.dp)
                 )
+                Spacer(modifier = modifier.height(60.dp))
                 Text(
                     text = stringResource(id = R.string.my_page_logout_sub),
                     style = TerningTheme.typography.body4,
                     color = Grey400,
-                    modifier = modifier.padding(top = 54.dp)
                 )
+                Spacer(modifier = modifier.height(64.dp))
                 RoundButton(
                     style = TerningTheme.typography.button2,
                     paddingVertical = 15.dp,
@@ -63,10 +67,10 @@ fun MyPageLogoutBottomSheet(
                     },
                     modifier = modifier.padding(
                         start = 24.dp,
-                        top = 72.dp,
                         end = 24.dp
                     ),
                 )
+                Spacer(modifier = modifier.height(8.dp))
                 DeleteRoundButton(
                     style = TerningTheme.typography.button2,
                     paddingVertical = 15.dp,
@@ -82,11 +86,10 @@ fun MyPageLogoutBottomSheet(
                     },
                     modifier = modifier.padding(
                         start = 24.dp,
-                        top = 8.dp,
                         end = 24.dp,
-                        bottom = 100.dp
                     )
                 )
+                Spacer(modifier = modifier.height(32.dp))
             }
         },
         onDismissRequest = { onDismiss() },
