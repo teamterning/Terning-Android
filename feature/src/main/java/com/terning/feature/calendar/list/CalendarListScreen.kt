@@ -39,7 +39,6 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.list.component.CalendarScrapList

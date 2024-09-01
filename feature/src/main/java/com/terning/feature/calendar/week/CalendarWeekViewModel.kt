@@ -34,8 +34,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarWeekViewModel @Inject constructor(
-    private val calendarRepository: CalendarRepository,
-    private val scrapRepository: ScrapRepository
+    private val calendarRepository: CalendarRepository
 ): ViewModel() {
     private val _uiState = MutableStateFlow(CalendarWeekUiState())
     val uiState = _uiState.asStateFlow()
@@ -105,51 +104,4 @@ class CalendarWeekViewModel @Inject constructor(
             }
         )
     }
-
-    fun deleteScrap(scrapId: Long) = viewModelScope.launch {
-        _uiState.value.loadState
-            .takeIf { it is UiState.Success }
-            ?.let { CalendarScrapRequest(scrapId, null) }?.let { scrapRequestModel ->
-                scrapRepository.deleteScrap(
-                    scrapRequestModel
-                ).onSuccess {
-                    runCatching {
-                            getScrapWeekList(selectedDate = _uiState.value.selectedDate)
-                    }.onSuccess {
-                        updateScrapCancelDialogVisibility(false)
-                    }
-                }.onFailure {
-                    _sideEffect.emit(
-                        CalendarWeekSideEffect.ShowToast(R.string.server_failure)
-                    )
-                }
-            }
-    }
-
-    fun patchScrap(color: Color) = viewModelScope.launch {
-        val scrapId = _uiState.value.internshipModel?.scrapId ?: 0
-        val colorIndex = getColorIndex(color)
-
-        scrapRepository.patchScrap(CalendarScrapRequest(scrapId, colorIndex))
-            .onSuccess {
-                runCatching {
-                    getScrapWeekList(selectedDate = _uiState.value.selectedDate)
-                }
-            }.onFailure {
-                _sideEffect.emit(CalendarWeekSideEffect.ShowToast(R.string.server_failure))
-            }
-    }
-
-    private fun getColorIndex(color: Color): Int = listOf(
-        CalRed,
-        CalOrange1,
-        CalOrange2,
-        CalYellow,
-        CalGreen1,
-        CalGreen2,
-        CalBlue1,
-        CalBlue2,
-        CalPurple,
-        CalPink
-    ).indexOf(color)
 }

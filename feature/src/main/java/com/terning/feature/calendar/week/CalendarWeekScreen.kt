@@ -38,7 +38,6 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
@@ -228,19 +227,6 @@ private fun CalendarWeekScreen(
             )
         }
     }
-
-    /*if (uiState.internDialogVisibility) {
-        CalendarDetailDialog(
-            deadline = uiState.selectedDate.getFullDateStringInKorean(),
-            scrapDetailModel = uiState.internshipModel,
-            onDismissRequest = onDismissInternDialog,
-            onClickChangeColorButton = onClickChangeColor,
-            onClickNavigateButton = { announcementId ->
-                navigateToAnnouncement(announcementId)
-                onDismissInternDialog()
-            }
-        )
-    }*/
 }
 
 @Composable
