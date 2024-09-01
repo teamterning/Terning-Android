@@ -37,7 +37,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.terning.core.R
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.ColorPalette
@@ -49,6 +48,7 @@ import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.feature.R
 import com.terning.feature.intern.component.InternInfoRow
 
 
