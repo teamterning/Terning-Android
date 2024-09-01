@@ -45,6 +45,7 @@ import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLo
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
+import com.terning.feature.dialog.detail.ScrapDialog
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 
@@ -85,13 +86,18 @@ fun CalendarListRoute(
         listState = listState,
         uiState = uiState,
         modifier = modifier,
-        navigateToAnnouncement = navigateToAnnouncement,
+        navigateToAnnouncement = { announcementId ->
+            navigateToAnnouncement(announcementId)
+            viewModel.updateInternDialogVisibility(false)
+        },
         onDismissCancelDialog = { isCancelled ->
             viewModel.updateScrapCancelDialogVisibility(false)
             if (isCancelled) { viewModel.getScrapMonthList(uiState.currentDate) }
         },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
-        onClickChangeColor = { newColor -> viewModel.patchScrap(newColor) },
+        onClickChangeColor = {
+            viewModel.getScrapMonthList(uiState.currentDate)
+        },
         onClickScrapButton = { scrapId ->
             with(viewModel){
                 updateScrapId(scrapId)
@@ -115,7 +121,7 @@ private fun CalendarListScreen(
     navigateToAnnouncement: (Long) -> Unit,
     onDismissCancelDialog: (Boolean) -> Unit,
     onDismissInternDialog: () -> Unit,
-    onClickChangeColor: (Color) -> Unit,
+    onClickChangeColor: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -203,16 +209,28 @@ private fun CalendarListScreen(
     }
 
     if (uiState.internDialogVisibility) {
-        CalendarDetailDialog(
-            deadline = uiState.currentDate.getFullDateStringInKorean(),
-            scrapDetailModel = uiState.internshipModel,
-            onDismissRequest = onDismissInternDialog,
-            onClickChangeColorButton = onClickChangeColor,
-            onClickNavigateButton = { announcementId ->
-                navigateToAnnouncement(announcementId)
-                onDismissInternDialog()
-            }
-        )
+        uiState.internshipModel?.let {
+            val scrapColor = Color(
+                android.graphics.Color.parseColor(
+                    uiState.internshipModel.color
+                )
+            )
+            ScrapDialog(
+                title = uiState.internshipModel.title,
+                scrapColor = scrapColor,
+                deadline = uiState.currentDate.getFullDateStringInKorean(),
+                startYear = uiState.internshipModel.startYear,
+                startMonth = uiState.internshipModel.startMonth,
+                workingPeriod = uiState.internshipModel.workingPeriod,
+                scrapId = uiState.internshipModel.scrapId,
+                internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
+                companyImage = uiState.internshipModel.companyImage,
+                isScrapped = true,
+                onDismissRequest = onDismissInternDialog,
+                onClickChangeColor = onClickChangeColor,
+                onClickNavigateButton = navigateToAnnouncement
+            )
+        }
     }
 }
 
