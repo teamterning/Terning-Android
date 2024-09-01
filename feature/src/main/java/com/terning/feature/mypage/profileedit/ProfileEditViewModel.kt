@@ -25,10 +25,6 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
         _state.value = _state.value.copy(isButtonValid = isValid)
     }
 
-    fun updateCharacter(character: Int) {
-        _state.value = _state.value.copy(character = character)
-    }
-
     fun navigateUp() = viewModelScope.launch { _sideEffects.emit(ProfileEditSideEffect.NavigateUp) }
 
     fun updateBottomSheet(isVisible: Boolean) {
@@ -39,7 +35,26 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
         _state.value = _state.value.copy(name = name)
     }
 
-    companion object {
-        private const val KAKA0 = "KAKAO"
+    fun updateProfile(profile: Int) {
+        _state.value = _state.value.copy(profile = profile)
     }
+
+    fun updateInitialInfo(initialName: String, initialProfile: Int) {
+        _state.value = _state.value.copy(
+            name = initialName,
+            initialName = initialName,
+            profile = initialProfile,
+            initialProfile = initialProfile
+        )
+    }
+
+    fun checkIsInfoChange(editName: String, editProfile: Int) {
+        _state.value = _state.value.copy(
+            isInfoChange = when {
+                editName == _state.value.initialName && editProfile == _state.value.initialProfile -> false
+                else -> true
+            }
+        )
+    }
+
 }

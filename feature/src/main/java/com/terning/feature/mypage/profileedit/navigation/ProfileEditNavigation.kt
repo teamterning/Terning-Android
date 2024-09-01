@@ -4,7 +4,6 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -17,10 +16,11 @@ import kotlinx.serialization.Serializable
 
 fun NavController.navigateProfileEdit(
     name: String,
+    profile: Int,
     navOptions: NavOptions? = null
 ) {
     navigate(
-        route = ProfileEdit(name = name),
+        route = ProfileEdit(name = name, profile = profile),
         navOptions = navOptions
     )
 }
@@ -45,6 +45,7 @@ fun NavGraphBuilder.profileEditNavGraph(
         val args = it.toRoute<ProfileEdit>()
         ProfileEditRoute(
             initialName = args.name,
+            initialProfile = args.profile,
             navigateUp = { navHostController.navigateUp() }
         )
     }
@@ -52,5 +53,6 @@ fun NavGraphBuilder.profileEditNavGraph(
 
 @Serializable
 data class ProfileEdit(
-    val name: String
+    val name: String,
+    val profile: Int
 ) : Route

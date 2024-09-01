@@ -49,7 +49,7 @@ import com.terning.feature.mypage.mypage.component.MyPageItem
 fun MyPageRoute(
     paddingValues: PaddingValues,
     viewModel: MyPageViewModel = hiltViewModel(),
-    navigateToProfileEdit: (String) -> Unit
+    navigateToProfileEdit: (String, Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -67,7 +67,10 @@ fun MyPageRoute(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit(state.name)
+                    is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit(
+                        state.name,
+                        state.profile
+                    )
                 }
             }
     }

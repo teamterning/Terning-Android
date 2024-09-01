@@ -27,7 +27,7 @@ fun NavGraphBuilder.myPageNavGraph(
     composable<MyPage>{
         MyPageRoute(
             paddingValues = paddingValues,
-            navigateToProfileEdit = { name -> navHostController.navigateProfileEdit(name) }
+            navigateToProfileEdit = { name, profile -> navHostController.navigateProfileEdit(name, profile) }
         )
     }
 }

@@ -42,6 +42,7 @@ fun ProfileEditRoute(
     navigateUp: () -> Unit,
     viewModel: ProfileEditViewModel = hiltViewModel(),
     initialName: String,
+    initialProfile: Int
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -56,7 +57,7 @@ fun ProfileEditRoute(
     }
 
     LaunchedEffect(key1 = true) {
-        viewModel.updateName(initialName)
+        viewModel.updateInitialInfo(initialName = initialName, initialProfile = initialProfile)
     }
 
     if (state.showBottomSheet) {
@@ -64,9 +65,10 @@ fun ProfileEditRoute(
             onDismiss = { viewModel.updateBottomSheet(false) },
             onSaveClick = { index ->
                 viewModel.updateBottomSheet(false)
-                viewModel.updateCharacter(index)
+                viewModel.updateProfile(index)
+                viewModel.checkIsInfoChange(editName = state.name, editProfile = index)
             },
-            initialSelectedOption = state.character
+            initialSelectedOption = state.profile
         )
     }
 
@@ -86,12 +88,13 @@ fun ProfileEditRoute(
         },
         onInputChange = { editName ->
             viewModel.updateName(editName)
+            viewModel.checkIsInfoChange(editName = editName, editProfile = state.profile)
         },
         onSaveClick = { viewModel.navigateUp() },
         name = state.name,
         onBackButtonClick = { viewModel.navigateUp() },
         onValidationChanged = { isValid ->
-            viewModel.updateButtonValidation(isValid)
+            if (state.isInfoChange) viewModel.updateButtonValidation(isValid)
         }
     )
 }
@@ -123,8 +126,7 @@ fun ProfileEditScreen(
         )
         Spacer(modifier = modifier.height(24.dp))
         Column(
-            modifier = modifier
-                .padding(horizontal = 24.dp)
+            modifier = modifier.padding(horizontal = 24.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.sign_up_profile_image),
@@ -133,12 +135,12 @@ fun ProfileEditScreen(
             )
             Spacer(modifier = modifier.height(20.dp))
             ProfileWithPlusButton(
-                modifier = modifier
+                modifier = Modifier
                     .noRippleClickable {
                         onProfileEditClick(true)
                     }
                     .align(Alignment.CenterHorizontally),
-                index = profileEditState.character
+                index = profileEditState.profile
             )
             Spacer(modifier = modifier.height(48.dp))
             Text(
