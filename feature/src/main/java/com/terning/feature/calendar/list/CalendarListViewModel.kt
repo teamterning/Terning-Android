@@ -1,23 +1,10 @@
 package com.terning.feature.calendar.list
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.theme.CalBlue1
-import com.terning.core.designsystem.theme.CalBlue2
-import com.terning.core.designsystem.theme.CalGreen1
-import com.terning.core.designsystem.theme.CalGreen2
-import com.terning.core.designsystem.theme.CalOrange1
-import com.terning.core.designsystem.theme.CalOrange2
-import com.terning.core.designsystem.theme.CalPink
-import com.terning.core.designsystem.theme.CalPurple
-import com.terning.core.designsystem.theme.CalRed
-import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
-import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.repository.CalendarRepository
-import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

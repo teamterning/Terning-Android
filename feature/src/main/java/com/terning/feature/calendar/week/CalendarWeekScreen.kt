@@ -93,7 +93,6 @@ fun CalendarWeekRoute(
         },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
         onClickChangeColor = { viewModel.getScrapWeekList(uiState.selectedDate) },
-        onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
         onClickScrapButton = { scrapId ->
             with(viewModel) {
                 updateScrapId(scrapId)
@@ -117,7 +116,6 @@ private fun CalendarWeekScreen(
     onDismissCancelDialog: (Boolean) -> Unit,
     onDismissInternDialog: () -> Unit,
     onClickChangeColor: () -> Unit,
-    onClickScrapCancel: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
     navigateToAnnouncement: (Long) -> Unit,

@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
-import com.terning.feature.calendar.list.CalendarListSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
