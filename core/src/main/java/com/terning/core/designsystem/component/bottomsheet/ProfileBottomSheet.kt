@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -52,14 +51,14 @@ fun ProfileBottomSheet(
 
     TerningBasicBottomSheet(
         content = {
-            Column {
+            Column(modifier = modifier) {
                 Text(
                     text = stringResource(id = R.string.sign_up_bottom_sheet_title),
                     style = TerningTheme.typography.title2,
-                    modifier = modifier
+                    modifier = Modifier
                         .padding(
                             start = 28.dp,
-                            bottom = 25.dp
+                            bottom = 20.dp
                         ),
                 )
                 RadioButtonGroup(
@@ -107,19 +106,17 @@ fun RadioButtonGroup(
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = modifier
-            .padding(horizontal = 42.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
+        modifier = modifier.padding(horizontal = 34.dp)
     ) {
         itemsIndexed(options) { index, option ->
             val imageModifier = if (selectedOption == options[index]) {
-                modifier
-                    .border(
-                        color = TerningMain,
-                        width = 2.dp,
-                        shape = CircleShape
-                    )
+                modifier.border(
+                    color = TerningMain,
+                    width = 2.dp,
+                    shape = CircleShape
+                )
             } else {
                 modifier
             }

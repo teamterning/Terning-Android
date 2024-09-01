@@ -132,13 +132,13 @@ fun MyPageRoute(
 
 @Composable
 fun MyPageScreen(
-    paddingValues: PaddingValues = PaddingValues(),
+    modifier: Modifier = Modifier,
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
     onNoticeClick: () -> Unit,
     onOpinionClick: () -> Unit,
     onEditClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
     profile: Int = 0
 ) {
