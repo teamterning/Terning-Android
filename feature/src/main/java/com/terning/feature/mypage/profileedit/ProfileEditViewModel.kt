@@ -49,11 +49,10 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
     }
 
     fun checkIsInfoChange(editName: String, editProfile: Int) {
+        val isInfoChanged = editName != _state.value.initialName || editProfile != _state.value.initialProfile
         _state.value = _state.value.copy(
-            isInfoChange = when {
-                editName == _state.value.initialName && editProfile == _state.value.initialProfile -> false
-                else -> true
-            }
+            isInfoChange = isInfoChanged,
+            isButtonValid = isInfoChanged && _state.value.isButtonValid
         )
     }
 
