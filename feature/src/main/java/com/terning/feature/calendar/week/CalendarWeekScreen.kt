@@ -38,12 +38,12 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
+import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import okhttp3.internal.toImmutableList
 import java.time.LocalDate
 
@@ -82,11 +82,16 @@ fun CalendarWeekRoute(
         selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
         navigateToAnnouncement = navigateToAnnouncement,
-        onDismissCancelDialog = { viewModel.updateScrapCancelDialogVisibility(false) },
+        onDismissCancelDialog = { isCancelled ->
+            viewModel.updateScrapCancelDialogVisibility(false)
+            if (isCancelled) {
+                viewModel.getScrapWeekList(uiState.selectedDate)
+            }
+        },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
         onClickChangeColor = { viewModel.patchScrap(it) },
         onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
-        onClickScrapButton = {scrapId ->
+        onClickScrapButton = { scrapId ->
             with(viewModel) {
                 updateScrapId(scrapId)
                 updateScrapCancelDialogVisibility(true)
@@ -106,7 +111,7 @@ private fun CalendarWeekScreen(
     uiState: CalendarWeekUiState,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
-    onDismissCancelDialog: () -> Unit,
+    onDismissCancelDialog: (Boolean) -> Unit,
     onDismissInternDialog: () -> Unit,
     onClickChangeColor: (Color) -> Unit,
     onClickScrapCancel: () -> Unit,
@@ -119,7 +124,7 @@ private fun CalendarWeekScreen(
     var hideComponent by remember { mutableStateOf(false) }
 
     LaunchedEffect(hideComponent) {
-        if(hideComponent) {
+        if (hideComponent) {
             updateSelectedDate(selectedDate)
         }
     }
@@ -173,6 +178,7 @@ private fun CalendarWeekScreen(
             is UiState.Empty -> {
                 CalendarWeekEmpty()
             }
+
             is UiState.Failure -> {}
             is UiState.Success -> {
                 CalendarWeekSuccess(
@@ -186,13 +192,12 @@ private fun CalendarWeekScreen(
     }
 
     if (uiState.scrapDialogVisibility) {
-        CalendarCancelDialog(
-            onDismissRequest = onDismissCancelDialog,
-            onClickScrapCancel = {
-                onClickScrapCancel()
-                onDismissCancelDialog()
-            }
-        )
+        uiState.scrapId?.run {
+            ScrapCancelDialog(
+                scrapId = this,
+                onDismissRequest = onDismissCancelDialog
+            )
+        }
     }
 
     if (uiState.internDialogVisibility) {

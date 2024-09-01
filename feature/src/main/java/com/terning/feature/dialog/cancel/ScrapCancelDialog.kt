@@ -26,6 +26,14 @@ import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 
+/**
+ * 스크랩 취소 다이얼로그입니다
+ *
+ * @param scrapId 공고의 스크랩 ID, 공고 ID로 변경될 예정입니다.
+ * @param onDismissRequest 다이얼로그를 닫을 때 호출되는 콜백 함수입니다. 스크랩이 취소되면 true를 반환합니다.
+ * @param viewModel 스크랩 취소 API 요청을 처리하는 ViewModel입니다.
+ */
+
 @Composable
 fun ScrapCancelDialog(
     scrapId: Long,

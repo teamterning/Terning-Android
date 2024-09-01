@@ -39,12 +39,12 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.list.model.CalendarListUiState
+import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.time.LocalDate
 
@@ -86,17 +86,23 @@ fun CalendarListRoute(
         uiState = uiState,
         modifier = modifier,
         navigateToAnnouncement = navigateToAnnouncement,
-        onDismissCancelDialog = { viewModel.updateScrapCancelDialogVisibility(false) },
+        onDismissCancelDialog = { isCancelled ->
+            viewModel.updateScrapCancelDialogVisibility(false)
+            if (isCancelled) { viewModel.getScrapMonthList(uiState.currentDate) }
+        },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
         onClickChangeColor = { newColor -> viewModel.patchScrap(newColor) },
-        onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
         onClickScrapButton = { scrapId ->
-            viewModel.updateScrapId(scrapId)
-            viewModel.updateScrapCancelDialogVisibility(true)
+            with(viewModel){
+                updateScrapId(scrapId)
+                updateScrapCancelDialogVisibility(true)
+            }
         },
         onClickInternship = { calendarScrapDetail ->
-            viewModel.updateInternshipModel(calendarScrapDetail)
-            viewModel.updateInternDialogVisibility(true)
+            with(viewModel) {
+                updateInternshipModel(calendarScrapDetail)
+                updateInternDialogVisibility(true)
+            }
         }
     )
 }
@@ -107,10 +113,9 @@ private fun CalendarListScreen(
     listState: LazyListState,
     uiState: CalendarListUiState,
     navigateToAnnouncement: (Long) -> Unit,
-    onDismissCancelDialog: () -> Unit,
+    onDismissCancelDialog: (Boolean) -> Unit,
     onDismissInternDialog: () -> Unit,
     onClickChangeColor: (Color) -> Unit,
-    onClickScrapCancel: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -189,13 +194,12 @@ private fun CalendarListScreen(
     }
 
     if (uiState.scrapDialogVisibility) {
-        CalendarCancelDialog(
-            onDismissRequest = onDismissCancelDialog,
-            onClickScrapCancel = {
-                onClickScrapCancel()
-                onDismissCancelDialog()
-            }
-        )
+        uiState.scrapId?.run {
+            ScrapCancelDialog(
+                scrapId = this,
+                onDismissRequest = onDismissCancelDialog
+            )
+        }
     }
 
     if (uiState.internDialogVisibility) {
