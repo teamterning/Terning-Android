@@ -2,7 +2,6 @@ package com.terning.feature.intern
 
 import android.view.ViewGroup
 import android.webkit.WebView
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -207,17 +206,11 @@ fun InternScreen(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_sub_title_intern_detail)
                     )
-                }
-
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                ) {
-
 
                     Column(
                         modifier = modifier.padding(
-                            start = 24.dp,
-                            end = 24.dp,
+                            start = 10.dp,
+                            top = 5.dp,
                             bottom = 20.dp
                         )
                     ) {
@@ -230,6 +223,7 @@ fun InternScreen(
                 }
             }
         }
+
         if (internUiState.isScrapDialogVisible) {
             TerningBasicDialog(
                 onDismissRequest = {
