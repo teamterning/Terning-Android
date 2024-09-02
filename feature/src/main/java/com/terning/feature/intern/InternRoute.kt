@@ -21,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import androidx.navigation.NavHostController
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey200
@@ -43,6 +44,7 @@ import java.text.DecimalFormat
 fun InternRoute(
     announcementId: Long = 0,
     viewModel: InternViewModel = hiltViewModel(),
+    navController: NavHostController,
 ) {
     val internState by viewModel.internUiState.collectAsStateWithLifecycle()
 
@@ -69,7 +71,8 @@ fun InternRoute(
         is UiState.Success -> {
             InternScreen(
                 internUiState = internState,
-                internInfoModel = (internState.loadState as UiState.Success).data
+                internInfoModel = (internState.loadState as UiState.Success).data,
+                navController = navController
             )
         }
     }
@@ -78,6 +81,7 @@ fun InternRoute(
 @Composable
 fun InternScreen(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
     internUiState: InternUiState,
     internInfoModel: InternInfoModel,
@@ -119,6 +123,7 @@ fun InternScreen(
                     offsetY = 2.dp
                 ),
                 onBackButtonClick = {
+                    navController.popBackStack()
                 },
             )
         },

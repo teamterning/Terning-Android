@@ -42,6 +42,7 @@ fun NavGraphBuilder.internNavGraph(
         val args = it.toRoute<Intern>()
         InternRoute(
             announcementId = args.announcementId,
+            navController = navHostController
         )
     }
 }
