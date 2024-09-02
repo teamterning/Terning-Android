@@ -2,7 +2,6 @@ package com.terning.feature.intern
 
 import android.view.ViewGroup
 import android.webkit.WebView
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,7 +31,6 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
@@ -170,40 +167,36 @@ fun InternScreen(
                         viewCount = decimal.format(internInfoModel.viewCount)
                     )
 
-                    Column(
-                        modifier = modifier
-                            .border(
-                                width = 1.dp,
-                                color = TerningMain,
-                                shape = RoundedCornerShape(size = 5.dp)
-                            )
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(
-                            6.dp,
-                            Alignment.CenterVertically
-                        ),
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        internInfoList.forEach { (title, value) ->
-                            InternInfoRow(title, value)
-                        }
-                    }
-                }
+                    Spacer(modifier = modifier.padding(top = 16.dp))
 
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                ) {
                     InternPageTitle(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_sub_title_intern_summary)
                     )
 
+                    Column(
+                        modifier = modifier.padding(
+                            top = 4.dp,
+                            bottom = 4.dp,
+                            start = 10.dp
+                        )
+                    ) {
+                        internInfoList.forEach { (title, value) ->
+                            InternInfoRow(title, value)
+                        }
+                    }
+
+                    Spacer(modifier = modifier.padding(top = 16.dp))
+
                     InternPageTitle(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_info_request)
                     )
+                }
 
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                ) {
                     Column(
                         modifier = modifier
                             .padding(horizontal = 24.dp)
@@ -225,10 +218,6 @@ fun InternScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Start
                             ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_second_info_20),
-                                    contentDescription = null,
-                                )
                                 Text(
                                     text = stringResource(id = R.string.intern_info_work),
                                     style = TerningTheme.typography.button2,

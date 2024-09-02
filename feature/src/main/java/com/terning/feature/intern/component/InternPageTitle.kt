@@ -26,7 +26,6 @@ fun InternPageTitle(
             .padding(
                 top = 7.dp,
                 bottom = 6.dp,
-                start = 24.dp
             )
     ) {
         VerticalDivider(

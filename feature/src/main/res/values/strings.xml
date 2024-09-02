@@ -129,7 +129,8 @@
     <string name="intern_sub_title_intern_summary">공고 요약</string>
     <string name="intern_info_request">자격 요건</string>
     <string name="intern_sub_title_intern_detail">상세 정보</string>
-    <string name="intern_info_work">직무</string>
+    <string name="intern_info_work">모집대상</string>
+    <string name="intern_info_work">모집직무</string>
     <string name="intern_scrap_add_toast_message">관심 공고가 캘린더에 스크랩되었어요!</string>
     <string name="intern_scrap_delete_toast_message">관심 공고가 캘린더에서 사라졌어요!</string>
 
