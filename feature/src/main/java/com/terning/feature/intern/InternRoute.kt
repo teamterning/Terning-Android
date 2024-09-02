@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -214,11 +215,13 @@ fun InternScreen(
                             bottom = 20.dp
                         )
                     ) {
-                        Text(
-                            text = internInfoModel.detail.trimIndent(),
-                            style = TerningTheme.typography.detail1,
-                            color = Grey400
-                        )
+                        SelectionContainer {
+                            Text(
+                                text = internInfoModel.detail.trimIndent(),
+                                style = TerningTheme.typography.body3,
+                                color = Grey400
+                            )
+                        }
                     }
                 }
             }
