@@ -4,21 +4,16 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -28,7 +23,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
-import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
@@ -96,8 +90,10 @@ fun InternScreen(
         stringResource(id = R.string.intern_info_start_date) to internInfoModel.startDate,
     )
 
-    val qualificationList = internInfoModel.qualification.split(",").map { it.trim() }
-    val jobTypeList = internInfoModel.jobType.split(",").map { it.trim() }
+    val qualificationList = listOf(
+        stringResource(id = R.string.intern_recruitment_target) to internInfoModel.qualification,
+        stringResource(id = R.string.intern_info_work) to internInfoModel.jobType,
+    )
 
     if (internUiState.showWeb) {
         AndroidView(
@@ -192,60 +188,31 @@ fun InternScreen(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_info_request)
                     )
-                }
 
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                ) {
                     Column(
-                        modifier = modifier
-                            .padding(horizontal = 24.dp)
-                            .fillMaxWidth(),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
+                        modifier = modifier.padding(
+                            top = 4.dp,
+                            bottom = 4.dp,
+                            start = 10.dp
+                        )
                     ) {
-                        Row(
-                            modifier = modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(
-                                3.dp,
-                                Alignment.Start
-                            ),
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Row(
-                                modifier = modifier
-                                    .weight(2f),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Start
-                            ) {
-                                Text(
-                                    text = stringResource(id = R.string.intern_info_work),
-                                    style = TerningTheme.typography.button2,
-                                    color = Black
-                                )
-                            }
-
-                            Column(
-                                modifier = modifier
-                                    .weight(5f)
-                                    .padding(start = 8.dp),
-                                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
-                            ) {
-                                jobTypeList.forEach { jobType ->
-                                    Text(
-                                        text = jobType,
-                                        style = TerningTheme.typography.body4,
-                                        color = Grey400,
-                                    )
-                                }
-                            }
+                        qualificationList.forEach { (title, value) ->
+                            InternInfoRow(title, value)
                         }
                     }
+
+                    Spacer(modifier = modifier.padding(top = 16.dp))
 
                     InternPageTitle(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_sub_title_intern_detail)
                     )
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                ) {
+
 
                     Column(
                         modifier = modifier.padding(
