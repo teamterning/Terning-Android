@@ -196,64 +196,14 @@ fun InternScreen(
                 ) {
                     InternPageTitle(
                         modifier = modifier,
-                        text = stringResource(id = R.string.intern_sub_title_intern_info)
+                        text = stringResource(id = R.string.intern_sub_title_intern_summary)
                     )
 
                     InternPageTitle(
                         modifier = modifier,
-                        text = stringResource(id = R.string.intern_sub_title_intern_summary)
+                        text = stringResource(id = R.string.intern_info_request)
                     )
-                    Column(
-                        modifier = modifier
-                            .padding(
-                                start = 24.dp,
-                                bottom = 16.dp,
-                                end = 24.dp
-                            )
-                            .fillMaxWidth(),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Row(
-                            modifier = modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(
-                                3.dp,
-                                Alignment.Start
-                            ),
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Row(
-                                modifier = modifier
-                                    .weight(2f),
-                                verticalAlignment = Alignment.Top,
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_first_info_20),
-                                    contentDescription = null
-                                )
-                                Text(
-                                    text = stringResource(id = R.string.intern_info_request),
-                                    style = TerningTheme.typography.button2,
-                                    color = Black
-                                )
-                            }
 
-                            Column(
-                                modifier = modifier
-                                    .weight(5f)
-                                    .padding(start = 8.dp),
-                                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
-                            ) {
-                                qualificationList.forEach { qualification ->
-                                    Text(
-                                        text = qualification,
-                                        style = TerningTheme.typography.body4,
-                                        color = Grey400,
-                                    )
-                                }
-                            }
-                        }
-                    }
                     Column(
                         modifier = modifier
                             .padding(horizontal = 24.dp)
@@ -302,10 +252,12 @@ fun InternScreen(
                             }
                         }
                     }
+
                     InternPageTitle(
                         modifier = modifier,
                         text = stringResource(id = R.string.intern_sub_title_intern_detail)
                     )
+
                     Column(
                         modifier = modifier.padding(
                             start = 24.dp,
