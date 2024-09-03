@@ -29,7 +29,6 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
 import com.terning.feature.R
-import timber.log.Timber
 
 @Composable
 fun ScrapColorChangeButton(
