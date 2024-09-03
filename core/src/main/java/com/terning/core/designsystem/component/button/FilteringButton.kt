@@ -58,8 +58,9 @@ fun FilteringButton(
     val isPressed by interactionSource.collectIsPressedAsState()
     val backgroundColor = White
     val textColor = when {
-        isSelected -> TerningMain
-        else -> Grey375
+        !isSelected -> Grey375
+        isPressed -> Grey375
+        else -> TerningMain
     }
     val borderColor = when {
         !isSelected && !isPressed -> Grey150
