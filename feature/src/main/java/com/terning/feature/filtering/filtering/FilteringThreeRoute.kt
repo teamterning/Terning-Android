@@ -22,13 +22,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.button.RectangleButton
-import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
+import com.terning.feature.filtering.filtering.component.YearMonthPicker
 import java.util.Calendar
 
 @Composable
@@ -119,17 +119,20 @@ fun FilteringThreeScreen(
                 modifier = Modifier.padding(
                     top = 4.dp,
                     start = 24.dp,
-                    bottom = 24.dp
                 )
             )
             Spacer(modifier = Modifier.weight(1f))
-            DatePickerUI(
-                chosenYear = chosenYear,
-                chosenMonth = chosenMonth,
-                onYearChosen = { onYearChosen(it) },
-                onMonthChosen = { onMonthChosen(it) },
+            YearMonthPicker(
+                years = (2010..2030).map { it.toString() },
+                months = (1..12).map { it.toString() },
             )
-            Spacer(modifier = Modifier.weight(3f))
+//            DatePickerUI(
+//                chosenYear = chosenYear,
+//                chosenMonth = chosenMonth,
+//                onYearChosen = { onYearChosen(it) },
+//                onMonthChosen = { onMonthChosen(it) },
+//            )
+            Spacer(modifier = Modifier.weight(6f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,

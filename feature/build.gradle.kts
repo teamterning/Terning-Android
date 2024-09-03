@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.compose.saveable)
+    implementation(libs.androidx.compose.material)
 
     // KspDependencies
     ksp(libs.hilt.android.compiler)
@@ -94,11 +95,11 @@ dependencies {
     implementation(libs.accompanist.systemuicontroller)
     implementation (libs.androidx.core.splashscreen)
     implementation (libs.androidx.browser)
+    implementation(libs.compose.date.time.picker)
 
     // Compose Preview
     implementation(libs.compose.ui.tooling)
 
     // KakaoDependencies
     implementation(libs.kakao.user)
-
 }
