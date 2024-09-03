@@ -42,9 +42,7 @@ class PickerState {
 }
 
 @Composable
-fun rememberPickerState() = remember {
-    PickerState()
-}
+fun rememberPickerState() = remember { PickerState() }
 
 @Composable
 fun YearMonthPicker(

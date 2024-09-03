@@ -70,7 +70,6 @@ dependencies {
     implementation(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.compose.saveable)
-    implementation(libs.androidx.compose.material)
 
     // KspDependencies
     ksp(libs.hilt.android.compiler)
