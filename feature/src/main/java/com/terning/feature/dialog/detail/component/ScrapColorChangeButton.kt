@@ -43,9 +43,6 @@ fun ScrapColorChangeButton(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    Timber.tag("ScrapDialog")
-        .d("isColorChanged: $isColorChanged\nisColorChangedOnce: $isColorChangedOnce\nisPressed: $isPressed")
-
     val backgroundColor = when {
         isColorChangedOnce && !isColorChanged -> TerningSub4
         isColorChanged && !isPressed -> White
