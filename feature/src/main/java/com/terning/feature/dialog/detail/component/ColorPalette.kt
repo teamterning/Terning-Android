@@ -23,28 +23,23 @@ import com.terning.core.R
 import com.terning.core.designsystem.component.item.RadioButtonGroups
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.type.ColorType
+import timber.log.Timber
 
 @Composable
 fun ColorPalette(
-    initialColor: ColorType,
+    selectedColor: ColorType,
     onColorSelected: (ColorType) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedColor by remember { mutableStateOf(initialColor) }
 
     RadioButtonGroups(
         options = ColorType.entries,
         gridCellCount = ColorType.entries.size,
-        onOptionSelected = { color ->
-            selectedColor = color
-            onColorSelected(color)
-        },
+        onOptionSelected = onColorSelected,
         buttonComposable = { colorType, isSelected, onOptionSelected ->
-
-
             ColorButton(
                 colorType = colorType,
-                isSelected = isSelected,//selectedColor == colorType,
+                isSelected = selectedColor == colorType,
                 onColorSelected = onOptionSelected
             )
         },
@@ -111,7 +106,7 @@ internal fun ColorButton(
 @Composable
 fun ColorPalettePreview() {
     ColorPalette(
-        initialColor = ColorType.RED,
+        selectedColor = ColorType.RED,
         onColorSelected = {}
     )
 }

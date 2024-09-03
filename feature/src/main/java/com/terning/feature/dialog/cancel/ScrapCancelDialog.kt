@@ -2,8 +2,10 @@ package com.terning.feature.dialog.cancel
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -93,14 +95,16 @@ private fun ScrapCancelScreen(
                         top = 5.dp
                     )
                 )
+                Spacer(modifier = Modifier.height(40.dp))
+
                 RoundButton(
                     style = TerningTheme.typography.button3,
                     paddingVertical = 12.dp,
                     cornerRadius = 8.dp,
                     text = R.string.dialog_scrap_cancel_button,
-                    onButtonClick = onClickScrapCancel,
-                    modifier = Modifier.padding(bottom = 8.dp, top = 40.dp)
+                    onButtonClick = onClickScrapCancel
                 )
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

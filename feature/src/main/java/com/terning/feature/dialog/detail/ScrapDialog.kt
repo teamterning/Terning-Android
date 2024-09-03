@@ -19,9 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,12 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
-import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey350
@@ -51,7 +48,9 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.type.ColorType
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.component.ColorPalette
+import com.terning.feature.dialog.detail.component.ScrapColorChangeButton
 import com.terning.feature.intern.component.InternInfoRow
+import timber.log.Timber
 
 
 @Composable
@@ -72,6 +71,7 @@ fun ScrapDialog(
     viewModel: ScrapDialogViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -82,9 +82,20 @@ fun ScrapDialog(
                     is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
                         internshipAnnouncementId
                     )
+
                     is ScrapDialogSideEffect.ScrappedAnnouncement -> {}
                 }
             }
+    }
+
+    LaunchedEffect(true) {
+        with(viewModel) {
+            val colorType = ColorType.findColorType(scrapColor).takeIf { it != null }
+            colorType?.let {
+                updateInitialColorType(colorType)
+                updateSelectedColorType(colorType)
+            }
+        }
     }
 
     TerningBasicDialog(
@@ -92,19 +103,36 @@ fun ScrapDialog(
     ) {
         ScrapDialogScreen(
             title = title,
-            scrapColor = scrapColor,
             deadline = deadline,
             startYear = startYear,
             startMonth = startMonth,
             workingPeriod = workingPeriod,
             isScrapped = isScrapped,
             companyImage = companyImage,
-            onClickColorChangeButton = { newColor ->
+            selectedColorType = uiState.selectedColorType,
+            isColorChanged = uiState.isColorChanged,
+            isColorChangedOnce = uiState.isColorChangedOnce,
+            onClickColorButton = { selectedColorType ->
+                with(viewModel) {
+                    updateSelectedColorType(selectedColorType)
+                    updateIsColorChanged()
+                }
+            },
+            onClickColorChangeButton = {
+                with(viewModel) {
+                    patchScrap(scrapId = scrapId, color = uiState.selectedColorType)
+                    setIsColorChangedOnce()
+                    updateInitialColorType(colorType = uiState.selectedColorType)
+                }
                 onClickChangeColor()
-                viewModel.patchScrap(scrapId = scrapId, color = newColor)
             },
             onClickNavigateButton = viewModel::navigateToDetail,
-            onClickScrapButton = { viewModel.postScrap(internshipAnnouncementId, scrapColor) }
+            onClickScrapButton = {
+                viewModel.postScrap(
+                    internshipAnnouncementId,
+                    uiState.selectedColorType
+                )
+            }
         )
     }
 }
@@ -113,20 +141,20 @@ fun ScrapDialog(
 @Composable
 private fun ScrapDialogScreen(
     title: String,
-    scrapColor: Color,
     deadline: String,
     startYear: Int,
     startMonth: Int,
     workingPeriod: String,
     isScrapped: Boolean,
     companyImage: String,
+    selectedColorType: ColorType,
+    isColorChanged: Boolean,
+    isColorChangedOnce: Boolean,
+    onClickColorButton: (ColorType) -> Unit,
     onClickNavigateButton: () -> Unit,
-    onClickColorChangeButton: (Color) -> Unit,
+    onClickColorChangeButton: () -> Unit,
     onClickScrapButton: () -> Unit
 ) {
-    var selectedColor by remember { mutableStateOf(scrapColor) }
-    var selectedColorType by remember { mutableStateOf(ColorType.findColorType(selectedColor)?:ColorType.RED) }
-
     Box(
         modifier = Modifier
             .wrapContentSize()
@@ -203,11 +231,8 @@ private fun ScrapDialogScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     ColorPalette(
-                        initialColor = selectedColorType,
-                        onColorSelected = { newColor ->
-                            selectedColor = newColor.main
-                            selectedColorType = newColor
-                        }
+                        selectedColor = selectedColorType,
+                        onColorSelected = onClickColorButton
                     )
                 }
                 HorizontalDivider(
@@ -226,24 +251,27 @@ private fun ScrapDialogScreen(
                     horizontalAlignment = Alignment.Start,
                 ) {
                     InternInfoRow(
-                        title = stringResource(id = com.terning.feature.R.string.intern_info_d_day),
+                        title = stringResource(id = R.string.intern_info_d_day),
                         value = deadline
                     )
                     InternInfoRow(
-                        title = stringResource(id = com.terning.feature.R.string.intern_info_working),
+                        title = stringResource(id = R.string.intern_info_working),
                         value = workingPeriod
                     )
                     InternInfoRow(
-                        title = stringResource(id = com.terning.feature.R.string.intern_info_start_date),
+                        title = stringResource(id = R.string.intern_info_start_date),
                         value = "${startYear}년 ${startMonth}월"
                     )
                 }
             }
 
-            if(isScrapped) {
+            if (isScrapped) {
                 DetailScrapButton(
+                    isColorChanged = isColorChanged,
+                    isColorChangedOnce = isColorChangedOnce,
                     onClickNavigateButton = onClickNavigateButton,
-                    onClickColorChangeButton = { onClickColorChangeButton(selectedColor) }
+                    onClickColorChangeButton = onClickColorChangeButton
+
                 )
             } else {
                 NewScrapButton(onClickScrapButton = onClickScrapButton)
@@ -269,18 +297,20 @@ private fun NewScrapButton(
 
 @Composable
 private fun DetailScrapButton(
+    isColorChanged: Boolean,
+    isColorChangedOnce: Boolean,
     onClickNavigateButton: () -> Unit,
     onClickColorChangeButton: () -> Unit,
     modifier: Modifier = Modifier
-){
-    Row (
+) {
+    Row(
         modifier = modifier
-    ){
-        RoundButton(
-            style = TerningTheme.typography.button3,
+    ) {
+        ScrapColorChangeButton(
+            isColorChanged = isColorChanged,
+            isColorChangedOnce = isColorChangedOnce,
             paddingVertical = 12.dp,
             cornerRadius = 8.dp,
-            text = R.string.dialog_content_calendar_color_change,
             onButtonClick = onClickColorChangeButton,
             modifier = Modifier.weight(1f)
         )
@@ -302,7 +332,6 @@ private fun ScrapDialogPreview() {
     TerningPointTheme {
         ScrapDialogScreen(
             title = "터닝 하반기 채용",
-            scrapColor = Color.Red,
             deadline = "2024/09/07",
             startYear = 2024,
             startMonth = 11,
@@ -311,7 +340,11 @@ private fun ScrapDialogPreview() {
             isScrapped = false,
             onClickNavigateButton = {},
             onClickColorChangeButton = {},
-            onClickScrapButton = {}
+            onClickScrapButton = {},
+            onClickColorButton = {},
+            isColorChanged = false,
+            isColorChangedOnce = true,
+            selectedColorType = ColorType.RED
         )
     }
 }
@@ -332,7 +365,9 @@ private fun DetailScrapButtonPreview() {
     TerningPointTheme {
         DetailScrapButton(
             onClickNavigateButton = {},
-            onClickColorChangeButton = {}
+            onClickColorChangeButton = {},
+            isColorChanged = false,
+            isColorChangedOnce = false
         )
     }
 }

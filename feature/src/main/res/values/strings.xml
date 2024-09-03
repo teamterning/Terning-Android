@@ -62,6 +62,7 @@
     <string name="dialog_content_scrap_sub_title">공고를 캘린더에 스크랩하시겠어요?</string>
     <string name="dialog_content_color_button">스크랩 색상</string>
     <string name="dialog_content_calendar_color_change">색상 변경하기</string>
+    <string name="dialog_content_calendar_color_change_complete">색상 변경완료</string>
     <string name="dialog_scrap_button">내 캘린더에 스크랩하기</string>
     <string name="dialog_content_scrap_cancel_main_title">관심 공고가 캘린더에서 사라져요!</string>
     <string name="dialog_content_scrap_cancel_sub_title">스크랩을 취소하시겠어요?</string>
