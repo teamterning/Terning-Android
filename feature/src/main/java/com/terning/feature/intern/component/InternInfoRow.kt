@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningTheme
@@ -25,7 +24,7 @@ fun InternInfoRow(title: String, value: String) {
         Text(
             text = value,
             style = TerningTheme.typography.body3,
-            color = Grey500,
+            color = Grey400,
         )
     }
 }

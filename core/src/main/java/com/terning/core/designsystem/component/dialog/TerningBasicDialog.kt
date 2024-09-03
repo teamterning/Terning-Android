@@ -58,7 +58,8 @@ fun TerningBasicDialog(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(18.dp),
+                    .padding(top = 18.dp, bottom = 16.dp)
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.End
             ) {
                 Icon(

@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,12 +40,12 @@ import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.getFixHeightByMaxLine
 import com.terning.core.type.ColorType
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.component.ColorPalette
@@ -80,8 +81,12 @@ fun ScrapDialog(
                         viewModel.initUiState()
                         onDismissRequest()
                     }
+
                     is ScrapDialogSideEffect.PatchedScrap -> onClickChangeColor()
-                    is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(internshipAnnouncementId)
+                    is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
+                        internshipAnnouncementId
+                    )
+
                     is ScrapDialogSideEffect.ScrappedAnnouncement -> {}
                 }
             }
@@ -163,22 +168,25 @@ private fun ScrapDialogScreen(
                         shape = RoundedCornerShape(size = 15.dp)
                     )
             )
-            Text(
-                text = title,
-                textAlign = TextAlign.Center,
-                style = TerningTheme.typography.title4,
-                color = Grey500,
-                modifier = Modifier.padding(top = 20.dp)
-            )
-            Text(
-                text = stringResource(id = R.string.dialog_scrap_mine),
-                style = TerningTheme.typography.body5,
-                color = Grey350,
-                modifier = Modifier.padding(
-                    top = 4.dp
+
+            Spacer(modifier = Modifier.height(15.dp))
+            Box(
+                modifier = Modifier
+                    .height(TerningTheme.typography.title4.getFixHeightByMaxLine(3))
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = title,
+                    textAlign = TextAlign.Center,
+                    style = TerningTheme.typography.title4,
+                    color = Grey500,
+                    overflow = TextOverflow.Ellipsis,
                 )
-            )
-            Spacer(modifier = Modifier.height(26.dp))
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
             Column(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top,
@@ -202,13 +210,10 @@ private fun ScrapDialogScreen(
                     )
                 }
 
+                Spacer(modifier = Modifier.height(8.dp))
+
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            top = 12.dp,
-                            bottom = 23.dp,
-                        ),
+                    modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
                     ColorPalette(
@@ -219,12 +224,12 @@ private fun ScrapDialogScreen(
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = Grey200,
-                    modifier = Modifier.padding(
-                        bottom = 8.dp
-                    )
+                    modifier = Modifier.padding(vertical = 8.dp)
                 )
+
+
                 Column(
-                    modifier = Modifier.padding(bottom = 29.dp),
+                    modifier = Modifier.padding(vertical = 4.dp),
                     verticalArrangement = Arrangement.spacedBy(
                         5.dp,
                         Alignment.CenterVertically
@@ -245,6 +250,8 @@ private fun ScrapDialogScreen(
                     )
                 }
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             if (isScrapped) {
                 DetailScrapButton(
@@ -312,7 +319,7 @@ private fun DetailScrapButton(
 private fun ScrapDialogPreview() {
     TerningPointTheme {
         ScrapDialogScreen(
-            title = "터닝 하반기 채용",
+            title = "터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝터닝 하반기 채용터닝터닝 하반기 채용터닝터닝 하반기 채용터닝터닝 하반기 채용터닝터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용",
             deadline = "2024/09/07",
             startYear = 2024,
             startMonth = 11,
