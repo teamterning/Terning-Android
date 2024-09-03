@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
+import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
 import com.terning.feature.onboarding.signup.SignUpRoute
 import kotlinx.serialization.Serializable
 
@@ -28,7 +29,7 @@ fun NavGraphBuilder.signUpNavGraph(
         val args = it.toRoute<SignUp>()
         SignUpRoute(
             authId = args.authId,
-            navigateToStartFiltering = { name -> navHostController.navigateFilteringOne(name) }
+            navigateToStartFiltering = { name -> navHostController.navigateStartFiltering(name) }
 
         )
     }

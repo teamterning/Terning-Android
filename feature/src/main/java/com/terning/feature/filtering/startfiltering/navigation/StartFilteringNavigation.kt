@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.filtering.filtering.navigation.navigateFilteringOne
-import com.terning.feature.filtering.startfiltering.StartFilteringScreen
+import com.terning.feature.filtering.startfiltering.StartFilteringRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateStartFiltering(
@@ -26,7 +26,7 @@ fun NavGraphBuilder.startFilteringNavGraph(
 ) {
     composable<StartFiltering> {
         val args = it.toRoute<StartFiltering>()
-        StartFilteringScreen(
+        StartFilteringRoute(
             onNextClick = {
                 navHostController.navigateFilteringOne(args.name)
             }

@@ -2,6 +2,7 @@ package com.terning.feature.filtering.startfiltering
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,40 +14,53 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.component.button.RectangleButton
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun StartFilteringScreen(
-    modifier: Modifier = Modifier,
-    onNextClick: () -> Unit
+fun StartFilteringRoute(
+    onNextClick: () -> Unit,
+    viewModel: StartFilteringViewModel = hiltViewModel()
 ) {
-    var isVisible by remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val configuration = LocalConfiguration.current
     val screenHeight = 780f / configuration.screenHeightDp
 
     LaunchedEffect(key1 = true) {
         delay(DELAY)
-        isVisible = true
+        viewModel.updateButtonState()
     }
 
+    StartFilteringScreen(
+        onNextClick = onNextClick,
+        buttonState = state.isButtonVisible,
+        screenHeight = screenHeight
+    )
+
+}
+
+@Composable
+fun StartFilteringScreen(
+    onNextClick: () -> Unit,
+    buttonState: Boolean,
+    screenHeight: Float
+) {
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -59,11 +73,12 @@ fun StartFilteringScreen(
                 modifier = Modifier.padding(bottom = 35.dp),
                 textAlign = TextAlign.Center
             )
-            TerningImage(
-                painter = R.drawable.ic_terning_onboarding,
+            Image(
+                painter = painterResource(id = R.drawable.ic_terning_onboarding),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
+                    .padding(horizontal = 24.dp),
+                contentDescription = "terning image"
             )
             Spacer(modifier = Modifier.weight(2f))
         }
@@ -73,14 +88,14 @@ fun StartFilteringScreen(
                 .padding(bottom = 12.dp)
         ) {
             AnimatedVisibility(
-                visible = isVisible,
+                visible = buttonState,
                 enter = fadeIn(initialAlpha = 0.3f),
             ) {
                 RectangleButton(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 20.dp,
                     text = R.string.start_filtering_button,
-                    onButtonClick = { onNextClick() },
+                    onButtonClick = onNextClick,
                 )
             }
         }
@@ -94,7 +109,9 @@ private const val DELAY: Long = 1000
 fun StartFilteringScreenPreview() {
     TerningPointTheme {
         StartFilteringScreen(
-            onNextClick = {}
+            onNextClick = {},
+            buttonState = true,
+            screenHeight = 1f
         )
     }
 }
