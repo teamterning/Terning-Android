@@ -26,6 +26,8 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.currentMonth
+import com.terning.core.extension.currentYear
 import com.terning.core.extension.toast
 import com.terning.feature.R
 import com.terning.feature.filtering.filteringthree.component.YearMonthPicker
@@ -42,8 +44,8 @@ fun FilteringThreeRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
+    val currentYear = Calendar.getInstance().currentYear
+    val currentMonth = Calendar.getInstance().currentMonth
 
     var chosenYear by remember { mutableIntStateOf(currentYear) }
     var chosenMonth by remember { mutableIntStateOf(currentMonth) }
