@@ -55,7 +55,7 @@ fun StatusOneRadioGroup(
                     onButtonClick(index)
                 },
                 cornerRadius = 15.dp,
-                paddingVertical = 15.dp
+                paddingVertical = 14.dp
             )
         }
     }
