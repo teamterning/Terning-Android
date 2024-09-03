@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering
+package com.terning.feature.filtering.filteringone
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,7 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.filtering.filtering.component.StatusOneRadioGroup
+import com.terning.feature.filtering.filteringone.component.StatusOneRadioGroup
 
 @Composable
 fun FilteringOneScreen(

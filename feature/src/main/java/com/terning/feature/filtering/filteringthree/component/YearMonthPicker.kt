@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering.component
+package com.terning.feature.filtering.filteringthree.component
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -29,14 +29,22 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.kez.picker.PickerState
-import com.kez.picker.rememberPickerState
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import androidx.compose.runtime.mutableStateOf
+
+class PickerState {
+    var selectedItem by mutableStateOf("")
+}
+
+@Composable
+fun rememberPickerState() = remember {
+    PickerState()
+}
 
 @Composable
 fun YearMonthPicker(

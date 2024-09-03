@@ -25,9 +25,9 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
-import com.terning.feature.filtering.filtering.navigation.filteringOneNavGraph
-import com.terning.feature.filtering.filtering.navigation.filteringThreeNavGraph
-import com.terning.feature.filtering.filtering.navigation.filteringTwoNavGraph
+import com.terning.feature.filtering.filteringone.navigation.filteringOneNavGraph
+import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNavGraph
+import com.terning.feature.filtering.filteringtwo.navigation.filteringTwoNavGraph
 import com.terning.feature.filtering.startfiltering.navigation.startFilteringNavGraph
 import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
 import com.terning.feature.home.changefilter.navigation.changeFilterNavGraph

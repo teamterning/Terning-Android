@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering.component
+package com.terning.feature.filtering.filteringtwo.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,26 +16,24 @@ import com.terning.core.designsystem.component.button.FilteringButton
 import com.terning.feature.R
 
 @Composable
-fun StatusOneRadioGroup(
+fun StatusTwoRadioGroup(
     onButtonClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val options = listOf(
-        R.string.filtering_status1_button1,
-        R.string.filtering_status1_button2,
-        R.string.filtering_status1_button3,
-        R.string.filtering_status1_button4
+        R.string.filtering_status2_button1,
+        R.string.filtering_status2_button2,
+        R.string.filtering_status2_button3,
     )
 
     val selectedOptions = listOf(
-        R.string.filtering_status1_description1,
-        R.string.filtering_status1_description2,
-        R.string.filtering_status1_description3,
-        R.string.filtering_status1_description4
+        R.string.filtering_status2_description1,
+        R.string.filtering_status2_description2,
+        R.string.filtering_status2_description3,
     )
 
     val selectedIndex = remember { mutableIntStateOf(options[0]) }
-    val selectedButton = remember { mutableStateListOf(false, false, false, false) }
+    val selectedButton = remember { mutableStateListOf(false, false, false) }
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
@@ -55,7 +53,7 @@ fun StatusOneRadioGroup(
                     onButtonClick(index)
                 },
                 cornerRadius = 15.dp,
-                paddingVertical = 14.dp
+                paddingVertical = 24.dp
             )
         }
     }

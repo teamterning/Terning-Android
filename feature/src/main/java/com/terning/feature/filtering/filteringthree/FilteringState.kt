@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering
+package com.terning.feature.filtering.filteringthree
 
 data class FilteringState(
     val grade: Int = -1,

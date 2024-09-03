@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering
+package com.terning.feature.filtering.filteringthree
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -28,7 +28,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.toast
 import com.terning.feature.R
-import com.terning.feature.filtering.filtering.component.YearMonthPicker
+import com.terning.feature.filtering.filteringthree.component.YearMonthPicker
 import java.util.Calendar
 
 @Composable

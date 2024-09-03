@@ -95,7 +95,6 @@ dependencies {
     implementation(libs.accompanist.systemuicontroller)
     implementation (libs.androidx.core.splashscreen)
     implementation (libs.androidx.browser)
-    implementation(libs.compose.date.time.picker)
 
     // Compose Preview
     implementation(libs.compose.ui.tooling)
