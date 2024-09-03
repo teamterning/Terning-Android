@@ -25,8 +25,8 @@ class FilteringViewModel @Inject constructor(
     private val _state = MutableStateFlow(FilteringState())
     val state: StateFlow<FilteringState> get() = _state.asStateFlow()
 
-    private val _sideEffects = MutableSharedFlow<FilteringSideEffect>()
-    val sideEffects: SharedFlow<FilteringSideEffect> get() = _sideEffects.asSharedFlow()
+    private val _sideEffects = MutableSharedFlow<FilteringThreeSideEffect>()
+    val sideEffects: SharedFlow<FilteringThreeSideEffect> get() = _sideEffects.asSharedFlow()
 
     fun fetchGrade(grade: Int) {
         _state.value = _state.value.copy(grade = grade)
@@ -57,9 +57,9 @@ class FilteringViewModel @Inject constructor(
                     )
                 }
             ).onSuccess {
-                _sideEffects.emit(FilteringSideEffect.NavigateToStartHome)
+                _sideEffects.emit(FilteringThreeSideEffect.NavigateToStartHome)
             }.onFailure {
-                _sideEffects.emit(FilteringSideEffect.ShowToast(R.string.server_failure))
+                _sideEffects.emit(FilteringThreeSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }
