@@ -113,6 +113,7 @@ fun ScrapDialog(
             isColorChangedOnce = uiState.isColorChangedOnce,
             onClickColorButton = viewModel::changeSelectedColor,
             onClickColorChangeButton = {
+                if(uiState.isColorChanged)
                 viewModel.patchScrap(scrapId = scrapId, color = uiState.selectedColorType)
             },
             onClickNavigateButton = viewModel::navigateToDetail,
