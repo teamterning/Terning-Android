@@ -80,8 +80,8 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun fetchCharacter(character: Int) {
-        _state.value = _state.value.copy(character = character)
+    fun fetchCharacter(profileImage: Int) {
+        _state.value = _state.value.copy(profileImage = profileImage)
     }
 
     fun fetchAuthId(authId: String) {
@@ -95,7 +95,7 @@ class SignUpViewModel @Inject constructor(
                 state.value.run {
                     SignUpRequest(
                         name = name,
-                        profileImage = character,
+                        profileImage = profileImage,
                         authType = KAKA0
                     )
                 }
