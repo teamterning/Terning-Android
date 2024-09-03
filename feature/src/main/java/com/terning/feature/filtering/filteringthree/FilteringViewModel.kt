@@ -28,19 +28,19 @@ class FilteringViewModel @Inject constructor(
     private val _sideEffects = MutableSharedFlow<FilteringThreeSideEffect>()
     val sideEffects: SharedFlow<FilteringThreeSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun fetchGrade(grade: Int) {
+    fun updateGrade(grade: Int) {
         _state.value = _state.value.copy(grade = grade)
     }
 
-    fun fetchWorkingPeriod(workingPeriod: Int) {
+    fun updateWorkingPeriod(workingPeriod: Int) {
         _state.value = _state.value.copy(workingPeriod = workingPeriod)
     }
 
-    fun fetchStartYear(startYear: Int) {
+    fun updateStartYear(startYear: Int) {
         _state.value = _state.value.copy(startYear = startYear)
     }
 
-    fun fetchStartMonth(startMonth: Int) {
+    fun updateStartMonth(startMonth: Int) {
         _state.value = _state.value.copy(startMonth = startMonth)
     }
 
@@ -63,5 +63,7 @@ class FilteringViewModel @Inject constructor(
             }
         }
     }
+
+    fun navigateUp() = viewModelScope.launch { _sideEffects.emit(FilteringThreeSideEffect.NavigateUp) }
 
 }

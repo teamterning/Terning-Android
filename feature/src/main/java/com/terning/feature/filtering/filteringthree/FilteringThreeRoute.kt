@@ -9,9 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -20,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
@@ -41,23 +39,25 @@ fun FilteringThreeRoute(
     navigateToStartHome: () -> Unit,
     viewModel: FilteringViewModel = hiltViewModel(),
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val currentYear = Calendar.getInstance().currentYear
-    val currentMonth = Calendar.getInstance().currentMonth
-
-    var chosenYear by remember { mutableIntStateOf(currentYear) }
-    var chosenMonth by remember { mutableIntStateOf(currentMonth) }
-
     LaunchedEffect(key1 = true) {
-        viewModel.fetchGrade(grade = grade)
-        viewModel.fetchWorkingPeriod(workingPeriod = workingPeriod)
+        with(viewModel) {
+            updateGrade(grade = grade)
+            updateWorkingPeriod(workingPeriod = workingPeriod)
+            updateStartYear(startYear = Calendar.getInstance().currentYear)
+            updateStartMonth(startMonth = Calendar.getInstance().currentMonth)
+        }
     }
 
-    LaunchedEffect(key1 = chosenYear, key2 = chosenMonth) {
-        viewModel.fetchStartYear(chosenYear)
-        viewModel.fetchStartMonth(chosenMonth)
+    LaunchedEffect(key1 = state.startYear, key2 = state.startMonth) {
+        with(viewModel) {
+            updateStartYear(state.startYear)
+            updateStartMonth(state.startMonth)
+        }
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
@@ -66,17 +66,18 @@ fun FilteringThreeRoute(
                 when (sideEffect) {
                     is FilteringThreeSideEffect.NavigateToStartHome -> navigateToStartHome()
                     is FilteringThreeSideEffect.ShowToast -> context.toast(sideEffect.message)
+                    is FilteringThreeSideEffect.NavigateUp -> navigateUp()
                 }
             }
     }
 
     FilteringThreeScreen(
-        navigateUp = { navigateUp() },
-        chosenYear = chosenYear,
-        chosenMonth = chosenMonth,
+        navigateUp = { viewModel.navigateUp() },
+        chosenYear = state.startYear,
+        chosenMonth = state.startMonth,
         onNextClick = { viewModel.postFilteringWithServer() },
-        onYearChosen = { chosenYear = it },
-        onMonthChosen = { chosenMonth = it }
+        onYearChosen = { viewModel.updateStartYear(it) },
+        onMonthChosen = { viewModel.updateStartMonth(it) }
     )
 }
 
