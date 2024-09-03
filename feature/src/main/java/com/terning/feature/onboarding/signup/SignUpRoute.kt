@@ -3,6 +3,7 @@ package com.terning.feature.onboarding.signup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -106,30 +107,25 @@ fun SignUpScreen(
             .fillMaxSize()
             .addFocusCleaner(focusManager)
     ) {
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = modifier.height(56.dp))
         Text(
             text = stringResource(id = R.string.sign_up_title),
             style = TerningTheme.typography.heading2,
-            modifier = modifier.padding(
-                bottom = 42.dp,
-                start = 24.dp
-            )
+            modifier = modifier.padding(start = 24.dp)
         )
+        Spacer(modifier = modifier.height(36.dp))
         Text(
             text = stringResource(id = R.string.sign_up_profile_image),
             style = TerningTheme.typography.body2,
             modifier = modifier
-                .padding(
-                    start = 24.dp,
-                    bottom = 20.dp
-                ),
+                .padding(start = 24.dp),
             color = Grey500
         )
+        Spacer(modifier = modifier.height(20.dp))
         Column(
-            modifier = modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 52.dp)
+            modifier = modifier.align(Alignment.CenterHorizontally)
         ) {
+            Spacer(modifier = modifier.height(48.dp))
             ProfileWithPlusButton(
                 modifier = modifier.noRippleClickable {
                     onProfileEditClick(true)
@@ -142,10 +138,8 @@ fun SignUpScreen(
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 24.dp)
         ) {
-            Text(
-                text = stringResource(id = R.string.sign_up_name),
-                modifier = modifier.padding(bottom = 20.dp)
-            )
+            Text(text = stringResource(id = R.string.sign_up_name))
+            Spacer(modifier = modifier.height(20.dp))
             NameTextField(
                 value = signUpState.name,
                 onValueChange = { name ->
@@ -155,7 +149,7 @@ fun SignUpScreen(
                 onValidationChanged = { isValid -> onValidationChanged(isValid) }
             )
         }
-        Spacer(modifier = modifier.weight(5f))
+        Spacer(modifier = modifier.weight(1f))
         RectangleButton(
             style = TerningTheme.typography.button1,
             paddingVertical = 20.dp,
