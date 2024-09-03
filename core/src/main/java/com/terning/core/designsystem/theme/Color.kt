@@ -41,6 +41,14 @@ val CalBlue2 = Color(0xFF4AA9F2)
 val CalPurple = Color(0xFF9B64E2)
 val CalPink = Color(0xFFF260AC)
 
+// Calendar Border Color
+val CalRedLi = Color(0x7FED4E54)
+val CalOrangeLi = Color(0x7FF3A649)
+val CalGreenLi = Color(0x7F84D558)
+val CalBlueLi = Color(0x7F4AA9F2)
+val CalPurpleLi = Color(0x7F9B64E2)
+val CalPinkLi = Color(0x7FF260AC)
+
 // Other
 val WarningRed = Color(0xFFF54645)
 val SundayRed = Color(0xFFEB1211)
