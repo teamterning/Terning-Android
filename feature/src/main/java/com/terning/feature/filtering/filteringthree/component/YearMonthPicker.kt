@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -35,7 +36,18 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import androidx.compose.runtime.mutableStateOf
+import okhttp3.internal.toImmutableList
+
+private const val START_YEAR = 2010
+private const val END_YEAR = 2030
+private const val START_MONTH = 1
+private const val END_MONTH = 12
+
+private val years =
+    (START_YEAR..END_YEAR).map { "${it}년" }.toImmutableList()
+
+private val months =
+    (START_MONTH..END_MONTH).map { "${it}월" }.toImmutableList()
 
 class PickerState {
     var selectedItem by mutableStateOf("")
@@ -46,32 +58,50 @@ fun rememberPickerState() = remember { PickerState() }
 
 @Composable
 fun YearMonthPicker(
-    years: List<String>,
-    months: List<String>,
     modifier: Modifier = Modifier,
-    yearPickerState: PickerState = rememberPickerState(),
-    monthPickerState: PickerState = rememberPickerState(),
-    startYearIndex: Int = 5,
-    startMonthIndex: Int = 2,
+    chosenYear: Int,
+    chosenMonth: Int,
+    onYearChosen: (Int) -> Unit,
+    onMonthChosen: (Int) -> Unit,
 ) {
+    val yearPickerState = rememberPickerState()
+    val monthPickerState = rememberPickerState()
+
+    val startYearIndex = years.indexOf("${chosenYear}년").takeIf { it >= 0 } ?: 0
+    val startMonthIndex = months.indexOf("${chosenMonth}월").takeIf { it >= 0 } ?: 0
+
+    LaunchedEffect(chosenYear) {
+        yearPickerState.selectedItem = "${chosenYear}년"
+    }
+
+    LaunchedEffect(chosenMonth) {
+        monthPickerState.selectedItem = "${chosenMonth}월"
+    }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(95.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .padding(horizontal = 95.dp),
+        horizontalArrangement = Arrangement.Center
     ) {
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = yearPickerState,
             items = years,
             startIndex = startYearIndex,
+            onItemSelected = { year ->
+                onYearChosen(year.dropLast(1).toInt())
+            }
         )
-        Spacer(modifier = Modifier.width(25.dp))
+        Spacer(modifier = Modifier.width(18.dp))
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = monthPickerState,
             items = months,
             startIndex = startMonthIndex,
+            onItemSelected = { month ->
+                onMonthChosen(month.dropLast(1).toInt())
+            }
         )
     }
 }
@@ -83,6 +113,7 @@ fun DatePicker(
     pickerState: PickerState = rememberPickerState(),
     startIndex: Int = 0,
     visibleItemCount: Int = 3,
+    onItemSelected: (String) -> Unit
 ) {
     var itemHeightPixel by remember { mutableIntStateOf(0) }
     val itemHeightDp = with(LocalDensity.current) { itemHeightPixel.toDp() }
@@ -100,8 +131,9 @@ fun DatePicker(
             .map { index -> items.getOrNull(index) }
             .distinctUntilChanged()
             .collect { item ->
-                if (item != null) {
-                    pickerState.selectedItem = item
+                item?.let {
+                    pickerState.selectedItem = it
+                    onItemSelected(it)
                 }
             }
     }

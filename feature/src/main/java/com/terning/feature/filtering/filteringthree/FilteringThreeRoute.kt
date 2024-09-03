@@ -43,7 +43,7 @@ fun FilteringThreeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+    val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
 
     var chosenYear by remember { mutableIntStateOf(currentYear) }
     var chosenMonth by remember { mutableIntStateOf(currentMonth) }
@@ -123,16 +123,12 @@ fun FilteringThreeScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             YearMonthPicker(
-                years = (2010..2030).map { it.toString() },
-                months = (1..12).map { it.toString() },
+                chosenYear = chosenYear,
+                chosenMonth = chosenMonth,
+                onYearChosen = { onYearChosen(it) },
+                onMonthChosen = { onMonthChosen(it) },
             )
-//            DatePickerUI(
-//                chosenYear = chosenYear,
-//                chosenMonth = chosenMonth,
-//                onYearChosen = { onYearChosen(it) },
-//                onMonthChosen = { onMonthChosen(it) },
-//            )
-            Spacer(modifier = Modifier.weight(6f))
+            Spacer(modifier = Modifier.weight(7f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
