@@ -14,9 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -24,9 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.rememberNavController
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -35,29 +31,39 @@ import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.R
-import com.terning.feature.home.home.navigation.navigateHome
-import com.terning.feature.main.MainNavigator
-import com.terning.feature.main.rememberMainNavigator
-import com.terning.feature.onboarding.signin.navigation.SignIn
 import kotlinx.coroutines.delay
 
 @Composable
-fun StartHomeScreen(
-    modifier: Modifier = Modifier,
-    navigateToHome: () -> Unit
+fun StartHomeRoute(
+    navigateToHome: () -> Unit,
+    viewModel: StartHomeViewModel = hiltViewModel()
 ) {
-    var isVisible by remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val configuration = LocalConfiguration.current
     val screenHeight = 780f / configuration.screenHeightDp
 
     LaunchedEffect(key1 = true) {
         delay(DELAY)
-        isVisible = true
+        viewModel.updateButtonState()
     }
 
+    StartHomeScreen(
+        navigateToHome = navigateToHome,
+        buttonState = state.isButtonVisible,
+        screenHeight = screenHeight
+    )
+}
+
+@Composable
+fun StartHomeScreen(
+    navigateToHome: () -> Unit,
+    buttonState: Boolean,
+    screenHeight: Float
+) {
+
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -79,23 +85,21 @@ fun StartHomeScreen(
             contentAlignment = Alignment.BottomCenter
         ) {
             AnimatedVisibility(
-                visible = isVisible,
+                visible = buttonState,
                 enter = fadeIn(initialAlpha = 0.3f),
             ) {
                 RectangleButton(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 20.dp,
                     text = R.string.start_home_next_button,
-                    onButtonClick = {
-                        navigateToHome()
-                    },
+                    onButtonClick = navigateToHome,
                 )
             }
         }
     }
 }
 
-private const val DELAY : Long = 1000
+private const val DELAY: Long = 1000
 
 @Composable
 fun StartHomeLottieAnimation(
@@ -122,7 +126,9 @@ fun StartHomeLottieAnimation(
 fun StartHomeScreenPreview() {
     TerningPointTheme {
         StartHomeScreen(
-            navigateToHome = {}
+            navigateToHome = {},
+            buttonState = true,
+            screenHeight = 1f
         )
     }
 }

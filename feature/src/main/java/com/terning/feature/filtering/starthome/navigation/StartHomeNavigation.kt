@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.Route
-import com.terning.feature.filtering.starthome.StartHomeScreen
+import com.terning.feature.filtering.starthome.StartHomeRoute
 import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.navigation.SignIn
 import kotlinx.serialization.Serializable
@@ -37,7 +37,7 @@ fun NavGraphBuilder.startHomeNavGraph(
             ExitTransition.None
         }
     ) {
-        StartHomeScreen(navigateToHome = {
+        StartHomeRoute(navigateToHome = {
             navHostController.navigateHome(
                 navOptions = NavOptions.Builder().setPopUpTo(
                     route = SignIn,
