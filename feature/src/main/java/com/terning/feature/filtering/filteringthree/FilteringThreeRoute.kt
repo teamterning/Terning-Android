@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,8 +49,6 @@ fun FilteringThreeRoute(
         with(viewModel) {
             updateGrade(grade = grade)
             updateWorkingPeriod(workingPeriod = workingPeriod)
-            updateStartYear(startYear = Calendar.getInstance().currentYear)
-            updateStartMonth(startMonth = Calendar.getInstance().currentMonth)
         }
     }
 
@@ -73,8 +72,8 @@ fun FilteringThreeRoute(
 
     FilteringThreeScreen(
         navigateUp = viewModel::navigateUp,
-        chosenYear = state.startYear,
-        chosenMonth = state.startMonth,
+        chosenYear = Calendar.getInstance().currentYear,
+        chosenMonth = Calendar.getInstance().currentMonth,
         onNextClick = viewModel::postFilteringWithServer,
         onYearChosen = { viewModel.updateStartYear(it) },
         onMonthChosen = { viewModel.updateStartMonth(it) }
@@ -124,14 +123,14 @@ fun FilteringThreeScreen(
                     start = 24.dp,
                 )
             )
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(61.dp))
             YearMonthPicker(
                 chosenYear = chosenYear,
                 chosenMonth = chosenMonth,
                 onYearChosen = { onYearChosen(it) },
                 onMonthChosen = { onMonthChosen(it) },
             )
-            Spacer(modifier = Modifier.weight(7f))
+            Spacer(modifier = Modifier.weight(1f))
             RectangleButton(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
