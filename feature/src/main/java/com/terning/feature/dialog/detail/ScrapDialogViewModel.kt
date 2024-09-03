@@ -37,22 +37,42 @@ class ScrapDialogViewModel @Inject constructor(
     private var _sideEffect: MutableSharedFlow<ScrapDialogSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
-    fun updateInitialColorType(colorType: ColorType) {
+    fun initUiState() {
         _uiState.update { currentState ->
-            currentState.copy(initialColorType = colorType)
+            currentState.copy(
+                isColorChanged = false,
+                isColorChangedOnce = false
+            )
         }
     }
 
-    fun updateSelectedColorType(colorType: ColorType) {
+    fun setInitialAndSelectedColorType(colorType: ColorType) {
         _uiState.update { currentState ->
-            if (currentState.selectedColorType == colorType) return@update currentState
-            currentState.copy(selectedColorType = colorType)
+            currentState.copy(
+                initialColorType = colorType,
+                selectedColorType = colorType
+            )
         }
     }
 
-    fun updateIsColorChanged() = _uiState.update { currentState ->
-        val isColorChanged = _uiState.value.selectedColorType != _uiState.value.initialColorType
-        currentState.copy(isColorChanged = isColorChanged)
+    fun changeSelectedColor(colorType: ColorType) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                selectedColorType = colorType,
+                isColorChanged = colorType != _uiState.value.initialColorType
+            )
+        }
+    }
+
+    fun navigateToDetail() = viewModelScope.launch {
+        with(_sideEffect) {
+            emit(ScrapDialogSideEffect.NavigateToDetail)
+            emit(ScrapDialogSideEffect.DismissDialog)
+        }
+    }
+
+    fun navigateUp() = viewModelScope.launch {
+        _sideEffect.emit(ScrapDialogSideEffect.DismissDialog)
     }
 
     fun postScrap(id: Long, color: ColorType) {
@@ -74,22 +94,18 @@ class ScrapDialogViewModel @Inject constructor(
         val colorIndex = getColorIndex(color.main)
         scrapRepository.patchScrap(CalendarScrapRequest(scrapId, colorIndex))
             .onSuccess {
-                _sideEffect.emit(ScrapDialogSideEffect.ChangedColor)
-
+                _sideEffect.emit(ScrapDialogSideEffect.PatchedScrap)
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        initialColorType = color,
+                        isColorChanged = (_uiState.value.selectedColorType != color),
+                        isColorChangedOnce = true,
+                    )
+                }
             }.onFailure {
                 _sideEffect.emit(ScrapDialogSideEffect.ShowToast(R.string.server_failure))
             }
     }
-
-    fun setIsColorChangedOnce() = _uiState.update { currentState ->
-        if (!currentState.isColorChangedOnce) return@update currentState
-        currentState.copy(isColorChangedOnce = true)
-    }
-
-    fun navigateToDetail() = viewModelScope.launch {
-        _sideEffect.emit(ScrapDialogSideEffect.NavigateToDetail)
-    }
-
 
     private fun getColorIndex(color: Color): Int = listOf(
         CalRed,

@@ -76,29 +76,24 @@ fun ScrapDialog(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is ScrapDialogSideEffect.ShowToast -> {}
-                    is ScrapDialogSideEffect.DismissDialog -> onDismissRequest()
-                    is ScrapDialogSideEffect.ChangedColor -> onClickChangeColor()
-                    is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
-                        internshipAnnouncementId
-                    )
-
+                    is ScrapDialogSideEffect.DismissDialog -> {
+                        viewModel.initUiState()
+                        onDismissRequest()
+                    }
+                    is ScrapDialogSideEffect.PatchedScrap -> onClickChangeColor()
+                    is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(internshipAnnouncementId)
                     is ScrapDialogSideEffect.ScrappedAnnouncement -> {}
                 }
             }
     }
 
     LaunchedEffect(true) {
-        with(viewModel) {
-            val colorType = ColorType.findColorType(scrapColor).takeIf { it != null }
-            colorType?.let {
-                updateInitialColorType(colorType)
-                updateSelectedColorType(colorType)
-            }
-        }
+        val colorType = ColorType.findColorType(scrapColor).takeIf { it != null }
+        colorType?.let { viewModel.setInitialAndSelectedColorType(it) }
     }
 
     TerningBasicDialog(
-        onDismissRequest = onDismissRequest
+        onDismissRequest = viewModel::navigateUp
     ) {
         ScrapDialogScreen(
             title = title,
@@ -111,26 +106,13 @@ fun ScrapDialog(
             selectedColorType = uiState.selectedColorType,
             isColorChanged = uiState.isColorChanged,
             isColorChangedOnce = uiState.isColorChangedOnce,
-            onClickColorButton = { selectedColorType ->
-                with(viewModel) {
-                    updateSelectedColorType(selectedColorType)
-                    updateIsColorChanged()
-                }
-            },
+            onClickColorButton = viewModel::changeSelectedColor,
             onClickColorChangeButton = {
-                with(viewModel) {
-                    patchScrap(scrapId = scrapId, color = uiState.selectedColorType)
-                    setIsColorChangedOnce()
-                    updateInitialColorType(colorType = uiState.selectedColorType)
-                }
-                onClickChangeColor()
+                viewModel.patchScrap(scrapId = scrapId, color = uiState.selectedColorType)
             },
             onClickNavigateButton = viewModel::navigateToDetail,
             onClickScrapButton = {
-                viewModel.postScrap(
-                    internshipAnnouncementId,
-                    uiState.selectedColorType
-                )
+                viewModel.postScrap(internshipAnnouncementId, uiState.selectedColorType)
             }
         )
     }
@@ -215,7 +197,7 @@ private fun ScrapDialogScreen(
                 ) {
                     Text(
                         text = stringResource(id = R.string.dialog_content_color_button),
-                        style = TerningTheme.typography.body5,
+                        style = TerningTheme.typography.body6,
                         color = Grey400,
                     )
                 }

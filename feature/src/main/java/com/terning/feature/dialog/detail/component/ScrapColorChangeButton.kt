@@ -29,6 +29,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
 import com.terning.feature.R
+import timber.log.Timber
 
 @Composable
 fun ScrapColorChangeButton(
@@ -41,10 +42,14 @@ fun ScrapColorChangeButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+
+    Timber.tag("ScrapDialog")
+        .d("isColorChanged: $isColorChanged\nisColorChangedOnce: $isColorChangedOnce\nisPressed: $isPressed")
+
     val backgroundColor = when {
+        isColorChangedOnce && !isColorChanged -> TerningSub4
         isColorChanged && !isPressed -> White
         isColorChanged && isPressed -> TerningSub5
-        isColorChangedOnce -> TerningSub4
         else -> White
     }
     val textColor = when {
@@ -76,7 +81,7 @@ fun ScrapColorChangeButton(
                 color = borderColor
             ),
             shape = RoundedCornerShape(cornerRadius),
-            onClick = { onButtonClick() }
+            onClick = onButtonClick
         ) {
             Text(
                 text = stringResource(id = text),
