@@ -30,8 +30,8 @@ fun NavGraphBuilder.filteringThreeNavGraph(
         FilteringThreeRoute(
             grade = args.grade,
             workingPeriod = args.workingPeriod,
-            navigateUp = { navHostController.navigateUp() },
-            navigateToStartHome = { navHostController.navigateStartHome() }
+            navigateUp = navHostController::navigateUp,
+            navigateToStartHome = navHostController::navigateStartHome
         )
     }
 }

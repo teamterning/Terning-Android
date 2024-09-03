@@ -72,10 +72,10 @@ fun FilteringThreeRoute(
     }
 
     FilteringThreeScreen(
-        navigateUp = { viewModel.navigateUp() },
+        navigateUp = viewModel::navigateUp,
         chosenYear = state.startYear,
         chosenMonth = state.startMonth,
-        onNextClick = { viewModel.postFilteringWithServer() },
+        onNextClick = viewModel::postFilteringWithServer,
         onYearChosen = { viewModel.updateStartYear(it) },
         onMonthChosen = { viewModel.updateStartMonth(it) }
     )
@@ -94,7 +94,7 @@ fun FilteringThreeScreen(
         modifier = Modifier,
     ) {
         BackButtonTopAppBar(
-            onBackButtonClick = { navigateUp() }
+            onBackButtonClick = navigateUp
         )
         Column(
             modifier = Modifier.fillMaxSize()
