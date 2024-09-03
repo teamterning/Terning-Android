@@ -1,6 +1,5 @@
 package com.terning.core.type
 
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import com.terning.core.designsystem.theme.CalBlue2
 import com.terning.core.designsystem.theme.CalBlueBc

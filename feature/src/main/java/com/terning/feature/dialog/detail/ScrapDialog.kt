@@ -50,7 +50,6 @@ import com.terning.feature.R
 import com.terning.feature.dialog.detail.component.ColorPalette
 import com.terning.feature.dialog.detail.component.ScrapColorChangeButton
 import com.terning.feature.intern.component.InternInfoRow
-import timber.log.Timber
 
 
 @Composable

@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +19,6 @@ import com.terning.core.R
 import com.terning.core.designsystem.component.item.RadioButtonGroups
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.type.ColorType
-import timber.log.Timber
 
 @Composable
 fun ColorPalette(
