@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -62,15 +63,11 @@ private fun ScrapCancelScreen(
     TerningBasicDialog(
         onDismissRequest = onDismissRequest
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 50.dp),
-            contentAlignment = Alignment.TopCenter
-        ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(top = 60.dp)
                     .padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -78,8 +75,10 @@ private fun ScrapCancelScreen(
                     jsonString = "terning_scrap_cancel.json",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(1f)
+                        .height(203.dp)
                 )
+
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = stringResource(id = R.string.dialog_content_scrap_cancel_main_title),
@@ -87,13 +86,13 @@ private fun ScrapCancelScreen(
                     style = TerningTheme.typography.title4,
                     color = Grey500,
                 )
+
+                Spacer(modifier = Modifier.height(5.dp))
+
                 Text(
                     text = stringResource(id = R.string.dialog_content_scrap_cancel_sub_title),
                     style = TerningTheme.typography.body5,
-                    color = Grey350,
-                    modifier = Modifier.padding(
-                        top = 5.dp
-                    )
+                    color = Grey350
                 )
                 Spacer(modifier = Modifier.height(40.dp))
 
@@ -106,7 +105,7 @@ private fun ScrapCancelScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
-        }
+
     }
 }
 
