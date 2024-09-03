@@ -34,14 +34,13 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.util.CalendarDefaults.END_MONTH
+import com.terning.core.util.CalendarDefaults.END_YEAR
+import com.terning.core.util.CalendarDefaults.START_MONTH
+import com.terning.core.util.CalendarDefaults.START_YEAR
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import okhttp3.internal.toImmutableList
-
-private const val START_YEAR = 2010
-private const val END_YEAR = 2030
-private const val START_MONTH = 1
-private const val END_MONTH = 12
 
 private val years =
     (START_YEAR..END_YEAR).map { "${it}년" }.toImmutableList()
