@@ -38,7 +38,7 @@ fun FilteringThreeRoute(
     workingPeriod: Int,
     navigateUp: () -> Unit,
     navigateToStartHome: () -> Unit,
-    viewModel: FilteringViewModel = hiltViewModel(),
+    viewModel: FilteringThreeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 

@@ -17,13 +17,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FilteringViewModel @Inject constructor(
+class FilteringThreeViewModel @Inject constructor(
     private val filteringRepository: FilteringRepository,
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(FilteringState())
-    val state: StateFlow<FilteringState> get() = _state.asStateFlow()
+    private val _state = MutableStateFlow(FilteringThreeState())
+    val state: StateFlow<FilteringThreeState> get() = _state.asStateFlow()
 
     private val _sideEffects = MutableSharedFlow<FilteringThreeSideEffect>()
     val sideEffects: SharedFlow<FilteringThreeSideEffect> get() = _sideEffects.asSharedFlow()

@@ -7,16 +7,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
@@ -26,20 +27,52 @@ import com.terning.feature.R
 import com.terning.feature.filtering.filteringone.component.StatusOneRadioGroup
 
 @Composable
+fun FilteringOneRoute(
+    name: String,
+    onNextClick: (Int) -> Unit,
+    navigateUp: () -> Unit,
+    viewModel: FilteringOneViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
+        viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is FilteringOneSideEffect.NavigateUp -> navigateUp()
+                }
+            }
+    }
+
+    FilteringOneScreen(
+        name = name,
+        onButtonClick = { index ->
+            viewModel.updateGrade(index)
+            viewModel.updateButtonValidation()
+        },
+        onNextClick = onNextClick,
+        navigateUp = viewModel::navigateUp,
+        buttonState = state.isButtonValid,
+        gradeState = state.grade
+    )
+}
+
+@Composable
 fun FilteringOneScreen(
     name: String,
     onNextClick: (Int) -> Unit,
     navigateUp: () -> Unit,
-    onButtonClick: (Int) -> Unit = {},
+    onButtonClick: (Int) -> Unit,
+    buttonState: Boolean,
+    gradeState: Int
 ) {
-    val isButtonValid = remember { mutableStateOf(false) }
-    var grade by remember { mutableIntStateOf(-1) }
-
     Column(
         modifier = Modifier
     ) {
         BackButtonTopAppBar(
-            onBackButtonClick = { navigateUp() }
+            onBackButtonClick = navigateUp
         )
         Column(
             modifier = Modifier.fillMaxSize()
@@ -79,8 +112,6 @@ fun FilteringOneScreen(
             StatusOneRadioGroup(
                 onButtonClick = { index ->
                     onButtonClick(index)
-                    isButtonValid.value = true
-                    grade = index
                 }
             )
             Text(
@@ -96,9 +127,9 @@ fun FilteringOneScreen(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 20.dp,
                 text = R.string.filtering_button,
-                onButtonClick = { onNextClick(grade) },
+                onButtonClick = { onNextClick(gradeState) },
                 modifier = Modifier.padding(bottom = 12.dp),
-                isEnabled = isButtonValid.value
+                isEnabled = buttonState
             )
         }
     }
@@ -112,7 +143,9 @@ fun FilteringOneScreenPreview() {
             name = "터닝이",
             onButtonClick = {},
             onNextClick = {},
-            navigateUp = {}
+            navigateUp = {},
+            buttonState = true,
+            gradeState = 1
         )
     }
 }
