@@ -39,7 +39,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
-import com.terning.core.designsystem.component.item.ColorPalette
+import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey350
@@ -48,7 +48,9 @@ import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.type.ColorType
 import com.terning.feature.R
+import com.terning.feature.dialog.detail.component.ColorPalette
 import com.terning.feature.intern.component.InternInfoRow
 
 
@@ -123,6 +125,7 @@ private fun ScrapDialogScreen(
     onClickScrapButton: () -> Unit
 ) {
     var selectedColor by remember { mutableStateOf(scrapColor) }
+    var selectedColorType by remember { mutableStateOf(ColorType.findColorType(selectedColor)?:ColorType.RED) }
 
     Box(
         modifier = Modifier
@@ -200,9 +203,10 @@ private fun ScrapDialogScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     ColorPalette(
-                        initialColor = selectedColor,
+                        initialColor = selectedColorType,
                         onColorSelected = { newColor ->
-                            selectedColor = newColor
+                            selectedColor = newColor.main
+                            selectedColorType = newColor
                         }
                     )
                 }
