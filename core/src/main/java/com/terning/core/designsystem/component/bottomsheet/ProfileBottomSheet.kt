@@ -85,15 +85,15 @@ fun ProfileBottomSheet(
 /**
  * 6개의 프로필 이미지 중, 하나의 이미지만 선택할 수 있는 라디오 버튼입니다.
  *
- * @param modifier 라디오 버튼에 적용할 Modifier입니다.
  * @param onOptionSelected 선택된 이미지의 인덱스 값을 나타내는 콜백 함수입니다.
  * @param initialSelectedOption 초기에 선택된 이미지를 나타내는 인덱스 값입니다.
+ * @param modifier 라디오 버튼에 적용할 Modifier입니다.
  */
 @Composable
 fun RadioButtonGroup(
-    modifier: Modifier = Modifier,
     onOptionSelected: (Int) -> Unit,
-    initialSelectedOption: Int
+    initialSelectedOption: Int,
+    modifier: Modifier = Modifier,
 ) {
     val options = listOf(
         R.drawable.ic_terning_profile_00,
@@ -114,7 +114,7 @@ fun RadioButtonGroup(
     ) {
         itemsIndexed(options) { index, option ->
             val imageModifier = if (selectedOption == options[index]) {
-                modifier
+                Modifier
                     .border(
                         color = TerningMain,
                         width = 2.dp,
@@ -122,7 +122,7 @@ fun RadioButtonGroup(
                     )
                     .aspectRatio(1f)
             } else {
-                modifier.aspectRatio(1f)
+                Modifier.aspectRatio(1f)
             }
 
             Image(
