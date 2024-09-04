@@ -158,6 +158,7 @@ fun ProfileEditScreen(
                 initialView = profileEditState.initialView
             )
             Spacer(modifier = modifier.height(48.dp))
+
             Text(
                 text = stringResource(id = R.string.profile_edit_auth_type),
                 style = TerningTheme.typography.body2,
