@@ -1,5 +1,6 @@
 package com.terning.feature.onboarding.splash
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.feature.R
@@ -60,18 +61,18 @@ fun SplashRoute(
 
 @Composable
 fun SplashScreen(
-    modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .padding(paddingValues)
             .fillMaxSize()
             .background(TerningMain),
     ) {
-        TerningImage(
-            painter = R.drawable.ic_splash,
-            modifier = Modifier.fillMaxSize()
+        Image(
+            painter = painterResource(id = R.drawable.ic_splash),
+            modifier = Modifier.fillMaxSize(),
+            contentDescription = "splash screen"
         )
     }
 }
