@@ -1,7 +1,6 @@
 package com.terning.feature.filtering.starthome.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -21,30 +20,20 @@ fun NavController.navigateStartHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.startHomeNavGraph(
+    paddingValues: PaddingValues,
     navHostController: NavHostController
 ) {
-    composable<StartHome>(
-        exitTransition = {
-            ExitTransition.None
-        },
-        popEnterTransition = {
-            EnterTransition.None
-        },
-        enterTransition = {
-            EnterTransition.None
-        },
-        popExitTransition = {
-            ExitTransition.None
-        }
-    ) {
-        StartHomeScreen(navigateToHome = {
-            navHostController.navigateHome(
-                navOptions = NavOptions.Builder().setPopUpTo(
-                    route = SignIn,
-                    inclusive = true
-                ).build()
-            )
-        }
+    composable<StartHome> {
+        StartHomeScreen(
+            paddingValues = paddingValues,
+            navigateToHome = {
+                navHostController.navigateHome(
+                    navOptions = NavOptions.Builder().setPopUpTo(
+                        route = SignIn,
+                        inclusive = true
+                    ).build()
+                )
+            }
         )
     }
 }

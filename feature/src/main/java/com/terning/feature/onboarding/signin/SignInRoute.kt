@@ -3,6 +3,7 @@ package com.terning.feature.onboarding.signin
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +32,7 @@ import com.terning.feature.onboarding.signin.component.KakaoButton
 
 @Composable
 fun SignInRoute(
+    paddingValues: PaddingValues,
     navigateToHome: () -> Unit,
     navigateToSignUp: (String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel(),
@@ -79,6 +81,7 @@ fun SignInRoute(
     }
 
     SignInScreen(
+        paddingValues = paddingValues,
         onSignInClick = {
             viewModel.startKakaoLogIn(
                 isKakaoAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(
@@ -91,29 +94,28 @@ fun SignInRoute(
 
 @Composable
 fun SignInScreen(
-    modifier: Modifier = Modifier,
-    onSignInClick: () -> Unit = {},
+    onSignInClick: () -> Unit,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(color = White)
+            .padding(paddingValues)
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
         TerningImage(
             painter = R.drawable.ic_terning_login,
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
         KakaoButton(
             title = stringResource(id = R.string.sign_in_kakao_button),
-            onSignInClick = {
-                onSignInClick()
-            }
+            onSignInClick = onSignInClick
         )
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
@@ -154,6 +156,8 @@ private const val KAKAO_NOT_LOGGED_IN = "statusCode=302"
 @Composable
 fun SignInScreenPreview() {
     TerningPointTheme {
-        SignInScreen()
+        SignInScreen(
+            onSignInClick = {}
+        )
     }
 }

@@ -1,18 +1,20 @@
 package com.terning.feature.mypage.component
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
-import com.terning.core.designsystem.component.image.TerningImage
 
 @Composable
 fun MyPageProfile(
     modifier: Modifier = Modifier,
-    profile: String
+    profile: Int
 ) {
     val options = listOf(
         R.drawable.ic_terning_profile_00,
@@ -24,18 +26,20 @@ fun MyPageProfile(
     )
 
     val option = when (profile) {
-        "PROFILE_00" -> options[0]
-        "PROFILE_01" -> options[1]
-        "PROFILE_02" -> options[2]
-        "PROFILE_03" -> options[3]
-        "PROFILE_04" -> options[4]
+        0 -> options[0]
+        1 -> options[1]
+        2 -> options[2]
+        3 -> options[3]
+        4 -> options[4]
         else -> options[5]
     }
 
-    TerningImage(
-        painter = option,
+    Image(
+        painter = painterResource(id = option),
         modifier = modifier
             .size(72.dp)
             .clip(shape = CircleShape)
+            .aspectRatio(1f),
+        contentDescription = "profile image"
     )
 }
