@@ -16,14 +16,15 @@ import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.WarningRed
+import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NAME_ERROR_REGEX
 
 data class NameFieldState(
     val name: String,
     val lineColor: Color,
-    val helperMessage: Int?,
+    val helperMessage: Int,
     val helperIcon: Int?,
-    val helperColor: Color?,
+    val helperColor: Color,
     val isValid: Boolean
 )
 
@@ -54,9 +55,9 @@ fun NameTextField(
             NameFieldState(
                 name = trimmedName,
                 lineColor = Grey500,
-                helperMessage = null,
-                helperIcon = null,
-                helperColor = null,
+                helperMessage = R.string.sign_up_helper,
+                helperIcon = R.drawable.ic_name_text_field_check,
+                helperColor = White,
                 isValid = false
             )
         }
@@ -120,7 +121,7 @@ fun NameTextField(
         hintColor = Grey300,
         showTextLength = true,
         maxTextLength = MAX_LENGTH,
-        helperMessage = state.helperMessage?.let { stringResource(id = it) },
+        helperMessage = stringResource(id = state.helperMessage),
         helperIcon = state.helperIcon,
         helperColor = state.helperColor,
         imeAction = ImeAction.Done,
