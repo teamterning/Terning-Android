@@ -9,9 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,15 +38,13 @@ fun SignUpRoute(
     navigateToStartFiltering: (String) -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    val signUpState by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    var showBottomSheet by remember { mutableStateOf(false) }
-
     LaunchedEffect(key1 = true) {
-        viewModel.fetchAuthId(authId)
+        viewModel.updateAuthId(authId)
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
@@ -58,24 +53,24 @@ fun SignUpRoute(
                 when (sideEffect) {
                     is SignUpSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is SignUpSideEffect.NavigateToStartFiltering ->
-                        navigateToStartFiltering(signUpState.name)
+                        navigateToStartFiltering(state.name)
                 }
             }
     }
 
-    if (showBottomSheet) {
+    if (state.showBottomSheet) {
         ProfileBottomSheet(
-            onDismiss = { showBottomSheet = false },
+            onDismiss = { viewModel.updateBottomSheet(false) },
             onSaveClick = { index ->
-                showBottomSheet = false
-                viewModel.fetchCharacter(index)
+                viewModel.updateBottomSheet(false)
+                viewModel.updateProfileImage(index)
             },
-            initialSelectedOption = signUpState.character
+            initialSelectedOption = state.profileImage
         )
     }
 
     SignUpScreen(
-        signUpState = signUpState,
+        state = state,
         onSignUpClick = {
             viewModel.postSignUpWithServer()
         },
@@ -83,7 +78,7 @@ fun SignUpRoute(
             viewModel.updateName(name)
         },
         onProfileEditClick = { isVisible ->
-            showBottomSheet = isVisible
+            viewModel.updateBottomSheet(isVisible)
         },
         onValidationChanged = { isVisible ->
             viewModel.updateButtonValidation(isVisible)
@@ -93,7 +88,7 @@ fun SignUpRoute(
 
 @Composable
 fun SignUpScreen(
-    signUpState: SignUpState,
+    state: SignUpState,
     onSignUpClick: () -> Unit,
     onInputChange: (String) -> Unit,
     onProfileEditClick: (Boolean) -> Unit,
@@ -117,8 +112,7 @@ fun SignUpScreen(
         Text(
             text = stringResource(id = R.string.sign_up_profile_image),
             style = TerningTheme.typography.body2,
-            modifier = modifier
-                .padding(start = 24.dp),
+            modifier = modifier.padding(start = 24.dp),
             color = Grey500
         )
         Spacer(modifier = modifier.height(20.dp))
@@ -130,7 +124,7 @@ fun SignUpScreen(
                 modifier = modifier.noRippleClickable {
                     onProfileEditClick(true)
                 },
-                index = signUpState.character
+                index = state.profileImage
             )
         }
         Column(
@@ -141,7 +135,7 @@ fun SignUpScreen(
             Text(text = stringResource(id = R.string.sign_up_name))
             Spacer(modifier = modifier.height(20.dp))
             NameTextField(
-                value = signUpState.name,
+                value = state.name,
                 onValueChange = { name ->
                     onInputChange(name)
                 },
@@ -156,7 +150,7 @@ fun SignUpScreen(
             text = R.string.sign_up_next_button,
             onButtonClick = { onSignUpClick() },
             modifier = modifier.padding(bottom = 12.dp),
-            isEnabled = signUpState.isButtonValid
+            isEnabled = state.isButtonValid
         )
     }
 }
@@ -166,7 +160,7 @@ fun SignUpScreen(
 fun SignUpScreenPreview() {
     TerningPointTheme {
         SignUpScreen(
-            signUpState = SignUpState(),
+            state = SignUpState(),
             onSignUpClick = {},
             onInputChange = {},
             onProfileEditClick = {},

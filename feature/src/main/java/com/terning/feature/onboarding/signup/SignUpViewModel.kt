@@ -36,11 +36,11 @@ class SignUpViewModel @Inject constructor(
         _state.value = _state.value.copy(name = name)
     }
 
-    fun fetchCharacter(character: Int) {
-        _state.value = _state.value.copy(character = character)
+    fun updateProfileImage(profileImage: Int) {
+        _state.value = _state.value.copy(profileImage = profileImage)
     }
 
-    fun fetchAuthId(authId: String) {
+    fun updateAuthId(authId: String) {
         _state.value = _state.value.copy(authId = authId)
     }
 
@@ -51,7 +51,7 @@ class SignUpViewModel @Inject constructor(
                 state.value.run {
                     SignUpRequest(
                         name = name,
-                        profileImage = character,
+                        profileImage = profileImage,
                         authType = KAKA0
                     )
                 }
@@ -67,6 +67,10 @@ class SignUpViewModel @Inject constructor(
                 _sideEffects.emit(SignUpSideEffect.ShowToast(R.string.server_failure))
             }
         }
+    }
+
+    fun updateBottomSheet(isVisible: Boolean) {
+        _state.value = _state.value.copy(showBottomSheet = isVisible)
     }
 
     companion object {

@@ -38,7 +38,7 @@ android {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                gradleLocalProperties(rootDir, providers).getProperty("base.url")
+                gradleLocalProperties(rootDir, providers).getProperty("test.base.url")
             )
         }
         release {
