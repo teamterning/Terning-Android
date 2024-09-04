@@ -1,7 +1,5 @@
 package com.terning.feature.onboarding.splash.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -22,23 +20,10 @@ fun NavController.navigateSplash(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.splashNavGraph(
-    paddingValues : PaddingValues,
+    paddingValues: PaddingValues,
     navHostController: NavHostController,
 ) {
-    composable<Splash>(
-        popExitTransition = {
-            ExitTransition.None
-        },
-        exitTransition = {
-            ExitTransition.None
-        },
-        enterTransition = {
-            EnterTransition.None
-        },
-        popEnterTransition = {
-            EnterTransition.None
-        }
-    ) {
+    composable<Splash> {
         SplashRoute(
             paddingValues = paddingValues,
             navigateToHome = {

@@ -1,7 +1,5 @@
 package com.terning.feature.mypage.mypage.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -24,10 +22,15 @@ fun NavGraphBuilder.myPageNavGraph(
     paddingValues: PaddingValues,
     navHostController: NavHostController,
 ) {
-    composable<MyPage>{
+    composable<MyPage> {
         MyPageRoute(
             paddingValues = paddingValues,
-            navigateToProfileEdit = { name, profile -> navHostController.navigateProfileEdit(name, profile) }
+            navigateToProfileEdit = { name, profile ->
+                navHostController.navigateProfileEdit(
+                    name,
+                    profile
+                )
+            }
         )
     }
 }
