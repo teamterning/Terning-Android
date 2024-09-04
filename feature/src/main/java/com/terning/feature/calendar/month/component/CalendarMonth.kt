@@ -63,6 +63,7 @@ internal fun CalendarMonth(
                         if (!day.isOutDate) {
                             val index = day.date.getDateAsMapString()
                             CalendarMonthScrap(
+                                weekCount = month.size,
                                 scrapLists = scrapMap[index].orEmpty(),
                                 modifier = Modifier.fillMaxWidth()
                             )
