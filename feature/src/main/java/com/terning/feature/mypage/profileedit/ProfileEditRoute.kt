@@ -40,9 +40,9 @@ import com.terning.feature.R
 @Composable
 fun ProfileEditRoute(
     navigateUp: () -> Unit,
-    viewModel: ProfileEditViewModel = hiltViewModel(),
     initialName: String,
-    initialProfile: Int
+    initialProfile: Int,
+    viewModel: ProfileEditViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -105,13 +105,12 @@ fun ProfileEditScreen(
     onSaveClick: () -> Unit,
     name: String,
     onBackButtonClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    onValidationChanged: (Boolean) -> Unit
+    onValidationChanged: (Boolean) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .statusBarsPadding()
             .navigationBarsPadding()
             .fillMaxSize()
@@ -122,16 +121,16 @@ fun ProfileEditScreen(
             onBackButtonClick = { onBackButtonClick() },
             title = stringResource(id = R.string.profile_edit_title),
         )
-        Spacer(modifier = modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Column(
-            modifier = modifier.padding(horizontal = 24.dp)
+            modifier = Modifier.padding(horizontal = 24.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.sign_up_profile_image),
                 style = TerningTheme.typography.body2,
                 color = Grey500
             )
-            Spacer(modifier = modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             ProfileWithPlusButton(
                 modifier = Modifier
                     .noRippleClickable {
@@ -140,12 +139,12 @@ fun ProfileEditScreen(
                     .align(Alignment.CenterHorizontally),
                 index = profileEditState.profile
             )
-            Spacer(modifier = modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(48.dp))
             Text(
                 text = stringResource(id = R.string.sign_up_name),
                 color = Grey500
             )
-            Spacer(modifier = modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             NameTextField(
                 value = name,
                 onValueChange = { editName ->
@@ -157,28 +156,27 @@ fun ProfileEditScreen(
                 },
                 initialView = profileEditState.initialView
             )
-            Spacer(modifier = modifier.height(48.dp))
-
+            Spacer(modifier = Modifier.height(48.dp))
             Text(
                 text = stringResource(id = R.string.profile_edit_auth_type),
                 style = TerningTheme.typography.body2,
                 color = Grey500,
             )
-            Spacer(modifier = modifier.height(11.dp))
+            Spacer(modifier = Modifier.height(11.dp))
             Text(
                 text = profileEditState.authType,
                 style = TerningTheme.typography.detail0
             )
         }
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
         RectangleButton(
             style = TerningTheme.typography.button1,
             paddingVertical = 20.dp,
             text = R.string.profile_edit_save,
-            onButtonClick = { onSaveClick() },
+            onButtonClick = onSaveClick,
             isEnabled = profileEditState.isButtonValid,
         )
-        Spacer(modifier = modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 

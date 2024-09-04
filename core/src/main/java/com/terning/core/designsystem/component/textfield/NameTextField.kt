@@ -42,10 +42,10 @@ fun NameTextField(
 
     val nameErrorRegex = NAME_ERROR_REGEX
     val trimmedName: String
-    var outOfBoundName = false
+    var isNameOutOfBounds = false
     if (value.length > MAX_LENGTH) {
         trimmedName = value.substring(0, MAX_LENGTH)
-        outOfBoundName = true
+        isNameOutOfBounds = true
     } else {
         trimmedName = value
     }
@@ -84,7 +84,7 @@ fun NameTextField(
             )
         }
 
-        outOfBoundName -> {
+        isNameOutOfBounds -> {
             NameFieldState(
                 name = trimmedName,
                 lineColor = WarningRed,
