@@ -1,7 +1,9 @@
 package com.terning.feature.filtering.filteringtwo
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,6 +25,7 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
 import com.terning.feature.filtering.filteringtwo.component.StatusTwoRadioGroup
 
@@ -31,7 +34,8 @@ fun FilteringTwoRoute(
     grade: Int,
     onNextClick: (Int, Int) -> Unit,
     navigateUp: () -> Unit,
-    viewModel: FilteringTwoViewModel = hiltViewModel()
+    paddingValues: PaddingValues,
+    viewModel: FilteringTwoViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -55,7 +59,8 @@ fun FilteringTwoRoute(
             viewModel.updateButtonValidation()
         },
         buttonState = state.isButtonValid,
-        workingPeriod = state.workingPeriod
+        workingPeriod = state.workingPeriod,
+        paddingValues = paddingValues
     )
 }
 
@@ -66,13 +71,16 @@ fun FilteringTwoScreen(
     navigateUp: () -> Unit,
     onButtonClick: (Int) -> Unit,
     buttonState: Boolean,
-    workingPeriod: Int
+    workingPeriod: Int,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
         modifier = Modifier
+            .padding(paddingValues)
+            .background(White)
     ) {
         BackButtonTopAppBar(
-            onBackButtonClick = { navigateUp() }
+            onBackButtonClick = navigateUp
         )
         Column(
             modifier = Modifier.fillMaxSize()

@@ -1,5 +1,6 @@
 package com.terning.feature.filtering.filteringthree.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -23,11 +24,13 @@ fun NavController.navigateFilteringThree(
 }
 
 fun NavGraphBuilder.filteringThreeNavGraph(
+    paddingValues: PaddingValues,
     navHostController: NavHostController
 ) {
     composable<FilteringThree> {
         val args = it.toRoute<FilteringThree>()
         FilteringThreeRoute(
+            paddingValues = paddingValues,
             grade = args.grade,
             workingPeriod = args.workingPeriod,
             navigateUp = navHostController::navigateUp,

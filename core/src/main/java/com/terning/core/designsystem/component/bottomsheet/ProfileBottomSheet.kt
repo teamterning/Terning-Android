@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -17,7 +18,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -27,14 +27,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
-import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import kotlinx.coroutines.launch
 
 /**
- * 회원가입을 할 때 프로필 이미지를 선택할 수 있는 바텀시트입니다.
+ * 프로필 이미지를 선택할 수 있는 바텀시트입니다.
  *
  * @param modifier 바텀시트에 적용할 Modifier입니다.
  * @param onDismiss 바텀시트가 닫힐 때 호출되는 콜백 함수입니다.
@@ -43,7 +42,7 @@ import kotlinx.coroutines.launch
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpBottomSheet(
+fun ProfileBottomSheet(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     onSaveClick: (Int) -> Unit,
@@ -52,43 +51,30 @@ fun SignUpBottomSheet(
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
 
-    var selectedImageIndex by remember { mutableIntStateOf(initialSelectedOption) }
-
     TerningBasicBottomSheet(
         content = {
-            Column {
+            Column(modifier = modifier) {
                 Text(
                     text = stringResource(id = R.string.sign_up_bottom_sheet_title),
                     style = TerningTheme.typography.title2,
-                    modifier = modifier
+                    modifier = Modifier
                         .padding(
                             start = 28.dp,
-                            bottom = 25.dp
+                            bottom = 20.dp
                         ),
                 )
                 RadioButtonGroup(
                     onOptionSelected = { index ->
-                        selectedImageIndex = index
-                    },
-                    initialSelectedOption = initialSelectedOption
-                )
-                Spacer(modifier = modifier.padding(bottom = 24.dp))
-                RoundButton(
-                    style = TerningTheme.typography.button0,
-                    paddingVertical = 19.dp,
-                    cornerRadius = 10.dp,
-                    text = R.string.sign_up_dialog_start,
-                    onButtonClick = {
                         scope.launch { sheetState.hide() }
                             .invokeOnCompletion {
                                 if (!sheetState.isVisible) {
-                                    onSaveClick(selectedImageIndex)
+                                    onSaveClick(index)
                                 }
                             }
                     },
-                    modifier = modifier.padding(horizontal = 24.dp)
+                    initialSelectedOption = initialSelectedOption
                 )
-                Spacer(modifier = modifier.padding(bottom = 15.dp))
+                Spacer(modifier = modifier.padding(bottom = 26.dp))
             }
         },
         onDismissRequest = { onDismiss() },
@@ -99,15 +85,15 @@ fun SignUpBottomSheet(
 /**
  * 6개의 프로필 이미지 중, 하나의 이미지만 선택할 수 있는 라디오 버튼입니다.
  *
- * @param modifier 라디오 버튼에 적용할 Modifier입니다.
  * @param onOptionSelected 선택된 이미지의 인덱스 값을 나타내는 콜백 함수입니다.
  * @param initialSelectedOption 초기에 선택된 이미지를 나타내는 인덱스 값입니다.
+ * @param modifier 라디오 버튼에 적용할 Modifier입니다.
  */
 @Composable
 fun RadioButtonGroup(
-    modifier: Modifier = Modifier,
     onOptionSelected: (Int) -> Unit,
-    initialSelectedOption: Int
+    initialSelectedOption: Int,
+    modifier: Modifier = Modifier,
 ) {
     val options = listOf(
         R.drawable.ic_terning_profile_00,
@@ -122,35 +108,36 @@ fun RadioButtonGroup(
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = modifier
-            .padding(horizontal = 42.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp),
+        modifier = modifier.padding(horizontal = 34.dp)
     ) {
         itemsIndexed(options) { index, option ->
             val imageModifier = if (selectedOption == options[index]) {
-                modifier
+                Modifier
                     .border(
                         color = TerningMain,
                         width = 2.dp,
                         shape = CircleShape
                     )
+                    .aspectRatio(1f)
             } else {
-                modifier
+                Modifier.aspectRatio(1f)
             }
 
             Image(
                 painter = painterResource(
                     id = option
                 ),
-                contentDescription = stringResource(id = R.string.sign_up_bottom_sheet_description),
+                contentDescription = "profile image",
                 modifier = imageModifier
-                    .aspectRatio(1f)
                     .noRippleClickable {
                         onOptionSelected(index)
                         selectedOption = option
                     }
                     .clip(shape = CircleShape)
+                    .size(76.dp)
+                    .aspectRatio(1f)
             )
         }
     }

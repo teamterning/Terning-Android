@@ -41,6 +41,7 @@ fun TerningBasicTextField(
     hintColor: Color,
     drawLineColor: Color,
     cursorBrush: Brush,
+    helperColor: Color,
     strokeWidth: Float = 1f,
     leftIcon: Int? = null,
     leftIconColor: Color = TerningMain,
@@ -51,7 +52,6 @@ fun TerningBasicTextField(
     helperMessage: String = "",
     helperIcon: Int? = null,
     enabled: Boolean = true,
-    helperColor: Color,
     readOnly: Boolean = false,
     onDoneAction: () -> Unit? = {},
     onSearchAction: () -> Unit? = {},
@@ -139,7 +139,7 @@ fun TerningBasicTextField(
     ) {
         helperIcon?.let {
             Icon(
-                painter = painterResource(id = it),
+                painter = painterResource(id = helperIcon),
                 contentDescription = null,
                 tint = helperColor,
             )

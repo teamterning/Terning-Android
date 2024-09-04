@@ -2,8 +2,10 @@ package com.terning.feature.filtering.starthome
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,12 +32,14 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
 import kotlinx.coroutines.delay
 
 @Composable
 fun StartHomeRoute(
     navigateToHome: () -> Unit,
+    paddingValues: PaddingValues = PaddingValues(),
     viewModel: StartHomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -51,7 +55,8 @@ fun StartHomeRoute(
     StartHomeScreen(
         navigateToHome = navigateToHome,
         buttonState = state.isButtonVisible,
-        screenHeight = screenHeight
+        screenHeight = screenHeight,
+        paddingValues = paddingValues
     )
 }
 
@@ -59,11 +64,14 @@ fun StartHomeRoute(
 fun StartHomeScreen(
     navigateToHome: () -> Unit,
     buttonState: Boolean,
-    screenHeight: Float
+    screenHeight: Float,
+    paddingValues: PaddingValues = PaddingValues()
 ) {
-
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(White)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

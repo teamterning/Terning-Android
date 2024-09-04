@@ -3,8 +3,10 @@ package com.terning.feature.filtering.startfiltering
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,11 +29,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
 import kotlinx.coroutines.delay
 
 @Composable
 fun StartFilteringRoute(
+    paddingValues: PaddingValues = PaddingValues(),
     onNextClick: () -> Unit,
     viewModel: StartFilteringViewModel = hiltViewModel()
 ) {
@@ -48,7 +52,8 @@ fun StartFilteringRoute(
     StartFilteringScreen(
         onNextClick = onNextClick,
         buttonState = state.isButtonVisible,
-        screenHeight = screenHeight
+        screenHeight = screenHeight,
+        paddingValues = paddingValues
     )
 
 }
@@ -57,10 +62,14 @@ fun StartFilteringRoute(
 fun StartFilteringScreen(
     onNextClick: () -> Unit,
     buttonState: Boolean,
-    screenHeight: Float
+    screenHeight: Float,
+    paddingValues: PaddingValues = PaddingValues()
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(White)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

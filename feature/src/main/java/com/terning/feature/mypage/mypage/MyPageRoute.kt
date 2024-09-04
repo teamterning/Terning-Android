@@ -1,9 +1,10 @@
-package com.terning.feature.mypage
+package com.terning.feature.mypage.mypage
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,11 +15,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +25,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
@@ -41,19 +42,18 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
 import com.terning.feature.R
-import com.terning.feature.mypage.component.MyPageItem
 import com.terning.feature.mypage.component.MyPageProfile
+import com.terning.feature.mypage.mypage.component.MyPageItem
 
 @Composable
 fun MyPageRoute(
+    paddingValues: PaddingValues,
+    navigateToProfileEdit: (String, Int) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
-
-    var name by remember { mutableStateOf(state.name) }
-    // TODO: 프로필로 바꾸기
-    var profile by remember { mutableStateOf(state.authType) }
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val systemUiController = rememberSystemUiController()
 
@@ -61,6 +61,18 @@ fun MyPageRoute(
         systemUiController.setStatusBarColor(
             color = Back
         )
+    }
+
+    LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
+        viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit(
+                        state.name,
+                        state.profile
+                    )
+                }
+            }
     }
 
     if (state.showLogoutBottomSheet) {
@@ -93,9 +105,18 @@ fun MyPageRoute(
 
     when (state.isGetSuccess) {
         is UiState.Success -> {
-            name = state.name
-            // TODO: 프로필로 바꾸기
-            profile = state.authType
+            MyPageScreen(
+                paddingValues = paddingValues,
+                onEditClick = { viewModel.navigateToProfileEdit() },
+                onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
+                onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
+                onNoticeClick = { viewModel.fetchShowNotice(true) },
+                onOpinionClick = { viewModel.fetchShowOpinion(true) },
+                onServiceClick = {},
+                onPersonalClick = {},
+                name = state.name,
+                profile = state.profile
+            )
         }
 
         is UiState.Loading -> {}
@@ -112,33 +133,26 @@ fun MyPageRoute(
         viewModel.navigateToOpinionWebView(context)
         viewModel.fetchShowOpinion(false)
     }
-
-    MyPageScreen(
-        onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
-        onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
-        onNoticeClick = { viewModel.fetchShowNotice(true) },
-        onOpinionClick = { viewModel.fetchShowOpinion(true) },
-        onEditClick = { /*TODO: 프로필 수정으로 이동*/ },
-        name = name,
-        profile = profile
-    )
 }
 
 @Composable
 fun MyPageScreen(
+    onEditClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
     onNoticeClick: () -> Unit,
     onOpinionClick: () -> Unit,
-    onEditClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    onServiceClick: () -> Unit,
+    onPersonalClick: () -> Unit,
+    paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
-    profile: String = ""
+    profile: Int = 0
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Back)
+            .padding(paddingValues)
     ) {
         UserProfile(
             name = name,
@@ -146,12 +160,12 @@ fun MyPageScreen(
             onEditClick = onEditClick
         )
         TerningCommunity(
-            onNoticeClick =  onNoticeClick,
+            onNoticeClick = onNoticeClick,
             onOpinionClick = onOpinionClick
         )
         ServiceInfo(
-            onNoticeClick = onNoticeClick,
-            onOpinionClick = onOpinionClick
+            onServiceClick = onServiceClick,
+            onPersonalClick = onPersonalClick
         )
         Row(
             modifier = Modifier
@@ -195,7 +209,7 @@ fun UserProfile(
     name: String,
     onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
-    profile: String = "PROFILE_00",
+    profile: Int = 0,
 ) {
     Row(
         modifier = modifier.padding(
@@ -215,10 +229,12 @@ fun UserProfile(
                     bottom = 7.dp
                 )
             )
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.noRippleClickable {
                     onEditClick()
-                }) {
+                }
+            ) {
                 Text(
                     text = stringResource(id = R.string.my_page_edit_profile),
                     modifier = Modifier.padding(start = 16.dp, end = 7.dp),
@@ -267,20 +283,19 @@ fun TerningCommunity(
                 modifier = Modifier.padding(bottom = 20.dp)
             )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_information),
+                text = stringResource(id = R.string.my_page_notice),
                 icon = R.drawable.ic_my_page_notice,
-                onButtonClick = { onNoticeClick() }
+                onButtonClick = onNoticeClick
             )
             HorizontalDivider(
-                modifier = Modifier
-                    .padding(vertical = 20.dp),
+                modifier = Modifier.padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
             )
             MyPageItem(
                 text = stringResource(id = R.string.my_page_opinion),
                 icon = R.drawable.ic_my_page_opinion,
-                onButtonClick = { onOpinionClick() }
+                onButtonClick = onOpinionClick
             )
         }
     }
@@ -289,8 +304,8 @@ fun TerningCommunity(
 @Composable
 fun ServiceInfo(
     modifier: Modifier = Modifier,
-    onNoticeClick: () -> Unit,
-    onOpinionClick: () -> Unit
+    onServiceClick: () -> Unit,
+    onPersonalClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -321,24 +336,22 @@ fun ServiceInfo(
                 modifier = Modifier.padding(bottom = 20.dp)
             )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_notice),
-                icon = R.drawable.ic_my_page_notice,
-                onButtonClick = { onNoticeClick() }
+                text = stringResource(id = R.string.my_page_service),
+                icon = R.drawable.ic_my_page_service,
+                onButtonClick = onServiceClick
             )
             HorizontalDivider(
-                modifier = Modifier
-                    .padding(vertical = 20.dp),
+                modifier = Modifier.padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
             )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_private_information),
-                icon = R.drawable.ic_my_page_opinion,
-                onButtonClick = { onOpinionClick() }
+                text = stringResource(id = R.string.my_page_personal),
+                icon = R.drawable.ic_my_page_personal,
+                onButtonClick = onPersonalClick
             )
             HorizontalDivider(
-                modifier = Modifier
-                    .padding(vertical = 20.dp),
+                modifier = Modifier.padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
             )
@@ -363,7 +376,9 @@ fun MyPageScreenPreview() {
             onOpinionClick = {},
             onLogoutClick = {},
             onQuitClick = {},
-            onEditClick = {}
+            onEditClick = {},
+            onServiceClick = {},
+            onPersonalClick = {},
         )
     }
 }

@@ -1,7 +1,9 @@
 package com.terning.feature.filtering.filteringone
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,6 +25,7 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
 import com.terning.feature.filtering.filteringone.component.StatusOneRadioGroup
 
@@ -31,7 +34,8 @@ fun FilteringOneRoute(
     name: String,
     onNextClick: (Int) -> Unit,
     navigateUp: () -> Unit,
-    viewModel: FilteringOneViewModel = hiltViewModel()
+    paddingValues: PaddingValues,
+    viewModel: FilteringOneViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -55,7 +59,8 @@ fun FilteringOneRoute(
         onNextClick = onNextClick,
         navigateUp = viewModel::navigateUp,
         buttonState = state.isButtonValid,
-        gradeState = state.grade
+        gradeState = state.grade,
+        paddingValues = paddingValues
     )
 }
 
@@ -66,10 +71,13 @@ fun FilteringOneScreen(
     navigateUp: () -> Unit,
     onButtonClick: (Int) -> Unit,
     buttonState: Boolean,
-    gradeState: Int
+    gradeState: Int,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
         modifier = Modifier
+            .padding(paddingValues)
+            .background(White)
     ) {
         BackButtonTopAppBar(
             onBackButtonClick = navigateUp
@@ -119,7 +127,7 @@ fun FilteringOneScreen(
                 style = TerningTheme.typography.detail3,
                 modifier = Modifier.padding(
                     start = 24.dp,
-                    top = 9.dp
+                    top = 8.dp
                 )
             )
             Spacer(modifier = Modifier.weight(1f))
