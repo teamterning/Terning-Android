@@ -23,7 +23,11 @@ class ScrapCancelViewModel @Inject constructor(
     ) = viewModelScope.launch {
         scrapRepository.deleteScrap(CalendarScrapRequest(scrapId, null))
             .onSuccess {
-                _sideEffect.emit(ScrapCancelSideEffect.DismissDialog)
+                with(_sideEffect){
+                    emit(ScrapCancelSideEffect.DismissDialog)
+                    emit(ScrapCancelSideEffect.ShowToast(R.string.dialog_scrap_cancelled))
+                }
+
             }.onFailure {
                 _sideEffect.emit(ScrapCancelSideEffect.ShowToast(R.string.server_failure))
             }

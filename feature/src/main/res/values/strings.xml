@@ -70,6 +70,8 @@
     <string name="dialog_scrap_mine">내가 스크랩한 관심 공고에요!</string>
     <string name="dialog_scrap_move_to_intern">공고 상세 정보 보기</string>
     <string name="dialog_today_deadline">오늘 마감되는 공고예요!</string>
+    <string name="dialog_scrap_scrapped">관심 공고가 캘린더에 스크랩되었어요!</string>
+    <string name="dialog_scrap_cancelled">관심 공고가 캘린더에서 사라졌어요!</string>
 
     <!--Home-->
     <string name="home_today_title">오늘 마감되는 %s님의 관심 공고</string>

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.toast
 import com.terning.feature.R
 
 @Composable
@@ -33,6 +35,7 @@ fun ScrapCancelDialog(
     onDismissRequest: (Boolean) -> Unit,
     viewModel: ScrapCancelViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -41,7 +44,9 @@ fun ScrapCancelDialog(
                     is ScrapCancelSideEffect.DismissDialog -> {
                         onDismissRequest(true)
                     }
-                    is ScrapCancelSideEffect.ShowToast -> {}
+                    is ScrapCancelSideEffect.ShowToast -> {
+                        context.toast(sideEffect.message)
+                    }
                 }
             }
     }

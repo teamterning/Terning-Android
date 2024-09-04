@@ -81,7 +81,7 @@ class ScrapDialogViewModel @Inject constructor(
             scrapRepository.postScrap(CalendarScrapRequest(id, colorIndex))
                 .onSuccess {
                     with(_sideEffect) {
-                        emit(ScrapDialogSideEffect.ShowToast(R.string.intern_scrap_add_toast_message))
+                        emit(ScrapDialogSideEffect.ShowToast(R.string.dialog_scrap_scrapped))
                         emit(ScrapDialogSideEffect.ScrappedAnnouncement)
                     }
                 }.onFailure {

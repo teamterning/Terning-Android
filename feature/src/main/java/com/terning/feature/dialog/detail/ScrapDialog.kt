@@ -46,6 +46,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getFixHeightByMaxLine
+import com.terning.core.extension.toast
 import com.terning.core.type.ColorType
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.component.ColorPalette
@@ -70,13 +71,16 @@ fun ScrapDialog(
     onClickNavigateButton: (Long) -> Unit,
     viewModel: ScrapDialogViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is ScrapDialogSideEffect.ShowToast -> {}
+                    is ScrapDialogSideEffect.ShowToast -> {
+                        context.toast(sideEffect.message)
+                    }
                     is ScrapDialogSideEffect.DismissDialog -> {
                         viewModel.initUiState()
                         onDismissRequest()
@@ -87,7 +91,8 @@ fun ScrapDialog(
                         internshipAnnouncementId
                     )
 
-                    is ScrapDialogSideEffect.ScrappedAnnouncement -> {}
+                    is ScrapDialogSideEffect.ScrappedAnnouncement -> {
+                    }
                 }
             }
     }
