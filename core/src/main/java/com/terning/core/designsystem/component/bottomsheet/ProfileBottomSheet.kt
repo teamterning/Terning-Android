@@ -5,7 +5,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -112,13 +114,15 @@ fun RadioButtonGroup(
     ) {
         itemsIndexed(options) { index, option ->
             val imageModifier = if (selectedOption == options[index]) {
-                modifier.border(
-                    color = TerningMain,
-                    width = 2.dp,
-                    shape = CircleShape
-                )
-            } else {
                 modifier
+                    .border(
+                        color = TerningMain,
+                        width = 2.dp,
+                        shape = CircleShape
+                    )
+                    .aspectRatio(1f)
+            } else {
+                modifier.aspectRatio(1f)
             }
 
             Image(
@@ -132,6 +136,8 @@ fun RadioButtonGroup(
                         selectedOption = option
                     }
                     .clip(shape = CircleShape)
+                    .size(76.dp)
+                    .aspectRatio(1f)
             )
         }
     }
