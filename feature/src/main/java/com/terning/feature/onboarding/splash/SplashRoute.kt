@@ -60,8 +60,8 @@ fun SplashRoute(
 
 @Composable
 fun SplashScreen(
-    paddingValues: PaddingValues = PaddingValues(),
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
         modifier = modifier
