@@ -28,9 +28,11 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.theme.Back
+import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.getFullDateStringInKorean
 import com.terning.core.extension.swipableVertically
 import com.terning.core.extension.toast
@@ -212,6 +214,14 @@ private fun CalendarWeekSuccess(
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
     selectedDate: LocalDate
 ) {
+    Text(
+        text = selectedDate.getDateStringInKorean(),
+        style = TerningTheme.typography.title5,
+        color = Black,
+        modifier = Modifier
+            .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
+    )
+
     CalendarScrapList(
         selectedDate = selectedDate,
         scrapList = scrapList,

@@ -39,16 +39,6 @@ internal fun CalendarScrapList(
             .padding(horizontal = 24.dp)
     }
 
-    if (scrapList.isListNotEmpty()) {
-        Text(
-            text = selectedDate.getDateStringInKorean(),
-            style = TerningTheme.typography.title5,
-            color = Black,
-            modifier = Modifier
-                .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-        )
-    }
-
     Column(
         modifier = topModifier
     ) {

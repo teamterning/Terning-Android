@@ -28,11 +28,13 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.theme.Back
+import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getDateAsMapString
+import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.getFullDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.extension.toast
@@ -178,23 +180,23 @@ private fun CalendarListScreen(
                             val scrapMap = uiState.loadState.data
                             items(getDate.lengthOfMonth()) { day ->
                                 val currentDate = LocalDate.of(getDate.year, getDate.monthValue, day + 1)
-                                val dateIndex = currentDate.getFullDateStringInKorean()
+                                val dateInKorean = currentDate.getFullDateStringInKorean()
 
-                                if (scrapMap[dateIndex].isListNotEmpty()) {
+                                if (scrapMap[dateInKorean].isListNotEmpty()) {
+                                    Text(
+                                        text = dateInKorean,
+                                        style = TerningTheme.typography.title5,
+                                        color = Black,
+                                        modifier = Modifier
+                                            .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
+                                    )
+
                                     CalendarScrapList(
                                         selectedDate = currentDate,
-                                        scrapList = scrapMap[dateIndex].orEmpty(),
+                                        scrapList = scrapMap[dateInKorean].orEmpty(),
                                         onScrapButtonClicked = onClickScrapButton,
                                         onInternshipClicked = onClickInternship,
                                         isFromList = true
-                                    )
-
-                                    Spacer(
-                                        modifier = Modifier
-                                            .padding(top = 4.dp)
-                                            .fillMaxWidth()
-                                            .height(4.dp)
-                                            .background(Grey200)
                                     )
                                 }
                             }

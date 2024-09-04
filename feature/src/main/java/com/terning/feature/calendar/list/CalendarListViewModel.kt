@@ -106,7 +106,6 @@ class CalendarListViewModel @Inject constructor(
                         loadState = UiState.Failure(it.message.toString())
                     )
                 }
-                Timber.tag("calendarviewmodel").d("getMonthListFailed")
 
                 _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
             }
