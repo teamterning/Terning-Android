@@ -28,16 +28,13 @@ internal fun CalendarScrapList(
     isFromList: Boolean = false
 ) {
     val scrollState = rememberScrollState()
-    val topModifier = if (!isFromList) {
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-            .verticalScroll(scrollState)
-    } else {
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-    }
+    val topModifier = modifier.then(
+        if (!isFromList) {
+            Modifier.verticalScroll(scrollState)
+        } else {
+            Modifier
+        }
+    )
 
     Column(
         modifier = topModifier
@@ -49,7 +46,7 @@ internal fun CalendarScrapList(
                 onInternshipClicked = onInternshipClicked
             )
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(if(scrap == scrapList.last()) 16.dp else 12.dp)
             )
         }
     }

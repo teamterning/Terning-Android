@@ -196,7 +196,10 @@ private fun CalendarListScreen(
                                         scrapList = scrapMap[dateInKorean].orEmpty(),
                                         onScrapButtonClicked = onClickScrapButton,
                                         onInternshipClicked = onClickInternship,
-                                        isFromList = true
+                                        isFromList = true,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 24.dp)
                                     )
                                 }
                             }
