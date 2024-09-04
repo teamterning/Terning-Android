@@ -30,19 +30,16 @@ fun InternTitle(
     viewCount: String,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .background(
                     color = TerningSub3,
                     shape = RoundedCornerShape(size = 5.dp)
                 ),
-            horizontalArrangement = Arrangement.spacedBy(
-                0.dp,
-                Alignment.CenterHorizontally
-            ),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -69,11 +66,11 @@ fun InternTitle(
         Row(
             horizontalArrangement = Arrangement.spacedBy(3.dp, Alignment.Start),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
         ) {
             TerningImage(
-                painter = R.drawable.ic_view_14
+                painter = R.drawable.ic_view_count_14
             )
             Text(
                 text = stringResource(id = R.string.intern_view_count_detail, viewCount),
