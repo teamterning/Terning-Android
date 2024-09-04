@@ -25,8 +25,8 @@ fun CalendarScrap(
         elevation = 1.dp,
     ) {
         InternItem(
-            scrapId = scrap.scrapId,
-            imageUrl = scrap.companyImage.orEmpty(),
+            scrapId = scrap.internshipAnnouncementId,
+            imageUrl = scrap.companyImage,
             title = scrap.title,
             dateDeadline = scrap.dDay,
             workingPeriod = scrap.workingPeriod,

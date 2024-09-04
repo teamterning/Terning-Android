@@ -46,6 +46,7 @@ import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLo
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -89,9 +90,9 @@ fun CalendarListRoute(
         onDismissCancelDialog = { viewModel.updateScrapCancelDialogVisibility(false) },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
         onClickChangeColor = { newColor -> viewModel.patchScrap(newColor) },
-        onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
+        onClickScrapCancel = { uiState.internshipAnnouncementId?.let { viewModel.deleteScrap(it) } },
         onClickScrapButton = { scrapId ->
-            viewModel.updateScrapId(scrapId)
+            viewModel.updateAnnouncementId(scrapId)
             viewModel.updateScrapCancelDialogVisibility(true)
         },
         onClickInternship = { calendarScrapDetail ->
@@ -135,7 +136,24 @@ private fun CalendarListScreen(
                         .background(Back)
                 ) {
                     when (uiState.loadState) {
-                        UiState.Loading -> {}
+                        UiState.Loading -> {
+                            item {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(top = 42.dp)
+                                            .fillMaxWidth(),
+                                        text = stringResource(id = R.string.calendar_text_friday),
+                                        textAlign = TextAlign.Center,
+                                        style = TerningTheme.typography.body5,
+                                        color = Grey400
+                                    )
+                                }
+                            }
+                        }
                         UiState.Empty -> {
                             item {
                                 Box(
@@ -157,11 +175,10 @@ private fun CalendarListScreen(
 
                         is UiState.Failure -> {}
                         is UiState.Success -> {
+                            val scrapMap = uiState.loadState.data
                             items(getDate.lengthOfMonth()) { day ->
-                                val scrapMap = uiState.loadState.data
-                                val currentDate =
-                                    LocalDate.of(getDate.year, getDate.monthValue, day + 1)
-                                val dateIndex = currentDate.getDateAsMapString()
+                                val currentDate = LocalDate.of(getDate.year, getDate.monthValue, day + 1)
+                                val dateIndex = currentDate.getFullDateStringInKorean()
 
                                 if (scrapMap[dateIndex].isListNotEmpty()) {
                                     CalendarScrapList(

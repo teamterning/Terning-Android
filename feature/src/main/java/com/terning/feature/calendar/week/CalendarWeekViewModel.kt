@@ -62,7 +62,7 @@ class CalendarWeekViewModel @Inject constructor(
     fun updateScrapId(scrapId: Long? = null) {
         _uiState.update { currentState ->
             currentState.copy(
-                scrapId = scrapId
+                internshipAnnouncementId = scrapId
             )
         }
     }
@@ -127,7 +127,7 @@ class CalendarWeekViewModel @Inject constructor(
     }
 
     fun patchScrap(color: Color) = viewModelScope.launch {
-        val scrapId = _uiState.value.internshipModel?.scrapId ?: 0
+        val scrapId = _uiState.value.internshipModel?.internshipAnnouncementId ?: 0
         val colorIndex = getColorIndex(color)
 
         scrapRepository.patchScrap(CalendarScrapRequest(scrapId, colorIndex))

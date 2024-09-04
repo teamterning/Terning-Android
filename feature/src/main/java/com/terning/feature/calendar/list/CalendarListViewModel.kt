@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -59,10 +60,10 @@ class CalendarListViewModel @Inject constructor(
         }
     }
 
-    fun updateScrapId(scrapId: Long? = null) {
+    fun updateAnnouncementId(announcementId: Long? = null) {
         _uiState.update { currentState ->
             currentState.copy(
-                scrapId = scrapId
+                internshipAnnouncementId = announcementId
             )
         }
     }
@@ -104,19 +105,20 @@ class CalendarListViewModel @Inject constructor(
                     currentState.copy(
                         loadState = UiState.Failure(it.message.toString())
                     )
-
                 }
+                Timber.tag("calendarviewmodel").d("getMonthListFailed")
+
                 _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
             }
         )
     }
 
     fun deleteScrap(
-        scrapId: Long
+        internshipAnnouncementId: Long
     ) = viewModelScope.launch {
         _uiState.value.loadState
             .takeIf { it is UiState.Success }
-            ?.let { CalendarScrapRequest(scrapId, null) }?.let { scrapRequestModel ->
+            ?.let { CalendarScrapRequest(internshipAnnouncementId, null) }?.let { scrapRequestModel ->
                 scrapRepository.deleteScrap(
                     scrapRequestModel
                 ).onSuccess {
@@ -134,10 +136,10 @@ class CalendarListViewModel @Inject constructor(
     fun patchScrap(
         color: Color
     ) = viewModelScope.launch {
-        val scrapId = _uiState.value.internshipModel?.scrapId ?: 0
+        val announcementId = _uiState.value.internshipModel?.internshipAnnouncementId ?: 0
         val colorIndex = getColorIndex(color)
 
-        scrapRepository.patchScrap(CalendarScrapRequest(scrapId, colorIndex))
+        scrapRepository.patchScrap(CalendarScrapRequest(announcementId, colorIndex))
             .onSuccess {
                 runCatching {
                     getScrapMonthList(_uiState.value.currentDate)

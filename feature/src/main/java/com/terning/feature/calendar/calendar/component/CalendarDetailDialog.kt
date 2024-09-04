@@ -222,8 +222,7 @@ private fun InternDialogContent(
                         )
                         InternInfoRow(
                             title = stringResource(id = com.terning.feature.R.string.intern_info_start_date),
-                            value = "${scrapDetailModel?.startYear ?: LocalDate.now().year}년 " +
-                                    "${scrapDetailModel?.startMonth ?: LocalDate.now().monthValue}월"
+                            value = scrapDetailModel?.startYearMonth.orEmpty()
                         )
                     }
                 }

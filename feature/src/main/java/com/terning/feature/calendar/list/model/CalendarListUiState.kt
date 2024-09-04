@@ -9,6 +9,6 @@ data class CalendarListUiState(
     val currentDate: LocalDate = LocalDate.now(),
     val scrapDialogVisibility: Boolean = false,
     val internDialogVisibility: Boolean = false,
-    val scrapId: Long? = null,
+    val internshipAnnouncementId: Long? = null,
     val internshipModel: CalendarScrapDetail? = null
 )

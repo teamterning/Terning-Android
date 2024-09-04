@@ -50,7 +50,7 @@ class CalendarRepositoryImpl @Inject constructor(
 
             val scrapModelMapByDeadLine = result.flatMap { dto ->
                 dto.toCalendarScrapDetailList()
-            }.groupBy { it.deadLine }
+            }.groupBy { it.deadline }
 
             scrapModelMapByDeadLine
         }

@@ -18,9 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -86,7 +84,7 @@ fun CalendarWeekRoute(
         onDismissCancelDialog = { viewModel.updateScrapCancelDialogVisibility(false) },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
         onClickChangeColor = { viewModel.patchScrap(it) },
-        onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
+        onClickScrapCancel = { uiState.internshipAnnouncementId?.let { viewModel.deleteScrap(it) } },
         onClickScrapButton = {scrapId ->
             with(viewModel) {
                 updateScrapId(scrapId)
