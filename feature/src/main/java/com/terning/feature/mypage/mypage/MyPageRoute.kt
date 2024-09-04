@@ -48,8 +48,8 @@ import com.terning.feature.mypage.mypage.component.MyPageItem
 @Composable
 fun MyPageRoute(
     paddingValues: PaddingValues,
+    navigateToProfileEdit: (String, Int) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
-    navigateToProfileEdit: (String, Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -144,13 +144,12 @@ fun MyPageScreen(
     onOpinionClick: () -> Unit,
     onServiceClick: () -> Unit,
     onPersonalClick: () -> Unit,
-    modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
     profile: Int = 0
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Back)
             .padding(paddingValues)
@@ -289,8 +288,7 @@ fun TerningCommunity(
                 onButtonClick = onNoticeClick
             )
             HorizontalDivider(
-                modifier = Modifier
-                    .padding(vertical = 20.dp),
+                modifier = Modifier.padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
             )
@@ -343,8 +341,7 @@ fun ServiceInfo(
                 onButtonClick = onServiceClick
             )
             HorizontalDivider(
-                modifier = Modifier
-                    .padding(vertical = 20.dp),
+                modifier = Modifier.padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
             )
@@ -354,8 +351,7 @@ fun ServiceInfo(
                 onButtonClick = onPersonalClick
             )
             HorizontalDivider(
-                modifier = Modifier
-                    .padding(vertical = 20.dp),
+                modifier = Modifier.padding(vertical = 20.dp),
                 thickness = 1.dp,
                 color = Grey150
             )
