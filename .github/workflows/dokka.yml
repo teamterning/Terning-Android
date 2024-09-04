@@ -27,10 +27,12 @@ jobs:
       - name: Set Local Properties
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
+          TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
           NATIVE_APP_KEY: ${{ secrets.NATIVE_APP_KEY }}
           NATIVEAPPKEY: ${{ secrets.NATIVEAPPKEY }}
         run: |
           echo base.url=\"$BASE_URL\" >> local.properties
+          echo test.base.url=\"$TEST_BASE_URL\" >> local.properties
           echo native.app.key=\"$NATIVE_APP_KEY\" >> local.properties
           echo nativeAppKey=\"$NATIVEAPPKEY\" >> local.properties
 
