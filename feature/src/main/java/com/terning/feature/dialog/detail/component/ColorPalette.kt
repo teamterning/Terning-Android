@@ -26,7 +26,6 @@ fun ColorPalette(
     onColorSelected: (ColorType) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     RadioButtonGroups(
         options = ColorType.entries,
         gridCellCount = ColorType.entries.size,
@@ -90,7 +89,7 @@ internal fun ColorButton(
             if (isSelected) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_color_check),
-                    contentDescription = ""
+                    contentDescription = "color selected"
                 )
             }
         }
