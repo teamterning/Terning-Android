@@ -12,10 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +34,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getFullDateStringInKorean
+import com.terning.core.extension.swipableVertically
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.calendar.CalendarScrapDetail
@@ -110,12 +116,20 @@ private fun CalendarWeekScreen(
     navigateToAnnouncement: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var swiped by remember { mutableStateOf(false) }
+
+    LaunchedEffect(swiped) {
+        if(swiped) {
+            updateSelectedDate(selectedDate)
+        }
+    }
+
     Column(
         modifier = modifier
             .background(Back)
     ) {
         Card(
-            modifier = Modifier
+            modifier = Modifier.swipableVertically { swiped = true }
                 .shadow(
                     shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
                     elevation = 1.dp
