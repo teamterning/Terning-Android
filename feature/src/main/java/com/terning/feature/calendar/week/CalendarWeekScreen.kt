@@ -1,9 +1,7 @@
 package com.terning.feature.calendar.week
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -87,7 +84,7 @@ fun CalendarWeekRoute(
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
         onClickChangeColor = { viewModel.patchScrap(it) },
         onClickScrapCancel = { uiState.internshipAnnouncementId?.let { viewModel.deleteScrap(it) } },
-        onClickScrapButton = {scrapId ->
+        onClickScrapButton = { scrapId ->
             with(viewModel) {
                 updateScrapId(scrapId)
                 updateScrapCancelDialogVisibility(true)
@@ -119,7 +116,7 @@ private fun CalendarWeekScreen(
     var swiped by remember { mutableStateOf(false) }
 
     LaunchedEffect(swiped) {
-        if(swiped) {
+        if (swiped) {
             updateSelectedDate(selectedDate)
         }
     }
@@ -129,7 +126,8 @@ private fun CalendarWeekScreen(
             .background(Back)
     ) {
         Card(
-            modifier = Modifier.swipableVertically { swiped = true }
+            modifier = Modifier
+                .swipableVertically { swiped = true }
                 .shadow(
                     shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
                     elevation = 1.dp
@@ -146,12 +144,22 @@ private fun CalendarWeekScreen(
             )
         }
 
+        Text(
+            text = selectedDate.getDateStringInKorean(),
+            style = TerningTheme.typography.title5,
+            color = Black,
+            modifier = Modifier
+                .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
+        )
+
         when (uiState.loadState) {
             is UiState.Loading -> {}
             is UiState.Empty -> {
                 CalendarWeekEmpty()
             }
-            is UiState.Failure -> {}
+            is UiState.Failure -> {
+                CalendarWeekEmpty()
+            }
             is UiState.Success -> {
                 CalendarWeekSuccess(
                     scrapList = uiState.loadState.data.toImmutableList(),
@@ -191,20 +199,15 @@ private fun CalendarWeekScreen(
 private fun CalendarWeekEmpty(
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(top = 42.dp)
-                .fillMaxWidth(),
-            text = stringResource(id = R.string.calendar_empty_scrap),
-            textAlign = TextAlign.Center,
-            style = TerningTheme.typography.body5,
-            color = Grey400
-        )
-    }
+    Text(
+        modifier = modifier
+            .padding(top = 38.dp)
+            .fillMaxWidth(),
+        text = stringResource(id = R.string.calendar_empty_scrap),
+        textAlign = TextAlign.Center,
+        style = TerningTheme.typography.body5,
+        color = Grey400
+    )
 }
 
 @Composable
@@ -214,19 +217,13 @@ private fun CalendarWeekSuccess(
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
     selectedDate: LocalDate
 ) {
-    Text(
-        text = selectedDate.getDateStringInKorean(),
-        style = TerningTheme.typography.title5,
-        color = Black,
-        modifier = Modifier
-            .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-    )
-
     CalendarScrapList(
         selectedDate = selectedDate,
         scrapList = scrapList,
         onScrapButtonClicked = onScrapButtonClicked,
-        onInternshipClicked = onInternshipClicked
+        onInternshipClicked = onInternshipClicked,
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
     )
 }
 
