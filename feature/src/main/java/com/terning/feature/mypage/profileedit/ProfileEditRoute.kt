@@ -60,18 +60,6 @@ fun ProfileEditRoute(
         viewModel.updateInitialInfo(initialName = initialName, initialProfile = initialProfile)
     }
 
-    if (state.showBottomSheet) {
-        ProfileBottomSheet(
-            onDismiss = { viewModel.updateBottomSheet(false) },
-            onSaveClick = { index ->
-                viewModel.updateBottomSheet(false)
-                viewModel.updateProfile(index)
-                viewModel.checkIsInfoChange(editName = state.name, editProfile = index)
-            },
-            initialSelectedOption = state.profile
-        )
-    }
-
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -81,6 +69,17 @@ fun ProfileEditRoute(
             }
     }
 
+    if (state.showBottomSheet) {
+        ProfileBottomSheet(
+            onDismiss = { viewModel.updateBottomSheet(false) },
+            onSaveClick = { index ->
+                viewModel.updateBottomSheet(false)
+                viewModel.updateProfile(index)
+            },
+            initialSelectedOption = state.profile
+        )
+    }
+
     ProfileEditScreen(
         profileEditState = state,
         onProfileEditClick = { isVisible ->
@@ -88,13 +87,12 @@ fun ProfileEditRoute(
         },
         onInputChange = { editName ->
             viewModel.updateName(editName)
-            viewModel.checkIsInfoChange(editName = editName, editProfile = state.profile)
         },
         onSaveClick = { viewModel.navigateUp() },
         name = state.name,
         onBackButtonClick = { viewModel.navigateUp() },
         onValidationChanged = { isValid ->
-            if (state.isInfoChange) viewModel.updateButtonValidation(isValid)
+            viewModel.updateButtonValidation(isValid)
         }
     )
 }
@@ -156,7 +154,8 @@ fun ProfileEditScreen(
                 hint = stringResource(id = R.string.sign_up_hint),
                 onValidationChanged = { isValid ->
                     onValidationChanged(isValid)
-                }
+                },
+                initialView = profileEditState.initialView
             )
             Spacer(modifier = modifier.height(48.dp))
             Text(

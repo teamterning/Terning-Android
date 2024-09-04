@@ -21,22 +21,10 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
     private val _sideEffects = MutableSharedFlow<ProfileEditSideEffect>()
     val sideEffects: SharedFlow<ProfileEditSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun updateButtonValidation(isValid: Boolean) {
-        _state.value = _state.value.copy(isButtonValid = isValid)
-    }
-
     fun navigateUp() = viewModelScope.launch { _sideEffects.emit(ProfileEditSideEffect.NavigateUp) }
 
     fun updateBottomSheet(isVisible: Boolean) {
         _state.value = _state.value.copy(showBottomSheet = isVisible)
-    }
-
-    fun updateName(name: String) {
-        _state.value = _state.value.copy(name = name)
-    }
-
-    fun updateProfile(profile: Int) {
-        _state.value = _state.value.copy(profile = profile)
     }
 
     fun updateInitialInfo(initialName: String, initialProfile: Int) {
@@ -44,16 +32,19 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
             name = initialName,
             initialName = initialName,
             profile = initialProfile,
-            initialProfile = initialProfile
         )
     }
 
-    fun checkIsInfoChange(editName: String, editProfile: Int) {
-        val isInfoChanged = editName != _state.value.initialName || editProfile != _state.value.initialProfile
-        _state.value = _state.value.copy(
-            isInfoChange = isInfoChanged,
-            isButtonValid = isInfoChanged && _state.value.isButtonValid
-        )
+    fun updateName(name: String) {
+        _state.value = _state.value.copy(name = name, initialView = false)
+    }
+
+    fun updateProfile(profile: Int) {
+        _state.value = _state.value.copy(profile = profile, initialView = false)
+    }
+
+    fun updateButtonValidation(isValid: Boolean) {
+        _state.value = _state.value.copy(isButtonValid = isValid)
     }
 
 }

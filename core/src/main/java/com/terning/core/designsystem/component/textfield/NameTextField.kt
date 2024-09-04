@@ -21,9 +21,9 @@ import com.terning.core.util.NAME_ERROR_REGEX
 data class NameFieldState(
     val name: String,
     val lineColor: Color,
-    val helperMessage: Int,
+    val helperMessage: Int?,
     val helperIcon: Int?,
-    val helperColor: Color,
+    val helperColor: Color?,
     val isValid: Boolean
 )
 
@@ -33,7 +33,8 @@ fun NameTextField(
     onValueChange: (String) -> Unit,
     hint: String,
     modifier: Modifier = Modifier,
-    onValidationChanged: (Boolean) -> Unit
+    onValidationChanged: (Boolean) -> Unit,
+    initialView: Boolean = false
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -49,6 +50,17 @@ fun NameTextField(
     }
 
     val state = when {
+        initialView -> {
+            NameFieldState(
+                name = trimmedName,
+                lineColor = Grey500,
+                helperMessage = null,
+                helperIcon = null,
+                helperColor = null,
+                isValid = false
+            )
+        }
+
         nameErrorRegex.matcher(trimmedName).find() -> {
             NameFieldState(
                 name = trimmedName,
@@ -108,7 +120,7 @@ fun NameTextField(
         hintColor = Grey300,
         showTextLength = true,
         maxTextLength = MAX_LENGTH,
-        helperMessage = stringResource(id = state.helperMessage),
+        helperMessage = state.helperMessage?.let { stringResource(id = it) },
         helperIcon = state.helperIcon,
         helperColor = state.helperColor,
         imeAction = ImeAction.Done,
