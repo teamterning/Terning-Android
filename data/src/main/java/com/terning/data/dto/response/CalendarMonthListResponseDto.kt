@@ -1,6 +1,5 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.CalendarScrapDetail
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

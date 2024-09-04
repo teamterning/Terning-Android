@@ -31,7 +31,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.getFullDateStringInKorean
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
 import com.terning.feature.calendar.calendar.component.CalendarDetailDialog

@@ -15,7 +15,7 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 import java.time.LocalDate
 
 @Composable

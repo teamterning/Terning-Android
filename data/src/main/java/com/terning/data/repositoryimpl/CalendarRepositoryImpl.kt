@@ -7,8 +7,8 @@ import com.terning.data.dto.request.CalendarMonthRequestDto
 import com.terning.data.mapper.toCalendarScrapDetail
 import com.terning.data.mapper.toCalendarScrapDetailList
 import com.terning.data.mapper.toCalendarScrapList
-import com.terning.domain.entity.CalendarScrapDetail
-import com.terning.domain.entity.CalendarScrap
+import com.terning.domain.entity.calendar.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrap
 import com.terning.domain.repository.CalendarRepository
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

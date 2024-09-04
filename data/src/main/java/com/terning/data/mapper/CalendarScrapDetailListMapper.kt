@@ -1,7 +1,7 @@
 package com.terning.data.mapper
 
 import com.terning.data.dto.response.CalendarMonthListResponseDto
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 
 fun CalendarMonthListResponseDto.toCalendarScrapDetailList(): List<CalendarScrapDetail> = scraps.map { scrap ->
     CalendarScrapDetail(
