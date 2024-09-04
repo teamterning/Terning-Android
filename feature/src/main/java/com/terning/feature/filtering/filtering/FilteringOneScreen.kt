@@ -1,6 +1,8 @@
 package com.terning.feature.filtering.filtering
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,6 +23,7 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
 import com.terning.feature.filtering.filtering.component.StatusOneRadioGroup
 
@@ -30,6 +33,7 @@ fun FilteringOneScreen(
     onNextClick: (Int) -> Unit,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
     onButtonClick: (Int) -> Unit = {},
 ) {
     val isButtonValid = remember { mutableStateOf(false) }
@@ -38,6 +42,8 @@ fun FilteringOneScreen(
 
     Column(
         modifier = modifier
+            .padding(paddingValues)
+            .background(White)
     ) {
         BackButtonTopAppBar(
             onBackButtonClick = { navigateUp() }

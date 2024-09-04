@@ -1,6 +1,7 @@
 package com.terning.feature.onboarding.signup
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -34,6 +35,7 @@ import com.terning.feature.R
 
 @Composable
 fun SignUpRoute(
+    paddingValues: PaddingValues,
     authId: String,
     navigateToStartFiltering: (String) -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
@@ -70,6 +72,7 @@ fun SignUpRoute(
     }
 
     SignUpScreen(
+        paddingValues = paddingValues,
         state = state,
         onSignUpClick = {
             viewModel.postSignUpWithServer()
@@ -92,48 +95,49 @@ fun SignUpScreen(
     onSignUpClick: () -> Unit,
     onInputChange: (String) -> Unit,
     onProfileEditClick: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
-    onValidationChanged: (Boolean) -> Unit
+    onValidationChanged: (Boolean) -> Unit,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
     val focusManager = LocalFocusManager.current
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .addFocusCleaner(focusManager)
+            .padding(paddingValues)
     ) {
-        Spacer(modifier = modifier.height(56.dp))
+        Spacer(modifier = Modifier.height(56.dp))
         Text(
             text = stringResource(id = R.string.sign_up_title),
             style = TerningTheme.typography.heading2,
-            modifier = modifier.padding(start = 24.dp)
+            modifier = Modifier.padding(start = 24.dp)
         )
-        Spacer(modifier = modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(36.dp))
         Text(
             text = stringResource(id = R.string.sign_up_profile_image),
             style = TerningTheme.typography.body2,
-            modifier = modifier.padding(start = 24.dp),
+            modifier = Modifier.padding(start = 24.dp),
             color = Grey500
         )
-        Spacer(modifier = modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Column(
-            modifier = modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
-            Spacer(modifier = modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(48.dp))
             ProfileWithPlusButton(
-                modifier = modifier.noRippleClickable {
+                modifier = Modifier.noRippleClickable {
                     onProfileEditClick(true)
                 },
                 index = state.profileImage
             )
         }
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 24.dp)
         ) {
             Text(text = stringResource(id = R.string.sign_up_name))
-            Spacer(modifier = modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             NameTextField(
                 value = state.name,
                 onValueChange = { name ->
@@ -143,13 +147,13 @@ fun SignUpScreen(
                 onValidationChanged = { isValid -> onValidationChanged(isValid) }
             )
         }
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
         RectangleButton(
             style = TerningTheme.typography.button1,
             paddingVertical = 20.dp,
             text = R.string.sign_up_next_button,
             onButtonClick = { onSignUpClick() },
-            modifier = modifier.padding(bottom = 12.dp),
+            modifier = Modifier.padding(bottom = 12.dp),
             isEnabled = state.isButtonValid
         )
     }

@@ -9,7 +9,6 @@ import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -56,7 +55,7 @@ fun MainScreen(
                 onTabSelected = navigator::navigate
             )
         },
-    ) { innerPadding ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -77,29 +76,50 @@ fun MainScreen(
                 startDestination = navigator.startDestination
             ) {
                 splashNavGraph(
-                    paddingValues = innerPadding,
+                    paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
                 homeNavGraph(
-                    paddingValues = innerPadding,
+                    paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
                 calendarNavGraph(navHostController = navigator.navController)
                 searchNavGraph(navHostController = navigator.navController)
-                myPageNavGraph(
-                    paddingValues = innerPadding,
+                signInNavGraph(
+                    paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
-                signInNavGraph(navHostController = navigator.navController)
-                signUpNavGraph(navHostController = navigator.navController)
-                filteringOneNavGraph(navHostController = navigator.navController)
-                filteringTwoNavGraph(navHostController = navigator.navController)
-                filteringThreeNavGraph(navHostController = navigator.navController)
+                signUpNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
+                startFilteringNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
+                startHomeNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
+                filteringOneNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
+                filteringTwoNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
+                filteringThreeNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
                 searchProcessNavGraph(navHostController = navigator.navController)
                 changeFilterNavGraph(navHostController = navigator.navController)
-                startFilteringNavGraph(navHostController = navigator.navController)
-                startHomeNavGraph(navHostController = navigator.navController)
                 internNavGraph(navHostController = navigator.navController)
+                myPageNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
                 profileEditNavGraph(navHostController = navigator.navController)
             }
         }
