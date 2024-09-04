@@ -107,11 +107,13 @@ fun MyPageRoute(
         is UiState.Success -> {
             MyPageScreen(
                 paddingValues = paddingValues,
+                onEditClick = { viewModel.navigateToProfileEdit() },
                 onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
                 onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
                 onNoticeClick = { viewModel.fetchShowNotice(true) },
                 onOpinionClick = { viewModel.fetchShowOpinion(true) },
-                onEditClick = { viewModel.navigateToProfileEdit() },
+                onServiceClick = {},
+                onPersonalClick = {},
                 name = state.name,
                 profile = state.profile
             )
@@ -135,11 +137,13 @@ fun MyPageRoute(
 
 @Composable
 fun MyPageScreen(
+    onEditClick: () -> Unit,
     onLogoutClick: () -> Unit,
     onQuitClick: () -> Unit,
     onNoticeClick: () -> Unit,
     onOpinionClick: () -> Unit,
-    onEditClick: () -> Unit,
+    onServiceClick: () -> Unit,
+    onPersonalClick: () -> Unit,
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
@@ -161,8 +165,8 @@ fun MyPageScreen(
             onOpinionClick = onOpinionClick
         )
         ServiceInfo(
-            onNoticeClick = onNoticeClick,
-            onOpinionClick = onOpinionClick
+            onServiceClick = onServiceClick,
+            onPersonalClick = onPersonalClick
         )
         Row(
             modifier = Modifier
@@ -226,10 +230,12 @@ fun UserProfile(
                     bottom = 7.dp
                 )
             )
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.noRippleClickable {
                     onEditClick()
-                }) {
+                }
+            ) {
                 Text(
                     text = stringResource(id = R.string.my_page_edit_profile),
                     modifier = Modifier.padding(start = 16.dp, end = 7.dp),
@@ -278,9 +284,9 @@ fun TerningCommunity(
                 modifier = Modifier.padding(bottom = 20.dp)
             )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_information),
+                text = stringResource(id = R.string.my_page_notice),
                 icon = R.drawable.ic_my_page_notice,
-                onButtonClick = { onNoticeClick() }
+                onButtonClick = onNoticeClick
             )
             HorizontalDivider(
                 modifier = Modifier
@@ -291,7 +297,7 @@ fun TerningCommunity(
             MyPageItem(
                 text = stringResource(id = R.string.my_page_opinion),
                 icon = R.drawable.ic_my_page_opinion,
-                onButtonClick = { onOpinionClick() }
+                onButtonClick = onOpinionClick
             )
         }
     }
@@ -300,8 +306,8 @@ fun TerningCommunity(
 @Composable
 fun ServiceInfo(
     modifier: Modifier = Modifier,
-    onNoticeClick: () -> Unit,
-    onOpinionClick: () -> Unit
+    onServiceClick: () -> Unit,
+    onPersonalClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -332,9 +338,9 @@ fun ServiceInfo(
                 modifier = Modifier.padding(bottom = 20.dp)
             )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_notice),
-                icon = R.drawable.ic_my_page_notice,
-                onButtonClick = { onNoticeClick() }
+                text = stringResource(id = R.string.my_page_service),
+                icon = R.drawable.ic_my_page_service,
+                onButtonClick = onServiceClick
             )
             HorizontalDivider(
                 modifier = Modifier
@@ -343,9 +349,9 @@ fun ServiceInfo(
                 color = Grey150
             )
             MyPageItem(
-                text = stringResource(id = R.string.my_page_private_information),
-                icon = R.drawable.ic_my_page_opinion,
-                onButtonClick = { onOpinionClick() }
+                text = stringResource(id = R.string.my_page_personal),
+                icon = R.drawable.ic_my_page_personal,
+                onButtonClick = onPersonalClick
             )
             HorizontalDivider(
                 modifier = Modifier
@@ -374,7 +380,9 @@ fun MyPageScreenPreview() {
             onOpinionClick = {},
             onLogoutClick = {},
             onQuitClick = {},
-            onEditClick = {}
+            onEditClick = {},
+            onServiceClick = {},
+            onPersonalClick = {},
         )
     }
 }
