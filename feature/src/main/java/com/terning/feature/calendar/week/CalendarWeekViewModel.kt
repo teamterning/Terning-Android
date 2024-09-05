@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -83,27 +82,26 @@ class CalendarWeekViewModel @Inject constructor(
         }
     }
 
-    fun getScrapWeekList(selectedDate: LocalDate) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            calendarRepository.getScrapDayList(selectedDate)
-        }.fold(
-            onSuccess = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
-                    )
-                }
-            },
-            onFailure = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = UiState.Failure(it.message.toString())
-                    )
+    fun getScrapWeekList(selectedDate: LocalDate) = viewModelScope.launch(Dispatchers.IO) {
+        calendarRepository.getScrapDayList(selectedDate)
+            .fold(
+                onSuccess = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
+                        )
+                    }
+                },
+                onFailure = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = UiState.Failure(it.message.toString())
+                        )
 
+                    }
+                    _sideEffect.emit(CalendarWeekSideEffect.ShowToast(R.string.server_failure))
                 }
-                _sideEffect.emit(CalendarWeekSideEffect.ShowToast(R.string.server_failure))
-            }
-        )
+            )
     }
 
     fun deleteScrap(scrapId: Long) = viewModelScope.launch {
@@ -114,7 +112,7 @@ class CalendarWeekViewModel @Inject constructor(
                     scrapRequestModel
                 ).onSuccess {
                     runCatching {
-                            getScrapWeekList(selectedDate = _uiState.value.selectedDate)
+                        getScrapWeekList(selectedDate = _uiState.value.selectedDate)
                     }.onSuccess {
                         updateScrapCancelDialogVisibility(false)
                     }

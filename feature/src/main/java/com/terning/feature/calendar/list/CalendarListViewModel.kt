@@ -28,8 +28,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -86,30 +84,29 @@ class CalendarListViewModel @Inject constructor(
 
     fun getScrapMonthList(
         date: LocalDate
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            calendarRepository.getScrapMonthList(
-                year = _uiState.value.currentDate.year,
-                month = _uiState.value.currentDate.monthValue
-            )
-        }.fold(
-            onSuccess = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
-                    )
-                }
-            },
-            onFailure = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = UiState.Failure(it.message.toString())
-                    )
-                }
-
-                _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
-            }
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        calendarRepository.getScrapMonthList(
+            year = _uiState.value.currentDate.year,
+            month = _uiState.value.currentDate.monthValue
         )
+            .fold(
+                onSuccess = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
+                        )
+                    }
+                },
+                onFailure = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = UiState.Failure(it.message.toString())
+                        )
+                    }
+
+                    _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
+                }
+            )
     }
 
     fun deleteScrap(
@@ -117,7 +114,8 @@ class CalendarListViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _uiState.value.loadState
             .takeIf { it is UiState.Success }
-            ?.let { CalendarScrapRequest(internshipAnnouncementId, null) }?.let { scrapRequestModel ->
+            ?.let { CalendarScrapRequest(internshipAnnouncementId, null) }
+            ?.let { scrapRequestModel ->
                 scrapRepository.deleteScrap(
                     scrapRequestModel
                 ).onSuccess {
