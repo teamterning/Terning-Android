@@ -83,7 +83,9 @@ fun MainScreen(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
-                calendarNavGraph(navHostController = navigator.navController)
+                calendarNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController)
                 searchNavGraph(navHostController = navigator.navController)
                 signInNavGraph(
                     paddingValues = paddingValues,

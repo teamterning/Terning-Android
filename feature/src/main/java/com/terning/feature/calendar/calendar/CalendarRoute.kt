@@ -41,6 +41,7 @@ import java.time.LocalDate
 fun CalendarRoute(
     navigateUp: () -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -57,6 +58,7 @@ fun CalendarRoute(
     }
 
     CalendarScreen(
+        modifier = modifier,
         uiState = uiState,
         navigateToAnnouncement = navigateToAnnouncement,
         updateSelectedDate = viewModel::updateSelectedDate,

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
 import com.terning.domain.entity.calendar.CalendarScrapDetail
-import com.terning.domain.entity.calendar.CalendarScrapRequest
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.list.model.CalendarListUiState
@@ -73,8 +72,8 @@ class CalendarListViewModel @Inject constructor(
         date: LocalDate
     ) = viewModelScope.launch(Dispatchers.IO) {
         calendarRepository.getScrapMonthList(
-            year = _uiState.value.currentDate.year,
-            month = _uiState.value.currentDate.monthValue
+            year = date.year,
+            month = date.monthValue
         )
             .fold(
                 onSuccess = {
