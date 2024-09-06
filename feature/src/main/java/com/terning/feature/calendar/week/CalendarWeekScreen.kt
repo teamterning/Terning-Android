@@ -12,10 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,12 +38,12 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.CalendarScrapDetail
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
-import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
+import com.terning.feature.dialog.cancel.ScrapCancelDialog
+import com.terning.feature.dialog.detail.ScrapDialog
 import okhttp3.internal.toImmutableList
 import java.time.LocalDate
 
@@ -76,12 +81,19 @@ fun CalendarWeekRoute(
         uiState = uiState,
         selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
-        navigateToAnnouncement = navigateToAnnouncement,
-        onDismissCancelDialog = { viewModel.updateScrapCancelDialogVisibility(false) },
+        navigateToAnnouncement = { announcementId ->
+            navigateToAnnouncement(announcementId)
+            viewModel.updateInternDialogVisibility(false)
+        },
+        onDismissCancelDialog = { isCancelled ->
+            viewModel.updateScrapCancelDialogVisibility(false)
+            if (isCancelled) {
+                viewModel.getScrapWeekList(uiState.selectedDate)
+            }
+        },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
-        onClickChangeColor = { viewModel.patchScrap(it) },
-        onClickScrapCancel = { uiState.scrapId?.let { viewModel.deleteScrap(it) } },
-        onClickScrapButton = {scrapId ->
+        onClickChangeColor = { viewModel.getScrapWeekList(uiState.selectedDate) },
+        onClickScrapButton = { scrapId ->
             with(viewModel) {
                 updateScrapId(scrapId)
                 updateScrapCancelDialogVisibility(true)
@@ -101,21 +113,51 @@ private fun CalendarWeekScreen(
     uiState: CalendarWeekUiState,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
-    onDismissCancelDialog: () -> Unit,
+    onDismissCancelDialog: (Boolean) -> Unit,
     onDismissInternDialog: () -> Unit,
-    onClickChangeColor: (Color) -> Unit,
-    onClickScrapCancel: () -> Unit,
+    onClickChangeColor: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var initialTouchPosition by remember { mutableStateOf<Offset?>(null) }
+    var hideComponent by remember { mutableStateOf(false) }
+
+    LaunchedEffect(hideComponent) {
+        if (hideComponent) {
+            updateSelectedDate(selectedDate)
+        }
+    }
+
+    val swipeModifier = Modifier.pointerInput(Unit) {
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                val position = event.changes.first().position
+
+                if (event.changes.first().pressed) {
+                    if (initialTouchPosition == null) {
+                        initialTouchPosition = position
+                    } else {
+                        val deltaY = initialTouchPosition?.let { position.y - it.y }
+                        if (deltaY != null && deltaY > 300f) {
+                            hideComponent = true
+                        }
+                    }
+                } else {
+                    initialTouchPosition = null
+                }
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .background(Back)
     ) {
         Card(
-            modifier = Modifier
+            modifier = swipeModifier
                 .shadow(
                     shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
                     elevation = 1.dp
@@ -137,6 +179,7 @@ private fun CalendarWeekScreen(
             is UiState.Empty -> {
                 CalendarWeekEmpty()
             }
+
             is UiState.Failure -> {}
             is UiState.Success -> {
                 CalendarWeekSuccess(
@@ -150,26 +193,37 @@ private fun CalendarWeekScreen(
     }
 
     if (uiState.scrapDialogVisibility) {
-        CalendarCancelDialog(
-            onDismissRequest = onDismissCancelDialog,
-            onClickScrapCancel = {
-                onClickScrapCancel()
-                onDismissCancelDialog()
-            }
-        )
+        uiState.scrapId?.run {
+            ScrapCancelDialog(
+                scrapId = this,
+                onDismissRequest = onDismissCancelDialog
+            )
+        }
     }
 
     if (uiState.internDialogVisibility) {
-        CalendarDetailDialog(
-            deadline = uiState.selectedDate.getFullDateStringInKorean(),
-            scrapDetailModel = uiState.internshipModel,
-            onDismissRequest = onDismissInternDialog,
-            onClickChangeColorButton = onClickChangeColor,
-            onClickNavigateButton = { announcementId ->
-                navigateToAnnouncement(announcementId)
-                onDismissInternDialog()
-            }
-        )
+        uiState.internshipModel?.let {
+            val scrapColor = Color(
+                android.graphics.Color.parseColor(
+                    uiState.internshipModel.color
+                )
+            )
+            ScrapDialog(
+                title = uiState.internshipModel.title,
+                scrapColor = scrapColor,
+                deadline = uiState.selectedDate.getFullDateStringInKorean(),
+                startYear = uiState.internshipModel.startYear,
+                startMonth = uiState.internshipModel.startMonth,
+                workingPeriod = uiState.internshipModel.workingPeriod,
+                scrapId = uiState.internshipModel.scrapId,
+                internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
+                companyImage = uiState.internshipModel.companyImage,
+                isScrapped = true,
+                onDismissRequest = onDismissInternDialog,
+                onClickChangeColor = onClickChangeColor,
+                onClickNavigateButton = navigateToAnnouncement
+            )
+        }
     }
 }
 
