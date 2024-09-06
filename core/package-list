@@ -80,13 +80,25 @@ $dokka.location:com.terning.core.designsystem.theme//BackgroundColor/#/PointingT
 $dokka.location:com.terning.core.designsystem.theme//Black/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-black.html
 $dokka.location:com.terning.core.designsystem.theme//CalBlue1/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-blue1.html
 $dokka.location:com.terning.core.designsystem.theme//CalBlue2/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-blue2.html
+$dokka.location:com.terning.core.designsystem.theme//CalBlueBc/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-blue-bc.html
+$dokka.location:com.terning.core.designsystem.theme//CalBlueLi/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-blue-li.html
 $dokka.location:com.terning.core.designsystem.theme//CalGreen1/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-green1.html
 $dokka.location:com.terning.core.designsystem.theme//CalGreen2/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-green2.html
+$dokka.location:com.terning.core.designsystem.theme//CalGreenBc/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-green-bc.html
+$dokka.location:com.terning.core.designsystem.theme//CalGreenLi/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-green-li.html
 $dokka.location:com.terning.core.designsystem.theme//CalOrange1/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-orange1.html
 $dokka.location:com.terning.core.designsystem.theme//CalOrange2/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-orange2.html
+$dokka.location:com.terning.core.designsystem.theme//CalOrangeBc/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-orange-bc.html
+$dokka.location:com.terning.core.designsystem.theme//CalOrangeLi/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-orange-li.html
 $dokka.location:com.terning.core.designsystem.theme//CalPink/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-pink.html
+$dokka.location:com.terning.core.designsystem.theme//CalPinkBc/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-pink-bc.html
+$dokka.location:com.terning.core.designsystem.theme//CalPinkLi/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-pink-li.html
 $dokka.location:com.terning.core.designsystem.theme//CalPurple/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-purple.html
+$dokka.location:com.terning.core.designsystem.theme//CalPurpleBc/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-purple-bc.html
+$dokka.location:com.terning.core.designsystem.theme//CalPurpleLi/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-purple-li.html
 $dokka.location:com.terning.core.designsystem.theme//CalRed/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-red.html
+$dokka.location:com.terning.core.designsystem.theme//CalRedBc/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-red-bc.html
+$dokka.location:com.terning.core.designsystem.theme//CalRedLi/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-red-li.html
 $dokka.location:com.terning.core.designsystem.theme//CalYellow/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-cal-yellow.html
 $dokka.location:com.terning.core.designsystem.theme//Grey100/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-grey100.html
 $dokka.location:com.terning.core.designsystem.theme//Grey150/#/PointingToDeclaration/core/com.terning.core.designsystem.theme/-grey150.html
@@ -155,6 +167,7 @@ $dokka.location:com.terning.core.extension//addFocusCleaner/androidx.compose.ui.
 $dokka.location:com.terning.core.extension//customShadow/androidx.compose.ui.Modifier#androidx.compose.ui.graphics.Color#androidx.compose.ui.unit.Dp#androidx.compose.ui.unit.Dp#androidx.compose.ui.unit.Dp#androidx.compose.ui.unit.Dp/PointingToDeclaration/core/com.terning.core.extension/custom-shadow.html
 $dokka.location:com.terning.core.extension//getDateAsMapString/java.time.LocalDate#/PointingToDeclaration/core/com.terning.core.extension/get-date-as-map-string.html
 $dokka.location:com.terning.core.extension//getDateStringInKorean/java.time.LocalDate#/PointingToDeclaration/core/com.terning.core.extension/get-date-string-in-korean.html
+$dokka.location:com.terning.core.extension//getFixHeightByMaxLine/androidx.compose.ui.text.TextStyle#kotlin.Int/PointingToDeclaration/core/com.terning.core.extension/get-fix-height-by-max-line.html
 $dokka.location:com.terning.core.extension//getFullDateStringInKorean/java.time.LocalDate#/PointingToDeclaration/core/com.terning.core.extension/get-full-date-string-in-korean.html
 $dokka.location:com.terning.core.extension//getStringAsTitle/java.time.LocalDate#/PointingToDeclaration/core/com.terning.core.extension/get-string-as-title.html
 $dokka.location:com.terning.core.extension//getWeekIndexContainingSelectedDate/java.time.LocalDate#kotlin.Int/PointingToDeclaration/core/com.terning.core.extension/get-week-index-containing-selected-date.html
@@ -179,6 +192,22 @@ $dokka.location:com.terning.core.state/UiState.Success///PointingToDeclaration/
 $dokka.location:com.terning.core.state/UiState.Success/Success/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/core/com.terning.core.state/-ui-state/-success/-success.html
 $dokka.location:com.terning.core.state/UiState.Success/data/#/PointingToDeclaration/core/com.terning.core.state/-ui-state/-success/data.html
 $dokka.location:com.terning.core.state/UiState///PointingToDeclaration/core/com.terning.core.state/-ui-state/index.html
+$dokka.location:com.terning.core.type////PointingToDeclaration/core/com.terning.core.type/index.html
+$dokka.location:com.terning.core.type/ColorType.BLUE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.terning.core.type/-color-type/-b-l-u-e/index.html
+$dokka.location:com.terning.core.type/ColorType.Companion///PointingToDeclaration/core/com.terning.core.type/-color-type/-companion/index.html
+$dokka.location:com.terning.core.type/ColorType.Companion/findColorType/#androidx.compose.ui.graphics.Color/PointingToDeclaration/core/com.terning.core.type/-color-type/-companion/find-color-type.html
+$dokka.location:com.terning.core.type/ColorType.GREEN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.terning.core.type/-color-type/-g-r-e-e-n/index.html
+$dokka.location:com.terning.core.type/ColorType.ORANGE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.terning.core.type/-color-type/-o-r-a-n-g-e/index.html
+$dokka.location:com.terning.core.type/ColorType.PINK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.terning.core.type/-color-type/-p-i-n-k/index.html
+$dokka.location:com.terning.core.type/ColorType.PURPLE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.terning.core.type/-color-type/-p-u-r-p-l-e/index.html
+$dokka.location:com.terning.core.type/ColorType.RED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.terning.core.type/-color-type/-r-e-d/index.html
+$dokka.location:com.terning.core.type/ColorType///PointingToDeclaration/core/com.terning.core.type/-color-type/index.html
+$dokka.location:com.terning.core.type/ColorType/border/#/PointingToDeclaration/core/com.terning.core.type/-color-type/border.html
+$dokka.location:com.terning.core.type/ColorType/entries/#/PointingToDeclaration/core/com.terning.core.type/-color-type/entries.html
+$dokka.location:com.terning.core.type/ColorType/main/#/PointingToDeclaration/core/com.terning.core.type/-color-type/main.html
+$dokka.location:com.terning.core.type/ColorType/sub/#/PointingToDeclaration/core/com.terning.core.type/-color-type/sub.html
+$dokka.location:com.terning.core.type/ColorType/valueOf/#kotlin.String/PointingToDeclaration/core/com.terning.core.type/-color-type/value-of.html
+$dokka.location:com.terning.core.type/ColorType/values/#/PointingToDeclaration/core/com.terning.core.type/-color-type/values.html
 $dokka.location:com.terning.core.util////PointingToDeclaration/core/com.terning.core.util/index.html
 $dokka.location:com.terning.core.util//NAME_ERROR_REGEX/#/PointingToDeclaration/core/com.terning.core.util/-n-a-m-e_-e-r-r-o-r_-r-e-g-e-x.html
 $dokka.location:com.terning.core.util/NoRippleInteractionSource///PointingToDeclaration/core/com.terning.core.util/-no-ripple-interaction-source/index.html
@@ -200,5 +229,6 @@ com.terning.core.designsystem.theme
 com.terning.core.extension
 com.terning.core.navigation
 com.terning.core.state
+com.terning.core.type
 com.terning.core.util
 
