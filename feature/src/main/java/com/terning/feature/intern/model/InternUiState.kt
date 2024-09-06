@@ -5,8 +5,8 @@ import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
 import com.terning.domain.entity.response.InternInfoModel
 
-data class InternViewState(
-    var internInfo: UiState<InternInfoModel> = UiState.Loading,
+data class InternUiState(
+    val loadState: UiState<InternInfoModel> = UiState.Loading,
     val isColorChange: Boolean = false,
     val isPaletteOpen: Boolean = false,
     val selectedColor: Color = CalRed,

@@ -2,7 +2,9 @@ package com.terning.feature.home.changefilter
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -100,7 +102,10 @@ fun ChangeFilterScreen(
                 modifier = Modifier
                     .shadow(elevation = 2.dp)
             )
-        }
+        },
+        modifier = Modifier
+            .statusBarsPadding()
+            .navigationBarsPadding()
     ) { paddingValues ->
         Column(
             modifier = Modifier

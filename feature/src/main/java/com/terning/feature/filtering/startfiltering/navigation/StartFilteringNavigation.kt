@@ -1,5 +1,6 @@
 package com.terning.feature.filtering.startfiltering.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -22,11 +23,13 @@ fun NavController.navigateStartFiltering(
 }
 
 fun NavGraphBuilder.startFilteringNavGraph(
+    paddingValues: PaddingValues,
     navHostController: NavHostController
 ) {
     composable<StartFiltering> {
         val args = it.toRoute<StartFiltering>()
         StartFilteringScreen(
+            paddingValues = paddingValues,
             onNextClick = {
                 navHostController.navigateFilteringOne(args.name)
             }

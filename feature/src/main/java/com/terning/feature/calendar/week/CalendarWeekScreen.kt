@@ -15,7 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -42,6 +44,8 @@ import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
+import com.terning.feature.dialog.cancel.ScrapCancelDialog
+import com.terning.feature.dialog.detail.ScrapDialog
 import okhttp3.internal.toImmutableList
 import java.time.LocalDate
 
@@ -79,11 +83,18 @@ fun CalendarWeekRoute(
         uiState = uiState,
         selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
-        navigateToAnnouncement = navigateToAnnouncement,
-        onDismissCancelDialog = { viewModel.updateScrapCancelDialogVisibility(false) },
+        navigateToAnnouncement = { announcementId ->
+            navigateToAnnouncement(announcementId)
+            viewModel.updateInternDialogVisibility(false)
+        },
+        onDismissCancelDialog = { isCancelled ->
+            viewModel.updateScrapCancelDialogVisibility(false)
+            if (isCancelled) {
+                viewModel.getScrapWeekList(uiState.selectedDate)
+            }
+        },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
-        onClickChangeColor = { viewModel.patchScrap(it) },
-        onClickScrapCancel = { uiState.internshipAnnouncementId?.let { viewModel.deleteScrap(it) } },
+        onClickChangeColor = { viewModel.getScrapWeekList(uiState.selectedDate) },
         onClickScrapButton = { scrapId ->
             with(viewModel) {
                 updateScrapId(scrapId)
@@ -104,10 +115,9 @@ private fun CalendarWeekScreen(
     uiState: CalendarWeekUiState,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
-    onDismissCancelDialog: () -> Unit,
+    onDismissCancelDialog: (Boolean) -> Unit,
     onDismissInternDialog: () -> Unit,
-    onClickChangeColor: (Color) -> Unit,
-    onClickScrapCancel: () -> Unit,
+    onClickChangeColor: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
@@ -172,26 +182,37 @@ private fun CalendarWeekScreen(
     }
 
     if (uiState.scrapDialogVisibility) {
-        CalendarCancelDialog(
-            onDismissRequest = onDismissCancelDialog,
-            onClickScrapCancel = {
-                onClickScrapCancel()
-                onDismissCancelDialog()
-            }
-        )
+        uiState.scrapId?.run {
+            ScrapCancelDialog(
+                scrapId = this,
+                onDismissRequest = onDismissCancelDialog
+            )
+        }
     }
 
     if (uiState.internDialogVisibility) {
-        CalendarDetailDialog(
-            deadline = uiState.selectedDate.getFullDateStringInKorean(),
-            scrapDetailModel = uiState.internshipModel,
-            onDismissRequest = onDismissInternDialog,
-            onClickChangeColorButton = onClickChangeColor,
-            onClickNavigateButton = { announcementId ->
-                navigateToAnnouncement(announcementId)
-                onDismissInternDialog()
-            }
-        )
+        uiState.internshipModel?.let {
+            val scrapColor = Color(
+                android.graphics.Color.parseColor(
+                    uiState.internshipModel.color
+                )
+            )
+            ScrapDialog(
+                title = uiState.internshipModel.title,
+                scrapColor = scrapColor,
+                deadline = uiState.selectedDate.getFullDateStringInKorean(),
+                startYear = uiState.internshipModel.startYear,
+                startMonth = uiState.internshipModel.startMonth,
+                workingPeriod = uiState.internshipModel.workingPeriod,
+                scrapId = uiState.internshipModel.scrapId,
+                internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
+                companyImage = uiState.internshipModel.companyImage,
+                isScrapped = true,
+                onDismissRequest = onDismissInternDialog,
+                onClickChangeColor = onClickChangeColor,
+                onClickNavigateButton = navigateToAnnouncement
+            )
+        }
     }
 }
 
