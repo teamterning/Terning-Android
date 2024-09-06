@@ -27,13 +27,14 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
+import com.terning.domain.entity.home.HomeFilteringInfo
+import com.terning.domain.type.Grade
+import com.terning.domain.type.WorkingPeriod
 import com.terning.feature.R
 
 @Composable
 fun HomeFilteringScreen(
-    grade: String,
-    period: String,
-    startYearMonth: String,
+    homeFilteringInfo: HomeFilteringInfo,
     onChangeFilterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -72,27 +73,36 @@ fun HomeFilteringScreen(
                     .align(Alignment.CenterVertically),
             )
         }
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            HomeFilteringInfoText(
-                text = grade,
-                modifier = Modifier
-                    .padding(end = 6.dp),
-            )
-            HomeFilteringInfoDivider()
-            HomeFilteringInfoText(
-                text = period,
-                modifier = Modifier
-                    .padding(horizontal = 6.dp),
-            )
-            HomeFilteringInfoDivider()
-            HomeFilteringInfoText(
-                text = startYearMonth,
-                modifier = Modifier
-                    .padding(start = 6.dp),
-            )
+        with(homeFilteringInfo) {
+            if (grade != null) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    HomeFilteringInfoText(
+                        text = Grade.entries[grade ?: 0].grade,
+                        modifier = Modifier
+                            .padding(end = 6.dp),
+                    )
+                    HomeFilteringInfoDivider()
+                    HomeFilteringInfoText(
+                        text = WorkingPeriod.entries[workingPeriod ?: 0].workingPeriod,
+                        modifier = Modifier
+                            .padding(horizontal = 6.dp),
+                    )
+                    HomeFilteringInfoDivider()
+                    HomeFilteringInfoText(
+                        text = "$startYear 년 $startMonth 월",
+                        modifier = Modifier
+                            .padding(start = 6.dp),
+                    )
+                }
+            } else {
+                Text(
+                    text = "설정된 필터링 정보가 없어요",
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically),
+                )
+            }
         }
     }
 }

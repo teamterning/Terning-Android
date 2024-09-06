@@ -462,29 +462,8 @@ private fun ShowInternFilter(
     homeFilteringInfo: HomeFilteringInfo,
     onChangeFilterClick: () -> Unit,
 ) {
-    if (homeFilteringInfo.grade == null) {
-        HomeFilteringScreen(
-            grade = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            period = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            startYearMonth = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            onChangeFilterClick = onChangeFilterClick,
-        )
-    } else {
-        with(homeFilteringInfo) {
-            HomeFilteringScreen(
-                grade = (grade?.plus(1)).toString() + stringResource(id = R.string.home_recommend_filtering_grade),
-                period = stringResource(
-                    id = when (workingPeriod) {
-                        0 -> R.string.filtering_status2_button1
-                        1 -> R.string.filtering_status2_button2
-                        2 -> R.string.filtering_status2_button3
-                        else -> R.string.home_recommend_no_filtering_hyphen
-                    }
-                ),
-                startYearMonth = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
-                        + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
-                onChangeFilterClick = onChangeFilterClick,
-            )
-        }
-    }
+    HomeFilteringScreen(
+        homeFilteringInfo = homeFilteringInfo,
+        onChangeFilterClick = onChangeFilterClick,
+    )
 }
