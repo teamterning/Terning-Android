@@ -5,6 +5,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideIn
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -22,7 +23,9 @@ fun NavController.navigateHome(navOptions: NavOptions? = null) {
     )
 }
 
-fun NavGraphBuilder.homeNavGraph(navHostController: NavHostController) {
+fun NavGraphBuilder.homeNavGraph(
+    paddingValues : PaddingValues,
+    navHostController: NavHostController) {
     composable<Home>(
         exitTransition = {
             ExitTransition.None
@@ -37,7 +40,9 @@ fun NavGraphBuilder.homeNavGraph(navHostController: NavHostController) {
             ExitTransition.None
         }
     ) {
-        HomeRoute(navController = navHostController)
+        HomeRoute(
+            paddingValues= paddingValues,
+            navController = navHostController)
     }
 }
 

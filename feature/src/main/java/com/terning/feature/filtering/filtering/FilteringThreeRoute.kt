@@ -1,6 +1,8 @@
 package com.terning.feature.filtering.filtering
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,6 +28,7 @@ import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
 import com.terning.feature.R
 import java.util.Calendar
@@ -37,6 +40,7 @@ fun FilteringThreeRoute(
     navigateUp: () -> Unit,
     navigateToStartHome: () -> Unit,
     viewModel: FilteringViewModel = hiltViewModel(),
+    paddingValues: PaddingValues
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -68,6 +72,7 @@ fun FilteringThreeRoute(
     }
 
     FilteringThreeScreen(
+        paddingValues = paddingValues,
         navigateUp = { navigateUp() },
         chosenYear = chosenYear,
         chosenMonth = chosenMonth,
@@ -80,6 +85,7 @@ fun FilteringThreeRoute(
 @Composable
 fun FilteringThreeScreen(
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
     navigateUp: () -> Unit,
     chosenYear: Int,
     chosenMonth: Int,
@@ -88,7 +94,9 @@ fun FilteringThreeScreen(
     onNextClick: () -> Unit,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .padding(paddingValues)
+            .background(White),
     ) {
         BackButtonTopAppBar(
             onBackButtonClick = { navigateUp() }

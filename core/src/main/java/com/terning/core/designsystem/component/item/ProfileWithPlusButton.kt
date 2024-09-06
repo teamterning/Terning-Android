@@ -1,25 +1,22 @@
-package com.terning.feature.onboarding.signup.component
+package com.terning.core.designsystem.component.item
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.image.TerningImage
-import com.terning.feature.R
+import com.terning.core.R
 
 @Composable
-fun SignUpProfile(
+fun ProfileWithPlusButton(
     index: Int,
     modifier: Modifier = Modifier,
 ) {
@@ -37,23 +34,22 @@ fun SignUpProfile(
     ) {
         Image(
             painterResource(id = grade),
-            contentDescription = stringResource(id = R.string.sign_up_profile_image),
+            contentDescription = "profile image",
             modifier = modifier
-                .clip(shape = RoundedCornerShape(76.dp))
-                .size(80.dp)
-                .aspectRatio(1f),
+                .clip(shape = CircleShape)
+                .size(80.dp),
             contentScale = ContentScale.Crop
         )
-        Box(
-            modifier = modifier.align(Alignment.BottomEnd)
-        ) {
-            TerningImage(painter = R.drawable.ic_sign_up_button)
-        }
+        Image(
+            painter = painterResource(id = R.drawable.ic_sign_up_button),
+            contentDescription = "plus button",
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpProfilePreview() {
-    SignUpProfile(index = 1)
+fun ProfileWithPlusButtonPreview() {
+    ProfileWithPlusButton(index = 1)
 }

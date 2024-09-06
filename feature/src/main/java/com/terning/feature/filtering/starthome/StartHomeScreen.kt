@@ -2,8 +2,10 @@ package com.terning.feature.filtering.starthome
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,9 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -34,16 +33,14 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
-import com.terning.feature.home.home.navigation.navigateHome
-import com.terning.feature.main.MainNavigator
-import com.terning.feature.main.rememberMainNavigator
-import com.terning.feature.onboarding.signin.navigation.SignIn
 import kotlinx.coroutines.delay
 
 @Composable
 fun StartHomeScreen(
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
     navigateToHome: () -> Unit
 ) {
     var isVisible by remember { mutableStateOf(false) }
@@ -57,7 +54,10 @@ fun StartHomeScreen(
     }
 
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(White)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -95,7 +95,7 @@ fun StartHomeScreen(
     }
 }
 
-private const val DELAY : Long = 1000
+private const val DELAY: Long = 1000
 
 @Composable
 fun StartHomeLottieAnimation(

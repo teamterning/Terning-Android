@@ -1,6 +1,8 @@
 package com.terning.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -15,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.R
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import kotlinx.coroutines.launch
 
@@ -41,18 +44,21 @@ fun MyPageQuitBottomSheet(
         content = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
             ) {
+                Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = stringResource(id = R.string.my_page_bottom_sheet_title),
                     style = TerningTheme.typography.heading1,
-                    modifier = modifier.padding(top = 14.dp)
                 )
+                Spacer(modifier = modifier.height(28.dp))
                 Text(
                     text = stringResource(id = R.string.my_page_quit_sub),
                     style = TerningTheme.typography.body3,
-                    modifier = modifier.padding(top = 54.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Grey400
                 )
+                Spacer(modifier = modifier.height(36.dp))
                 RoundButton(
                     style = TerningTheme.typography.button2,
                     paddingVertical = 15.dp,
@@ -61,12 +67,12 @@ fun MyPageQuitBottomSheet(
                     onButtonClick = {
                         onQuitClick()
                     },
-                    modifier = modifier.padding(
+                    modifier = Modifier.padding(
                         start = 24.dp,
-                        top = 41.dp,
                         end = 24.dp
                     )
                 )
+                Spacer(modifier = modifier.height(8.dp))
                 DeleteRoundButton(
                     style = TerningTheme.typography.button2,
                     paddingVertical = 15.dp,
@@ -80,13 +86,12 @@ fun MyPageQuitBottomSheet(
                                 }
                             }
                     },
-                    modifier = modifier.padding(
+                    modifier = Modifier.padding(
                         start = 24.dp,
-                        top = 8.dp,
                         end = 24.dp,
-                        bottom = 100.dp
                     )
                 )
+                Spacer(modifier = modifier.height(32.dp))
             }
         },
         onDismissRequest = { onDismiss() },

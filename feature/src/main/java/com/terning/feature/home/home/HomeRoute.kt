@@ -76,6 +76,7 @@ const val NAME_END_LENGTH = 12
 
 @Composable
 fun HomeRoute(
+    paddingValues: PaddingValues,
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
@@ -109,6 +110,7 @@ fun HomeRoute(
     }
 
     HomeScreen(
+        paddingValues = paddingValues,
         homeDialogState = homeDialogState,
         navigateToIntern = { navController.navigateIntern(announcementId = it) },
         viewModel = viewModel,
@@ -118,6 +120,7 @@ fun HomeRoute(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
+    paddingValues: PaddingValues,
     homeDialogState: HomeDialogState,
     navigateToIntern: (Long) -> Unit,
     viewModel: HomeViewModel,
@@ -181,6 +184,9 @@ fun HomeScreen(
 
     Column(
         horizontalAlignment = Alignment.Start,
+        modifier = Modifier
+            .background(White)
+            .padding(paddingValues)
     ) {
         TerningImage(
             painter = R.drawable.ic_terning_logo_typo,

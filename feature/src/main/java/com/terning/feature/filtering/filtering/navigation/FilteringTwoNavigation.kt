@@ -1,5 +1,6 @@
 package com.terning.feature.filtering.filtering.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -21,11 +22,13 @@ fun NavController.navigateFilteringTwo(
 }
 
 fun NavGraphBuilder.filteringTwoNavGraph(
+    paddingValues: PaddingValues,
     navHostController: NavHostController
 ) {
     composable<FilteringTwo> {
         val args = it.toRoute<FilteringTwo>()
         FilteringTwoScreen(
+            paddingValues = paddingValues,
             grade = args.grade,
             onNextClick = { _, workingPeriod ->
                 navHostController.navigateFilteringThree(
