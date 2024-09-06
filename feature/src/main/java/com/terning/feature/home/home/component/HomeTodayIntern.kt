@@ -16,14 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.home.HomeTodayIntern
+import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
 import com.terning.feature.home.home.HomeViewModel
 import com.terning.feature.home.home.model.HomeDialogState
 
 @Composable
 fun HomeTodayIntern(
-    internList: List<HomeTodayIntern>,
+    internList: List<HomeUpcomingIntern>,
     homeDialogState: HomeDialogState,
     navigateToIntern: (Long) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
@@ -39,7 +39,7 @@ fun HomeTodayIntern(
     ) {
         items(internList.size) { index ->
             HomeTodayInternItem(
-                homeTodayIntern = internList[index],
+                homeUpcomingIntern = internList[index],
                 modifier = Modifier
                     .noRippleClickable {
                         homeViewModel.updateScrapDialogVisible(true)
@@ -75,7 +75,7 @@ fun HomeTodayIntern(
                             navigateToIntern(internshipAnnouncementId)
                             homeViewModel.updateScrapDialogVisible(false)
                         },
-                        homeTodayIntern = internList[selectedIndex],
+                        homeUpcomingIntern = internList[selectedIndex],
                     )
                 }
             },

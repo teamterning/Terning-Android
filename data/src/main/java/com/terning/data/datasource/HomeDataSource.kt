@@ -5,10 +5,10 @@ import com.terning.data.dto.NonDataBaseResponse
 import com.terning.data.dto.request.ChangeFilterRequestDto
 import com.terning.data.dto.response.HomeFilteringInfoResponseDto
 import com.terning.data.dto.response.HomeRecommendInternResponseDto
-import com.terning.data.dto.response.HomeTodayInternResponseDto
+import com.terning.data.dto.response.HomeUpcomingInternResponseDto
 
 interface HomeDataSource {
-    suspend fun getTodayIntern(): BaseResponse<List<HomeTodayInternResponseDto>>
+    suspend fun getUpcomingIntern(): BaseResponse<List<HomeUpcomingInternResponseDto>>
 
     suspend fun getRecommendIntern(
         sortBy: String,

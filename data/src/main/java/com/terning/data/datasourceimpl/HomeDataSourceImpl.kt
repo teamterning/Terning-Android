@@ -6,15 +6,15 @@ import com.terning.data.dto.NonDataBaseResponse
 import com.terning.data.dto.request.ChangeFilterRequestDto
 import com.terning.data.dto.response.HomeFilteringInfoResponseDto
 import com.terning.data.dto.response.HomeRecommendInternResponseDto
-import com.terning.data.dto.response.HomeTodayInternResponseDto
+import com.terning.data.dto.response.HomeUpcomingInternResponseDto
 import com.terning.data.service.HomeService
 import javax.inject.Inject
 
 class HomeDataSourceImpl @Inject constructor(
     private val homeService: HomeService,
 ) : HomeDataSource {
-    override suspend fun getTodayIntern(): BaseResponse<List<HomeTodayInternResponseDto>> =
-        homeService.getHomeTodayIntern()
+    override suspend fun getUpcomingIntern(): BaseResponse<List<HomeUpcomingInternResponseDto>> =
+        homeService.getHomeUpcomingIntern()
 
     override suspend fun getRecommendIntern(
         sortBy: String,

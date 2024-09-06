@@ -57,9 +57,9 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.home.HomeFilteringInfo
 import com.terning.domain.entity.home.HomeRecommendIntern
-import com.terning.domain.entity.home.HomeTodayIntern
-import com.terning.domain.type.Grade
-import com.terning.domain.type.WorkingPeriod
+import com.terning.domain.entity.home.HomeUpcomingIntern
+import com.terning.core.type.Grade
+import com.terning.core.type.WorkingPeriod
 import com.terning.feature.R
 import com.terning.feature.home.home.component.HomeFilteringBottomSheet
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
@@ -210,7 +210,7 @@ fun HomeScreen(
                 ) {
                     ShowMainTitleWithName(homeUserName)
                     ShowTodayIntern(
-                        homeTodayInternState = homeState.homeTodayInternState,
+                        homeUpcomingInternState = homeState.homeUpcomingInternState,
                         homeDialogState = homeDialogState,
                         navigateToIntern = { navigateToIntern(it) }
                     )
@@ -414,17 +414,17 @@ private fun ShowMainTitleWithName(userName: String) {
 
 @Composable
 private fun ShowTodayIntern(
-    homeTodayInternState: UiState<List<HomeTodayIntern>>,
+    homeUpcomingInternState: UiState<List<HomeUpcomingIntern>>,
     homeDialogState: HomeDialogState,
     navigateToIntern: (Long) -> Unit,
 ) {
-    when (homeTodayInternState) {
+    when (homeUpcomingInternState) {
         is UiState.Success -> {
-            if (homeTodayInternState.data.isEmpty()) {
+            if (homeUpcomingInternState.data.isEmpty()) {
                 HomeTodayEmptyWithImg()
             } else {
                 HomeTodayIntern(
-                    internList = homeTodayInternState.data,
+                    internList = homeUpcomingInternState.data,
                     homeDialogState = homeDialogState,
                     navigateToIntern = navigateToIntern
                 )

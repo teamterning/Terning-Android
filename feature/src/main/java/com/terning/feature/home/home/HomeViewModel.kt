@@ -69,13 +69,13 @@ class HomeViewModel @Inject constructor(
 
     private fun getHomeTodayInternList() {
         viewModelScope.launch {
-            homeRepository.getHomeTodayInternList().onSuccess { internList ->
+            homeRepository.getHomeUpcomingInternList().onSuccess { internList ->
                 _homeState.value = _homeState.value.copy(
-                    homeTodayInternState = UiState.Success(internList)
+                    homeUpcomingInternState = UiState.Success(internList)
                 )
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
-                    homeTodayInternState = UiState.Failure(exception.toString())
+                    homeUpcomingInternState = UiState.Failure(exception.toString())
                 )
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
@@ -89,11 +89,11 @@ class HomeViewModel @Inject constructor(
                     homeFilteringInfoState = UiState.Success(filteringInfo)
                 )
                 getHomeTodayInternList()
-                getRecommendInternsData(
-                    sortBy = _homeState.value.sortBy.ordinal,
-                    startYear = filteringInfo.startYear,
-                    startMonth = filteringInfo.startMonth,
-                )
+//                getRecommendInternsData(
+//                    sortBy = _homeState.value.sortBy.ordinal,
+//                    startYear = filteringInfo.startYear,
+//                    startMonth = filteringInfo.startMonth,
+//                )
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Failure(exception.toString())

@@ -4,9 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HomeTodayInternResponseDto(
-    @SerialName("scrapId")
-    val scrapId: Long,
+data class HomeUpcomingInternResponseDto(
     @SerialName("internshipAnnouncementId")
     val internshipAnnouncementId: Long,
     @SerialName("companyImage")
@@ -19,9 +17,10 @@ data class HomeTodayInternResponseDto(
     val deadline: String,
     @SerialName("workingPeriod")
     val workingPeriod: String,
+    @SerialName("isScrapped")
+    val isScrapped: Boolean,
     @SerialName("color")
     val color: String,
     @SerialName("startYearMonth")
     val startYearMonth: String,
-
 )

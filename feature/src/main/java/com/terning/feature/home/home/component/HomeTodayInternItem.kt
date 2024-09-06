@@ -34,19 +34,19 @@ import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningSub3
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.domain.entity.home.HomeTodayIntern
+import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
 
 @Composable
 fun HomeTodayInternItem(
-    homeTodayIntern: HomeTodayIntern,
+    homeUpcomingIntern: HomeUpcomingIntern,
     modifier: Modifier = Modifier
 ) {
     ScrapBox(
         modifier = Modifier
             .width(246.dp),
         cornerRadius = 5.dp,
-        scrapColor = Color(android.graphics.Color.parseColor(homeTodayIntern.color)),
+        scrapColor = Color(android.graphics.Color.parseColor(homeUpcomingIntern.color)),
         borderWidth = 1.dp,
         borderColor = Grey150,
         content = {
@@ -56,7 +56,7 @@ fun HomeTodayInternItem(
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = homeTodayIntern.title,
+                    text = homeUpcomingIntern.title,
                     modifier = modifier
                         .padding(
                             start = 12.dp,
@@ -83,7 +83,7 @@ fun HomeTodayInternItem(
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(homeTodayIntern.companyImage)
+                            .data(homeUpcomingIntern.companyImage)
                             .build(),
                         contentDescription = stringResource(id = R.string.home_company_image),
                         contentScale = ContentScale.Crop,
@@ -115,7 +115,7 @@ fun HomeTodayInternItem(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = homeTodayIntern.dDay,
+                            text = homeUpcomingIntern.dDay,
                             style = TerningTheme.typography.body4,
                             color = TerningMain,
                         )

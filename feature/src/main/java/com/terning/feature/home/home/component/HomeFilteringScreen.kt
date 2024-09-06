@@ -27,9 +27,9 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.type.Grade
+import com.terning.core.type.WorkingPeriod
 import com.terning.domain.entity.home.HomeFilteringInfo
-import com.terning.domain.type.Grade
-import com.terning.domain.type.WorkingPeriod
 import com.terning.feature.R
 
 @Composable
@@ -79,13 +79,13 @@ fun HomeFilteringScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     HomeFilteringInfoText(
-                        text = Grade.entries[grade ?: 0].grade,
+                        text = stringResource(id = Grade.entries[grade ?: 0].text),
                         modifier = Modifier
                             .padding(end = 6.dp),
                     )
                     HomeFilteringInfoDivider()
                     HomeFilteringInfoText(
-                        text = WorkingPeriod.entries[workingPeriod ?: 0].workingPeriod,
+                        text = stringResource(WorkingPeriod.entries[workingPeriod ?: 0].text),
                         modifier = Modifier
                             .padding(horizontal = 6.dp),
                     )

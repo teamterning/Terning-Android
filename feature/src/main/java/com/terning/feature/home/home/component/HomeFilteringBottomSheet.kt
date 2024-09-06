@@ -27,8 +27,8 @@ import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.domain.type.Grade
-import com.terning.domain.type.WorkingPeriod
+import com.terning.core.type.Grade
+import com.terning.core.type.WorkingPeriod
 import com.terning.feature.R
 import java.time.LocalDate
 
