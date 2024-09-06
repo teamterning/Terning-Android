@@ -58,7 +58,7 @@ fun InternCompanyInfo(
                     .data(companyImage)
                     .build(),
                 contentDescription = stringResource(id = R.string.search_image),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(CircleShape),
