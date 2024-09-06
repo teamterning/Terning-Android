@@ -1,8 +1,9 @@
 package com.terning.data.mapper.intern
 
+import com.terning.data.dto.response.InternResponseDto
 import com.terning.domain.entity.intern.InternInfo
 
-fun InternInfo.toInternInfo(): InternInfo =
+fun InternResponseDto.toInternInfo(): InternInfo =
     InternInfo(
         dDay = dDay,
         title = title,
