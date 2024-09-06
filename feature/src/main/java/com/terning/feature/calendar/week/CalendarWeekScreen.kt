@@ -15,9 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -38,8 +36,6 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.component.CalendarCancelDialog
-import com.terning.feature.calendar.calendar.component.CalendarDetailDialog
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
@@ -97,7 +93,7 @@ fun CalendarWeekRoute(
         onClickChangeColor = { viewModel.getScrapWeekList(uiState.selectedDate) },
         onClickScrapButton = { scrapId ->
             with(viewModel) {
-                updateScrapId(scrapId)
+                updateInternshipAnnouncementId(scrapId)
                 updateScrapCancelDialogVisibility(true)
             }
         },
@@ -182,9 +178,9 @@ private fun CalendarWeekScreen(
     }
 
     if (uiState.scrapDialogVisibility) {
-        uiState.scrapId?.run {
+        uiState.internshipAnnouncementId?.run {
             ScrapCancelDialog(
-                scrapId = this,
+                internshipAnnouncementId = this,
                 onDismissRequest = onDismissCancelDialog
             )
         }
@@ -201,10 +197,8 @@ private fun CalendarWeekScreen(
                 title = uiState.internshipModel.title,
                 scrapColor = scrapColor,
                 deadline = uiState.selectedDate.getFullDateStringInKorean(),
-                startYear = uiState.internshipModel.startYear,
-                startMonth = uiState.internshipModel.startMonth,
+                startYearMonth = uiState.internshipModel.startYearMonth,
                 workingPeriod = uiState.internshipModel.workingPeriod,
-                scrapId = uiState.internshipModel.scrapId,
                 internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
                 companyImage = uiState.internshipModel.companyImage,
                 isScrapped = true,

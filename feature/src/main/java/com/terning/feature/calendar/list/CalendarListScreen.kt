@@ -2,11 +2,9 @@ package com.terning.feature.calendar.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -29,12 +27,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.getDateAsMapString
-import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.getFullDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.extension.toast
@@ -101,7 +96,7 @@ fun CalendarListRoute(
         },
         onClickScrapButton = { scrapId ->
             with(viewModel){
-                updateScrapId(scrapId)
+                updateAnnouncementId(scrapId)
                 updateScrapCancelDialogVisibility(true)
             }
         },
@@ -220,9 +215,9 @@ private fun CalendarListScreen(
     }
 
     if (uiState.scrapDialogVisibility) {
-        uiState.scrapId?.run {
+        uiState.internshipAnnouncementId?.run {
             ScrapCancelDialog(
-                scrapId = this,
+                internshipAnnouncementId = this,
                 onDismissRequest = onDismissCancelDialog
             )
         }
@@ -239,10 +234,8 @@ private fun CalendarListScreen(
                 title = uiState.internshipModel.title,
                 scrapColor = scrapColor,
                 deadline = uiState.currentDate.getFullDateStringInKorean(),
-                startYear = uiState.internshipModel.startYear,
-                startMonth = uiState.internshipModel.startMonth,
+                startYearMonth = uiState.internshipModel.startYearMonth,
                 workingPeriod = uiState.internshipModel.workingPeriod,
-                scrapId = uiState.internshipModel.scrapId,
                 internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
                 companyImage = uiState.internshipModel.companyImage,
                 isScrapped = true,

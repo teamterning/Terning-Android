@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
 import com.terning.domain.entity.calendar.CalendarScrapDetail
-import com.terning.domain.entity.calendar.CalendarScrapRequest
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
@@ -45,10 +44,10 @@ class CalendarWeekViewModel @Inject constructor(
         }
     }
 
-    fun updateScrapId(scrapId: Long? = null) {
+    fun updateInternshipAnnouncementId(internshipAnnouncementId: Long? = null) {
         _uiState.update { currentState ->
             currentState.copy(
-                internshipAnnouncementId = scrapId
+                internshipAnnouncementId = internshipAnnouncementId
             )
         }
     }

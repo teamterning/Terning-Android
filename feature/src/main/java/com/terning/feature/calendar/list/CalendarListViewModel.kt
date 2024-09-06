@@ -72,27 +72,27 @@ class CalendarListViewModel @Inject constructor(
     fun getScrapMonthList(
         date: LocalDate
     ) = viewModelScope.launch(Dispatchers.IO) {
-            calendarRepository.getScrapMonthList(
-                year = _uiState.value.currentDate.year,
-                month = _uiState.value.currentDate.monthValue
-            )
-        .fold(
-            onSuccess = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
-                    )
-                }
-            },
-            onFailure = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = UiState.Failure(it.message.toString())
-                    )
-
-                }
-                _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
-            }
+        calendarRepository.getScrapMonthList(
+            year = _uiState.value.currentDate.year,
+            month = _uiState.value.currentDate.monthValue
         )
+            .fold(
+                onSuccess = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
+                        )
+                    }
+                },
+                onFailure = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = UiState.Failure(it.message.toString())
+                        )
+
+                    }
+                    _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
+                }
+            )
     }
 }
