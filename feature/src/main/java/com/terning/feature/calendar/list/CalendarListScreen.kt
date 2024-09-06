@@ -1,5 +1,6 @@
 package com.terning.feature.calendar.list
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -50,6 +51,7 @@ fun CalendarListRoute(
     pages: Int,
     listState: LazyListState,
     modifier: Modifier = Modifier,
+    navigateUp: () -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
     viewModel: CalendarListViewModel = hiltViewModel()
 ) {
@@ -75,6 +77,10 @@ fun CalendarListRoute(
                 viewModel.updateCurrentDate(date)
                 viewModel.getScrapMonthList(date)
             }
+    }
+
+    BackHandler {
+        navigateUp()
     }
 
     CalendarListScreen(

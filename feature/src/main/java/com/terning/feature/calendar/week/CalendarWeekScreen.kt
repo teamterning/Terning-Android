@@ -1,5 +1,6 @@
 package com.terning.feature.calendar.week
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,6 +51,7 @@ fun CalendarWeekRoute(
     calendarUiState: CalendarUiState,
     navigateToAnnouncement: (Long) -> Unit,
     updateSelectedDate: (LocalDate) -> Unit,
+    navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarWeekViewModel = hiltViewModel()
 ) {
@@ -72,6 +74,10 @@ fun CalendarWeekRoute(
 
     LaunchedEffect(key1 = uiState.selectedDate) {
         viewModel.getScrapWeekList(selectedDate = uiState.selectedDate)
+    }
+
+    BackHandler {
+        navigateUp()
     }
 
     CalendarWeekScreen(
