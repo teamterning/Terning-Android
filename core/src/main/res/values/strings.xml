@@ -67,4 +67,18 @@
     <string name="sign_up_helper_available">사용 가능한 이름이에요</string>
     <string name="sign_up_helper_out">이름은 12자리 이내로 설정해 주세요</string>
 
+    <!--ChangeFilter-->
+    <string name="change_filter_top_bar_title">필터링 재설정</string>
+    <string name="change_filter_grade_title">재학 상태</string>
+    <string name="change_filter_save">저장하기</string>
+    <string name="change_filter_grade_1">1학년</string>
+    <string name="change_filter_grade_2">2학년</string>
+    <string name="change_filter_grade_3">3학년</string>
+    <string name="change_filter_grade_4">4학년</string>
+    <string name="change_filter_period_title">희망 근무 기간</string>
+    <string name="change_filter_period_1">1개월 ~ 3개월</string>
+    <string name="change_filter_period_2">4개월 ~ 6개월</string>
+    <string name="change_filter_period_3">7개월 이상</string>
+    <string name="change_filter_start_work_title">근무 시작 시기</string>
+
 </resources>
