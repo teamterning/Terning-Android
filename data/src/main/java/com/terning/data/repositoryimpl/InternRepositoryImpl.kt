@@ -1,7 +1,7 @@
 package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.InternDataSource
-import com.terning.domain.entity.response.InternInfoModel
+import com.terning.domain.entity.intern.InternInfoModel
 import com.terning.domain.repository.InternRepository
 import javax.inject.Inject
 

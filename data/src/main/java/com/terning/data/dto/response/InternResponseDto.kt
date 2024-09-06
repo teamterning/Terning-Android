@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.response.InternInfoModel
+import com.terning.domain.entity.intern.InternInfoModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

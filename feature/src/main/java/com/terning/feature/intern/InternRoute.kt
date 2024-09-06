@@ -30,7 +30,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternInfoModel
+import com.terning.domain.entity.intern.InternInfoModel
 import com.terning.feature.R
 import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
