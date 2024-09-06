@@ -1,5 +1,6 @@
 package com.terning.feature.onboarding.signin.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -19,10 +20,12 @@ fun NavController.navigateSignIn(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.signInNavGraph(
+    paddingValues: PaddingValues,
     navHostController: NavHostController,
 ) {
     composable<SignIn> {
         SignInRoute(
+            paddingValues = paddingValues,
             navigateToHome = { navHostController.navigateHome() },
             navigateToSignUp = { authId -> navHostController.navigateSignUp(authId) }
         )

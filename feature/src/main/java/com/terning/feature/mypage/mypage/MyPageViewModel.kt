@@ -1,4 +1,4 @@
-package com.terning.feature.mypage
+package com.terning.feature.mypage.mypage
 
 import android.content.Context
 import android.content.Intent
@@ -15,8 +15,11 @@ import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.TokenRepository
 import com.terning.feature.main.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,6 +36,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _state: MutableStateFlow<MyPageState> = MutableStateFlow(MyPageState())
     val state: StateFlow<MyPageState> get() = _state.asStateFlow()
+
+    private val _sideEffects = MutableSharedFlow<MyPageSideEffect>()
+    val sideEffects: SharedFlow<MyPageSideEffect> get() = _sideEffects.asSharedFlow()
 
     fun logoutKakao() {
         UserApiClient.instance.logout { error ->
@@ -95,14 +101,14 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             myPageRepository.getProfile()
                 .onSuccess { response ->
-                _state.value = _state.value.copy(
-                    isGetSuccess = UiState.Success(true),
-                    name = response.name,
-                    authType = response.authType
-                )
-            }.onFailure {
-                _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
-            }
+                    _state.value = _state.value.copy(
+                        isGetSuccess = UiState.Success(true),
+                        name = response.name,
+                        authType = response.authType
+                    )
+                }.onFailure {
+                    _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
+                }
         }
     }
 
@@ -133,6 +139,9 @@ class MyPageViewModel @Inject constructor(
         val customTabsIntent = CustomTabsIntent.Builder().build()
         customTabsIntent.launchUrl(context, url)
     }
+
+    fun navigateToProfileEdit() =
+        viewModelScope.launch { _sideEffects.emit(MyPageSideEffect.NavigateToProfileEdit) }
 
     companion object {
         private const val NOTICE_URL =

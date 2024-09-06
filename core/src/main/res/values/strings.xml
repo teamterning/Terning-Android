@@ -33,7 +33,6 @@
 
     <!--bottom_sheet-->
     <string name="sign_up_bottom_sheet_title">프로필 이미지 선택</string>
-    <string name="sign_up_bottom_sheet_description">회원가입 바텀시트</string>
     <string name="sign_up_dialog_start">저장하기</string>
     <string name="my_page_bottom_sheet_title">잠깐만요!</string>
     <string name="my_page_logout_sub">정말 로그아웃 하시겠어요?</string>
@@ -61,5 +60,11 @@
 
     <!--image-->
     <string name="image_content_descriptin">TerningBasicImage</string>
+
+    <!--NameTextField-->
+    <string name="sign_up_helper">12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가</string>
+    <string name="sign_up_helper_error">이름에 특수문자는 입력할 수 없어요</string>
+    <string name="sign_up_helper_available">사용 가능한 이름이에요</string>
+    <string name="sign_up_helper_out">이름은 12자리 이내로 설정해 주세요</string>
 
 </resources>

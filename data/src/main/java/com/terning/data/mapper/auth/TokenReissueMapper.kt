@@ -4,4 +4,4 @@ import com.terning.data.dto.response.TokenReissueResponseDto
 import com.terning.domain.entity.auth.TokenReissue
 
 fun TokenReissueResponseDto.toTokenReissue(): TokenReissue =
-    TokenReissue(refreshToken = refreshToken)
+    TokenReissue(accessToken = accessToken)

@@ -13,13 +13,13 @@ import com.terning.core.designsystem.theme.TerningTheme
 @Composable
 fun InternInfoRow(title: String, value: String) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.Start),
+        horizontalArrangement = Arrangement.spacedBy(23.dp, Alignment.Start),
         verticalAlignment = Alignment.Top,
     ) {
         Text(
             text = title,
             style = TerningTheme.typography.body2,
-            color = Grey400,
+            color = Grey500,
         )
         Text(
             text = value,

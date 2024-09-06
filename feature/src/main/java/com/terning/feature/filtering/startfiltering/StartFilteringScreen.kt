@@ -2,8 +2,10 @@ package com.terning.feature.filtering.startfiltering
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,12 +29,14 @@ import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.R
 import kotlinx.coroutines.delay
 
 @Composable
 fun StartFilteringScreen(
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
     onNextClick: () -> Unit
 ) {
     var isVisible by remember { mutableStateOf(false) }
@@ -46,7 +50,10 @@ fun StartFilteringScreen(
     }
 
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(White)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
