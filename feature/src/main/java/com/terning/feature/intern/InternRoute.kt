@@ -30,7 +30,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.intern.InternInfoModel
+import com.terning.domain.entity.intern.InternInfo
 import com.terning.feature.R
 import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
@@ -71,7 +71,7 @@ fun InternRoute(
         is UiState.Success -> {
             InternScreen(
                 internUiState = internState,
-                internInfoModel = (internState.loadState as UiState.Success).data,
+                internInfo = (internState.loadState as UiState.Success).data,
                 navController = navController
             )
         }
@@ -84,19 +84,19 @@ fun InternScreen(
     navController: NavHostController,
     viewModel: InternViewModel = hiltViewModel(),
     internUiState: InternUiState,
-    internInfoModel: InternInfoModel,
+    internInfo: InternInfo,
 ) {
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
-        stringResource(id = R.string.intern_info_d_day) to internInfoModel.deadline,
-        stringResource(id = R.string.intern_info_working) to internInfoModel.workingPeriod,
-        stringResource(id = R.string.intern_info_start_date) to internInfoModel.startDate,
+        stringResource(id = R.string.intern_info_d_day) to internInfo.deadline,
+        stringResource(id = R.string.intern_info_working) to internInfo.workingPeriod,
+        stringResource(id = R.string.intern_info_start_date) to internInfo.startDate,
     )
 
     val qualificationList = listOf(
-        stringResource(id = R.string.intern_recruitment_target) to internInfoModel.qualification,
-        stringResource(id = R.string.intern_info_work) to internInfoModel.jobType,
+        stringResource(id = R.string.intern_recruitment_target) to internInfo.qualification,
+        stringResource(id = R.string.intern_info_work) to internInfo.jobType,
     )
 
     if (internUiState.showWeb) {
@@ -107,7 +107,7 @@ fun InternScreen(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT,
                     )
-                    loadUrl(internInfoModel.url)
+                    loadUrl(internInfo.url)
                 }
             },
         )
@@ -130,8 +130,8 @@ fun InternScreen(
         bottomBar = {
             InternBottomBar(
                 modifier = modifier,
-                scrapCount = decimal.format(internInfoModel.scrapCount),
-                scrapId = internInfoModel.scrapId,
+                scrapCount = decimal.format(internInfo.scrapCount),
+                scrapId = internInfo.scrapId,
                 onScrapClick = {
                     viewModel.updateScrapDialogVisible(true)
                 }
@@ -154,18 +154,18 @@ fun InternScreen(
 
                     InternCompanyInfo(
                         modifier = modifier,
-                        companyImage = internInfoModel.companyImage,
-                        company = internInfoModel.company,
-                        companyCategory = internInfoModel.companyCategory
+                        companyImage = internInfo.companyImage,
+                        company = internInfo.company,
+                        companyCategory = internInfo.companyCategory
                     )
 
                     Spacer(modifier = modifier.padding(top = 20.dp))
 
                     InternTitle(
                         modifier = modifier,
-                        dDay = internInfoModel.dDay,
-                        title = internInfoModel.title,
-                        viewCount = decimal.format(internInfoModel.viewCount)
+                        dDay = internInfo.dDay,
+                        title = internInfo.title,
+                        viewCount = decimal.format(internInfo.viewCount)
                     )
 
                     Spacer(modifier = modifier.padding(top = 16.dp))
@@ -222,7 +222,7 @@ fun InternScreen(
                     ) {
                         SelectionContainer {
                             Text(
-                                text = internInfoModel.detail.trimIndent(),
+                                text = internInfo.detail.trimIndent(),
                                 style = TerningTheme.typography.body3,
                                 color = Grey400
                             )

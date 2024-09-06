@@ -1,6 +1,6 @@
 package com.terning.data.dto.response
 
-import com.terning.domain.entity.intern.InternInfoModel
+import com.terning.domain.entity.intern.InternInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -37,8 +37,8 @@ data class InternResponseDto(
     @SerialName("scrapId")
     val scrapId: Long? = null,
 ) {
-    fun toInternEntity(): InternInfoModel {
-        return InternInfoModel(
+    fun toInternEntity(): InternInfo {
+        return InternInfo(
             dDay = dDay,
             title = title,
             deadline = deadline,
