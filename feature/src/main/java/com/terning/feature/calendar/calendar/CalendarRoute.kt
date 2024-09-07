@@ -87,24 +87,22 @@ private fun CalendarScreen(
             }
     }
 
-    Scaffold(
+    Column(
         modifier = modifier,
-        topBar = {
-            CalendarTopAppBar(
-                date = getYearMonthByPage(uiState.currentPage),
-                isListExpanded = uiState.isListEnabled,
-                isWeekExpanded = uiState.isWeekEnabled,
-                onListButtonClicked = onClickListButton,
-                onMonthNavigationButtonClicked = { direction ->
-                    coroutineScope.launch {
-                        listState.animateScrollToItem(
-                            index = listState.firstVisibleItemIndex + direction,
-                        )
-                    }
+    ){
+        CalendarTopAppBar(
+            date = getYearMonthByPage(uiState.currentPage),
+            isListExpanded = uiState.isListEnabled,
+            isWeekExpanded = uiState.isWeekEnabled,
+            onListButtonClicked = onClickListButton,
+            onMonthNavigationButtonClicked = { direction ->
+                coroutineScope.launch {
+                    listState.animateScrollToItem(
+                        index = listState.firstVisibleItemIndex + direction,
+                    )
                 }
-            )
-        }
-    ) { paddingValues ->
+            }
+        )
         ScreenTransition(
             targetState = !uiState.isListEnabled,
             transitionOne = slideInHorizontally { fullWidth -> -fullWidth } togetherWith
@@ -115,7 +113,6 @@ private fun CalendarScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = paddingValues.calculateTopPadding())
                 ) {
                     WeekDaysHeader()
 
@@ -162,7 +159,6 @@ private fun CalendarScreen(
                     navigateUp = disableListVisibility,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = paddingValues.calculateTopPadding())
                 )
             },
         )
