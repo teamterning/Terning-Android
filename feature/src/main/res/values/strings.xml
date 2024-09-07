@@ -54,6 +54,21 @@
     <string name="calendar_empty_scrap">선택하신 날짜에 지원 마감인 스크랩 공고가 없어요</string>
     <string name="calendar_scrap_overflow">+%s</string>
 
+    <!--Dialog-->
+    <string name="dialog_content_scrap_sub_title">공고를 캘린더에 스크랩하시겠어요?</string>
+    <string name="dialog_content_color_button">스크랩 색상</string>
+    <string name="dialog_content_calendar_color_change">색상 변경하기</string>
+    <string name="dialog_content_calendar_color_change_complete">색상 변경완료</string>
+    <string name="dialog_scrap_button">내 캘린더에 스크랩하기</string>
+    <string name="dialog_content_scrap_cancel_main_title">관심 공고가 캘린더에서 사라져요!</string>
+    <string name="dialog_content_scrap_cancel_sub_title">스크랩을 취소하시겠어요?</string>
+    <string name="dialog_scrap_cancel_button">스크랩 취소하기</string>
+    <string name="dialog_scrap_mine">내가 스크랩한 관심 공고에요!</string>
+    <string name="dialog_scrap_move_to_intern">공고 상세 정보 보기</string>
+    <string name="dialog_today_deadline">오늘 마감되는 공고예요!</string>
+    <string name="dialog_scrap_scrapped">관심 공고가 캘린더에 스크랩되었어요!</string>
+    <string name="dialog_scrap_cancelled">관심 공고가 캘린더에서 사라졌어요!</string>
+
     <!--Home-->
     <string name="home_today_title">오늘 마감되는 %s님의 관심 공고</string>
     <string name="home_today_no_scrap">아직 스크랩된 인턴 공고가 없어요!\n관심 공고를 스크랩하면 마감 당일에 알려드릴게요</string>
@@ -118,16 +133,15 @@
     <string name="intern_share_icon">공유 아이콘</string>
     <string name="intern_move_to_site">지원 사이트로 이동하기</string>
     <string name="intern_top_app_bar_title">공고 정보</string>
-    <string name="intern_view_count">조회수</string>
     <string name="intern_view_count_detail">%s회</string>
     <string name="intern_info_d_day">서류 마감</string>
     <string name="intern_info_working">근무 기간</string>
     <string name="intern_info_start_date">근무 시작</string>
-    <string name="intern_sub_title_intern_info">공고 정보</string>
     <string name="intern_sub_title_intern_summary">공고 요약</string>
+    <string name="intern_info_request">자격 요건</string>
     <string name="intern_sub_title_intern_detail">상세 정보</string>
-    <string name="intern_info_request">자격요건</string>
-    <string name="intern_info_work">직무</string>
+    <string name="intern_recruitment_target">모집대상</string>
+    <string name="intern_info_work">모집직무</string>
     <string name="intern_scrap_add_toast_message">관심 공고가 캘린더에 스크랩되었어요!</string>
     <string name="intern_scrap_delete_toast_message">관심 공고가 캘린더에서 사라졌어요!</string>
 
