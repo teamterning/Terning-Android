@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering.navigation
+package com.terning.feature.filtering.filteringthree.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
@@ -8,7 +8,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
-import com.terning.feature.filtering.filtering.FilteringThreeRoute
+import com.terning.feature.filtering.filteringthree.FilteringThreeRoute
 import com.terning.feature.filtering.starthome.navigation.navigateStartHome
 import kotlinx.serialization.Serializable
 
@@ -33,8 +33,8 @@ fun NavGraphBuilder.filteringThreeNavGraph(
             paddingValues = paddingValues,
             grade = args.grade,
             workingPeriod = args.workingPeriod,
-            navigateUp = { navHostController.navigateUp() },
-            navigateToStartHome = { navHostController.navigateStartHome() }
+            navigateUp = navHostController::navigateUp,
+            navigateToStartHome = navHostController::navigateStartHome
         )
     }
 }

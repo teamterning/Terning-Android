@@ -123,7 +123,6 @@ fun SignUpScreen(
         Column(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
-            Spacer(modifier = Modifier.height(48.dp))
             ProfileWithPlusButton(
                 modifier = Modifier.noRippleClickable {
                     onProfileEditClick(true)

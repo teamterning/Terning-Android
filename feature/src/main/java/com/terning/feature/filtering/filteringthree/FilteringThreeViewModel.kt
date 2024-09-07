@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering
+package com.terning.feature.filtering.filteringthree
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,30 +17,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FilteringViewModel @Inject constructor(
+class FilteringThreeViewModel @Inject constructor(
     private val filteringRepository: FilteringRepository,
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(FilteringState())
-    val state: StateFlow<FilteringState> get() = _state.asStateFlow()
+    private val _state = MutableStateFlow(FilteringThreeState())
+    val state: StateFlow<FilteringThreeState> get() = _state.asStateFlow()
 
-    private val _sideEffects = MutableSharedFlow<FilteringSideEffect>()
-    val sideEffects: SharedFlow<FilteringSideEffect> get() = _sideEffects.asSharedFlow()
+    private val _sideEffects = MutableSharedFlow<FilteringThreeSideEffect>()
+    val sideEffects: SharedFlow<FilteringThreeSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun fetchGrade(grade: Int) {
+    fun updateGrade(grade: Int) {
         _state.value = _state.value.copy(grade = grade)
     }
 
-    fun fetchWorkingPeriod(workingPeriod: Int) {
+    fun updateWorkingPeriod(workingPeriod: Int) {
         _state.value = _state.value.copy(workingPeriod = workingPeriod)
     }
 
-    fun fetchStartYear(startYear: Int) {
+    fun updateStartYear(startYear: Int) {
         _state.value = _state.value.copy(startYear = startYear)
     }
 
-    fun fetchStartMonth(startMonth: Int) {
+    fun updateStartMonth(startMonth: Int) {
         _state.value = _state.value.copy(startMonth = startMonth)
     }
 
@@ -57,11 +57,13 @@ class FilteringViewModel @Inject constructor(
                     )
                 }
             ).onSuccess {
-                _sideEffects.emit(FilteringSideEffect.NavigateToStartHome)
+                _sideEffects.emit(FilteringThreeSideEffect.NavigateToStartHome)
             }.onFailure {
-                _sideEffects.emit(FilteringSideEffect.ShowToast(R.string.server_failure))
+                _sideEffects.emit(FilteringThreeSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }
+
+    fun navigateUp() = viewModelScope.launch { _sideEffects.emit(FilteringThreeSideEffect.NavigateUp) }
 
 }
