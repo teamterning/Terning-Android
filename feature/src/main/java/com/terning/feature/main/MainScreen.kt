@@ -1,5 +1,9 @@
 package com.terning.feature.main
 
+import android.app.Activity
+import android.content.Intent
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -15,11 +19,18 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.compose.NavHost
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
@@ -33,6 +44,7 @@ import com.terning.feature.filtering.startfiltering.navigation.startFilteringNav
 import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
 import com.terning.feature.home.changefilter.navigation.changeFilterNavGraph
 import com.terning.feature.home.home.navigation.homeNavGraph
+import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.mypage.mypage.navigation.myPageNavGraph
 import com.terning.feature.mypage.profileedit.navigation.profileEditNavGraph
@@ -41,11 +53,27 @@ import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
+    val context = LocalContext.current
+    var backPressedState by remember { mutableStateOf(true) }
+    var backPressedTime = 0L
+
+    BackHandler(enabled = backPressedState) {
+        if(System.currentTimeMillis() - backPressedTime <= 3000) {
+            (context as Activity).finish()
+        } else {
+            backPressedState = true
+            Toast.makeText(context, "한 번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
+    }
+
     Scaffold(
         bottomBar = {
             MainBottomBar(

@@ -15,11 +15,15 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,6 +65,14 @@ fun MyPageRoute(
         systemUiController.setStatusBarColor(
             color = Back
         )
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            systemUiController.setStatusBarColor(
+                color = White
+            )
+        }
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
