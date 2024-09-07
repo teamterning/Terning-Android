@@ -14,26 +14,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
+import com.terning.core.type.ProfileImage
 
 @Composable
 fun ProfileWithPlusButton(
-    index: Int,
+    profileImage: String,
     modifier: Modifier = Modifier,
 ) {
-    val grade = when (index) {
-        0 -> R.drawable.ic_terning_profile_00
-        1 -> R.drawable.ic_terning_profile_01
-        2 -> R.drawable.ic_terning_profile_02
-        3 -> R.drawable.ic_terning_profile_03
-        4 -> R.drawable.ic_terning_profile_04
-        else -> R.drawable.ic_terning_profile_05
-    }
+    val userProfile = ProfileImage.fromString(profileImage)
 
     Box(
         modifier = modifier.wrapContentWidth()
     ) {
         Image(
-            painterResource(id = grade),
+            painterResource(id = userProfile.drawableResId),
             contentDescription = "profile image",
             modifier = modifier
                 .clip(shape = CircleShape)
@@ -51,5 +45,5 @@ fun ProfileWithPlusButton(
 @Preview(showBackground = true)
 @Composable
 fun ProfileWithPlusButtonPreview() {
-    ProfileWithPlusButton(index = 1)
+    ProfileWithPlusButton(profileImage = "basic")
 }

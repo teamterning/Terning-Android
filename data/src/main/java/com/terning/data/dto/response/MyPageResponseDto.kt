@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class MyPageResponseDto(
     @SerialName("name")
     val name: String,
+    @SerialName("profileImage")
+    val profileImage: String,
     @SerialName("authType")
     val authType: String
 )

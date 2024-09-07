@@ -104,6 +104,7 @@ class MyPageViewModel @Inject constructor(
                     _state.value = _state.value.copy(
                         isGetSuccess = UiState.Success(true),
                         name = response.name,
+                        profileImage = response.profileImage,
                         authType = response.authType
                     )
                 }.onFailure {

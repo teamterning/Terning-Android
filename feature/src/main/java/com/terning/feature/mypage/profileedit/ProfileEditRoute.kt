@@ -35,13 +35,14 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.type.ProfileImage
 import com.terning.feature.R
 
 @Composable
 fun ProfileEditRoute(
     navigateUp: () -> Unit,
     initialName: String,
-    initialProfile: Int,
+    initialProfile: String,
     viewModel: ProfileEditViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -57,7 +58,10 @@ fun ProfileEditRoute(
     }
 
     LaunchedEffect(key1 = true) {
-        viewModel.updateInitialInfo(initialName = initialName, initialProfile = initialProfile)
+        viewModel.updateInitialInfo(
+            initialName = initialName,
+            initialProfile = initialProfile
+        )
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
@@ -72,13 +76,14 @@ fun ProfileEditRoute(
     if (state.showBottomSheet) {
         ProfileBottomSheet(
             onDismiss = { viewModel.updateBottomSheet(false) },
-            onSaveClick = { index ->
+            onSaveClick = { profileImage ->
                 viewModel.updateBottomSheet(false)
-                viewModel.updateProfile(index)
+                viewModel.updateProfile(profileImage.stringValue)
             },
             initialSelectedOption = state.profile
         )
     }
+
 
     ProfileEditScreen(
         profileEditState = state,
@@ -137,7 +142,7 @@ fun ProfileEditScreen(
                         onProfileEditClick(true)
                     }
                     .align(Alignment.CenterHorizontally),
-                index = profileEditState.profile
+                profileImage = profileEditState.profile
             )
             Spacer(modifier = Modifier.height(48.dp))
             Text(

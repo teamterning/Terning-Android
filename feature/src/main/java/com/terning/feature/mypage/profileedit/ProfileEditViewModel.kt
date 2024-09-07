@@ -27,7 +27,7 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
         _state.value = _state.value.copy(showBottomSheet = isVisible)
     }
 
-    fun updateInitialInfo(initialName: String, initialProfile: Int) {
+    fun updateInitialInfo(initialName: String, initialProfile: String) {
         _state.value = _state.value.copy(
             name = initialName,
             initialName = initialName,
@@ -36,11 +36,17 @@ class ProfileEditViewModel @Inject constructor() : ViewModel() {
     }
 
     fun updateName(name: String) {
-        _state.value = _state.value.copy(name = name, initialView = false)
+        _state.value = _state.value.copy(
+            name = name,
+            initialView = false
+        )
     }
 
-    fun updateProfile(profile: Int) {
-        _state.value = _state.value.copy(profile = profile, initialView = false)
+    fun updateProfile(profile: String) {
+        _state.value = _state.value.copy(
+            profile = profile,
+            initialView = false
+        )
     }
 
     fun updateButtonValidation(isValid: Boolean) {

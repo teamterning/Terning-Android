@@ -10,32 +10,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
+import com.terning.core.type.ProfileImage
 
 @Composable
 fun MyPageProfile(
     modifier: Modifier = Modifier,
-    profile: Int
+    profileImage: String
 ) {
-    val options = listOf(
-        R.drawable.ic_terning_profile_00,
-        R.drawable.ic_terning_profile_01,
-        R.drawable.ic_terning_profile_02,
-        R.drawable.ic_terning_profile_03,
-        R.drawable.ic_terning_profile_04,
-        R.drawable.ic_terning_profile_05
-    )
-
-    val option = when (profile) {
-        0 -> options[0]
-        1 -> options[1]
-        2 -> options[2]
-        3 -> options[3]
-        4 -> options[4]
-        else -> options[5]
-    }
+    val userProfile = ProfileImage.fromString(profileImage)
 
     Image(
-        painter = painterResource(id = option),
+        painter = painterResource(id = userProfile.drawableResId),
         modifier = modifier
             .size(72.dp)
             .clip(shape = CircleShape)

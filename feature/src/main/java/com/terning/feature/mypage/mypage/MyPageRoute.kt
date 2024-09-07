@@ -1,5 +1,6 @@
 package com.terning.feature.mypage.mypage
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,15 +16,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +50,7 @@ import com.terning.feature.mypage.mypage.component.MyPageItem
 @Composable
 fun MyPageRoute(
     paddingValues: PaddingValues,
-    navigateToProfileEdit: (String, Int) -> Unit,
+    navigateToProfileEdit: (String, String) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -81,7 +79,7 @@ fun MyPageRoute(
                 when (sideEffect) {
                     is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit(
                         state.name,
-                        state.profile
+                        state.profileImage
                     )
                 }
             }
@@ -127,13 +125,18 @@ fun MyPageRoute(
                 onServiceClick = {},
                 onPersonalClick = {},
                 name = state.name,
-                profile = state.profile
+                profileImage = state.profileImage
             )
         }
 
-        is UiState.Loading -> {}
+        is UiState.Loading -> {
+            Log.d("LYB", "로딩중")
+        }
         is UiState.Empty -> {}
-        is UiState.Failure -> {}
+        is UiState.Failure -> {
+            Log.d("LYB", "실패")
+
+        }
     }
 
     if (state.showNotice) {
@@ -158,7 +161,7 @@ fun MyPageScreen(
     onPersonalClick: () -> Unit,
     paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
-    profile: Int = 0
+    profileImage: String = ""
 ) {
     Column(
         modifier = Modifier
@@ -168,7 +171,7 @@ fun MyPageScreen(
     ) {
         UserProfile(
             name = name,
-            profile = profile,
+            profileImage = profileImage,
             onEditClick = onEditClick
         )
         TerningCommunity(
@@ -221,7 +224,7 @@ fun UserProfile(
     name: String,
     onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
-    profile: Int = 0,
+    profileImage: String = "",
 ) {
     Row(
         modifier = modifier.padding(
@@ -230,7 +233,7 @@ fun UserProfile(
             bottom = 32.dp
         )
     ) {
-        MyPageProfile(profile = profile)
+        MyPageProfile(profileImage = profileImage)
         Column {
             Text(
                 text = name,
