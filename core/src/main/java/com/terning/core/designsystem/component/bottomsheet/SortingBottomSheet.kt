@@ -26,6 +26,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.type.SortBy
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

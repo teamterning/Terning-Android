@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.component.bottomsheet
+package com.terning.core.type
 
 import androidx.annotation.StringRes
 import com.terning.core.R

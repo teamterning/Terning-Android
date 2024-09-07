@@ -61,7 +61,7 @@ import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.core.type.Grade
 import com.terning.core.type.WorkingPeriod
 import com.terning.feature.R
-import com.terning.feature.home.home.component.HomeFilteringBottomSheet
+import com.terning.core.designsystem.component.bottomsheet.HomeFilteringBottomSheet
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern

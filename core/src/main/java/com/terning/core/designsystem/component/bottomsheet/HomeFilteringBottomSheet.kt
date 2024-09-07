@@ -1,4 +1,4 @@
-package com.terning.feature.home.home.component
+package com.terning.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
+import com.terning.core.R
 import com.terning.core.designsystem.component.button.ChangeFilterButton
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.datepicker.DatePickerUI
@@ -29,7 +29,6 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.type.Grade
 import com.terning.core.type.WorkingPeriod
-import com.terning.feature.R
 import java.time.LocalDate
 
 const val MIN_INDEX = 0
