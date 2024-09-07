@@ -1,8 +1,10 @@
 package com.terning.feature.calendar.list
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -168,19 +171,11 @@ private fun CalendarListScreen(
                         }
                         UiState.Empty -> {
                             item {
-                                Box(
+                                Column(
                                     modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
+                                    horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Text(
-                                        modifier = Modifier
-                                            .padding(top = 42.dp)
-                                            .fillMaxWidth(),
-                                        text = stringResource(id = R.string.calendar_empty_scrap),
-                                        textAlign = TextAlign.Center,
-                                        style = TerningTheme.typography.body5,
-                                        color = Grey400
-                                    )
+                                    CalendarListEmpty()
                                 }
                             }
                         }
@@ -251,6 +246,28 @@ private fun CalendarListScreen(
             )
         }
     }
+}
+
+@Composable
+private fun CalendarListEmpty(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(
+            id = R.drawable.ic_terning_calendar_empty
+        ),
+        contentDescription = "",
+        modifier = modifier.padding(top = 20.dp, bottom = 4.dp)
+    )
+
+    Text(
+        modifier = modifier
+            .fillMaxWidth(),
+        text = stringResource(id = R.string.calendar_empty_scrap),
+        textAlign = TextAlign.Center,
+        style = TerningTheme.typography.body5,
+        color = Grey400
+    )
 }
 
 

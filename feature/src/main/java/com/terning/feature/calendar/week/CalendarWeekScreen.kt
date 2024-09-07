@@ -1,6 +1,7 @@
 package com.terning.feature.calendar.week
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,10 +15,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -135,7 +138,8 @@ private fun CalendarWeekScreen(
 
     Column(
         modifier = modifier
-            .background(Back)
+            .background(Back),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
             modifier = Modifier
@@ -161,6 +165,7 @@ private fun CalendarWeekScreen(
             style = TerningTheme.typography.title5,
             color = Black,
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
         )
 
@@ -169,9 +174,11 @@ private fun CalendarWeekScreen(
             is UiState.Empty -> {
                 CalendarWeekEmpty()
             }
+
             is UiState.Failure -> {
                 CalendarWeekEmpty()
             }
+
             is UiState.Success -> {
                 CalendarWeekSuccess(
                     scrapList = uiState.loadState.data.toImmutableList(),
@@ -220,9 +227,16 @@ private fun CalendarWeekScreen(
 private fun CalendarWeekEmpty(
     modifier: Modifier = Modifier
 ) {
+    Image(
+        painter = painterResource(
+            id = R.drawable.ic_terning_calendar_empty
+        ),
+        contentDescription = "",
+        modifier = modifier.padding(top = 20.dp, bottom = 4.dp)
+    )
+
     Text(
         modifier = modifier
-            .padding(top = 38.dp)
             .fillMaxWidth(),
         text = stringResource(id = R.string.calendar_empty_scrap),
         textAlign = TextAlign.Center,
