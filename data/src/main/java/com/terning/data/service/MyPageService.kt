@@ -5,6 +5,7 @@ import com.terning.data.dto.NonDataBaseResponse
 import com.terning.data.dto.response.MyPageResponseDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface MyPageService {
@@ -16,4 +17,7 @@ interface MyPageService {
 
     @GET("api/v1/mypage/profile")
     suspend fun getProfile(): BaseResponse<MyPageResponseDto>
+
+    @PATCH("api/v1/mypage/profile")
+    suspend fun modifyProfile(): NonDataBaseResponse
 }
