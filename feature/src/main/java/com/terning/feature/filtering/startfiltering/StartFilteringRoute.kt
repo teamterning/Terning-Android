@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.airbnb.lottie.compose.LottieConstants
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -86,6 +87,7 @@ fun StartFilteringScreen(
 
             TerningLottieAnimation(
                 jsonString = "terning_onboarding_start.json",
+                iterations = LottieConstants.IterateForever,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(372.dp)

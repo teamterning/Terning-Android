@@ -7,17 +7,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
 fun TerningLottieAnimation(
     jsonString: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    iterations: Int = 1,
 ) {
     val lottieComposition by rememberLottieComposition(LottieCompositionSpec.Asset(jsonString))
     LottieAnimation(
         modifier = modifier.clip(RectangleShape),
         composition = lottieComposition,
+        iterations = iterations,
         clipToCompositionBounds = false
     )
 }
