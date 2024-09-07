@@ -80,8 +80,8 @@ fun FilteringThreeRoute(
         chosenYear = Calendar.getInstance().currentYear,
         chosenMonth = Calendar.getInstance().currentMonth,
         onNextClick = viewModel::postFilteringWithServer,
-        onYearChosen = { viewModel.updateStartYear(it) },
-        onMonthChosen = { viewModel.updateStartMonth(it) }
+        onYearChosen = viewModel::updateStartYear,
+        onMonthChosen = viewModel::updateStartMonth
     )
 }
 

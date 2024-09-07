@@ -30,8 +30,8 @@ fun NavGraphBuilder.filteringOneNavGraph(
         FilteringOneRoute(
             paddingValues = paddingValues,
             name = args.name,
-            onNextClick = { grade -> navHostController.navigateFilteringTwo(grade) },
-            navigateUp = { navHostController.navigateUp() }
+            onNextClick = navHostController::navigateFilteringTwo,
+            navigateUp = navHostController::navigateUp
         )
     }
 }
