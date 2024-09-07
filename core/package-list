@@ -164,6 +164,8 @@ $dokka.location:com.terning.core.designsystem.theme/TerningTypography/title5/#/P
 $dokka.location:com.terning.core.designsystem.theme/TerningTypography/update/#com.terning.core.designsystem.theme.TerningTypography/PointingToDeclaration/core/com.terning.core.designsystem.theme/-terning-typography/update.html
 $dokka.location:com.terning.core.extension////PointingToDeclaration/core/com.terning.core.extension/index.html
 $dokka.location:com.terning.core.extension//addFocusCleaner/androidx.compose.ui.Modifier#androidx.compose.ui.focus.FocusManager/PointingToDeclaration/core/com.terning.core.extension/add-focus-cleaner.html
+$dokka.location:com.terning.core.extension//currentMonth/java.util.Calendar#/PointingToDeclaration/core/com.terning.core.extension/current-month.html
+$dokka.location:com.terning.core.extension//currentYear/java.util.Calendar#/PointingToDeclaration/core/com.terning.core.extension/current-year.html
 $dokka.location:com.terning.core.extension//customShadow/androidx.compose.ui.Modifier#androidx.compose.ui.graphics.Color#androidx.compose.ui.unit.Dp#androidx.compose.ui.unit.Dp#androidx.compose.ui.unit.Dp#androidx.compose.ui.unit.Dp/PointingToDeclaration/core/com.terning.core.extension/custom-shadow.html
 $dokka.location:com.terning.core.extension//getDateAsMapString/java.time.LocalDate#/PointingToDeclaration/core/com.terning.core.extension/get-date-as-map-string.html
 $dokka.location:com.terning.core.extension//getDateStringInKorean/java.time.LocalDate#/PointingToDeclaration/core/com.terning.core.extension/get-date-string-in-korean.html
@@ -210,6 +212,11 @@ $dokka.location:com.terning.core.type/ColorType/valueOf/#kotlin.String/PointingT
 $dokka.location:com.terning.core.type/ColorType/values/#/PointingToDeclaration/core/com.terning.core.type/-color-type/values.html
 $dokka.location:com.terning.core.util////PointingToDeclaration/core/com.terning.core.util/index.html
 $dokka.location:com.terning.core.util//NAME_ERROR_REGEX/#/PointingToDeclaration/core/com.terning.core.util/-n-a-m-e_-e-r-r-o-r_-r-e-g-e-x.html
+$dokka.location:com.terning.core.util/CalendarDefaults///PointingToDeclaration/core/com.terning.core.util/-calendar-defaults/index.html
+$dokka.location:com.terning.core.util/CalendarDefaults/END_MONTH/#/PointingToDeclaration/core/com.terning.core.util/-calendar-defaults/-e-n-d_-m-o-n-t-h.html
+$dokka.location:com.terning.core.util/CalendarDefaults/END_YEAR/#/PointingToDeclaration/core/com.terning.core.util/-calendar-defaults/-e-n-d_-y-e-a-r.html
+$dokka.location:com.terning.core.util/CalendarDefaults/START_MONTH/#/PointingToDeclaration/core/com.terning.core.util/-calendar-defaults/-s-t-a-r-t_-m-o-n-t-h.html
+$dokka.location:com.terning.core.util/CalendarDefaults/START_YEAR/#/PointingToDeclaration/core/com.terning.core.util/-calendar-defaults/-s-t-a-r-t_-y-e-a-r.html
 $dokka.location:com.terning.core.util/NoRippleInteractionSource///PointingToDeclaration/core/com.terning.core.util/-no-ripple-interaction-source/index.html
 $dokka.location:com.terning.core.util/NoRippleInteractionSource/emit/#androidx.compose.foundation.interaction.Interaction/PointingToDeclaration/core/com.terning.core.util/-no-ripple-interaction-source/emit.html
 $dokka.location:com.terning.core.util/NoRippleInteractionSource/interactions/#/PointingToDeclaration/core/com.terning.core.util/-no-ripple-interaction-source/interactions.html
