@@ -55,8 +55,7 @@ fun FilteringTwoRoute(
         onNextClick = onNextClick,
         navigateUp = viewModel::navigateUp,
         onButtonClick = { index ->
-            viewModel.updateWorkingPeriod(index)
-            viewModel.updateButtonValidation()
+            viewModel.updateWorkingPeriodAndButton(index)
         },
         buttonState = state.isButtonValid,
         workingPeriod = state.workingPeriod,

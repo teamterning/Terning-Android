@@ -18,12 +18,11 @@ class FilteringOneViewModel : ViewModel() {
     private val _sideEffects = MutableSharedFlow<FilteringOneSideEffect>()
     val sideEffects: SharedFlow<FilteringOneSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun updateButtonValidation() {
-        _state.value = _state.value.copy(isButtonValid = true)
-    }
-
-    fun updateGrade(grade: Int) {
-        _state.value = _state.value.copy(grade = grade)
+    fun updateGradeAndButton(grade: Int) {
+        _state.value = _state.value.copy(
+            grade = grade,
+            isButtonValid = true
+        )
     }
 
     fun navigateUp() =

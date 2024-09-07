@@ -53,8 +53,7 @@ fun FilteringOneRoute(
     FilteringOneScreen(
         name = name,
         onButtonClick = { index ->
-            viewModel.updateGrade(index)
-            viewModel.updateButtonValidation()
+            viewModel.updateGradeAndButton(index)
         },
         onNextClick = onNextClick,
         navigateUp = viewModel::navigateUp,
