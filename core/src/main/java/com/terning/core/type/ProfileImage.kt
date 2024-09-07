@@ -26,8 +26,7 @@ enum class ProfileImage(
             else -> DEFAULT
         }
 
-        fun toIndex(profileImage: ProfileImage): Int {
-            return entries.indexOf(profileImage)
-        }
+        fun toIndex(profileImage: ProfileImage): Int =
+            entries.indexOf(profileImage)
     }
 }

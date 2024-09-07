@@ -97,7 +97,6 @@ fun ProfileEditRoute(
         },
         onSaveClick = {
             viewModel.modifyUserInfo()
-            //   viewModel.navigateUp()
         },
         name = state.name,
         onBackButtonClick = { viewModel.navigateUp() },

@@ -19,5 +19,5 @@ interface MyPageService {
     suspend fun getProfile(): BaseResponse<MyPageResponseDto>
 
     @PATCH("api/v1/mypage/profile")
-    suspend fun modifyProfile(): NonDataBaseResponse
+    suspend fun editProfile(): NonDataBaseResponse
 }
