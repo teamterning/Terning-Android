@@ -4,7 +4,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalRed
+import com.terning.core.extension.currentMonth
+import com.terning.core.extension.currentYear
 import com.terning.core.state.UiState
+import com.terning.core.type.SortBy
 import com.terning.domain.entity.CalendarScrapRequest
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.repository.HomeRepository
@@ -12,7 +15,6 @@ import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.home.home.model.HomeDialogState
-import com.terning.feature.home.home.model.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,9 +31,6 @@ class HomeViewModel @Inject constructor(
     private val myPageRepository: MyPageRepository,
     private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
-    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
-
     private val _homeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val homeState get() = _homeState.asStateFlow()
 
@@ -50,24 +49,23 @@ class HomeViewModel @Inject constructor(
     fun getRecommendInternsData(sortBy: Int, startYear: Int?, startMonth: Int?) {
         viewModelScope.launch {
             homeRepository.getRecommendIntern(
-                SortBy.entries[sortBy].sortBy,
-                startYear ?: currentYear,
-                startMonth ?: currentMonth,
-            )
-                .onSuccess { internList ->
-                    _homeState.value = _homeState.value.copy(
-                        homeRecommendInternState = UiState.Success(internList)
-                    )
-                }.onFailure { exception: Throwable ->
-                    _homeState.value = _homeState.value.copy(
-                        homeRecommendInternState = UiState.Failure(exception.toString())
-                    )
-                    _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
-                }
+                sortBy = SortBy.entries[sortBy].type,
+                startYear ?: Calendar.getInstance().currentYear,
+                startMonth ?: Calendar.getInstance().currentMonth,
+            ).onSuccess { internList ->
+                _homeState.value = _homeState.value.copy(
+                    homeRecommendInternState = UiState.Success(internList)
+                )
+            }.onFailure { exception: Throwable ->
+                _homeState.value = _homeState.value.copy(
+                    homeRecommendInternState = UiState.Failure(exception.toString())
+                )
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+            }
         }
     }
 
-    private fun getHomeTodayInternList() {
+    private fun getHomeUpcomingInternList() {
         viewModelScope.launch {
             homeRepository.getHomeUpcomingInternList().onSuccess { internList ->
                 _homeState.value = _homeState.value.copy(
@@ -88,12 +86,12 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Success(filteringInfo)
                 )
-                getHomeTodayInternList()
-//                getRecommendInternsData(
-//                    sortBy = _homeState.value.sortBy.ordinal,
-//                    startYear = filteringInfo.startYear,
-//                    startMonth = filteringInfo.startMonth,
-//                )
+                getHomeUpcomingInternList()
+                getRecommendInternsData(
+                    sortBy = _homeState.value.sortBy.ordinal,
+                    startYear = filteringInfo.startYear,
+                    startMonth = filteringInfo.startMonth,
+                )
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Failure(exception.toString())
@@ -107,9 +105,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             homeRepository.putFilteringInfo(
                 ChangeFilteringRequestModel(grade, workingPeriod, year, month)
-            ).onSuccess {
-                _homeSideEffect.emit(HomeSideEffect.NavigateToHome)
-            }
+            )
         }
     }
 
@@ -141,7 +137,7 @@ class HomeViewModel @Inject constructor(
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
                 updateSelectColor(CalRed)
-                getHomeTodayInternList()
+                getHomeUpcomingInternList()
                 getFilteringInfo()
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_add_toast_message))
             }.onFailure {
@@ -157,7 +153,7 @@ class HomeViewModel @Inject constructor(
             ).onSuccess {
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
-                getHomeTodayInternList()
+                getHomeUpcomingInternList()
                 getFilteringInfo()
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_delete_toast_message))
             }.onFailure {
@@ -180,7 +176,7 @@ class HomeViewModel @Inject constructor(
                 updateScrapDialogVisible(visible = false)
                 updateScrapped(scrapped = true)
                 updateSelectColor(CalRed)
-                getHomeTodayInternList()
+                getHomeUpcomingInternList()
             }.onFailure {
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }

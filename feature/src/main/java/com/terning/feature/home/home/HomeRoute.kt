@@ -33,21 +33,9 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.dialog.ScrapCancelDialogContent
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.CalBlue1
-import com.terning.core.designsystem.theme.CalBlue2
-import com.terning.core.designsystem.theme.CalGreen1
-import com.terning.core.designsystem.theme.CalGreen2
-import com.terning.core.designsystem.theme.CalOrange1
-import com.terning.core.designsystem.theme.CalOrange2
-import com.terning.core.designsystem.theme.CalPink
-import com.terning.core.designsystem.theme.CalPurple
-import com.terning.core.designsystem.theme.CalRed
-import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
@@ -65,7 +53,6 @@ import com.terning.core.designsystem.component.bottomsheet.HomeFilteringBottomSh
 import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
-import com.terning.feature.home.home.component.HomeRecommendInternDialog
 import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
 import com.terning.feature.home.home.component.HomeTodayIntern
 import com.terning.feature.home.home.model.HomeDialogState
@@ -138,8 +125,13 @@ fun HomeScreen(
     }
 
     val homeRecommendInternList = when (homeState.homeRecommendInternState) {
-        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<List<HomeRecommendIntern>>).data
+        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail
         else -> listOf()
+    }
+
+    val homeRecommendInternTotal = when (homeState.homeRecommendInternState) {
+        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.totalCount
+        else -> 0
     }
 
     val currentSortBy: MutableState<Int> = remember { mutableIntStateOf(0) }
@@ -209,7 +201,7 @@ fun HomeScreen(
                         .padding(bottom = 16.dp)
                 ) {
                     ShowMainTitleWithName(homeUserName)
-                    ShowTodayIntern(
+                    ShowUpcomingIntern(
                         homeUpcomingInternState = homeState.homeUpcomingInternState,
                         homeDialogState = homeDialogState,
                         navigateToIntern = { navigateToIntern(it) }
@@ -243,7 +235,7 @@ fun HomeScreen(
                                     .padding(end = 3.dp),
                             )
                             Text(
-                                text = "0",
+                                text = homeRecommendInternTotal.toString(),
                                 style = TerningTheme.typography.button3,
                                 color = TerningMain,
                             )
@@ -289,93 +281,93 @@ fun HomeScreen(
             HomeRecommendEmptyIntern()
         }
     }
-
-    if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
-        TerningBasicDialog(
-            onDismissRequest = {
-                viewModel.updateScrapDialogVisible(false)
-                viewModel.updatePaletteOpen(false)
-            },
-            content = {
-                if (homeRecommendInternList[scrapId].scrapId != null) {
-                    ScrapCancelDialogContent(
-                        onClickScrapCancel = {
-                            viewModel.updateScrapDialogVisible(false)
-                            viewModel.deleteScrap(
-                                homeRecommendInternList[scrapId].scrapId ?: -1,
-                            )
-                            if (homeDialogState.isScrappedState) {
-                                viewModel.getRecommendInternsData(
-                                    currentSortBy.value,
-                                    homeFilteringInfo.startYear,
-                                    homeFilteringInfo.startMonth,
-                                )
-                                viewModel.updateScrapped(false)
-                            }
-                        }
-                    )
-                } else {
-                    val colorList = listOf(
-                        CalRed,
-                        CalOrange1,
-                        CalOrange2,
-                        CalYellow,
-                        CalGreen1,
-                        CalGreen2,
-                        CalBlue1,
-                        CalBlue2,
-                        CalPurple,
-                        CalPink,
-                    )
-
-                    val selectedColorIndex =
-                        colorList.indexOf(homeDialogState.selectedColor).takeIf { it >= 0 } ?: 0
-
-                    with(homeRecommendInternList[scrapId]) {
-                        HomeRecommendInternDialog(
-                            internInfoList = listOf(
-                                stringResource(id = R.string.intern_info_d_day) to deadline,
-                                stringResource(id = R.string.intern_info_working) to workingPeriod,
-                                stringResource(id = R.string.intern_info_start_date) to startYearMonth,
-                            ),
-                            clickAction = {
-                                if (homeDialogState.isPaletteOpen) {
-                                    viewModel.updatePaletteOpen(false)
-                                    viewModel.updateColorChange(false)
-                                    viewModel.updateScrapDialogVisible(false)
-                                } else {
-                                    if (homeDialogState.isColorChange) {
-                                        viewModel.updateColorChange(false)
-                                    }
-                                    viewModel.updateScrapDialogVisible(false)
-                                }
-                                viewModel.postScrap(
-                                    homeRecommendInternList[scrapId].internshipAnnouncementId,
-                                    selectedColorIndex,
-                                )
-                                viewModel.updateScrapDialogVisible(false)
-                                if (homeDialogState.isScrappedState) {
-                                    viewModel.getRecommendInternsData(
-                                        currentSortBy.value,
-                                        homeFilteringInfo.startYear,
-                                        homeFilteringInfo.startMonth,
-                                    )
-                                    viewModel.updateScrapped(false)
-                                }
-                            },
-                            homeRecommendIntern = this,
-                        )
-                    }
-                }
-            }
-        )
-    }
+//
+//    if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
+//        TerningBasicDialog(
+//            onDismissRequest = {
+//                viewModel.updateScrapDialogVisible(false)
+//                viewModel.updatePaletteOpen(false)
+//            },
+//            content = {
+//                if (homeRecommendInternList[scrapId].scrapId != null) {
+//                    ScrapCancelDialogContent(
+//                        onClickScrapCancel = {
+//                            viewModel.updateScrapDialogVisible(false)
+//                            viewModel.deleteScrap(
+//                                homeRecommendInternList[scrapId].scrapId ?: -1,
+//                            )
+//                            if (homeDialogState.isScrappedState) {
+//                                viewModel.getRecommendInternsData(
+//                                    currentSortBy.value,
+//                                    homeFilteringInfo.startYear,
+//                                    homeFilteringInfo.startMonth,
+//                                )
+//                                viewModel.updateScrapped(false)
+//                            }
+//                        }
+//                    )
+//                } else {
+//                    val colorList = listOf(
+//                        CalRed,
+//                        CalOrange1,
+//                        CalOrange2,
+//                        CalYellow,
+//                        CalGreen1,
+//                        CalGreen2,
+//                        CalBlue1,
+//                        CalBlue2,
+//                        CalPurple,
+//                        CalPink,
+//                    )
+//
+//                    val selectedColorIndex =
+//                        colorList.indexOf(homeDialogState.selectedColor).takeIf { it >= 0 } ?: 0
+//
+//                    with(homeRecommendInternList[scrapId]) {
+//                        HomeRecommendInternDialog(
+//                            internInfoList = listOf(
+//                                stringResource(id = R.string.intern_info_d_day) to deadline,
+//                                stringResource(id = R.string.intern_info_working) to workingPeriod,
+//                                stringResource(id = R.string.intern_info_start_date) to startYearMonth,
+//                            ),
+//                            clickAction = {
+//                                if (homeDialogState.isPaletteOpen) {
+//                                    viewModel.updatePaletteOpen(false)
+//                                    viewModel.updateColorChange(false)
+//                                    viewModel.updateScrapDialogVisible(false)
+//                                } else {
+//                                    if (homeDialogState.isColorChange) {
+//                                        viewModel.updateColorChange(false)
+//                                    }
+//                                    viewModel.updateScrapDialogVisible(false)
+//                                }
+//                                viewModel.postScrap(
+//                                    homeRecommendInternList[scrapId].internshipAnnouncementId,
+//                                    selectedColorIndex,
+//                                )
+//                                viewModel.updateScrapDialogVisible(false)
+//                                if (homeDialogState.isScrappedState) {
+//                                    viewModel.getRecommendInternsData(
+//                                        currentSortBy.value,
+//                                        homeFilteringInfo.startYear,
+//                                        homeFilteringInfo.startMonth,
+//                                    )
+//                                    viewModel.updateScrapped(false)
+//                                }
+//                            },
+//                            homeRecommendIntern = this,
+//                        )
+//                    }
+//                }
+//            }
+//        )
+//    }
 }
 
 
 @Composable
 private fun RecommendInternItem(
-    intern: HomeRecommendIntern,
+    intern: HomeRecommendIntern.HomeRecommendInternDetail,
     navigateToIntern: (Long) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,
 ) {
@@ -413,7 +405,7 @@ private fun ShowMainTitleWithName(userName: String) {
 }
 
 @Composable
-private fun ShowTodayIntern(
+private fun ShowUpcomingIntern(
     homeUpcomingInternState: UiState<List<HomeUpcomingIntern>>,
     homeDialogState: HomeDialogState,
     navigateToIntern: (Long) -> Unit,

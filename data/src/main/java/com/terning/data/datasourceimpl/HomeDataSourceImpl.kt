@@ -20,7 +20,7 @@ class HomeDataSourceImpl @Inject constructor(
         sortBy: String,
         startYear: Int,
         startMonth: Int
-    ): BaseResponse<List<HomeRecommendInternResponseDto>> =
+    ): BaseResponse<HomeRecommendInternResponseDto> =
         homeService.getRecommendIntern(
             sortBy = sortBy,
             startYear = startYear,

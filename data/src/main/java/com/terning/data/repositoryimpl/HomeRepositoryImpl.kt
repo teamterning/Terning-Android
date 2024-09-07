@@ -26,15 +26,13 @@ class HomeRepositoryImpl @Inject constructor(
         sortBy: String,
         startYear: Int,
         startMonth: Int
-    ): Result<List<HomeRecommendIntern>> =
+    ): Result<HomeRecommendIntern> =
         runCatching {
             homeDataSource.getRecommendIntern(
                 sortBy = sortBy,
                 startYear = startYear,
                 startMonth = startMonth
-            ).result.map { homeRecommendInternResponseDto ->
-                homeRecommendInternResponseDto.toHomeRecommendInternList()
-            }
+            ).result.toHomeRecommendInternList()
         }
 
     override suspend fun getFilteringInfo(): Result<HomeFilteringInfo> =

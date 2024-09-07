@@ -12,7 +12,7 @@ interface HomeRepository {
         sortBy: String,
         startYear: Int,
         startMonth: Int
-    ): Result<List<HomeRecommendIntern>>
+    ): Result<HomeRecommendIntern>
 
     suspend fun getFilteringInfo(): Result<HomeFilteringInfo>
 

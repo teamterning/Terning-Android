@@ -27,7 +27,7 @@ fun SortingButton(
     ) {
         Text(
             text = stringResource(
-                id = SortBy.entries[sortBy].type
+                id = SortBy.entries[sortBy].sortBy
             ),
             style = TerningTheme.typography.button3,
             color = Black,

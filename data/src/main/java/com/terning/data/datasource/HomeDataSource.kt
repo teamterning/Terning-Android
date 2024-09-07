@@ -14,7 +14,7 @@ interface HomeDataSource {
         sortBy: String,
         startYear: Int,
         startMonth: Int
-    ): BaseResponse<List<HomeRecommendInternResponseDto>>
+    ): BaseResponse<HomeRecommendInternResponseDto>
 
     suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto>
 

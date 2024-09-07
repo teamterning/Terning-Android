@@ -20,7 +20,7 @@ interface HomeService {
         @Query("sortBy") sortBy: String,
         @Query("startYear") startYear: Int,
         @Query("startMonth") startMonth: Int,
-    ): BaseResponse<List<HomeRecommendInternResponseDto>>
+    ): BaseResponse<HomeRecommendInternResponseDto>
 
     @GET("api/v1/filters")
     suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto>

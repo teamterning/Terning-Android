@@ -65,7 +65,7 @@ fun SortingBottomSheet(
             ) {
                 items(sortByCount) { sortIndex ->
                     Text(
-                        text = stringResource(id = SortBy.entries[sortIndex].type),
+                        text = stringResource(id = SortBy.entries[sortIndex].sortBy),
                         style = TerningTheme.typography.button3,
                         color = if (currentSortBy == sortIndex) TerningMain else Grey400,
                         textAlign = TextAlign.Start,
