@@ -65,7 +65,7 @@ fun ScrapDialogContent(
     announcementId: Long,
     type: Int,
 ) {
-    val state by viewModel.internState.collectAsStateWithLifecycle()
+    val state by viewModel.internUiState.collectAsStateWithLifecycle()
 
     val colorList = listOf(
         CalRed,
