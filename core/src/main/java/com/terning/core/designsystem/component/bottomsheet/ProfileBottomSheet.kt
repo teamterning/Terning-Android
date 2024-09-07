@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
  * @param modifier 바텀시트에 적용할 Modifier입니다.
  * @param onDismiss 바텀시트가 닫힐 때 호출되는 콜백 함수입니다.
  * @param onSaveClick 저장하기 버튼 클릭 시, 호출되는 콜백 함수입니다.
- * @param initialSelectedOption 초기에 선택된 이미지를 나타내는 인덱스 값입니다.
+ * @param initialSelectedOption 초기에 선택된 이미지의 이름을 string 값입니다.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,8 +87,8 @@ fun ProfileBottomSheet(
 /**
  * 6개의 프로필 이미지 중, 하나의 이미지만 선택할 수 있는 라디오 버튼입니다.
  *
- * @param onOptionSelected 선택된 이미지의 인덱스 값을 나타내는 콜백 함수입니다.
- * @param initialSelectedOption 초기에 선택된 이미지를 나타내는 인덱스 값입니다.
+ * @param onOptionSelected 선택된 이미지의 이름을 나타내는 콜백 함수입니다.
+ * @param initialSelectedOption 초기에 선택된 이미지의 이름을 나타내는 string 값입니다.
  * @param modifier 라디오 버튼에 적용할 Modifier입니다.
  */
 @Composable
