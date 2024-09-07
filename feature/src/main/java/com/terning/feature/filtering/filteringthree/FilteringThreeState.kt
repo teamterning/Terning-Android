@@ -1,6 +1,6 @@
-package com.terning.feature.filtering.filtering
+package com.terning.feature.filtering.filteringthree
 
-data class FilteringState(
+data class FilteringThreeState(
     val grade: Int = -1,
     val workingPeriod: Int = -1,
     val startYear: Int = -1,

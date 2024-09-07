@@ -8,7 +8,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
-import com.terning.feature.filtering.filtering.FilteringOneScreen
+import com.terning.feature.filtering.filteringone.FilteringOneRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateFilteringOne(
@@ -27,11 +27,11 @@ fun NavGraphBuilder.filteringOneNavGraph(
 ) {
     composable<FilteringOne> {
         val args = it.toRoute<FilteringOne>()
-        FilteringOneScreen(
+        FilteringOneRoute(
             paddingValues = paddingValues,
             name = args.name,
-            onNextClick = { grade -> navHostController.navigateFilteringTwo(grade) },
-            navigateUp = { navHostController.navigateUp() }
+            onNextClick = navHostController::navigateFilteringTwo,
+            navigateUp = navHostController::navigateUp
         )
     }
 }
