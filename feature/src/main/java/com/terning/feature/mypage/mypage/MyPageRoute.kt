@@ -1,6 +1,5 @@
 package com.terning.feature.mypage.mypage
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,6 +41,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.feature.R
 import com.terning.feature.mypage.component.MyPageProfile
@@ -81,6 +81,8 @@ fun MyPageRoute(
                         state.name,
                         state.profileImage
                     )
+
+                    is MyPageSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
     }
@@ -129,13 +131,13 @@ fun MyPageRoute(
             )
         }
 
-        is UiState.Loading -> {
-            Log.d("LYB", "로딩중")
-        }
+        is UiState.Loading -> {}
         is UiState.Empty -> {}
         is UiState.Failure -> {
-            Log.d("LYB", "실패")
-
+            MyPageScreen(
+                paddingValues = paddingValues,
+                profileImage = state.profileImage,
+            )
         }
     }
 
@@ -152,13 +154,13 @@ fun MyPageRoute(
 
 @Composable
 fun MyPageScreen(
-    onEditClick: () -> Unit,
-    onLogoutClick: () -> Unit,
-    onQuitClick: () -> Unit,
-    onNoticeClick: () -> Unit,
-    onOpinionClick: () -> Unit,
-    onServiceClick: () -> Unit,
-    onPersonalClick: () -> Unit,
+    onEditClick: () -> Unit = {},
+    onLogoutClick: () -> Unit = {},
+    onQuitClick: () -> Unit = {},
+    onNoticeClick: () -> Unit = {},
+    onOpinionClick: () -> Unit = {},
+    onServiceClick: () -> Unit = {},
+    onPersonalClick: () -> Unit = {},
     paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
     profileImage: String = ""

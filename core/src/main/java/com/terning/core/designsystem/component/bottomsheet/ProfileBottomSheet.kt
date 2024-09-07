@@ -97,10 +97,8 @@ fun RadioButtonGroup(
     initialSelectedOption: String,
     modifier: Modifier = Modifier,
 ) {
-    // 모든 ProfileImage 옵션을 가져옵니다.
     val options = ProfileImage.entries
 
-    // 초기 선택된 옵션을 ProfileImage로 변환하여 인덱스를 저장합니다.
     var selectedOptionIndex by rememberSaveable {
         mutableIntStateOf(ProfileImage.toIndex(ProfileImage.fromString(initialSelectedOption)))
     }
@@ -111,7 +109,7 @@ fun RadioButtonGroup(
         horizontalArrangement = Arrangement.spacedBy(20.dp),
         modifier = modifier.padding(horizontal = 34.dp)
     ) {
-        itemsIndexed(options) { index, option ->
+        itemsIndexed(options.take(6)) { index, option ->
             val imageModifier = if (selectedOptionIndex == index) {
                 Modifier
                     .border(

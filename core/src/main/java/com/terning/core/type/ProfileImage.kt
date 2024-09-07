@@ -12,7 +12,8 @@ enum class ProfileImage(
     SMART(drawableResId = R.drawable.ic_terning_profile_02, stringValue = "smart"),
     GLASS(drawableResId = R.drawable.ic_terning_profile_03, stringValue = "glass"),
     CALENDAR(drawableResId = R.drawable.ic_terning_profile_04, stringValue = "calendar"),
-    PASSION(drawableResId = R.drawable.ic_terning_profile_05, stringValue = "passion");
+    PASSION(drawableResId = R.drawable.ic_terning_profile_05, stringValue = "passion"),
+    DEFAULT(drawableResId = R.drawable.ic_terning_profile_default, stringValue = "default");
 
     companion object {
         fun fromString(value: String): ProfileImage = when (value) {
@@ -21,7 +22,8 @@ enum class ProfileImage(
             "smart" -> SMART
             "glass" -> GLASS
             "calendar" -> CALENDAR
-            else -> PASSION
+            "passion" -> PASSION
+            else -> DEFAULT
         }
 
         fun toIndex(profileImage: ProfileImage): Int {
