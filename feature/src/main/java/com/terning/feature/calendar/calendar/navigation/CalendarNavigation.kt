@@ -42,7 +42,6 @@ fun NavGraphBuilder.calendarNavGraph(
     ) {
         CalendarRoute(
             modifier = Modifier.padding(paddingValues),
-            navigateUp = navHostController::navigateUp,
             navigateToAnnouncement = navHostController::navigateIntern
         )
     }

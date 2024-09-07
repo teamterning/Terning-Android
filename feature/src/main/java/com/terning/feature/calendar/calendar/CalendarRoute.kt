@@ -38,7 +38,6 @@ import java.time.LocalDate
 
 @Composable
 fun CalendarRoute(
-    navigateUp: () -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
