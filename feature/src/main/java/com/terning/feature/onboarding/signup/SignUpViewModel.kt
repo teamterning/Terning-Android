@@ -36,7 +36,7 @@ class SignUpViewModel @Inject constructor(
         _state.value = _state.value.copy(name = name)
     }
 
-    fun updateProfileImage(profileImage: Int) {
+    fun updateProfileImage(profileImage: String) {
         _state.value = _state.value.copy(profileImage = profileImage)
     }
 

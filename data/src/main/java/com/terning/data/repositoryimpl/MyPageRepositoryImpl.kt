@@ -2,7 +2,9 @@ package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.MyPageDataSource
 import com.terning.data.mapper.mypage.toMyPageProfile
-import com.terning.domain.entity.mypage.MyPageProfileModel
+import com.terning.data.mapper.mypage.toMyPageProfileEditRequestDto
+import com.terning.domain.entity.mypage.MyPageProfile
+import com.terning.domain.entity.mypage.MyPageProfileEdit
 import com.terning.domain.repository.MyPageRepository
 import javax.inject.Inject
 
@@ -19,8 +21,17 @@ class MyPageRepositoryImpl @Inject constructor(
             myPageDataSource.deleteQuit()
         }
 
-    override suspend fun getProfile(): Result<MyPageProfileModel> =
+    override suspend fun getProfile(): Result<MyPageProfile> =
         runCatching {
             myPageDataSource.getProfile().result.toMyPageProfile()
+        }
+
+    override suspend fun editProfile(
+        request: MyPageProfileEdit
+    ): Result<Unit> =
+        runCatching {
+            myPageDataSource.editProfile(
+                request.toMyPageProfileEditRequestDto()
+            )
         }
 }
