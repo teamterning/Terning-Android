@@ -7,7 +7,7 @@ enum class WorkingPeriod(
     val workingPeriod: String,
     @StringRes val text: Int,
 ) {
-    FIRST("1 ~ 3개월", R.string.change_filter_period_1),
-    SECOND("4 ~ 6개월", R.string.change_filter_period_2),
-    THIRD("7개월 이상", R.string.change_filter_period_3),
+    SHORT("short", R.string.change_filter_period_1),
+    MIDDLE("middle", R.string.change_filter_period_2),
+    LONG("long", R.string.change_filter_period_3),
 }
