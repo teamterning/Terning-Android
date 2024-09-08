@@ -1,14 +1,12 @@
-package com.terning.data.dto.response
+package com.terning.data.dto.request
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MyPageResponseDto(
+data class MyPageProfileEditRequestDto(
     @SerialName("name")
     val name: String,
     @SerialName("profileImage")
     val profileImage: String,
-    @SerialName("authType")
-    val authType: String
 )
