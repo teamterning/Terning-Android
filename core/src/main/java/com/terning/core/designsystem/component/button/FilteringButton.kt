@@ -23,13 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
-import com.terning.core.designsystem.theme.Grey400
+import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.Grey375
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.core.designsystem.theme.TerningSub1
-import com.terning.core.designsystem.theme.TerningSub3
-import com.terning.core.designsystem.theme.TerningSub4
-import com.terning.core.designsystem.theme.TerningSub5
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
@@ -58,19 +56,16 @@ fun FilteringButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val backgroundColor = when {
-        !isSelected && !isPressed -> White
-        !isSelected && isPressed -> TerningSub5
-        isSelected && !isPressed -> TerningSub4
-        else -> TerningSub3
-    }
+    val backgroundColor = White
     val textColor = when {
-        !isSelected -> Grey400
+        !isSelected -> Grey375
+        isPressed -> Grey375
         else -> TerningMain
     }
     val borderColor = when {
-        !isSelected -> TerningMain
-        else -> TerningSub1
+        !isSelected && !isPressed -> Grey150
+        isPressed -> Grey200
+        else -> TerningMain
     }
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
@@ -87,7 +82,7 @@ fun FilteringButton(
                 color = borderColor
             ),
             shape = RoundedCornerShape(cornerRadius),
-            onClick = { onButtonClick() }
+            onClick = onButtonClick
         ) {
             Text(
                 text = stringResource(id = text),
@@ -104,14 +99,14 @@ fun FilteringButtonPreview() {
     TerningPointTheme {
         Column {
             FilteringButton(
-                isSelected = true,
+                isSelected = false,
                 text = R.string.button_preview,
                 cornerRadius = 15.dp,
                 paddingVertical = 10.dp,
                 onButtonClick = {}
             )
             FilteringButton(
-                isSelected = false,
+                isSelected = true,
                 text = R.string.button_preview,
                 cornerRadius = 15.dp,
                 paddingVertical = 10.dp,

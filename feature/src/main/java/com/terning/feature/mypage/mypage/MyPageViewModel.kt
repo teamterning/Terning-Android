@@ -13,6 +13,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.terning.core.state.UiState
 import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.TokenRepository
+import com.terning.feature.R
 import com.terning.feature.main.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -104,9 +105,11 @@ class MyPageViewModel @Inject constructor(
                     _state.value = _state.value.copy(
                         isGetSuccess = UiState.Success(true),
                         name = response.name,
+                        profileImage = response.profileImage,
                         authType = response.authType
                     )
                 }.onFailure {
+                    _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
                     _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
                 }
         }
