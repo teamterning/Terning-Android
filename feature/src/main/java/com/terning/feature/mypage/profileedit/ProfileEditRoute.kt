@@ -15,6 +15,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,18 +36,20 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.extension.toast
 import com.terning.feature.R
 
 @Composable
 fun ProfileEditRoute(
     navigateUp: () -> Unit,
     initialName: String,
-    initialProfile: Int,
+    initialProfile: String,
     viewModel: ProfileEditViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     val systemUiController = rememberSystemUiController()
 
@@ -57,7 +60,10 @@ fun ProfileEditRoute(
     }
 
     LaunchedEffect(key1 = true) {
-        viewModel.updateInitialInfo(initialName = initialName, initialProfile = initialProfile)
+        viewModel.updateInitialInfo(
+            initialName = initialName,
+            initialProfile = initialProfile
+        )
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
@@ -65,6 +71,7 @@ fun ProfileEditRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is ProfileEditSideEffect.NavigateUp -> navigateUp()
+                    is ProfileEditSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
     }
@@ -72,9 +79,9 @@ fun ProfileEditRoute(
     if (state.showBottomSheet) {
         ProfileBottomSheet(
             onDismiss = { viewModel.updateBottomSheet(false) },
-            onSaveClick = { index ->
+            onSaveClick = { profileImage ->
                 viewModel.updateBottomSheet(false)
-                viewModel.updateProfile(index)
+                viewModel.updateProfile(profileImage.stringValue)
             },
             initialSelectedOption = state.profile
         )
@@ -88,7 +95,9 @@ fun ProfileEditRoute(
         onInputChange = { editName ->
             viewModel.updateName(editName)
         },
-        onSaveClick = { viewModel.navigateUp() },
+        onSaveClick = {
+            viewModel.modifyUserInfo()
+        },
         name = state.name,
         onBackButtonClick = { viewModel.navigateUp() },
         onValidationChanged = { isValid ->
@@ -137,7 +146,7 @@ fun ProfileEditScreen(
                         onProfileEditClick(true)
                     }
                     .align(Alignment.CenterHorizontally),
-                index = profileEditState.profile
+                profileImage = profileEditState.profile
             )
             Spacer(modifier = Modifier.height(48.dp))
             Text(

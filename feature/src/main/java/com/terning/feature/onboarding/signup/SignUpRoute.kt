@@ -63,9 +63,9 @@ fun SignUpRoute(
     if (state.showBottomSheet) {
         ProfileBottomSheet(
             onDismiss = { viewModel.updateBottomSheet(false) },
-            onSaveClick = { index ->
+            onSaveClick = { profileImage ->
                 viewModel.updateBottomSheet(false)
-                viewModel.updateProfileImage(index)
+                viewModel.updateProfileImage(profileImage.stringValue)
             },
             initialSelectedOption = state.profileImage
         )
@@ -127,7 +127,7 @@ fun SignUpScreen(
                 modifier = Modifier.noRippleClickable {
                     onProfileEditClick(true)
                 },
-                index = state.profileImage
+                profileImage = state.profileImage
             )
         }
         Column(
@@ -167,7 +167,7 @@ fun SignUpScreenPreview() {
             onSignUpClick = {},
             onInputChange = {},
             onProfileEditClick = {},
-            onValidationChanged = {}
+            onValidationChanged = {},
         )
     }
 }

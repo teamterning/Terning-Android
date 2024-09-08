@@ -8,7 +8,7 @@ data class SignUpRequestDto(
     @SerialName("name")
     val name: String,
     @SerialName("profileImage")
-    val profileImage: Int,
+    val profileImage: String,
     @SerialName("authType")
     val authType: String
 )
