@@ -37,6 +37,7 @@ class ProfileEditViewModel @Inject constructor(
             name = initialName,
             initialName = initialName,
             profile = initialProfile,
+            initialProfile = initialProfile
         )
     }
 
@@ -50,7 +51,7 @@ class ProfileEditViewModel @Inject constructor(
     fun updateProfile(profile: String) {
         _state.value = _state.value.copy(
             profile = profile,
-            initialView = false
+            initialView = profile == _state.value.initialProfile
         )
     }
 
