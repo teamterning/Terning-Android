@@ -6,6 +6,7 @@ data class ProfileEditState(
     val profile: String = "",
     val initialProfile: String = "",
     val initialView: Boolean = true,
+    val isModified: Boolean = false,
     val isButtonValid: Boolean = false,
     val authType: String = "",
     val showBottomSheet: Boolean = false
