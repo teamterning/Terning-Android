@@ -15,6 +15,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -40,6 +41,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.feature.R
 import com.terning.feature.mypage.component.MyPageProfile
@@ -48,7 +50,7 @@ import com.terning.feature.mypage.mypage.component.MyPageItem
 @Composable
 fun MyPageRoute(
     paddingValues: PaddingValues,
-    navigateToProfileEdit: (String, Int) -> Unit,
+    navigateToProfileEdit: (String, String) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -63,14 +65,24 @@ fun MyPageRoute(
         )
     }
 
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            systemUiController.setStatusBarColor(
+                color = White
+            )
+        }
+    }
+
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
                     is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit(
                         state.name,
-                        state.profile
+                        state.profileImage
                     )
+
+                    is MyPageSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
     }
@@ -115,13 +127,18 @@ fun MyPageRoute(
                 onServiceClick = {},
                 onPersonalClick = {},
                 name = state.name,
-                profile = state.profile
+                profileImage = state.profileImage
             )
         }
 
         is UiState.Loading -> {}
         is UiState.Empty -> {}
-        is UiState.Failure -> {}
+        is UiState.Failure -> {
+            MyPageScreen(
+                paddingValues = paddingValues,
+                profileImage = state.profileImage,
+            )
+        }
     }
 
     if (state.showNotice) {
@@ -137,16 +154,16 @@ fun MyPageRoute(
 
 @Composable
 fun MyPageScreen(
-    onEditClick: () -> Unit,
-    onLogoutClick: () -> Unit,
-    onQuitClick: () -> Unit,
-    onNoticeClick: () -> Unit,
-    onOpinionClick: () -> Unit,
-    onServiceClick: () -> Unit,
-    onPersonalClick: () -> Unit,
+    onEditClick: () -> Unit = {},
+    onLogoutClick: () -> Unit = {},
+    onQuitClick: () -> Unit = {},
+    onNoticeClick: () -> Unit = {},
+    onOpinionClick: () -> Unit = {},
+    onServiceClick: () -> Unit = {},
+    onPersonalClick: () -> Unit = {},
     paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
-    profile: Int = 0
+    profileImage: String = ""
 ) {
     Column(
         modifier = Modifier
@@ -156,7 +173,7 @@ fun MyPageScreen(
     ) {
         UserProfile(
             name = name,
-            profile = profile,
+            profileImage = profileImage,
             onEditClick = onEditClick
         )
         TerningCommunity(
@@ -209,7 +226,7 @@ fun UserProfile(
     name: String,
     onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
-    profile: Int = 0,
+    profileImage: String = "",
 ) {
     Row(
         modifier = modifier.padding(
@@ -218,7 +235,7 @@ fun UserProfile(
             bottom = 32.dp
         )
     ) {
-        MyPageProfile(profile = profile)
+        MyPageProfile(profileImage = profileImage)
         Column {
             Text(
                 text = name,
