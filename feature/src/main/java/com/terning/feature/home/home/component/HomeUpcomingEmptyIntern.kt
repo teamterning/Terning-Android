@@ -25,7 +25,7 @@ import com.terning.core.extension.customShadow
 import com.terning.feature.R
 
 @Composable
-fun HomeTodayEmptyIntern(
+fun HomeUpcomingEmptyIntern(
     isButtonExist: Boolean,
     modifier: Modifier = Modifier,
 ) {

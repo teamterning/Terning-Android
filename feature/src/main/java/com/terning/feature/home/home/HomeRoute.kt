@@ -51,8 +51,8 @@ import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
-import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
-import com.terning.feature.home.home.component.HomeTodayIntern
+import com.terning.feature.home.home.component.HomeUpcomingEmptyFilter
+import com.terning.feature.home.home.component.HomeUpcomingInternScreen
 import com.terning.feature.home.home.model.HomeDialogState
 import com.terning.feature.intern.navigation.navigateIntern
 
@@ -421,9 +421,9 @@ private fun ShowUpcomingIntern(
     when (homeUpcomingInternState) {
         is UiState.Success -> {
             if (homeUpcomingInternState.data.isEmpty()) {
-                HomeTodayEmptyWithImg()
+                HomeUpcomingEmptyFilter()
             } else {
-                HomeTodayIntern(
+                HomeUpcomingInternScreen(
                     internList = homeUpcomingInternState.data,
                     homeDialogState = homeDialogState,
                     navigateToIntern = navigateToIntern
@@ -431,7 +431,7 @@ private fun ShowUpcomingIntern(
             }
         }
 
-        is UiState.Loading -> HomeTodayEmptyWithImg()
+        is UiState.Loading -> HomeUpcomingEmptyFilter()
         else -> {}
     }
 }

@@ -23,7 +23,7 @@ import com.terning.core.extension.customShadow
 import com.terning.feature.R
 
 @Composable
-fun HomeTodayEmptyWithImg(
+fun HomeUpcomingEmptyFilter(
     modifier: Modifier = Modifier,
 ) {
     Column(
