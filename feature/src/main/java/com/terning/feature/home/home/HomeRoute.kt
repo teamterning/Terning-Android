@@ -280,15 +280,6 @@ fun HomeScreen(
                 }
             }
         }
-//        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
-//            HomeFilteringEmptyIntern(
-//                modifier = Modifier
-//                    .padding(horizontal = 24.dp)
-//                    .fillMaxSize()
-//            )
-//        } else if (homeRecommendInternList.isEmpty()) {
-//            HomeRecommendEmptyIntern()
-//        }
     }
 //
 //    if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
