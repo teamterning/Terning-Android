@@ -86,12 +86,14 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Success(filteringInfo)
                 )
-                getHomeUpcomingInternList()
-                getRecommendInternsData(
-                    sortBy = _homeState.value.sortBy.ordinal,
-                    startYear = filteringInfo.startYear,
-                    startMonth = filteringInfo.startMonth,
-                )
+                if(filteringInfo.grade != null) {
+                    getHomeUpcomingInternList()
+                    getRecommendInternsData(
+                        sortBy = _homeState.value.sortBy.ordinal,
+                        startYear = filteringInfo.startYear,
+                        startMonth = filteringInfo.startMonth,
+                    )
+                }
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Failure(exception.toString())

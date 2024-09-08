@@ -10,6 +10,6 @@ data class HomeState(
     val sortBy: SortBy = SortBy.EARLIEST,
     val homeUserNameState: UiState<String> = UiState.Loading,
     val homeFilteringInfoState: UiState<HomeFilteringInfo> = UiState.Loading,
-    val homeUpcomingInternState: UiState<List<HomeUpcomingIntern>> = UiState.Loading,
+    val homeUpcomingInternState: UiState<List<HomeUpcomingIntern>> = UiState.Empty,
     val homeRecommendInternState: UiState<HomeRecommendIntern> = UiState.Loading,
 )

@@ -52,6 +52,7 @@ import com.terning.feature.R
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeUpcomingEmptyFilter
+import com.terning.feature.home.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.home.component.HomeUpcomingInternScreen
 import com.terning.feature.home.home.model.HomeDialogState
 import com.terning.feature.intern.navigation.navigateIntern
@@ -421,7 +422,7 @@ private fun ShowUpcomingIntern(
     when (homeUpcomingInternState) {
         is UiState.Success -> {
             if (homeUpcomingInternState.data.isEmpty()) {
-                HomeUpcomingEmptyFilter()
+                HomeUpcomingEmptyIntern()
             } else {
                 HomeUpcomingInternScreen(
                     internList = homeUpcomingInternState.data,
@@ -430,8 +431,8 @@ private fun ShowUpcomingIntern(
                 )
             }
         }
-
         is UiState.Loading -> HomeUpcomingEmptyFilter()
+        is UiState.Empty -> HomeUpcomingEmptyFilter()
         else -> {}
     }
 }

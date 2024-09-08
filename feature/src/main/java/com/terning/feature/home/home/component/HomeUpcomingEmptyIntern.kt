@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,7 +25,6 @@ import com.terning.feature.R
 
 @Composable
 fun HomeUpcomingEmptyIntern(
-    isButtonExist: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -44,50 +42,37 @@ fun HomeUpcomingEmptyIntern(
                 shape = RoundedCornerShape(5.dp)
             )
     ) {
-        if (isButtonExist) {
-            Column(
-                modifier = modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text(
-                    text = stringResource(id = R.string.home_upcoming_empty),
-                    modifier = modifier
-                        .padding(top = 27.dp),
-                    textAlign = TextAlign.Center,
-                    style = TerningTheme.typography.detail3,
-                    color = Grey500,
-                )
-                Card(
-                    colors = CardDefaults.cardColors(White),
-                    modifier = modifier
-                        .padding(top = 7.dp, bottom = 27.dp)
-                        .border(
-                            width = 1.dp,
-                            color = Grey400,
-                            shape = RoundedCornerShape(12.dp),
-                        ),
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.home_upcoming_check_schedule),
-                        style = TerningTheme.typography.button4,
-                        color = Grey400,
-                        modifier = modifier
-                            .padding(vertical = 8.dp, horizontal = 10.dp)
-                    )
-                }
-            }
-        } else {
+        Column(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             Text(
-                text = stringResource(id = R.string.home_upcoming_no_scrap),
+                text = stringResource(id = R.string.home_upcoming_empty),
                 modifier = modifier
-                    .padding(vertical = 44.dp)
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.CenterHorizontally),
+                    .padding(top = 27.dp),
                 textAlign = TextAlign.Center,
-                style = TerningTheme.typography.detail2,
+                style = TerningTheme.typography.detail3,
                 color = Grey500,
             )
+            Card(
+                colors = CardDefaults.cardColors(White),
+                modifier = modifier
+                    .padding(top = 7.dp, bottom = 27.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Grey400,
+                        shape = RoundedCornerShape(12.dp),
+                    ),
+            ) {
+                Text(
+                    text = stringResource(id = R.string.home_upcoming_check_schedule),
+                    style = TerningTheme.typography.button4,
+                    color = Grey400,
+                    modifier = modifier
+                        .padding(vertical = 8.dp, horizontal = 10.dp)
+                )
+            }
         }
     }
 }
