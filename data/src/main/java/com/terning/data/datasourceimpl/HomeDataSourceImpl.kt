@@ -30,6 +30,6 @@ class HomeDataSourceImpl @Inject constructor(
     override suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto> =
         homeService.getFilteringInfo()
 
-    override suspend fun putFilteringInfo(request: ChangeFilterRequestDto): NonDataBaseResponse =
-        homeService.putFilteringInfo(request)
+    override suspend fun putFilteringInfo(changeFilterRequestDto: ChangeFilterRequestDto): NonDataBaseResponse =
+        homeService.putFilteringInfo(changeFilterRequestDto)
 }

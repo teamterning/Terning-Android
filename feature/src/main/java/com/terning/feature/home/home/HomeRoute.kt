@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.terning.core.designsystem.component.bottomsheet.HomeFilteringBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage
@@ -43,14 +43,12 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.core.type.Grade
+import com.terning.core.type.WorkingPeriod
 import com.terning.domain.entity.home.HomeFilteringInfo
 import com.terning.domain.entity.home.HomeRecommendIntern
 import com.terning.domain.entity.home.HomeUpcomingIntern
-import com.terning.core.type.Grade
-import com.terning.core.type.WorkingPeriod
 import com.terning.feature.R
-import com.terning.core.designsystem.component.bottomsheet.HomeFilteringBottomSheet
-import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
@@ -156,8 +154,10 @@ fun HomeScreen(
 
     if (changeFilteringSheetState) {
         HomeFilteringBottomSheet(
-            defaultGrade = homeFilteringInfo.grade?.let { Grade.entries[it] },
-            defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let { WorkingPeriod.entries[it] },
+            defaultGrade = homeFilteringInfo.grade?.let { Grade.fromString(it) },
+            defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let {
+                WorkingPeriod.fromString(it)
+            },
             defaultStartYear = homeFilteringInfo.startYear,
             defaultStartMonth = homeFilteringInfo.startMonth,
             onDismiss = { changeFilteringSheetState = false },
@@ -269,17 +269,25 @@ fun HomeScreen(
                         }
                     )
                 }
+            } else {
+                item {
+                    HomeRecommendEmptyIntern(
+                        text =
+                        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) R.string.home_recommend_no_filtering
+                        else R.string.home_recommend_no_intern
+                    )
+                }
             }
         }
-        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
-            HomeFilteringEmptyIntern(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .fillMaxSize()
-            )
-        } else if (homeRecommendInternList.isEmpty()) {
-            HomeRecommendEmptyIntern()
-        }
+//        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
+//            HomeFilteringEmptyIntern(
+//                modifier = Modifier
+//                    .padding(horizontal = 24.dp)
+//                    .fillMaxSize()
+//            )
+//        } else if (homeRecommendInternList.isEmpty()) {
+//            HomeRecommendEmptyIntern()
+//        }
     }
 //
 //    if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
@@ -392,7 +400,7 @@ private fun RecommendInternItem(
 private fun ShowMainTitleWithName(userName: String) {
     Text(
         text = stringResource(
-            id = R.string.home_today_title,
+            id = R.string.home_upcoming_title,
             if (userName.length in NAME_START_LENGTH..NAME_END_LENGTH) "\n" + userName
             else userName
         ),
@@ -430,15 +438,6 @@ private fun ShowUpcomingIntern(
 
 @Composable
 private fun ShowRecommendTitle() {
-    Text(
-        text = stringResource(id = R.string.home_recommend_sub_title),
-        style = TerningTheme.typography.detail2,
-        color = Black,
-        modifier = Modifier
-            .padding(top = 9.dp)
-            .padding(horizontal = 24.dp),
-    )
-
     Text(
         text = stringResource(id = R.string.home_recommend_main_title),
         style = TerningTheme.typography.title1,

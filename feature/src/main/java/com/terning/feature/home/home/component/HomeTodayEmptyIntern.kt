@@ -51,7 +51,7 @@ fun HomeTodayEmptyIntern(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = stringResource(id = R.string.home_today_no_closed),
+                    text = stringResource(id = R.string.home_upcoming_empty),
                     modifier = modifier
                         .padding(top = 27.dp),
                     textAlign = TextAlign.Center,
@@ -69,7 +69,7 @@ fun HomeTodayEmptyIntern(
                         ),
                 ) {
                     Text(
-                        text = stringResource(id = R.string.home_today_check_schedule),
+                        text = stringResource(id = R.string.home_upcoming_check_schedule),
                         style = TerningTheme.typography.button4,
                         color = Grey400,
                         modifier = modifier
@@ -79,7 +79,7 @@ fun HomeTodayEmptyIntern(
             }
         } else {
             Text(
-                text = stringResource(id = R.string.home_today_no_scrap),
+                text = stringResource(id = R.string.home_upcoming_no_scrap),
                 modifier = modifier
                     .padding(vertical = 44.dp)
                     .fillMaxWidth()

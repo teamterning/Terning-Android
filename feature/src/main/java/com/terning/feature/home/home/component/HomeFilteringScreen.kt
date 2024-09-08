@@ -79,13 +79,13 @@ fun HomeFilteringScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     HomeFilteringInfoText(
-                        text = stringResource(id = Grade.entries[grade ?: 0].text),
+                        text = stringResource(id = Grade.fromString(grade).stringResId),
                         modifier = Modifier
                             .padding(end = 6.dp),
                     )
                     HomeFilteringInfoDivider()
                     HomeFilteringInfoText(
-                        text = stringResource(WorkingPeriod.entries[workingPeriod ?: 0].text),
+                        text = stringResource(WorkingPeriod.fromString(workingPeriod).stringResId),
                         modifier = Modifier
                             .padding(horizontal = 6.dp),
                     )

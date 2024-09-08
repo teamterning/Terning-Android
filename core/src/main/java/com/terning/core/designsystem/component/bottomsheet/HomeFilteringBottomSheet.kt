@@ -15,6 +15,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -27,13 +28,11 @@ import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.currentMonth
+import com.terning.core.extension.currentYear
 import com.terning.core.type.Grade
 import com.terning.core.type.WorkingPeriod
-import java.time.LocalDate
-
-const val MIN_INDEX = 0
-const val MAX_WORKING_INDEX = 2
-const val MAX_GRADE_INDEX = 3
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,17 +43,22 @@ fun HomeFilteringBottomSheet(
     defaultStartYear: Int?,
     defaultStartMonth: Int?,
     onDismiss: () -> Unit,
-    onChangeButtonClick: (Int, Int, Int, Int) -> Unit,
+    onChangeButtonClick: (String, String, Int, Int) -> Unit,
 ) {
-    val currentYear = LocalDate.now().year
-    val currentMonth = LocalDate.now().monthValue
-
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    var currentGrade by remember { mutableIntStateOf(defaultGrade?.ordinal ?: -1) }
-    var currentPeriod by remember { mutableIntStateOf(defaultWorkingPeriod?.ordinal ?: -1) }
-    var currentStartYear by remember { mutableIntStateOf(defaultStartYear ?: currentYear) }
-    var currentStartMonth by remember { mutableIntStateOf(defaultStartMonth ?: currentMonth) }
+    var currentGrade by remember { mutableStateOf(defaultGrade) }
+    var currentPeriod by remember { mutableStateOf(defaultWorkingPeriod) }
+    var currentStartYear by remember {
+        mutableIntStateOf(
+            defaultStartYear ?: Calendar.getInstance().currentYear
+        )
+    }
+    var currentStartMonth by remember {
+        mutableIntStateOf(
+            defaultStartMonth ?: Calendar.getInstance().currentMonth
+        )
+    }
 
     TerningBasicBottomSheet(
         content = {
@@ -91,7 +95,7 @@ fun HomeFilteringBottomSheet(
                         R.string.change_filter_grade_4,
                     ),
                     onButtonClick = { index ->
-                        currentGrade = index
+                        currentGrade = Grade.entries[index]
                     }
                 )
 
@@ -109,7 +113,7 @@ fun HomeFilteringBottomSheet(
                         R.string.change_filter_period_3,
                     ),
                     onButtonClick = { index ->
-                        currentPeriod = index
+                        currentPeriod = WorkingPeriod.entries[index]
                     }
                 )
 
@@ -120,8 +124,9 @@ fun HomeFilteringBottomSheet(
                 )
 
                 DatePickerUI(
-                    chosenYear = defaultStartYear ?: currentYear,
-                    chosenMonth = defaultStartMonth?.minus(1) ?: currentMonth,
+                    chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
+                    chosenMonth = defaultStartMonth?.minus(1)
+                        ?: Calendar.getInstance().currentMonth,
                     onYearChosen = { currentStartYear = it },
                     onMonthChosen = { currentStartMonth = it },
                 )
@@ -134,14 +139,18 @@ fun HomeFilteringBottomSheet(
                     modifier = Modifier
                         .padding(top = 51.dp),
                     onButtonClick = {
-                        onChangeButtonClick(
-                            currentGrade,
-                            currentPeriod,
-                            currentStartYear,
-                            currentStartMonth,
-                        )
+                        currentGrade?.let { grade ->
+                            currentPeriod?.let { workingPeriod ->
+                                onChangeButtonClick(
+                                    grade.stringValue,
+                                    workingPeriod.stringValue,
+                                    currentStartYear,
+                                    currentStartMonth,
+                                )
+                            }
+                        }
                     },
-                    isEnabled = currentGrade in MIN_INDEX..MAX_GRADE_INDEX && currentPeriod in MIN_INDEX..MAX_WORKING_INDEX
+                    isEnabled = currentGrade != null && currentPeriod != null
                 )
             }
 
