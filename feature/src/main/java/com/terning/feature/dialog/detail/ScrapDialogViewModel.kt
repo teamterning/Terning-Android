@@ -1,18 +1,7 @@
 package com.terning.feature.dialog.detail
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.theme.CalBlue1
-import com.terning.core.designsystem.theme.CalBlue2
-import com.terning.core.designsystem.theme.CalGreen1
-import com.terning.core.designsystem.theme.CalGreen2
-import com.terning.core.designsystem.theme.CalOrange1
-import com.terning.core.designsystem.theme.CalOrange2
-import com.terning.core.designsystem.theme.CalPink
-import com.terning.core.designsystem.theme.CalPurple
-import com.terning.core.designsystem.theme.CalRed
-import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.type.ColorType
 import com.terning.domain.entity.calendar.CalendarScrapRequest
 import com.terning.domain.repository.ScrapRepository
@@ -76,9 +65,8 @@ class ScrapDialogViewModel @Inject constructor(
     }
 
     fun postScrap(id: Long, color: ColorType) {
-        val colorIndex = getColorIndex(color.main)
         viewModelScope.launch {
-            scrapRepository.postScrap(CalendarScrapRequest(id, colorIndex))
+            scrapRepository.postScrap(CalendarScrapRequest(id, color.typeName))
                 .onSuccess {
                     with(_sideEffect) {
                         emit(ScrapDialogSideEffect.ShowToast(R.string.dialog_scrap_scrapped))
@@ -91,8 +79,7 @@ class ScrapDialogViewModel @Inject constructor(
     }
 
     fun patchScrap(scrapId: Long, color: ColorType) = viewModelScope.launch {
-        val colorIndex = getColorIndex(color.main)
-        scrapRepository.patchScrap(CalendarScrapRequest(scrapId, colorIndex))
+        scrapRepository.patchScrap(CalendarScrapRequest(scrapId, color.typeName))
             .onSuccess {
                 _sideEffect.emit(ScrapDialogSideEffect.PatchedScrap)
                 _uiState.update { currentState ->
@@ -106,17 +93,4 @@ class ScrapDialogViewModel @Inject constructor(
                 _sideEffect.emit(ScrapDialogSideEffect.ShowToast(R.string.server_failure))
             }
     }
-
-    private fun getColorIndex(color: Color): Int = listOf(
-        CalRed,
-        CalOrange1,
-        CalOrange2,
-        CalYellow,
-        CalGreen1,
-        CalGreen2,
-        CalBlue1,
-        CalBlue2,
-        CalPurple,
-        CalPink
-    ).indexOf(color)
 }
