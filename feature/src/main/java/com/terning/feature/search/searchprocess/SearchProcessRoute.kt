@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -70,6 +69,7 @@ private const val MAX_LINES = 1
 
 @Composable
 fun SearchProcessRoute(
+    modifier: Modifier,
     navController: NavHostController,
     viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
@@ -94,6 +94,7 @@ fun SearchProcessRoute(
     }
 
     SearchProcessScreen(
+        modifier = modifier,
         navController = navController,
         currentSortBy = currentSortBy,
         viewModel = viewModel,
@@ -111,7 +112,7 @@ fun SearchProcessScreen(
     var sheetState by remember { mutableStateOf(false) }
     val internSearchResultData by viewModel.internSearchResultData.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
-    val selectedInternIndex = remember { mutableStateOf(-1) }
+    val selectedInternIndex = remember { mutableIntStateOf(-1) }
 
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -128,255 +129,250 @@ fun SearchProcessScreen(
             size = 10
         )
     }
-
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            BackButtonTopAppBar(
-                title = stringResource(
-                    id =
-                    if (state.showSearchResults) R.string.search_process_result_top_bar_title
-                    else R.string.search_process_top_bar_title
-                ),
-                onBackButtonClick = { navController.navigateUp() },
-                modifier = Modifier
-            )
-        }
-    ) { paddingValues ->
-        Column(
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .addFocusCleaner(focusManager),
+    ) {
+        BackButtonTopAppBar(
+            title = stringResource(
+                id =
+                if (state.showSearchResults) R.string.search_process_result_top_bar_title
+                else R.string.search_process_top_bar_title
+            ),
+            onBackButtonClick = { navController.navigateUp() },
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .addFocusCleaner(focusManager),
+        )
+        Column(
+            modifier = modifier
+                .padding(horizontal = 24.dp)
         ) {
-            Column(
-                modifier = modifier
-                    .padding(horizontal = 24.dp)
-            ) {
-                if (!state.showSearchResults) {
-                    Text(
-                        text = stringResource(id = R.string.search_process_question_text),
-                        style = TerningTheme.typography.heading2,
-                        color = Black,
-                        modifier = Modifier.padding(
-                            vertical = 16.dp
-                        )
+            if (!state.showSearchResults) {
+                Text(
+                    text = stringResource(id = R.string.search_process_question_text),
+                    style = TerningTheme.typography.heading2,
+                    color = Black,
+                    modifier = Modifier.padding(
+                        vertical = 16.dp
                     )
-                }
-
-                SearchTextField(
-                    text = state.text,
-                    onValueChange = { newText ->
-                        viewModel.updateText(newText)
-                    },
-                    hint = stringResource(R.string.search_text_field_hint),
-                    leftIcon = R.drawable.ic_nav_search,
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                        .focusRequester(focusRequester)
-                        .addFocusCleaner(focusManager),
-                    onSearchAction = {
-                        viewModel.getSearchList(
-                            keyword = state.text,
-                            sortBy = SORT_BY,
-                            page = 0,
-                            size = 10
-                        )
-                        viewModel.updateQuery(state.text)
-                        viewModel.updateShowSearchResults(true)
-                        viewModel.updateExistSearchResults(state.text)
-                    }
                 )
+            }
 
-                if (state.showSearchResults) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        if (internSearchResultData.isNotEmpty()) {
-                            LazyColumn(
-                                contentPadding = PaddingValues(
-                                    top = 12.dp,
-                                    bottom = 20.dp,
-                                ),
-                                verticalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                items(viewModel.internSearchResultData.value.size) { index ->
-                                    InternItemWithShadow(
-                                        modifier = modifier.noRippleClickable {
-                                            navController.navigateIntern(
-                                                announcementId = internSearchResultData[index]
-                                                    .internshipAnnouncementId
-                                            )
-                                        },
-                                        imageUrl = internSearchResultData[index].companyImage,
-                                        title = internSearchResultData[index].title,
-                                        dateDeadline = internSearchResultData[index].dDay,
-                                        workingPeriod = internSearchResultData[index].workingPeriod,
-                                        isScrapped = internSearchResultData[index].scrapId != null,
-                                        shadowWidth = 2.dp,
-                                        shadowRadius = 10.dp,
-                                        onScrapButtonClicked = {
-                                            viewModel.updateScrapDialogVisible(true)
-                                            viewModel.updateScrapped(scrapped = internSearchResultData[index].scrapId != null)
-                                            selectedInternIndex.value = index
-                                        }
-                                    )
-                                }
-                            }
-                        } else {
-                            Spacer(
-                                modifier = Modifier.padding(top = 87.dp)
-                            )
-                            Image(
-                                painter = painterResource(
-                                    id = R.drawable.ic_empty_logo
-                                ),
-                                contentDescription = stringResource(
-                                    id = R.string.search_process_no_result_icon
-                                )
-                            )
-                            Row(
-                                modifier = Modifier
-                                    .padding(
-                                        top = 16.dp,
-                                        bottom = 6.dp
-                                    )
-                                    .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                Text(
-                                    text = state.keyword,
-                                    style = TerningTheme.typography.body1,
-                                    color = TerningMain,
-                                    maxLines = MAX_LINES,
-                                    overflow = TextOverflow.Ellipsis,
-                                    modifier = Modifier.weight(1f, false)
-                                )
-                                Text(
-                                    text = stringResource(id = R.string.search_process_no_result_text_sub),
-                                    style = TerningTheme.typography.body1,
-                                    color = Grey400,
-                                    modifier = Modifier.wrapContentWidth()
+            SearchTextField(
+                text = state.text,
+                onValueChange = { newText ->
+                    viewModel.updateText(newText)
+                },
+                hint = stringResource(R.string.search_text_field_hint),
+                leftIcon = R.drawable.ic_nav_search,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .focusRequester(focusRequester)
+                    .addFocusCleaner(focusManager),
+                onSearchAction = {
+                    viewModel.getSearchList(
+                        keyword = state.text,
+                        sortBy = SORT_BY,
+                        page = 0,
+                        size = 10
+                    )
+                    viewModel.updateQuery(state.text)
+                    viewModel.updateShowSearchResults(true)
+                    viewModel.updateExistSearchResults(state.text)
+                }
+            )
+
+            if (state.showSearchResults) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    if (internSearchResultData.isNotEmpty()) {
+                        LazyColumn(
+                            contentPadding = PaddingValues(
+                                top = 12.dp,
+                                bottom = 20.dp,
+                            ),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(viewModel.internSearchResultData.value.size) { index ->
+                                InternItemWithShadow(
+                                    modifier = modifier.noRippleClickable {
+                                        navController.navigateIntern(
+                                            announcementId = internSearchResultData[index]
+                                                .internshipAnnouncementId
+                                        )
+                                    },
+                                    imageUrl = internSearchResultData[index].companyImage,
+                                    title = internSearchResultData[index].title,
+                                    dateDeadline = internSearchResultData[index].dDay,
+                                    workingPeriod = internSearchResultData[index].workingPeriod,
+                                    isScrapped = internSearchResultData[index].scrapId != null,
+                                    shadowWidth = 2.dp,
+                                    shadowRadius = 10.dp,
+                                    onScrapButtonClicked = {
+                                        viewModel.updateScrapDialogVisible(true)
+                                        viewModel.updateScrapped(scrapped = internSearchResultData[index].scrapId != null)
+                                        selectedInternIndex.value = index
+                                    }
                                 )
                             }
+                        }
+                    } else {
+                        Spacer(
+                            modifier = Modifier.padding(top = 87.dp)
+                        )
+                        Image(
+                            painter = painterResource(
+                                id = R.drawable.ic_empty_logo
+                            ),
+                            contentDescription = stringResource(
+                                id = R.string.search_process_no_result_icon
+                            )
+                        )
+                        Row(
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp,
+                                    bottom = 6.dp
+                                )
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
                             Text(
-                                text = stringResource(
-                                    id = R.string.search_process_no_result_text_main
-                                ),
+                                text = state.keyword,
+                                style = TerningTheme.typography.body1,
+                                color = TerningMain,
+                                maxLines = MAX_LINES,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f, false)
+                            )
+                            Text(
+                                text = stringResource(id = R.string.search_process_no_result_text_sub),
                                 style = TerningTheme.typography.body1,
                                 color = Grey400,
+                                modifier = Modifier.wrapContentWidth()
                             )
                         }
+                        Text(
+                            text = stringResource(
+                                id = R.string.search_process_no_result_text_main
+                            ),
+                            style = TerningTheme.typography.body1,
+                            color = Grey400,
+                        )
                     }
                 }
-            }
-            if (!state.showSearchResults) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_search_backgroud),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth,
-                    modifier = modifier.fillMaxSize()
-                )
             }
         }
-    }
+        if (!state.showSearchResults) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_search_backgroud),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth,
+                modifier = modifier.fillMaxSize()
+            )
+        }
 
-    if (dialogState.isScrapDialogVisible) {
-        TerningBasicDialog(
-            onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
-            content = {
-                val selectedIndex = selectedInternIndex.value
-                if (selectedIndex != -1) {
-                    val selectedIntern = internSearchResultData[selectedIndex]
-                    if (selectedIntern.scrapId != null) {
-                        ScrapCancelDialogContent(
-                            onClickScrapCancel = {
-                                viewModel.updateScrapDialogVisible(false)
-                                viewModel.deleteScrap(
-                                    internSearchResultData[selectedIndex].scrapId ?: -1,
-                                )
-                                if (dialogState.isScrappedState) {
-                                    viewModel.getSearchList(
-                                        keyword = state.text,
-                                        sortBy = SORT_BY,
-                                        page = 0,
-                                        size = 10
+        if (dialogState.isScrapDialogVisible) {
+            TerningBasicDialog(
+                onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
+                content = {
+                    val selectedIndex = selectedInternIndex.value
+                    if (selectedIndex != -1) {
+                        val selectedIntern = internSearchResultData[selectedIndex]
+                        if (selectedIntern.scrapId != null) {
+                            ScrapCancelDialogContent(
+                                onClickScrapCancel = {
+                                    viewModel.updateScrapDialogVisible(false)
+                                    viewModel.deleteScrap(
+                                        internSearchResultData[selectedIndex].scrapId ?: -1,
                                     )
-                                    viewModel.updateScrapped(false)
-                                }
-                                viewModel.updateSelectColor(CalRed)
-                            }
-                        )
-                    } else {
-                        val colorList = listOf(
-                            CalRed,
-                            CalOrange1,
-                            CalOrange2,
-                            CalYellow,
-                            CalGreen1,
-                            CalGreen2,
-                            CalBlue1,
-                            CalBlue2,
-                            CalPurple,
-                            CalPink,
-                        )
-
-                        val selectedColorIndex =
-                            colorList.indexOf(dialogState.selectedColor).takeIf { it >= 0 } ?: 0
-
-                        with(selectedIntern) {
-                            HomeRecommendInternDialog(
-                                internInfoList = listOf(
-                                    stringResource(id = R.string.intern_info_d_day) to deadline,
-                                    stringResource(id = R.string.intern_info_working) to workingPeriod,
-                                    stringResource(id = R.string.intern_info_start_date) to startYearMonth,
-                                ),
-                                clickAction = {
-                                    if (dialogState.isPaletteOpen) {
-                                        viewModel.updatePaletteOpen(false)
-                                        viewModel.postScrap(
-                                            internshipAnnouncementId = internshipAnnouncementId,
-                                            selectedColorIndex,
+                                    if (dialogState.isScrappedState) {
+                                        viewModel.getSearchList(
+                                            keyword = state.text,
+                                            sortBy = SORT_BY,
+                                            page = 0,
+                                            size = 10
                                         )
-                                        viewModel.updateColorChange(false)
-                                        viewModel.updateScrapDialogVisible(false)
-                                    } else {
-                                        if (dialogState.isColorChange) {
+                                        viewModel.updateScrapped(false)
+                                    }
+                                    viewModel.updateSelectColor(CalRed)
+                                }
+                            )
+                        } else {
+                            val colorList = listOf(
+                                CalRed,
+                                CalOrange1,
+                                CalOrange2,
+                                CalYellow,
+                                CalGreen1,
+                                CalGreen2,
+                                CalBlue1,
+                                CalBlue2,
+                                CalPurple,
+                                CalPink,
+                            )
+
+                            val selectedColorIndex =
+                                colorList.indexOf(dialogState.selectedColor).takeIf { it >= 0 } ?: 0
+
+                            with(selectedIntern) {
+                                HomeRecommendInternDialog(
+                                    internInfoList = listOf(
+                                        stringResource(id = R.string.intern_info_d_day) to deadline,
+                                        stringResource(id = R.string.intern_info_working) to workingPeriod,
+                                        stringResource(id = R.string.intern_info_start_date) to startYearMonth,
+                                    ),
+                                    clickAction = {
+                                        if (dialogState.isPaletteOpen) {
+                                            viewModel.updatePaletteOpen(false)
                                             viewModel.postScrap(
-                                                internshipAnnouncementId,
-                                                selectedColorIndex
+                                                internshipAnnouncementId = internshipAnnouncementId,
+                                                selectedColorIndex,
                                             )
                                             viewModel.updateColorChange(false)
+                                            viewModel.updateScrapDialogVisible(false)
                                         } else {
-                                            viewModel.postScrap(internshipAnnouncementId, colorList.indexOf(dialogState.selectedColor))
+                                            if (dialogState.isColorChange) {
+                                                viewModel.postScrap(
+                                                    internshipAnnouncementId,
+                                                    selectedColorIndex
+                                                )
+                                                viewModel.updateColorChange(false)
+                                            } else {
+                                                viewModel.postScrap(
+                                                    internshipAnnouncementId,
+                                                    colorList.indexOf(dialogState.selectedColor)
+                                                )
+                                            }
+                                            viewModel.updateScrapDialogVisible(false)
                                         }
-                                        viewModel.updateScrapDialogVisible(false)
-                                    }
-                                },
-                                onColorSelected = { newColor ->
-                                    viewModel.updateSelectColor(newColor)
-                                },
-                                homeRecommendIntern = HomeRecommendIntern(
-                                    scrapId = scrapId,
-                                    internshipAnnouncementId = internshipAnnouncementId,
-                                    companyImage = companyImage,
-                                    title = title,
-                                    deadline = deadline,
-                                    workingPeriod = workingPeriod,
-                                    startYearMonth = startYearMonth,
-                                    isScrapped = scrapId != null,
-                                    dDay = dDay
-                                ),
-                            )
+                                    },
+                                    onColorSelected = { newColor ->
+                                        viewModel.updateSelectColor(newColor)
+                                    },
+                                    homeRecommendIntern = HomeRecommendIntern(
+                                        scrapId = scrapId,
+                                        internshipAnnouncementId = internshipAnnouncementId,
+                                        companyImage = companyImage,
+                                        title = title,
+                                        deadline = deadline,
+                                        workingPeriod = workingPeriod,
+                                        startYearMonth = startYearMonth,
+                                        isScrapped = scrapId != null,
+                                        dDay = dDay
+                                    ),
+                                )
+                            }
                         }
                     }
                 }
-            }
-        )
+            )
+        }
     }
 }
 
