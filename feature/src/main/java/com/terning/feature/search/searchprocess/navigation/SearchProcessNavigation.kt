@@ -2,6 +2,7 @@ package com.terning.feature.search.searchprocess.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -20,6 +21,7 @@ fun NavController.navigateSearchProcess(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.searchProcessNavGraph(
     navHostController: NavHostController,
+    paddingValues: PaddingValues
 ) {
     composable<SearchProcess>(
         exitTransition = {

@@ -130,8 +130,12 @@ fun MainScreen(
                 )
                 calendarNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController)
-                searchNavGraph(navHostController = navigator.navController)
+                    navHostController = navigator.navController
+                )
+                searchNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
                 signInNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
@@ -160,7 +164,10 @@ fun MainScreen(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
-                searchProcessNavGraph(navHostController = navigator.navController)
+                searchProcessNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
                 changeFilterNavGraph(navHostController = navigator.navController)
                 internNavGraph(navHostController = navigator.navController)
                 myPageNavGraph(
