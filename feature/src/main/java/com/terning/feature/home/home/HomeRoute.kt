@@ -6,12 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,40 +32,36 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.dialog.ScrapCancelDialogContent
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.CalBlue1
-import com.terning.core.designsystem.theme.CalBlue2
-import com.terning.core.designsystem.theme.CalGreen1
-import com.terning.core.designsystem.theme.CalGreen2
-import com.terning.core.designsystem.theme.CalOrange1
-import com.terning.core.designsystem.theme.CalOrange2
-import com.terning.core.designsystem.theme.CalPink
-import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
-import com.terning.core.designsystem.theme.CalYellow
-import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey400
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.currentMonth
+import com.terning.core.extension.currentYear
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
+import com.terning.core.type.Grade
+import com.terning.core.type.WorkingPeriod
 import com.terning.domain.entity.home.HomeFilteringInfo
 import com.terning.domain.entity.home.HomeRecommendIntern
-import com.terning.domain.entity.home.HomeTodayIntern
+import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
-import com.terning.feature.home.changefilter.navigation.navigateChangeFilter
-import com.terning.feature.home.home.component.HomeFilteringEmptyIntern
+import com.terning.feature.calendar.calendar.navigation.navigateCalendar
+import com.terning.feature.dialog.cancel.ScrapCancelDialog
+import com.terning.feature.dialog.detail.ScrapDialog
+import com.terning.feature.home.home.component.HomeFilteringBottomSheet
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
-import com.terning.feature.home.home.component.HomeRecommendInternDialog
-import com.terning.feature.home.home.component.HomeTodayEmptyWithImg
-import com.terning.feature.home.home.component.HomeTodayIntern
-import com.terning.feature.home.home.model.HomeDialogState
+import com.terning.feature.home.home.component.HomeUpcomingEmptyFilter
+import com.terning.feature.home.home.component.HomeUpcomingEmptyIntern
+import com.terning.feature.home.home.component.HomeUpcomingInternScreen
 import com.terning.feature.intern.navigation.navigateIntern
+import java.util.Calendar
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -92,8 +85,6 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    val homeDialogState by viewModel.homeDialogState.collectAsStateWithLifecycle()
-
     LaunchedEffect(key1 = true) {
         viewModel.getFilteringInfo()
     }
@@ -103,7 +94,6 @@ fun HomeRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is HomeSideEffect.NavigateToChangeFilter -> navController.navigateChangeFilter()
                     is HomeSideEffect.NavigateToHome -> navController.navigateUp()
                 }
             }
@@ -111,9 +101,8 @@ fun HomeRoute(
 
     HomeScreen(
         paddingValues = paddingValues,
-        homeDialogState = homeDialogState,
-        onChangeFilterClick = { navController.navigateChangeFilter() },
         navigateToIntern = { navController.navigateIntern(announcementId = it) },
+        navigateToCalendar = { navController.navigateCalendar() },
         viewModel = viewModel,
     )
 }
@@ -122,9 +111,8 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     paddingValues: PaddingValues,
-    homeDialogState: HomeDialogState,
-    onChangeFilterClick: () -> Unit,
     navigateToIntern: (Long) -> Unit,
+    navigateToCalendar: () -> Unit,
     viewModel: HomeViewModel,
 ) {
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
@@ -140,18 +128,23 @@ fun HomeScreen(
     }
 
     val homeRecommendInternList = when (homeState.homeRecommendInternState) {
-        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<List<HomeRecommendIntern>>).data
+        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail
         else -> listOf()
     }
 
-    val currentSortBy: MutableState<Int> = remember { mutableIntStateOf(0) }
-    var sheetState by remember { mutableStateOf(false) }
-    var scrapId by remember { mutableIntStateOf(-1) }
+    val homeRecommendInternTotal = when (homeState.homeRecommendInternState) {
+        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.totalCount
+        else -> 0
+    }
 
-    if (sheetState) {
+    val currentSortBy: MutableState<Int> = remember { mutableIntStateOf(0) }
+    var sortingSheetState by remember { mutableStateOf(false) }
+    var changeFilteringSheetState by remember { mutableStateOf(false) }
+
+    if (sortingSheetState) {
         SortingBottomSheet(
             onDismiss = {
-                sheetState = false
+                sortingSheetState = false
                 viewModel.getRecommendInternsData(
                     currentSortBy.value,
                     homeFilteringInfo.startYear,
@@ -161,6 +154,44 @@ fun HomeScreen(
             currentSortBy = currentSortBy.value,
             newSortBy = currentSortBy
         )
+    }
+
+    if (changeFilteringSheetState) {
+        HomeFilteringBottomSheet(
+            defaultGrade = homeFilteringInfo.grade?.let { Grade.entries[it] },
+            defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let {
+                WorkingPeriod.entries[it]
+            },
+            defaultStartYear = homeFilteringInfo.startYear,
+            defaultStartMonth = homeFilteringInfo.startMonth,
+            onDismiss = { changeFilteringSheetState = false },
+            onChangeButtonClick = { grade, workingPeriod, year, month ->
+                viewModel.putFilteringInfo(grade, workingPeriod, year, month)
+                changeFilteringSheetState = false
+            }
+        )
+    }
+
+    LaunchedEffect(changeFilteringSheetState) {
+        if (!changeFilteringSheetState) {
+            viewModel.getFilteringInfo()
+        }
+    }
+
+    LaunchedEffect(
+        homeState.homeRecommendDialogVisibility,
+        homeState.homeUpcomingDialogVisibility
+    ) {
+        with(homeState) {
+            if (!homeRecommendDialogVisibility && !homeUpcomingDialogVisibility) {
+                viewModel.getRecommendInternsData(
+                    sortBy = sortBy.ordinal,
+                    startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
+                    startMonth = homeFilteringInfo.startMonth
+                        ?: Calendar.getInstance().currentMonth,
+                )
+            }
+        }
     }
 
     Column(
@@ -190,10 +221,11 @@ fun HomeScreen(
                         .padding(bottom = 16.dp)
                 ) {
                     ShowMainTitleWithName(homeUserName)
-                    ShowTodayIntern(
-                        homeTodayInternState = homeState.homeTodayInternState,
-                        homeDialogState = homeDialogState,
-                        navigateToIntern = { navigateToIntern(it) }
+                    ShowUpcomingIntern(
+                        homeUpcomingInternState = homeState.homeUpcomingInternState,
+                        homeState = homeState,
+                        navigateToIntern = { navigateToIntern(it) },
+                        navigateToCalendar = navigateToCalendar,
                     )
                 }
             }
@@ -203,27 +235,45 @@ fun HomeScreen(
                         .background(White)
                 ) {
                     ShowRecommendTitle()
-                    ShowInternFilter(homeFilteringInfo = homeFilteringInfo, onChangeFilterClick)
-
-                    HorizontalDivider(
-                        thickness = 4.dp,
-                        color = Grey150,
+                    ShowInternFilter(
+                        homeFilteringInfo = homeFilteringInfo,
+                        onChangeFilterClick = { changeFilteringSheetState = true },
                     )
 
                     Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
+                            .fillMaxWidth()
+                            .padding(start = 24.dp, end = 18.dp),
                     ) {
-                        SortingButton(
-                            sortBy = currentSortBy.value,
-                            onCLick = { sheetState = true },
-                            modifier = Modifier
-                                .padding(vertical = 4.dp)
-                        )
-                        Spacer(
-                            modifier = Modifier.padding(9.dp)
-                        )
+                        Row {
+                            Text(
+                                text = stringResource(id = R.string.home_recommend_total),
+                                style = TerningTheme.typography.detail1,
+                                color = Grey400,
+                                modifier = Modifier
+                                    .padding(end = 3.dp),
+                            )
+                            Text(
+                                text = homeRecommendInternTotal.toString(),
+                                style = TerningTheme.typography.button3,
+                                color = TerningMain,
+                            )
+                            Text(
+                                text = stringResource(id = R.string.home_recommend_count),
+                                style = TerningTheme.typography.detail1,
+                                color = Grey400,
+                            )
+                        }
+                        Row {
+                            SortingButton(
+                                sortBy = currentSortBy.value,
+                                onCLick = { sortingSheetState = true },
+                                modifier = Modifier
+                                    .padding(vertical = 4.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -234,111 +284,75 @@ fun HomeScreen(
                         navigateToIntern = navigateToIntern,
                         intern = homeRecommendInternList[index],
                         onScrapButtonClicked = {
-                            viewModel.updateScrapDialogVisible(true)
-                            viewModel.updateIsToday(false)
-                            scrapId = index
-                        }
-                    )
-                }
-            }
-        }
-        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) {
-            HomeFilteringEmptyIntern(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .fillMaxSize()
-            )
-        } else if (homeRecommendInternList.isEmpty()) {
-            HomeRecommendEmptyIntern()
-        }
-    }
-
-    if (homeDialogState.isScrapDialogVisible && !homeDialogState.isToday) {
-        TerningBasicDialog(
-            onDismissRequest = {
-                viewModel.updateScrapDialogVisible(false)
-                viewModel.updatePaletteOpen(false)
-            },
-            content = {
-                if (homeRecommendInternList[scrapId].scrapId != null) {
-                    ScrapCancelDialogContent(
-                        onClickScrapCancel = {
-                            viewModel.updateScrapDialogVisible(false)
-                            viewModel.deleteScrap(
-                                homeRecommendInternList[scrapId].scrapId ?: -1,
-                            )
-                            if (homeDialogState.isScrappedState) {
-                                viewModel.getRecommendInternsData(
-                                    currentSortBy.value,
-                                    homeFilteringInfo.startYear,
-                                    homeFilteringInfo.startMonth,
+                            viewModel.updateRecommendDialogVisibility(true)
+                            with(homeRecommendInternList[index]) {
+                                viewModel.updateHomeInternModel(
+                                    internshipAnnouncementId = internshipAnnouncementId,
+                                    companyImage = companyImage,
+                                    title = title,
+                                    dDay = dDay,
+                                    deadline = deadline,
+                                    workingPeriod = workingPeriod,
+                                    isScrapped = isScrapped,
+                                    color = color,
+                                    startYearMonth = startYearMonth,
                                 )
-                                viewModel.updateScrapped(false)
                             }
                         }
                     )
-                } else {
-                    val colorList = listOf(
-                        CalRed,
-                        CalOrange1,
-                        CalOrange2,
-                        CalYellow,
-                        CalGreen1,
-                        CalGreen2,
-                        CalBlue1,
-                        CalBlue2,
-                        CalPurple,
-                        CalPink,
-                    )
 
-                    val selectedColorIndex =
-                        colorList.indexOf(homeDialogState.selectedColor).takeIf { it >= 0 } ?: 0
-
-                    with(homeRecommendInternList[scrapId]) {
-                        HomeRecommendInternDialog(
-                            internInfoList = listOf(
-                                stringResource(id = R.string.intern_info_d_day) to deadline,
-                                stringResource(id = R.string.intern_info_working) to workingPeriod,
-                                stringResource(id = R.string.intern_info_start_date) to startYearMonth,
-                            ),
-                            clickAction = {
-                                if (homeDialogState.isPaletteOpen) {
-                                    viewModel.updatePaletteOpen(false)
-                                    viewModel.updateColorChange(false)
-                                    viewModel.updateScrapDialogVisible(false)
-                                } else {
-                                    if (homeDialogState.isColorChange) {
-                                        viewModel.updateColorChange(false)
-                                    }
-                                    viewModel.updateScrapDialogVisible(false)
-                                }
-                                viewModel.postScrap(
-                                    homeRecommendInternList[scrapId].internshipAnnouncementId,
-                                    selectedColorIndex,
-                                )
-                                viewModel.updateScrapDialogVisible(false)
-                                if (homeDialogState.isScrappedState) {
-                                    viewModel.getRecommendInternsData(
-                                        currentSortBy.value,
-                                        homeFilteringInfo.startYear,
-                                        homeFilteringInfo.startMonth,
+                    if (homeState.homeRecommendDialogVisibility) {
+                        with(homeState.homeInternModel) {
+                            if (this != null) {
+                                if (isScrapped) {
+                                    ScrapCancelDialog(
+                                        internshipAnnouncementId = internshipAnnouncementId,
+                                        onDismissRequest = {
+                                            viewModel.updateRecommendDialogVisibility(false)
+                                            viewModel.getHomeUpcomingInternList()
+                                        }
                                     )
-                                    viewModel.updateScrapped(false)
+                                } else {
+                                    ScrapDialog(
+                                        title = title,
+                                        scrapColor = CalRed,
+                                        deadline = deadline,
+                                        startYearMonth = startYearMonth,
+                                        workingPeriod = workingPeriod,
+                                        internshipAnnouncementId = internshipAnnouncementId,
+                                        companyImage = companyImage,
+                                        isScrapped = isScrapped,
+                                        onDismissRequest = {
+                                            viewModel.updateRecommendDialogVisibility(
+                                                false
+                                            )
+                                            viewModel.getHomeUpcomingInternList()
+                                        },
+                                        onClickChangeColor = { /*TODO*/ },
+                                        onClickNavigateButton = navigateToIntern
+                                    )
                                 }
-                            },
-                            homeRecommendIntern = this,
-                        )
+                            }
+                        }
                     }
                 }
+            } else {
+                item {
+                    HomeRecommendEmptyIntern(
+                        text =
+                        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) R.string.home_recommend_no_filtering
+                        else R.string.home_recommend_no_intern
+                    )
+                }
             }
-        )
+        }
     }
 }
 
 
 @Composable
 private fun RecommendInternItem(
-    intern: HomeRecommendIntern,
+    intern: HomeRecommendIntern.HomeRecommendInternDetail,
     navigateToIntern: (Long) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,
 ) {
@@ -363,7 +377,7 @@ private fun RecommendInternItem(
 private fun ShowMainTitleWithName(userName: String) {
     Text(
         text = stringResource(
-            id = R.string.home_today_title,
+            id = R.string.home_upcoming_title,
             if (userName.length in NAME_START_LENGTH..NAME_END_LENGTH) "\n" + userName
             else userName
         ),
@@ -376,40 +390,33 @@ private fun ShowMainTitleWithName(userName: String) {
 }
 
 @Composable
-private fun ShowTodayIntern(
-    homeTodayInternState: UiState<List<HomeTodayIntern>>,
-    homeDialogState: HomeDialogState,
+private fun ShowUpcomingIntern(
+    homeUpcomingInternState: UiState<List<HomeUpcomingIntern>>,
+    homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
+    navigateToCalendar: () -> Unit,
 ) {
-    when (homeTodayInternState) {
+    when (homeUpcomingInternState) {
         is UiState.Success -> {
-            if (homeTodayInternState.data.isEmpty()) {
-                HomeTodayEmptyWithImg()
+            if (homeUpcomingInternState.data.isEmpty()) {
+                HomeUpcomingEmptyIntern(navigateToCalendar = navigateToCalendar)
             } else {
-                HomeTodayIntern(
-                    internList = homeTodayInternState.data,
-                    homeDialogState = homeDialogState,
-                    navigateToIntern = { navigateToIntern(it) },
+                HomeUpcomingInternScreen(
+                    internList = homeUpcomingInternState.data,
+                    homeState = homeState,
+                    navigateToIntern = navigateToIntern
                 )
             }
         }
 
-        is UiState.Loading -> HomeTodayEmptyWithImg()
+        is UiState.Loading -> HomeUpcomingEmptyFilter()
+        is UiState.Empty -> HomeUpcomingEmptyFilter()
         else -> {}
     }
 }
 
 @Composable
 private fun ShowRecommendTitle() {
-    Text(
-        text = stringResource(id = R.string.home_recommend_sub_title),
-        style = TerningTheme.typography.detail2,
-        color = Black,
-        modifier = Modifier
-            .padding(top = 9.dp)
-            .padding(horizontal = 24.dp),
-    )
-
     Text(
         text = stringResource(id = R.string.home_recommend_main_title),
         style = TerningTheme.typography.title1,
@@ -425,29 +432,8 @@ private fun ShowInternFilter(
     homeFilteringInfo: HomeFilteringInfo,
     onChangeFilterClick: () -> Unit,
 ) {
-    if (homeFilteringInfo.grade == null) {
-        HomeFilteringScreen(
-            grade = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            period = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            startYear = stringResource(id = R.string.home_recommend_no_filtering_hyphen),
-            onChangeFilterClick = onChangeFilterClick,
-        )
-    } else {
-        with(homeFilteringInfo) {
-            HomeFilteringScreen(
-                grade = (grade?.plus(1)).toString() + stringResource(id = R.string.home_recommend_filtering_grade),
-                period = stringResource(
-                    id = when (workingPeriod) {
-                        0 -> R.string.filtering_status2_button1
-                        1 -> R.string.filtering_status2_button2
-                        2 -> R.string.filtering_status2_button3
-                        else -> R.string.home_recommend_no_filtering_hyphen
-                    }
-                ),
-                startYear = startYear.toString() + stringResource(id = R.string.home_recommend_filtering_startYear)
-                        + "  " + startMonth.toString() + stringResource(id = R.string.home_recommend_filtering_startMonth),
-                onChangeFilterClick = onChangeFilterClick,
-            )
-        }
-    }
+    HomeFilteringScreen(
+        homeFilteringInfo = homeFilteringInfo,
+        onChangeFilterClick = onChangeFilterClick,
+    )
 }

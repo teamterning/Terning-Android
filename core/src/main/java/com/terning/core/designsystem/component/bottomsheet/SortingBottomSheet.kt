@@ -26,6 +26,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
+import com.terning.core.type.SortBy
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +65,7 @@ fun SortingBottomSheet(
             ) {
                 items(sortByCount) { sortIndex ->
                     Text(
-                        text = stringResource(id = SortBy.entries[sortIndex].type),
+                        text = stringResource(id = SortBy.entries[sortIndex].sortBy),
                         style = TerningTheme.typography.button3,
                         color = if (currentSortBy == sortIndex) TerningMain else Grey400,
                         textAlign = TextAlign.Start,
