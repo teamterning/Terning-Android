@@ -91,7 +91,10 @@ fun ScrapDialog(
                         internshipAnnouncementId
                     )
 
-                    is ScrapDialogSideEffect.ScrappedAnnouncement -> onScrapAnnouncement()
+                    is ScrapDialogSideEffect.ScrappedAnnouncement -> {
+                        onScrapAnnouncement()
+                        onDismissRequest()
+                    }
                 }
             }
     }
