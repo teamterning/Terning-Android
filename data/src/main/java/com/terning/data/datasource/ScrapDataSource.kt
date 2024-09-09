@@ -1,7 +1,7 @@
 package com.terning.data.datasource
 
 import com.terning.data.dto.NonDataBaseResponse
-import com.terning.domain.entity.CalendarScrapRequest
+import com.terning.domain.entity.calendar.CalendarScrapRequest
 
 interface ScrapDataSource {
     suspend fun postScrap(

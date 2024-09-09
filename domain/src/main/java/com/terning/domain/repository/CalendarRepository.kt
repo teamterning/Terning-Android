@@ -1,7 +1,7 @@
 package com.terning.domain.repository
 
-import com.terning.domain.entity.CalendarScrapDetail
-import com.terning.domain.entity.CalendarScrap
+import com.terning.domain.entity.calendar.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrap
 import java.time.LocalDate
 
 interface CalendarRepository{

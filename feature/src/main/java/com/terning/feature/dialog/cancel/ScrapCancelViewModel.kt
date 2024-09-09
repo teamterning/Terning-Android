@@ -2,7 +2,7 @@ package com.terning.feature.dialog.cancel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.domain.entity.CalendarScrapRequest
+import com.terning.domain.entity.calendar.CalendarScrapRequest
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel

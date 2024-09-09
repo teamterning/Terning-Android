@@ -1,10 +1,10 @@
 package com.terning.feature.intern
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrapRequest
-import com.terning.domain.entity.intern.InternInfo
+import com.terning.domain.entity.calendar.CalendarScrapRequest
 import com.terning.domain.repository.InternRepository
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
@@ -60,7 +60,7 @@ class InternViewModel @Inject constructor(
                     it.copy(isScrap = UiState.Success(true))
                 }
                 getInternInfo(id)
-                updateScrapDialogVisibility(false)
+                updateScrapDialogVisible(false)
                 _sideEffect.emit(
                     InternViewSideEffect.Toast(R.string.intern_scrap_add_toast_message)
                 )
@@ -85,7 +85,7 @@ class InternViewModel @Inject constructor(
                         it.copy(isScrap = UiState.Success(false))
                     }
                     getInternInfo(announcementId)
-                    updateScrapDialogVisibility(false)
+                    updateScrapDialogVisible(false)
                     _sideEffect.emit(InternViewSideEffect.Toast(R.string.intern_scrap_delete_toast_message))
                 }.onFailure {
                     _sideEffect.emit(
@@ -96,23 +96,27 @@ class InternViewModel @Inject constructor(
         }
     }
 
-    fun updateCancelDialogVisibility(visible: Boolean) {
+    fun updateSelectColor(newColor: Color) {
         _internUiState.update {
-            it.copy(isCancelDialogVisibility = visible)
+            it.copy(selectedColor = newColor)
         }
     }
 
-    fun updateScrapDialogVisibility(visible: Boolean) {
+    fun updateScrapDialogVisible(visible: Boolean) {
         _internUiState.update {
-            it.copy(isScrapDialogVisibility = visible)
+            it.copy(isScrapDialogVisible = visible)
         }
     }
 
-    fun updateInternshipModel(scrapDetailModel: InternInfo?) {
-        _internUiState.update { currentState ->
-            currentState.copy(
-                internshipModel = scrapDetailModel
-            )
+    fun updatePaletteOpen(open: Boolean) {
+        _internUiState.update {
+            it.copy(isPaletteOpen = open)
+        }
+    }
+
+    fun updateColorChange(change: Boolean) {
+        _internUiState.update {
+            it.copy(isColorChange = change)
         }
     }
 

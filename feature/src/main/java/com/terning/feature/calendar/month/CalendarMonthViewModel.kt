@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,20 +28,19 @@ class CalendarMonthViewModel @Inject constructor(
 
     fun getScrapMonth(
         year: Int, month: Int
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            calendarRepository.getScrapMonth(year, month)
-        }.fold(
-            onSuccess = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = UiState.Success(it)
-                    )
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        calendarRepository.getScrapMonth(year, month)
+            .fold(
+                onSuccess = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = UiState.Success(it)
+                        )
+                    }
+                },
+                onFailure = {
+                    _sideEffect.emit(CalendarMonthSideEffect.ShowToast(R.string.server_failure))
                 }
-            },
-            onFailure = {
-                _sideEffect.emit(CalendarMonthSideEffect.ShowToast(R.string.server_failure))
-            }
-        )
+            )
     }
 }

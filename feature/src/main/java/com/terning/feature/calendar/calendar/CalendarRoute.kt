@@ -1,6 +1,5 @@
 package com.terning.feature.calendar.calendar
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -39,31 +38,26 @@ import java.time.LocalDate
 
 @Composable
 fun CalendarRoute(
-    navigateUp: () -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
-    BackHandler {
-        if (uiState.isWeekEnabled) {
-            viewModel.updateSelectedDate(uiState.selectedDate)
-        } else if (uiState.isListEnabled) {
-            viewModel.updateListVisibility(false)
-        } else {
-            navigateUp()
-        }
-    }
-
     CalendarScreen(
+        modifier = modifier,
         uiState = uiState,
         navigateToAnnouncement = navigateToAnnouncement,
         updateSelectedDate = viewModel::updateSelectedDate,
         updatePage = viewModel::updatePage,
+        disableListVisibility = { viewModel.updateListVisibility(false) },
+        disableWeekVisibility = { viewModel.updateSelectedDate(uiState.selectedDate) },
         onClickListButton = {
             viewModel.updateListVisibility(!uiState.isListEnabled)
-            if (uiState.isWeekEnabled) { viewModel.updateWeekVisibility(false) }
+            if (uiState.isWeekEnabled) {
+                viewModel.updateWeekVisibility(false)
+            }
         }
     )
 }
@@ -73,6 +67,8 @@ private fun CalendarScreen(
     uiState: CalendarUiState,
     navigateToAnnouncement: (Long) -> Unit,
     updateSelectedDate: (LocalDate) -> Unit,
+    disableListVisibility: () -> Unit,
+    disableWeekVisibility: () -> Unit,
     updatePage: (Int) -> Unit,
     onClickListButton: () -> Unit,
     modifier: Modifier = Modifier,
@@ -91,24 +87,22 @@ private fun CalendarScreen(
             }
     }
 
-    Scaffold(
+    Column(
         modifier = modifier,
-        topBar = {
-            CalendarTopAppBar(
-                date = getYearMonthByPage(uiState.currentPage),
-                isListExpanded = uiState.isListEnabled,
-                isWeekExpanded = uiState.isWeekEnabled,
-                onListButtonClicked = onClickListButton,
-                onMonthNavigationButtonClicked = { direction ->
-                    coroutineScope.launch {
-                        listState.animateScrollToItem(
-                            index = listState.firstVisibleItemIndex + direction,
-                        )
-                    }
+    ){
+        CalendarTopAppBar(
+            date = getYearMonthByPage(uiState.currentPage),
+            isListExpanded = uiState.isListEnabled,
+            isWeekExpanded = uiState.isWeekEnabled,
+            onListButtonClicked = onClickListButton,
+            onMonthNavigationButtonClicked = { direction ->
+                coroutineScope.launch {
+                    listState.animateScrollToItem(
+                        index = listState.firstVisibleItemIndex + direction,
+                    )
                 }
-            )
-        }
-    ) { paddingValues ->
+            }
+        )
         ScreenTransition(
             targetState = !uiState.isListEnabled,
             transitionOne = slideInHorizontally { fullWidth -> -fullWidth } togetherWith
@@ -119,7 +113,6 @@ private fun CalendarScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = paddingValues.calculateTopPadding())
                 ) {
                     WeekDaysHeader()
 
@@ -150,6 +143,7 @@ private fun CalendarScreen(
                                 calendarUiState = uiState,
                                 modifier = Modifier
                                     .fillMaxSize(),
+                                navigateUp = disableWeekVisibility,
                                 navigateToAnnouncement = navigateToAnnouncement,
                                 updateSelectedDate = updateSelectedDate
                             )
@@ -162,9 +156,9 @@ private fun CalendarScreen(
                     listState = listState,
                     pages = uiState.calendarModel.pageCount,
                     navigateToAnnouncement = navigateToAnnouncement,
+                    navigateUp = disableListVisibility,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = paddingValues.calculateTopPadding())
                 )
             },
         )

@@ -15,7 +15,7 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 import java.time.LocalDate
 
 @Composable
@@ -28,26 +28,13 @@ internal fun CalendarScrapList(
     isFromList: Boolean = false
 ) {
     val scrollState = rememberScrollState()
-    val topModifier = if (!isFromList) {
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-            .verticalScroll(scrollState)
-    } else {
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-    }
-
-    if (scrapList.isListNotEmpty()) {
-        Text(
-            text = selectedDate.getDateStringInKorean(),
-            style = TerningTheme.typography.title5,
-            color = Black,
-            modifier = Modifier
-                .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-        )
-    }
+    val topModifier = modifier.then(
+        if (!isFromList) {
+            Modifier.verticalScroll(scrollState)
+        } else {
+            Modifier
+        }
+    )
 
     Column(
         modifier = topModifier
@@ -59,7 +46,7 @@ internal fun CalendarScrapList(
                 onInternshipClicked = onInternshipClicked
             )
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(if(scrap == scrapList.last()) 16.dp else 12.dp)
             )
         }
     }

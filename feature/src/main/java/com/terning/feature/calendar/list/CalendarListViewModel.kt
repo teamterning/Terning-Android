@@ -3,7 +3,7 @@ package com.terning.feature.calendar.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.list.model.CalendarListUiState
@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -45,10 +44,10 @@ class CalendarListViewModel @Inject constructor(
         }
     }
 
-    fun updateScrapId(scrapId: Long? = null) {
+    fun updateAnnouncementId(announcementId: Long? = null) {
         _uiState.update { currentState ->
             currentState.copy(
-                scrapId = scrapId
+                internshipAnnouncementId = announcementId
             )
         }
     }
@@ -71,29 +70,28 @@ class CalendarListViewModel @Inject constructor(
 
     fun getScrapMonthList(
         date: LocalDate
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            calendarRepository.getScrapMonthList(
-                year = _uiState.value.currentDate.year,
-                month = _uiState.value.currentDate.monthValue
-            )
-        }.fold(
-            onSuccess = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
-                    )
-                }
-            },
-            onFailure = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = UiState.Failure(it.message.toString())
-                    )
-
-                }
-                _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
-            }
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        calendarRepository.getScrapMonthList(
+            year = date.year,
+            month = date.monthValue
         )
+            .fold(
+                onSuccess = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
+                        )
+                    }
+                },
+                onFailure = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = UiState.Failure(it.message.toString())
+                        )
+
+                    }
+                    _sideEffect.emit(CalendarListSideEffect.ShowToast(R.string.server_failure))
+                }
+            )
     }
 }

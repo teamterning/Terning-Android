@@ -1,12 +1,13 @@
 package com.terning.feature.calendar.list
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,16 +30,15 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.theme.Back
-import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.getFullDateStringInKorean
 import com.terning.core.extension.isListNotEmpty
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
@@ -53,6 +54,7 @@ fun CalendarListRoute(
     pages: Int,
     listState: LazyListState,
     modifier: Modifier = Modifier,
+    navigateUp: () -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
     viewModel: CalendarListViewModel = hiltViewModel()
 ) {
@@ -80,6 +82,10 @@ fun CalendarListRoute(
             }
     }
 
+    BackHandler {
+        navigateUp()
+    }
+
     CalendarListScreen(
         pages = pages,
         listState = listState,
@@ -99,7 +105,7 @@ fun CalendarListRoute(
         },
         onClickScrapButton = { scrapId ->
             with(viewModel){
-                updateScrapId(scrapId)
+                updateAnnouncementId(scrapId)
                 updateScrapCancelDialogVisibility(true)
             }
         },
@@ -145,8 +151,7 @@ private fun CalendarListScreen(
                         .background(Back)
                 ) {
                     when (uiState.loadState) {
-                        UiState.Loading -> {}
-                        UiState.Empty -> {
+                        UiState.Loading -> {
                             item {
                                 Box(
                                     modifier = Modifier.fillMaxSize(),
@@ -156,7 +161,7 @@ private fun CalendarListScreen(
                                         modifier = Modifier
                                             .padding(top = 42.dp)
                                             .fillMaxWidth(),
-                                        text = stringResource(id = R.string.calendar_empty_scrap),
+                                        text = stringResource(id = R.string.calendar_text_friday),
                                         textAlign = TextAlign.Center,
                                         style = TerningTheme.typography.body5,
                                         color = Grey400
@@ -164,30 +169,42 @@ private fun CalendarListScreen(
                                 }
                             }
                         }
+                        UiState.Empty -> {
+                            item {
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    CalendarListEmpty()
+                                }
+                            }
+                        }
 
                         is UiState.Failure -> {}
                         is UiState.Success -> {
+                            val scrapMap = uiState.loadState.data
                             items(getDate.lengthOfMonth()) { day ->
-                                val scrapMap = uiState.loadState.data
-                                val currentDate =
-                                    LocalDate.of(getDate.year, getDate.monthValue, day + 1)
-                                val dateIndex = currentDate.getDateAsMapString()
+                                val currentDate = LocalDate.of(getDate.year, getDate.monthValue, day + 1)
+                                val dateInKorean = currentDate.getFullDateStringInKorean()
 
-                                if (scrapMap[dateIndex].isListNotEmpty()) {
-                                    CalendarScrapList(
-                                        selectedDate = currentDate,
-                                        scrapList = scrapMap[dateIndex].orEmpty(),
-                                        onScrapButtonClicked = onClickScrapButton,
-                                        onInternshipClicked = onClickInternship,
-                                        isFromList = true
+                                if (scrapMap[dateInKorean].isListNotEmpty()) {
+                                    Text(
+                                        text = dateInKorean,
+                                        style = TerningTheme.typography.title5,
+                                        color = Black,
+                                        modifier = Modifier
+                                            .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
                                     )
 
-                                    Spacer(
+                                    CalendarScrapList(
+                                        selectedDate = currentDate,
+                                        scrapList = scrapMap[dateInKorean].orEmpty(),
+                                        onScrapButtonClicked = onClickScrapButton,
+                                        onInternshipClicked = onClickInternship,
+                                        isFromList = true,
                                         modifier = Modifier
-                                            .padding(top = 4.dp)
                                             .fillMaxWidth()
-                                            .height(4.dp)
-                                            .background(Grey200)
+                                            .padding(horizontal = 24.dp)
                                     )
                                 }
                             }
@@ -199,9 +216,9 @@ private fun CalendarListScreen(
     }
 
     if (uiState.scrapDialogVisibility) {
-        uiState.scrapId?.run {
+        uiState.internshipAnnouncementId?.run {
             ScrapCancelDialog(
-                scrapId = this,
+                internshipAnnouncementId = this,
                 onDismissRequest = onDismissCancelDialog
             )
         }
@@ -218,10 +235,8 @@ private fun CalendarListScreen(
                 title = uiState.internshipModel.title,
                 scrapColor = scrapColor,
                 deadline = uiState.currentDate.getFullDateStringInKorean(),
-                startYear = uiState.internshipModel.startYear,
-                startMonth = uiState.internshipModel.startMonth,
+                startYearMonth = uiState.internshipModel.startYearMonth,
                 workingPeriod = uiState.internshipModel.workingPeriod,
-                scrapId = uiState.internshipModel.scrapId,
                 internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
                 companyImage = uiState.internshipModel.companyImage,
                 isScrapped = true,
@@ -231,6 +246,28 @@ private fun CalendarListScreen(
             )
         }
     }
+}
+
+@Composable
+private fun CalendarListEmpty(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(
+            id = R.drawable.ic_terning_calendar_empty
+        ),
+        contentDescription = "",
+        modifier = modifier.padding(top = 20.dp, bottom = 4.dp)
+    )
+
+    Text(
+        modifier = modifier
+            .fillMaxWidth(),
+        text = stringResource(id = R.string.calendar_empty_scrap),
+        textAlign = TextAlign.Center,
+        style = TerningTheme.typography.body5,
+        color = Grey400
+    )
 }
 
 
