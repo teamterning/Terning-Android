@@ -30,7 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.terning.core.designsystem.component.bottomsheet.HomeFilteringBottomSheet
+import com.terning.feature.home.home.component.HomeFilteringBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage

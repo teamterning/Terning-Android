@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.component.bottomsheet
+package com.terning.feature.home.home.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,9 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
+import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.ChangeFilterButton
 import com.terning.core.designsystem.component.button.RoundButton
-import com.terning.core.designsystem.component.datepicker.DatePickerUI
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
@@ -32,6 +32,7 @@ import com.terning.core.extension.currentMonth
 import com.terning.core.extension.currentYear
 import com.terning.core.type.Grade
 import com.terning.core.type.WorkingPeriod
+import com.terning.feature.filtering.filteringthree.component.YearMonthPicker
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -123,14 +124,13 @@ fun HomeFilteringBottomSheet(
                         .padding(top = 32.dp, bottom = 49.dp)
                 )
 
-                DatePickerUI(
+                YearMonthPicker(
                     chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
                     chosenMonth = defaultStartMonth?.minus(1)
                         ?: Calendar.getInstance().currentMonth.minus(1),
                     onYearChosen = { currentStartYear = it },
-                    onMonthChosen = { currentStartMonth = it },
+                    onMonthChosen = { currentStartMonth = it }
                 )
-
                 RoundButton(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 19.dp,
