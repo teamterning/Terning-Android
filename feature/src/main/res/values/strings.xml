@@ -90,6 +90,8 @@
     </string>
     <string name="home_recommend_no_filtering_hyphen">-</string>
     <string name="home_scrap_empty">오늘 마감인 공고가 없어요</string>
+    <string name="home_recommend_total">총</string>
+    <string name="home_recommend_count">개의 공고가 있어요</string>
 
     <!--StartFiltering-->
     <string name="start_filtering_title">터치 3번으로\n원하는 대학생 인턴 공고를 띄워드릴게요</string>
