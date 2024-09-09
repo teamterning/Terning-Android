@@ -5,7 +5,14 @@ import com.terning.domain.entity.home.HomeRecommendIntern
 
 fun HomeRecommendInternResponseDto.toHomeRecommendInternList(): HomeRecommendIntern =
     HomeRecommendIntern(
-        scrapId = this.scrapId,
+        totalCount = this.totalCount,
+        homeRecommendInternDetail = this.result.map {
+            it.toHomeRecommendInternDetail()
+        }
+    )
+
+fun HomeRecommendInternResponseDto.Result.toHomeRecommendInternDetail(): HomeRecommendIntern.HomeRecommendInternDetail =
+    HomeRecommendIntern.HomeRecommendInternDetail(
         internshipAnnouncementId = this.internshipAnnouncementId,
         title = this.title,
         dDay = this.dDay,
@@ -14,4 +21,5 @@ fun HomeRecommendInternResponseDto.toHomeRecommendInternList(): HomeRecommendInt
         startYearMonth = this.startYearMonth,
         companyImage = this.companyImage,
         isScrapped = this.isScrapped,
+        color = this.color,
     )
