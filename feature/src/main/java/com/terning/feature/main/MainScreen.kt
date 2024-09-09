@@ -160,7 +160,10 @@ fun MainScreen(
                 )
                 searchProcessNavGraph(navHostController = navigator.navController)
                 changeFilterNavGraph(navHostController = navigator.navController)
-                internNavGraph(navHostController = navigator.navController)
+                internNavGraph(
+                    paddingValues = paddingValues,
+                    navHostController = navigator.navController
+                )
                 myPageNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
