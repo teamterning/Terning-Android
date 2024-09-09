@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
+import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
@@ -58,17 +59,17 @@ fun HomeUpcomingEmptyIntern(
             Card(
                 colors = CardDefaults.cardColors(White),
                 modifier = modifier
-                    .padding(top = 7.dp, bottom = 27.dp)
+                    .padding(top = 8.dp, bottom = 27.dp)
                     .border(
                         width = 1.dp,
-                        color = Grey400,
+                        color = TerningMain,
                         shape = RoundedCornerShape(12.dp),
                     ),
             ) {
                 Text(
                     text = stringResource(id = R.string.home_upcoming_check_schedule),
                     style = TerningTheme.typography.button4,
-                    color = Grey400,
+                    color = TerningMain,
                     modifier = modifier
                         .padding(vertical = 8.dp, horizontal = 10.dp)
                 )
