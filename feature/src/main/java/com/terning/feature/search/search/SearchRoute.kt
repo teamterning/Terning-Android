@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +21,6 @@ import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
@@ -128,7 +126,7 @@ fun SearchScreen(
             item {
                 ImageSlider(images = images)
 
-                Spacer(modifier = Modifier.padding(8.dp))
+                Spacer(modifier = Modifier.padding(top = 20.dp))
 
                 Text(
                     text = stringResource(id = R.string.search_today_popular),
@@ -141,11 +139,6 @@ fun SearchScreen(
                     searchViewsList = searchViewsList,
                     searchScrapsList = searchScrapsList,
                     navigateToIntern = navigateToIntern,
-                )
-                HorizontalDivider(
-                    thickness = 4.dp,
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    color = Grey100,
                 )
                 SearchInternList(
                     type = InternListType.SCRAP,
