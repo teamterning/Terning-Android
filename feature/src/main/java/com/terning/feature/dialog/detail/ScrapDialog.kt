@@ -59,10 +59,8 @@ fun ScrapDialog(
     title: String,
     scrapColor: Color,
     deadline: String,
-    startYear: Int,
-    startMonth: Int,
+    startYearMonth: String,
     workingPeriod: String,
-    scrapId: Long,
     internshipAnnouncementId: Long,
     companyImage: String,
     isScrapped: Boolean,
@@ -108,8 +106,7 @@ fun ScrapDialog(
         ScrapDialogScreen(
             title = title,
             deadline = deadline,
-            startYear = startYear,
-            startMonth = startMonth,
+            startYearMonth = startYearMonth,
             workingPeriod = workingPeriod,
             isScrapped = isScrapped,
             companyImage = companyImage,
@@ -119,7 +116,7 @@ fun ScrapDialog(
             onClickColorButton = viewModel::changeSelectedColor,
             onClickColorChangeButton = {
                 if(uiState.isColorChanged)
-                viewModel.patchScrap(scrapId = scrapId, color = uiState.selectedColorType)
+                viewModel.patchScrap(scrapId = internshipAnnouncementId, color = uiState.selectedColorType)
             },
             onClickNavigateButton = viewModel::navigateToDetail,
             onClickScrapButton = {
@@ -134,8 +131,7 @@ fun ScrapDialog(
 private fun ScrapDialogScreen(
     title: String,
     deadline: String,
-    startYear: Int,
-    startMonth: Int,
+    startYearMonth: String,
     workingPeriod: String,
     isScrapped: Boolean,
     companyImage: String,
@@ -252,7 +248,7 @@ private fun ScrapDialogScreen(
                     )
                     InternInfoRow(
                         title = stringResource(id = R.string.intern_info_start_date),
-                        value = "${startYear}년 ${startMonth}월"
+                        value = startYearMonth
                     )
                 }
             }
@@ -327,8 +323,7 @@ private fun ScrapDialogPreview() {
         ScrapDialogScreen(
             title = "터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝터닝 하반기 채용터닝터닝 하반기 채용터닝터닝 하반기 채용터닝터닝 하반기 채용터닝터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용터닝 하반기 채용",
             deadline = "2024/09/07",
-            startYear = 2024,
-            startMonth = 11,
+            startYearMonth = "2024년 11월",
             workingPeriod = "2개월",
             companyImage = "",
             isScrapped = false,

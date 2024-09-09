@@ -1,4 +1,4 @@
-package com.terning.domain.entity
+package com.terning.domain.entity.calendar
 
 data class CalendarScrap(
     val scrapId: Long,

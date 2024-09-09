@@ -14,7 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrap
+import com.terning.domain.entity.calendar.CalendarScrap
 import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.month.model.MonthModel

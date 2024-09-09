@@ -40,10 +40,8 @@ fun CalendarTopAppBar(
             .fillMaxWidth()
             .background(color = Color.White)
             .padding(
-                top = 23.dp,
-                bottom = 22.dp,
-                start = 22.dp,
-                end = 22.dp
+                vertical = 20.dp,
+                horizontal = 21.dp
             )
     ) {
         Row(

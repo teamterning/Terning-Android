@@ -31,7 +31,7 @@ import com.terning.feature.R
 
 @Composable
 fun ScrapCancelDialog(
-    scrapId: Long,
+    internshipAnnouncementId: Long,
     onDismissRequest: (Boolean) -> Unit,
     viewModel: ScrapCancelViewModel = hiltViewModel()
 ) {
@@ -53,7 +53,7 @@ fun ScrapCancelDialog(
 
     ScrapCancelScreen(
         onDismissRequest = { onDismissRequest(false) },
-        onClickScrapCancel = { viewModel.deleteScrap(scrapId) }
+        onClickScrapCancel = { viewModel.deleteScrap(internshipAnnouncementId) }
     )
 
 }

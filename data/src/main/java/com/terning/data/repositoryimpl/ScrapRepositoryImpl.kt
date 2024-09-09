@@ -1,7 +1,7 @@
 package com.terning.data.repositoryimpl
 
 import com.terning.data.datasource.ScrapDataSource
-import com.terning.domain.entity.CalendarScrapRequest
+import com.terning.domain.entity.calendar.CalendarScrapRequest
 import com.terning.domain.repository.ScrapRepository
 import javax.inject.Inject
 

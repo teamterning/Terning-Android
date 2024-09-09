@@ -16,20 +16,24 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.domain.entity.CalendarScrap
+import com.terning.domain.entity.calendar.CalendarScrap
 import com.terning.feature.R
 
-private const val MAX_SCRAP_COUNT = 3
+private const val SCRAP_COUNT_WEEK_SIX = 3
+private const val SCRAP_COUNT_WEEK_FIVE = 4
 
 @Composable
 internal fun CalendarMonthScrap(
+    weekCount: Int,
     modifier: Modifier = Modifier,
     scrapLists: List<CalendarScrap>
 ) {
+    val scrapCount = if(weekCount == 5) SCRAP_COUNT_WEEK_FIVE else SCRAP_COUNT_WEEK_SIX
+
     LazyColumn(
         modifier = modifier
     ) {
-        items(scrapLists.subList(0, MAX_SCRAP_COUNT.coerceAtMost(scrapLists.size))) { scrap ->
+        items(scrapLists.subList(0, scrapCount.coerceAtMost(scrapLists.size))) { scrap ->
             Text(
                 text = scrap.title,
                 style = TerningTheme.typography.button5,
@@ -49,11 +53,11 @@ internal fun CalendarMonthScrap(
         }
 
         item {
-            if (scrapLists.size > MAX_SCRAP_COUNT) {
+            if (scrapLists.size > scrapCount) {
                 Text(
-                    text = stringResource(id = R.string.calendar_scrap_overflow, (scrapLists.size - MAX_SCRAP_COUNT)),
+                    text = stringResource(id = R.string.calendar_scrap_overflow, (scrapLists.size - scrapCount)),
                     style = TerningTheme.typography.detail4,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.End,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
