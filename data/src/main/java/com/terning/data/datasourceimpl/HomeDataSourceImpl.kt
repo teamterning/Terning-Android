@@ -6,21 +6,21 @@ import com.terning.data.dto.NonDataBaseResponse
 import com.terning.data.dto.request.ChangeFilterRequestDto
 import com.terning.data.dto.response.HomeFilteringInfoResponseDto
 import com.terning.data.dto.response.HomeRecommendInternResponseDto
-import com.terning.data.dto.response.HomeTodayInternResponseDto
+import com.terning.data.dto.response.HomeUpcomingInternResponseDto
 import com.terning.data.service.HomeService
 import javax.inject.Inject
 
 class HomeDataSourceImpl @Inject constructor(
     private val homeService: HomeService,
 ) : HomeDataSource {
-    override suspend fun getTodayIntern(): BaseResponse<List<HomeTodayInternResponseDto>> =
-        homeService.getHomeTodayIntern()
+    override suspend fun getUpcomingIntern(): BaseResponse<List<HomeUpcomingInternResponseDto>> =
+        homeService.getHomeUpcomingIntern()
 
     override suspend fun getRecommendIntern(
         sortBy: String,
         startYear: Int,
         startMonth: Int
-    ): BaseResponse<List<HomeRecommendInternResponseDto>> =
+    ): BaseResponse<HomeRecommendInternResponseDto> =
         homeService.getRecommendIntern(
             sortBy = sortBy,
             startYear = startYear,
@@ -30,6 +30,6 @@ class HomeDataSourceImpl @Inject constructor(
     override suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto> =
         homeService.getFilteringInfo()
 
-    override suspend fun putFilteringInfo(request: ChangeFilterRequestDto): NonDataBaseResponse =
-        homeService.putFilteringInfo(request)
+    override suspend fun putFilteringInfo(changeFilterRequestDto: ChangeFilterRequestDto): NonDataBaseResponse =
+        homeService.putFilteringInfo(changeFilterRequestDto)
 }

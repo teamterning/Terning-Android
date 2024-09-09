@@ -73,6 +73,10 @@ fun MyPageRoute(
         }
     }
 
+    LaunchedEffect(true) {
+        viewModel.getProfile()
+    }
+
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->

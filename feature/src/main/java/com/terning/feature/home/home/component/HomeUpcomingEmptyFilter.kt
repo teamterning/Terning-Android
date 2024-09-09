@@ -23,7 +23,7 @@ import com.terning.core.extension.customShadow
 import com.terning.feature.R
 
 @Composable
-fun HomeTodayEmptyWithImg(
+fun HomeUpcomingEmptyFilter(
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -49,8 +49,8 @@ fun HomeTodayEmptyWithImg(
                 .padding(top = 24.dp)
         )
         Text(
-            text = stringResource(id = R.string.home_scrap_empty),
-            modifier = modifier
+            text = stringResource(id = R.string.home_upcoming_no_scrap),
+            modifier = Modifier
                 .padding(top = 8.dp, bottom = 25.dp)
                 .fillMaxWidth()
                 .wrapContentWidth(Alignment.CenterHorizontally),

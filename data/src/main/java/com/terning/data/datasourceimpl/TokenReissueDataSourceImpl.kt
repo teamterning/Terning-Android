@@ -12,5 +12,5 @@ class TokenReissueDataSourceImpl @Inject constructor(
     override suspend fun postReissueToken(
         authorization: String
     ): BaseResponse<TokenReissueResponseDto> =
-        tokenReissueService.postReissueToken(authorization)
+        tokenReissueService.postReissueToken("Bearer $authorization")
 }

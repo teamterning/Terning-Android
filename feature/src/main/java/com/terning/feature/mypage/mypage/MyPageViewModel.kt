@@ -31,10 +31,6 @@ class MyPageViewModel @Inject constructor(
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
-    init {
-        getProfile()
-    }
-
     private val _state: MutableStateFlow<MyPageState> = MutableStateFlow(MyPageState())
     val state: StateFlow<MyPageState> get() = _state.asStateFlow()
 
@@ -98,7 +94,7 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile() {
+    fun getProfile() {
         viewModelScope.launch {
             myPageRepository.getProfile()
                 .onSuccess { response ->

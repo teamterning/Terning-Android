@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 // Grey Scale
 val White = Color(0xFFFFFFFF)
+val Grey50 = Color(0xFFFCFCFC)
 val Grey100 = Color(0xFFF5F5F5)
 val Grey150 = Color(0xFFE9E9E9)
 val Grey200 = Color(0xFFDDDDDD)

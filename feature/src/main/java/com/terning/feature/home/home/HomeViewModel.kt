@@ -1,18 +1,16 @@
 package com.terning.feature.home.home
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.theme.CalRed
+import com.terning.core.extension.currentMonth
+import com.terning.core.extension.currentYear
 import com.terning.core.state.UiState
-import com.terning.domain.entity.calendar.CalendarScrapRequest
+import com.terning.core.type.SortBy
+import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository
-import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
-import com.terning.feature.home.home.model.HomeDialogState
-import com.terning.feature.home.home.model.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,20 +25,12 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
     private val myPageRepository: MyPageRepository,
-    private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
-    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
-
     private val _homeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val homeState get() = _homeState.asStateFlow()
 
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
-
-    private val _homeDialogState: MutableStateFlow<HomeDialogState> =
-        MutableStateFlow(HomeDialogState())
-    val homeDialogState get() = _homeDialogState.asStateFlow()
 
     init {
         getProfile()
@@ -50,32 +40,31 @@ class HomeViewModel @Inject constructor(
     fun getRecommendInternsData(sortBy: Int, startYear: Int?, startMonth: Int?) {
         viewModelScope.launch {
             homeRepository.getRecommendIntern(
-                SortBy.entries[sortBy].sortBy,
-                startYear ?: currentYear,
-                startMonth ?: currentMonth,
-            )
-                .onSuccess { internList ->
-                    _homeState.value = _homeState.value.copy(
-                        homeRecommendInternState = UiState.Success(internList)
-                    )
-                }.onFailure { exception: Throwable ->
-                    _homeState.value = _homeState.value.copy(
-                        homeRecommendInternState = UiState.Failure(exception.toString())
-                    )
-                    _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
-                }
-        }
-    }
-
-    private fun getHomeTodayInternList() {
-        viewModelScope.launch {
-            homeRepository.getHomeTodayInternList().onSuccess { internList ->
+                sortBy = SortBy.entries[sortBy].type,
+                startYear ?: Calendar.getInstance().currentYear,
+                startMonth ?: Calendar.getInstance().currentMonth,
+            ).onSuccess { internList ->
                 _homeState.value = _homeState.value.copy(
-                    homeTodayInternState = UiState.Success(internList)
+                    homeRecommendInternState = UiState.Success(internList)
                 )
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
-                    homeTodayInternState = UiState.Failure(exception.toString())
+                    homeRecommendInternState = UiState.Failure(exception.toString())
+                )
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
+            }
+        }
+    }
+
+    fun getHomeUpcomingInternList() {
+        viewModelScope.launch {
+            homeRepository.getHomeUpcomingInternList().onSuccess { internList ->
+                _homeState.value = _homeState.value.copy(
+                    homeUpcomingInternState = UiState.Success(internList)
+                )
+            }.onFailure { exception: Throwable ->
+                _homeState.value = _homeState.value.copy(
+                    homeUpcomingInternState = UiState.Failure(exception.toString())
                 )
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
@@ -88,12 +77,14 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Success(filteringInfo)
                 )
-                getHomeTodayInternList()
-                getRecommendInternsData(
-                    sortBy = _homeState.value.sortBy.ordinal,
-                    startYear = filteringInfo.startYear,
-                    startMonth = filteringInfo.startMonth,
-                )
+                if (filteringInfo.grade != null) {
+                    getHomeUpcomingInternList()
+                    getRecommendInternsData(
+                        sortBy = _homeState.value.sortBy.ordinal,
+                        startYear = filteringInfo.startYear,
+                        startMonth = filteringInfo.startMonth,
+                    )
+                }
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Failure(exception.toString())
@@ -103,13 +94,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun putFilteringInfo(changeFilterRequest: ChangeFilteringRequestModel) {
+    fun putFilteringInfo(grade: Int, workingPeriod: Int, year: Int, month: Int) {
         viewModelScope.launch {
             homeRepository.putFilteringInfo(
-                changeFilterRequest
-            ).onSuccess {
-                _homeSideEffect.emit(HomeSideEffect.NavigateToHome)
-            }
+                ChangeFilteringRequestModel(grade, workingPeriod, year, month)
+            )
         }
     }
 
@@ -127,99 +116,44 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun postScrap(
+    fun updateUpcomingDialogVisibility(visibility: Boolean) {
+        _homeState.update {
+            it.copy(homeUpcomingDialogVisibility = visibility)
+        }
+    }
+
+    fun updateRecommendDialogVisibility(visibility: Boolean) {
+        _homeState.update {
+            it.copy(homeRecommendDialogVisibility = visibility)
+        }
+    }
+
+    fun updateHomeInternModel(
         internshipAnnouncementId: Long,
-        colorIndex: Int,
+        companyImage: String,
+        title: String,
+        dDay: String,
+        deadline: String,
+        workingPeriod: String,
+        isScrapped: Boolean,
+        color: String?,
+        startYearMonth: String,
     ) {
-        viewModelScope.launch {
-            scrapRepository.postScrap(
-                CalendarScrapRequest(
-                    id = internshipAnnouncementId,
-                    color = colorIndex,
+        _homeState.update {
+            it.copy(
+                homeInternModel =
+                HomeUpcomingIntern(
+                    internshipAnnouncementId = internshipAnnouncementId,
+                    companyImage = companyImage,
+                    title = title,
+                    dDay = dDay,
+                    deadline = deadline,
+                    workingPeriod = workingPeriod,
+                    isScrapped = isScrapped,
+                    color = color ?: "",
+                    startYearMonth = startYearMonth,
                 )
-            ).onSuccess {
-                updateScrapDialogVisible(visible = false)
-                updateScrapped(scrapped = true)
-                updateSelectColor(CalRed)
-                getHomeTodayInternList()
-                getFilteringInfo()
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_add_toast_message))
-            }.onFailure {
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
-            }
-        }
-    }
-
-    fun deleteScrap(scrapId: Long) {
-        viewModelScope.launch {
-            scrapRepository.deleteScrap(
-                CalendarScrapRequest(id = scrapId)
-            ).onSuccess {
-                updateScrapDialogVisible(visible = false)
-                updateScrapped(scrapped = true)
-                getHomeTodayInternList()
-                getFilteringInfo()
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.intern_scrap_delete_toast_message))
-            }.onFailure {
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
-            }
-        }
-    }
-
-    fun patchScrap(
-        scrapId: Long,
-        colorIndex: Int,
-    ) {
-        viewModelScope.launch {
-            scrapRepository.patchScrap(
-                CalendarScrapRequest(
-                    id = scrapId,
-                    color = colorIndex,
-                )
-            ).onSuccess {
-                updateScrapDialogVisible(visible = false)
-                updateScrapped(scrapped = true)
-                updateSelectColor(CalRed)
-                getHomeTodayInternList()
-            }.onFailure {
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
-            }
-        }
-    }
-
-    fun updateSelectColor(newColor: Color) {
-        _homeDialogState.update {
-            it.copy(selectedColor = newColor)
-        }
-    }
-
-    fun updateScrapDialogVisible(visible: Boolean) {
-        _homeDialogState.update {
-            it.copy(isScrapDialogVisible = visible)
-        }
-    }
-
-    fun updateScrapped(scrapped: Boolean) {
-        _homeDialogState.update {
-            it.copy(isScrappedState = scrapped)
-        }
-    }
-
-    fun updatePaletteOpen(open: Boolean) {
-        _homeDialogState.update {
-            it.copy(isPaletteOpen = open)
-        }
-    }
-
-    fun updateColorChange(change: Boolean) {
-        _homeDialogState.update {
-            it.copy(isColorChange = change)
-        }
-    }
-
-    fun updateIsToday(change: Boolean) {
-        _homeDialogState.update {
-            it.copy(isToday = change)
+            )
         }
     }
 }

@@ -24,7 +24,7 @@ enum class ProfileImage(
             "glass" -> GLASS
             "calendar" -> CALENDAR
             "passion" -> PASSION
-            else -> BASIC
+            else -> DEFAULT
         }
 
         fun toIndex(profileImage: ProfileImage): Int =
