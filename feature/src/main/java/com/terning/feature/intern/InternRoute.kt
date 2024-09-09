@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,6 +42,7 @@ import java.text.DecimalFormat
 @Composable
 fun InternRoute(
     announcementId: Long = 0,
+    modifier: Modifier = Modifier,
     viewModel: InternViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
@@ -71,6 +71,7 @@ fun InternRoute(
         is UiState.Success -> {
             InternScreen(
                 internUiState = internState,
+                modifier = modifier,
                 internInfo = (internState.loadState as UiState.Success).data,
                 navController = navController
             )
@@ -113,35 +114,20 @@ fun InternScreen(
         )
     }
 
-    Scaffold(
+    Column(
         modifier = modifier,
-        topBar = {
-            BackButtonTopAppBar(
-                title = stringResource(id = R.string.intern_top_app_bar_title),
-                modifier = Modifier.customShadow(
-                    color = Grey200,
-                    offsetY = 2.dp
-                ),
-                onBackButtonClick = {
-                    navController.popBackStack()
-                },
-            )
-        },
-        bottomBar = {
-            InternBottomBar(
-                modifier = modifier,
-                scrapCount = decimal.format(internInfo.scrapCount),
-                scrapId = internInfo.scrapId,
-                onScrapClick = {
-                    viewModel.updateScrapDialogVisible(true)
-                }
-            )
-        }
-    ) { paddingValues ->
-        LazyColumn(
-            modifier = modifier
-                .padding(paddingValues)
-        ) {
+    ) {
+        BackButtonTopAppBar(
+            title = stringResource(id = R.string.intern_top_app_bar_title),
+            modifier = Modifier.customShadow(
+                color = Grey200,
+                offsetY = 2.dp
+            ),
+            onBackButtonClick = {
+                navController.popBackStack()
+            },
+        )
+        LazyColumn {
             item {
                 Column(
                     modifier = modifier.padding(
@@ -229,8 +215,18 @@ fun InternScreen(
                         }
                     }
                 }
+                InternBottomBar(
+                    modifier = modifier,
+                    scrapCount = decimal.format(internInfo.scrapCount),
+                    scrapId = internInfo.scrapId,
+                    onScrapClick = {
+                        viewModel.updateScrapDialogVisible(true)
+                    }
+                )
             }
+
         }
+
 
         if (internUiState.isScrapDialogVisible) {
             TerningBasicDialog(
