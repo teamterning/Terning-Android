@@ -3,7 +3,7 @@ package com.terning.feature.calendar.week
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.domain.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -45,10 +44,10 @@ class CalendarWeekViewModel @Inject constructor(
         }
     }
 
-    fun updateScrapId(scrapId: Long? = null) {
+    fun updateInternshipAnnouncementId(internshipAnnouncementId: Long? = null) {
         _uiState.update { currentState ->
             currentState.copy(
-                scrapId = scrapId
+                internshipAnnouncementId = internshipAnnouncementId
             )
         }
     }
@@ -69,26 +68,25 @@ class CalendarWeekViewModel @Inject constructor(
         }
     }
 
-    fun getScrapWeekList(selectedDate: LocalDate) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            calendarRepository.getScrapDayList(selectedDate)
-        }.fold(
-            onSuccess = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
-                    )
-                }
-            },
-            onFailure = {
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        loadState = UiState.Failure(it.message.toString())
-                    )
+    fun getScrapWeekList(selectedDate: LocalDate) = viewModelScope.launch(Dispatchers.IO) {
+        calendarRepository.getScrapDayList(selectedDate)
+            .fold(
+                onSuccess = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = if (it.isNotEmpty()) UiState.Success(it) else UiState.Empty
+                        )
+                    }
+                },
+                onFailure = {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loadState = UiState.Failure(it.message.toString())
+                        )
 
+                    }
+                    _sideEffect.emit(CalendarWeekSideEffect.ShowToast(R.string.server_failure))
                 }
-                _sideEffect.emit(CalendarWeekSideEffect.ShowToast(R.string.server_failure))
-            }
-        )
+            )
     }
 }

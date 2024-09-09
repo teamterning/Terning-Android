@@ -16,7 +16,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.extension.getDateAsMapString
 import com.terning.core.extension.isToday
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.CalendarScrap
+import com.terning.domain.entity.calendar.CalendarScrap
 import com.terning.feature.calendar.calendar.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthModel
 import java.time.LocalDate
@@ -63,6 +63,7 @@ internal fun CalendarMonth(
                         if (!day.isOutDate) {
                             val index = day.date.getDateAsMapString()
                             CalendarMonthScrap(
+                                weekCount = month.size,
                                 scrapLists = scrapMap[index].orEmpty(),
                                 modifier = Modifier.fillMaxWidth()
                             )

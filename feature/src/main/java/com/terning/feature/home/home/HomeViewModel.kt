@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrapRequest
+import com.terning.domain.entity.calendar.CalendarScrapRequest
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository

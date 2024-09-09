@@ -2,6 +2,9 @@ package com.terning.feature.calendar.calendar.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -20,7 +23,8 @@ fun NavController.navigateCalendar(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.calendarNavGraph(
-    navHostController: NavController
+    navHostController: NavController,
+    paddingValues: PaddingValues
 ) {
     composable<Calendar>(
         exitTransition = {
@@ -37,7 +41,7 @@ fun NavGraphBuilder.calendarNavGraph(
         }
     ) {
         CalendarRoute(
-            navigateUp = navHostController::navigateUp,
+            modifier = Modifier.padding(paddingValues),
             navigateToAnnouncement = navHostController::navigateIntern
         )
     }
