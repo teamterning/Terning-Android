@@ -1,9 +1,9 @@
 package com.terning.feature.calendar.week
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,10 +18,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,13 +29,16 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.theme.Back
+import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.extension.getDateStringInKorean
 import com.terning.core.extension.getFullDateStringInKorean
+import com.terning.core.extension.swipableVertically
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.list.component.CalendarScrapList
@@ -52,6 +54,7 @@ fun CalendarWeekRoute(
     calendarUiState: CalendarUiState,
     navigateToAnnouncement: (Long) -> Unit,
     updateSelectedDate: (LocalDate) -> Unit,
+    navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarWeekViewModel = hiltViewModel()
 ) {
@@ -76,6 +79,10 @@ fun CalendarWeekRoute(
         viewModel.getScrapWeekList(selectedDate = uiState.selectedDate)
     }
 
+    BackHandler {
+        navigateUp()
+    }
+
     CalendarWeekScreen(
         modifier = modifier,
         uiState = uiState,
@@ -95,7 +102,7 @@ fun CalendarWeekRoute(
         onClickChangeColor = { viewModel.getScrapWeekList(uiState.selectedDate) },
         onClickScrapButton = { scrapId ->
             with(viewModel) {
-                updateScrapId(scrapId)
+                updateInternshipAnnouncementId(scrapId)
                 updateScrapCancelDialogVisibility(true)
             }
         },
@@ -121,43 +128,22 @@ private fun CalendarWeekScreen(
     navigateToAnnouncement: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var initialTouchPosition by remember { mutableStateOf<Offset?>(null) }
-    var hideComponent by remember { mutableStateOf(false) }
+    var swiped by remember { mutableStateOf(false) }
 
-    LaunchedEffect(hideComponent) {
-        if (hideComponent) {
+    LaunchedEffect(swiped) {
+        if (swiped) {
             updateSelectedDate(selectedDate)
-        }
-    }
-
-    val swipeModifier = Modifier.pointerInput(Unit) {
-        awaitPointerEventScope {
-            while (true) {
-                val event = awaitPointerEvent()
-                val position = event.changes.first().position
-
-                if (event.changes.first().pressed) {
-                    if (initialTouchPosition == null) {
-                        initialTouchPosition = position
-                    } else {
-                        val deltaY = initialTouchPosition?.let { position.y - it.y }
-                        if (deltaY != null && deltaY > 300f) {
-                            hideComponent = true
-                        }
-                    }
-                } else {
-                    initialTouchPosition = null
-                }
-            }
         }
     }
 
     Column(
         modifier = modifier
-            .background(Back)
+            .background(Back),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
-            modifier = swipeModifier
+            modifier = Modifier
+                .swipableVertically { swiped = true }
                 .shadow(
                     shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
                     elevation = 1.dp
@@ -174,13 +160,25 @@ private fun CalendarWeekScreen(
             )
         }
 
+        Text(
+            text = selectedDate.getDateStringInKorean(),
+            style = TerningTheme.typography.title5,
+            color = Black,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
+        )
+
         when (uiState.loadState) {
             is UiState.Loading -> {}
             is UiState.Empty -> {
                 CalendarWeekEmpty()
             }
 
-            is UiState.Failure -> {}
+            is UiState.Failure -> {
+                CalendarWeekEmpty()
+            }
+
             is UiState.Success -> {
                 CalendarWeekSuccess(
                     scrapList = uiState.loadState.data.toImmutableList(),
@@ -193,9 +191,9 @@ private fun CalendarWeekScreen(
     }
 
     if (uiState.scrapDialogVisibility) {
-        uiState.scrapId?.run {
+        uiState.internshipAnnouncementId?.run {
             ScrapCancelDialog(
-                scrapId = this,
+                internshipAnnouncementId = this,
                 onDismissRequest = onDismissCancelDialog
             )
         }
@@ -212,10 +210,8 @@ private fun CalendarWeekScreen(
                 title = uiState.internshipModel.title,
                 scrapColor = scrapColor,
                 deadline = uiState.selectedDate.getFullDateStringInKorean(),
-                startYear = uiState.internshipModel.startYear,
-                startMonth = uiState.internshipModel.startMonth,
+                startYearMonth = uiState.internshipModel.startYearMonth,
                 workingPeriod = uiState.internshipModel.workingPeriod,
-                scrapId = uiState.internshipModel.scrapId,
                 internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
                 companyImage = uiState.internshipModel.companyImage,
                 isScrapped = true,
@@ -231,20 +227,22 @@ private fun CalendarWeekScreen(
 private fun CalendarWeekEmpty(
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(top = 42.dp)
-                .fillMaxWidth(),
-            text = stringResource(id = R.string.calendar_empty_scrap),
-            textAlign = TextAlign.Center,
-            style = TerningTheme.typography.body5,
-            color = Grey400
-        )
-    }
+    Image(
+        painter = painterResource(
+            id = R.drawable.ic_terning_calendar_empty
+        ),
+        contentDescription = "",
+        modifier = modifier.padding(top = 20.dp, bottom = 4.dp)
+    )
+
+    Text(
+        modifier = modifier
+            .fillMaxWidth(),
+        text = stringResource(id = R.string.calendar_empty_scrap),
+        textAlign = TextAlign.Center,
+        style = TerningTheme.typography.body5,
+        color = Grey400
+    )
 }
 
 @Composable
@@ -258,7 +256,9 @@ private fun CalendarWeekSuccess(
         selectedDate = selectedDate,
         scrapList = scrapList,
         onScrapButtonClicked = onScrapButtonClicked,
-        onInternshipClicked = onInternshipClicked
+        onInternshipClicked = onInternshipClicked,
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
     )
 }
 

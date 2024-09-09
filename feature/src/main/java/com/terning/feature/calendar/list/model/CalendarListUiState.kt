@@ -1,7 +1,7 @@
 package com.terning.feature.calendar.list.model
 
 import com.terning.core.state.UiState
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 import java.time.LocalDate
 
 data class CalendarListUiState(
@@ -9,6 +9,6 @@ data class CalendarListUiState(
     val currentDate: LocalDate = LocalDate.now(),
     val scrapDialogVisibility: Boolean = false,
     val internDialogVisibility: Boolean = false,
-    val scrapId: Long? = null,
+    val internshipAnnouncementId: Long? = null,
     val internshipModel: CalendarScrapDetail? = null
 )

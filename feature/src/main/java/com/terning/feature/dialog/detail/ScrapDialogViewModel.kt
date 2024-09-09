@@ -14,7 +14,7 @@ import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.type.ColorType
-import com.terning.domain.entity.CalendarScrapRequest
+import com.terning.domain.entity.calendar.CalendarScrapRequest
 import com.terning.domain.repository.ScrapRepository
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.state.ScrapDialogUiState

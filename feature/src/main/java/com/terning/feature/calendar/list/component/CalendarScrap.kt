@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.item.ScrapBox
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.CalendarScrapDetail
+import com.terning.domain.entity.calendar.CalendarScrapDetail
 
 @Composable
 fun CalendarScrap(
@@ -25,8 +25,8 @@ fun CalendarScrap(
         elevation = 1.dp,
     ) {
         InternItem(
-            scrapId = scrap.scrapId,
-            imageUrl = scrap.companyImage.orEmpty(),
+            scrapId = scrap.internshipAnnouncementId,
+            imageUrl = scrap.companyImage,
             title = scrap.title,
             dateDeadline = scrap.dDay,
             workingPeriod = scrap.workingPeriod,
