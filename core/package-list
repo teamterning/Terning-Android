@@ -182,6 +182,7 @@ $dokka.location:com.terning.core.extension//isToday/java.time.LocalDate#/Pointin
 $dokka.location:com.terning.core.extension//longToast/android.content.Context#kotlin.Int/PointingToDeclaration/core/com.terning.core.extension/long-toast.html
 $dokka.location:com.terning.core.extension//noRippleClickable/androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/core/com.terning.core.extension/no-ripple-clickable.html
 $dokka.location:com.terning.core.extension//stringToast/android.content.Context#kotlin.String/PointingToDeclaration/core/com.terning.core.extension/string-toast.html
+$dokka.location:com.terning.core.extension//swipableVertically/androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/core/com.terning.core.extension/swipable-vertically.html
 $dokka.location:com.terning.core.extension//toast/android.content.Context#kotlin.Int/PointingToDeclaration/core/com.terning.core.extension/toast.html
 $dokka.location:com.terning.core.navigation////PointingToDeclaration/core/com.terning.core.navigation/index.html
 $dokka.location:com.terning.core.navigation/MainTabRoute///PointingToDeclaration/core/com.terning.core.navigation/-main-tab-route/index.html
