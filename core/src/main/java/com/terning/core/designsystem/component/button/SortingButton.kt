@@ -23,7 +23,7 @@ fun SortingButton(
 ) {
     Row(
         modifier = modifier
-            .noRippleClickable { onCLick() },
+            .noRippleClickable(onCLick),
     ) {
         Text(
             text = stringResource(
