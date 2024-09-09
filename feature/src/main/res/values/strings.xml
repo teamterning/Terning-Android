@@ -38,6 +38,8 @@
     <string name="search_process_no_result_icon">검색 결과 없을 때 아이콘</string>
     <string name="search_process_no_result_text_sub">에</string>
     <string name="search_process_no_result_text_main">해당하는 검색 결과가 없어요</string>
+    <string name="search_process_total">총</string>
+    <string name="search_process_count">개의 공고가 있어요</string>
 
     <!--Calendar-->
     <string name="calendar_text_sunday">일</string>

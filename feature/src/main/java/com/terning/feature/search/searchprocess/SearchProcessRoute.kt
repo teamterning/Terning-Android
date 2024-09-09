@@ -203,17 +203,18 @@ fun SearchProcessScreen(
                     ) {
                         Row {
                             Text(
-                                text = stringResource(id = R.string.home_recommend_total),
+                                text = stringResource(id = R.string.search_process_total),
                                 style = TerningTheme.typography.detail1,
                                 color = Grey400,
                             )
+                            Spacer(modifier = Modifier.padding(start = 3.dp))
                             Text(
                                 text = internSearchResultData.size.toString(),
                                 style = TerningTheme.typography.button3,
                                 color = TerningMain,
                             )
                             Text(
-                                text = stringResource(id = R.string.home_recommend_count),
+                                text = stringResource(id = R.string.search_process_count),
                                 style = TerningTheme.typography.detail1,
                                 color = Grey400,
                             )
@@ -260,11 +261,11 @@ fun SearchProcessScreen(
                         }
                     } else {
                         Spacer(
-                            modifier = Modifier.padding(top = 87.dp)
+                            modifier = Modifier.padding(top = 40.dp)
                         )
                         Image(
                             painter = painterResource(
-                                id = R.drawable.ic_home_scrap_empty
+                                id = R.drawable.ic_home_empty_filtering
                             ),
                             contentDescription = stringResource(
                                 id = R.string.search_process_no_result_icon
@@ -282,7 +283,7 @@ fun SearchProcessScreen(
                         ) {
                             Text(
                                 text = state.keyword,
-                                style = TerningTheme.typography.body1,
+                                style = TerningTheme.typography.title4,
                                 color = TerningMain,
                                 maxLines = MAX_LINES,
                                 overflow = TextOverflow.Ellipsis,
