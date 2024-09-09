@@ -73,20 +73,22 @@ fun InternRoute(
         is UiState.Failure -> {}
         is UiState.Success -> {
             InternScreen(
+                announcementId = announcementId,
                 internUiState = internState,
                 modifier = modifier,
                 internInfo = (internState.loadState as UiState.Success).data,
                 navController = navController,
                 onDismissCancelDialog = {
-                    viewModel.updateScrapDialogVisibility(false)
+                    viewModel.updateScrapCancelDialogVisibility(false)
                 },
-                onDismissInternDialog = {
-                    viewModel.updateScrapDialogVisibility(false)
+                onDismissScrapDialog = { viewModel.updateInternDialogVisibility(false) },
+                onClickCancelButton = {
+                    viewModel.updateScrapCancelDialogVisibility(true)
                 },
-                onClickScrapButton = { detail ->
+                onClickScrapButton = {
                     with(viewModel) {
-                        updateInternshipModel(detail)
-                        updateScrapDialogVisibility(true)
+                        updateInternshipModel(it)
+                        updateInternDialogVisibility(true)
                     }
                 }
             )
@@ -96,13 +98,14 @@ fun InternRoute(
 
 @Composable
 fun InternScreen(
+    announcementId: Long,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: InternViewModel = hiltViewModel(),
     internUiState: InternUiState,
     internInfo: InternInfo,
     onDismissCancelDialog: (Boolean) -> Unit,
-    onDismissInternDialog: () -> Unit,
+    onDismissScrapDialog: () -> Unit,
+    onClickCancelButton: (InternInfo) -> Unit,
     onClickScrapButton: (InternInfo) -> Unit,
 ) {
     val decimal = DecimalFormat("#,###")
@@ -245,33 +248,38 @@ fun InternScreen(
 
         InternBottomBar(
             modifier = Modifier,
-            scrapCount = decimal.format(internInfo.scrapCount),
-            scrapId = internInfo.scrapId,
+            internInfo = internInfo,
             onScrapClick = {
-                viewModel.updateScrapDialogVisibility(true)
-            }
+                if (!internUiState.isScrappedState)
+                    onClickScrapButton(internInfo)
+                else onClickCancelButton(internInfo)
+            },
         )
 
-        if (internUiState.isCancelDialogVisibility) {
-            internUiState.scrapId?.run {
-                ScrapCancelDialog(
-                    scrapId = this,
-                    onDismissRequest = onDismissCancelDialog
-                )
-            }
+
+        if (internUiState.scrapDialogVisibility) {
+            ScrapCancelDialog(
+                internshipAnnouncementId = announcementId,
+                onDismissRequest = onDismissCancelDialog
+            )
         }
 
-        if (internUiState.isScrapDialogVisibility) {
-            ScrapDialog(
-                title = internInfo.title,
-                scrapColor = CalRed,
-                deadline = internInfo.deadline,
-                startDate = internInfo.startDate,
-                workingPeriod = internInfo.workingPeriod,
-                companyImage = internInfo.companyImage,
-                isScrapped = internUiState.isScrappedState,
-                onDismissRequest = onDismissInternDialog,
-            )
+        if (internUiState.internDialogVisibility) {
+            internUiState.internshipModel?.let {
+                ScrapDialog(
+                    title = internUiState.internshipModel.title,
+                    scrapColor = CalRed,
+                    deadline = internUiState.internshipModel.deadline,
+                    startYearMonth = internUiState.internshipModel.startDate,
+                    workingPeriod = internUiState.internshipModel.workingPeriod,
+                    internshipAnnouncementId = announcementId,
+                    companyImage = internUiState.internshipModel.companyImage,
+                    isScrapped = false,
+                    onDismissRequest = onDismissScrapDialog,
+                    onClickChangeColor = { },
+                    onClickNavigateButton = { }
+                )
+            }
         }
     }
 }
