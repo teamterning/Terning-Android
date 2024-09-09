@@ -19,5 +19,5 @@ class MyPageDataSourceImpl @Inject constructor(
 
     override suspend fun editProfile(
         request: MyPageProfileEditRequestDto
-    ): NonDataBaseResponse = myPageService.editProfile()
+    ): NonDataBaseResponse = myPageService.editProfile(request)
 }
