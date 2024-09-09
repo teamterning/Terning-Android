@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,10 +18,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.textfield.SearchTextField
-import com.terning.core.designsystem.component.topappbar.LogoTopAppBar
 import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
@@ -36,6 +33,7 @@ import okhttp3.internal.toImmutableList
 
 @Composable
 fun SearchRoute(
+    modifier: Modifier,
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
     viewModel: SearchViewModel = hiltViewModel(),
@@ -72,6 +70,7 @@ fun SearchRoute(
     }
 
     SearchScreen(
+        modifier = modifier,
         searchViewsList = searchViewsList,
         searchScrapsList = searchScrapsList,
         navigateToSearchProcess = navigateToSearchProcess,
@@ -94,66 +93,59 @@ fun SearchScreen(
         R.drawable.img_ad_3,
     )
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            LogoTopAppBar()
-        }
-    ) { paddingValues ->
-        Column(
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        TerningImage(
+            painter = com.terning.core.R.drawable.ic_terning_logo_typo,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            Box(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 24.dp,
-                        vertical = 16.dp
-                    )
-                    .noRippleClickable {
-                        navigateToSearchProcess()
-                    }
-            ) {
-                SearchTextField(
-                    hint = stringResource(R.string.search_text_field_hint),
-                    leftIcon = R.drawable.ic_nav_search,
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = false,
-                    readOnly = true,
+                .padding(start = 24.dp, top = 16.dp)
+        )
+
+        Box(
+            modifier = Modifier
+                .padding(
+                    horizontal = 24.dp,
+                    vertical = 16.dp
                 )
-            }
-
-            LazyColumn {
-                item {
-                    ImageSlider(images = images)
-
-                    Spacer(modifier = Modifier.padding(8.dp))
-
-                    Text(
-                        text = stringResource(id = R.string.search_today_popular),
-                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp),
-                        style = TerningTheme.typography.title1,
-                        color = Black
-                    )
-                    SearchInternList(
-                        type = InternListType.VIEW,
-                        searchViewsList = searchViewsList,
-                        searchScrapsList = searchScrapsList,
-                        navigateToIntern = navigateToIntern,
-                    )
-                    HorizontalDivider(
-                        thickness = 4.dp,
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        color = Grey100,
-                    )
-                    SearchInternList(
-                        type = InternListType.SCRAP,
-                        searchViewsList = searchViewsList,
-                        searchScrapsList = searchScrapsList,
-                        navigateToIntern = navigateToIntern,
-                    )
+                .noRippleClickable {
+                    navigateToSearchProcess()
                 }
+        ) {
+            SearchTextField(
+                hint = stringResource(R.string.search_text_field_hint),
+                leftIcon = R.drawable.ic_nav_search,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = false,
+                readOnly = true,
+            )
+        }
+
+        LazyColumn {
+            item {
+                ImageSlider(images = images)
+
+                Spacer(modifier = Modifier.padding(top = 20.dp))
+
+                Text(
+                    text = stringResource(id = R.string.search_today_popular),
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp),
+                    style = TerningTheme.typography.title1,
+                    color = Black
+                )
+                SearchInternList(
+                    type = InternListType.VIEW,
+                    searchViewsList = searchViewsList,
+                    searchScrapsList = searchScrapsList,
+                    navigateToIntern = navigateToIntern,
+                )
+                SearchInternList(
+                    type = InternListType.SCRAP,
+                    searchViewsList = searchViewsList,
+                    searchScrapsList = searchScrapsList,
+                    navigateToIntern = navigateToIntern,
+                )
             }
         }
     }

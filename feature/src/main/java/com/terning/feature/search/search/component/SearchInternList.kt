@@ -2,6 +2,7 @@ package com.terning.feature.search.search.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Text
@@ -21,7 +22,9 @@ fun SearchInternList(
     searchViewsList: List<SearchPopularAnnouncement>?,
     navigateToIntern: (Long) -> Unit,
 ) {
-    Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+    Column(
+        modifier = Modifier.padding(horizontal = 24.dp)
+    ) {
         Text(
             text = stringResource(
                 id = when (type) {
@@ -29,12 +32,12 @@ fun SearchInternList(
                     InternListType.SCRAP -> R.string.search_most_scrap_intern
                 }
             ),
-            style = TerningTheme.typography.title5,
+            style = TerningTheme.typography.body3,
             color = Grey400
         )
 
         LazyRow(
-            modifier = Modifier.padding(vertical = 8.dp),
+            modifier = Modifier.padding(vertical = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             when (type) {
@@ -61,5 +64,6 @@ fun SearchInternList(
                 }
             }
         }
+        Spacer(modifier = Modifier.padding(top = 20.dp))
     }
 }

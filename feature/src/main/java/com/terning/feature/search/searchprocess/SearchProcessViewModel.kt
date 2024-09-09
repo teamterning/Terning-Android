@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.domain.entity.calendar.CalendarScrapRequest
+import com.terning.domain.entity.response.InternInfoModel
 import com.terning.domain.entity.search.SearchResult
 import com.terning.domain.repository.ScrapRepository
 import com.terning.domain.repository.SearchRepository
@@ -62,51 +63,6 @@ class SearchProcessViewModel @Inject constructor(
         }
     }
 
-
-    fun postScrap(
-        internshipAnnouncementId: Long,
-        colorIndex: Int,
-    ) {
-        viewModelScope.launch {
-            scrapRepository.postScrap(
-                CalendarScrapRequest(
-                    id = internshipAnnouncementId,
-                    color = colorIndex,
-                )
-            ).onSuccess {
-                updateScrapDialogVisible(visible = false)
-                getSearchList(
-                    keyword = _state.value.text,
-                    sortBy = SORT_BY,
-                    page = 0,
-                    size = 10
-                )
-                _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.intern_scrap_add_toast_message))
-            }.onFailure {
-                _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.server_failure))
-            }
-        }
-    }
-
-    fun deleteScrap(scrapId: Long) {
-        viewModelScope.launch {
-            scrapRepository.deleteScrap(
-                CalendarScrapRequest(id = scrapId)
-            ).onSuccess {
-                updateScrapDialogVisible(visible = false)
-                getSearchList(
-                    keyword = _state.value.text,
-                    sortBy = SORT_BY,
-                    page = 0,
-                    size = 10
-                )
-                _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.intern_scrap_delete_toast_message))
-            }.onFailure {
-                _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.server_failure))
-            }
-        }
-    }
-
     fun updateText(newText: String) {
         _state.value = _state.value.copy(text = newText)
     }
@@ -126,12 +82,6 @@ class SearchProcessViewModel @Inject constructor(
         _state.value = _state.value.copy(existSearchResults = exist)
     }
 
-    fun updateSelectColor(newColor: Color) {
-        _dialogState.update {
-            it.copy(selectedColor = newColor)
-        }
-    }
-
     fun updateScrapDialogVisible(visible: Boolean) {
         _dialogState.update {
             it.copy(isScrapDialogVisible = visible)
@@ -141,18 +91,6 @@ class SearchProcessViewModel @Inject constructor(
     fun updateScrapped(scrapped: Boolean) {
         _dialogState.update {
             it.copy(scrapped = scrapped)
-        }
-    }
-
-    fun updatePaletteOpen(open: Boolean) {
-        _dialogState.update {
-            it.copy(isPaletteOpen = open)
-        }
-    }
-
-    fun updateColorChange(change: Boolean) {
-        _dialogState.update {
-            it.copy(isColorChange = change)
         }
     }
 
