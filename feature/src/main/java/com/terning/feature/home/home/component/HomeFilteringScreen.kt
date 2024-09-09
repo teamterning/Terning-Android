@@ -98,7 +98,7 @@ fun HomeFilteringScreen(
                 }
             } else {
                 HomeFilteringInfoText(
-                    text = "설정된 필터링 정보가 없어요",
+                    text = stringResource(id = R.string.home_filtering_empty),
                     modifier = Modifier
                         .align(Alignment.CenterVertically),
                 )
