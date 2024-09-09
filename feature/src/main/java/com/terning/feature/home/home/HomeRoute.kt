@@ -155,9 +155,9 @@ fun HomeScreen(
 
     if (changeFilteringSheetState) {
         HomeFilteringBottomSheet(
-            defaultGrade = homeFilteringInfo.grade?.let { Grade.fromString(it) },
+            defaultGrade = homeFilteringInfo.grade?.let { Grade.entries[it] },
             defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let {
-                WorkingPeriod.fromString(it)
+                WorkingPeriod.entries[it]
             },
             defaultStartYear = homeFilteringInfo.startYear,
             defaultStartMonth = homeFilteringInfo.startMonth,

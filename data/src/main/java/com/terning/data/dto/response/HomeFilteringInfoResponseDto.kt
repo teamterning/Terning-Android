@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HomeFilteringInfoResponseDto(
     @SerialName("grade")
-    val grade: String?,
+    val grade: Int?,
     @SerialName("workingPeriod")
-    val workingPeriod: String?,
+    val workingPeriod: Int?,
     @SerialName("startYear")
     val startYear: Int?,
     @SerialName("startMonth")
