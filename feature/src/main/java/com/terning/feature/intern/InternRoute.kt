@@ -22,8 +22,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
@@ -32,6 +32,8 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.intern.InternInfo
 import com.terning.feature.R
+import com.terning.feature.dialog.cancel.ScrapCancelDialog
+import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
@@ -43,7 +45,7 @@ import java.text.DecimalFormat
 @Composable
 fun InternRoute(
     announcementId: Long = 0,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     viewModel: InternViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
@@ -74,7 +76,19 @@ fun InternRoute(
                 internUiState = internState,
                 modifier = modifier,
                 internInfo = (internState.loadState as UiState.Success).data,
-                navController = navController
+                navController = navController,
+                onDismissCancelDialog = {
+                    viewModel.updateScrapDialogVisibility(false)
+                },
+                onDismissInternDialog = {
+                    viewModel.updateScrapDialogVisibility(false)
+                },
+                onClickScrapButton = { detail ->
+                    with(viewModel) {
+                        updateInternshipModel(detail)
+                        updateScrapDialogVisibility(true)
+                    }
+                }
             )
         }
     }
@@ -87,6 +101,9 @@ fun InternScreen(
     viewModel: InternViewModel = hiltViewModel(),
     internUiState: InternUiState,
     internInfo: InternInfo,
+    onDismissCancelDialog: (Boolean) -> Unit,
+    onDismissInternDialog: () -> Unit,
+    onClickScrapButton: (InternInfo) -> Unit,
 ) {
     val decimal = DecimalFormat("#,###")
 
@@ -231,16 +248,29 @@ fun InternScreen(
             scrapCount = decimal.format(internInfo.scrapCount),
             scrapId = internInfo.scrapId,
             onScrapClick = {
-                viewModel.updateScrapDialogVisible(true)
+                viewModel.updateScrapDialogVisibility(true)
             }
         )
 
-        if (internUiState.isScrapDialogVisible) {
-            TerningBasicDialog(
-                onDismissRequest = {
-                    viewModel.updateScrapDialogVisible(false)
-                },
-                content = {},
+        if (internUiState.isCancelDialogVisibility) {
+            internUiState.scrapId?.run {
+                ScrapCancelDialog(
+                    scrapId = this,
+                    onDismissRequest = onDismissCancelDialog
+                )
+            }
+        }
+
+        if (internUiState.isScrapDialogVisibility) {
+            ScrapDialog(
+                title = internInfo.title,
+                scrapColor = CalRed,
+                deadline = internInfo.deadline,
+                startDate = internInfo.startDate,
+                workingPeriod = internInfo.workingPeriod,
+                companyImage = internInfo.companyImage,
+                isScrapped = internUiState.isScrappedState,
+                onDismissRequest = onDismissInternDialog,
             )
         }
     }
