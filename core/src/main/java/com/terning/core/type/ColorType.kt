@@ -21,16 +21,17 @@ import com.terning.core.designsystem.theme.CalRedBc
 import com.terning.core.designsystem.theme.CalRedLi
 
 enum class ColorType(
+    val typeName: String,
     val main: Color,
     val border: Color,
     val sub: Color
 ) {
-    RED(main = CalRed, border = CalRedLi, sub = CalRedBc),
-    ORANGE(main = CalOrange2, border = CalOrangeLi, sub = CalOrangeBc),
-    GREEN(main = CalGreen2, border = CalGreenLi, sub = CalGreenBc),
-    BLUE(main = CalBlue2, border = CalBlueLi, sub = CalBlueBc),
-    PURPLE(main = CalPurple, border = CalPurpleLi, sub = CalPurpleBc),
-    PINK(main = CalPink, border = CalPinkLi, sub = CalPinkBc);
+    RED(typeName = "red", main = CalRed, border = CalRedLi, sub = CalRedBc),
+    ORANGE(typeName = "orange", main = CalOrange2, border = CalOrangeLi, sub = CalOrangeBc),
+    GREEN(typeName = "green", main = CalGreen2, border = CalGreenLi, sub = CalGreenBc),
+    BLUE(typeName = "blue", main = CalBlue2, border = CalBlueLi, sub = CalBlueBc),
+    PURPLE(typeName = "purple", main = CalPurple, border = CalPurpleLi, sub = CalPurpleBc),
+    PINK(typeName = "pink", main = CalPink, border = CalPinkLi, sub = CalPinkBc);
 
     companion object {
         fun findColorType(mainColor: Color): ColorType? = entries.find { it.main == mainColor }
