@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.ScrapBox
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
@@ -45,19 +44,21 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
+import com.terning.feature.dialog.detail.ScrapDialog
+import com.terning.feature.home.home.HomeState
 import com.terning.feature.home.home.HomeViewModel
-import com.terning.feature.home.home.model.HomeDialogState
 
 @Composable
 fun HomeUpcomingInternScreen(
     internList: List<HomeUpcomingIntern>,
-    homeDialogState: HomeDialogState,
+    homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    var selectedIndex by remember {
-        mutableStateOf(0)
+    var selectedInternItem: HomeUpcomingIntern? by remember {
+        mutableStateOf(null)
     }
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(horizontal = 24.dp),
@@ -79,16 +80,8 @@ fun HomeUpcomingInternScreen(
                         modifier = Modifier
                             .fillMaxHeight()
                             .noRippleClickable {
-                                homeViewModel.updateScrapDialogVisible(true)
-                                homeViewModel.updateIsToday(true)
-                                homeViewModel.updateSelectColor(
-                                    Color(
-                                        android.graphics.Color.parseColor(
-                                            internList[index].color
-                                        )
-                                    )
-                                )
-                                selectedIndex = index
+                                selectedInternItem = homeUpcomingIntern
+                                homeViewModel.updateUpcomingDialogVisibility(true)
                             },
                         verticalArrangement = Arrangement.SpaceBetween,
                     ) {
@@ -161,47 +154,29 @@ fun HomeUpcomingInternScreen(
                     }
                 }
             )
-//            HomeTodayInternItem(
-//                homeUpcomingIntern = internList[index],
-//                modifier = Modifier
-//                    .noRippleClickable {
-//                        homeViewModel.updateScrapDialogVisible(true)
-//                        homeViewModel.updateIsToday(true)
-//                        homeViewModel.updateSelectColor(
-//                            Color(
-//                                android.graphics.Color.parseColor(
-//                                    internList[index].color
-//                                )
-//                            )
-//                        )
-//                        selectedIndex = index
-//                    }
-//            )
         }
     }
 
-    if (homeDialogState.isScrapDialogVisible && homeDialogState.isToday) {
-        TerningBasicDialog(
-            onDismissRequest = {
-                homeViewModel.updateScrapDialogVisible(false)
-                homeViewModel.updatePaletteOpen(false)
-            },
-            content = {
-                with(internList[selectedIndex]) {
-                    HomeTodayInternDialog(
-                        internInfoList = listOf(
-                            stringResource(id = R.string.intern_info_d_day) to deadline,
-                            stringResource(id = R.string.intern_info_working) to workingPeriod,
-                            stringResource(id = R.string.intern_info_start_date) to startYearMonth,
-                        ),
-                        navigateTo = {
-                            navigateToIntern(internshipAnnouncementId)
-                            homeViewModel.updateScrapDialogVisible(false)
-                        },
-                        homeUpcomingIntern = internList[selectedIndex],
-                    )
-                }
-            },
-        )
+    if (homeState.homeUpcomingDialogVisibility) {
+        val upcomingIntern = selectedInternItem
+        with(upcomingIntern) {
+            if (this != null) {
+                ScrapDialog(
+                    title = title,
+                    scrapColor = Color(android.graphics.Color.parseColor(color)),
+                    deadline = deadline,
+                    startYearMonth = startYearMonth,
+                    workingPeriod = workingPeriod,
+                    internshipAnnouncementId = internshipAnnouncementId,
+                    companyImage = companyImage,
+                    isScrapped = isScrapped,
+                    onDismissRequest = {
+                        homeViewModel.updateUpcomingDialogVisibility(false)
+                    },
+                    onClickChangeColor = { },
+                    onClickNavigateButton = { navigateToIntern(internshipAnnouncementId) }
+                )
+            }
+        }
     }
 }

@@ -59,7 +59,6 @@ import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.home.component.HomeUpcomingInternScreen
-import com.terning.feature.home.home.model.HomeDialogState
 import com.terning.feature.intern.navigation.navigateIntern
 import java.util.Calendar
 
@@ -188,7 +187,6 @@ fun HomeScreen(
                     startMonth = homeFilteringInfo.startMonth
                         ?: Calendar.getInstance().currentMonth,
                 )
-                viewModel.getHomeUpcomingInternList()
             }
         }
     }
@@ -307,6 +305,7 @@ fun HomeScreen(
                                         internshipAnnouncementId = internshipAnnouncementId,
                                         onDismissRequest = {
                                             viewModel.updateRecommendDialogVisibility(false)
+                                            viewModel.getHomeUpcomingInternList()
                                         }
                                     )
                                 } else {
@@ -323,6 +322,7 @@ fun HomeScreen(
                                             viewModel.updateRecommendDialogVisibility(
                                                 false
                                             )
+                                            viewModel.getHomeUpcomingInternList()
                                         },
                                         onClickChangeColor = { /*TODO*/ },
                                         onClickNavigateButton = navigateToIntern

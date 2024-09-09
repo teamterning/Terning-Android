@@ -126,7 +126,7 @@ fun HomeFilteringBottomSheet(
                 DatePickerUI(
                     chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
                     chosenMonth = defaultStartMonth?.minus(1)
-                        ?: Calendar.getInstance().currentMonth,
+                        ?: Calendar.getInstance().currentMonth.minus(1),
                     onYearChosen = { currentStartYear = it },
                     onMonthChosen = { currentStartMonth = it },
                 )
