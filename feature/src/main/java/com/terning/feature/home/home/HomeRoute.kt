@@ -30,7 +30,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.terning.feature.home.home.component.HomeFilteringBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage
@@ -52,8 +51,10 @@ import com.terning.domain.entity.home.HomeFilteringInfo
 import com.terning.domain.entity.home.HomeRecommendIntern
 import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
+import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
+import com.terning.feature.home.home.component.HomeFilteringBottomSheet
 import com.terning.feature.home.home.component.HomeFilteringScreen
 import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.home.component.HomeUpcomingEmptyFilter
@@ -101,6 +102,7 @@ fun HomeRoute(
     HomeScreen(
         paddingValues = paddingValues,
         navigateToIntern = { navController.navigateIntern(announcementId = it) },
+        navigateToCalendar = { navController.navigateCalendar() },
         viewModel = viewModel,
     )
 }
@@ -110,6 +112,7 @@ fun HomeRoute(
 fun HomeScreen(
     paddingValues: PaddingValues,
     navigateToIntern: (Long) -> Unit,
+    navigateToCalendar: () -> Unit,
     viewModel: HomeViewModel,
 ) {
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
@@ -221,7 +224,8 @@ fun HomeScreen(
                     ShowUpcomingIntern(
                         homeUpcomingInternState = homeState.homeUpcomingInternState,
                         homeState = homeState,
-                        navigateToIntern = { navigateToIntern(it) }
+                        navigateToIntern = { navigateToIntern(it) },
+                        navigateToCalendar = navigateToCalendar,
                     )
                 }
             }
@@ -390,11 +394,12 @@ private fun ShowUpcomingIntern(
     homeUpcomingInternState: UiState<List<HomeUpcomingIntern>>,
     homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
+    navigateToCalendar: () -> Unit,
 ) {
     when (homeUpcomingInternState) {
         is UiState.Success -> {
             if (homeUpcomingInternState.data.isEmpty()) {
-                HomeUpcomingEmptyIntern()
+                HomeUpcomingEmptyIntern(navigateToCalendar = navigateToCalendar)
             } else {
                 HomeUpcomingInternScreen(
                     internList = homeUpcomingInternState.data,

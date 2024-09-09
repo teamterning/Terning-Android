@@ -22,11 +22,13 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
+import com.terning.core.extension.noRippleClickable
 import com.terning.feature.R
 
 @Composable
 fun HomeUpcomingEmptyIntern(
     modifier: Modifier = Modifier,
+    navigateToCalendar: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -64,7 +66,8 @@ fun HomeUpcomingEmptyIntern(
                         width = 1.dp,
                         color = TerningMain,
                         shape = RoundedCornerShape(12.dp),
-                    ),
+                    )
+                    .noRippleClickable(navigateToCalendar),
             ) {
                 Text(
                     text = stringResource(id = R.string.home_upcoming_check_schedule),
