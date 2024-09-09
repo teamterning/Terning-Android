@@ -50,7 +50,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
-import com.terning.domain.entity.response.InternInfoModel
+import com.terning.domain.entity.intern.InternInfo
 import com.terning.feature.R
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -111,7 +111,7 @@ fun SearchProcessScreen(
     onDismissCancelDialog: (Boolean) -> Unit,
     onDismissScrapDialog: () -> Unit,
     onClickCancelButton: (Long) -> Unit,
-    onClickScrapButton: (InternInfoModel) -> Unit,
+    onClickScrapButton: (InternInfo) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var sheetState by remember { mutableStateOf(false) }

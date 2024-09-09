@@ -4,10 +4,10 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,16 +22,18 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.response.InternInfoModel
+import com.terning.domain.entity.intern.InternInfo
 import com.terning.feature.R
+import com.terning.feature.dialog.cancel.ScrapCancelDialog
+import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.intern.component.InternBottomBar
 import com.terning.feature.intern.component.InternCompanyInfo
 import com.terning.feature.intern.component.InternInfoRow
@@ -43,6 +45,7 @@ import java.text.DecimalFormat
 @Composable
 fun InternRoute(
     announcementId: Long = 0,
+    modifier: Modifier,
     viewModel: InternViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
@@ -70,9 +73,24 @@ fun InternRoute(
         is UiState.Failure -> {}
         is UiState.Success -> {
             InternScreen(
+                announcementId = announcementId,
                 internUiState = internState,
-                internInfoModel = (internState.loadState as UiState.Success).data,
-                navController = navController
+                modifier = modifier,
+                internInfo = (internState.loadState as UiState.Success).data,
+                navController = navController,
+                onDismissCancelDialog = {
+                    viewModel.updateScrapCancelDialogVisibility(false)
+                },
+                onDismissScrapDialog = { viewModel.updateInternDialogVisibility(false) },
+                onClickCancelButton = {
+                    viewModel.updateScrapCancelDialogVisibility(true)
+                },
+                onClickScrapButton = {
+                    with(viewModel) {
+                        updateInternshipModel(it)
+                        updateInternDialogVisibility(true)
+                    }
+                }
             )
         }
     }
@@ -80,23 +98,27 @@ fun InternRoute(
 
 @Composable
 fun InternScreen(
+    announcementId: Long,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: InternViewModel = hiltViewModel(),
     internUiState: InternUiState,
-    internInfoModel: InternInfoModel,
+    internInfo: InternInfo,
+    onDismissCancelDialog: (Boolean) -> Unit,
+    onDismissScrapDialog: () -> Unit,
+    onClickCancelButton: (InternInfo) -> Unit,
+    onClickScrapButton: (InternInfo) -> Unit,
 ) {
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
-        stringResource(id = R.string.intern_info_d_day) to internInfoModel.deadline,
-        stringResource(id = R.string.intern_info_working) to internInfoModel.workingPeriod,
-        stringResource(id = R.string.intern_info_start_date) to internInfoModel.startDate,
+        stringResource(id = R.string.intern_info_d_day) to internInfo.deadline,
+        stringResource(id = R.string.intern_info_working) to internInfo.workingPeriod,
+        stringResource(id = R.string.intern_info_start_date) to internInfo.startDate,
     )
 
     val qualificationList = listOf(
-        stringResource(id = R.string.intern_recruitment_target) to internInfoModel.qualification,
-        stringResource(id = R.string.intern_info_work) to internInfoModel.jobType,
+        stringResource(id = R.string.intern_recruitment_target) to internInfo.qualification,
+        stringResource(id = R.string.intern_info_work) to internInfo.jobType,
     )
 
     if (internUiState.showWeb) {
@@ -107,15 +129,18 @@ fun InternScreen(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT,
                     )
-                    loadUrl(internInfoModel.url)
+                    loadUrl(internInfo.url)
                 }
             },
         )
     }
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
+    Column(
+        modifier = modifier.fillMaxHeight(),
+    ) {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
             BackButtonTopAppBar(
                 title = stringResource(id = R.string.intern_top_app_bar_title),
                 modifier = Modifier.customShadow(
@@ -126,119 +151,135 @@ fun InternScreen(
                     navController.popBackStack()
                 },
             )
-        },
-        bottomBar = {
-            InternBottomBar(
-                modifier = modifier,
-                scrapCount = decimal.format(internInfoModel.scrapCount),
-                scrapId = internInfoModel.scrapId,
-                onScrapClick = {
-                    viewModel.updateScrapDialogVisible(true)
-                }
-            )
-        }
-    ) { paddingValues ->
-        LazyColumn(
-            modifier = modifier
-                .padding(paddingValues)
-        ) {
-            item {
-                Column(
-                    modifier = modifier.padding(
-                        top = 24.dp,
-                        start = 24.dp,
-                        end = 24.dp
-                    )
-                ) {
-                    Spacer(modifier = modifier.padding(top = 16.dp))
 
-                    InternCompanyInfo(
-                        modifier = modifier,
-                        companyImage = internInfoModel.companyImage,
-                        company = internInfoModel.company,
-                        companyCategory = internInfoModel.companyCategory
-                    )
-
-                    Spacer(modifier = modifier.padding(top = 20.dp))
-
-                    InternTitle(
-                        modifier = modifier,
-                        dDay = internInfoModel.dDay,
-                        title = internInfoModel.title,
-                        viewCount = decimal.format(internInfoModel.viewCount)
-                    )
-
-                    Spacer(modifier = modifier.padding(top = 16.dp))
-
-                    InternPageTitle(
-                        modifier = modifier,
-                        text = stringResource(id = R.string.intern_sub_title_intern_summary)
-                    )
-
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
+                item {
                     Column(
-                        modifier = modifier.padding(
-                            top = 4.dp,
-                            bottom = 4.dp,
-                            start = 10.dp
+                        modifier = Modifier.padding(
+                            top = 24.dp,
+                            start = 24.dp,
+                            end = 24.dp
                         )
                     ) {
-                        internInfoList.forEach { (title, value) ->
-                            InternInfoRow(title, value)
-                        }
-                    }
+                        Spacer(modifier = Modifier.padding(top = 16.dp))
 
-                    Spacer(modifier = modifier.padding(top = 16.dp))
-
-                    InternPageTitle(
-                        modifier = modifier,
-                        text = stringResource(id = R.string.intern_info_request)
-                    )
-
-                    Column(
-                        modifier = modifier.padding(
-                            top = 4.dp,
-                            bottom = 4.dp,
-                            start = 10.dp
+                        InternCompanyInfo(
+                            modifier = Modifier,
+                            companyImage = internInfo.companyImage,
+                            company = internInfo.company,
+                            companyCategory = internInfo.companyCategory
                         )
-                    ) {
-                        qualificationList.forEach { (title, value) ->
-                            InternInfoRow(title, value)
-                        }
-                    }
 
-                    Spacer(modifier = modifier.padding(top = 16.dp))
+                        Spacer(modifier = Modifier.padding(top = 20.dp))
 
-                    InternPageTitle(
-                        modifier = modifier,
-                        text = stringResource(id = R.string.intern_sub_title_intern_detail)
-                    )
-
-                    Column(
-                        modifier = modifier.padding(
-                            start = 10.dp,
-                            top = 5.dp,
-                            bottom = 20.dp
+                        InternTitle(
+                            modifier = Modifier,
+                            dDay = internInfo.dDay,
+                            title = internInfo.title,
+                            viewCount = decimal.format(internInfo.viewCount)
                         )
-                    ) {
-                        SelectionContainer {
-                            Text(
-                                text = internInfoModel.detail.trimIndent(),
-                                style = TerningTheme.typography.body3,
-                                color = Grey400
+
+                        Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                        InternPageTitle(
+                            modifier = Modifier,
+                            text = stringResource(id = R.string.intern_sub_title_intern_summary)
+                        )
+
+                        Column(
+                            modifier = Modifier.padding(
+                                top = 4.dp,
+                                bottom = 4.dp,
+                                start = 10.dp
                             )
+                        ) {
+                            internInfoList.forEach { (title, value) ->
+                                InternInfoRow(title, value)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                        InternPageTitle(
+                            modifier = Modifier,
+                            text = stringResource(id = R.string.intern_info_request)
+                        )
+
+                        Column(
+                            modifier = Modifier.padding(
+                                top = 4.dp,
+                                bottom = 4.dp,
+                                start = 10.dp
+                            )
+                        ) {
+                            qualificationList.forEach { (title, value) ->
+                                InternInfoRow(title, value)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                        InternPageTitle(
+                            modifier = Modifier,
+                            text = stringResource(id = R.string.intern_sub_title_intern_detail)
+                        )
+
+                        Column(
+                            modifier = Modifier.padding(
+                                start = 10.dp,
+                                top = 5.dp,
+                                bottom = 20.dp
+                            )
+                        ) {
+                            SelectionContainer {
+                                Text(
+                                    text = internInfo.detail.trimIndent(),
+                                    style = TerningTheme.typography.body3,
+                                    color = Grey400
+                                )
+                            }
                         }
                     }
                 }
             }
         }
 
-        if (internUiState.isScrapDialogVisible) {
-            TerningBasicDialog(
-                onDismissRequest = {
-                    viewModel.updateScrapDialogVisible(false)
-                },
-                content = {},
+        InternBottomBar(
+            modifier = Modifier,
+            internInfo = internInfo,
+            onScrapClick = {
+                if (!internUiState.isScrappedState)
+                    onClickScrapButton(internInfo)
+                else onClickCancelButton(internInfo)
+            },
+        )
+
+
+        if (internUiState.scrapDialogVisibility) {
+            ScrapCancelDialog(
+                internshipAnnouncementId = announcementId,
+                onDismissRequest = onDismissCancelDialog
             )
+        }
+
+        if (internUiState.internDialogVisibility) {
+            internUiState.internshipModel?.let {
+                ScrapDialog(
+                    title = internUiState.internshipModel.title,
+                    scrapColor = CalRed,
+                    deadline = internUiState.internshipModel.deadline,
+                    startYearMonth = internUiState.internshipModel.startDate,
+                    workingPeriod = internUiState.internshipModel.workingPeriod,
+                    internshipAnnouncementId = announcementId,
+                    companyImage = internUiState.internshipModel.companyImage,
+                    isScrapped = false,
+                    onDismissRequest = onDismissScrapDialog,
+                    onClickChangeColor = { },
+                    onClickNavigateButton = { }
+                )
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
-package com.terning.domain.entity.response
+package com.terning.domain.entity.intern
 
-data class InternInfoModel(
+data class InternInfo(
     val dDay: String,
     val title: String,
     val deadline: String,

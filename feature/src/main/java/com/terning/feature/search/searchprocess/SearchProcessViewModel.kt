@@ -1,10 +1,7 @@
 package com.terning.feature.search.searchprocess
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.domain.entity.calendar.CalendarScrapRequest
-import com.terning.domain.entity.response.InternInfoModel
 import com.terning.domain.entity.search.SearchResult
 import com.terning.domain.repository.ScrapRepository
 import com.terning.domain.repository.SearchRepository
