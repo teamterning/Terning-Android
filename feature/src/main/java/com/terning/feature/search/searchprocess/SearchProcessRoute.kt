@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -42,7 +41,6 @@ import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
-import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.CalBlue1
 import com.terning.core.designsystem.theme.CalBlue2
 import com.terning.core.designsystem.theme.CalGreen1
@@ -54,6 +52,7 @@ import com.terning.core.designsystem.theme.CalPurple
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.CalYellow
 import com.terning.core.designsystem.theme.Grey400
+import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
@@ -144,17 +143,15 @@ fun SearchProcessScreen(
             modifier = Modifier
         )
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .padding(horizontal = 24.dp)
         ) {
             if (!state.showSearchResults) {
                 Text(
                     text = stringResource(id = R.string.search_process_question_text),
                     style = TerningTheme.typography.heading2,
-                    color = Black,
-                    modifier = Modifier.padding(
-                        vertical = 16.dp
-                    )
+                    color = Grey500,
+                    modifier = Modifier.padding(bottom = 17.dp)
                 )
             }
 
@@ -164,9 +161,8 @@ fun SearchProcessScreen(
                     viewModel.updateText(newText)
                 },
                 hint = stringResource(R.string.search_text_field_hint),
-                leftIcon = R.drawable.ic_nav_search,
+                leftIcon = R.drawable.ic_search_18,
                 modifier = Modifier
-                    .padding(top = 8.dp)
                     .focusRequester(focusRequester)
                     .addFocusCleaner(focusManager),
                 onSearchAction = {
@@ -199,7 +195,7 @@ fun SearchProcessScreen(
                         ) {
                             items(viewModel.internSearchResultData.value.size) { index ->
                                 InternItemWithShadow(
-                                    modifier = modifier.noRippleClickable {
+                                    modifier = Modifier.noRippleClickable {
                                         navController.navigateIntern(
                                             announcementId = internSearchResultData[index]
                                                 .internshipAnnouncementId
@@ -215,7 +211,7 @@ fun SearchProcessScreen(
                                     onScrapButtonClicked = {
                                         viewModel.updateScrapDialogVisible(true)
                                         viewModel.updateScrapped(scrapped = internSearchResultData[index].scrapId != null)
-                                        selectedInternIndex.value = index
+                                        selectedInternIndex.intValue = index
                                     }
                                 )
                             }
@@ -226,7 +222,7 @@ fun SearchProcessScreen(
                         )
                         Image(
                             painter = painterResource(
-                                id = R.drawable.ic_empty_logo
+                                id = R.drawable.ic_home_scrap_empty
                             ),
                             contentDescription = stringResource(
                                 id = R.string.search_process_no_result_icon
@@ -267,14 +263,6 @@ fun SearchProcessScreen(
                     }
                 }
             }
-        }
-        if (!state.showSearchResults) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_search_backgroud),
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth,
-                modifier = modifier.fillMaxSize()
-            )
         }
 
         if (dialogState.isScrapDialogVisible) {
