@@ -22,11 +22,15 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
 
 /**
- * ScrapBox is made for easy customization of scrap box used in Calendar & Home Screen
+ * 홈과 달력 화면에서 스크랩된 공고 목록을 표시하기 위해 사용하는 컴포넌트입니다.
  *
- * [modifier] must be assigned for assigning size of the box and padding
- * [elevation] must be set greater than zero for shadow effect, mainly used in Calendar
- * [borderWidth] must be set greater than zero for border effect, mainly used in Home
+ * @param cornerRadius 코너 둥근 정도입니다.
+ * @param scrapColor 좌측 공간의 색상입니다.
+ * @param modifier 수정자입니다.
+ * @param elevation 그림자입니다.
+ * @param borderWidth 테두리 두께입니다.
+ * @param borderColor 테두리 색상입니다.
+ * @param content 컴포저블 내용입니다.
  */
 
 @Composable
