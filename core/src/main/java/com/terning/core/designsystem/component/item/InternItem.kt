@@ -37,6 +37,18 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 
+/**
+ * 홈, 달력, 검색 화면에서 공고를 나타낼 때 사용되는 뷰입니다.
+ *
+ * @param imageUrl 공고 이미지 URL입니다.
+ * @param title 공고 제목입니다.
+ * @param dateDeadline 공고 기한입니다.
+ * @param workingPeriod 공고 근무 기간입니다.
+ * @param isScraped 스크랩 여부입니다.
+ * @param modifier 수정자입니다.
+ * @param scrapId 공고 아이디입니다.
+ * @param onScrapButtonClicked 스크랩 버튼 클릭 시 호출되는 콜백입니다.
+ */
 
 @Composable
 fun InternItem(
