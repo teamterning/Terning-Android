@@ -26,14 +26,25 @@ import com.terning.core.extension.noRippleClickable
 import java.time.LocalDate
 import java.time.YearMonth
 
+/**
+ * 달력의 상단바를 표시하기 위한 컴포넌트입니다.
+ *
+ * @param date 현재 표시되는 연월입니다.
+ * @param isWeekExpanded 주간 달력 뷰가 확장되었는지 여부입니다.
+ * @param isListExpanded 목록 뷰가 확장되었는지 여부입니다.
+ * @param onListButtonClicked 목록 버튼을 클릭했을 때 호출되는 콜백입니다.
+ * @param onMonthNavigationButtonClicked 연월을 변경하는 버튼을 클릭했을 때 호출되는 콜백입니다.
+ * @param modifier 수정자입니다.
+ */
+
 @Composable
 fun CalendarTopAppBar(
-    modifier: Modifier = Modifier,
     date: YearMonth,
     isWeekExpanded: Boolean,
     isListExpanded: Boolean,
     onListButtonClicked: () -> Unit,
     onMonthNavigationButtonClicked: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
