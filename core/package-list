@@ -201,6 +201,7 @@ $dokka.location:com.terning.core.type/ColorType/border/#/PointingToDeclaration/
 $dokka.location:com.terning.core.type/ColorType/entries/#/PointingToDeclaration/core/com.terning.core.type/-color-type/entries.html
 $dokka.location:com.terning.core.type/ColorType/main/#/PointingToDeclaration/core/com.terning.core.type/-color-type/main.html
 $dokka.location:com.terning.core.type/ColorType/sub/#/PointingToDeclaration/core/com.terning.core.type/-color-type/sub.html
+$dokka.location:com.terning.core.type/ColorType/typeName/#/PointingToDeclaration/core/com.terning.core.type/-color-type/type-name.html
 $dokka.location:com.terning.core.type/ColorType/valueOf/#kotlin.String/PointingToDeclaration/core/com.terning.core.type/-color-type/value-of.html
 $dokka.location:com.terning.core.type/ColorType/values/#/PointingToDeclaration/core/com.terning.core.type/-color-type/values.html
 $dokka.location:com.terning.core.type/Grade.Companion///PointingToDeclaration/core/com.terning.core.type/-grade/-companion/index.html
