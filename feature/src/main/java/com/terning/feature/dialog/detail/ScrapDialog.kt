@@ -64,9 +64,10 @@ fun ScrapDialog(
     internshipAnnouncementId: Long,
     companyImage: String,
     isScrapped: Boolean,
-    onDismissRequest: () -> Unit,
-    onClickChangeColor: () -> Unit,
-    onClickNavigateButton: (Long) -> Unit,
+    onDismissRequest: () -> Unit = {},
+    onScrapAnnouncement: () -> Unit = {},
+    onClickChangeColor: () -> Unit = {},
+    onClickNavigateButton: (Long) -> Unit = {},
     viewModel: ScrapDialogViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -79,6 +80,7 @@ fun ScrapDialog(
                     is ScrapDialogSideEffect.ShowToast -> {
                         context.toast(sideEffect.message)
                     }
+
                     is ScrapDialogSideEffect.DismissDialog -> {
                         viewModel.initUiState()
                         onDismissRequest()
@@ -90,6 +92,8 @@ fun ScrapDialog(
                     )
 
                     is ScrapDialogSideEffect.ScrappedAnnouncement -> {
+                        onScrapAnnouncement()
+                        onDismissRequest()
                     }
                 }
             }
@@ -115,8 +119,11 @@ fun ScrapDialog(
             isColorChangedOnce = uiState.isColorChangedOnce,
             onClickColorButton = viewModel::changeSelectedColor,
             onClickColorChangeButton = {
-                if(uiState.isColorChanged)
-                viewModel.patchScrap(scrapId = internshipAnnouncementId, color = uiState.selectedColorType)
+                if (uiState.isColorChanged)
+                    viewModel.patchScrap(
+                        scrapId = internshipAnnouncementId,
+                        color = uiState.selectedColorType
+                    )
             },
             onClickNavigateButton = viewModel::navigateToDetail,
             onClickScrapButton = {
