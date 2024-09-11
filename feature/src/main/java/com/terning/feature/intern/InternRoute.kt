@@ -2,6 +2,7 @@ package com.terning.feature.intern
 
 import android.view.ViewGroup
 import android.webkit.WebView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -27,6 +28,7 @@ import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
@@ -136,7 +138,9 @@ fun InternScreen(
     }
 
     Column(
-        modifier = modifier.fillMaxHeight(),
+        modifier = modifier
+            .fillMaxHeight()
+            .background(White),
     ) {
         Column(
             modifier = Modifier.weight(1f)
