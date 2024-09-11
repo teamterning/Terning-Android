@@ -206,7 +206,7 @@ fun InternScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.padding(top = 16.dp))
+                        Spacer(modifier = Modifier.padding(top = 13.dp))
 
                         InternPageTitle(
                             modifier = Modifier,
@@ -225,7 +225,7 @@ fun InternScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.padding(top = 16.dp))
+                        Spacer(modifier = Modifier.padding(top = 13.dp))
 
                         InternPageTitle(
                             modifier = Modifier,
