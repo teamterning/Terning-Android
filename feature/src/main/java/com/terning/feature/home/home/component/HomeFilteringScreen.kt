@@ -91,7 +91,11 @@ fun HomeFilteringScreen(
                     )
                     HomeFilteringInfoDivider()
                     HomeFilteringInfoText(
-                        text = "$startYear 년 $startMonth 월",
+                        text = stringResource(
+                            id = R.string.home_recommend_filtering_startYearMonth,
+                            startYear.toString(),
+                            startMonth.toString()
+                        ),
                         modifier = Modifier
                             .padding(start = 6.dp),
                     )
