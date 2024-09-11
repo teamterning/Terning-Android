@@ -44,7 +44,7 @@ fun HomeFilteringBottomSheet(
     defaultStartYear: Int?,
     defaultStartMonth: Int?,
     onDismiss: () -> Unit,
-    onChangeButtonClick: (Int, Int, Int, Int) -> Unit,
+    onChangeButtonClick: (String, String, Int, Int) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -142,8 +142,8 @@ fun HomeFilteringBottomSheet(
                         currentGrade?.let { grade ->
                             currentPeriod?.let { workingPeriod ->
                                 onChangeButtonClick(
-                                    grade.ordinal,
-                                    workingPeriod.ordinal,
+                                    grade.stringValue,
+                                    workingPeriod.stringValue,
                                     currentStartYear,
                                     currentStartMonth,
                                 )

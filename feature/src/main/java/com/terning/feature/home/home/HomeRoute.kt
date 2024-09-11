@@ -158,9 +158,9 @@ fun HomeScreen(
 
     if (changeFilteringSheetState) {
         HomeFilteringBottomSheet(
-            defaultGrade = homeFilteringInfo.grade?.let { Grade.entries[it] },
+            defaultGrade = homeFilteringInfo.grade?.let { Grade.fromString(it) },
             defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let {
-                WorkingPeriod.entries[it]
+                WorkingPeriod.fromString(it)
             },
             defaultStartYear = homeFilteringInfo.startYear,
             defaultStartMonth = homeFilteringInfo.startMonth,
@@ -382,8 +382,12 @@ private fun ShowMainTitleWithName(userName: String) {
             else userName
         ),
         modifier = Modifier
-            .padding(top = 11.dp, bottom = 19.dp)
-            .padding(horizontal = 24.dp),
+            .padding(
+                top = 2.dp,
+                bottom = 20.dp,
+                start = 24.dp,
+                end = 24.dp,
+            ),
         style = TerningTheme.typography.title1,
         color = Black,
     )
@@ -422,8 +426,11 @@ private fun ShowRecommendTitle() {
         style = TerningTheme.typography.title1,
         color = Black,
         modifier = Modifier
-            .padding(top = 5.dp)
-            .padding(horizontal = 24.dp),
+            .padding(
+                top = 20.dp,
+                start = 24.dp,
+                end = 24.dp,
+            ),
     )
 }
 
