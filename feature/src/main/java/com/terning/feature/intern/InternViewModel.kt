@@ -3,7 +3,6 @@ package com.terning.feature.intern
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.domain.entity.intern.InternInfo
 import com.terning.domain.repository.InternRepository
 import com.terning.feature.R
@@ -33,7 +32,10 @@ class InternViewModel @Inject constructor(
             internRepository.getInternInfo(id)
                 .onSuccess { internInfoModel ->
                     _internUiState.update { currentState ->
-                        currentState.copy(loadState = UiState.Success(internInfoModel))
+                        currentState.copy(
+                            loadState = UiState.Success(internInfoModel),
+                            isScrappedState = internInfoModel.scrapId != null,
+                        )
                     }
                 }
                 .onFailure {
@@ -42,18 +44,11 @@ class InternViewModel @Inject constructor(
         }
     }
 
-    fun updateInternshipModel(scrapDetailModel: InternInfo?) {
-        _internUiState.update { currentState ->
-            currentState.copy(
-                internshipModel = scrapDetailModel
-            )
-        }
-    }
-
     fun updateScrapCancelDialogVisibility(visibility: Boolean) {
         _internUiState.update { currentState ->
             currentState.copy(
-                scrapDialogVisibility = visibility
+                scrapCancelDialogVisibility = visibility,
+                isScrappedState = visibility
             )
         }
     }
@@ -62,6 +57,14 @@ class InternViewModel @Inject constructor(
         _internUiState.update { currentState ->
             currentState.copy(
                 internDialogVisibility = visibility
+            )
+        }
+    }
+
+    fun updateInternshipModel(scrapDetailModel: InternInfo?) {
+        _internUiState.update { currentState ->
+            currentState.copy(
+                internshipModel = scrapDetailModel
             )
         }
     }

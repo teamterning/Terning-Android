@@ -90,7 +90,9 @@ fun InternRoute(
                 onClickScrapButton = {
                     with(viewModel) {
                         updateInternshipModel(it)
-                        updateInternDialogVisibility(true)
+                        if (internState.isScrappedState)
+                            updateScrapCancelDialogVisibility(true)
+                        else updateInternDialogVisibility(true)
                     }
                 }
             )
@@ -255,37 +257,37 @@ fun InternScreen(
         InternBottomBar(
             modifier = Modifier,
             internInfo = internInfo,
+            internUiState = internUiState,
             onScrapClick = {
-                if (!internUiState.isScrappedState)
+                if (!internUiState.isScrappedState) {
                     onClickScrapButton(internInfo)
-                else onClickCancelButton(internInfo)
+                } else {
+                    onClickCancelButton(internInfo)
+                }
             },
         )
 
-
-        if (internUiState.scrapDialogVisibility) {
+        if (internUiState.scrapCancelDialogVisibility && internUiState.isScrappedState) {
             ScrapCancelDialog(
                 internshipAnnouncementId = announcementId,
                 onDismissRequest = onDismissCancelDialog
             )
         }
 
-        if (internUiState.internDialogVisibility) {
-            internUiState.internshipModel?.let {
-                ScrapDialog(
-                    title = internUiState.internshipModel.title,
-                    scrapColor = CalRed,
-                    deadline = internUiState.internshipModel.deadline,
-                    startYearMonth = internUiState.internshipModel.startDate,
-                    workingPeriod = internUiState.internshipModel.workingPeriod,
-                    internshipAnnouncementId = announcementId,
-                    companyImage = internUiState.internshipModel.companyImage,
-                    isScrapped = false,
-                    onDismissRequest = onDismissScrapDialog,
-                    onClickChangeColor = { },
-                    onClickNavigateButton = { }
-                )
-            }
+        if (internUiState.internDialogVisibility && !internUiState.isScrappedState) {
+            ScrapDialog(
+                title = internInfo.title,
+                scrapColor = CalRed,
+                deadline = internInfo.deadline,
+                startYearMonth = internInfo.startDate,
+                workingPeriod = internInfo.workingPeriod,
+                internshipAnnouncementId = announcementId,
+                companyImage = internInfo.companyImage,
+                isScrapped = false,
+                onDismissRequest = onDismissScrapDialog,
+                onClickChangeColor = { },
+                onClickNavigateButton = { }
+            )
         }
     }
 }

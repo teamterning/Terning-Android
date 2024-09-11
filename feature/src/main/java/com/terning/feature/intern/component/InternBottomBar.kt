@@ -27,11 +27,13 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.intern.InternInfo
 import com.terning.feature.R
 import com.terning.feature.intern.InternViewModel
+import com.terning.feature.intern.model.InternUiState
 
 @Composable
 fun InternBottomBar(
     modifier: Modifier,
     internInfo: InternInfo,
+    internUiState: InternUiState,
     onScrapClick: (InternInfo) -> Unit,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
@@ -64,7 +66,7 @@ fun InternBottomBar(
                     Icon(
                         painter = painterResource(
                             id =
-                            if (internInfo.scrapId != null) R.drawable.ic_scrap_true_24
+                            if (internUiState.isScrappedState) R.drawable.ic_scrap_true_24
                             else R.drawable.ic_scrap_false_24,
                         ),
                         contentDescription = null,

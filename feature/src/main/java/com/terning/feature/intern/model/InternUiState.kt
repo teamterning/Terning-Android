@@ -9,7 +9,7 @@ data class InternUiState(
     val loadState: UiState<InternInfo> = UiState.Loading,
     val isColorChange: Boolean = false,
     val selectedColor: Color = CalRed,
-    val scrapDialogVisibility: Boolean = false,
+    val scrapCancelDialogVisibility: Boolean = false,
     val internDialogVisibility: Boolean = false,
     val isScrappedState: Boolean = false,
     val showWeb: Boolean = false,
