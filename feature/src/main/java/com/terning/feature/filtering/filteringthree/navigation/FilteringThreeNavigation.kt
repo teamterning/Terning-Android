@@ -13,8 +13,8 @@ import com.terning.feature.filtering.starthome.navigation.navigateStartHome
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateFilteringThree(
-    grade: Int,
-    workingPeriod: Int,
+    grade: String,
+    workingPeriod: String,
     navOptions: NavOptions? = null
 ) {
     navigate(
@@ -41,6 +41,6 @@ fun NavGraphBuilder.filteringThreeNavGraph(
 
 @Serializable
 data class FilteringThree(
-    val grade: Int,
-    val workingPeriod: Int
+    val grade: String,
+    val workingPeriod: String
 ) : Route

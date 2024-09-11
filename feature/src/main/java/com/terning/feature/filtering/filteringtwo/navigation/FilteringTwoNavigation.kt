@@ -13,7 +13,7 @@ import com.terning.feature.filtering.filteringtwo.FilteringTwoRoute
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateFilteringTwo(
-    grade: Int,
+    grade: String,
     navOptions: NavOptions? = null
 ) {
     navigate(
@@ -44,5 +44,5 @@ fun NavGraphBuilder.filteringTwoNavGraph(
 
 @Serializable
 data class FilteringTwo(
-    val grade: Int
+    val grade: String
 ) : Route

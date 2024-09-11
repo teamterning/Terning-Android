@@ -18,7 +18,7 @@ class FilteringTwoViewModel : ViewModel() {
     private val _sideEffects = MutableSharedFlow<FilteringTwoSideEffect>()
     val sideEffects: SharedFlow<FilteringTwoSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun updateWorkingPeriodAndButton(workingPeriod: Int) {
+    fun updateWorkingPeriodAndButton(workingPeriod: String) {
         _state.value = _state.value.copy(
             workingPeriod = workingPeriod,
             isButtonValid = true
@@ -27,4 +27,14 @@ class FilteringTwoViewModel : ViewModel() {
 
     fun navigateUp() =
         viewModelScope.launch { _sideEffects.emit(FilteringTwoSideEffect.NavigateUp) }
+
+    fun navigateToFilteringThree(grade: String, workingPeriod: String) =
+        viewModelScope.launch {
+            _sideEffects.emit(
+                FilteringTwoSideEffect.NavigateToFilteringThree(
+                    grade, workingPeriod
+                )
+            )
+        }
+
 }
