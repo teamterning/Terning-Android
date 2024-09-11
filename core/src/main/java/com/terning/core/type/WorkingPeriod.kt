@@ -18,8 +18,5 @@ enum class WorkingPeriod(
             "long" -> LONG
             else -> SHORT
         }
-
-        fun toIndex(workingPeriod: WorkingPeriod): Int =
-            WorkingPeriod.entries.indexOf(workingPeriod)
     }
 }

@@ -20,8 +20,5 @@ enum class Grade(
             "senior" -> SENIOR
             else -> FRESHMAN
         }
-
-        fun toIndex(grade: Grade): Int =
-            Grade.entries.indexOf(grade)
     }
 }
