@@ -8,8 +8,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
-import com.terning.feature.filtering.filteringone.FilteringOneRoute
 import kotlinx.serialization.Serializable
+import com.terning.feature.filtering.filteringone.FilteringOneRoute
 
 fun NavController.navigateFilteringOne(
     name: String,
