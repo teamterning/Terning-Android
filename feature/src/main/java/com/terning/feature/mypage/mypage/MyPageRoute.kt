@@ -1,5 +1,7 @@
 package com.terning.feature.mypage.mypage
 
+import android.content.Context
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -46,6 +49,11 @@ import com.terning.core.state.UiState
 import com.terning.feature.R
 import com.terning.feature.mypage.component.MyPageProfile
 import com.terning.feature.mypage.mypage.component.MyPageItem
+import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
+import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
+import com.terning.feature.mypage.mypage.util.MyPageDefaults.PERSONAL_URL
+import com.terning.feature.mypage.mypage.util.MyPageDefaults.SERVICE_URL
+import com.terning.feature.mypage.mypage.util.MyPageDefaults.VERSION
 
 @Composable
 fun MyPageRoute(
@@ -87,6 +95,12 @@ fun MyPageRoute(
                     )
 
                     is MyPageSideEffect.ShowToast -> context.toast(sideEffect.message)
+                    is MyPageSideEffect.NavigateToNoticeWebView -> navigateToNoticeWebView(context)
+                    is MyPageSideEffect.NavigateToOpinionWebView -> navigateToOpinionWebView(context)
+                    is MyPageSideEffect.NavigateToServiceWebView -> navigateToServiceWebView(context)
+                    is MyPageSideEffect.NavigateToPersonalWebView -> navigateToPersonalWebView(
+                        context
+                    )
                 }
             }
     }
@@ -145,25 +159,13 @@ fun MyPageRoute(
         }
     }
 
-    if (state.showNotice) {
-        viewModel.navigateToNoticeWebView(context)
-        viewModel.fetchShowNotice(false)
-    }
+    if (state.showNotice) viewModel.fetchShowNotice(false)
 
-    if (state.showOpinion) {
-        viewModel.navigateToOpinionWebView(context)
-        viewModel.fetchShowOpinion(false)
-    }
+    if (state.showOpinion) viewModel.fetchShowOpinion(false)
 
-    if (state.showService) {
-        viewModel.navigateToServiceWebView(context)
-        viewModel.fetchShowService(false)
-    }
+    if (state.showService) viewModel.fetchShowService(false)
 
-    if (state.showPersonal) {
-        viewModel.navigateToPersonalWebView(context)
-        viewModel.fetchShowPersonal(false)
-    }
+    if (state.showPersonal) viewModel.fetchShowPersonal(false)
 
 }
 
@@ -396,7 +398,21 @@ fun ServiceInfo(
     }
 }
 
-private const val VERSION = "1.1.0"
+private fun navigateToNoticeWebView(context: Context) {
+    CustomTabsIntent.Builder().build().launchUrl(context, NOTICE_URL.toUri())
+}
+
+private fun navigateToOpinionWebView(context: Context) {
+    CustomTabsIntent.Builder().build().launchUrl(context, OPINION_URL.toUri())
+}
+
+private fun navigateToServiceWebView(context: Context) {
+    CustomTabsIntent.Builder().build().launchUrl(context, SERVICE_URL.toUri())
+}
+
+private fun navigateToPersonalWebView(context: Context) {
+    CustomTabsIntent.Builder().build().launchUrl(context, PERSONAL_URL.toUri())
+}
 
 @Preview(showBackground = true)
 @Composable

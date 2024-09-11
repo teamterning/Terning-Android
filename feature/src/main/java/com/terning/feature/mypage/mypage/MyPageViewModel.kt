@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jakewharton.processphoenix.ProcessPhoenix
@@ -112,19 +110,31 @@ class MyPageViewModel @Inject constructor(
     }
 
     fun fetchShowNotice(show: Boolean) {
-        _state.value = _state.value.copy(showNotice = show)
+        viewModelScope.launch {
+            _sideEffects.emit(MyPageSideEffect.NavigateToNoticeWebView)
+            _state.value = _state.value.copy(showNotice = show)
+        }
     }
 
     fun fetchShowOpinion(show: Boolean) {
-        _state.value = _state.value.copy(showOpinion = show)
+        viewModelScope.launch {
+            _sideEffects.emit(MyPageSideEffect.NavigateToOpinionWebView)
+            _state.value = _state.value.copy(showOpinion = show)
+        }
     }
 
     fun fetchShowService(show: Boolean) {
-        _state.value = _state.value.copy(showService = show)
+        viewModelScope.launch {
+            _sideEffects.emit(MyPageSideEffect.NavigateToServiceWebView)
+            _state.value = _state.value.copy(showService = show)
+        }
     }
 
     fun fetchShowPersonal(show: Boolean) {
-        _state.value = _state.value.copy(showPersonal = show)
+        viewModelScope.launch {
+            _sideEffects.emit(MyPageSideEffect.NavigateToPersonalWebView)
+            _state.value = _state.value.copy(showPersonal = show)
+        }
     }
 
     fun fetchShowLogoutBottomSheet(show: Boolean) {
@@ -135,32 +145,7 @@ class MyPageViewModel @Inject constructor(
         _state.value = _state.value.copy(showQuitBottomSheet = show)
     }
 
-    fun navigateToNoticeWebView(context: Context) {
-        CustomTabsIntent.Builder().build().launchUrl(context, NOTICE_URL.toUri())
-    }
-
-    fun navigateToOpinionWebView(context: Context) {
-        CustomTabsIntent.Builder().build().launchUrl(context, OPINION_URL.toUri())
-    }
-
     fun navigateToProfileEdit() =
         viewModelScope.launch { _sideEffects.emit(MyPageSideEffect.NavigateToProfileEdit) }
 
-    fun navigateToServiceWebView(context: Context) {
-        CustomTabsIntent.Builder().build().launchUrl(context, SERVICE_URL.toUri())
-    }
-
-    fun navigateToPersonalWebView(context: Context) {
-        CustomTabsIntent.Builder().build().launchUrl(context, PERSONAL_URL.toUri())
-    }
-
-    companion object {
-        private const val NOTICE_URL =
-            "https://abundant-quiver-13f.notion.site/AOS-49b3cc2390ee4dc389e25a5097736944?pvs=4"
-        private const val OPINION_URL = "https://forms.gle/AaLpVptfg6cATYWa7"
-        private const val SERVICE_URL =
-            "https://abundant-quiver-13f.notion.site/69109213e7db4873be6b9600f2f5163a?pvs=4"
-        private const val PERSONAL_URL =
-            "https://abundant-quiver-13f.notion.site/130cf1915fe7471e9aaf29cab306be3b?pvs=4"
-    }
 }
