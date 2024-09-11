@@ -73,7 +73,7 @@ fun MyPageRoute(
         }
     }
 
-    LaunchedEffect(true) {
+    LaunchedEffect(key1 = true) {
         viewModel.getProfile()
     }
 
@@ -123,13 +123,13 @@ fun MyPageRoute(
         is UiState.Success -> {
             MyPageScreen(
                 paddingValues = paddingValues,
-                onEditClick = { viewModel.navigateToProfileEdit() },
+                onEditClick = viewModel::navigateToProfileEdit,
                 onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
                 onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
                 onNoticeClick = { viewModel.fetchShowNotice(true) },
                 onOpinionClick = { viewModel.fetchShowOpinion(true) },
-                onServiceClick = {},
-                onPersonalClick = {},
+                onServiceClick = { viewModel.fetchShowService(true) },
+                onPersonalClick = { viewModel.fetchShowPersonal(true) },
                 name = state.name,
                 profileImage = state.profileImage
             )
@@ -154,6 +154,17 @@ fun MyPageRoute(
         viewModel.navigateToOpinionWebView(context)
         viewModel.fetchShowOpinion(false)
     }
+
+    if (state.showService) {
+        viewModel.navigateToServiceWebView(context)
+        viewModel.fetchShowService(false)
+    }
+
+    if (state.showPersonal) {
+        viewModel.navigateToPersonalWebView(context)
+        viewModel.fetchShowPersonal(false)
+    }
+
 }
 
 @Composable

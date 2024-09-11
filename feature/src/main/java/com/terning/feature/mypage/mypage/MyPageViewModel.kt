@@ -119,6 +119,14 @@ class MyPageViewModel @Inject constructor(
         _state.value = _state.value.copy(showOpinion = show)
     }
 
+    fun fetchShowService(show: Boolean) {
+        _state.value = _state.value.copy(showService = show)
+    }
+
+    fun fetchShowPersonal(show: Boolean) {
+        _state.value = _state.value.copy(showPersonal = show)
+    }
+
     fun fetchShowLogoutBottomSheet(show: Boolean) {
         _state.value = _state.value.copy(showLogoutBottomSheet = show)
     }
