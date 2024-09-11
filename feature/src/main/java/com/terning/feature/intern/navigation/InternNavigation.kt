@@ -2,9 +2,6 @@ package com.terning.feature.intern.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -27,7 +24,6 @@ fun NavController.navigateIntern(
 
 fun NavGraphBuilder.internNavGraph(
     navHostController: NavHostController,
-    paddingValues: PaddingValues,
 ) {
     composable<Intern>(
         exitTransition = {
@@ -46,7 +42,6 @@ fun NavGraphBuilder.internNavGraph(
         val args = it.toRoute<Intern>()
         InternRoute(
             announcementId = args.announcementId,
-            modifier = Modifier.padding(paddingValues),
             navController = navHostController
         )
     }

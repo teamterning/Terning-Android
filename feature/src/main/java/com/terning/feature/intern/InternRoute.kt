@@ -6,7 +6,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
@@ -47,7 +49,6 @@ import java.text.DecimalFormat
 @Composable
 fun InternRoute(
     announcementId: Long = 0,
-    modifier: Modifier,
     viewModel: InternViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
@@ -77,7 +78,6 @@ fun InternRoute(
             InternScreen(
                 announcementId = announcementId,
                 internUiState = internState,
-                modifier = modifier,
                 internInfo = (internState.loadState as UiState.Success).data,
                 navController = navController,
                 onDismissCancelDialog = {
@@ -139,6 +139,8 @@ fun InternScreen(
 
     Column(
         modifier = modifier
+            .statusBarsPadding()
+            .navigationBarsPadding()
             .fillMaxHeight()
             .background(White),
     ) {
