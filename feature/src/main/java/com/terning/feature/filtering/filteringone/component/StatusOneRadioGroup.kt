@@ -13,18 +13,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.button.FilteringButton
+import com.terning.core.type.Grade
 import com.terning.feature.R
 
 @Composable
 fun StatusOneRadioGroup(
-    onButtonClick: (Int) -> Unit,
+    onButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val options = listOf(
-        R.string.filtering_status1_button1,
-        R.string.filtering_status1_button2,
-        R.string.filtering_status1_button3,
-        R.string.filtering_status1_button4
+        Grade.FRESHMAN.stringResId,
+        Grade.SOPHOMORE.stringResId,
+        Grade.JUNIOR.stringResId,
+        Grade.SENIOR.stringResId
     )
 
     val selectedOptions = listOf(
@@ -52,7 +53,7 @@ fun StatusOneRadioGroup(
                     selectedIndex.intValue = option
                     selectedButton.indices.forEach { i -> selectedButton[i] = false }
                     selectedButton[index] = true
-                    onButtonClick(index)
+                    onButtonClick(Grade.entries[index].stringValue)
                 },
                 cornerRadius = 15.dp,
                 paddingVertical = 14.dp

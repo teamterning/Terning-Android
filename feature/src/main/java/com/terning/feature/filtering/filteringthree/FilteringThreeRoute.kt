@@ -37,8 +37,8 @@ import java.util.Calendar
 
 @Composable
 fun FilteringThreeRoute(
-    grade: Int,
-    workingPeriod: Int,
+    grade: String,
+    workingPeriod: String,
     navigateUp: () -> Unit,
     navigateToStartHome: () -> Unit,
     paddingValues: PaddingValues,

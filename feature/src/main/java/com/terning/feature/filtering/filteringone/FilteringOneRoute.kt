@@ -32,7 +32,7 @@ import com.terning.feature.filtering.filteringone.component.StatusOneRadioGroup
 @Composable
 fun FilteringOneRoute(
     name: String,
-    onNextClick: (Int) -> Unit,
+    onNextClick: (String) -> Unit,
     navigateUp: () -> Unit,
     paddingValues: PaddingValues,
     viewModel: FilteringOneViewModel = hiltViewModel(),
@@ -46,16 +46,17 @@ fun FilteringOneRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is FilteringOneSideEffect.NavigateUp -> navigateUp()
+                    is FilteringOneSideEffect.NavigateToFilteringTwo -> onNextClick(sideEffect.grade)
                 }
             }
     }
 
     FilteringOneScreen(
         name = name,
-        onButtonClick = { index ->
-            viewModel.updateGradeAndButton(index)
+        onButtonClick = { grade ->
+            viewModel.updateGradeAndButton(grade)
         },
-        onNextClick = onNextClick,
+        onNextClick = viewModel::navigateToFilteringTwo,
         navigateUp = viewModel::navigateUp,
         buttonState = state.isButtonValid,
         gradeState = state.grade,
@@ -66,11 +67,11 @@ fun FilteringOneRoute(
 @Composable
 fun FilteringOneScreen(
     name: String,
-    onNextClick: (Int) -> Unit,
+    onNextClick: (String) -> Unit,
     navigateUp: () -> Unit,
-    onButtonClick: (Int) -> Unit,
+    onButtonClick: (String) -> Unit,
     buttonState: Boolean,
-    gradeState: Int,
+    gradeState: String,
     paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
@@ -117,8 +118,8 @@ fun FilteringOneScreen(
                 )
             )
             StatusOneRadioGroup(
-                onButtonClick = { index ->
-                    onButtonClick(index)
+                onButtonClick = { grade ->
+                    onButtonClick(grade)
                 }
             )
             Text(
@@ -152,7 +153,7 @@ fun FilteringOneScreenPreview() {
             onNextClick = {},
             navigateUp = {},
             buttonState = true,
-            gradeState = 1
+            gradeState = "freshman"
         )
     }
 }
