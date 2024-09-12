@@ -32,11 +32,6 @@ class HomeViewModel @Inject constructor(
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
-    init {
-        getProfile()
-        getFilteringInfo()
-    }
-
     fun getRecommendInternsData(sortBy: Int, startYear: Int?, startMonth: Int?) {
         viewModelScope.launch {
             homeRepository.getRecommendIntern(
@@ -102,7 +97,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile() {
+    fun getProfile() {
         viewModelScope.launch {
             myPageRepository.getProfile().onSuccess { response ->
                 _homeState.value = _homeState.value.copy(

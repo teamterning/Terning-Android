@@ -86,6 +86,7 @@ fun HomeRoute(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
+        viewModel.getProfile()
         viewModel.getFilteringInfo()
     }
 
