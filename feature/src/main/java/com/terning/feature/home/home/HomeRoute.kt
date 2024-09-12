@@ -222,7 +222,6 @@ fun HomeScreen(
                             )
                             viewModel.getHomeUpcomingInternList()
                         },
-                        onClickChangeColor = { /*TODO*/ },
                         onClickNavigateButton = navigateToIntern
                     )
                 }
