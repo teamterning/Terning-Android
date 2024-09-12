@@ -179,22 +179,6 @@ fun HomeScreen(
         }
     }
 
-    LaunchedEffect(
-        homeState.homeRecommendDialogVisibility,
-        homeState.homeUpcomingDialogVisibility
-    ) {
-        with(homeState) {
-            if (!homeRecommendDialogVisibility && !homeUpcomingDialogVisibility) {
-                viewModel.getRecommendInternsData(
-                    sortBy = sortBy.ordinal,
-                    startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
-                    startMonth = homeFilteringInfo.startMonth
-                        ?: Calendar.getInstance().currentMonth,
-                )
-            }
-        }
-    }
-
     if (homeState.homeRecommendDialogVisibility) {
         with(homeState.homeInternModel) {
             if (this != null) {
@@ -204,6 +188,12 @@ fun HomeScreen(
                         onDismissRequest = {
                             viewModel.updateRecommendDialogVisibility(false)
                             viewModel.getHomeUpcomingInternList()
+                            viewModel.getRecommendInternsData(
+                                sortBy = homeState.sortBy.ordinal,
+                                startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
+                                startMonth = homeFilteringInfo.startMonth
+                                    ?: Calendar.getInstance().currentMonth,
+                            )
                         }
                     )
                 } else {
@@ -221,6 +211,12 @@ fun HomeScreen(
                                 false
                             )
                             viewModel.getHomeUpcomingInternList()
+                            viewModel.getRecommendInternsData(
+                                sortBy = homeState.sortBy.ordinal,
+                                startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
+                                startMonth = homeFilteringInfo.startMonth
+                                    ?: Calendar.getInstance().currentMonth,
+                            )
                         },
                         onClickNavigateButton = navigateToIntern
                     )
