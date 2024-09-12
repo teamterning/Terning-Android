@@ -21,6 +21,14 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 
+/**
+ * 앱에서 사용하는 다이얼로그의 기본 프레임입니다.
+ *
+ * @param onDismissRequest 사용자가 다이얼로그를 닫을 때 호출되는 콜백입니다.
+ * @param properties 다이얼로그의 속성입니다.
+ * @param content 다이얼로그의 내용을 구성하는 컴포저블 컨텐츠입니다.
+ */
+
 @Composable
 fun TerningBasicDialog(
     onDismissRequest: () -> Unit,

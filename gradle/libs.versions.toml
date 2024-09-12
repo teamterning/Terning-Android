@@ -2,8 +2,8 @@
 compileSdk = "34"
 minSdk = "28"
 targetSdk = "34"
-versionName = "1.0.2"
-versionCode = "10002"
+versionName = "1.1.0"
+versionCode = "10100"
 kotlinCompilerExtensionVersion = "1.5.0"
 jvmTarget = "1.8"
 
