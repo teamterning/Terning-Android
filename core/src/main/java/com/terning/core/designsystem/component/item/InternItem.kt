@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.terning.core.R
+import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
