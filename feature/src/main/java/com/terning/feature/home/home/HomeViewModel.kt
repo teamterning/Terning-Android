@@ -138,6 +138,7 @@ class HomeViewModel @Inject constructor(
         isScrapped: Boolean,
         color: String?,
         startYearMonth: String,
+        companyInfo: String = "",
     ) {
         _homeState.update {
             it.copy(
@@ -152,6 +153,7 @@ class HomeViewModel @Inject constructor(
                     isScrapped = isScrapped,
                     color = color ?: "",
                     startYearMonth = startYearMonth,
+                    companyInfo = companyInfo,
                 )
             )
         }

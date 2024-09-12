@@ -130,7 +130,7 @@ fun HomeUpcomingInternScreen(
                             )
 
                             Text(
-                                text = "유한킴벌리",
+                                text = homeUpcomingIntern.companyInfo,
                                 style = TerningTheme.typography.button5,
                                 color = Grey500,
                                 maxLines = 1,

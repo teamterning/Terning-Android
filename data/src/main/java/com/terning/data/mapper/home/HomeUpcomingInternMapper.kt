@@ -14,4 +14,5 @@ fun HomeUpcomingInternResponseDto.toHomeUpcomingInternList(): HomeUpcomingIntern
         isScrapped = this.isScrapped,
         startYearMonth = this.startYearMonth,
         color = this.color,
+        companyInfo = this.companyInfo,
     )
