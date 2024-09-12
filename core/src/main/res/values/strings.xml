@@ -16,6 +16,7 @@
     <string name="intern_item_working_period_month">%s개월</string>
     <string name="intern_item_d_day">D-%s</string>
     <string name="intern_item_scrap">스크랩</string>
+    <string name="intern_apply_closed">지원마감</string>
 
     <!--Calendar-->
     <string name="calendar_button_description_previous">previous</string>

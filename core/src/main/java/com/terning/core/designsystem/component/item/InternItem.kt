@@ -87,7 +87,7 @@ fun InternItem(
             Text(
                 text = dateDeadline,
                 style = TerningTheme.typography.detail0,
-                color = if (dateDeadline == "지원마감") Grey300 else TerningMain,
+                color = if (dateDeadline == stringResource(id = R.string.intern_apply_closed)) Grey300 else TerningMain,
             )
             TwoLineHeightText(
                 text = title,
