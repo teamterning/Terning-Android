@@ -194,6 +194,41 @@ fun HomeScreen(
         }
     }
 
+    if (homeState.homeRecommendDialogVisibility) {
+        with(homeState.homeInternModel) {
+            if (this != null) {
+                if (isScrapped) {
+                    ScrapCancelDialog(
+                        internshipAnnouncementId = internshipAnnouncementId,
+                        onDismissRequest = {
+                            viewModel.updateRecommendDialogVisibility(false)
+                            viewModel.getHomeUpcomingInternList()
+                        }
+                    )
+                } else {
+                    ScrapDialog(
+                        title = title,
+                        scrapColor = CalRed,
+                        deadline = deadline,
+                        startYearMonth = startYearMonth,
+                        workingPeriod = workingPeriod,
+                        internshipAnnouncementId = internshipAnnouncementId,
+                        companyImage = companyImage,
+                        isScrapped = isScrapped,
+                        onDismissRequest = {
+                            viewModel.updateRecommendDialogVisibility(
+                                false
+                            )
+                            viewModel.getHomeUpcomingInternList()
+                        },
+                        onClickChangeColor = { /*TODO*/ },
+                        onClickNavigateButton = navigateToIntern
+                    )
+                }
+            }
+        }
+    }
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
@@ -297,41 +332,6 @@ fun HomeScreen(
                             }
                         }
                     )
-
-                    if (homeState.homeRecommendDialogVisibility) {
-                        with(homeState.homeInternModel) {
-                            if (this != null) {
-                                if (isScrapped) {
-                                    ScrapCancelDialog(
-                                        internshipAnnouncementId = internshipAnnouncementId,
-                                        onDismissRequest = {
-                                            viewModel.updateRecommendDialogVisibility(false)
-                                            viewModel.getHomeUpcomingInternList()
-                                        }
-                                    )
-                                } else {
-                                    ScrapDialog(
-                                        title = title,
-                                        scrapColor = CalRed,
-                                        deadline = deadline,
-                                        startYearMonth = startYearMonth,
-                                        workingPeriod = workingPeriod,
-                                        internshipAnnouncementId = internshipAnnouncementId,
-                                        companyImage = companyImage,
-                                        isScrapped = isScrapped,
-                                        onDismissRequest = {
-                                            viewModel.updateRecommendDialogVisibility(
-                                                false
-                                            )
-                                            viewModel.getHomeUpcomingInternList()
-                                        },
-                                        onClickChangeColor = { /*TODO*/ },
-                                        onClickNavigateButton = navigateToIntern
-                                    )
-                                }
-                            }
-                        }
-                    }
                 }
             } else {
                 item {
