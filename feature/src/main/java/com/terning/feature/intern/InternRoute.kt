@@ -81,15 +81,22 @@ fun InternRoute(
                 internInfo = (internState.loadState as UiState.Success).data,
                 navController = navController,
                 onDismissCancelDialog = {
-                    viewModel.updateScrapCancelDialogVisibility(false)
+                    with(viewModel) {
+                        updateScrapCancelDialogVisibility(false)
+                        getInternInfo(announcementId)
+                    }
                 },
-                onDismissScrapDialog = { viewModel.updateInternDialogVisibility(false) },
+                onDismissScrapDialog = {
+                    with(viewModel) {
+                        updateInternDialogVisibility(false)
+                        getInternInfo(announcementId)
+                    }
+                },
                 onClickCancelButton = {
                     viewModel.updateScrapCancelDialogVisibility(true)
                 },
                 onClickScrapButton = {
                     with(viewModel) {
-                        updateInternshipModel(it)
                         if (internState.isScrappedState)
                             updateScrapCancelDialogVisibility(true)
                         else updateInternDialogVisibility(true)

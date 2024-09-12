@@ -48,7 +48,6 @@ class InternViewModel @Inject constructor(
         _internUiState.update { currentState ->
             currentState.copy(
                 scrapCancelDialogVisibility = visibility,
-                isScrappedState = visibility
             )
         }
     }
