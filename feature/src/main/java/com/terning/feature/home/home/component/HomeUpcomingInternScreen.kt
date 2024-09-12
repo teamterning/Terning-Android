@@ -178,7 +178,7 @@ fun HomeUpcomingInternScreen(
                     onDismissRequest = {
                         homeViewModel.updateUpcomingDialogVisibility(false)
                     },
-                    onClickChangeColor = { },
+                    onClickChangeColor = homeViewModel::getHomeUpcomingInternList,
                     onClickNavigateButton = { navigateToIntern(internshipAnnouncementId) }
                 )
             }
