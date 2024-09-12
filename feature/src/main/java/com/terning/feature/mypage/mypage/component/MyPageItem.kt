@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.image.TerningImage
+import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
@@ -51,7 +52,8 @@ fun MyPageItem(
             Text(
                 text = version,
                 modifier = modifier.padding(end = 16.dp),
-                style = TerningTheme.typography.button4
+                style = TerningTheme.typography.button4,
+                color = Grey350
             )
         else TerningImage(painter = R.drawable.ic_my_page_go_detail)
     }
