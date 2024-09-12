@@ -62,8 +62,8 @@ fun HomeFilteringScreen(
                 modifier = modifier
                     .padding(
                         start = 2.dp,
-                        top = 1.dp,
-                        bottom = 1.dp,
+                        top = 2.dp,
+                        bottom = 2.dp,
                     ),
                 tint = TerningMain,
             )

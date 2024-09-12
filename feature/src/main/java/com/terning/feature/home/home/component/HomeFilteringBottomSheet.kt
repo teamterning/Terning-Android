@@ -184,7 +184,7 @@ fun ChangeFilteringRadioGroup(
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(optionList.size),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(13.dp),
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()

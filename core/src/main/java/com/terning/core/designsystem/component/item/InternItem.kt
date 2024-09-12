@@ -1,7 +1,6 @@
 package com.terning.core.designsystem.component.item
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -76,7 +75,7 @@ fun InternItem(
             Text(
                 text = dateDeadline,
                 style = TerningTheme.typography.detail0,
-                color = TerningMain,
+                color = if (dateDeadline == "지원마감") Grey300 else TerningMain,
             )
             TwoLineHeightText(
                 text = title,

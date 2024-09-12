@@ -216,10 +216,7 @@ fun HomeScreen(
                 .fillMaxWidth(),
         ) {
             item {
-                Column(
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                ) {
+                Column {
                     ShowMainTitleWithName(homeUserName)
                     ShowUpcomingIntern(
                         homeUpcomingInternState = homeState.homeUpcomingInternState,
@@ -427,7 +424,7 @@ private fun ShowRecommendTitle() {
         color = Black,
         modifier = Modifier
             .padding(
-                top = 20.dp,
+                top = 22.dp,
                 start = 24.dp,
                 end = 24.dp,
             ),
