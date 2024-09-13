@@ -33,7 +33,6 @@ fun HomeUpcomingEmptyIntern(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 19.dp)
             .padding(horizontal = 24.dp)
             .customShadow(
                 color = Grey200,
@@ -53,19 +52,19 @@ fun HomeUpcomingEmptyIntern(
             Text(
                 text = stringResource(id = R.string.home_upcoming_empty),
                 modifier = modifier
-                    .padding(top = 27.dp),
+                    .padding(top = 26.dp),
                 textAlign = TextAlign.Center,
-                style = TerningTheme.typography.detail3,
+                style = TerningTheme.typography.detail2,
                 color = Grey500,
             )
             Card(
                 colors = CardDefaults.cardColors(White),
                 modifier = modifier
-                    .padding(top = 8.dp, bottom = 27.dp)
+                    .padding(top = 8.dp, bottom = 25.dp)
                     .border(
                         width = 1.dp,
                         color = TerningMain,
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(14.dp),
                     )
                     .noRippleClickable(navigateToCalendar),
             ) {

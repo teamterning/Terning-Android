@@ -38,7 +38,7 @@ fun HomeRecommendEmptyIntern(
         )
         Text(
             text = stringResource(id = text),
-            style = TerningTheme.typography.body4,
+            style = TerningTheme.typography.detail2,
             color = Grey400,
             textAlign = TextAlign.Center,
             modifier = modifier

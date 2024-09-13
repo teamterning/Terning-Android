@@ -23,4 +23,6 @@ data class HomeUpcomingInternResponseDto(
     val color: String,
     @SerialName("startYearMonth")
     val startYearMonth: String,
+    @SerialName("companyInfo")
+    val companyInfo: String,
 )

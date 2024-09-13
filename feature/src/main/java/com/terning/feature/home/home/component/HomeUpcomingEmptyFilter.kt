@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +28,6 @@ fun HomeUpcomingEmptyFilter(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 19.dp)
             .padding(horizontal = 24.dp)
             .customShadow(
                 color = Grey200,
@@ -40,22 +38,21 @@ fun HomeUpcomingEmptyFilter(
                 color = White,
                 shape = RoundedCornerShape(5.dp)
             ),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TerningImage(
             painter = R.drawable.ic_home_scrap_empty,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 24.dp)
+                .padding(top = 23.dp)
         )
         Text(
             text = stringResource(id = R.string.home_upcoming_no_scrap),
             modifier = Modifier
-                .padding(top = 8.dp, bottom = 25.dp)
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally),
+                .padding(top = 12.dp, bottom = 23.dp)
+                .fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TerningTheme.typography.detail3,
+            style = TerningTheme.typography.detail2,
             color = Grey500,
         )
     }
