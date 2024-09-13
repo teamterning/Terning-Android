@@ -86,7 +86,10 @@ fun ScrapDialog(
                         onDismissRequest()
                     }
 
-                    is ScrapDialogSideEffect.PatchedScrap -> onClickChangeColor()
+                    is ScrapDialogSideEffect.PatchedScrap -> {
+                        onClickChangeColor()
+                        onDismissRequest()
+                    }
                     is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
                         internshipAnnouncementId
                     )
@@ -116,7 +119,6 @@ fun ScrapDialog(
             companyImage = companyImage,
             selectedColorType = uiState.selectedColorType,
             isColorChanged = uiState.isColorChanged,
-            isColorChangedOnce = uiState.isColorChangedOnce,
             onClickColorButton = viewModel::changeSelectedColor,
             onClickColorChangeButton = {
                 if (uiState.isColorChanged)
@@ -144,7 +146,6 @@ private fun ScrapDialogScreen(
     companyImage: String,
     selectedColorType: ColorType,
     isColorChanged: Boolean,
-    isColorChangedOnce: Boolean,
     onClickColorButton: (ColorType) -> Unit,
     onClickNavigateButton: () -> Unit,
     onClickColorChangeButton: () -> Unit,
@@ -265,10 +266,8 @@ private fun ScrapDialogScreen(
             if (isScrapped) {
                 DetailScrapButton(
                     isColorChanged = isColorChanged,
-                    isColorChangedOnce = isColorChangedOnce,
                     onClickNavigateButton = onClickNavigateButton,
                     onClickColorChangeButton = onClickColorChangeButton
-
                 )
             } else {
                 NewScrapButton(onClickScrapButton = onClickScrapButton)
@@ -295,7 +294,6 @@ private fun NewScrapButton(
 @Composable
 private fun DetailScrapButton(
     isColorChanged: Boolean,
-    isColorChangedOnce: Boolean,
     onClickNavigateButton: () -> Unit,
     onClickColorChangeButton: () -> Unit,
     modifier: Modifier = Modifier
@@ -305,7 +303,6 @@ private fun DetailScrapButton(
     ) {
         ScrapColorChangeButton(
             isColorChanged = isColorChanged,
-            isColorChangedOnce = isColorChangedOnce,
             paddingVertical = 12.dp,
             cornerRadius = 8.dp,
             onButtonClick = onClickColorChangeButton,
@@ -339,7 +336,6 @@ private fun ScrapDialogPreview() {
             onClickScrapButton = {},
             onClickColorButton = {},
             isColorChanged = false,
-            isColorChangedOnce = true,
             selectedColorType = ColorType.RED
         )
     }
@@ -363,7 +359,6 @@ private fun DetailScrapButtonPreview() {
             onClickNavigateButton = {},
             onClickColorChangeButton = {},
             isColorChanged = false,
-            isColorChangedOnce = false
         )
     }
 }
