@@ -16,16 +16,28 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
     private var _uiState: MutableStateFlow<CalendarUiState> = MutableStateFlow(CalendarUiState())
     val uiState get() = _uiState.asStateFlow()
 
-    fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
-        if (_uiState.value.selectedDate != date) {
+    fun onSelectNewDate(selectedDate: LocalDate) = viewModelScope.launch {
+        if (_uiState.value.selectedDate == selectedDate) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    selectedDate = date
+                    isWeekEnabled = !_uiState.value.isWeekEnabled
                 )
             }
-            updateWeekVisibility(true)
         } else {
-            updateWeekVisibility(!_uiState.value.isWeekEnabled)
+            _uiState.update { currentState ->
+                currentState.copy(
+                    selectedDate = selectedDate,
+                    isWeekEnabled = true
+                )
+            }
+        }
+    }
+
+    fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
+        _uiState.update { currentState ->
+            currentState.copy(
+                selectedDate = date
+            )
         }
     }
 

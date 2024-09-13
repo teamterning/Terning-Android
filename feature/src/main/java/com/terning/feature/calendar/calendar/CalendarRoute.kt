@@ -9,7 +9,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
@@ -34,7 +33,6 @@ import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -51,16 +49,12 @@ fun CalendarRoute(
         modifier = modifier,
         uiState = uiState,
         navigateToAnnouncement = navigateToAnnouncement,
+        onClickNewDate = viewModel::onSelectNewDate,
         updateSelectedDate = viewModel::updateSelectedDate,
         updatePage = viewModel::updatePage,
         disableListVisibility = { viewModel.updateListVisibility(false) },
         disableWeekVisibility = { viewModel.updateSelectedDate(uiState.selectedDate) },
-        onClickListButton = {
-            viewModel.updateListVisibility(!uiState.isListEnabled)
-            if (uiState.isWeekEnabled) {
-                viewModel.updateWeekVisibility(false)
-            }
-        }
+        onClickListButton = { viewModel.updateListVisibility(!uiState.isListEnabled) }
     )
 }
 
@@ -68,6 +62,7 @@ fun CalendarRoute(
 private fun CalendarScreen(
     uiState: CalendarUiState,
     navigateToAnnouncement: (Long) -> Unit,
+    onClickNewDate: (LocalDate) -> Unit,
     updateSelectedDate: (LocalDate) -> Unit,
     disableListVisibility: () -> Unit,
     disableWeekVisibility: () -> Unit,
@@ -83,23 +78,9 @@ private fun CalendarScreen(
     )
 
     LaunchedEffect(key1 = pagerState) {
-        snapshotFlow { pagerState.currentPage}
+        snapshotFlow { pagerState.currentPage }
             .collect { current ->
                 updatePage(current)
-            }
-    }
-
-    val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = uiState.calendarModel.initialPage
-    )
-
-    LaunchedEffect(key1 = listState) {
-        snapshotFlow { listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset}
-            .distinctUntilChanged()
-            .collect { (index, offset) ->
-                if (offset == 0) {
-                    updatePage(index)
-                }
             }
     }
 
@@ -149,7 +130,7 @@ private fun CalendarScreen(
                             contentOne = {
                                 CalendarMonthRoute(
                                     selectedDate = uiState.selectedDate,
-                                    updateSelectedDate = updateSelectedDate,
+                                    updateSelectedDate = onClickNewDate,
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .background(White),
@@ -162,7 +143,7 @@ private fun CalendarScreen(
                                         .fillMaxSize(),
                                     navigateUp = disableWeekVisibility,
                                     navigateToAnnouncement = navigateToAnnouncement,
-                                    updateSelectedDate = updateSelectedDate
+                                    updateSelectedDate = onClickNewDate
                                 )
                             }
                         )
