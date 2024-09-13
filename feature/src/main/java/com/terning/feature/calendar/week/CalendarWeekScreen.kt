@@ -88,18 +88,6 @@ fun CalendarWeekRoute(
         uiState = uiState,
         selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
-        navigateToAnnouncement = { announcementId ->
-            navigateToAnnouncement(announcementId)
-            viewModel.updateInternDialogVisibility(false)
-        },
-        onDismissCancelDialog = { isCancelled ->
-            viewModel.updateScrapCancelDialogVisibility(false)
-            if (isCancelled) {
-                viewModel.getScrapWeekList(uiState.selectedDate)
-            }
-        },
-        onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
-        onClickChangeColor = { viewModel.getScrapWeekList(uiState.selectedDate) },
         onClickScrapButton = { scrapId ->
             with(viewModel) {
                 updateInternshipAnnouncementId(scrapId)
@@ -113,6 +101,31 @@ fun CalendarWeekRoute(
             }
         },
     )
+
+    CalendarWeekScrapPatchDialog(
+        currentDate = uiState.selectedDate,
+        dialogVisibility = uiState.internDialogVisibility,
+        internshipModel = uiState.internshipModel,
+        navigateToAnnouncement = { announcementId ->
+            navigateToAnnouncement(announcementId)
+            viewModel.updateInternDialogVisibility(false)
+        },
+        onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
+        onClickChangeColor = {
+            viewModel.getScrapWeekList(uiState.selectedDate)
+        },
+    )
+
+    CalendarWeekScrapCancelDialog(
+        scrapVisibility = uiState.scrapDialogVisibility,
+        internshipAnnouncementId = uiState.internshipAnnouncementId,
+        onDismissCancelDialog = { isCancelled ->
+            viewModel.updateScrapCancelDialogVisibility(false)
+            if (isCancelled) {
+                viewModel.getScrapWeekList(uiState.selectedDate)
+            }
+        }
+    )
 }
 
 @Composable
@@ -120,12 +133,8 @@ private fun CalendarWeekScreen(
     uiState: CalendarWeekUiState,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
-    onDismissCancelDialog: (Boolean) -> Unit,
-    onDismissInternDialog: () -> Unit,
-    onClickChangeColor: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
-    navigateToAnnouncement: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var swiped by remember { mutableStateOf(false) }
@@ -189,38 +198,6 @@ private fun CalendarWeekScreen(
             }
         }
     }
-
-    if (uiState.scrapDialogVisibility) {
-        uiState.internshipAnnouncementId?.run {
-            ScrapCancelDialog(
-                internshipAnnouncementId = this,
-                onDismissRequest = onDismissCancelDialog
-            )
-        }
-    }
-
-    if (uiState.internDialogVisibility) {
-        uiState.internshipModel?.let {
-            val scrapColor = Color(
-                android.graphics.Color.parseColor(
-                    uiState.internshipModel.color
-                )
-            )
-            ScrapDialog(
-                title = uiState.internshipModel.title,
-                scrapColor = scrapColor,
-                deadline = uiState.selectedDate.getFullDateStringInKorean(),
-                startYearMonth = uiState.internshipModel.startYearMonth,
-                workingPeriod = uiState.internshipModel.workingPeriod,
-                internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
-                companyImage = uiState.internshipModel.companyImage,
-                isScrapped = true,
-                onDismissRequest = onDismissInternDialog,
-                onClickChangeColor = onClickChangeColor,
-                onClickNavigateButton = navigateToAnnouncement
-            )
-        }
-    }
 }
 
 @Composable
@@ -260,6 +237,55 @@ private fun CalendarWeekSuccess(
         modifier = Modifier
             .padding(horizontal = 24.dp)
     )
+}
+
+@Composable
+private fun CalendarWeekScrapCancelDialog(
+    scrapVisibility: Boolean,
+    internshipAnnouncementId: Long?,
+    onDismissCancelDialog: (Boolean) -> Unit
+) {
+    if (scrapVisibility) {
+        internshipAnnouncementId?.run {
+            ScrapCancelDialog(
+                internshipAnnouncementId = this,
+                onDismissRequest = onDismissCancelDialog
+            )
+        }
+    }
+}
+
+@Composable
+private fun CalendarWeekScrapPatchDialog(
+    currentDate: LocalDate,
+    dialogVisibility: Boolean,
+    internshipModel: CalendarScrapDetail?,
+    navigateToAnnouncement: (Long) -> Unit,
+    onDismissInternDialog: () -> Unit,
+    onClickChangeColor: () -> Unit,
+) {
+    if (dialogVisibility) {
+        internshipModel?.let { internship ->
+            val scrapColor = Color(
+                android.graphics.Color.parseColor(
+                    internship.color
+                )
+            )
+            ScrapDialog(
+                title = internship.title,
+                scrapColor = scrapColor,
+                deadline = currentDate.getFullDateStringInKorean(),
+                startYearMonth = internship.startYearMonth,
+                workingPeriod = internship.workingPeriod,
+                internshipAnnouncementId = internship.internshipAnnouncementId,
+                companyImage = internship.companyImage,
+                isScrapped = true,
+                onDismissRequest = onDismissInternDialog,
+                onClickChangeColor = onClickChangeColor,
+                onClickNavigateButton = navigateToAnnouncement
+            )
+        }
+    }
 }
 
 
