@@ -1,5 +1,6 @@
 package com.terning.feature.calendar.calendar
 
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -115,8 +116,9 @@ private fun CalendarScreen(
                 onListButtonClicked = onClickListButton,
                 onMonthNavigationButtonClicked = { direction ->
                     coroutineScope.launch {
-                        listState.animateScrollToItem(
-                            index = listState.firstVisibleItemIndex + direction,
+                        pagerState.animateScrollToPage(
+                            page = pagerState.settledPage + direction,
+                            animationSpec = tween(500)
                         )
                     }
                 }
@@ -169,8 +171,6 @@ private fun CalendarScreen(
                 },
                 contentTwo = {
                     CalendarListRoute(
-                        listState = listState,
-                        pages = uiState.calendarModel.pageCount,
                         navigateToAnnouncement = navigateToAnnouncement,
                         navigateUp = disableListVisibility,
                         modifier = Modifier
