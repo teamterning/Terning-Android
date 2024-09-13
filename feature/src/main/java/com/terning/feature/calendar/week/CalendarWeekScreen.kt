@@ -4,8 +4,11 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -15,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -40,13 +44,16 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.feature.R
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.calendar.model.CalendarUiState
+import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
 import okhttp3.internal.toImmutableList
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -58,6 +65,7 @@ fun CalendarWeekRoute(
     modifier: Modifier = Modifier,
     viewModel: CalendarWeekViewModel = hiltViewModel()
 ) {
+    val pagerState = LocalPagerState.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
 
@@ -72,11 +80,7 @@ fun CalendarWeekRoute(
     }
 
     LaunchedEffect(key1 = calendarUiState.selectedDate) {
-        viewModel.updateSelectedDate(selectedDate = calendarUiState.selectedDate)
-    }
-
-    LaunchedEffect(key1 = uiState.selectedDate) {
-        viewModel.getScrapWeekList(selectedDate = uiState.selectedDate)
+        viewModel.getScrapWeekList(selectedDate = calendarUiState.selectedDate)
     }
 
     BackHandler {
@@ -85,6 +89,7 @@ fun CalendarWeekRoute(
 
     CalendarWeekScreen(
         modifier = modifier,
+        pagerState = pagerState,
         uiState = uiState,
         selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
@@ -103,7 +108,7 @@ fun CalendarWeekRoute(
     )
 
     CalendarWeekScrapPatchDialog(
-        currentDate = uiState.selectedDate,
+        currentDate = calendarUiState.selectedDate,
         dialogVisibility = uiState.internDialogVisibility,
         internshipModel = uiState.internshipModel,
         navigateToAnnouncement = { announcementId ->
@@ -112,7 +117,7 @@ fun CalendarWeekRoute(
         },
         onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
         onClickChangeColor = {
-            viewModel.getScrapWeekList(uiState.selectedDate)
+            viewModel.getScrapWeekList(calendarUiState.selectedDate)
         },
     )
 
@@ -122,7 +127,7 @@ fun CalendarWeekRoute(
         onDismissCancelDialog = { isCancelled ->
             viewModel.updateScrapCancelDialogVisibility(false)
             if (isCancelled) {
-                viewModel.getScrapWeekList(uiState.selectedDate)
+                viewModel.getScrapWeekList(calendarUiState.selectedDate)
             }
         }
     )
@@ -131,6 +136,7 @@ fun CalendarWeekRoute(
 @Composable
 private fun CalendarWeekScreen(
     uiState: CalendarWeekUiState,
+    pagerState: PagerState,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
@@ -169,32 +175,43 @@ private fun CalendarWeekScreen(
             )
         }
 
-        Text(
-            text = selectedDate.getDateStringInKorean(),
-            style = TerningTheme.typography.title5,
-            color = Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-        )
-
-        when (uiState.loadState) {
-            is UiState.Loading -> {}
-            is UiState.Empty -> {
-                CalendarWeekEmpty()
-            }
-
-            is UiState.Failure -> {
-                CalendarWeekEmpty()
-            }
-
-            is UiState.Success -> {
-                CalendarWeekSuccess(
-                    scrapList = uiState.loadState.data.toImmutableList(),
-                    selectedDate = uiState.selectedDate,
-                    onScrapButtonClicked = onClickScrapButton,
-                    onInternshipClicked = onClickInternship
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize(),
+            userScrollEnabled = false
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = selectedDate.getDateStringInKorean(),
+                    style = TerningTheme.typography.title5,
+                    color = Black,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
                 )
+
+                when (uiState.loadState) {
+                    is UiState.Loading -> {}
+                    is UiState.Empty -> {
+                        CalendarWeekEmpty()
+                    }
+
+                    is UiState.Failure -> {
+                        CalendarWeekEmpty()
+                    }
+
+                    is UiState.Success -> {
+                        CalendarWeekSuccess(
+                            scrapList = uiState.loadState.data.toImmutableList(),
+                            selectedDate = selectedDate,
+                            onScrapButtonClicked = onClickScrapButton,
+                            onInternshipClicked = onClickInternship
+                        )
+                    }
+                }
             }
         }
     }

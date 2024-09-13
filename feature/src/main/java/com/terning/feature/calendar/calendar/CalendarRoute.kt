@@ -27,6 +27,7 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
+import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getYearMonthByPage
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.model.LocalPagerState
@@ -34,6 +35,7 @@ import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -51,7 +53,6 @@ fun CalendarRoute(
         navigateToAnnouncement = navigateToAnnouncement,
         onClickNewDate = viewModel::onSelectNewDate,
         updateSelectedDate = viewModel::updateSelectedDate,
-        updatePage = viewModel::updatePage,
         disableListVisibility = { viewModel.updateListVisibility(false) },
         disableWeekVisibility = { viewModel.updateSelectedDate(uiState.selectedDate) },
         onClickListButton = { viewModel.updateListVisibility(!uiState.isListEnabled) }
@@ -66,7 +67,6 @@ private fun CalendarScreen(
     updateSelectedDate: (LocalDate) -> Unit,
     disableListVisibility: () -> Unit,
     disableWeekVisibility: () -> Unit,
-    updatePage: (Int) -> Unit,
     onClickListButton: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -77,10 +77,13 @@ private fun CalendarScreen(
         pageCount = { uiState.calendarModel.pageCount }
     )
 
-    LaunchedEffect(key1 = pagerState) {
+    LaunchedEffect(key1 = pagerState, key2 = uiState.selectedDate) {
         snapshotFlow { pagerState.currentPage }
             .collect { current ->
-                updatePage(current)
+                val date = getLocalDateByPage(current)
+                val newDate = LocalDate.of(date.year, date.month, uiState.selectedDate.dayOfMonth)
+                updateSelectedDate(newDate)
+                Timber.tag("Calendar").d("new:$newDate old:${uiState.selectedDate}")
             }
     }
 
@@ -91,7 +94,7 @@ private fun CalendarScreen(
             modifier = modifier,
         ) {
             CalendarTopAppBar(
-                date = getYearMonthByPage(uiState.currentPage),
+                date = getYearMonthByPage(pagerState.settledPage),
                 isListExpanded = uiState.isListEnabled,
                 onListButtonClicked = onClickListButton,
                 onMonthNavigationButtonClicked = { direction ->

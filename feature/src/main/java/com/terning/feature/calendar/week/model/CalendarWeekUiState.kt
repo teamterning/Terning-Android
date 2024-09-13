@@ -6,7 +6,6 @@ import java.time.LocalDate
 
 data class CalendarWeekUiState(
     val loadState: UiState<List<CalendarScrapDetail>> = UiState.Loading,
-    val selectedDate: LocalDate = LocalDate.now(),
     val scrapDialogVisibility: Boolean = false,
     val internDialogVisibility: Boolean = false,
     val internshipAnnouncementId: Long? = null,

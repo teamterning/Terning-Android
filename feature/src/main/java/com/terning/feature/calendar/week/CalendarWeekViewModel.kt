@@ -28,14 +28,6 @@ class CalendarWeekViewModel @Inject constructor(
     private val _sideEffect: MutableSharedFlow<CalendarWeekSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
-    fun updateSelectedDate(selectedDate: LocalDate) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                selectedDate = selectedDate
-            )
-        }
-    }
-
     fun updateScrapCancelDialogVisibility(visibility: Boolean) {
         _uiState.update { currentState ->
             currentState.copy(

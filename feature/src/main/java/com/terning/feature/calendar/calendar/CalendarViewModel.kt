@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -34,17 +35,10 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
     }
 
     fun updateSelectedDate(date: LocalDate) = viewModelScope.launch {
+        Timber.tag("Calendar").d("in calendar viewmodel:${_uiState.value.selectedDate}")
         _uiState.update { currentState ->
             currentState.copy(
                 selectedDate = date
-            )
-        }
-    }
-
-    fun updatePage(page: Int) = viewModelScope.launch {
-        _uiState.update { currentState ->
-            currentState.copy(
-                currentPage = page
             )
         }
     }
