@@ -37,7 +37,7 @@ fun ColorPalette(
                 onColorSelected = onOptionSelected
             )
         },
-        verticalArrangementSpace = 6.dp,
+        verticalArrangementSpace = 0.dp,
         horizontalArrangementSpace = 0.dp,
         modifier = modifier.wrapContentSize()
     )

@@ -51,7 +51,7 @@ import com.terning.core.type.ColorType
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.component.ColorPalette
 import com.terning.feature.dialog.detail.component.ScrapColorChangeButton
-import com.terning.feature.intern.component.InternInfoRow
+import com.terning.feature.dialog.detail.component.ScrapInfoRow
 
 
 @Composable
@@ -86,7 +86,11 @@ fun ScrapDialog(
                         onDismissRequest()
                     }
 
-                    is ScrapDialogSideEffect.PatchedScrap -> onClickChangeColor()
+                    is ScrapDialogSideEffect.PatchedScrap -> {
+                        onClickChangeColor()
+                        onDismissRequest()
+                    }
+
                     is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
                         internshipAnnouncementId
                     )
@@ -116,7 +120,6 @@ fun ScrapDialog(
             companyImage = companyImage,
             selectedColorType = uiState.selectedColorType,
             isColorChanged = uiState.isColorChanged,
-            isColorChangedOnce = uiState.isColorChangedOnce,
             onClickColorButton = viewModel::changeSelectedColor,
             onClickColorChangeButton = {
                 if (uiState.isColorChanged)
@@ -144,7 +147,6 @@ private fun ScrapDialogScreen(
     companyImage: String,
     selectedColorType: ColorType,
     isColorChanged: Boolean,
-    isColorChangedOnce: Boolean,
     onClickColorButton: (ColorType) -> Unit,
     onClickNavigateButton: () -> Unit,
     onClickColorChangeButton: () -> Unit,
@@ -158,7 +160,7 @@ private fun ScrapDialogScreen(
     ) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 11.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
@@ -221,43 +223,40 @@ private fun ScrapDialogScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    ColorPalette(
-                        selectedColor = selectedColorType,
-                        onColorSelected = onClickColorButton
-                    )
-                }
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = Grey200,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                ColorPalette(
+                    selectedColor = selectedColorType,
+                    onColorSelected = onClickColorButton
                 )
+            }
 
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Grey200,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
 
-                Column(
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    verticalArrangement = Arrangement.spacedBy(
-                        5.dp,
-                        Alignment.CenterVertically
-                    ),
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    InternInfoRow(
-                        title = stringResource(id = R.string.intern_info_d_day),
-                        value = deadline
-                    )
-                    InternInfoRow(
-                        title = stringResource(id = R.string.intern_info_working),
-                        value = workingPeriod
-                    )
-                    InternInfoRow(
-                        title = stringResource(id = R.string.intern_info_start_date),
-                        value = startYearMonth
-                    )
-                }
+            Column(
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 13.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(
+                    5.dp,
+                    Alignment.CenterVertically
+                ),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                ScrapInfoRow(
+                    title = stringResource(id = R.string.intern_info_d_day),
+                    value = deadline
+                )
+                ScrapInfoRow(
+                    title = stringResource(id = R.string.intern_info_working),
+                    value = workingPeriod
+                )
+                ScrapInfoRow(
+                    title = stringResource(id = R.string.intern_info_start_date),
+                    value = startYearMonth
+                )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -265,10 +264,8 @@ private fun ScrapDialogScreen(
             if (isScrapped) {
                 DetailScrapButton(
                     isColorChanged = isColorChanged,
-                    isColorChangedOnce = isColorChangedOnce,
                     onClickNavigateButton = onClickNavigateButton,
                     onClickColorChangeButton = onClickColorChangeButton
-
                 )
             } else {
                 NewScrapButton(onClickScrapButton = onClickScrapButton)
@@ -295,7 +292,6 @@ private fun NewScrapButton(
 @Composable
 private fun DetailScrapButton(
     isColorChanged: Boolean,
-    isColorChangedOnce: Boolean,
     onClickNavigateButton: () -> Unit,
     onClickColorChangeButton: () -> Unit,
     modifier: Modifier = Modifier
@@ -305,7 +301,6 @@ private fun DetailScrapButton(
     ) {
         ScrapColorChangeButton(
             isColorChanged = isColorChanged,
-            isColorChangedOnce = isColorChangedOnce,
             paddingVertical = 12.dp,
             cornerRadius = 8.dp,
             onButtonClick = onClickColorChangeButton,
@@ -339,7 +334,6 @@ private fun ScrapDialogPreview() {
             onClickScrapButton = {},
             onClickColorButton = {},
             isColorChanged = false,
-            isColorChangedOnce = true,
             selectedColorType = ColorType.RED
         )
     }
@@ -363,7 +357,6 @@ private fun DetailScrapButtonPreview() {
             onClickNavigateButton = {},
             onClickColorChangeButton = {},
             isColorChanged = false,
-            isColorChangedOnce = false
         )
     }
 }
