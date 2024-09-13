@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey375
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningSub4
 import com.terning.core.designsystem.theme.TerningSub5
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -47,12 +47,12 @@ fun ScrapColorChangeButton(
         else -> White
     }
     val textColor = when {
-        !isColorChanged -> Grey400
-        else -> TerningMain
+        isColorChanged -> TerningMain
+        else -> Grey375
     }
     val borderColor = when {
-        !isColorChanged -> Grey150
-        else -> TerningMain
+        isColorChanged -> TerningMain
+        else -> Grey150
     }
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {

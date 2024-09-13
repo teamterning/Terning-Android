@@ -51,6 +51,7 @@ import com.terning.core.type.ColorType
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.component.ColorPalette
 import com.terning.feature.dialog.detail.component.ScrapColorChangeButton
+import com.terning.feature.dialog.detail.component.ScrapInfoRow
 import com.terning.feature.intern.component.InternInfoRow
 
 
@@ -246,15 +247,15 @@ private fun ScrapDialogScreen(
                     ),
                     horizontalAlignment = Alignment.Start,
                 ) {
-                    InternInfoRow(
+                    ScrapInfoRow(
                         title = stringResource(id = R.string.intern_info_d_day),
                         value = deadline
                     )
-                    InternInfoRow(
+                    ScrapInfoRow(
                         title = stringResource(id = R.string.intern_info_working),
                         value = workingPeriod
                     )
-                    InternInfoRow(
+                    ScrapInfoRow(
                         title = stringResource(id = R.string.intern_info_start_date),
                         value = startYearMonth
                     )
