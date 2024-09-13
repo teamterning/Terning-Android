@@ -52,7 +52,6 @@ import com.terning.feature.R
 import com.terning.feature.dialog.detail.component.ColorPalette
 import com.terning.feature.dialog.detail.component.ScrapColorChangeButton
 import com.terning.feature.dialog.detail.component.ScrapInfoRow
-import com.terning.feature.intern.component.InternInfoRow
 
 
 @Composable
@@ -91,6 +90,7 @@ fun ScrapDialog(
                         onClickChangeColor()
                         onDismissRequest()
                     }
+
                     is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
                         internshipAnnouncementId
                     )
@@ -160,7 +160,7 @@ private fun ScrapDialogScreen(
     ) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 11.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
@@ -223,43 +223,40 @@ private fun ScrapDialogScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    ColorPalette(
-                        selectedColor = selectedColorType,
-                        onColorSelected = onClickColorButton
-                    )
-                }
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = Grey200,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                ColorPalette(
+                    selectedColor = selectedColorType,
+                    onColorSelected = onClickColorButton
                 )
+            }
 
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = Grey200,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
 
-                Column(
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    verticalArrangement = Arrangement.spacedBy(
-                        5.dp,
-                        Alignment.CenterVertically
-                    ),
-                    horizontalAlignment = Alignment.Start,
-                ) {
-                    ScrapInfoRow(
-                        title = stringResource(id = R.string.intern_info_d_day),
-                        value = deadline
-                    )
-                    ScrapInfoRow(
-                        title = stringResource(id = R.string.intern_info_working),
-                        value = workingPeriod
-                    )
-                    ScrapInfoRow(
-                        title = stringResource(id = R.string.intern_info_start_date),
-                        value = startYearMonth
-                    )
-                }
+            Column(
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 13.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(
+                    5.dp,
+                    Alignment.CenterVertically
+                ),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                ScrapInfoRow(
+                    title = stringResource(id = R.string.intern_info_d_day),
+                    value = deadline
+                )
+                ScrapInfoRow(
+                    title = stringResource(id = R.string.intern_info_working),
+                    value = workingPeriod
+                )
+                ScrapInfoRow(
+                    title = stringResource(id = R.string.intern_info_start_date),
+                    value = startYearMonth
+                )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
