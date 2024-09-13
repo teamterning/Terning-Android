@@ -112,7 +112,6 @@ private fun CalendarScreen(
             CalendarTopAppBar(
                 date = getYearMonthByPage(uiState.currentPage),
                 isListExpanded = uiState.isListEnabled,
-                isWeekExpanded = uiState.isWeekEnabled,
                 onListButtonClicked = onClickListButton,
                 onMonthNavigationButtonClicked = { direction ->
                     coroutineScope.launch {
