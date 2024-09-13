@@ -9,8 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,6 +29,7 @@ import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getYearMonthByPage
 import com.terning.feature.calendar.calendar.model.CalendarUiState
+import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
@@ -73,6 +76,18 @@ private fun CalendarScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
+    val pagerState = rememberPagerState(
+        initialPage = uiState.calendarModel.initialPage,
+        pageCount = { uiState.calendarModel.pageCount }
+    )
+
+    LaunchedEffect(key1 = pagerState) {
+        snapshotFlow { pagerState.currentPage}
+            .collect { current ->
+                updatePage(current)
+            }
+    }
+
     val listState = rememberLazyListState(
         initialFirstVisibleItemIndex = uiState.calendarModel.initialPage
     )
@@ -87,81 +102,83 @@ private fun CalendarScreen(
             }
     }
 
-    Column(
-        modifier = modifier,
-    ){
-        CalendarTopAppBar(
-            date = getYearMonthByPage(uiState.currentPage),
-            isListExpanded = uiState.isListEnabled,
-            isWeekExpanded = uiState.isWeekEnabled,
-            onListButtonClicked = onClickListButton,
-            onMonthNavigationButtonClicked = { direction ->
-                coroutineScope.launch {
-                    listState.animateScrollToItem(
-                        index = listState.firstVisibleItemIndex + direction,
-                    )
+    CompositionLocalProvider(
+        LocalPagerState provides pagerState
+    ) {
+        Column(
+            modifier = modifier,
+        ) {
+            CalendarTopAppBar(
+                date = getYearMonthByPage(uiState.currentPage),
+                isListExpanded = uiState.isListEnabled,
+                isWeekExpanded = uiState.isWeekEnabled,
+                onListButtonClicked = onClickListButton,
+                onMonthNavigationButtonClicked = { direction ->
+                    coroutineScope.launch {
+                        listState.animateScrollToItem(
+                            index = listState.firstVisibleItemIndex + direction,
+                        )
+                    }
                 }
-            }
-        )
-        ScreenTransition(
-            targetState = !uiState.isListEnabled,
-            transitionOne = slideInHorizontally { fullWidth -> -fullWidth } togetherWith
-                    slideOutHorizontally { fullWidth -> fullWidth },
-            transitionTwo = slideInHorizontally { fullWidth -> fullWidth } togetherWith
-                    slideOutHorizontally { fullWidth -> -fullWidth },
-            contentOne = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    WeekDaysHeader()
+            )
+            ScreenTransition(
+                targetState = !uiState.isListEnabled,
+                transitionOne = slideInHorizontally { fullWidth -> -fullWidth } togetherWith
+                        slideOutHorizontally { fullWidth -> fullWidth },
+                transitionTwo = slideInHorizontally { fullWidth -> fullWidth } togetherWith
+                        slideOutHorizontally { fullWidth -> -fullWidth },
+                contentOne = {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        WeekDaysHeader()
 
-                    HorizontalDivider(
-                        thickness = 1.dp,
-                        color = Grey200
-                    )
+                        HorizontalDivider(
+                            thickness = 1.dp,
+                            color = Grey200
+                        )
 
-                    ScreenTransition(
-                        targetState = !uiState.isWeekEnabled,
-                        transitionOne = slideInVertically { fullHeight -> -fullHeight } togetherWith
-                                slideOutVertically { fullHeight -> fullHeight },
-                        transitionTwo = slideInVertically { fullHeight -> fullHeight } togetherWith
-                                slideOutVertically { fullHeight -> -fullHeight },
-                        contentOne = {
-                            CalendarMonthRoute(
-                                listState = listState,
-                                pages = uiState.calendarModel.pageCount,
-                                selectedDate = uiState.selectedDate,
-                                updateSelectedDate = updateSelectedDate,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(White),
-                            )
-                        },
-                        contentTwo = {
-                            CalendarWeekRoute(
-                                calendarUiState = uiState,
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                navigateUp = disableWeekVisibility,
-                                navigateToAnnouncement = navigateToAnnouncement,
-                                updateSelectedDate = updateSelectedDate
-                            )
-                        }
+                        ScreenTransition(
+                            targetState = !uiState.isWeekEnabled,
+                            transitionOne = slideInVertically { fullHeight -> -fullHeight } togetherWith
+                                    slideOutVertically { fullHeight -> fullHeight },
+                            transitionTwo = slideInVertically { fullHeight -> fullHeight } togetherWith
+                                    slideOutVertically { fullHeight -> -fullHeight },
+                            contentOne = {
+                                CalendarMonthRoute(
+                                    selectedDate = uiState.selectedDate,
+                                    updateSelectedDate = updateSelectedDate,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(White),
+                                )
+                            },
+                            contentTwo = {
+                                CalendarWeekRoute(
+                                    calendarUiState = uiState,
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    navigateUp = disableWeekVisibility,
+                                    navigateToAnnouncement = navigateToAnnouncement,
+                                    updateSelectedDate = updateSelectedDate
+                                )
+                            }
+                        )
+                    }
+                },
+                contentTwo = {
+                    CalendarListRoute(
+                        listState = listState,
+                        pages = uiState.calendarModel.pageCount,
+                        navigateToAnnouncement = navigateToAnnouncement,
+                        navigateUp = disableListVisibility,
+                        modifier = Modifier
+                            .fillMaxSize()
                     )
-                }
-            },
-            contentTwo = {
-                CalendarListRoute(
-                    listState = listState,
-                    pages = uiState.calendarModel.pageCount,
-                    navigateToAnnouncement = navigateToAnnouncement,
-                    navigateUp = disableListVisibility,
-                    modifier = Modifier
-                        .fillMaxSize()
-                )
-            },
-        )
+                },
+            )
+        }
     }
 }
 
