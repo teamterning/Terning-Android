@@ -114,7 +114,7 @@ fun NameTextField(
         onValueChange = onValueChange,
         modifier = modifier,
         textStyle = TerningTheme.typography.detail1,
-        textColor = Black,
+        textColor = if (value.isNotEmpty()) Black else Grey400,
         drawLineColor = state.lineColor,
         cursorBrush = SolidColor(Grey400),
         hint = hint,
