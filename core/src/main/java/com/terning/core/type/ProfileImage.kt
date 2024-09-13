@@ -31,3 +31,14 @@ enum class ProfileImage(
             entries.indexOf(profileImage)
     }
 }
+
+enum class SelectedProfileImage(
+    @DrawableRes val drawableResId: Int,
+) {
+    BASIC(drawableResId = R.drawable.ic_terning_selected_profile_00),
+    LUCKY(drawableResId = R.drawable.ic_terning_selected_profile_01),
+    SMART(drawableResId = R.drawable.ic_terning_selected_profile_02),
+    GLASS(drawableResId = R.drawable.ic_terning_selected_profile_03),
+    CALENDAR(drawableResId = R.drawable.ic_terning_selected_profile_04),
+    PASSION(drawableResId = R.drawable.ic_terning_selected_profile_05);
+}

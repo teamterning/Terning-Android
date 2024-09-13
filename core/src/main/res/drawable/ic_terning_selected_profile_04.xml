@@ -12,7 +12,6 @@
     <path
         android:pathData="M-271.529,-368.904h441.18v588.24h-441.18z"
         android:strokeAlpha="0.4"
-        android:fillColor="url(#pattern0_496_41262)"
         android:fillAlpha="0.4"/>
     <path
         android:pathData="M80,4H4V80H80V4Z"
