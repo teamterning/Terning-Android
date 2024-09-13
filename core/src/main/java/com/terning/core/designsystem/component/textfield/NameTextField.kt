@@ -44,7 +44,7 @@ fun NameTextField(
     val trimmedName: String
     var isNameOutOfBounds = false
     if (value.length > MAX_LENGTH) {
-        trimmedName = value.substring(0, MAX_LENGTH)
+        trimmedName = value.substring(0, MAX_LENGTH + 1)
         isNameOutOfBounds = true
     } else {
         trimmedName = value
