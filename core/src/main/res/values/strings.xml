@@ -16,6 +16,7 @@
     <string name="intern_item_working_period_month">%s개월</string>
     <string name="intern_item_d_day">D-%s</string>
     <string name="intern_item_scrap">스크랩</string>
+    <string name="intern_apply_closed">지원마감</string>
 
     <!--Calendar-->
     <string name="calendar_button_description_previous">previous</string>
@@ -23,11 +24,11 @@
     <string name="calendar_button_description_list">list</string>
 
     <!--SortByBottom-->
-    <string name="sort_by_earliest">채용 마감 이른순</string>
-    <string name="sort_by_shortest">짧은 근무 기간순</string>
-    <string name="sort_by_longest">긴 근무 기간순</string>
-    <string name="sort_by_scrap">스크랩 많은순</string>
-    <string name="sort_by_view_count">조회수 많은순</string>
+    <string name="sort_by_earliest">채용 마감 이른 순</string>
+    <string name="sort_by_shortest">짧은 근무 기간 순</string>
+    <string name="sort_by_longest">긴 근무 기간 순</string>
+    <string name="sort_by_scrap">스크랩 많은 순</string>
+    <string name="sort_by_view_count">조회수 많은 순</string>
     <string name="sort_button_description">정렬 기준</string>
     <string name="sort_bottom_sheet_title">공고 정렬 순서</string>
 
@@ -76,8 +77,8 @@
     <string name="change_filter_grade_3">3학년</string>
     <string name="change_filter_grade_4">4학년</string>
     <string name="change_filter_period_title">희망 근무 기간</string>
-    <string name="change_filter_period_1">1개월 ~ 3개월</string>
-    <string name="change_filter_period_2">4개월 ~ 6개월</string>
+    <string name="change_filter_period_1">1 ~ 3개월</string>
+    <string name="change_filter_period_2">4 ~ 6개월</string>
     <string name="change_filter_period_3">7개월 이상</string>
     <string name="change_filter_start_work_title">근무 시작 시기</string>
 

@@ -37,10 +37,12 @@ import coil.request.ImageRequest
 import com.terning.core.designsystem.component.item.ScrapBox
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningSub3
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
@@ -70,11 +72,14 @@ fun HomeUpcomingInternScreen(
 
             ScrapBox(
                 modifier = Modifier
-                    .width(246.dp),
+                    .width(246.dp)
+                    .customShadow(
+                        color = Grey200,
+                        shadowRadius = 5.dp,
+                        shadowWidth = 1.dp
+                    ),
                 cornerRadius = 5.dp,
                 scrapColor = Color(android.graphics.Color.parseColor(homeUpcomingIntern.color)),
-                borderWidth = 1.dp,
-                borderColor = Grey150,
                 content = {
                     Column(
                         modifier = Modifier
@@ -125,7 +130,7 @@ fun HomeUpcomingInternScreen(
                             )
 
                             Text(
-                                text = "유한킴벌리",
+                                text = homeUpcomingIntern.companyInfo,
                                 style = TerningTheme.typography.button5,
                                 color = Grey500,
                                 maxLines = 1,
@@ -173,7 +178,7 @@ fun HomeUpcomingInternScreen(
                     onDismissRequest = {
                         homeViewModel.updateUpcomingDialogVisibility(false)
                     },
-                    onClickChangeColor = { },
+                    onClickChangeColor = homeViewModel::getHomeUpcomingInternList,
                     onClickNavigateButton = { navigateToIntern(internshipAnnouncementId) }
                 )
             }

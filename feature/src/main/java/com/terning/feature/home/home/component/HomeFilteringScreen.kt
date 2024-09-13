@@ -60,7 +60,11 @@ fun HomeFilteringScreen(
                 painter = painterResource(id = R.drawable.ic_home_filtering_28),
                 contentDescription = stringResource(id = R.string.home_recommend_filtering),
                 modifier = modifier
-                    .padding(start = 1.dp),
+                    .padding(
+                        start = 2.dp,
+                        top = 2.dp,
+                        bottom = 2.dp,
+                    ),
                 tint = TerningMain,
             )
             Text(
@@ -69,7 +73,7 @@ fun HomeFilteringScreen(
                 color = TerningMain,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(start = 5.dp, end = 10.dp)
+                    .padding(start = 5.dp, end = 11.dp)
                     .align(Alignment.CenterVertically),
             )
         }
@@ -79,19 +83,23 @@ fun HomeFilteringScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     HomeFilteringInfoText(
-                        text = stringResource(id = Grade.entries[grade!!].stringResId),
+                        text = stringResource(id = Grade.fromString(grade).stringResId),
                         modifier = Modifier
                             .padding(end = 6.dp),
                     )
                     HomeFilteringInfoDivider()
                     HomeFilteringInfoText(
-                        text = stringResource(WorkingPeriod.entries[workingPeriod!!].stringResId),
+                        text = stringResource(WorkingPeriod.fromString(workingPeriod).stringResId),
                         modifier = Modifier
                             .padding(horizontal = 6.dp),
                     )
                     HomeFilteringInfoDivider()
                     HomeFilteringInfoText(
-                        text = "$startYear 년 $startMonth 월",
+                        text = stringResource(
+                            id = R.string.home_recommend_filtering_startYearMonth,
+                            startYear.toString(),
+                            startMonth.toString()
+                        ),
                         modifier = Modifier
                             .padding(start = 6.dp),
                     )
