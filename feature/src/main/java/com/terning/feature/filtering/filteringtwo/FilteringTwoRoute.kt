@@ -41,6 +41,10 @@ fun FilteringTwoRoute(
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    LaunchedEffect(key1 = true) {
+        viewModel.updateButton(false)
+    }
+
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -59,7 +63,8 @@ fun FilteringTwoRoute(
         onNextClick = viewModel::navigateToFilteringThree,
         navigateUp = viewModel::navigateUp,
         onButtonClick = { workingPeriod ->
-            viewModel.updateWorkingPeriodAndButton(workingPeriod)
+            viewModel.updateWorkingPeriod(workingPeriod)
+            viewModel.updateButton(true)
         },
         buttonState = state.isButtonValid,
         workingPeriod = state.workingPeriod,

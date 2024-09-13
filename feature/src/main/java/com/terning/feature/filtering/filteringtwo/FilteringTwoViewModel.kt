@@ -18,10 +18,15 @@ class FilteringTwoViewModel : ViewModel() {
     private val _sideEffects = MutableSharedFlow<FilteringTwoSideEffect>()
     val sideEffects: SharedFlow<FilteringTwoSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun updateWorkingPeriodAndButton(workingPeriod: String) {
+    fun updateButton(isButtonValid: Boolean) {
+        _state.value = _state.value.copy(
+            isButtonValid = isButtonValid
+        )
+    }
+
+    fun updateWorkingPeriod(workingPeriod: String) {
         _state.value = _state.value.copy(
             workingPeriod = workingPeriod,
-            isButtonValid = true
         )
     }
 

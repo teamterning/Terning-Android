@@ -41,6 +41,10 @@ fun FilteringOneRoute(
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    LaunchedEffect(key1 = true) {
+        viewModel.updateButton(false)
+    }
+
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -54,7 +58,8 @@ fun FilteringOneRoute(
     FilteringOneScreen(
         name = name,
         onButtonClick = { grade ->
-            viewModel.updateGradeAndButton(grade)
+            viewModel.updateGrade(grade)
+            viewModel.updateButton(true)
         },
         onNextClick = viewModel::navigateToFilteringTwo,
         navigateUp = viewModel::navigateUp,
