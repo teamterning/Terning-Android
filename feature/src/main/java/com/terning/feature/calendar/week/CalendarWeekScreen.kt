@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -44,7 +43,6 @@ import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.feature.R
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.component.CalendarScrapList
@@ -53,7 +51,6 @@ import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
 import okhttp3.internal.toImmutableList
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable

@@ -35,7 +35,6 @@ import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -83,7 +82,6 @@ private fun CalendarScreen(
                 val date = getLocalDateByPage(current)
                 val newDate = LocalDate.of(date.year, date.month, uiState.selectedDate.dayOfMonth)
                 updateSelectedDate(newDate)
-                Timber.tag("Calendar").d("new:$newDate old:${uiState.selectedDate}")
             }
     }
 
