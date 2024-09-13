@@ -151,24 +151,7 @@ private fun CalendarListScreen(
                         .background(Back)
                 ) {
                     when (uiState.loadState) {
-                        UiState.Loading -> {
-                            item {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        modifier = Modifier
-                                            .padding(top = 42.dp)
-                                            .fillMaxWidth(),
-                                        text = stringResource(id = R.string.calendar_text_friday),
-                                        textAlign = TextAlign.Center,
-                                        style = TerningTheme.typography.body5,
-                                        color = Grey400
-                                    )
-                                }
-                            }
-                        }
+                        UiState.Loading -> {}
                         UiState.Empty -> {
                             item {
                                 Column(
