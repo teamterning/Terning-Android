@@ -20,7 +20,6 @@ import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.month.component.CalendarMonth
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import com.terning.feature.calendar.month.model.MonthModel
-import timber.log.Timber
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -50,7 +49,6 @@ fun CalendarMonthRoute(
             .collect { settled->
                 val date = getLocalDateByPage(settled)
                 viewModel.getScrapMonth(date.year, date.monthValue)
-                Timber.tag("Calendar").d("MonthAPI date:${date} ")
             }
     }
 

@@ -44,7 +44,6 @@ import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -74,7 +73,6 @@ fun CalendarListRoute(
                 val date = getLocalDateByPage(settled)
                 viewModel.updateCurrentDate(date)
                 viewModel.getScrapMonthList(date)
-                Timber.tag("Calendar").d("MonthAPI date:${date} ")
             }
     }
 
