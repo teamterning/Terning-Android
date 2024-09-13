@@ -175,6 +175,7 @@
     <string name="profile_edit_title">프로필 수정</string>
     <string name="profile_edit_save">저장하기</string>
     <string name="profile_edit_auth_type">연동 계정</string>
+    <string name="profile_edit_kakao">카카오 로그인</string>
 
     <!--Onboarding-->
 </resources>

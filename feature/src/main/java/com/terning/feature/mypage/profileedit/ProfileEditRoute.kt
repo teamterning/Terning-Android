@@ -44,6 +44,7 @@ fun ProfileEditRoute(
     navigateUp: () -> Unit,
     initialName: String,
     initialProfile: String,
+    authType: String,
     viewModel: ProfileEditViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -62,7 +63,8 @@ fun ProfileEditRoute(
     LaunchedEffect(key1 = true) {
         viewModel.updateInitialInfo(
             initialName = initialName,
-            initialProfile = initialProfile
+            initialProfile = initialProfile,
+            authType = authType
         )
     }
 
@@ -173,7 +175,8 @@ fun ProfileEditScreen(
             )
             Spacer(modifier = Modifier.height(11.dp))
             Text(
-                text = profileEditState.authType,
+                text = if (profileEditState.authType == KAKA0) stringResource(id = R.string.profile_edit_kakao)
+                else "",
                 style = TerningTheme.typography.detail0
             )
         }
@@ -188,6 +191,8 @@ fun ProfileEditScreen(
         Spacer(modifier = Modifier.height(12.dp))
     }
 }
+
+private const val KAKA0 = "KAKAO"
 
 @Preview(showBackground = true)
 @Composable

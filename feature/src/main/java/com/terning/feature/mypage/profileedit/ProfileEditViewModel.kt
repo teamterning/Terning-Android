@@ -32,12 +32,13 @@ class ProfileEditViewModel @Inject constructor(
         _state.value = _state.value.copy(showBottomSheet = isVisible)
     }
 
-    fun updateInitialInfo(initialName: String, initialProfile: String) {
+    fun updateInitialInfo(initialName: String, initialProfile: String, authType: String) {
         _state.value = _state.value.copy(
             name = initialName,
             initialName = initialName,
             profile = initialProfile,
-            initialProfile = initialProfile
+            initialProfile = initialProfile,
+            authType = authType
         )
     }
 

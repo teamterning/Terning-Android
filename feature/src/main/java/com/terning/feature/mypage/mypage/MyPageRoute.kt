@@ -58,7 +58,7 @@ import com.terning.feature.mypage.mypage.util.MyPageDefaults.VERSION
 @Composable
 fun MyPageRoute(
     paddingValues: PaddingValues,
-    navigateToProfileEdit: (String, String) -> Unit,
+    navigateToProfileEdit: (String, String, String) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -91,7 +91,8 @@ fun MyPageRoute(
                 when (sideEffect) {
                     is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit(
                         state.name,
-                        state.profileImage
+                        state.profileImage,
+                        state.authType
                     )
 
                     is MyPageSideEffect.ShowToast -> context.toast(sideEffect.message)
