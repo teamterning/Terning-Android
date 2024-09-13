@@ -93,27 +93,27 @@ fun CalendarListRoute(
         onClickInternship = { calendarScrapDetail ->
             with(viewModel) {
                 updateInternshipModel(calendarScrapDetail)
-                updateInternDialogVisibility(true)
+                updateScrapDetailDialogVisibility(true)
             }
         }
     )
 
     CalendarListScrapPatchDialog(
         currentDate = uiState.currentDate,
-        dialogVisibility = uiState.internDialogVisibility,
+        dialogVisibility = uiState.scrapDetailDialogVisibility,
         internshipModel = uiState.internshipModel,
         navigateToAnnouncement = { announcementId ->
             navigateToAnnouncement(announcementId)
-            viewModel.updateInternDialogVisibility(false)
+            viewModel.updateScrapDetailDialogVisibility(false)
         },
-        onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
+        onDismissInternDialog = { viewModel.updateScrapDetailDialogVisibility(false) },
         onClickChangeColor = {
             viewModel.getScrapMonthList(uiState.currentDate)
         },
     )
 
     CalendarListScrapCancelDialog(
-        scrapVisibility = uiState.scrapDialogVisibility,
+        scrapVisibility = uiState.scrapCancelDialogVisibility,
         internshipAnnouncementId = uiState.internshipAnnouncementId,
         onDismissCancelDialog = { isCancelled ->
             viewModel.updateScrapCancelDialogVisibility(false)

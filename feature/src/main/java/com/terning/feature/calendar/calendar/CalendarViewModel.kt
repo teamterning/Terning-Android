@@ -41,12 +41,18 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun updateListVisibility(
-        visibility: Boolean
-    ) {
+    fun updateListVisibility(visibility: Boolean) = viewModelScope.launch {
         _uiState.update { currentState ->
             currentState.copy(
                 isListEnabled = visibility
+            )
+        }
+    }
+
+    fun updateWeekVisibility(visibility: Boolean) = viewModelScope.launch {
+        _uiState.update { currentState ->
+            currentState.copy(
+                isWeekEnabled = visibility
             )
         }
     }

@@ -53,7 +53,7 @@ fun CalendarRoute(
         onClickNewDate = viewModel::onSelectNewDate,
         updateSelectedDate = viewModel::updateSelectedDate,
         disableListVisibility = { viewModel.updateListVisibility(false) },
-        disableWeekVisibility = { viewModel.updateSelectedDate(uiState.selectedDate) },
+        disableWeekVisibility = { viewModel.updateWeekVisibility(false) },
         onClickListButton = { viewModel.updateListVisibility(!uiState.isListEnabled) }
     )
 }

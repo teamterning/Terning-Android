@@ -98,7 +98,7 @@ fun CalendarWeekRoute(
         },
         onClickInternship = { scrapDetail ->
             with(viewModel) {
-                updateInternDialogVisibility(true)
+                updateScrapDetailDialogVisibility(true)
                 updateInternshipModel(scrapDetail)
             }
         },
@@ -106,20 +106,20 @@ fun CalendarWeekRoute(
 
     CalendarWeekScrapPatchDialog(
         currentDate = calendarUiState.selectedDate,
-        dialogVisibility = uiState.internDialogVisibility,
+        dialogVisibility = uiState.scrapDetailDialogVisibility,
         internshipModel = uiState.internshipModel,
         navigateToAnnouncement = { announcementId ->
             navigateToAnnouncement(announcementId)
-            viewModel.updateInternDialogVisibility(false)
+            viewModel.updateScrapDetailDialogVisibility(false)
         },
-        onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
+        onDismissInternDialog = { viewModel.updateScrapDetailDialogVisibility(false) },
         onClickChangeColor = {
             viewModel.getScrapWeekList(calendarUiState.selectedDate)
         },
     )
 
     CalendarWeekScrapCancelDialog(
-        scrapVisibility = uiState.scrapDialogVisibility,
+        scrapVisibility = uiState.scrapCancelDialogVisibility,
         internshipAnnouncementId = uiState.internshipAnnouncementId,
         onDismissCancelDialog = { isCancelled ->
             viewModel.updateScrapCancelDialogVisibility(false)

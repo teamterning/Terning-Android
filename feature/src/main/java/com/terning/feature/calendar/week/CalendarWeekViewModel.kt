@@ -21,38 +21,39 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarWeekViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
-): ViewModel() {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(CalendarWeekUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _sideEffect: MutableSharedFlow<CalendarWeekSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
-    fun updateScrapCancelDialogVisibility(visibility: Boolean) {
+    fun updateInternshipAnnouncementId(internshipAnnouncementId: Long? = null) =
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    internshipAnnouncementId = internshipAnnouncementId
+                )
+            }
+        }
+
+    fun updateScrapDetailDialogVisibility(visibility: Boolean) = viewModelScope.launch {
         _uiState.update { currentState ->
             currentState.copy(
-                scrapDialogVisibility = visibility
+                scrapDetailDialogVisibility = visibility
             )
         }
     }
 
-    fun updateInternshipAnnouncementId(internshipAnnouncementId: Long? = null) {
+    fun updateScrapCancelDialogVisibility(visibility: Boolean) = viewModelScope.launch {
         _uiState.update { currentState ->
             currentState.copy(
-                internshipAnnouncementId = internshipAnnouncementId
+                scrapCancelDialogVisibility = visibility
             )
         }
     }
 
-    fun updateInternDialogVisibility(visibility: Boolean) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                internDialogVisibility = visibility
-            )
-        }
-    }
-
-    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetail?) {
+    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetail?) = viewModelScope.launch {
         _uiState.update { currentState ->
             currentState.copy(
                 internshipModel = scrapDetailModel
