@@ -34,8 +34,9 @@ class MyPageViewModel @Inject constructor(
             if (error == null) {
                 logoutApp()
             } else {
-                _state.value =
-                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(error.toString()))
+                viewModelScope.launch {
+                    _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                }
             }
         }
     }
@@ -46,8 +47,7 @@ class MyPageViewModel @Inject constructor(
                 tokenRepository.clearInfo()
                 _sideEffects.emit(MyPageSideEffect.RestartApp)
             }.onFailure {
-                _state.value =
-                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(it.toString()))
+                _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }
@@ -57,8 +57,9 @@ class MyPageViewModel @Inject constructor(
             if (error == null) {
                 quitApp()
             } else {
-                _state.value =
-                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(error.toString()))
+                viewModelScope.launch {
+                    _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                }
             }
         }
     }
@@ -69,8 +70,7 @@ class MyPageViewModel @Inject constructor(
                 tokenRepository.clearInfo()
                 _sideEffects.emit(MyPageSideEffect.RestartApp)
             }.onFailure {
-                _state.value =
-                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(it.toString()))
+                _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }
