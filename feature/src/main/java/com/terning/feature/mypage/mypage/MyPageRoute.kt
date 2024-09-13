@@ -61,7 +61,6 @@ import com.terning.feature.mypage.mypage.util.MyPageDefaults.VERSION
 fun MyPageRoute(
     paddingValues: PaddingValues,
     navigateToProfileEdit: (String, String, String) -> Unit,
-    navigateToSignIn: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()

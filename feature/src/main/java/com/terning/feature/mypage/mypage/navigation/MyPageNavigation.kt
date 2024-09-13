@@ -9,7 +9,6 @@ import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.mypage.mypage.MyPageRoute
 import com.terning.feature.mypage.profileedit.navigation.navigateProfileEdit
-import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateMyPage(navOptions: NavOptions? = null) {
@@ -32,8 +31,7 @@ fun NavGraphBuilder.myPageNavGraph(
                     profileImage,
                     authType
                 )
-            },
-            navigateToSignIn = navHostController::navigateSignIn
+            }
         )
     }
 }
