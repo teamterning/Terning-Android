@@ -10,4 +10,5 @@ data class HomeUpcomingIntern(
     val isScrapped: Boolean,
     val color: String,
     val startYearMonth: String,
+    val companyInfo: String,
 )

@@ -31,8 +31,8 @@ import com.terning.feature.filtering.filteringtwo.component.StatusTwoRadioGroup
 
 @Composable
 fun FilteringTwoRoute(
-    grade: Int,
-    onNextClick: (Int, Int) -> Unit,
+    grade: String,
+    onNextClick: (String, String) -> Unit,
     navigateUp: () -> Unit,
     paddingValues: PaddingValues,
     viewModel: FilteringTwoViewModel = hiltViewModel(),
@@ -46,16 +46,20 @@ fun FilteringTwoRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is FilteringTwoSideEffect.NavigateUp -> navigateUp()
+                    is FilteringTwoSideEffect.NavigateToFilteringThree -> onNextClick(
+                        sideEffect.grade,
+                        sideEffect.workingPeriod
+                    )
                 }
             }
     }
 
     FilteringTwoScreen(
         grade = grade,
-        onNextClick = onNextClick,
+        onNextClick = viewModel::navigateToFilteringThree,
         navigateUp = viewModel::navigateUp,
-        onButtonClick = { index ->
-            viewModel.updateWorkingPeriodAndButton(index)
+        onButtonClick = { workingPeriod ->
+            viewModel.updateWorkingPeriodAndButton(workingPeriod)
         },
         buttonState = state.isButtonValid,
         workingPeriod = state.workingPeriod,
@@ -65,12 +69,12 @@ fun FilteringTwoRoute(
 
 @Composable
 fun FilteringTwoScreen(
-    grade: Int,
-    onNextClick: (Int, Int) -> Unit,
+    grade: String,
+    onNextClick: (String, String) -> Unit,
     navigateUp: () -> Unit,
-    onButtonClick: (Int) -> Unit,
+    onButtonClick: (String) -> Unit,
     buttonState: Boolean,
-    workingPeriod: Int,
+    workingPeriod: String,
     paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
@@ -111,8 +115,8 @@ fun FilteringTwoScreen(
                 )
             )
             StatusTwoRadioGroup(
-                onButtonClick = { index ->
-                    onButtonClick(index)
+                onButtonClick = { workingPeriod ->
+                    onButtonClick(workingPeriod)
                 }
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -133,12 +137,12 @@ fun FilteringTwoScreen(
 fun FilteringTwoScreenPreview() {
     TerningPointTheme {
         FilteringTwoScreen(
-            grade = 1,
+            grade = "freshman",
             onNextClick = { _, _ -> },
             navigateUp = { },
             onButtonClick = { },
             buttonState = true,
-            workingPeriod = 1
+            workingPeriod = "short"
         )
     }
 }

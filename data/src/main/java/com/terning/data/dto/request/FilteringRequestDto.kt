@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FilteringRequestDto(
     @SerialName("grade")
-    val grade: Int,
+    val grade: String,
     @SerialName("workingPeriod")
-    val workingPeriod: Int,
+    val workingPeriod: String,
     @SerialName("startYear")
     val startYear: Int,
     @SerialName("startMonth")

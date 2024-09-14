@@ -30,7 +30,6 @@ class ScrapDialogViewModel @Inject constructor(
         _uiState.update { currentState ->
             currentState.copy(
                 isColorChanged = false,
-                isColorChangedOnce = false
             )
         }
     }
@@ -48,7 +47,7 @@ class ScrapDialogViewModel @Inject constructor(
         _uiState.update { currentState ->
             currentState.copy(
                 selectedColorType = colorType,
-                isColorChanged = colorType != _uiState.value.initialColorType
+                isColorChanged = true
             )
         }
     }
@@ -86,7 +85,6 @@ class ScrapDialogViewModel @Inject constructor(
                     currentState.copy(
                         initialColorType = color,
                         isColorChanged = false,
-                        isColorChangedOnce = true,
                     )
                 }
             }.onFailure {

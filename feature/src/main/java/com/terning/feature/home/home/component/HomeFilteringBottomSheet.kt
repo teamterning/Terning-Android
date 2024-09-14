@@ -44,7 +44,7 @@ fun HomeFilteringBottomSheet(
     defaultStartYear: Int?,
     defaultStartMonth: Int?,
     onDismiss: () -> Unit,
-    onChangeButtonClick: (Int, Int, Int, Int) -> Unit,
+    onChangeButtonClick: (String, String, Int, Int) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -126,8 +126,8 @@ fun HomeFilteringBottomSheet(
 
                 YearMonthPicker(
                     chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
-                    chosenMonth = defaultStartMonth?.minus(1)
-                        ?: Calendar.getInstance().currentMonth.minus(1),
+                    chosenMonth = defaultStartMonth
+                        ?: Calendar.getInstance().currentMonth,
                     onYearChosen = { currentStartYear = it },
                     onMonthChosen = { currentStartMonth = it }
                 )
@@ -142,8 +142,8 @@ fun HomeFilteringBottomSheet(
                         currentGrade?.let { grade ->
                             currentPeriod?.let { workingPeriod ->
                                 onChangeButtonClick(
-                                    grade.ordinal,
-                                    workingPeriod.ordinal,
+                                    grade.stringValue,
+                                    workingPeriod.stringValue,
                                     currentStartYear,
                                     currentStartMonth,
                                 )
@@ -184,7 +184,7 @@ fun ChangeFilteringRadioGroup(
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(optionList.size),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(13.dp),
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()

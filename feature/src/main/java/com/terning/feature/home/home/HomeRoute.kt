@@ -86,6 +86,7 @@ fun HomeRoute(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
+        viewModel.getProfile()
         viewModel.getFilteringInfo()
     }
 
@@ -158,9 +159,9 @@ fun HomeScreen(
 
     if (changeFilteringSheetState) {
         HomeFilteringBottomSheet(
-            defaultGrade = homeFilteringInfo.grade?.let { Grade.entries[it] },
+            defaultGrade = homeFilteringInfo.grade?.let { Grade.fromString(it) },
             defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let {
-                WorkingPeriod.entries[it]
+                WorkingPeriod.fromString(it)
             },
             defaultStartYear = homeFilteringInfo.startYear,
             defaultStartMonth = homeFilteringInfo.startMonth,
@@ -178,18 +179,48 @@ fun HomeScreen(
         }
     }
 
-    LaunchedEffect(
-        homeState.homeRecommendDialogVisibility,
-        homeState.homeUpcomingDialogVisibility
-    ) {
-        with(homeState) {
-            if (!homeRecommendDialogVisibility && !homeUpcomingDialogVisibility) {
-                viewModel.getRecommendInternsData(
-                    sortBy = sortBy.ordinal,
-                    startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
-                    startMonth = homeFilteringInfo.startMonth
-                        ?: Calendar.getInstance().currentMonth,
-                )
+    if (homeState.homeRecommendDialogVisibility) {
+        with(homeState.homeInternModel) {
+            if (this != null) {
+                if (isScrapped) {
+                    ScrapCancelDialog(
+                        internshipAnnouncementId = internshipAnnouncementId,
+                        onDismissRequest = {
+                            viewModel.updateRecommendDialogVisibility(false)
+                            viewModel.getHomeUpcomingInternList()
+                            viewModel.getRecommendInternsData(
+                                sortBy = homeState.sortBy.ordinal,
+                                startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
+                                startMonth = homeFilteringInfo.startMonth
+                                    ?: Calendar.getInstance().currentMonth,
+                            )
+                        }
+                    )
+                } else {
+                    ScrapDialog(
+                        title = title,
+                        scrapColor = CalRed,
+                        deadline = deadline,
+                        startYearMonth = startYearMonth,
+                        workingPeriod = workingPeriod,
+                        internshipAnnouncementId = internshipAnnouncementId,
+                        companyImage = companyImage,
+                        isScrapped = isScrapped,
+                        onDismissRequest = {
+                            viewModel.updateRecommendDialogVisibility(
+                                false
+                            )
+                            viewModel.getHomeUpcomingInternList()
+                            viewModel.getRecommendInternsData(
+                                sortBy = homeState.sortBy.ordinal,
+                                startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
+                                startMonth = homeFilteringInfo.startMonth
+                                    ?: Calendar.getInstance().currentMonth,
+                            )
+                        },
+                        onClickNavigateButton = navigateToIntern
+                    )
+                }
             }
         }
     }
@@ -216,10 +247,7 @@ fun HomeScreen(
                 .fillMaxWidth(),
         ) {
             item {
-                Column(
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                ) {
+                Column {
                     ShowMainTitleWithName(homeUserName)
                     ShowUpcomingIntern(
                         homeUpcomingInternState = homeState.homeUpcomingInternState,
@@ -300,41 +328,6 @@ fun HomeScreen(
                             }
                         }
                     )
-
-                    if (homeState.homeRecommendDialogVisibility) {
-                        with(homeState.homeInternModel) {
-                            if (this != null) {
-                                if (isScrapped) {
-                                    ScrapCancelDialog(
-                                        internshipAnnouncementId = internshipAnnouncementId,
-                                        onDismissRequest = {
-                                            viewModel.updateRecommendDialogVisibility(false)
-                                            viewModel.getHomeUpcomingInternList()
-                                        }
-                                    )
-                                } else {
-                                    ScrapDialog(
-                                        title = title,
-                                        scrapColor = CalRed,
-                                        deadline = deadline,
-                                        startYearMonth = startYearMonth,
-                                        workingPeriod = workingPeriod,
-                                        internshipAnnouncementId = internshipAnnouncementId,
-                                        companyImage = companyImage,
-                                        isScrapped = isScrapped,
-                                        onDismissRequest = {
-                                            viewModel.updateRecommendDialogVisibility(
-                                                false
-                                            )
-                                            viewModel.getHomeUpcomingInternList()
-                                        },
-                                        onClickChangeColor = { /*TODO*/ },
-                                        onClickNavigateButton = navigateToIntern
-                                    )
-                                }
-                            }
-                        }
-                    }
                 }
             } else {
                 item {
@@ -382,8 +375,12 @@ private fun ShowMainTitleWithName(userName: String) {
             else userName
         ),
         modifier = Modifier
-            .padding(top = 11.dp, bottom = 19.dp)
-            .padding(horizontal = 24.dp),
+            .padding(
+                top = 2.dp,
+                bottom = 20.dp,
+                start = 24.dp,
+                end = 24.dp,
+            ),
         style = TerningTheme.typography.title1,
         color = Black,
     )
@@ -422,8 +419,11 @@ private fun ShowRecommendTitle() {
         style = TerningTheme.typography.title1,
         color = Black,
         modifier = Modifier
-            .padding(top = 5.dp)
-            .padding(horizontal = 24.dp),
+            .padding(
+                top = 22.dp,
+                start = 24.dp,
+                end = 24.dp,
+            ),
     )
 }
 

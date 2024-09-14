@@ -32,11 +32,6 @@ class HomeViewModel @Inject constructor(
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
-    init {
-        getProfile()
-        getFilteringInfo()
-    }
-
     fun getRecommendInternsData(sortBy: Int, startYear: Int?, startMonth: Int?) {
         viewModelScope.launch {
             homeRepository.getRecommendIntern(
@@ -94,7 +89,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun putFilteringInfo(grade: Int, workingPeriod: Int, year: Int, month: Int) {
+    fun putFilteringInfo(grade: String, workingPeriod: String, year: Int, month: Int) {
         viewModelScope.launch {
             homeRepository.putFilteringInfo(
                 ChangeFilteringRequestModel(grade, workingPeriod, year, month)
@@ -102,7 +97,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile() {
+    fun getProfile() {
         viewModelScope.launch {
             myPageRepository.getProfile().onSuccess { response ->
                 _homeState.value = _homeState.value.copy(
@@ -138,6 +133,7 @@ class HomeViewModel @Inject constructor(
         isScrapped: Boolean,
         color: String?,
         startYearMonth: String,
+        companyInfo: String = "",
     ) {
         _homeState.update {
             it.copy(
@@ -152,6 +148,7 @@ class HomeViewModel @Inject constructor(
                     isScrapped = isScrapped,
                     color = color ?: "",
                     startYearMonth = startYearMonth,
+                    companyInfo = companyInfo,
                 )
             )
         }

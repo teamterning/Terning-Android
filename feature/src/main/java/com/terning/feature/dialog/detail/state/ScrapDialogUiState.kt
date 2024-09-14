@@ -6,5 +6,4 @@ data class ScrapDialogUiState(
     val initialColorType: ColorType = ColorType.RED,
     val selectedColorType: ColorType = ColorType.RED,
     val isColorChanged: Boolean = false,
-    val isColorChangedOnce: Boolean = false,
 )
