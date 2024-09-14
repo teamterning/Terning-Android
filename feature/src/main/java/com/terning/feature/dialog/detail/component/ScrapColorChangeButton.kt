@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
+import com.terning.core.designsystem.theme.Grey375
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningSub4
 import com.terning.core.designsystem.theme.TerningSub5
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -33,7 +33,6 @@ import com.terning.feature.R
 @Composable
 fun ScrapColorChangeButton(
     isColorChanged: Boolean,
-    isColorChangedOnce: Boolean,
     cornerRadius: Dp,
     paddingVertical: Dp,
     onButtonClick: () -> Unit,
@@ -43,22 +42,17 @@ fun ScrapColorChangeButton(
     val isPressed by interactionSource.collectIsPressedAsState()
 
     val backgroundColor = when {
-        isColorChangedOnce && !isColorChanged -> TerningSub4
         isColorChanged && !isPressed -> White
         isColorChanged && isPressed -> TerningSub5
         else -> White
     }
     val textColor = when {
-        !isColorChangedOnce && !isColorChanged -> Grey400
-        else -> TerningMain
+        isColorChanged -> TerningMain
+        else -> Grey375
     }
     val borderColor = when {
-        !isColorChangedOnce && !isColorChanged -> Grey150
-        else -> TerningMain
-    }
-    val text = when {
-        isColorChangedOnce && !isColorChanged -> R.string.dialog_content_calendar_color_change_complete
-        else -> R.string.dialog_content_calendar_color_change
+        isColorChanged -> TerningMain
+        else -> Grey150
     }
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
@@ -80,7 +74,7 @@ fun ScrapColorChangeButton(
             onClick = onButtonClick
         ) {
             Text(
-                text = stringResource(id = text),
+                text = stringResource(id = R.string.dialog_content_calendar_color_change),
                 style = TerningTheme.typography.button3,
                 textAlign = TextAlign.Center,
             )
