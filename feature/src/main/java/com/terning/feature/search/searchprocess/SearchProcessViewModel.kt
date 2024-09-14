@@ -49,6 +49,34 @@ class SearchProcessViewModel @Inject constructor(
         }
     }
 
+    fun updateSearchResult(
+        internshipId: Long,
+        title: String,
+        dDay: String,
+        workingPeriod: String,
+        companyImage: String,
+        isScrapped: Boolean,
+        deadline: String,
+        startYearMonth: String,
+        color: String?
+    ) {
+        _state.update {
+            it.copy(
+                searchResult = SearchResult(
+                    internshipAnnouncementId = internshipId,
+                    title = title,
+                    dDay = dDay,
+                    workingPeriod = workingPeriod,
+                    companyImage = companyImage,
+                    isScrapped = isScrapped,
+                    deadline = deadline,
+                    startYearMonth = startYearMonth,
+                    color = color ?: ""
+                )
+            )
+        }
+    }
+
     fun updateText(newText: String) {
         _state.update { it.copy(text = newText) }
     }
@@ -69,14 +97,6 @@ class SearchProcessViewModel @Inject constructor(
 
     fun updateScrapDialogVisible(visible: Boolean) {
         _state.update { it.copy(isScrapDialogVisible = visible) }
-    }
-
-    fun updateScrapped(scrapped: Boolean) {
-        _state.update { it.copy(scrapped = scrapped) }
-    }
-
-    fun updateSelectedInternIndex(index: Long) {
-        _state.update { it.copy(selectedInternIndex = index.toInt()) }
     }
 
     fun toggleSheetState() {
