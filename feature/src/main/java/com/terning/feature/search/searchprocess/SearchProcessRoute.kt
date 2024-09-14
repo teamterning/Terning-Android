@@ -51,6 +51,7 @@ import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.domain.entity.intern.InternInfo
+import com.terning.domain.entity.search.SearchResult
 import com.terning.feature.R
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -86,7 +87,8 @@ fun SearchProcessRoute(
 
     SearchProcessScreen(
         modifier = modifier,
-        navController = navController,
+        navigateToIntern = { navController.navigateIntern(announcementId = it) },
+        navigateToBack = { navController.navigateUp() },
         currentSortBy = currentSortBy,
         viewModel = viewModel,
         onDismissCancelDialog = {
@@ -106,7 +108,8 @@ fun SearchProcessRoute(
 fun SearchProcessScreen(
     currentSortBy: MutableState<Int>,
     modifier: Modifier = Modifier,
-    navController: NavHostController,
+    navigateToIntern: (Long) -> Unit,
+    navigateToBack: () -> Unit,
     viewModel: SearchProcessViewModel = hiltViewModel(),
     onDismissCancelDialog: (Boolean) -> Unit,
     onDismissScrapDialog: () -> Unit,
@@ -146,7 +149,7 @@ fun SearchProcessScreen(
                 if (state.showSearchResults) R.string.search_process_result_top_bar_title
                 else R.string.search_process_top_bar_title
             ),
-            onBackButtonClick = { navController.navigateUp() },
+            onBackButtonClick = navigateToBack,
             modifier = Modifier
         )
         Column(
@@ -235,26 +238,12 @@ fun SearchProcessScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             items(viewModel.internSearchResultData.value.size) { index ->
-                                InternItemWithShadow(
-                                    modifier = Modifier.noRippleClickable {
-                                        navController.navigateIntern(
-                                            announcementId = internSearchResultData[index]
-                                                .internshipAnnouncementId
-                                        )
-                                    },
-                                    imageUrl = internSearchResultData[index].companyImage,
-                                    title = internSearchResultData[index].title,
-                                    dateDeadline = internSearchResultData[index].dDay,
-                                    workingPeriod = internSearchResultData[index].workingPeriod,
-                                    isScrapped = internSearchResultData[index].isScrapped,
-                                    shadowWidth = 2.dp,
-                                    shadowRadius = 10.dp,
+                                SearchResultInternItem(
+                                    navigateToIntern = navigateToIntern,
+                                    intern = internSearchResultData[index],
                                     onScrapButtonClicked = {
                                         viewModel.updateScrapDialogVisible(true)
-                                        viewModel.updateScrapped(
-                                            scrapped = internSearchResultData[index].isScrapped
-                                        )
-                                        selectedInternIndex.intValue = index
+                                        selectedInternIndex.value = index
                                     }
                                 )
                             }
@@ -341,6 +330,29 @@ fun SearchProcessScreen(
         }
     }
 }
+
+@Composable
+private fun SearchResultInternItem(
+    intern: SearchResult,
+    navigateToIntern: (Long) -> Unit,
+    onScrapButtonClicked: (Long) -> Unit,
+) {
+    InternItemWithShadow(
+        modifier = Modifier
+            .noRippleClickable {
+                navigateToIntern(intern.internshipAnnouncementId)
+            },
+        imageUrl = intern.companyImage,
+        title = intern.title,
+        dateDeadline = intern.dDay,
+        workingPeriod = intern.workingPeriod,
+        isScrapped = intern.isScrapped,
+        shadowRadius = 5.dp,
+        shadowWidth = 1.dp,
+        onScrapButtonClicked = onScrapButtonClicked,
+    )
+}
+
 
 @Preview(showBackground = true)
 @Composable
