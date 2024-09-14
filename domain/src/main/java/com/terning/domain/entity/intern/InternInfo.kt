@@ -5,7 +5,7 @@ data class InternInfo(
     val title: String,
     val deadline: String,
     val workingPeriod: String,
-    val startDate: String,
+    val startYearMonth: String,
     val scrapCount: Int,
     val viewCount: Int,
     val company: String,
@@ -15,5 +15,6 @@ data class InternInfo(
     val jobType: String,
     val detail: String,
     val url: String,
-    val scrapId: Long? = null,
+    val isScrapped: Boolean,
+    val color: String? = null,
 )

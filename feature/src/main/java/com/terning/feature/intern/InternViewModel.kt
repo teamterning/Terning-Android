@@ -31,14 +31,14 @@ class InternViewModel @Inject constructor(
         viewModelScope.launch {
             internRepository.getInternInfo(id)
                 .onSuccess { internInfoModel ->
-                    _internUiState.update { currentState ->
-                        currentState.copy(
-                            loadState = UiState.Success(internInfoModel),
-                            isScrappedState = internInfoModel.scrapId != null,
-                        )
-                    }
+                    _internUiState.value = _internUiState.value.copy(
+                        loadState = UiState.Success(internInfoModel)
+                    )
                 }
-                .onFailure {
+                .onFailure { exception: Throwable ->
+                    _internUiState.value = _internUiState.value.copy(
+                        loadState = UiState.Failure(exception.toString())
+                    )
                     _sideEffect.emit(InternViewSideEffect.Toast(R.string.server_failure))
                 }
         }

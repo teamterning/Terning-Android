@@ -13,8 +13,8 @@ data class InternResponseDto(
     val deadline: String,
     @SerialName("workingPeriod")
     val workingPeriod: String,
-    @SerialName("startDate")
-    val startDate: String,
+    @SerialName("startYearMonth")
+    val startYearMonth: String,
     @SerialName("scrapCount")
     val scrapCount: Int,
     @SerialName("viewCount")
@@ -33,6 +33,8 @@ data class InternResponseDto(
     val detail: String,
     @SerialName("url")
     val url: String,
-    @SerialName("scrapId")
-    val scrapId: Long? = null,
+    @SerialName("isScrapped")
+    val isScrapped: Boolean,
+    @SerialName("color")
+    val color: String? = null,
 )

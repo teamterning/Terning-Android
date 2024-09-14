@@ -52,10 +52,9 @@ fun InternRoute(
     viewModel: InternViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
-    val internState by viewModel.internUiState.collectAsStateWithLifecycle()
-
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val internState by viewModel.internUiState.collectAsStateWithLifecycle(lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)
@@ -124,7 +123,7 @@ fun InternScreen(
     val internInfoList = listOf(
         stringResource(id = R.string.intern_info_d_day) to internInfo.deadline,
         stringResource(id = R.string.intern_info_working) to internInfo.workingPeriod,
-        stringResource(id = R.string.intern_info_start_date) to internInfo.startDate,
+        stringResource(id = R.string.intern_info_start_date) to internInfo.startYearMonth,
     )
 
     val qualificationList = listOf(
@@ -286,7 +285,7 @@ fun InternScreen(
                 title = internInfo.title,
                 scrapColor = CalRed,
                 deadline = internInfo.deadline,
-                startYearMonth = internInfo.startDate,
+                startYearMonth = internInfo.startYearMonth,
                 workingPeriod = internInfo.workingPeriod,
                 internshipAnnouncementId = announcementId,
                 companyImage = internInfo.companyImage,

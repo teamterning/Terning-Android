@@ -76,7 +76,7 @@ fun InternBottomBar(
                             .noRippleClickable {
                                 onScrapClick(internInfo)
                             },
-                        tint = if (internInfo.scrapId != null) TerningMain else Grey350
+                        tint = if (internInfo.isScrapped) TerningMain else Grey350
                     )
                     Text(
                         text = stringResource(
