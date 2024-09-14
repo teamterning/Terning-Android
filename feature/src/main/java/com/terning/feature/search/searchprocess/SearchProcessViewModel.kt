@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.terning.domain.entity.search.SearchResult
 import com.terning.domain.repository.SearchRepository
 import com.terning.feature.R
-import com.terning.feature.search.searchprocess.models.SearchDialogState
 import com.terning.feature.search.searchprocess.models.SearchProcessState
-import com.terning.feature.search.searchprocess.models.SearchResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,21 +28,9 @@ class SearchProcessViewModel @Inject constructor(
     private val _sideEffect = MutableSharedFlow<SearchProcessSideEffect>()
     val sideEffect: SharedFlow<SearchProcessSideEffect> = _sideEffect.asSharedFlow()
 
-    private val _searchListState = MutableStateFlow(SearchResultState())
-    val searchListState: StateFlow<SearchResultState> = _searchListState.asStateFlow()
-
     private val _internSearchResultData = MutableStateFlow<List<SearchResult>>(emptyList())
     val internSearchResultData: StateFlow<List<SearchResult>> =
         _internSearchResultData.asStateFlow()
-
-    private val _dialogState = MutableStateFlow(SearchDialogState())
-    val dialogState: StateFlow<SearchDialogState> = _dialogState.asStateFlow()
-
-    private val _selectedInternIndex = MutableStateFlow(0)
-    val selectedInternIndex: StateFlow<Int> = _selectedInternIndex.asStateFlow()
-
-    private val _sheetState = MutableStateFlow(false)
-    val sheetState: StateFlow<Boolean> = _sheetState.asStateFlow()
 
     fun getSearchList(
         keyword: String,
@@ -64,40 +50,37 @@ class SearchProcessViewModel @Inject constructor(
     }
 
     fun updateText(newText: String) {
-        _state.value = _state.value.copy(text = newText)
+        _state.update { it.copy(text = newText) }
     }
 
     fun updateQuery(query: String) {
-        _state.value = _state.value.copy(keyword = query)
+        _state.update { it.copy(keyword = query) }
     }
 
     fun updateShowSearchResults(show: Boolean) {
-        _state.value = _state.value.copy(
-            showSearchResults = show,
-            existSearchResults = true
-        )
+        _state.update { it.copy(showSearchResults = show, existSearchResults = true) }
     }
 
     fun updateExistSearchResults(query: String) {
         val exists =
             _internSearchResultData.value.any { it.title.contains(query, ignoreCase = true) }
-        _state.value = _state.value.copy(existSearchResults = exists)
+        _state.update { it.copy(existSearchResults = exists) }
     }
 
     fun updateScrapDialogVisible(visible: Boolean) {
-        _dialogState.update { it.copy(isScrapDialogVisible = visible) }
+        _state.update { it.copy(isScrapDialogVisible = visible) }
     }
 
     fun updateScrapped(scrapped: Boolean) {
-        _dialogState.update { it.copy(scrapped = scrapped) }
+        _state.update { it.copy(scrapped = scrapped) }
     }
 
     fun updateSelectedInternIndex(index: Long) {
-        _selectedInternIndex.value = index.toInt()
+        _state.update { it.copy(selectedInternIndex = index.toInt()) }
     }
 
     fun toggleSheetState() {
-        _sheetState.update { !it }
+        _state.update { it.copy(sheetState = !it.sheetState) }
     }
 
     companion object {
