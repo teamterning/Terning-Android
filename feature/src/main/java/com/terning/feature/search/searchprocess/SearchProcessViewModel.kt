@@ -22,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchProcessViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
-    private val scrapRepository: ScrapRepository,
 ) : ViewModel() {
     private val _state: MutableStateFlow<SearchProcessState> =
         MutableStateFlow(SearchProcessState())

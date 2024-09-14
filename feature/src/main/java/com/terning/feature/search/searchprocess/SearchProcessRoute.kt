@@ -246,13 +246,13 @@ fun SearchProcessScreen(
                                     title = internSearchResultData[index].title,
                                     dateDeadline = internSearchResultData[index].dDay,
                                     workingPeriod = internSearchResultData[index].workingPeriod,
-                                    isScrapped = internSearchResultData[index].scrapId != null,
+                                    isScrapped = internSearchResultData[index].isScrapped,
                                     shadowWidth = 2.dp,
                                     shadowRadius = 10.dp,
                                     onScrapButtonClicked = {
                                         viewModel.updateScrapDialogVisible(true)
                                         viewModel.updateScrapped(
-                                            scrapped = internSearchResultData[index].scrapId != null
+                                            scrapped = internSearchResultData[index].isScrapped
                                         )
                                         selectedInternIndex.intValue = index
                                     }
@@ -315,7 +315,7 @@ fun SearchProcessScreen(
                     val selectedIndex = selectedInternIndex.value
                     if (selectedIndex != -1) {
                         val selectedIntern = internSearchResultData[selectedIndex]
-                        if (selectedIntern.scrapId != null) {
+                        if (selectedIntern.isScrapped) {
                             ScrapCancelDialog(
                                 internshipAnnouncementId = selectedIntern.internshipAnnouncementId,
                                 onDismissRequest = onDismissCancelDialog

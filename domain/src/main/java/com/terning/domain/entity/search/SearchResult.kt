@@ -6,7 +6,7 @@ data class SearchResult(
     val dDay: String,
     val workingPeriod: String,
     val companyImage: String,
-    val scrapId: Long?,
+    val isScrapped: Boolean,
     val deadline: String,
     val startYearMonth: String,
     val color: String?,
