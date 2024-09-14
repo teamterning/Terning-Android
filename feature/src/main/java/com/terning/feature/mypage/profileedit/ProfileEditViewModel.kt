@@ -57,7 +57,7 @@ class ProfileEditViewModel @Inject constructor(
 
         _state.value = _state.value.copy(
             profile = profile,
-            initialView = !_state.value.isModified && isSameAsInitial,
+            initialView = false,
             isModified = if (profile == _state.value.profile) _state.value.isModified else !isSameAsInitial,
             isProfileChangedButNameSame = if (_state.value.isNameChangedOnce) false
             else state.value.name == _state.value.initialName
