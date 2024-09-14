@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
@@ -27,6 +28,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 @Composable
 fun SearchTextField(
     text: String = "",
+    textStyle: TextStyle = TerningTheme.typography.body2,
     onValueChange: (String) -> Unit = {},
     modifier: Modifier,
     hint: String,
@@ -42,7 +44,7 @@ fun SearchTextField(
         value = text,
         onValueChange = onValueChange,
         modifier = modifier,
-        textStyle = TerningTheme.typography.button3,
+        textStyle = textStyle,
         textColor = Grey400,
         cursorBrush = SolidColor(Grey300),
         drawLineColor = TerningMain,
