@@ -124,10 +124,7 @@ fun MainScreen(
                 navController = navigator.navController,
                 startDestination = navigator.startDestination
             ) {
-                splashNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
+                splashNavGraph(navHostController = navigator.navController)
                 homeNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
@@ -140,34 +137,13 @@ fun MainScreen(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
-                signInNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                signUpNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                startFilteringNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                startHomeNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                filteringOneNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                filteringTwoNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                filteringThreeNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
+                signInNavGraph(navHostController = navigator.navController)
+                signUpNavGraph(navHostController = navigator.navController)
+                startFilteringNavGraph(navHostController = navigator.navController)
+                startHomeNavGraph(navHostController = navigator.navController)
+                filteringOneNavGraph(navHostController = navigator.navController)
+                filteringTwoNavGraph(navHostController = navigator.navController)
+                filteringThreeNavGraph(navHostController = navigator.navController)
                 searchProcessNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController

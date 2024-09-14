@@ -1,6 +1,5 @@
 package com.terning.feature.onboarding.signup.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -24,7 +23,6 @@ fun NavController.navigateSignUp(
 }
 
 fun NavGraphBuilder.signUpNavGraph(
-    paddingValues: PaddingValues,
     navHostController: NavHostController
 ) {
     composable<SignUp> {
@@ -38,7 +36,6 @@ fun NavGraphBuilder.signUpNavGraph(
             launchSingleTop = true
         }
         SignUpRoute(
-            paddingValues = paddingValues,
             authId = args.authId,
             navigateToStartFiltering = { name ->
                 navHostController.navigateStartFiltering(

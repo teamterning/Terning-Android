@@ -3,10 +3,11 @@ package com.terning.feature.filtering.filteringone
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,7 +35,6 @@ fun FilteringOneRoute(
     name: String,
     onNextClick: (String) -> Unit,
     navigateUp: () -> Unit,
-    paddingValues: PaddingValues,
     viewModel: FilteringOneViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -67,7 +67,6 @@ fun FilteringOneRoute(
         navigateUp = viewModel::navigateUp,
         buttonState = state.isButtonValid,
         gradeState = state.grade,
-        paddingValues = paddingValues
     )
 }
 
@@ -79,11 +78,11 @@ fun FilteringOneScreen(
     onButtonClick: (String) -> Unit,
     buttonState: Boolean,
     gradeState: String,
-    paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues)
+            .statusBarsPadding()
+            .navigationBarsPadding()
             .background(White)
     ) {
         BackButtonTopAppBar(
