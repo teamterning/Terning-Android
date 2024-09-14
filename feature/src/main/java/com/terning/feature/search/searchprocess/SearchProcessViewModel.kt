@@ -34,13 +34,10 @@ class SearchProcessViewModel @Inject constructor(
         _internSearchResultData.asStateFlow()
     fun getSearchList(
         keyword: String,
-        sortBy: Int,
+        sortBy: Int = 0,
         page: Int,
         size: Int,
     ) {
-        if (sortBy < 0 || sortBy >= SortBy.entries.size) {
-            return
-        }
         viewModelScope.launch {
             searchRepository.getSearchList(keyword, SortBy.entries[sortBy].type, page, size)
                 .onSuccess { results ->
@@ -93,9 +90,7 @@ class SearchProcessViewModel @Inject constructor(
     }
 
     fun updateExistSearchResults(query: String) {
-        val exists =
-            _internSearchResultData.value.any { it.title.contains(query, ignoreCase = true) }
-        _state.update { it.copy(existSearchResults = exists) }
+        _state.update { it.copy(existSearchResults = _internSearchResultData.value.isNotEmpty()) }
     }
 
     fun updateScrapDialogVisible(visible: Boolean) {

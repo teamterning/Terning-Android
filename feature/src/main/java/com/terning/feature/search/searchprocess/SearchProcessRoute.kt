@@ -68,7 +68,6 @@ fun SearchProcessRoute(
     LaunchedEffect(true) {
         viewModel.getSearchList(
             keyword = state.text,
-            sortBy = state.currentSortBy,
             page = 0,
             size = 10
         )
@@ -97,13 +96,13 @@ fun SearchProcessRoute(
             viewModel.updateText(it)
         },
         onSearchAction = {
+            viewModel.updateQuery(state.text)
             viewModel.getSearchList(
                 keyword = state.text,
                 sortBy = state.currentSortBy,
                 page = 0,
                 size = 10,
             )
-            viewModel.updateQuery(state.text)
             viewModel.updateShowSearchResults(true)
             viewModel.updateExistSearchResults(state.text)
         },
