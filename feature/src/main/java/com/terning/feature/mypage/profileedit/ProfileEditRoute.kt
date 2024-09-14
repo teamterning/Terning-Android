@@ -166,7 +166,6 @@ fun ProfileEditScreen(
                     onValidationChanged(isValid)
                 },
                 initialView = profileEditState.initialView,
-                isNameChangedOnce = profileEditState.isNameChangedOnce,
                 isProfileChangedButNameSame = profileEditState.isProfileChangedButNameSame
             )
             Spacer(modifier = Modifier.height(48.dp))
