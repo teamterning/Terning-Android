@@ -43,22 +43,25 @@ class ProfileEditViewModel @Inject constructor(
     }
 
     fun updateName(name: String) {
-        val isSameAsInitial = name == _state.value.initialName
-        val isProfileChangedButNameSame =
-            _state.value.profile != _state.value.initialProfile && isSameAsInitial
-
         _state.value = _state.value.copy(
             name = name,
             initialView = false,
-            isProfileChangedButNameSame = isProfileChangedButNameSame
+            isModified = true,
+            isProfileChangedButNameSame = false,
+            isNameChangedOnce = true
         )
     }
 
     fun updateProfile(profile: String) {
+        val isSameAsInitial = profile == _state.value.initialProfile
+        val isSameAsPrevious = profile == _state.value.profile
+
         _state.value = _state.value.copy(
             profile = profile,
-            initialView = false,
-            isProfileChangedButNameSame = _state.value.name == _state.value.initialName
+            initialView = !_state.value.isModified && isSameAsInitial,
+            isModified = if (isSameAsPrevious) _state.value.isModified else !isSameAsInitial,
+            isProfileChangedButNameSame = if (_state.value.isNameChangedOnce) false
+            else state.value.name == _state.value.initialName
         )
     }
 
