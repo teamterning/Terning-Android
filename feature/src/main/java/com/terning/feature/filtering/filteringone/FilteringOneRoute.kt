@@ -58,9 +58,10 @@ fun FilteringOneRoute(
     FilteringOneScreen(
         name = name,
         onButtonClick = { grade ->
-            viewModel.updateGrade(grade)
-            if (grade.isNotEmpty()) viewModel.updateButton(true)
-            else viewModel.updateButton(false)
+            if (grade.isNotEmpty()) {
+                viewModel.updateGrade(grade)
+                viewModel.updateButton(true)
+            } else viewModel.updateButton(false)
         },
         onNextClick = viewModel::navigateToFilteringTwo,
         navigateUp = viewModel::navigateUp,
