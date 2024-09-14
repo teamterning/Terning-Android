@@ -2,6 +2,7 @@ package com.terning.feature.search.searchprocess
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.terning.core.type.SortBy
 import com.terning.domain.entity.search.SearchResult
 import com.terning.domain.repository.SearchRepository
 import com.terning.feature.R
@@ -31,15 +32,17 @@ class SearchProcessViewModel @Inject constructor(
     private val _internSearchResultData = MutableStateFlow<List<SearchResult>>(emptyList())
     val internSearchResultData: StateFlow<List<SearchResult>> =
         _internSearchResultData.asStateFlow()
-
     fun getSearchList(
         keyword: String,
-        sortBy: String = SORT_BY,
+        sortBy: Int,
         page: Int,
         size: Int,
     ) {
+        if (sortBy < 0 || sortBy >= SortBy.entries.size) {
+            return
+        }
         viewModelScope.launch {
-            searchRepository.getSearchList(keyword, sortBy, page, size)
+            searchRepository.getSearchList(keyword, SortBy.entries[sortBy].type, page, size)
                 .onSuccess { results ->
                     _internSearchResultData.value = results
                 }
@@ -58,7 +61,7 @@ class SearchProcessViewModel @Inject constructor(
         isScrapped: Boolean,
         deadline: String,
         startYearMonth: String,
-        color: String?
+        color: String?,
     ) {
         _state.update {
             it.copy(
@@ -99,11 +102,17 @@ class SearchProcessViewModel @Inject constructor(
         _state.update { it.copy(isScrapDialogVisible = visible) }
     }
 
-    fun toggleSheetState() {
-        _state.update { it.copy(sheetState = !it.sheetState) }
+    fun updateSheetVisible(visible: Boolean) {
+        _state.update { it.copy(sheetState = visible) }
     }
 
-    companion object {
-        private const val SORT_BY = "deadlineSoon"
+    fun updateSortBy(newSortBy: Int) {
+        _state.value = _state.value.copy(currentSortBy = newSortBy)
+        getSearchList(
+            keyword = _state.value.keyword,
+            sortBy = newSortBy,
+            page = 0,
+            size = 10
+        )
     }
 }

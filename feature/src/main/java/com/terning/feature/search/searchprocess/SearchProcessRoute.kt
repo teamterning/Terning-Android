@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -66,14 +65,10 @@ fun SearchProcessRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val currentSortBy: MutableState<Int> = remember {
-        mutableIntStateOf(0)
-    }
-
     LaunchedEffect(true) {
         viewModel.getSearchList(
             keyword = state.text,
-            sortBy = SORT_BY,
+            sortBy = state.currentSortBy,
             page = 0,
             size = 10
         )
@@ -96,7 +91,6 @@ fun SearchProcessRoute(
         modifier = modifier,
         navigateToIntern = { navController.navigateIntern(it) },
         navigateToBack = { navController.navigateUp() },
-        currentSortBy = currentSortBy,
         state = state,
         internSearchResultData = internSearchResultData,
         updateText = {
@@ -105,7 +99,7 @@ fun SearchProcessRoute(
         onSearchAction = {
             viewModel.getSearchList(
                 keyword = state.text,
-                sortBy = SORT_BY,
+                sortBy = state.currentSortBy,
                 page = 0,
                 size = 10,
             )
@@ -114,12 +108,12 @@ fun SearchProcessRoute(
             viewModel.updateExistSearchResults(state.text)
         },
         onSortButtonClick = {
-            viewModel.toggleSheetState()
+            viewModel.updateSheetVisible(true)
         },
         onDismissCancelDialog = {
             viewModel.getSearchList(
                 keyword = state.keyword,
-                sortBy = state.sortBy,
+                sortBy = state.sortBy.ordinal,
                 page = state.page,
                 size = state.size
             )
@@ -128,11 +122,14 @@ fun SearchProcessRoute(
         onDismissScrapDialog = {
             viewModel.getSearchList(
                 keyword = state.keyword,
-                sortBy = state.sortBy,
+                sortBy = state.sortBy.ordinal,
                 page = state.page,
                 size = state.size
             )
             viewModel.updateScrapDialogVisible(false)
+        },
+        onDismissSheet = {
+            viewModel.updateSheetVisible(false)
         },
         onScrapButtonClicked = {
             viewModel.updateScrapDialogVisible(true)
@@ -147,13 +144,15 @@ fun SearchProcessRoute(
                 isScrapped = it.isScrapped,
                 color = it.color
             )
+        },
+        onSortChange = {
+            viewModel.updateSortBy(it)
         }
     )
 }
 
 @Composable
 fun SearchProcessScreen(
-    currentSortBy: MutableState<Int>,
     modifier: Modifier = Modifier,
     navigateToIntern: (Long) -> Unit,
     navigateToBack: () -> Unit,
@@ -164,7 +163,9 @@ fun SearchProcessScreen(
     onSortButtonClick: () -> Unit = {},
     onDismissCancelDialog: (Boolean) -> Unit,
     onDismissScrapDialog: () -> Unit,
+    onDismissSheet: () -> Unit = {},
     onScrapButtonClicked: (SearchResult) -> Unit,
+    onSortChange: (Int) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -250,7 +251,7 @@ fun SearchProcessScreen(
                         }
                         Row {
                             SortingButton(
-                                sortBy = currentSortBy.value,
+                                sortBy = state.currentSortBy,
                                 onCLick = onSortButtonClick,
                             )
                         }
@@ -325,8 +326,10 @@ fun SearchProcessScreen(
 
         if (state.sheetState) {
             SortingBottomSheet(
-                currentSortBy = currentSortBy.value,
-                onDismiss = onSortButtonClick
+                currentSortBy = state.currentSortBy,
+                onDismiss = onDismissSheet,
+                newSortBy = mutableIntStateOf(state.currentSortBy),
+                onSortChange = onSortChange
             )
         }
 
@@ -380,4 +383,3 @@ private fun SearchResultInternItem(
 }
 
 private const val MAX_LINES = 1
-private const val SORT_BY = "deadlineSoon"
