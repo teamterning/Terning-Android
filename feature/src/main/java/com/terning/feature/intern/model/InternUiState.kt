@@ -13,6 +13,5 @@ data class InternUiState(
     val internDialogVisibility: Boolean = false,
     val isScrappedState: Boolean = false,
     val showWeb: Boolean = false,
-    val scrapId: Long? = null,
     val internshipModel: InternInfo? = null,
 )

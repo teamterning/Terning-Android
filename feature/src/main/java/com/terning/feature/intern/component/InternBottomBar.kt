@@ -33,7 +33,6 @@ import com.terning.feature.intern.model.InternUiState
 fun InternBottomBar(
     modifier: Modifier,
     internInfo: InternInfo,
-    internUiState: InternUiState,
     onScrapClick: (InternInfo) -> Unit,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
@@ -64,7 +63,7 @@ fun InternBottomBar(
                 ) {
                     Icon(
                         painter = painterResource(
-                            id = if (internUiState.isScrappedState) {
+                            id = if (internInfo.isScrapped) {
                                 R.drawable.ic_scrap_true_24
                             } else {
                                 R.drawable.ic_scrap_false_24

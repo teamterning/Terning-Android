@@ -95,11 +95,7 @@ fun InternRoute(
                     viewModel.updateScrapCancelDialogVisibility(true)
                 },
                 onClickScrapButton = {
-                    with(viewModel) {
-                        if (internState.isScrappedState)
-                            updateScrapCancelDialogVisibility(true)
-                        else updateInternDialogVisibility(true)
-                    }
+                    viewModel.updateInternDialogVisibility(true)
                 }
             )
         }
@@ -263,24 +259,23 @@ fun InternScreen(
         InternBottomBar(
             modifier = Modifier,
             internInfo = internInfo,
-            internUiState = internUiState,
             onScrapClick = {
-                if (!internUiState.isScrappedState) {
-                    onClickScrapButton(internInfo)
-                } else {
+                if (internInfo.isScrapped) {
                     onClickCancelButton(internInfo)
+                } else {
+                    onClickScrapButton(internInfo)
                 }
             },
         )
 
-        if (internUiState.scrapCancelDialogVisibility && internUiState.isScrappedState) {
+        if (internUiState.scrapCancelDialogVisibility) {
             ScrapCancelDialog(
                 internshipAnnouncementId = announcementId,
                 onDismissRequest = onDismissCancelDialog
             )
         }
 
-        if (internUiState.internDialogVisibility && !internUiState.isScrappedState) {
+        if (internUiState.internDialogVisibility) {
             ScrapDialog(
                 title = internInfo.title,
                 scrapColor = CalRed,
@@ -289,7 +284,7 @@ fun InternScreen(
                 workingPeriod = internInfo.workingPeriod,
                 internshipAnnouncementId = announcementId,
                 companyImage = internInfo.companyImage,
-                isScrapped = false,
+                isScrapped = internInfo.isScrapped,
                 onDismissRequest = onDismissScrapDialog,
                 onClickChangeColor = { },
                 onClickNavigateButton = { }
