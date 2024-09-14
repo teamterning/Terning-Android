@@ -28,12 +28,9 @@ fun NavGraphBuilder.signUpNavGraph(
     composable<SignUp> {
         val args = it.toRoute<SignUp>()
         val navOptions = navOptions {
-            navHostController.currentDestination?.route?.let { currentRoute ->
-                popUpTo(currentRoute) {
-                    inclusive = true
-                }
+            popUpTo(id = navHostController.graph.id) {
+                inclusive = true
             }
-            launchSingleTop = true
         }
         SignUpRoute(
             authId = args.authId,

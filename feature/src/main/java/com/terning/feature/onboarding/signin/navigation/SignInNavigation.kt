@@ -24,10 +24,9 @@ fun NavGraphBuilder.signInNavGraph(
 ) {
     composable<SignIn> {
         val navOptions = navOptions {
-            popUpTo(SignIn) {
+            popUpTo(id = navHostController.graph.id) {
                 inclusive = true
             }
-            launchSingleTop = true
         }
         SignInRoute(
             navigateToHome = {
