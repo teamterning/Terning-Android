@@ -70,7 +70,7 @@ fun FilteringButton(
     }
     val borderColor = when {
         !isSelected && !isPressed -> Grey150
-        isPressed -> Grey200
+        !isSelected && isPressed -> Grey200
         else -> TerningMain
     }
 

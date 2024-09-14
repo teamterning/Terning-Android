@@ -1,5 +1,6 @@
 package com.terning.feature.onboarding.signup
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ import com.terning.core.designsystem.component.textfield.NameTextField
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
@@ -105,6 +107,7 @@ fun SignUpScreen(
             .fillMaxSize()
             .addFocusCleaner(focusManager)
             .padding(paddingValues)
+            .background(White)
     ) {
         Spacer(modifier = Modifier.height(56.dp))
         Text(
