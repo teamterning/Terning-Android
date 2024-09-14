@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import com.terning.core.navigation.Route
 import com.terning.feature.home.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.SignInRoute
@@ -24,10 +25,20 @@ fun NavGraphBuilder.signInNavGraph(
     navHostController: NavHostController,
 ) {
     composable<SignIn> {
+        val navOptions = navOptions {
+            popUpTo(SignIn) {
+                inclusive = true
+            }
+            launchSingleTop = true
+        }
         SignInRoute(
             paddingValues = paddingValues,
-            navigateToHome = { navHostController.navigateHome() },
-            navigateToSignUp = { authId -> navHostController.navigateSignUp(authId) }
+            navigateToHome = {
+                navHostController.navigateHome(navOptions = navOptions)
+            },
+            navigateToSignUp = { authId ->
+                navHostController.navigateSignUp(authId = authId, navOptions = navOptions)
+            }
         )
     }
 }

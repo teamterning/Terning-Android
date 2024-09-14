@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
@@ -28,11 +29,23 @@ fun NavGraphBuilder.signUpNavGraph(
 ) {
     composable<SignUp> {
         val args = it.toRoute<SignUp>()
+        val navOptions = navOptions {
+            navHostController.currentDestination?.route?.let { it1 ->
+                popUpTo(it1) {
+                    inclusive = true
+                }
+            }
+            launchSingleTop = true
+        }
         SignUpRoute(
             paddingValues = paddingValues,
             authId = args.authId,
-            navigateToStartFiltering = { name -> navHostController.navigateStartFiltering(name) }
-
+            navigateToStartFiltering = { name ->
+                navHostController.navigateStartFiltering(
+                    name = name,
+                    navOptions = navOptions
+                )
+            }
         )
     }
 }

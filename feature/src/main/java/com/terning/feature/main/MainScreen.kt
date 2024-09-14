@@ -10,7 +10,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -30,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import com.terning.core.designsystem.component.snackbar.TerningBasicSnackBar
@@ -86,9 +89,10 @@ fun MainScreen(
                 TerningBasicSnackBar {
                     Text(
                         text = snackBarData.visuals.message,
-                        color = White,
+                        color = White
                     )
                 }
+                Spacer(modifier = Modifier.height(50.dp))
             }
         },
         bottomBar = {
