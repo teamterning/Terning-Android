@@ -10,9 +10,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -85,14 +84,16 @@ fun MainScreen(
 
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackBarHostState) { snackBarData ->
+            SnackbarHost(
+                hostState = snackBarHostState,
+                modifier = Modifier.padding(bottom = 10.dp)
+            ) { snackBarData ->
                 TerningBasicSnackBar {
                     Text(
                         text = snackBarData.visuals.message,
                         color = White
                     )
                 }
-                Spacer(modifier = Modifier.height(50.dp))
             }
         },
         bottomBar = {

@@ -30,8 +30,8 @@ fun NavGraphBuilder.signUpNavGraph(
     composable<SignUp> {
         val args = it.toRoute<SignUp>()
         val navOptions = navOptions {
-            navHostController.currentDestination?.route?.let { it1 ->
-                popUpTo(it1) {
+            navHostController.currentDestination?.route?.let { currentRoute ->
+                popUpTo(currentRoute) {
                     inclusive = true
                 }
             }
