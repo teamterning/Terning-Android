@@ -141,7 +141,7 @@ fun HomeUpcomingInternScreen(
 
                             Row(
                                 modifier = Modifier
-                                    .size(width = 40.dp, height = 20.dp)
+                                    .size(width = 48.dp, height = 20.dp)
                                     .background(
                                         color = TerningSub3,
                                         shape = RoundedCornerShape(size = 5.dp)
