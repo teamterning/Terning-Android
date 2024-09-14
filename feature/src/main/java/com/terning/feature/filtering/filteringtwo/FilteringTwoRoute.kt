@@ -64,7 +64,8 @@ fun FilteringTwoRoute(
         navigateUp = viewModel::navigateUp,
         onButtonClick = { workingPeriod ->
             viewModel.updateWorkingPeriod(workingPeriod)
-            viewModel.updateButton(true)
+            if (workingPeriod.isNotEmpty()) viewModel.updateButton(true)
+            else viewModel.updateButton(false)
         },
         buttonState = state.isButtonValid,
         workingPeriod = state.workingPeriod,
