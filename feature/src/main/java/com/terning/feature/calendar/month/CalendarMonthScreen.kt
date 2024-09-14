@@ -45,10 +45,9 @@ fun CalendarMonthRoute(
     }
 
     LaunchedEffect(key1 = pagerState) {
-        snapshotFlow { pagerState.settledPage }
-            .collect { settled->
-                val date = getLocalDateByPage(settled)
-                viewModel.getScrapMonth(date.year, date.monthValue)
+        snapshotFlow { pagerState.currentPage }
+            .collect { currentPage->
+                viewModel.getScrapMonth(currentPage)
             }
     }
 
