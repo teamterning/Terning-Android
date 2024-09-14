@@ -35,7 +35,6 @@ fun StatusOneRadioGroup(
         R.string.filtering_status1_description4
     )
 
-    val selectedIndex = remember { mutableIntStateOf(options[0]) }
     val selectedButton = remember { mutableStateListOf(false, false, false, false) }
 
     LazyVerticalGrid(
@@ -50,10 +49,14 @@ fun StatusOneRadioGroup(
                 modifier = modifier.fillMaxWidth(),
                 text = if (selectedButton[index]) selectedOptions[index] else option,
                 onButtonClick = {
-                    selectedIndex.intValue = option
-                    selectedButton.indices.forEach { i -> selectedButton[i] = false }
-                    selectedButton[index] = true
-                    onButtonClick(Grade.entries[index].stringValue)
+                    if (selectedButton[index]) {
+                        selectedButton[index] = false
+                        onButtonClick("")
+                    } else {
+                        selectedButton.indices.forEach { i -> selectedButton[i] = false }
+                        selectedButton[index] = true
+                        onButtonClick(Grade.entries[index].stringValue)
+                    }
                 },
                 cornerRadius = 15.dp,
                 paddingVertical = 14.dp
