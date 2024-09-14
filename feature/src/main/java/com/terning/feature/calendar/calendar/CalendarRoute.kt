@@ -131,7 +131,10 @@ private fun CalendarScreen(
                             contentOne = {
                                 CalendarMonthRoute(
                                     selectedDate = uiState.selectedDate,
-                                    updateSelectedDate = onClickNewDate,
+                                    updateSelectedDate = { newDate ->
+                                        if(!pagerState.isScrollInProgress)
+                                            onClickNewDate(newDate)
+                                    },
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .background(White),
