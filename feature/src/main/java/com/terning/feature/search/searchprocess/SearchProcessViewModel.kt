@@ -89,7 +89,7 @@ class SearchProcessViewModel @Inject constructor(
         _state.update { it.copy(showSearchResults = show, existSearchResults = true) }
     }
 
-    fun updateExistSearchResults(query: String) {
+    fun updateExistSearchResults() {
         _state.update { it.copy(existSearchResults = _internSearchResultData.value.isNotEmpty()) }
     }
 
