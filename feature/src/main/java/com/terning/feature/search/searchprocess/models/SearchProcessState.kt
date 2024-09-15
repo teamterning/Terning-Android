@@ -11,7 +11,7 @@ data class SearchProcessState(
     val keyword: String = "",
     val sortBy: SortBy = SortBy.EARLIEST,
     val page: Int = 0,
-    val size: Int = 10,
+    val size: Int = 100,
     val showSearchResults: Boolean = false,
     val existSearchResults: Boolean = false,
     val isScrapDialogVisible: Boolean = false,
