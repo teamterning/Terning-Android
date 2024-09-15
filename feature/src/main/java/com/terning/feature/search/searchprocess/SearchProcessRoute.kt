@@ -168,6 +168,7 @@ fun SearchProcessScreen(
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+    val currentSortBy = remember { mutableIntStateOf(state.currentSortBy) }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -327,7 +328,7 @@ fun SearchProcessScreen(
             SortingBottomSheet(
                 currentSortBy = state.currentSortBy,
                 onDismiss = onDismissSheet,
-                newSortBy = mutableIntStateOf(state.currentSortBy),
+                newSortBy = currentSortBy,
                 onSortChange = onSortChange
             )
         }

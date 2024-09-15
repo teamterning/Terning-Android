@@ -107,7 +107,7 @@ class SearchProcessViewModel @Inject constructor(
             keyword = _state.value.keyword,
             sortBy = newSortBy,
             page = 0,
-            size = 10
+            size = 100
         )
     }
 }
