@@ -104,7 +104,7 @@ fun InternScreen(
     internUiState: InternUiState,
     internInfo: InternInfo,
     onDismissCancelDialog: (Boolean) -> Unit,
-    onDismissScrapDialog: () -> Unit,
+    onDismissScrapDialog: (Boolean) -> Unit,
     onClickCancelButton: (InternInfo) -> Unit,
     onClickScrapButton: (InternInfo) -> Unit,
 ) {

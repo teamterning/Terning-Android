@@ -69,7 +69,7 @@ fun SearchProcessRoute(
         viewModel.getSearchList(
             keyword = state.text,
             page = 0,
-            size = 100
+            size = 0
         )
     }
 
@@ -109,23 +109,19 @@ fun SearchProcessRoute(
         onSortButtonClick = {
             viewModel.updateSheetVisible(true)
         },
-        onDismissCancelDialog = {
-            viewModel.getSearchList(
-                keyword = state.keyword,
-                sortBy = state.sortBy.ordinal,
-                page = state.page,
-                size = state.size
-            )
+        onDismissScrapDialog = { isScrapped, searchResult ->
             viewModel.updateScrapDialogVisible(false)
+            viewModel.updateSearchResultScrapStatus(
+                searchResult.internshipAnnouncementId,
+                isScrapped
+            )
         },
-        onDismissScrapDialog = {
-            viewModel.getSearchList(
-                keyword = state.keyword,
-                sortBy = state.sortBy.ordinal,
-                page = state.page,
-                size = state.size
-            )
+        onDismissCancelDialog = { isScrapped, searchResult ->
             viewModel.updateScrapDialogVisible(false)
+            viewModel.updateSearchResultScrapStatus(
+                searchResult.internshipAnnouncementId,
+                !isScrapped
+            )
         },
         onDismissSheet = {
             viewModel.updateSheetVisible(false)
@@ -160,8 +156,8 @@ fun SearchProcessScreen(
     updateText: (String) -> Unit = {},
     onSearchAction: () -> Unit = {},
     onSortButtonClick: () -> Unit = {},
-    onDismissCancelDialog: (Boolean) -> Unit,
-    onDismissScrapDialog: () -> Unit,
+    onDismissCancelDialog: (Boolean, SearchResult) -> Unit,
+    onDismissScrapDialog: (Boolean, SearchResult) -> Unit,
     onDismissSheet: () -> Unit = {},
     onScrapButtonClicked: (SearchResult) -> Unit,
     onSortChange: (Int) -> Unit = {},
@@ -223,8 +219,6 @@ fun SearchProcessScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-
-
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
@@ -270,7 +264,9 @@ fun SearchProcessScreen(
                                     intern = internSearchResultData[index],
                                     navigateToIntern = navigateToIntern,
                                     onScrapButtonClicked = {
-                                        onScrapButtonClicked(internSearchResultData[index])
+                                        with(internSearchResultData[index]) {
+                                            onScrapButtonClicked(this)
+                                        }
                                     }
                                 )
                             }
@@ -338,7 +334,9 @@ fun SearchProcessScreen(
             if (searchResult.isScrapped) {
                 ScrapCancelDialog(
                     internshipAnnouncementId = searchResult.internshipAnnouncementId,
-                    onDismissRequest = onDismissCancelDialog
+                    onDismissRequest = { isScrapped ->
+                        onDismissCancelDialog(isScrapped, searchResult)
+                    }
                 )
             } else {
                 ScrapDialog(
@@ -350,7 +348,9 @@ fun SearchProcessScreen(
                     internshipAnnouncementId = searchResult.internshipAnnouncementId,
                     companyImage = searchResult.companyImage,
                     isScrapped = false,
-                    onDismissRequest = onDismissScrapDialog,
+                    onDismissRequest = { isScrapped ->
+                        onDismissScrapDialog(isScrapped, searchResult)
+                    }
                 )
             }
         }

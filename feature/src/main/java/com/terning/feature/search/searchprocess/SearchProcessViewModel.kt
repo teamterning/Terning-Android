@@ -111,4 +111,14 @@ class SearchProcessViewModel @Inject constructor(
             size = 100
         )
     }
+
+    fun updateSearchResultScrapStatus(internshipId: Long, isScrapped: Boolean) {
+        _internSearchResultData.value = _internSearchResultData.value.map { searchResult ->
+            if (searchResult.internshipAnnouncementId == internshipId) {
+                searchResult.copy(isScrapped = isScrapped)
+            } else {
+                searchResult
+            }
+        }
+    }
 }

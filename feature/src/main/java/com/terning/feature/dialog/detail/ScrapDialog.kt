@@ -64,11 +64,11 @@ fun ScrapDialog(
     internshipAnnouncementId: Long,
     companyImage: String,
     isScrapped: Boolean,
-    onDismissRequest: () -> Unit = {},
+    onDismissRequest: (Boolean) -> Unit = {},
     onScrapAnnouncement: () -> Unit = {},
     onClickChangeColor: () -> Unit = {},
     onClickNavigateButton: (Long) -> Unit = {},
-    viewModel: ScrapDialogViewModel = hiltViewModel()
+    viewModel: ScrapDialogViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -83,12 +83,12 @@ fun ScrapDialog(
 
                     is ScrapDialogSideEffect.DismissDialog -> {
                         viewModel.initUiState()
-                        onDismissRequest()
+                        onDismissRequest(false)
                     }
 
                     is ScrapDialogSideEffect.PatchedScrap -> {
                         onClickChangeColor()
-                        onDismissRequest()
+                        onDismissRequest(false)
                     }
 
                     is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
@@ -97,7 +97,7 @@ fun ScrapDialog(
 
                     is ScrapDialogSideEffect.ScrappedAnnouncement -> {
                         onScrapAnnouncement()
-                        onDismissRequest()
+                        onDismissRequest(true)
                     }
                 }
             }
@@ -150,7 +150,7 @@ private fun ScrapDialogScreen(
     onClickColorButton: (ColorType) -> Unit,
     onClickNavigateButton: () -> Unit,
     onClickColorChangeButton: () -> Unit,
-    onClickScrapButton: () -> Unit
+    onClickScrapButton: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -277,7 +277,7 @@ private fun ScrapDialogScreen(
 @Composable
 private fun NewScrapButton(
     onClickScrapButton: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     RoundButton(
         style = TerningTheme.typography.button3,
@@ -294,7 +294,7 @@ private fun DetailScrapButton(
     isColorChanged: Boolean,
     onClickNavigateButton: () -> Unit,
     onClickColorChangeButton: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

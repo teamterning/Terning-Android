@@ -125,7 +125,7 @@ private fun CalendarListScreen(
     uiState: CalendarListUiState,
     navigateToAnnouncement: (Long) -> Unit,
     onDismissCancelDialog: (Boolean) -> Unit,
-    onDismissInternDialog: () -> Unit,
+    onDismissInternDialog: (Boolean) -> Unit,
     onClickChangeColor: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,

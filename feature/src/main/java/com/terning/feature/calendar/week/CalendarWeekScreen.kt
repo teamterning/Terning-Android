@@ -121,7 +121,7 @@ private fun CalendarWeekScreen(
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
     onDismissCancelDialog: (Boolean) -> Unit,
-    onDismissInternDialog: () -> Unit,
+    onDismissInternDialog: (Boolean) -> Unit,
     onClickChangeColor: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
