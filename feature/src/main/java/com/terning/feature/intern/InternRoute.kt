@@ -1,7 +1,6 @@
 package com.terning.feature.intern
 
-import android.view.ViewGroup
-import android.webkit.WebView
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -114,6 +113,8 @@ fun InternScreen(
     onClickCancelButton: (InternInfo) -> Unit,
     onClickScrapButton: (InternInfo) -> Unit,
 ) {
+    val context = LocalContext.current
+
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
@@ -127,18 +128,10 @@ fun InternScreen(
         stringResource(id = R.string.intern_info_work) to internInfo.jobType,
     )
 
-    if (internUiState.showWeb) {
-        AndroidView(
-            factory = {
-                WebView(it).apply {
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                    )
-                    loadUrl(internInfo.url)
-                }
-            },
-        )
+    LaunchedEffect(internUiState.showWeb) {
+        if (internUiState.showWeb) {
+            CustomTabsIntent.Builder().build().launchUrl(context, internInfo.url.toUri())
+        }
     }
 
     Column(
