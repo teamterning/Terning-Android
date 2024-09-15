@@ -104,7 +104,7 @@ fun SearchProcessRoute(
                 size = 100,
             )
             viewModel.updateShowSearchResults(true)
-            viewModel.updateExistSearchResults(state.text)
+            viewModel.updateExistSearchResults()
         },
         onSortButtonClick = {
             viewModel.updateSheetVisible(true)

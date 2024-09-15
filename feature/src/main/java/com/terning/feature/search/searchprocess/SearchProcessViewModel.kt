@@ -32,6 +32,7 @@ class SearchProcessViewModel @Inject constructor(
     private val _internSearchResultData = MutableStateFlow<List<SearchResult>>(emptyList())
     val internSearchResultData: StateFlow<List<SearchResult>> =
         _internSearchResultData.asStateFlow()
+
     fun getSearchList(
         keyword: String,
         sortBy: Int = 0,
