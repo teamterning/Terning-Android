@@ -9,7 +9,7 @@ fun InternResponseDto.toInternInfo(): InternInfo =
         title = title,
         deadline = deadline,
         workingPeriod = workingPeriod,
-        startDate = startDate,
+        startYearMonth = startYearMonth,
         scrapCount = scrapCount,
         viewCount = viewCount,
         company = company,
@@ -19,5 +19,6 @@ fun InternResponseDto.toInternInfo(): InternInfo =
         jobType = jobType,
         detail = detail,
         url = url,
-        scrapId = scrapId
+        isScrapped = isScrapped,
+        color = color,
     )

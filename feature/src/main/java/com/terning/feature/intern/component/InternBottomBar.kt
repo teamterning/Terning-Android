@@ -27,6 +27,7 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.intern.InternInfo
 import com.terning.feature.R
 import com.terning.feature.intern.InternViewModel
+import com.terning.feature.intern.model.InternUiState
 
 @Composable
 fun InternBottomBar(
@@ -35,7 +36,6 @@ fun InternBottomBar(
     onScrapClick: (InternInfo) -> Unit,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -63,20 +63,19 @@ fun InternBottomBar(
                 ) {
                     Icon(
                         painter = painterResource(
-                            id =
-                            if (internInfo.scrapId != null) R.drawable.ic_scrap_true_24
-                            else R.drawable.ic_scrap_false_24,
+                            id = if (internInfo.isScrapped) {
+                                R.drawable.ic_scrap_true_24
+                            } else {
+                                R.drawable.ic_scrap_false_24
+                            }
                         ),
                         contentDescription = null,
                         modifier = modifier
-                            .padding(
-                                bottom = 6.dp
-                            )
+                            .padding(bottom = 6.dp)
                             .noRippleClickable {
                                 onScrapClick(internInfo)
                             },
-                        tint = if (internInfo.scrapId != null) TerningMain
-                        else Grey350
+                        tint = if (internInfo.isScrapped) TerningMain else Grey350
                     )
                     Text(
                         text = stringResource(

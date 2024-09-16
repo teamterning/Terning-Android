@@ -149,7 +149,6 @@ fun MainScreen(
                     navHostController = navigator.navController
                 )
                 internNavGraph(
-                    paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
                 myPageNavGraph(

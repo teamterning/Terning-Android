@@ -1,6 +1,7 @@
 package com.terning.feature.search.searchprocess
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -47,6 +48,7 @@ import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
@@ -138,6 +140,7 @@ fun SearchProcessScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(White)
             .addFocusCleaner(focusManager),
     ) {
         BackButtonTopAppBar(
