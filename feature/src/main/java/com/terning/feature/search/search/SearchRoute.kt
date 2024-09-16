@@ -1,5 +1,6 @@
 package com.terning.feature.search.search
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,7 @@ import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
 import com.terning.domain.entity.search.SearchPopularAnnouncement
@@ -96,6 +98,7 @@ fun SearchScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(White)
     ) {
         TerningImage(
             painter = com.terning.core.R.drawable.ic_terning_logo_typo,
