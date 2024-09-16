@@ -21,52 +21,57 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarListViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
-): ViewModel(){
+) : ViewModel() {
     private val _uiState = MutableStateFlow(CalendarListUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _sideEffect: MutableSharedFlow<CalendarListSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
-    fun updateCurrentDate(date: LocalDate) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                currentDate = date
-            )
+    fun updateCurrentDate(date: LocalDate) =
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    currentDate = date
+                )
+            }
         }
-    }
 
-    fun updateScrapCancelDialogVisibility(visibility: Boolean) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                scrapDialogVisibility = visibility
-            )
+    fun updateAnnouncementId(announcementId: Long? = null) =
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    internshipAnnouncementId = announcementId
+                )
+            }
         }
-    }
 
-    fun updateAnnouncementId(announcementId: Long? = null) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                internshipAnnouncementId = announcementId
-            )
+    fun updateScrapCancelDialogVisibility(visibility: Boolean) =
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    scrapCancelDialogVisibility = visibility
+                )
+            }
         }
-    }
 
-    fun updateInternDialogVisibility(visibility: Boolean) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                internDialogVisibility = visibility
-            )
+    fun updateScrapDetailDialogVisibility(visibility: Boolean) =
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    scrapDetailDialogVisibility = visibility
+                )
+            }
         }
-    }
 
-    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetail?) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                internshipModel = scrapDetailModel
-            )
+    fun updateInternshipModel(scrapDetailModel: CalendarScrapDetail?) =
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    internshipModel = scrapDetailModel
+                )
+            }
         }
-    }
 
     fun getScrapMonthList(
         date: LocalDate

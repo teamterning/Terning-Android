@@ -1,7 +1,5 @@
 package com.terning.feature.calendar.calendar.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
@@ -26,20 +24,7 @@ fun NavGraphBuilder.calendarNavGraph(
     navHostController: NavController,
     paddingValues: PaddingValues
 ) {
-    composable<Calendar>(
-        exitTransition = {
-            ExitTransition.None
-        },
-        popEnterTransition = {
-            EnterTransition.None
-        },
-        enterTransition = {
-            EnterTransition.None
-        },
-        popExitTransition = {
-            ExitTransition.None
-        }
-    ) {
+    composable<Calendar> {
         CalendarRoute(
             modifier = Modifier.padding(paddingValues),
             navigateToAnnouncement = navHostController::navigateIntern
