@@ -9,4 +9,5 @@ sealed class MyPageSideEffect {
     data object NavigateToServiceWebView : MyPageSideEffect()
     data object NavigateToPersonalWebView : MyPageSideEffect()
     data class ShowToast(@StringRes val message: Int) : MyPageSideEffect()
+    data object RestartApp : MyPageSideEffect()
 }

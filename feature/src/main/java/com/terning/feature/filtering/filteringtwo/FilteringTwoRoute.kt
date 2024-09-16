@@ -3,10 +3,11 @@ package com.terning.feature.filtering.filteringtwo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,12 +35,15 @@ fun FilteringTwoRoute(
     grade: String,
     onNextClick: (String, String) -> Unit,
     navigateUp: () -> Unit,
-    paddingValues: PaddingValues,
     viewModel: FilteringTwoViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.updateButton(false)
+    }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -59,11 +63,15 @@ fun FilteringTwoRoute(
         onNextClick = viewModel::navigateToFilteringThree,
         navigateUp = viewModel::navigateUp,
         onButtonClick = { workingPeriod ->
-            viewModel.updateWorkingPeriodAndButton(workingPeriod)
+            with(viewModel) {
+                if (workingPeriod.isNotEmpty()) {
+                    updateWorkingPeriod(workingPeriod)
+                    updateButton(true)
+                } else updateButton(false)
+            }
         },
         buttonState = state.isButtonValid,
         workingPeriod = state.workingPeriod,
-        paddingValues = paddingValues
     )
 }
 
@@ -75,12 +83,12 @@ fun FilteringTwoScreen(
     onButtonClick: (String) -> Unit,
     buttonState: Boolean,
     workingPeriod: String,
-    paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues)
             .background(White)
+            .statusBarsPadding()
+            .navigationBarsPadding()
     ) {
         BackButtonTopAppBar(
             onBackButtonClick = navigateUp

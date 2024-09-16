@@ -1,6 +1,7 @@
 package com.terning.feature.mypage.mypage
 
 import android.content.Context
+import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +48,7 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
 import com.terning.feature.R
+import com.terning.feature.main.MainActivity
 import com.terning.feature.mypage.component.MyPageProfile
 import com.terning.feature.mypage.mypage.component.MyPageItem
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
@@ -58,7 +60,7 @@ import com.terning.feature.mypage.mypage.util.MyPageDefaults.VERSION
 @Composable
 fun MyPageRoute(
     paddingValues: PaddingValues,
-    navigateToProfileEdit: (String, String) -> Unit,
+    navigateToProfileEdit: (String, String, String) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -91,7 +93,8 @@ fun MyPageRoute(
                 when (sideEffect) {
                     is MyPageSideEffect.NavigateToProfileEdit -> navigateToProfileEdit(
                         state.name,
-                        state.profileImage
+                        state.profileImage,
+                        state.authType
                     )
 
                     is MyPageSideEffect.ShowToast -> context.toast(sideEffect.message)
@@ -101,6 +104,8 @@ fun MyPageRoute(
                     is MyPageSideEffect.NavigateToPersonalWebView -> navigateToPersonalWebView(
                         context
                     )
+
+                    is MyPageSideEffect.RestartApp -> restartApp(context)
                 }
             }
     }
@@ -121,16 +126,6 @@ fun MyPageRoute(
                 viewModel.quitKakao()
             }
         )
-    }
-
-    when (state.isLogoutAndQuitSuccess) {
-        is UiState.Success -> {
-            viewModel.restartApp(context)
-        }
-
-        is UiState.Loading -> {}
-        is UiState.Empty -> {}
-        is UiState.Failure -> {}
     }
 
     when (state.isGetSuccess) {
@@ -412,6 +407,14 @@ private fun navigateToServiceWebView(context: Context) {
 
 private fun navigateToPersonalWebView(context: Context) {
     CustomTabsIntent.Builder().build().launchUrl(context, PERSONAL_URL.toUri())
+}
+
+private fun restartApp(context: Context) {
+    Intent(context, MainActivity::class.java).apply {
+        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(this)
+    }
 }
 
 @Preview(showBackground = true)
