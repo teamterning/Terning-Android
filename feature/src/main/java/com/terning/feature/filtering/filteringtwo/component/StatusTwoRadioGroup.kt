@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -33,7 +32,6 @@ fun StatusTwoRadioGroup(
         R.string.filtering_status2_description3,
     )
 
-    val selectedIndex = remember { mutableIntStateOf(options[0]) }
     val selectedButton = remember { mutableStateListOf(false, false, false) }
 
     LazyVerticalGrid(
@@ -48,10 +46,14 @@ fun StatusTwoRadioGroup(
                 modifier = modifier.fillMaxWidth(),
                 text = if (selectedButton[index]) selectedOptions[index] else option,
                 onButtonClick = {
-                    selectedIndex.intValue = option
-                    selectedButton.indices.forEach { i -> selectedButton[i] = false }
-                    selectedButton[index] = true
-                    onButtonClick(WorkingPeriod.entries[index].stringValue)
+                    if (selectedButton[index]) {
+                        selectedButton[index] = false
+                        onButtonClick("")
+                    } else {
+                        selectedButton.indices.forEach { i -> selectedButton[i] = false }
+                        selectedButton[index] = true
+                        onButtonClick(WorkingPeriod.entries[index].stringValue)
+                    }
                 },
                 cornerRadius = 15.dp,
                 paddingVertical = 24.dp

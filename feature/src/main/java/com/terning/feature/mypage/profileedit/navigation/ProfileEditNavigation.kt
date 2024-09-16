@@ -17,10 +17,15 @@ import kotlinx.serialization.Serializable
 fun NavController.navigateProfileEdit(
     name: String,
     profileImage: String,
+    authType: String,
     navOptions: NavOptions? = null
 ) {
     navigate(
-        route = ProfileEdit(name = name, profileImage = profileImage),
+        route = ProfileEdit(
+            name = name,
+            profileImage = profileImage,
+            authType = authType
+        ),
         navOptions = navOptions
     )
 }
@@ -46,6 +51,7 @@ fun NavGraphBuilder.profileEditNavGraph(
         ProfileEditRoute(
             initialName = args.name,
             initialProfile = args.profileImage,
+            authType = args.authType,
             navigateUp = { navHostController.navigateUp() }
         )
     }
@@ -54,5 +60,6 @@ fun NavGraphBuilder.profileEditNavGraph(
 @Serializable
 data class ProfileEdit(
     val name: String,
-    val profileImage: String
+    val profileImage: String,
+    val authType: String
 ) : Route

@@ -1,11 +1,13 @@
 package com.terning.feature.onboarding.signup
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +30,7 @@ import com.terning.core.designsystem.component.textfield.NameTextField
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
@@ -35,7 +38,6 @@ import com.terning.feature.R
 
 @Composable
 fun SignUpRoute(
-    paddingValues: PaddingValues,
     authId: String,
     navigateToStartFiltering: (String) -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
@@ -72,7 +74,6 @@ fun SignUpRoute(
     }
 
     SignUpScreen(
-        paddingValues = paddingValues,
         state = state,
         onSignUpClick = {
             viewModel.postSignUpWithServer()
@@ -96,7 +97,6 @@ fun SignUpScreen(
     onInputChange: (String) -> Unit,
     onProfileEditClick: (Boolean) -> Unit,
     onValidationChanged: (Boolean) -> Unit,
-    paddingValues: PaddingValues = PaddingValues(),
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -104,7 +104,9 @@ fun SignUpScreen(
         modifier = Modifier
             .fillMaxSize()
             .addFocusCleaner(focusManager)
-            .padding(paddingValues)
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .background(White)
     ) {
         Spacer(modifier = Modifier.height(56.dp))
         Text(

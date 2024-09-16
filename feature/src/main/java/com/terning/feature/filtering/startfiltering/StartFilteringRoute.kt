@@ -2,16 +2,16 @@ package com.terning.feature.filtering.startfiltering
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +36,6 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun StartFilteringRoute(
-    paddingValues: PaddingValues = PaddingValues(),
     onNextClick: () -> Unit,
     viewModel: StartFilteringViewModel = hiltViewModel()
 ) {
@@ -55,7 +53,6 @@ fun StartFilteringRoute(
         onNextClick = onNextClick,
         buttonState = state.isButtonVisible,
         screenHeight = screenHeight,
-        paddingValues = paddingValues
     )
 
 }
@@ -65,12 +62,12 @@ fun StartFilteringScreen(
     onNextClick: () -> Unit,
     buttonState: Boolean,
     screenHeight: Float,
-    paddingValues: PaddingValues = PaddingValues()
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
+            .statusBarsPadding()
+            .navigationBarsPadding()
             .background(White)
     ) {
         Column(

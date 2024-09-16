@@ -1,7 +1,6 @@
 package com.terning.core.designsystem.component.bottomsheet
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,10 +26,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.R
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.type.ProfileImage
+import com.terning.core.type.SelectedProfileImage
 import kotlinx.coroutines.launch
 
 /**
@@ -98,7 +97,6 @@ fun RadioButtonGroup(
     modifier: Modifier = Modifier,
 ) {
     val options = ProfileImage.entries
-
     var selectedOptionIndex by rememberSaveable {
         mutableIntStateOf(ProfileImage.toIndex(ProfileImage.fromString(initialSelectedOption)))
     }
@@ -110,29 +108,23 @@ fun RadioButtonGroup(
         modifier = modifier.padding(horizontal = 34.dp)
     ) {
         itemsIndexed(options.take(6)) { index, option ->
-            val imageModifier = if (selectedOptionIndex == index) {
-                Modifier
-                    .border(
-                        color = TerningMain,
-                        width = 2.dp,
-                        shape = CircleShape
-                    )
-                    .aspectRatio(1f)
-            } else {
-                Modifier.aspectRatio(1f)
+            val isSelected = selectedOptionIndex == index
+            val imageResId = when {
+                isSelected -> SelectedProfileImage.entries[index].drawableResId
+                else -> option.drawableResId
             }
 
             Image(
-                painter = painterResource(id = option.drawableResId),
+                painter = painterResource(id = imageResId),
                 contentDescription = "profile image",
-                modifier = imageModifier
+                modifier = Modifier
+                    .aspectRatio(1f)
                     .noRippleClickable {
                         onOptionSelected(option)
                         selectedOptionIndex = index
                     }
                     .clip(shape = CircleShape)
-                    .size(76.dp)
-                    .aspectRatio(1f)
+                    .size(76.dp),
             )
         }
     }

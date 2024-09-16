@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FilteringTwoViewModel : ViewModel() {
@@ -18,10 +19,17 @@ class FilteringTwoViewModel : ViewModel() {
     private val _sideEffects = MutableSharedFlow<FilteringTwoSideEffect>()
     val sideEffects: SharedFlow<FilteringTwoSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun updateWorkingPeriodAndButton(workingPeriod: String) {
+    fun updateButton(isButtonValid: Boolean) {
+        _state.update { currentState ->
+            currentState.copy(
+                isButtonValid = isButtonValid
+            )
+        }
+    }
+
+    fun updateWorkingPeriod(workingPeriod: String) {
         _state.value = _state.value.copy(
             workingPeriod = workingPeriod,
-            isButtonValid = true
         )
     }
 

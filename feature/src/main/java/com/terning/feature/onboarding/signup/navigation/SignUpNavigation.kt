@@ -1,11 +1,11 @@
 package com.terning.feature.onboarding.signup.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
@@ -23,16 +23,23 @@ fun NavController.navigateSignUp(
 }
 
 fun NavGraphBuilder.signUpNavGraph(
-    paddingValues: PaddingValues,
     navHostController: NavHostController
 ) {
     composable<SignUp> {
         val args = it.toRoute<SignUp>()
+        val navOptions = navOptions {
+            popUpTo(id = navHostController.graph.id) {
+                inclusive = true
+            }
+        }
         SignUpRoute(
-            paddingValues = paddingValues,
             authId = args.authId,
-            navigateToStartFiltering = { name -> navHostController.navigateStartFiltering(name) }
-
+            navigateToStartFiltering = { name ->
+                navHostController.navigateStartFiltering(
+                    name = name,
+                    navOptions = navOptions
+                )
+            }
         )
     }
 }
