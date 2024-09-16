@@ -1,11 +1,13 @@
 package com.terning.feature.intern
 
-import android.view.ViewGroup
-import android.webkit.WebView
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
@@ -16,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -27,6 +29,7 @@ import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.customShadow
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
@@ -45,14 +48,12 @@ import java.text.DecimalFormat
 @Composable
 fun InternRoute(
     announcementId: Long = 0,
-    modifier: Modifier,
     viewModel: InternViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
-    val internState by viewModel.internUiState.collectAsStateWithLifecycle()
-
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val internState by viewModel.internUiState.collectAsStateWithLifecycle(lifecycleOwner)
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)
@@ -75,21 +76,25 @@ fun InternRoute(
             InternScreen(
                 announcementId = announcementId,
                 internUiState = internState,
-                modifier = modifier,
                 internInfo = (internState.loadState as UiState.Success).data,
                 navController = navController,
                 onDismissCancelDialog = {
-                    viewModel.updateScrapCancelDialogVisibility(false)
+                    with(viewModel) {
+                        updateScrapCancelDialogVisibility(false)
+                        getInternInfo(announcementId)
+                    }
                 },
-                onDismissScrapDialog = { viewModel.updateInternDialogVisibility(false) },
+                onDismissScrapDialog = {
+                    with(viewModel) {
+                        updateInternDialogVisibility(false)
+                        getInternInfo(announcementId)
+                    }
+                },
                 onClickCancelButton = {
                     viewModel.updateScrapCancelDialogVisibility(true)
                 },
                 onClickScrapButton = {
-                    with(viewModel) {
-                        updateInternshipModel(it)
-                        updateInternDialogVisibility(true)
-                    }
+                    viewModel.updateInternDialogVisibility(true)
                 }
             )
         }
@@ -108,12 +113,14 @@ fun InternScreen(
     onClickCancelButton: (InternInfo) -> Unit,
     onClickScrapButton: (InternInfo) -> Unit,
 ) {
+    val context = LocalContext.current
+
     val decimal = DecimalFormat("#,###")
 
     val internInfoList = listOf(
         stringResource(id = R.string.intern_info_d_day) to internInfo.deadline,
         stringResource(id = R.string.intern_info_working) to internInfo.workingPeriod,
-        stringResource(id = R.string.intern_info_start_date) to internInfo.startDate,
+        stringResource(id = R.string.intern_info_start_date) to internInfo.startYearMonth,
     )
 
     val qualificationList = listOf(
@@ -121,22 +128,18 @@ fun InternScreen(
         stringResource(id = R.string.intern_info_work) to internInfo.jobType,
     )
 
-    if (internUiState.showWeb) {
-        AndroidView(
-            factory = {
-                WebView(it).apply {
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                    )
-                    loadUrl(internInfo.url)
-                }
-            },
-        )
+    LaunchedEffect(internUiState.showWeb) {
+        if (internUiState.showWeb) {
+            CustomTabsIntent.Builder().build().launchUrl(context, internInfo.url.toUri())
+        }
     }
 
     Column(
-        modifier = modifier.fillMaxHeight(),
+        modifier = modifier
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .fillMaxHeight()
+            .background(White),
     ) {
         Column(
             modifier = Modifier.weight(1f)
@@ -200,7 +203,7 @@ fun InternScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.padding(top = 16.dp))
+                        Spacer(modifier = Modifier.padding(top = 13.dp))
 
                         InternPageTitle(
                             modifier = Modifier,
@@ -219,7 +222,7 @@ fun InternScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.padding(top = 16.dp))
+                        Spacer(modifier = Modifier.padding(top = 13.dp))
 
                         InternPageTitle(
                             modifier = Modifier,
@@ -250,14 +253,15 @@ fun InternScreen(
             modifier = Modifier,
             internInfo = internInfo,
             onScrapClick = {
-                if (!internUiState.isScrappedState)
+                if (internInfo.isScrapped) {
+                    onClickCancelButton(internInfo)
+                } else {
                     onClickScrapButton(internInfo)
-                else onClickCancelButton(internInfo)
+                }
             },
         )
 
-
-        if (internUiState.scrapDialogVisibility) {
+        if (internUiState.scrapCancelDialogVisibility) {
             ScrapCancelDialog(
                 internshipAnnouncementId = announcementId,
                 onDismissRequest = onDismissCancelDialog
@@ -265,21 +269,19 @@ fun InternScreen(
         }
 
         if (internUiState.internDialogVisibility) {
-            internUiState.internshipModel?.let {
-                ScrapDialog(
-                    title = internUiState.internshipModel.title,
-                    scrapColor = CalRed,
-                    deadline = internUiState.internshipModel.deadline,
-                    startYearMonth = internUiState.internshipModel.startDate,
-                    workingPeriod = internUiState.internshipModel.workingPeriod,
-                    internshipAnnouncementId = announcementId,
-                    companyImage = internUiState.internshipModel.companyImage,
-                    isScrapped = false,
-                    onDismissRequest = onDismissScrapDialog,
-                    onClickChangeColor = { },
-                    onClickNavigateButton = { }
-                )
-            }
+            ScrapDialog(
+                title = internInfo.title,
+                scrapColor = CalRed,
+                deadline = internInfo.deadline,
+                startYearMonth = internInfo.startYearMonth,
+                workingPeriod = internInfo.workingPeriod,
+                internshipAnnouncementId = announcementId,
+                companyImage = internInfo.companyImage,
+                isScrapped = internInfo.isScrapped,
+                onDismissRequest = onDismissScrapDialog,
+                onClickChangeColor = { },
+                onClickNavigateButton = { }
+            )
         }
     }
 }

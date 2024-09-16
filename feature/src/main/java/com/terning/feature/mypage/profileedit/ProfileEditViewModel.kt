@@ -32,12 +32,13 @@ class ProfileEditViewModel @Inject constructor(
         _state.value = _state.value.copy(showBottomSheet = isVisible)
     }
 
-    fun updateInitialInfo(initialName: String, initialProfile: String) {
+    fun updateInitialInfo(initialName: String, initialProfile: String, authType: String) {
         _state.value = _state.value.copy(
             name = initialName,
             initialName = initialName,
             profile = initialProfile,
-            initialProfile = initialProfile
+            initialProfile = initialProfile,
+            authType = authType
         )
     }
 
@@ -45,18 +46,21 @@ class ProfileEditViewModel @Inject constructor(
         _state.value = _state.value.copy(
             name = name,
             initialView = false,
-            isModified = true
+            isModified = true,
+            isProfileChangedButNameSame = false,
+            isNameChangedOnce = true
         )
     }
 
     fun updateProfile(profile: String) {
         val isSameAsInitial = profile == _state.value.initialProfile
-        val isSameAsPrevious = profile == _state.value.profile
 
         _state.value = _state.value.copy(
             profile = profile,
-            initialView = !_state.value.isModified && isSameAsInitial,
-            isModified = if (isSameAsPrevious) _state.value.isModified else !isSameAsInitial
+            initialView = false,
+            isModified = if (profile == _state.value.profile) _state.value.isModified else !isSameAsInitial,
+            isProfileChangedButNameSame = if (_state.value.isNameChangedOnce) false
+            else state.value.name == _state.value.initialName
         )
     }
 

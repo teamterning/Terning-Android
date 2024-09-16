@@ -11,6 +11,7 @@ import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -30,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import com.terning.core.designsystem.component.snackbar.TerningBasicSnackBar
@@ -82,11 +84,14 @@ fun MainScreen(
 
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackBarHostState) { snackBarData ->
+            SnackbarHost(
+                hostState = snackBarHostState,
+                modifier = Modifier.padding(bottom = 10.dp)
+            ) { snackBarData ->
                 TerningBasicSnackBar {
                     Text(
                         text = snackBarData.visuals.message,
-                        color = White,
+                        color = White
                     )
                 }
             }
@@ -119,10 +124,7 @@ fun MainScreen(
                 navController = navigator.navController,
                 startDestination = navigator.startDestination
             ) {
-                splashNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
+                splashNavGraph(navHostController = navigator.navController)
                 homeNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
@@ -135,40 +137,18 @@ fun MainScreen(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
-                signInNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                signUpNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                startFilteringNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                startHomeNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                filteringOneNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                filteringTwoNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
-                filteringThreeNavGraph(
-                    paddingValues = paddingValues,
-                    navHostController = navigator.navController
-                )
+                signInNavGraph(navHostController = navigator.navController)
+                signUpNavGraph(navHostController = navigator.navController)
+                startFilteringNavGraph(navHostController = navigator.navController)
+                startHomeNavGraph(navHostController = navigator.navController)
+                filteringOneNavGraph(navHostController = navigator.navController)
+                filteringTwoNavGraph(navHostController = navigator.navController)
+                filteringThreeNavGraph(navHostController = navigator.navController)
                 searchProcessNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
                 internNavGraph(
-                    paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
                 myPageNavGraph(

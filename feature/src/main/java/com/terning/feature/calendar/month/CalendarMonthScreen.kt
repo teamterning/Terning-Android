@@ -1,7 +1,8 @@
 package com.terning.feature.calendar.month
 
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -14,25 +15,22 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
-import com.terning.domain.entity.calendar.CalendarScrap
-import com.terning.feature.calendar.calendar.model.CalendarDefaults.flingBehavior
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
-import com.terning.feature.calendar.month.model.MonthModel
+import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.month.component.CalendarMonth
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
-import kotlinx.coroutines.flow.distinctUntilChanged
+import com.terning.feature.calendar.month.model.MonthModel
 import java.time.LocalDate
 import java.time.YearMonth
 
 @Composable
 fun CalendarMonthRoute(
-    listState: LazyListState,
-    pages: Int,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarMonthViewModel = hiltViewModel()
 ) {
+    val pagerState = LocalPagerState.current
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val monthUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
@@ -46,21 +44,17 @@ fun CalendarMonthRoute(
             }
     }
 
-    LaunchedEffect(key1 = listState) {
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .distinctUntilChanged()
-            .collect {
-                val page = listState.firstVisibleItemIndex
-                val date = getLocalDateByPage(page)
-                viewModel.getScrapMonth(date.year, date.monthValue)
+    LaunchedEffect(key1 = pagerState) {
+        snapshotFlow { pagerState.currentPage }
+            .collect { currentPage->
+                viewModel.getScrapMonth(currentPage)
             }
     }
 
     CalendarMonthScreen(
+        pagerState = pagerState,
         selectedDate = selectedDate,
-        calendarMonthUiState = monthUiState,
-        listState = listState,
-        pages = pages,
+        uiState = monthUiState,
         updateSelectedDate = updateSelectedDate,
         modifier = modifier
     )
@@ -68,62 +62,33 @@ fun CalendarMonthRoute(
 
 @Composable
 private fun CalendarMonthScreen(
-    listState: LazyListState,
-    calendarMonthUiState: CalendarMonthUiState,
-    pages: Int,
+    pagerState: PagerState,
     selectedDate: LocalDate,
+    uiState: CalendarMonthUiState,
     updateSelectedDate: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    when (calendarMonthUiState.loadState) {
-        UiState.Loading -> {}
-        UiState.Empty -> {}
-        is UiState.Failure -> {}
-        is UiState.Success -> {
-            val scrapMap = calendarMonthUiState.loadState.data
 
-            MonthSuccessScreen(
-                pages = pages,
-                listState = listState,
-                scrapMap = scrapMap,
-                onDateSelected = updateSelectedDate,
-                selectedDate = selectedDate,
-                modifier = modifier
-            )
-        }
-    }
-}
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier.fillMaxSize()
+    ) {page ->
+        val date = getLocalDateByPage(page)
+        val monthModel = MonthModel(YearMonth.of(date.year, date.month))
 
-@Composable
-private fun MonthSuccessScreen(
-    pages: Int,
-    listState: LazyListState,
-    selectedDate: LocalDate,
-    scrapMap: Map<String, List<CalendarScrap>>,
-    onDateSelected: (LocalDate) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    LazyRow(
-        modifier = modifier,
-        state = listState,
-        userScrollEnabled = true,
-        flingBehavior = flingBehavior(
-            state = listState
+        CalendarMonth(
+            modifier = Modifier.fillMaxSize(),
+            onDateSelected = updateSelectedDate,
+            monthModel = monthModel,
+            selectedDate = selectedDate,
+            isWeekEnabled = false,
+            scrapMap = when (uiState.loadState) {
+                UiState.Loading -> emptyMap()
+                UiState.Empty -> emptyMap()
+                is UiState.Failure -> emptyMap()
+                is UiState.Success -> uiState.loadState.data
+            },
         )
-    ) {
-        items(pages) { page ->
-            val date = getLocalDateByPage(page)
-            val monthModel = MonthModel(YearMonth.of(date.year, date.month))
-
-            CalendarMonth(
-                modifier = Modifier.fillParentMaxSize(),
-                onDateSelected = onDateSelected,
-                monthModel = monthModel,
-                scrapMap = scrapMap,
-                selectedDate = selectedDate,
-                isWeekEnabled = false
-            )
-        }
     }
 }
 

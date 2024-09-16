@@ -40,7 +40,6 @@ import java.time.YearMonth
 @Composable
 fun CalendarTopAppBar(
     date: YearMonth,
-    isWeekExpanded: Boolean,
     isListExpanded: Boolean,
     onListButtonClicked: () -> Unit,
     onMonthNavigationButtonClicked: (Int) -> Unit,
@@ -59,28 +58,26 @@ fun CalendarTopAppBar(
             modifier = Modifier.align(Alignment.Center),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if(!isWeekExpanded || isListExpanded) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_calendar_previous),
                     contentDescription = stringResource(id = R.string.calendar_button_description_previous),
                     tint = TerningMain,
                     modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(-1) }
                 )
-            }
+
             Text(
                 text = LocalDate.of(date.year, date.month, 1).getStringAsTitle(),
                 style = TerningTheme.typography.title2,
                 color = Black,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
-            if(!isWeekExpanded || isListExpanded) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_calendar_next),
                     contentDescription = stringResource(id = R.string.calendar_button_description_next),
                     tint = TerningMain,
                     modifier = Modifier.noRippleClickable { onMonthNavigationButtonClicked(1) }
                 )
-            }
+
         }
         Box(
             modifier = Modifier
@@ -109,8 +106,6 @@ fun CalendarTopBarPreview() {
         CalendarTopAppBar(
             date = YearMonth.now(),
             isListExpanded = false,
-            isWeekExpanded = false
-            ,
             onListButtonClicked = {},
             onMonthNavigationButtonClicked = {}
         )
