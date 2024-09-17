@@ -12,10 +12,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -138,7 +136,6 @@ fun HomeScreen(
         else -> 0
     }
 
-    val currentSortBy: MutableState<Int> = remember { mutableIntStateOf(0) }
     var sortingSheetState by remember { mutableStateOf(false) }
     var changeFilteringSheetState by remember { mutableStateOf(false) }
 
@@ -147,13 +144,13 @@ fun HomeScreen(
             onDismiss = {
                 sortingSheetState = false
                 viewModel.getRecommendInternsData(
-                    currentSortBy.value,
+                    it,
                     homeFilteringInfo.startYear,
                     homeFilteringInfo.startMonth,
                 )
             },
-            currentSortBy = currentSortBy.value,
-            newSortBy = currentSortBy
+            currentSortBy = homeState.sortBy.ordinal,
+            onSortChange = viewModel::updateSortBy
         )
     }
 
@@ -190,7 +187,8 @@ fun HomeScreen(
                             viewModel.getHomeUpcomingInternList()
                             viewModel.getRecommendInternsData(
                                 sortBy = homeState.sortBy.ordinal,
-                                startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
+                                startYear = homeFilteringInfo.startYear
+                                    ?: Calendar.getInstance().currentYear,
                                 startMonth = homeFilteringInfo.startMonth
                                     ?: Calendar.getInstance().currentMonth,
                             )
@@ -213,7 +211,8 @@ fun HomeScreen(
                             viewModel.getHomeUpcomingInternList()
                             viewModel.getRecommendInternsData(
                                 sortBy = homeState.sortBy.ordinal,
-                                startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
+                                startYear = homeFilteringInfo.startYear
+                                    ?: Calendar.getInstance().currentYear,
                                 startMonth = homeFilteringInfo.startMonth
                                     ?: Calendar.getInstance().currentMonth,
                             )
@@ -296,7 +295,7 @@ fun HomeScreen(
                         }
                         Row {
                             SortingButton(
-                                sortBy = currentSortBy.value,
+                                sortBy = homeState.sortBy.ordinal,
                                 onCLick = { sortingSheetState = true },
                                 modifier = Modifier
                                     .padding(vertical = 4.dp)

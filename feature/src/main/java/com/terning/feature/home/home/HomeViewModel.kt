@@ -153,4 +153,12 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
+
+    fun updateSortBy(sortBy: Int) {
+        _homeState.update {
+            it.copy(
+                sortBy = SortBy.entries[sortBy]
+            )
+        }
+    }
 }
