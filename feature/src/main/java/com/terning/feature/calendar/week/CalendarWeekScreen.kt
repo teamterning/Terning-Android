@@ -4,8 +4,11 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -41,6 +44,7 @@ import com.terning.core.state.UiState
 import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarUiState
+import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
@@ -58,6 +62,7 @@ fun CalendarWeekRoute(
     modifier: Modifier = Modifier,
     viewModel: CalendarWeekViewModel = hiltViewModel()
 ) {
+    val pagerState = LocalPagerState.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
 
@@ -72,11 +77,7 @@ fun CalendarWeekRoute(
     }
 
     LaunchedEffect(key1 = calendarUiState.selectedDate) {
-        viewModel.updateSelectedDate(selectedDate = calendarUiState.selectedDate)
-    }
-
-    LaunchedEffect(key1 = uiState.selectedDate) {
-        viewModel.getScrapWeekList(selectedDate = uiState.selectedDate)
+        viewModel.getScrapWeekList(selectedDate = calendarUiState.selectedDate)
     }
 
     BackHandler {
@@ -85,21 +86,10 @@ fun CalendarWeekRoute(
 
     CalendarWeekScreen(
         modifier = modifier,
+        pagerState = pagerState,
         uiState = uiState,
         selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
-        navigateToAnnouncement = { announcementId ->
-            navigateToAnnouncement(announcementId)
-            viewModel.updateInternDialogVisibility(false)
-        },
-        onDismissCancelDialog = { isCancelled ->
-            viewModel.updateScrapCancelDialogVisibility(false)
-            if (isCancelled) {
-                viewModel.getScrapWeekList(uiState.selectedDate)
-            }
-        },
-        onDismissInternDialog = { viewModel.updateInternDialogVisibility(false) },
-        onClickChangeColor = { viewModel.getScrapWeekList(uiState.selectedDate) },
         onClickScrapButton = { scrapId ->
             with(viewModel) {
                 updateInternshipAnnouncementId(scrapId)
@@ -108,24 +98,46 @@ fun CalendarWeekRoute(
         },
         onClickInternship = { scrapDetail ->
             with(viewModel) {
-                updateInternDialogVisibility(true)
+                updateScrapDetailDialogVisibility(true)
                 updateInternshipModel(scrapDetail)
             }
         },
+    )
+
+    CalendarWeekScrapPatchDialog(
+        currentDate = calendarUiState.selectedDate,
+        dialogVisibility = uiState.scrapDetailDialogVisibility,
+        internshipModel = uiState.internshipModel,
+        navigateToAnnouncement = { announcementId ->
+            navigateToAnnouncement(announcementId)
+            viewModel.updateScrapDetailDialogVisibility(false)
+        },
+        onDismissInternDialog = { viewModel.updateScrapDetailDialogVisibility(false) },
+        onClickChangeColor = {
+            viewModel.getScrapWeekList(calendarUiState.selectedDate)
+        },
+    )
+
+    CalendarWeekScrapCancelDialog(
+        scrapVisibility = uiState.scrapCancelDialogVisibility,
+        internshipAnnouncementId = uiState.internshipAnnouncementId,
+        onDismissCancelDialog = { isCancelled ->
+            viewModel.updateScrapCancelDialogVisibility(false)
+            if (isCancelled) {
+                viewModel.getScrapWeekList(calendarUiState.selectedDate)
+            }
+        }
     )
 }
 
 @Composable
 private fun CalendarWeekScreen(
     uiState: CalendarWeekUiState,
+    pagerState: PagerState,
     selectedDate: LocalDate,
     updateSelectedDate: (LocalDate) -> Unit,
-    onDismissCancelDialog: (Boolean) -> Unit,
-    onDismissInternDialog: (Boolean) -> Unit,
-    onClickChangeColor: () -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
-    navigateToAnnouncement: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var swiped by remember { mutableStateOf(false) }
@@ -160,65 +172,44 @@ private fun CalendarWeekScreen(
             )
         }
 
-        Text(
-            text = selectedDate.getDateStringInKorean(),
-            style = TerningTheme.typography.title5,
-            color = Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-        )
-
-        when (uiState.loadState) {
-            is UiState.Loading -> {}
-            is UiState.Empty -> {
-                CalendarWeekEmpty()
-            }
-
-            is UiState.Failure -> {
-                CalendarWeekEmpty()
-            }
-
-            is UiState.Success -> {
-                CalendarWeekSuccess(
-                    scrapList = uiState.loadState.data.toImmutableList(),
-                    selectedDate = uiState.selectedDate,
-                    onScrapButtonClicked = onClickScrapButton,
-                    onInternshipClicked = onClickInternship
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize(),
+            userScrollEnabled = false
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = selectedDate.getDateStringInKorean(),
+                    style = TerningTheme.typography.title5,
+                    color = Black,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
                 )
+
+                when (uiState.loadState) {
+                    is UiState.Loading -> {}
+                    is UiState.Empty -> {
+                        CalendarWeekEmpty()
+                    }
+
+                    is UiState.Failure -> {
+                        CalendarWeekEmpty()
+                    }
+
+                    is UiState.Success -> {
+                        CalendarWeekSuccess(
+                            scrapList = uiState.loadState.data.toImmutableList(),
+                            selectedDate = selectedDate,
+                            onScrapButtonClicked = onClickScrapButton,
+                            onInternshipClicked = onClickInternship
+                        )
+                    }
+                }
             }
-        }
-    }
-
-    if (uiState.scrapDialogVisibility) {
-        uiState.internshipAnnouncementId?.run {
-            ScrapCancelDialog(
-                internshipAnnouncementId = this,
-                onDismissRequest = onDismissCancelDialog
-            )
-        }
-    }
-
-    if (uiState.internDialogVisibility) {
-        uiState.internshipModel?.let {
-            val scrapColor = Color(
-                android.graphics.Color.parseColor(
-                    uiState.internshipModel.color
-                )
-            )
-            ScrapDialog(
-                title = uiState.internshipModel.title,
-                scrapColor = scrapColor,
-                deadline = uiState.selectedDate.getFullDateStringInKorean(),
-                startYearMonth = uiState.internshipModel.startYearMonth,
-                workingPeriod = uiState.internshipModel.workingPeriod,
-                internshipAnnouncementId = uiState.internshipModel.internshipAnnouncementId,
-                companyImage = uiState.internshipModel.companyImage,
-                isScrapped = true,
-                onDismissRequest = onDismissInternDialog,
-                onClickChangeColor = onClickChangeColor,
-                onClickNavigateButton = navigateToAnnouncement
-            )
         }
     }
 }
@@ -260,6 +251,55 @@ private fun CalendarWeekSuccess(
         modifier = Modifier
             .padding(horizontal = 24.dp)
     )
+}
+
+@Composable
+private fun CalendarWeekScrapCancelDialog(
+    scrapVisibility: Boolean,
+    internshipAnnouncementId: Long?,
+    onDismissCancelDialog: (Boolean) -> Unit
+) {
+    if (scrapVisibility) {
+        internshipAnnouncementId?.run {
+            ScrapCancelDialog(
+                internshipAnnouncementId = this,
+                onDismissRequest = onDismissCancelDialog
+            )
+        }
+    }
+}
+
+@Composable
+private fun CalendarWeekScrapPatchDialog(
+    currentDate: LocalDate,
+    dialogVisibility: Boolean,
+    internshipModel: CalendarScrapDetail?,
+    navigateToAnnouncement: (Long) -> Unit,
+    onDismissInternDialog: () -> Unit,
+    onClickChangeColor: () -> Unit,
+) {
+    if (dialogVisibility) {
+        internshipModel?.let { internship ->
+            val scrapColor = Color(
+                android.graphics.Color.parseColor(
+                    internship.color
+                )
+            )
+            ScrapDialog(
+                title = internship.title,
+                scrapColor = scrapColor,
+                deadline = currentDate.getFullDateStringInKorean(),
+                startYearMonth = internship.startYearMonth,
+                workingPeriod = internship.workingPeriod,
+                internshipAnnouncementId = internship.internshipAnnouncementId,
+                companyImage = internship.companyImage,
+                isScrapped = true,
+                onDismissRequest = onDismissInternDialog,
+                onClickChangeColor = onClickChangeColor,
+                onClickNavigateButton = navigateToAnnouncement
+            )
+        }
+    }
 }
 
 

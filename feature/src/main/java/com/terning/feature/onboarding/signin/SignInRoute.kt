@@ -3,11 +3,12 @@ package com.terning.feature.onboarding.signin
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -32,7 +33,6 @@ import com.terning.feature.onboarding.signin.component.KakaoButton
 
 @Composable
 fun SignInRoute(
-    paddingValues: PaddingValues,
     navigateToHome: () -> Unit,
     navigateToSignUp: (String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel(),
@@ -81,7 +81,6 @@ fun SignInRoute(
     }
 
     SignInScreen(
-        paddingValues = paddingValues,
         onSignInClick = {
             viewModel.startKakaoLogIn(
                 isKakaoAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(
@@ -95,13 +94,13 @@ fun SignInRoute(
 @Composable
 fun SignInScreen(
     onSignInClick: () -> Unit,
-    paddingValues: PaddingValues = PaddingValues(),
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = White)
-            .padding(paddingValues)
+            .statusBarsPadding()
+            .navigationBarsPadding()
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

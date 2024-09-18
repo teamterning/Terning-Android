@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.terning.core.extension.getWeekIndexContainingSelectedDate
@@ -30,6 +31,10 @@ fun HorizontalCalendarWeek(
         initialPage = currentWeek,
         pageCount = { monthModel.totalDays / 7 }
     )
+
+    LaunchedEffect(selectedDate) {
+        pagerState.animateScrollToPage(selectedDate.getWeekIndexContainingSelectedDate(monthModel.inDays))
+    }
 
     HorizontalPager(
         modifier = modifier,

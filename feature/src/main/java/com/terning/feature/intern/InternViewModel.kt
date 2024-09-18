@@ -3,7 +3,6 @@ package com.terning.feature.intern
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.calendar.CalendarScrapDetail
 import com.terning.domain.entity.intern.InternInfo
 import com.terning.domain.repository.InternRepository
 import com.terning.feature.R
@@ -32,28 +31,23 @@ class InternViewModel @Inject constructor(
         viewModelScope.launch {
             internRepository.getInternInfo(id)
                 .onSuccess { internInfoModel ->
-                    _internUiState.update { currentState ->
-                        currentState.copy(loadState = UiState.Success(internInfoModel))
-                    }
+                    _internUiState.value = _internUiState.value.copy(
+                        loadState = UiState.Success(internInfoModel)
+                    )
                 }
-                .onFailure {
+                .onFailure { exception: Throwable ->
+                    _internUiState.value = _internUiState.value.copy(
+                        loadState = UiState.Failure(exception.toString())
+                    )
                     _sideEffect.emit(InternViewSideEffect.Toast(R.string.server_failure))
                 }
-        }
-    }
-
-    fun updateInternshipModel(scrapDetailModel: InternInfo?) {
-        _internUiState.update { currentState ->
-            currentState.copy(
-                internshipModel = scrapDetailModel
-            )
         }
     }
 
     fun updateScrapCancelDialogVisibility(visibility: Boolean) {
         _internUiState.update { currentState ->
             currentState.copy(
-                scrapDialogVisibility = visibility
+                scrapCancelDialogVisibility = visibility,
             )
         }
     }
@@ -62,6 +56,14 @@ class InternViewModel @Inject constructor(
         _internUiState.update { currentState ->
             currentState.copy(
                 internDialogVisibility = visibility
+            )
+        }
+    }
+
+    fun updateInternshipModel(scrapDetailModel: InternInfo?) {
+        _internUiState.update { currentState ->
+            currentState.copy(
+                internshipModel = scrapDetailModel
             )
         }
     }

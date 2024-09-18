@@ -1,18 +1,12 @@
 package com.terning.feature.mypage.mypage
 
-import android.content.Context
-import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jakewharton.processphoenix.ProcessPhoenix
 import com.kakao.sdk.user.UserApiClient
 import com.terning.core.state.UiState
 import com.terning.domain.repository.MyPageRepository
 import com.terning.domain.repository.TokenRepository
 import com.terning.feature.R
-import com.terning.feature.main.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,33 +32,22 @@ class MyPageViewModel @Inject constructor(
     fun logoutKakao() {
         UserApiClient.instance.logout { error ->
             if (error == null) {
-                postLogout()
+                logoutApp()
             } else {
-                _state.value =
-                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(error.toString()))
+                viewModelScope.launch {
+                    _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                }
             }
         }
     }
 
-    private fun postLogout() {
+    private fun logoutApp() {
         viewModelScope.launch {
             myPageRepository.postLogout().onSuccess {
                 tokenRepository.clearInfo()
-                _state.value = _state.value.copy(isLogoutAndQuitSuccess = UiState.Success(true))
+                _sideEffects.emit(MyPageSideEffect.RestartApp)
             }.onFailure {
-                _state.value =
-                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(it.toString()))
-            }
-        }
-    }
-
-    fun restartApp(context: Context) {
-        Handler(Looper.getMainLooper()).post {
-            Handler(Looper.getMainLooper()).post {
-                ProcessPhoenix.triggerRebirth(
-                    context,
-                    Intent(context, MainActivity::class.java)
-                )
+                _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }
@@ -72,22 +55,22 @@ class MyPageViewModel @Inject constructor(
     fun quitKakao() {
         UserApiClient.instance.unlink { error ->
             if (error == null) {
-                deleteQuit()
+                quitApp()
             } else {
-                _state.value =
-                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(error.toString()))
+                viewModelScope.launch {
+                    _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                }
             }
         }
     }
 
-    private fun deleteQuit() {
+    private fun quitApp() {
         viewModelScope.launch {
             myPageRepository.deleteQuit().onSuccess {
                 tokenRepository.clearInfo()
-                _state.value = _state.value.copy(isLogoutAndQuitSuccess = UiState.Success(true))
+                _sideEffects.emit(MyPageSideEffect.RestartApp)
             }.onFailure {
-                _state.value =
-                    _state.value.copy(isLogoutAndQuitSuccess = UiState.Failure(it.toString()))
+                _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }

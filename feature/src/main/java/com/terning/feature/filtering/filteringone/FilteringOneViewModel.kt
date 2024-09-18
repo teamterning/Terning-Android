@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FilteringOneViewModel : ViewModel() {
@@ -18,10 +19,17 @@ class FilteringOneViewModel : ViewModel() {
     private val _sideEffects = MutableSharedFlow<FilteringOneSideEffect>()
     val sideEffects: SharedFlow<FilteringOneSideEffect> get() = _sideEffects.asSharedFlow()
 
-    fun updateGradeAndButton(grade: String) {
+    fun updateButton(isButtonValid: Boolean) {
+        _state.update { currentState ->
+            currentState.copy(
+                isButtonValid = isButtonValid
+            )
+        }
+    }
+
+    fun updateGrade(grade: String) {
         _state.value = _state.value.copy(
             grade = grade,
-            isButtonValid = true
         )
     }
 

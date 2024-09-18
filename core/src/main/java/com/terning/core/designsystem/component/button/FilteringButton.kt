@@ -26,8 +26,10 @@ import com.terning.core.R
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey375
+import com.terning.core.designsystem.theme.Grey50
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.theme.TerningSub5
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.util.NoRippleTheme
@@ -56,15 +58,19 @@ fun FilteringButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val backgroundColor = White
+    val backgroundColor = when {
+        !isSelected && isPressed -> Grey50
+        isSelected && isPressed -> TerningSub5
+        else -> White
+    }
     val textColor = when {
-        !isSelected -> Grey375
-        isPressed -> Grey375
+        !isSelected && !isPressed -> Grey375
+        !isSelected && isPressed -> Grey375
         else -> TerningMain
     }
     val borderColor = when {
         !isSelected && !isPressed -> Grey150
-        isPressed -> Grey200
+        !isSelected && isPressed -> Grey200
         else -> TerningMain
     }
 

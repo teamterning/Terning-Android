@@ -25,7 +25,7 @@ data class NameFieldState(
     val helperMessage: Int,
     val helperIcon: Int?,
     val helperColor: Color,
-    val isValid: Boolean
+    val isButtonValid: Boolean
 )
 
 @Composable
@@ -35,7 +35,8 @@ fun NameTextField(
     hint: String,
     modifier: Modifier = Modifier,
     onValidationChanged: (Boolean) -> Unit,
-    initialView: Boolean = false
+    initialView: Boolean = false,
+    isProfileChangedButNameSame: Boolean = false,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -44,7 +45,7 @@ fun NameTextField(
     val trimmedName: String
     var isNameOutOfBounds = false
     if (value.length > MAX_LENGTH) {
-        trimmedName = value.substring(0, MAX_LENGTH)
+        trimmedName = value.substring(0, MAX_LENGTH + 1)
         isNameOutOfBounds = true
     } else {
         trimmedName = value
@@ -58,7 +59,18 @@ fun NameTextField(
                 helperMessage = R.string.sign_up_helper,
                 helperIcon = R.drawable.ic_name_text_field_check,
                 helperColor = White,
-                isValid = false
+                isButtonValid = false
+            )
+        }
+
+        isProfileChangedButNameSame -> {
+            NameFieldState(
+                name = trimmedName,
+                lineColor = Grey500,
+                helperMessage = R.string.sign_up_helper,
+                helperIcon = R.drawable.ic_name_text_field_check,
+                helperColor = White,
+                isButtonValid = true
             )
         }
 
@@ -69,7 +81,7 @@ fun NameTextField(
                 helperMessage = R.string.sign_up_helper_error,
                 helperIcon = R.drawable.ic_name_text_field_error,
                 helperColor = WarningRed,
-                isValid = false
+                isButtonValid = false
             )
         }
 
@@ -80,7 +92,7 @@ fun NameTextField(
                 helperMessage = R.string.sign_up_helper,
                 helperIcon = null,
                 helperColor = Grey400,
-                isValid = false
+                isButtonValid = false
             )
         }
 
@@ -91,7 +103,7 @@ fun NameTextField(
                 helperMessage = R.string.sign_up_helper_out,
                 helperIcon = R.drawable.ic_name_text_field_error,
                 helperColor = WarningRed,
-                isValid = false
+                isButtonValid = false
             )
         }
 
@@ -102,19 +114,19 @@ fun NameTextField(
                 helperMessage = R.string.sign_up_helper_available,
                 helperIcon = R.drawable.ic_name_text_field_check,
                 helperColor = TerningMain,
-                isValid = true
+                isButtonValid = true
             )
         }
     }
 
-    onValidationChanged(state.isValid)
+    onValidationChanged(state.isButtonValid)
 
     TerningBasicTextField(
         value = state.name,
         onValueChange = onValueChange,
         modifier = modifier,
         textStyle = TerningTheme.typography.detail1,
-        textColor = Black,
+        textColor = if (value.isNotEmpty()) Black else Grey400,
         drawLineColor = state.lineColor,
         cursorBrush = SolidColor(Grey400),
         hint = hint,
