@@ -51,7 +51,7 @@ fun CalendarListRoute(
     modifier: Modifier = Modifier,
     navigateUp: () -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
-    viewModel: CalendarListViewModel = hiltViewModel()
+    viewModel: CalendarListViewModel = hiltViewModel(),
 ) {
     val pagerState = LocalPagerState.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -130,7 +130,7 @@ private fun CalendarListScreen(
     uiState: CalendarListUiState,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     HorizontalPager(
         state = pagerState,
@@ -195,7 +195,7 @@ private fun CalendarListScreen(
 
 @Composable
 private fun CalendarListEmpty(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Image(
         painter = painterResource(
@@ -218,7 +218,7 @@ private fun CalendarListEmpty(
 private fun CalendarListScrapCancelDialog(
     scrapVisibility: Boolean,
     internshipAnnouncementId: Long?,
-    onDismissCancelDialog: (Boolean) -> Unit
+    onDismissCancelDialog: (Boolean) -> Unit,
 ) {
     if (scrapVisibility) {
         internshipAnnouncementId?.run {
@@ -236,7 +236,7 @@ private fun CalendarListScrapPatchDialog(
     dialogVisibility: Boolean,
     internshipModel: CalendarScrapDetail?,
     navigateToAnnouncement: (Long) -> Unit,
-    onDismissInternDialog: () -> Unit,
+    onDismissInternDialog: (Boolean) -> Unit,
     onClickChangeColor: () -> Unit,
 ) {
     if (dialogVisibility) {
