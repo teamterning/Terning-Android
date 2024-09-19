@@ -6,11 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -25,14 +26,20 @@ fun ImageSlider(
     images: List<Int>,
 ) {
     val pagerState = rememberPagerState(pageCount = { images.size })
+    val autoScroll = remember { mutableStateOf(true) }
 
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(3000)
-            val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
-            pagerState.scrollToPage(nextPage)
+    LaunchedEffect(autoScroll.value) {
+        if (autoScroll.value) {
+            while (true) {
+                delay(2000)
+                if (!pagerState.isScrollInProgress) {
+                    val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+                    pagerState.animateScrollToPage(nextPage)
+                }
+            }
         }
     }
+
     Column(
         modifier
             .fillMaxWidth()

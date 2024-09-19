@@ -117,6 +117,7 @@ fun SearchScreen(
                 }
         ) {
             SearchTextField(
+                textStyle = TerningTheme.typography.detail2,
                 hint = stringResource(R.string.search_text_field_hint),
                 leftIcon = R.drawable.ic_nav_search,
                 modifier = Modifier.fillMaxWidth(),
