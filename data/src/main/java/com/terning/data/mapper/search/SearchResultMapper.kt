@@ -12,7 +12,7 @@ fun SearchResultResponseDto.toSearchResultList(): List<SearchResult> {
             dDay = it.dDay,
             workingPeriod = it.workingPeriod,
             companyImage = it.companyImage,
-            scrapId = it.scrapId,
+            isScrapped = it.isScrapped,
             deadline = it.deadline,
             startYearMonth = it.startYearMonth,
             color = it.color

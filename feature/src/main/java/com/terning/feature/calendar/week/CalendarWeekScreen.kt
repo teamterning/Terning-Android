@@ -60,7 +60,7 @@ fun CalendarWeekRoute(
     updateSelectedDate: (LocalDate) -> Unit,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: CalendarWeekViewModel = hiltViewModel()
+    viewModel: CalendarWeekViewModel = hiltViewModel(),
 ) {
     val pagerState = LocalPagerState.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -138,7 +138,7 @@ private fun CalendarWeekScreen(
     updateSelectedDate: (LocalDate) -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var swiped by remember { mutableStateOf(false) }
 
@@ -216,7 +216,7 @@ private fun CalendarWeekScreen(
 
 @Composable
 private fun CalendarWeekEmpty(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Image(
         painter = painterResource(
@@ -241,7 +241,7 @@ private fun CalendarWeekSuccess(
     scrapList: List<CalendarScrapDetail>,
     onScrapButtonClicked: (Long) -> Unit,
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
-    selectedDate: LocalDate
+    selectedDate: LocalDate,
 ) {
     CalendarScrapList(
         selectedDate = selectedDate,
@@ -257,7 +257,7 @@ private fun CalendarWeekSuccess(
 private fun CalendarWeekScrapCancelDialog(
     scrapVisibility: Boolean,
     internshipAnnouncementId: Long?,
-    onDismissCancelDialog: (Boolean) -> Unit
+    onDismissCancelDialog: (Boolean) -> Unit,
 ) {
     if (scrapVisibility) {
         internshipAnnouncementId?.run {
@@ -275,7 +275,7 @@ private fun CalendarWeekScrapPatchDialog(
     dialogVisibility: Boolean,
     internshipModel: CalendarScrapDetail?,
     navigateToAnnouncement: (Long) -> Unit,
-    onDismissInternDialog: () -> Unit,
+    onDismissInternDialog: (Boolean) -> Unit,
     onClickChangeColor: () -> Unit,
 ) {
     if (dialogVisibility) {

@@ -72,6 +72,7 @@ fun SortingBottomSheet(
                             .padding(vertical = 12.dp)
                             .noRippleClickable {
                                 newSortBy.value = sortIndex
+                                onSortChange(sortIndex)
                                 scope
                                     .launch { sheetState.hide() }
                                     .invokeOnCompletion {

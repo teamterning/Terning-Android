@@ -15,12 +15,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -30,15 +27,14 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
-import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
@@ -46,19 +42,18 @@ import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
-import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
-import com.terning.domain.entity.intern.InternInfo
+import com.terning.domain.entity.search.SearchResult
 import com.terning.feature.R
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.intern.navigation.navigateIntern
+import com.terning.feature.search.searchprocess.models.SearchProcessState
 
-private const val MAX_LINES = 1
 
 @Composable
 fun SearchProcessRoute(
@@ -66,11 +61,18 @@ fun SearchProcessRoute(
     navController: NavHostController,
     viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val internSearchResultData by viewModel.internSearchResultData.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val currentSortBy: MutableState<Int> = remember {
-        mutableIntStateOf(0)
+    LaunchedEffect(true) {
+        viewModel.getSearchList(
+            keyword = state.text,
+            page = 0,
+            size = 0
+        )
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
@@ -88,53 +90,86 @@ fun SearchProcessRoute(
 
     SearchProcessScreen(
         modifier = modifier,
-        navController = navController,
-        currentSortBy = currentSortBy,
-        viewModel = viewModel,
-        onDismissCancelDialog = {
+        navigateToIntern = { navController.navigateIntern(it) },
+        navigateToBack = { navController.navigateUp() },
+        state = state,
+        internSearchResultData = internSearchResultData,
+        updateText = {
+            viewModel.updateText(it)
+        },
+        onSearchAction = {
+            viewModel.updateQuery(state.text)
+            viewModel.getSearchList(
+                keyword = state.text,
+                sortBy = state.currentSortBy,
+                page = 0,
+                size = 100,
+            )
+            viewModel.updateShowSearchResults(true)
+            viewModel.updateExistSearchResults()
+        },
+        onSortButtonClick = {
+            viewModel.updateSheetVisible(true)
+        },
+        onDismissScrapDialog = { isScrapped, searchResult ->
             viewModel.updateScrapDialogVisible(false)
+            viewModel.updateSearchResultScrapStatus(
+                searchResult.internshipAnnouncementId,
+                isScrapped
+            )
         },
-        onDismissScrapDialog = { viewModel.updateScrapDialogVisible(false) },
-        onClickCancelButton = {
-            viewModel.updateScrapDialogVisible(true)
+        onDismissCancelDialog = { isScrapped, searchResult ->
+            viewModel.updateScrapDialogVisible(false)
+            viewModel.updateSearchResultScrapStatus(
+                searchResult.internshipAnnouncementId,
+                !isScrapped
+            )
         },
-        onClickScrapButton = {
+        onDismissSheet = {
+            viewModel.updateSheetVisible(false)
+        },
+        onScrapButtonClicked = {
             viewModel.updateScrapDialogVisible(true)
+            viewModel.updateSearchResult(
+                internshipId = it.internshipAnnouncementId,
+                title = it.title,
+                dDay = it.dDay,
+                deadline = it.deadline,
+                startYearMonth = it.startYearMonth,
+                workingPeriod = it.workingPeriod,
+                companyImage = it.companyImage,
+                isScrapped = it.isScrapped,
+                color = it.color
+            )
+        },
+        onSortChange = {
+            viewModel.updateSortBy(it)
         }
     )
 }
 
 @Composable
 fun SearchProcessScreen(
-    currentSortBy: MutableState<Int>,
     modifier: Modifier = Modifier,
-    navController: NavHostController,
-    viewModel: SearchProcessViewModel = hiltViewModel(),
-    onDismissCancelDialog: (Boolean) -> Unit,
-    onDismissScrapDialog: () -> Unit,
-    onClickCancelButton: (Long) -> Unit,
-    onClickScrapButton: (InternInfo) -> Unit,
+    navigateToIntern: (Long) -> Unit,
+    navigateToBack: () -> Unit,
+    state: SearchProcessState = SearchProcessState(),
+    internSearchResultData: List<SearchResult> = emptyList(),
+    updateText: (String) -> Unit = {},
+    onSearchAction: () -> Unit = {},
+    onSortButtonClick: () -> Unit = {},
+    onDismissCancelDialog: (Boolean, SearchResult) -> Unit,
+    onDismissScrapDialog: (Boolean, SearchResult) -> Unit,
+    onDismissSheet: () -> Unit = {},
+    onScrapButtonClicked: (SearchResult) -> Unit,
+    onSortChange: (Int) -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    var sheetState by remember { mutableStateOf(false) }
-    val internSearchResultData by viewModel.internSearchResultData.collectAsStateWithLifecycle()
-    val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
-    val selectedInternIndex = remember { mutableIntStateOf(-1) }
-
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+    val currentSortBy = remember { mutableIntStateOf(state.currentSortBy) }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
-    }
-
-    LaunchedEffect(true) {
-        viewModel.getSearchList(
-            keyword = state.text,
-            sortBy = SORT_BY,
-            page = 0,
-            size = 10
-        )
     }
 
     Column(
@@ -149,7 +184,7 @@ fun SearchProcessScreen(
                 if (state.showSearchResults) R.string.search_process_result_top_bar_title
                 else R.string.search_process_top_bar_title
             ),
-            onBackButtonClick = { navController.navigateUp() },
+            onBackButtonClick = navigateToBack,
             modifier = Modifier
         )
         Column(
@@ -171,26 +206,15 @@ fun SearchProcessScreen(
             SearchTextField(
                 text = state.text,
                 onValueChange = { newText ->
-                    viewModel.updateText(newText)
+                    updateText(newText)
                 },
                 hint = stringResource(R.string.search_text_field_hint),
                 leftIcon = R.drawable.ic_search_18,
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .addFocusCleaner(focusManager),
-                onSearchAction = {
-                    viewModel.getSearchList(
-                        keyword = state.text,
-                        sortBy = SORT_BY,
-                        page = 0,
-                        size = 10
-                    )
-                    viewModel.updateQuery(state.text)
-                    viewModel.updateShowSearchResults(true)
-                    viewModel.updateExistSearchResults(state.text)
-                }
+                onSearchAction = onSearchAction
             )
-
             if (state.showSearchResults) {
                 Column(
                     modifier = Modifier
@@ -224,12 +248,13 @@ fun SearchProcessScreen(
                         }
                         Row {
                             SortingButton(
-                                sortBy = currentSortBy.value,
-                                onCLick = { sheetState = true },
+                                sortBy = state.currentSortBy,
+                                onCLick = onSortButtonClick,
                             )
                         }
                     }
-                    if (internSearchResultData.isNotEmpty()) {
+
+                    if (state.existSearchResults) {
                         LazyColumn(
                             contentPadding = PaddingValues(
                                 top = 12.dp,
@@ -237,27 +262,14 @@ fun SearchProcessScreen(
                             ),
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            items(viewModel.internSearchResultData.value.size) { index ->
-                                InternItemWithShadow(
-                                    modifier = Modifier.noRippleClickable {
-                                        navController.navigateIntern(
-                                            announcementId = internSearchResultData[index]
-                                                .internshipAnnouncementId
-                                        )
-                                    },
-                                    imageUrl = internSearchResultData[index].companyImage,
-                                    title = internSearchResultData[index].title,
-                                    dateDeadline = internSearchResultData[index].dDay,
-                                    workingPeriod = internSearchResultData[index].workingPeriod,
-                                    isScrapped = internSearchResultData[index].scrapId != null,
-                                    shadowWidth = 2.dp,
-                                    shadowRadius = 10.dp,
+                            items(internSearchResultData.size) { index ->
+                                SearchResultInternItem(
+                                    intern = internSearchResultData[index],
+                                    navigateToIntern = navigateToIntern,
                                     onScrapButtonClicked = {
-                                        viewModel.updateScrapDialogVisible(true)
-                                        viewModel.updateScrapped(
-                                            scrapped = internSearchResultData[index].scrapId != null
-                                        )
-                                        selectedInternIndex.intValue = index
+                                        with(internSearchResultData[index]) {
+                                            onScrapButtonClicked(this)
+                                        }
                                     }
                                 )
                             }
@@ -311,44 +323,66 @@ fun SearchProcessScreen(
             }
         }
 
-        if (dialogState.isScrapDialogVisible) {
-            TerningBasicDialog(
-                onDismissRequest = { viewModel.updateScrapDialogVisible(false) },
-                content = {
-                    val selectedIndex = selectedInternIndex.value
-                    if (selectedIndex != -1) {
-                        val selectedIntern = internSearchResultData[selectedIndex]
-                        if (selectedIntern.scrapId != null) {
-                            ScrapCancelDialog(
-                                internshipAnnouncementId = selectedIntern.internshipAnnouncementId,
-                                onDismissRequest = onDismissCancelDialog
-                            )
-                        } else {
-                            ScrapDialog(
-                                title = selectedIntern.title,
-                                scrapColor = CalRed,
-                                deadline = selectedIntern.deadline,
-                                startYearMonth = selectedIntern.startYearMonth,
-                                workingPeriod = selectedIntern.workingPeriod,
-                                internshipAnnouncementId = selectedIntern.internshipAnnouncementId,
-                                companyImage = selectedIntern.companyImage,
-                                isScrapped = false,
-                                onDismissRequest = onDismissScrapDialog,
-                                onClickChangeColor = { },
-                                onClickNavigateButton = { }
-                            )
-                        }
-                    }
-                }
+        if (state.sheetState) {
+            SortingBottomSheet(
+                currentSortBy = state.currentSortBy,
+                onDismiss = onDismissSheet,
+                newSortBy = currentSortBy,
+                onSortChange = onSortChange
             )
+        }
+
+        if (state.isScrapDialogVisible) {
+            val searchResult = state.searchResult
+            if (searchResult.isScrapped) {
+                ScrapCancelDialog(
+                    internshipAnnouncementId = searchResult.internshipAnnouncementId,
+                    onDismissRequest = { isScrapped ->
+                        onDismissCancelDialog(isScrapped, searchResult)
+                    }
+                )
+            } else {
+                ScrapDialog(
+                    title = searchResult.title,
+                    scrapColor = CalRed,
+                    deadline = searchResult.deadline,
+                    startYearMonth = searchResult.startYearMonth,
+                    workingPeriod = searchResult.workingPeriod,
+                    internshipAnnouncementId = searchResult.internshipAnnouncementId,
+                    companyImage = searchResult.companyImage,
+                    isScrapped = false,
+                    onDismissRequest = { isScrapped ->
+                        onDismissScrapDialog(isScrapped, searchResult)
+                    }
+                )
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun SearchProcessScreenPreview() {
-    TerningPointTheme {}
+private fun SearchResultInternItem(
+    intern: SearchResult,
+    navigateToIntern: (Long) -> Unit,
+    onScrapButtonClicked: (Long) -> Unit,
+) {
+    InternItemWithShadow(
+        modifier = Modifier
+            .noRippleClickable {
+                navigateToIntern(intern.internshipAnnouncementId)
+            },
+        imageUrl = intern.companyImage,
+        title = intern.title,
+        dateDeadline = intern.dDay,
+        workingPeriod = intern.workingPeriod,
+        isScrapped = intern.isScrapped,
+        shadowRadius = 5.dp,
+        shadowWidth = 1.dp,
+        onScrapButtonClicked = {
+            onScrapButtonClicked(intern.internshipAnnouncementId)
+        },
+    )
 }
 
-private const val SORT_BY = "deadlineSoon"
+private const val MAX_LINES = 1
