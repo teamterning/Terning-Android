@@ -5,6 +5,14 @@ import com.terning.domain.entity.home.HomeUpcomingIntern
 
 fun HomeUpcomingInternResponseDto.toHomeUpcomingInternList(): HomeUpcomingIntern =
     HomeUpcomingIntern(
+        hasScrapped = this.hasScrapped,
+        homeUpcomingInternDetail = this.scraps.map {
+            it.toHomeUpcomingInternDetail()
+        },
+    )
+
+fun HomeUpcomingInternResponseDto.HomeUpcomingInternList.toHomeUpcomingInternDetail(): HomeUpcomingIntern.HomeUpcomingInternDetail =
+    HomeUpcomingIntern.HomeUpcomingInternDetail(
         internshipAnnouncementId = this.internshipAnnouncementId,
         companyImage = this.companyImage,
         title = this.title,

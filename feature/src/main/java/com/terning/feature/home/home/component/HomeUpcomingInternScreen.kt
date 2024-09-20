@@ -52,12 +52,12 @@ import com.terning.feature.home.home.HomeViewModel
 
 @Composable
 fun HomeUpcomingInternScreen(
-    internList: List<HomeUpcomingIntern>,
+    internList: List<HomeUpcomingIntern.HomeUpcomingInternDetail>,
     homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    var selectedInternItem: HomeUpcomingIntern? by remember {
+    var selectedInternItem: HomeUpcomingIntern.HomeUpcomingInternDetail? by remember {
         mutableStateOf(null)
     }
 

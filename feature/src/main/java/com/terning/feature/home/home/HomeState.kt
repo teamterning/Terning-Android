@@ -10,9 +10,9 @@ data class HomeState(
     val sortBy: SortBy = SortBy.EARLIEST,
     val homeUserNameState: UiState<String> = UiState.Loading,
     val homeFilteringInfoState: UiState<HomeFilteringInfo> = UiState.Loading,
-    val homeUpcomingInternState: UiState<List<HomeUpcomingIntern>> = UiState.Empty,
+    val homeUpcomingInternState: UiState<HomeUpcomingIntern> = UiState.Empty,
     val homeRecommendInternState: UiState<HomeRecommendIntern> = UiState.Loading,
     val homeUpcomingDialogVisibility: Boolean = false,
     val homeRecommendDialogVisibility: Boolean = false,
-    val homeInternModel: HomeUpcomingIntern? = null,
+    val homeInternModel: HomeRecommendIntern.HomeRecommendInternDetail? = null,
 )

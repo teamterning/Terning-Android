@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SortingBottomSheet(
-    onDismiss: (Int) -> Unit,
+    onDismiss: () -> Unit,
     currentSortBy: Int,
     modifier: Modifier = Modifier,
     newSortBy: MutableState<Int> = mutableIntStateOf(currentSortBy),
@@ -78,7 +78,7 @@ fun SortingBottomSheet(
                                     .invokeOnCompletion {
                                         if (!sheetState.isVisible) {
                                             onSortChange(newSortBy.value)
-                                            onDismiss(newSortBy.value)
+                                            onDismiss()
                                         }
                                     }
                             }
@@ -86,7 +86,7 @@ fun SortingBottomSheet(
                 }
             }
         },
-        onDismissRequest = { onDismiss(newSortBy.value) },
+        onDismissRequest = onDismiss,
         sheetState = sheetState
     )
 }

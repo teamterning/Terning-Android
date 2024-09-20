@@ -13,7 +13,7 @@ import javax.inject.Inject
 class HomeDataSourceImpl @Inject constructor(
     private val homeService: HomeService,
 ) : HomeDataSource {
-    override suspend fun getUpcomingIntern(): BaseResponse<List<HomeUpcomingInternResponseDto>> =
+    override suspend fun getUpcomingIntern(): BaseResponse<HomeUpcomingInternResponseDto> =
         homeService.getHomeUpcomingIntern()
 
     override suspend fun getRecommendIntern(

@@ -8,7 +8,7 @@ import com.terning.data.dto.response.HomeRecommendInternResponseDto
 import com.terning.data.dto.response.HomeUpcomingInternResponseDto
 
 interface HomeDataSource {
-    suspend fun getUpcomingIntern(): BaseResponse<List<HomeUpcomingInternResponseDto>>
+    suspend fun getUpcomingIntern(): BaseResponse<HomeUpcomingInternResponseDto>
 
     suspend fun getRecommendIntern(
         sortBy: String,

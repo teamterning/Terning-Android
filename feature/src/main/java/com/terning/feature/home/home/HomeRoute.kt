@@ -143,11 +143,11 @@ fun HomeScreen(
         SortingBottomSheet(
             onDismiss = {
                 sortingSheetState = false
-                viewModel.getRecommendInternsData(
-                    it,
-                    homeFilteringInfo.startYear,
-                    homeFilteringInfo.startMonth,
-                )
+//                viewModel.getRecommendInternsData(
+//                    it,
+//                    homeFilteringInfo.startYear,
+//                    homeFilteringInfo.startMonth,
+//                )
             },
             currentSortBy = homeState.sortBy.ordinal,
             onSortChange = viewModel::updateSortBy
@@ -208,7 +208,6 @@ fun HomeScreen(
                             viewModel.updateRecommendDialogVisibility(
                                 false
                             )
-                            viewModel.getHomeUpcomingInternList()
                             viewModel.getRecommendInternsData(
                                 sortBy = homeState.sortBy.ordinal,
                                 startYear = homeFilteringInfo.startYear
@@ -216,6 +215,7 @@ fun HomeScreen(
                                 startMonth = homeFilteringInfo.startMonth
                                     ?: Calendar.getInstance().currentMonth,
                             )
+                            viewModel.getHomeUpcomingInternList()
                         },
                         onClickNavigateButton = navigateToIntern
                     )
@@ -387,27 +387,29 @@ private fun ShowMainTitleWithName(userName: String) {
 
 @Composable
 private fun ShowUpcomingIntern(
-    homeUpcomingInternState: UiState<List<HomeUpcomingIntern>>,
+    homeUpcomingInternState: UiState<HomeUpcomingIntern>,
     homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
 ) {
     when (homeUpcomingInternState) {
         is UiState.Success -> {
-            if (homeUpcomingInternState.data.isEmpty()) {
-                HomeUpcomingEmptyIntern(navigateToCalendar = navigateToCalendar)
-            } else {
-                HomeUpcomingInternScreen(
-                    internList = homeUpcomingInternState.data,
-                    homeState = homeState,
-                    navigateToIntern = navigateToIntern
-                )
+            with(homeUpcomingInternState.data) {
+                if (!hasScrapped) {
+                    HomeUpcomingEmptyFilter()
+                } else if (homeUpcomingInternDetail.isEmpty()) {
+                    HomeUpcomingEmptyIntern(navigateToCalendar = navigateToCalendar)
+                } else {
+                    HomeUpcomingInternScreen(
+                        internList = homeUpcomingInternDetail,
+                        homeState = homeState,
+                        navigateToIntern = navigateToIntern
+                    )
+                }
             }
         }
 
-        is UiState.Loading -> HomeUpcomingEmptyFilter()
-        is UiState.Empty -> HomeUpcomingEmptyFilter()
-        else -> {}
+        else -> HomeUpcomingEmptyFilter()
     }
 }
 

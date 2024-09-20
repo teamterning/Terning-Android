@@ -6,7 +6,7 @@ import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 
 interface HomeRepository {
-    suspend fun getHomeUpcomingInternList(): Result<List<HomeUpcomingIntern>>
+    suspend fun getHomeUpcomingInternList(): Result<HomeUpcomingIntern>
 
     suspend fun getRecommendIntern(
         sortBy: String,
