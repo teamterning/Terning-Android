@@ -136,21 +136,21 @@ fun HomeScreen(
         else -> 0
     }
 
-    var sortingSheetState by remember { mutableStateOf(false) }
     var changeFilteringSheetState by remember { mutableStateOf(false) }
 
-    if (sortingSheetState) {
+    if (homeState.sortingSheetVisibility) {
         SortingBottomSheet(
             onDismiss = {
-                sortingSheetState = false
-//                viewModel.getRecommendInternsData(
-//                    it,
-//                    homeFilteringInfo.startYear,
-//                    homeFilteringInfo.startMonth,
-//                )
+                viewModel.updateSortingSheetVisibility(false)
             },
             currentSortBy = homeState.sortBy.ordinal,
-            onSortChange = viewModel::updateSortBy
+            onSortChange = {
+                viewModel.updateSortBy(
+                    it,
+                    homeFilteringInfo.startYear,
+                    homeFilteringInfo.startMonth,
+                )
+            }
         )
     }
 
@@ -298,7 +298,7 @@ fun HomeScreen(
                         Row {
                             SortingButton(
                                 sortBy = homeState.sortBy.ordinal,
-                                onCLick = { sortingSheetState = true },
+                                onCLick = { viewModel.updateSortingSheetVisibility(true) },
                                 modifier = Modifier
                                     .padding(vertical = 4.dp)
                             )

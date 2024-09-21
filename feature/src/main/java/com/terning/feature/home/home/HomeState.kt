@@ -8,6 +8,7 @@ import com.terning.domain.entity.home.HomeUpcomingIntern
 
 data class HomeState(
     val sortBy: SortBy = SortBy.EARLIEST,
+    val sortingSheetVisibility: Boolean = false,
     val homeUserNameState: UiState<String> = UiState.Loading,
     val homeFilteringInfoState: UiState<HomeFilteringInfo> = UiState.Loading,
     val homeUpcomingInternState: UiState<HomeUpcomingIntern> = UiState.Empty,

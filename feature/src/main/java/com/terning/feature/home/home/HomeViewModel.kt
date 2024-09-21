@@ -152,10 +152,23 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateSortBy(sortBy: Int) {
+    fun updateSortBy(sortBy: Int, startYear: Int?, startMonth: Int?) {
         _homeState.update {
             it.copy(
                 sortBy = SortBy.entries[sortBy]
+            )
+        }
+        getRecommendInternsData(
+            _homeState.value.sortBy.ordinal,
+            startYear ?: Calendar.getInstance().currentYear,
+            startMonth ?: Calendar.getInstance().currentMonth,
+        )
+    }
+
+    fun updateSortingSheetVisibility(visibility: Boolean) {
+        _homeState.update {
+            it.copy(
+                sortingSheetVisibility = visibility
             )
         }
     }

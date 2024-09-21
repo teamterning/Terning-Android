@@ -77,7 +77,6 @@ fun SortingBottomSheet(
                                     .launch { sheetState.hide() }
                                     .invokeOnCompletion {
                                         if (!sheetState.isVisible) {
-                                            onSortChange(newSortBy.value)
                                             onDismiss()
                                         }
                                     }
