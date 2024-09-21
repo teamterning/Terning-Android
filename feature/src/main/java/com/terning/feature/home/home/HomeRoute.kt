@@ -184,14 +184,16 @@ fun HomeScreen(
                         internshipAnnouncementId = internshipAnnouncementId,
                         onDismissRequest = {
                             viewModel.updateRecommendDialogVisibility(false)
-                            viewModel.getHomeUpcomingInternList()
-                            viewModel.getRecommendInternsData(
-                                sortBy = homeState.sortBy.ordinal,
-                                startYear = homeFilteringInfo.startYear
-                                    ?: Calendar.getInstance().currentYear,
-                                startMonth = homeFilteringInfo.startMonth
-                                    ?: Calendar.getInstance().currentMonth,
-                            )
+                            if (it) {
+                                viewModel.getHomeUpcomingInternList()
+                                viewModel.getRecommendInternsData(
+                                    sortBy = homeState.sortBy.ordinal,
+                                    startYear = homeFilteringInfo.startYear
+                                        ?: Calendar.getInstance().currentYear,
+                                    startMonth = homeFilteringInfo.startMonth
+                                        ?: Calendar.getInstance().currentMonth,
+                                )
+                            }
                         }
                     )
                 } else {
@@ -205,17 +207,17 @@ fun HomeScreen(
                         companyImage = companyImage,
                         isScrapped = isScrapped,
                         onDismissRequest = {
-                            viewModel.updateRecommendDialogVisibility(
-                                false
-                            )
-                            viewModel.getRecommendInternsData(
-                                sortBy = homeState.sortBy.ordinal,
-                                startYear = homeFilteringInfo.startYear
-                                    ?: Calendar.getInstance().currentYear,
-                                startMonth = homeFilteringInfo.startMonth
-                                    ?: Calendar.getInstance().currentMonth,
-                            )
-                            viewModel.getHomeUpcomingInternList()
+                            viewModel.updateRecommendDialogVisibility(false)
+                            if (it) {
+                                viewModel.getRecommendInternsData(
+                                    sortBy = homeState.sortBy.ordinal,
+                                    startYear = homeFilteringInfo.startYear
+                                        ?: Calendar.getInstance().currentYear,
+                                    startMonth = homeFilteringInfo.startMonth
+                                        ?: Calendar.getInstance().currentMonth,
+                                )
+                                viewModel.getHomeUpcomingInternList()
+                            }
                         },
                         onClickNavigateButton = navigateToIntern
                     )
