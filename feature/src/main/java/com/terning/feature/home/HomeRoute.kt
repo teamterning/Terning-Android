@@ -1,4 +1,4 @@
-package com.terning.feature.home.home
+package com.terning.feature.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -12,10 +12,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,8 +38,6 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.currentMonth
-import com.terning.core.extension.currentYear
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
@@ -54,14 +50,13 @@ import com.terning.feature.R
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
-import com.terning.feature.home.home.component.HomeFilteringBottomSheet
-import com.terning.feature.home.home.component.HomeFilteringScreen
-import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
-import com.terning.feature.home.home.component.HomeUpcomingEmptyFilter
-import com.terning.feature.home.home.component.HomeUpcomingEmptyIntern
-import com.terning.feature.home.home.component.HomeUpcomingInternScreen
+import com.terning.feature.home.component.HomeFilteringBottomSheet
+import com.terning.feature.home.component.HomeFilteringScreen
+import com.terning.feature.home.component.HomeRecommendEmptyIntern
+import com.terning.feature.home.component.HomeUpcomingEmptyFilter
+import com.terning.feature.home.component.HomeUpcomingEmptyIntern
+import com.terning.feature.home.component.HomeUpcomingInternScreen
 import com.terning.feature.intern.navigation.navigateIntern
-import java.util.Calendar
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -104,6 +99,10 @@ fun HomeRoute(
         paddingValues = paddingValues,
         navigateToIntern = { navController.navigateIntern(announcementId = it) },
         navigateToCalendar = { navController.navigateCalendar() },
+        updateRecommendDialogVisibility = viewModel::updateRecommendDialogVisibility,
+        updateUpcomingDialogVisibility = viewModel::updateUpcomingDialogVisibility,
+        getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
+        getRecommendInternsData = viewModel::getRecommendInternsData,
         viewModel = viewModel,
     )
 }
@@ -114,6 +113,10 @@ fun HomeScreen(
     paddingValues: PaddingValues,
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
+    updateRecommendDialogVisibility: (Boolean) -> Unit,
+    updateUpcomingDialogVisibility: (Boolean) -> Unit,
+    getHomeUpcomingInternList: () -> Unit,
+    getRecommendInternsData: (Int, Int?, Int?) -> Unit,
     viewModel: HomeViewModel,
 ) {
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
@@ -138,22 +141,21 @@ fun HomeScreen(
         else -> 0
     }
 
-    val currentSortBy: MutableState<Int> = remember { mutableIntStateOf(0) }
-    var sortingSheetState by remember { mutableStateOf(false) }
     var changeFilteringSheetState by remember { mutableStateOf(false) }
 
-    if (sortingSheetState) {
+    if (homeState.sortingSheetVisibility) {
         SortingBottomSheet(
             onDismiss = {
-                sortingSheetState = false
-                viewModel.getRecommendInternsData(
-                    currentSortBy.value,
+                viewModel.updateSortingSheetVisibility(false)
+            },
+            currentSortBy = homeState.sortBy.ordinal,
+            onSortChange = {
+                viewModel.updateSortBy(
+                    it,
                     homeFilteringInfo.startYear,
                     homeFilteringInfo.startMonth,
                 )
-            },
-            currentSortBy = currentSortBy.value,
-            newSortBy = currentSortBy
+            }
         )
     }
 
@@ -185,15 +187,16 @@ fun HomeScreen(
                 if (isScrapped) {
                     ScrapCancelDialog(
                         internshipAnnouncementId = internshipAnnouncementId,
-                        onDismissRequest = {
-                            viewModel.updateRecommendDialogVisibility(false)
-                            viewModel.getHomeUpcomingInternList()
-                            viewModel.getRecommendInternsData(
-                                sortBy = homeState.sortBy.ordinal,
-                                startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
-                                startMonth = homeFilteringInfo.startMonth
-                                    ?: Calendar.getInstance().currentMonth,
-                            )
+                        onDismissRequest = { isScrapCancelled ->
+                            updateRecommendDialogVisibility(false)
+                            if (isScrapCancelled) {
+                                getHomeUpcomingInternList()
+                                getRecommendInternsData(
+                                    homeState.sortBy.ordinal,
+                                    homeFilteringInfo.startYear,
+                                    homeFilteringInfo.startMonth
+                                )
+                            }
                         }
                     )
                 } else {
@@ -206,17 +209,16 @@ fun HomeScreen(
                         internshipAnnouncementId = internshipAnnouncementId,
                         companyImage = companyImage,
                         isScrapped = isScrapped,
-                        onDismissRequest = {
-                            viewModel.updateRecommendDialogVisibility(
-                                false
-                            )
-                            viewModel.getHomeUpcomingInternList()
-                            viewModel.getRecommendInternsData(
-                                sortBy = homeState.sortBy.ordinal,
-                                startYear = homeFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
-                                startMonth = homeFilteringInfo.startMonth
-                                    ?: Calendar.getInstance().currentMonth,
-                            )
+                        onDismissRequest = { isScrapped ->
+                            updateRecommendDialogVisibility(false)
+                            if (isScrapped) {
+                                getRecommendInternsData(
+                                    homeState.sortBy.ordinal,
+                                    homeFilteringInfo.startYear,
+                                    homeFilteringInfo.startMonth
+                                )
+                                getHomeUpcomingInternList()
+                            }
                         },
                         onClickNavigateButton = navigateToIntern
                     )
@@ -254,6 +256,8 @@ fun HomeScreen(
                         homeState = homeState,
                         navigateToIntern = { navigateToIntern(it) },
                         navigateToCalendar = navigateToCalendar,
+                        updateUpcomingDialogVisibility = updateUpcomingDialogVisibility,
+                        getHomeUpcomingInternList = getHomeUpcomingInternList,
                     )
                 }
             }
@@ -296,8 +300,8 @@ fun HomeScreen(
                         }
                         Row {
                             SortingButton(
-                                sortBy = currentSortBy.value,
-                                onCLick = { sortingSheetState = true },
+                                sortBy = homeState.sortBy.ordinal,
+                                onCLick = { viewModel.updateSortingSheetVisibility(true) },
                                 modifier = Modifier
                                     .padding(vertical = 4.dp)
                             )
@@ -312,7 +316,7 @@ fun HomeScreen(
                         navigateToIntern = navigateToIntern,
                         intern = homeRecommendInternList[index],
                         onScrapButtonClicked = {
-                            viewModel.updateRecommendDialogVisibility(true)
+                            updateRecommendDialogVisibility(true)
                             with(homeRecommendInternList[index]) {
                                 viewModel.updateHomeInternModel(
                                     internshipAnnouncementId = internshipAnnouncementId,
@@ -388,27 +392,34 @@ private fun ShowMainTitleWithName(userName: String) {
 
 @Composable
 private fun ShowUpcomingIntern(
-    homeUpcomingInternState: UiState<List<HomeUpcomingIntern>>,
+    homeUpcomingInternState: UiState<HomeUpcomingIntern>,
     homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
+    updateUpcomingDialogVisibility: (Boolean) -> Unit,
+    getHomeUpcomingInternList: () -> Unit,
 ) {
     when (homeUpcomingInternState) {
         is UiState.Success -> {
-            if (homeUpcomingInternState.data.isEmpty()) {
-                HomeUpcomingEmptyIntern(navigateToCalendar = navigateToCalendar)
-            } else {
-                HomeUpcomingInternScreen(
-                    internList = homeUpcomingInternState.data,
-                    homeState = homeState,
-                    navigateToIntern = navigateToIntern
-                )
+            with(homeUpcomingInternState.data) {
+                when {
+                    !hasScrapped -> HomeUpcomingEmptyFilter()
+                    hasScrapped && homeUpcomingInternDetail.isEmpty() -> HomeUpcomingEmptyIntern(
+                        navigateToCalendar = navigateToCalendar
+                    )
+
+                    else -> HomeUpcomingInternScreen(
+                        internList = homeUpcomingInternDetail,
+                        homeState = homeState,
+                        updateUpcomingDialogVisibility = updateUpcomingDialogVisibility,
+                        getHomeUpcomingInternList = getHomeUpcomingInternList,
+                        navigateToIntern = navigateToIntern
+                    )
+                }
             }
         }
 
-        is UiState.Loading -> HomeUpcomingEmptyFilter()
-        is UiState.Empty -> HomeUpcomingEmptyFilter()
-        else -> {}
+        else -> HomeUpcomingEmptyFilter()
     }
 }
 

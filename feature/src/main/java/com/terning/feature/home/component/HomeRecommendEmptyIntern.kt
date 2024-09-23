@@ -1,4 +1,4 @@
-package com.terning.feature.home.home.component
+package com.terning.feature.home.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image

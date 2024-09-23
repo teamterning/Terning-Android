@@ -1,4 +1,4 @@
-package com.terning.feature.home.home.model
+package com.terning.feature.home.model
 
 import androidx.compose.ui.graphics.Color
 import com.terning.core.designsystem.theme.CalRed

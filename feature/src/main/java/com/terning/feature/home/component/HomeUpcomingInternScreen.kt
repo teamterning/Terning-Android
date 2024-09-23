@@ -1,4 +1,4 @@
-package com.terning.feature.home.home.component
+package com.terning.feature.home.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -31,7 +31,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.terning.core.designsystem.component.item.ScrapBox
@@ -47,17 +46,17 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.ScrapDialog
-import com.terning.feature.home.home.HomeState
-import com.terning.feature.home.home.HomeViewModel
+import com.terning.feature.home.HomeState
 
 @Composable
 fun HomeUpcomingInternScreen(
-    internList: List<HomeUpcomingIntern>,
+    internList: List<HomeUpcomingIntern.HomeUpcomingInternDetail>,
     homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    updateUpcomingDialogVisibility: (Boolean) -> Unit,
+    getHomeUpcomingInternList: () -> Unit,
 ) {
-    var selectedInternItem: HomeUpcomingIntern? by remember {
+    var selectedInternItem: HomeUpcomingIntern.HomeUpcomingInternDetail? by remember {
         mutableStateOf(null)
     }
 
@@ -86,7 +85,7 @@ fun HomeUpcomingInternScreen(
                             .fillMaxHeight()
                             .noRippleClickable {
                                 selectedInternItem = homeUpcomingIntern
-                                homeViewModel.updateUpcomingDialogVisibility(true)
+                                updateUpcomingDialogVisibility(true)
                             },
                         verticalArrangement = Arrangement.SpaceBetween,
                     ) {
@@ -135,13 +134,13 @@ fun HomeUpcomingInternScreen(
                                 color = Grey500,
                                 maxLines = 1,
                                 modifier = Modifier
-                                    .padding(start = 6.dp, end = 15.dp)
+                                    .padding(start = 6.dp, end = 16.dp)
                                     .weight(1f)
                             )
 
                             Row(
                                 modifier = Modifier
-                                    .size(width = 40.dp, height = 20.dp)
+                                    .size(width = 48.dp, height = 20.dp)
                                     .background(
                                         color = TerningSub3,
                                         shape = RoundedCornerShape(size = 5.dp)
@@ -175,10 +174,8 @@ fun HomeUpcomingInternScreen(
                     internshipAnnouncementId = internshipAnnouncementId,
                     companyImage = companyImage,
                     isScrapped = isScrapped,
-                    onDismissRequest = {
-                        homeViewModel.updateUpcomingDialogVisibility(false)
-                    },
-                    onClickChangeColor = homeViewModel::getHomeUpcomingInternList,
+                    onDismissRequest = { updateUpcomingDialogVisibility(false) },
+                    onClickChangeColor = getHomeUpcomingInternList,
                     onClickNavigateButton = { navigateToIntern(internshipAnnouncementId) }
                 )
             }

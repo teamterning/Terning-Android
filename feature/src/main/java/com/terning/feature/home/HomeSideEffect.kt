@@ -1,4 +1,4 @@
-package com.terning.feature.home.home
+package com.terning.feature.home
 
 import androidx.annotation.StringRes
 

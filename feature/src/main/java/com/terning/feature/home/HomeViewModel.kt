@@ -1,4 +1,4 @@
-package com.terning.feature.home.home
+package com.terning.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,7 +6,7 @@ import com.terning.core.extension.currentMonth
 import com.terning.core.extension.currentYear
 import com.terning.core.state.UiState
 import com.terning.core.type.SortBy
-import com.terning.domain.entity.home.HomeUpcomingIntern
+import com.terning.domain.entity.home.HomeRecommendIntern
 import com.terning.domain.entity.request.ChangeFilteringRequestModel
 import com.terning.domain.repository.HomeRepository
 import com.terning.domain.repository.MyPageRepository
@@ -53,9 +53,9 @@ class HomeViewModel @Inject constructor(
 
     fun getHomeUpcomingInternList() {
         viewModelScope.launch {
-            homeRepository.getHomeUpcomingInternList().onSuccess { internList ->
+            homeRepository.getHomeUpcomingInternList().onSuccess { upcomingIntern ->
                 _homeState.value = _homeState.value.copy(
-                    homeUpcomingInternState = UiState.Success(internList)
+                    homeUpcomingInternState = UiState.Success(upcomingIntern)
                 )
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
@@ -73,12 +73,12 @@ class HomeViewModel @Inject constructor(
                     homeFilteringInfoState = UiState.Success(filteringInfo)
                 )
                 if (filteringInfo.grade != null) {
-                    getHomeUpcomingInternList()
                     getRecommendInternsData(
                         sortBy = _homeState.value.sortBy.ordinal,
                         startYear = filteringInfo.startYear,
                         startMonth = filteringInfo.startMonth,
                     )
+                    getHomeUpcomingInternList()
                 }
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
@@ -133,12 +133,11 @@ class HomeViewModel @Inject constructor(
         isScrapped: Boolean,
         color: String?,
         startYearMonth: String,
-        companyInfo: String = "",
     ) {
         _homeState.update {
             it.copy(
                 homeInternModel =
-                HomeUpcomingIntern(
+                HomeRecommendIntern.HomeRecommendInternDetail(
                     internshipAnnouncementId = internshipAnnouncementId,
                     companyImage = companyImage,
                     title = title,
@@ -148,8 +147,28 @@ class HomeViewModel @Inject constructor(
                     isScrapped = isScrapped,
                     color = color ?: "",
                     startYearMonth = startYearMonth,
-                    companyInfo = companyInfo,
                 )
+            )
+        }
+    }
+
+    fun updateSortBy(sortBy: Int, startYear: Int?, startMonth: Int?) {
+        _homeState.update {
+            it.copy(
+                sortBy = SortBy.entries[sortBy]
+            )
+        }
+        getRecommendInternsData(
+            _homeState.value.sortBy.ordinal,
+            startYear ?: Calendar.getInstance().currentYear,
+            startMonth ?: Calendar.getInstance().currentMonth,
+        )
+    }
+
+    fun updateSortingSheetVisibility(visibility: Boolean) {
+        _homeState.update {
+            it.copy(
+                sortingSheetVisibility = visibility
             )
         }
     }

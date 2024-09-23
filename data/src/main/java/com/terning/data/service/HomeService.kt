@@ -13,7 +13,7 @@ import retrofit2.http.Query
 
 interface HomeService {
     @GET("api/v1/home/upcoming")
-    suspend fun getHomeUpcomingIntern(): BaseResponse<List<HomeUpcomingInternResponseDto>>
+    suspend fun getHomeUpcomingIntern(): BaseResponse<HomeUpcomingInternResponseDto>
 
     @GET("api/v1/home")
     suspend fun getRecommendIntern(

@@ -15,11 +15,9 @@ import javax.inject.Inject
 class HomeRepositoryImpl @Inject constructor(
     private val homeDataSource: HomeDataSource,
 ) : HomeRepository {
-    override suspend fun getHomeUpcomingInternList(): Result<List<HomeUpcomingIntern>> =
+    override suspend fun getHomeUpcomingInternList(): Result<HomeUpcomingIntern> =
         runCatching {
-            homeDataSource.getUpcomingIntern().result.map { homeTodayInternResponseDto ->
-                homeTodayInternResponseDto.toHomeUpcomingInternList()
-            }
+            homeDataSource.getUpcomingIntern().result.toHomeUpcomingInternList()
         }
 
     override suspend fun getRecommendIntern(

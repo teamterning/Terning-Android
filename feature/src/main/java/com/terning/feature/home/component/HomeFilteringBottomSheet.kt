@@ -1,4 +1,4 @@
-package com.terning.feature.home.home.component
+package com.terning.feature.home.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

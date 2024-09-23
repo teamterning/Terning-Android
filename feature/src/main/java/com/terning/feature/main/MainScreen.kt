@@ -45,7 +45,7 @@ import com.terning.feature.filtering.filtering.navigation.filteringTwoNavGraph
 import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNavGraph
 import com.terning.feature.filtering.startfiltering.navigation.startFilteringNavGraph
 import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
-import com.terning.feature.home.home.navigation.homeNavGraph
+import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.mypage.mypage.navigation.myPageNavGraph
 import com.terning.feature.mypage.profileedit.navigation.profileEditNavGraph
