@@ -21,5 +21,5 @@ class AuthDataSourceImpl @Inject constructor(
     override suspend fun postSignUp(
         authId: String,
         request: SignUpRequestDto
-    ): BaseResponse<SignUpResponseDto> = authService.postSignUp(authId, request)
+    ): BaseResponse<SignUpResponseDto> = authService.postSignUp("Bearer $authId", request)
 }
