@@ -18,12 +18,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.extension.noRippleClickable
 import kotlinx.coroutines.delay
 
 @Composable
 fun ImageSlider(
     modifier: Modifier = Modifier,
     images: List<Int>,
+    onAdvertisementClick: () -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = { images.size })
     val autoScroll = remember { mutableStateOf(true) }
@@ -59,8 +61,9 @@ fun ImageSlider(
                     contentDescription = null,
                     modifier = modifier
                         .fillMaxWidth()
-                        .height(112.dp),
-                    contentScale = ContentScale.Crop
+                        .height(112.dp)
+                        .noRippleClickable(onAdvertisementClick),
+                    contentScale = ContentScale.Crop,
                 )
             }
             DotsIndicator(
