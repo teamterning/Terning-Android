@@ -38,8 +38,6 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.currentMonth
-import com.terning.core.extension.currentYear
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
 import com.terning.core.state.UiState
@@ -59,7 +57,6 @@ import com.terning.feature.home.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.home.component.HomeUpcomingInternScreen
 import com.terning.feature.intern.navigation.navigateIntern
-import java.util.Calendar
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -102,6 +99,10 @@ fun HomeRoute(
         paddingValues = paddingValues,
         navigateToIntern = { navController.navigateIntern(announcementId = it) },
         navigateToCalendar = { navController.navigateCalendar() },
+        updateRecommendDialogVisibility = viewModel::updateRecommendDialogVisibility,
+        updateUpcomingDialogVisibility = viewModel::updateUpcomingDialogVisibility,
+        getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
+        getRecommendInternsData = viewModel::getRecommendInternsData,
         viewModel = viewModel,
     )
 }
@@ -112,6 +113,10 @@ fun HomeScreen(
     paddingValues: PaddingValues,
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
+    updateRecommendDialogVisibility: (Boolean) -> Unit,
+    updateUpcomingDialogVisibility: (Boolean) -> Unit,
+    getHomeUpcomingInternList: () -> Unit,
+    getRecommendInternsData: (Int, Int?, Int?) -> Unit,
     viewModel: HomeViewModel,
 ) {
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
@@ -183,15 +188,13 @@ fun HomeScreen(
                     ScrapCancelDialog(
                         internshipAnnouncementId = internshipAnnouncementId,
                         onDismissRequest = { isScrapCancelled ->
-                            viewModel.updateRecommendDialogVisibility(false)
+                            updateRecommendDialogVisibility(false)
                             if (isScrapCancelled) {
-                                viewModel.getHomeUpcomingInternList()
-                                viewModel.getRecommendInternsData(
-                                    sortBy = homeState.sortBy.ordinal,
-                                    startYear = homeFilteringInfo.startYear
-                                        ?: Calendar.getInstance().currentYear,
-                                    startMonth = homeFilteringInfo.startMonth
-                                        ?: Calendar.getInstance().currentMonth,
+                                getHomeUpcomingInternList()
+                                getRecommendInternsData(
+                                    homeState.sortBy.ordinal,
+                                    homeFilteringInfo.startYear,
+                                    homeFilteringInfo.startMonth
                                 )
                             }
                         }
@@ -207,16 +210,14 @@ fun HomeScreen(
                         companyImage = companyImage,
                         isScrapped = isScrapped,
                         onDismissRequest = { isScrapped ->
-                            viewModel.updateRecommendDialogVisibility(false)
+                            updateRecommendDialogVisibility(false)
                             if (isScrapped) {
-                                viewModel.getRecommendInternsData(
-                                    sortBy = homeState.sortBy.ordinal,
-                                    startYear = homeFilteringInfo.startYear
-                                        ?: Calendar.getInstance().currentYear,
-                                    startMonth = homeFilteringInfo.startMonth
-                                        ?: Calendar.getInstance().currentMonth,
+                                getRecommendInternsData(
+                                    homeState.sortBy.ordinal,
+                                    homeFilteringInfo.startYear,
+                                    homeFilteringInfo.startMonth
                                 )
-                                viewModel.getHomeUpcomingInternList()
+                                getHomeUpcomingInternList()
                             }
                         },
                         onClickNavigateButton = navigateToIntern
@@ -255,6 +256,8 @@ fun HomeScreen(
                         homeState = homeState,
                         navigateToIntern = { navigateToIntern(it) },
                         navigateToCalendar = navigateToCalendar,
+                        updateUpcomingDialogVisibility = updateUpcomingDialogVisibility,
+                        getHomeUpcomingInternList = getHomeUpcomingInternList,
                     )
                 }
             }
@@ -313,7 +316,7 @@ fun HomeScreen(
                         navigateToIntern = navigateToIntern,
                         intern = homeRecommendInternList[index],
                         onScrapButtonClicked = {
-                            viewModel.updateRecommendDialogVisibility(true)
+                            updateRecommendDialogVisibility(true)
                             with(homeRecommendInternList[index]) {
                                 viewModel.updateHomeInternModel(
                                     internshipAnnouncementId = internshipAnnouncementId,
@@ -393,16 +396,23 @@ private fun ShowUpcomingIntern(
     homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
+    updateUpcomingDialogVisibility: (Boolean) -> Unit,
+    getHomeUpcomingInternList: () -> Unit,
 ) {
     when (homeUpcomingInternState) {
         is UiState.Success -> {
             with(homeUpcomingInternState.data) {
-                when{
+                when {
                     !hasScrapped -> HomeUpcomingEmptyFilter()
-                    hasScrapped && homeUpcomingInternDetail.isEmpty() -> HomeUpcomingEmptyIntern(navigateToCalendar = navigateToCalendar)
+                    hasScrapped && homeUpcomingInternDetail.isEmpty() -> HomeUpcomingEmptyIntern(
+                        navigateToCalendar = navigateToCalendar
+                    )
+
                     else -> HomeUpcomingInternScreen(
                         internList = homeUpcomingInternDetail,
                         homeState = homeState,
+                        updateUpcomingDialogVisibility = updateUpcomingDialogVisibility,
+                        getHomeUpcomingInternList = getHomeUpcomingInternList,
                         navigateToIntern = navigateToIntern
                     )
                 }

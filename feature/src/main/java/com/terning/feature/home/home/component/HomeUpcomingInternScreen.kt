@@ -31,7 +31,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.terning.core.designsystem.component.item.ScrapBox
@@ -48,14 +47,14 @@ import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.home.home.HomeState
-import com.terning.feature.home.home.HomeViewModel
 
 @Composable
 fun HomeUpcomingInternScreen(
     internList: List<HomeUpcomingIntern.HomeUpcomingInternDetail>,
     homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    updateUpcomingDialogVisibility: (Boolean) -> Unit,
+    getHomeUpcomingInternList: () -> Unit,
 ) {
     var selectedInternItem: HomeUpcomingIntern.HomeUpcomingInternDetail? by remember {
         mutableStateOf(null)
@@ -86,7 +85,7 @@ fun HomeUpcomingInternScreen(
                             .fillMaxHeight()
                             .noRippleClickable {
                                 selectedInternItem = homeUpcomingIntern
-                                homeViewModel.updateUpcomingDialogVisibility(true)
+                                updateUpcomingDialogVisibility(true)
                             },
                         verticalArrangement = Arrangement.SpaceBetween,
                     ) {
@@ -175,10 +174,8 @@ fun HomeUpcomingInternScreen(
                     internshipAnnouncementId = internshipAnnouncementId,
                     companyImage = companyImage,
                     isScrapped = isScrapped,
-                    onDismissRequest = {
-                        homeViewModel.updateUpcomingDialogVisibility(false)
-                    },
-                    onClickChangeColor = homeViewModel::getHomeUpcomingInternList,
+                    onDismissRequest = { updateUpcomingDialogVisibility(false) },
+                    onClickChangeColor = getHomeUpcomingInternList,
                     onClickNavigateButton = { navigateToIntern(internshipAnnouncementId) }
                 )
             }
