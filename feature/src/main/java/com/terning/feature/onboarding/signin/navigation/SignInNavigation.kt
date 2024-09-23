@@ -7,7 +7,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import com.terning.core.navigation.Route
-import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.SignInRoute
 import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package com.terning.feature.home.home
+package com.terning.feature.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -50,12 +50,12 @@ import com.terning.feature.R
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
-import com.terning.feature.home.home.component.HomeFilteringBottomSheet
-import com.terning.feature.home.home.component.HomeFilteringScreen
-import com.terning.feature.home.home.component.HomeRecommendEmptyIntern
-import com.terning.feature.home.home.component.HomeUpcomingEmptyFilter
-import com.terning.feature.home.home.component.HomeUpcomingEmptyIntern
-import com.terning.feature.home.home.component.HomeUpcomingInternScreen
+import com.terning.feature.home.component.HomeFilteringBottomSheet
+import com.terning.feature.home.component.HomeFilteringScreen
+import com.terning.feature.home.component.HomeRecommendEmptyIntern
+import com.terning.feature.home.component.HomeUpcomingEmptyFilter
+import com.terning.feature.home.component.HomeUpcomingEmptyIntern
+import com.terning.feature.home.component.HomeUpcomingInternScreen
 import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7

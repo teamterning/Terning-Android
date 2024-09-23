@@ -1,4 +1,4 @@
-package com.terning.feature.home.home.component
+package com.terning.feature.home.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -46,7 +46,7 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.home.HomeUpcomingIntern
 import com.terning.feature.R
 import com.terning.feature.dialog.detail.ScrapDialog
-import com.terning.feature.home.home.HomeState
+import com.terning.feature.home.HomeState
 
 @Composable
 fun HomeUpcomingInternScreen(

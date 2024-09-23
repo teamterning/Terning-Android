@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
 import com.terning.core.navigation.Route
 import com.terning.feature.filtering.starthome.StartHomeRoute
-import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.home.navigation.navigateHome
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateStartHome(navOptions: NavOptions? = null) {

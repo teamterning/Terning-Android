@@ -4,13 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
-import com.terning.feature.home.home.navigation.navigateHome
+import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.mypage.mypage.navigation.navigateMyPage
 import com.terning.feature.onboarding.splash.navigation.Splash
 import com.terning.feature.search.search.navigation.navigateSearch
