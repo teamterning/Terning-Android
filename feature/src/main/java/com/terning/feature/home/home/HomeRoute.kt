@@ -397,12 +397,10 @@ private fun ShowUpcomingIntern(
     when (homeUpcomingInternState) {
         is UiState.Success -> {
             with(homeUpcomingInternState.data) {
-                if (!hasScrapped) {
-                    HomeUpcomingEmptyFilter()
-                } else if (homeUpcomingInternDetail.isEmpty()) {
-                    HomeUpcomingEmptyIntern(navigateToCalendar = navigateToCalendar)
-                } else {
-                    HomeUpcomingInternScreen(
+                when{
+                    !hasScrapped -> HomeUpcomingEmptyFilter()
+                    hasScrapped && homeUpcomingInternDetail.isEmpty() -> HomeUpcomingEmptyIntern(navigateToCalendar = navigateToCalendar)
+                    else -> HomeUpcomingInternScreen(
                         internList = homeUpcomingInternDetail,
                         homeState = homeState,
                         navigateToIntern = navigateToIntern
