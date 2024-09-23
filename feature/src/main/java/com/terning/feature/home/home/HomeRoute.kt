@@ -182,9 +182,9 @@ fun HomeScreen(
                 if (isScrapped) {
                     ScrapCancelDialog(
                         internshipAnnouncementId = internshipAnnouncementId,
-                        onDismissRequest = {
+                        onDismissRequest = { isScrapCancelled ->
                             viewModel.updateRecommendDialogVisibility(false)
-                            if (it) {
+                            if (isScrapCancelled) {
                                 viewModel.getHomeUpcomingInternList()
                                 viewModel.getRecommendInternsData(
                                     sortBy = homeState.sortBy.ordinal,
@@ -206,9 +206,9 @@ fun HomeScreen(
                         internshipAnnouncementId = internshipAnnouncementId,
                         companyImage = companyImage,
                         isScrapped = isScrapped,
-                        onDismissRequest = {
+                        onDismissRequest = { isScrapped ->
                             viewModel.updateRecommendDialogVisibility(false)
-                            if (it) {
+                            if (isScrapped) {
                                 viewModel.getRecommendInternsData(
                                     sortBy = homeState.sortBy.ordinal,
                                     startYear = homeFilteringInfo.startYear
