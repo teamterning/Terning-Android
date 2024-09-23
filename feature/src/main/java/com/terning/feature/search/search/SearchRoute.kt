@@ -1,5 +1,6 @@
 package com.terning.feature.search.search
 
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,6 +36,9 @@ import com.terning.feature.search.search.component.InternListType
 import com.terning.feature.search.search.component.SearchInternList
 import okhttp3.internal.toImmutableList
 
+const val ADVERTISEMENT_URL =
+    "https://www.instagram.com/terning_official?igsh=NnNma245bnUzbWNm&utm_source=qr"
+
 @Composable
 fun SearchRoute(
     modifier: Modifier,
@@ -41,6 +47,7 @@ fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     val viewState by viewModel.viewState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     val scrapState by viewModel.scrapState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
@@ -77,6 +84,9 @@ fun SearchRoute(
         searchScrapsList = searchScrapsList,
         navigateToSearchProcess = navigateToSearchProcess,
         navigateToIntern = navigateToIntern,
+        onAdvertisementClick = {
+            CustomTabsIntent.Builder().build().launchUrl(context, ADVERTISEMENT_URL.toUri())
+        }
     )
 }
 
@@ -87,6 +97,7 @@ fun SearchScreen(
     searchScrapsList: List<SearchPopularAnnouncement>,
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
+    onAdvertisementClick: () -> Unit,
 ) {
 
     val images = listOf(
@@ -128,7 +139,10 @@ fun SearchScreen(
 
         LazyColumn {
             item {
-                ImageSlider(images = images)
+                ImageSlider(
+                    images = images,
+                    onAdvertisementClick = onAdvertisementClick,
+                )
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
 
