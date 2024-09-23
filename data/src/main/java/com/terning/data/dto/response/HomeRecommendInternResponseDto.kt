@@ -12,7 +12,7 @@ data class HomeRecommendInternResponseDto(
 ) {
     @Serializable
     data class Result(
-        @SerialName("intershipAnnouncementId")
+        @SerialName("internshipAnnouncementId")
         val internshipAnnouncementId: Long,
         @SerialName("title")
         val title: String,
