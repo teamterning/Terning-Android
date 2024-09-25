@@ -39,6 +39,7 @@ fun SignInRoute(
 ) {
 
     val systemUiController = rememberSystemUiController()
+
     SideEffect {
         systemUiController.setStatusBarColor(
             color = White
@@ -66,7 +67,8 @@ fun SignInRoute(
                     }
 
                     is SignInSideEffect.SignInFailure ->
-                        signInFailure(context = context,
+                        signInFailure(
+                            context = context,
                             error = sideEffect.error,
                             signInResult = { token, error ->
                                 viewModel.signInResult(token = token, error = error)
@@ -83,9 +85,7 @@ fun SignInRoute(
     SignInScreen(
         onSignInClick = {
             viewModel.startKakaoLogIn(
-                isKakaoAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(
-                    context
-                )
+                isKakaoAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(context)
             )
         }
     )
