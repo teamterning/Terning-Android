@@ -2,6 +2,7 @@ package com.terning.feature.onboarding.signin
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,6 +49,7 @@ fun SignInRoute(
             color = White
         )
     }
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -101,8 +103,10 @@ fun SignInScreen(
             .background(color = White)
             .statusBarsPadding()
             .navigationBarsPadding()
-            .padding(horizontal = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 82.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
     ) {
         Spacer(modifier = Modifier.weight(1f))
         TerningImage(
@@ -112,9 +116,8 @@ fun SignInScreen(
         Spacer(modifier = Modifier.weight(1f))
         KakaoButton(
             title = stringResource(id = R.string.sign_in_kakao_button),
-            onSignInClick = onSignInClick
+            onSignInClick = onSignInClick,
         )
-        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
