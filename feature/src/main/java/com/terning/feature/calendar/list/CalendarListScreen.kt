@@ -175,7 +175,6 @@ private fun CalendarListScreen(
                             )
 
                             CalendarScrapList(
-                                selectedDate = currentDate,
                                 scrapList = scrapMap[dateInKorean].orEmpty(),
                                 onScrapButtonClicked = onClickScrapButton,
                                 onInternshipClicked = onClickInternship,

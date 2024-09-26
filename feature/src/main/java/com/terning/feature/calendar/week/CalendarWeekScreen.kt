@@ -244,7 +244,6 @@ private fun CalendarWeekSuccess(
     selectedDate: LocalDate,
 ) {
     CalendarScrapList(
-        selectedDate = selectedDate,
         scrapList = scrapList,
         onScrapButtonClicked = onScrapButtonClicked,
         onInternshipClicked = onInternshipClicked,

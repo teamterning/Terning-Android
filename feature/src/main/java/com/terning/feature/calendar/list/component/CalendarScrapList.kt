@@ -13,7 +13,6 @@ import java.time.LocalDate
 
 @Composable
 internal fun CalendarScrapList(
-    selectedDate: LocalDate,
     scrapList: List<CalendarScrapDetail>,
     onScrapButtonClicked: (Long) -> Unit,
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
