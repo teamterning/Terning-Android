@@ -187,7 +187,7 @@ private fun CalendarWeekScreen(
                     color = Black,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
+                        .padding(start = 24.dp, top = 16.dp)
                 )
 
                 when (uiState.loadState) {
@@ -203,7 +203,6 @@ private fun CalendarWeekScreen(
                     is UiState.Success -> {
                         CalendarWeekSuccess(
                             scrapList = uiState.loadState.data.toImmutableList(),
-                            selectedDate = selectedDate,
                             onScrapButtonClicked = onClickScrapButton,
                             onInternshipClicked = onClickInternship
                         )
@@ -241,7 +240,6 @@ private fun CalendarWeekSuccess(
     scrapList: List<CalendarScrapDetail>,
     onScrapButtonClicked: (Long) -> Unit,
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
-    selectedDate: LocalDate,
 ) {
     CalendarScrapList(
         scrapList = scrapList,

@@ -27,8 +27,7 @@ fun CalendarScrap(
             onInternshipClicked(scrap)
         },
         cornerRadius = 10.dp,
-        scrapColor = Color(android.graphics.Color.parseColor(scrap.color)),
-        elevation = 1.dp,
+        scrapColor = Color(android.graphics.Color.parseColor(scrap.color))
     ) {
         InternItem(
             scrapId = scrap.internshipAnnouncementId,

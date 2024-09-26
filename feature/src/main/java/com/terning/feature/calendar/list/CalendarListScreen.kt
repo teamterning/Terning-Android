@@ -44,6 +44,7 @@ import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
+import okhttp3.internal.toImmutableList
 import java.time.LocalDate
 
 @Composable
@@ -175,7 +176,7 @@ private fun CalendarListScreen(
                             )
 
                             CalendarScrapList(
-                                scrapList = scrapMap[dateInKorean].orEmpty(),
+                                scrapList = scrapMap[dateInKorean].orEmpty().toImmutableList(),
                                 onScrapButtonClicked = onClickScrapButton,
                                 onInternshipClicked = onClickInternship,
                                 isFromList = true,
