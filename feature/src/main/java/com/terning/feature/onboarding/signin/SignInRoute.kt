@@ -135,7 +135,6 @@ private fun SignInLottie() {
                     ?: 1f) / (lottieComposition?.bounds?.height() ?: 1)
             ),
         composition = lottieComposition,
-        iterations = 1
     )
 }
 
