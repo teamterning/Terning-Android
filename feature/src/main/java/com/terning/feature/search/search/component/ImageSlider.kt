@@ -27,7 +27,12 @@ fun ImageSlider(
     images: List<Int>,
     onAdvertisementClick: () -> Unit,
 ) {
-    val pagerState = rememberPagerState(pageCount = { images.size })
+    val infiniteImages = remember { images + images + images }
+    val pagerState = rememberPagerState(
+        initialPage = images.size,
+        initialPageOffsetFraction = 0f,
+        pageCount = { infiniteImages.size }
+    )
     val autoScroll = remember { mutableStateOf(true) }
 
     LaunchedEffect(autoScroll.value) {
@@ -35,10 +40,18 @@ fun ImageSlider(
             while (true) {
                 delay(2000)
                 if (!pagerState.isScrollInProgress) {
-                    val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+                    val nextPage = pagerState.currentPage + 1
                     pagerState.animateScrollToPage(nextPage)
                 }
             }
+        }
+    }
+
+    LaunchedEffect(pagerState.currentPage) {
+        if (pagerState.currentPage < images.size) {
+            pagerState.scrollToPage(pagerState.currentPage + images.size)
+        } else if (pagerState.currentPage >= 2 * images.size) {
+            pagerState.scrollToPage(pagerState.currentPage - images.size)
         }
     }
 
@@ -54,10 +67,11 @@ fun ImageSlider(
         ) {
             HorizontalPager(
                 state = pagerState,
-                modifier = modifier
+                modifier = modifier,
+                beyondViewportPageCount = infiniteImages.size
             ) { currentPage ->
                 Image(
-                    painter = painterResource(id = images[currentPage]),
+                    painter = painterResource(id = infiniteImages[currentPage % images.size]),
                     contentDescription = null,
                     modifier = modifier
                         .fillMaxWidth()
@@ -68,7 +82,7 @@ fun ImageSlider(
             }
             DotsIndicator(
                 pageCount = images.size,
-                currentPage = pagerState.currentPage
+                currentPage = pagerState.currentPage % images.size
             )
         }
     }
