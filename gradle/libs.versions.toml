@@ -8,7 +8,7 @@ kotlinCompilerExtensionVersion = "1.5.0"
 jvmTarget = "1.8"
 
 ## Android gradle plugin
-androidGradlePlugin = "8.5.0"
+androidGradlePlugin = "8.6.0"
 androidDesugarJdkLibs = "2.0.4"
 
 ## AndroidX
