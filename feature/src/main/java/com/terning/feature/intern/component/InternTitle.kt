@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +40,9 @@ fun InternTitle(
                 .background(
                     color = TerningSub3,
                     shape = RoundedCornerShape(size = 5.dp)
-                ),
+                )
+                .width(70.dp)
+                .height(25.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -46,10 +50,6 @@ fun InternTitle(
                 text = dDay,
                 style = TerningTheme.typography.title3,
                 color = TerningMain,
-                modifier = Modifier.padding(
-                    horizontal = 19.5.dp,
-                    vertical = 1.5.dp
-                )
             )
         }
 
