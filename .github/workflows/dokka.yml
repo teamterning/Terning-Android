@@ -48,7 +48,7 @@ jobs:
         run: ./gradlew dokkaHtml
 
       - name: Deploy Documentation to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           BRANCH: gh-pages
           FOLDER: core/build/dokka/html
