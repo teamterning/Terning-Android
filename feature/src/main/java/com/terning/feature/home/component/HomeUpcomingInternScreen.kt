@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -120,7 +119,6 @@ fun HomeUpcomingInternScreen(
                                     .data(homeUpcomingIntern.companyImage)
                                     .build(),
                                 contentDescription = stringResource(id = R.string.home_company_image),
-                                contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .height(32.dp)
                                     .aspectRatio(1f)

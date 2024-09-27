@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +46,7 @@ fun HomeUpcomingEmptyFilter(
             painter = R.drawable.ic_home_scrap_empty,
             modifier = Modifier
                 .padding(top = 23.dp)
+                .size(44.dp)
         )
         Text(
             text = stringResource(id = R.string.home_upcoming_no_scrap),
