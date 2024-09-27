@@ -70,7 +70,7 @@ fun SearchIntern(
                 .crossfade(true)
                 .build(),
             contentDescription = stringResource(id = R.string.search_image),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillWidth,
             modifier = Modifier
                 .height(76.dp)
                 .wrapContentSize()
