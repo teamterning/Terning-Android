@@ -6,6 +6,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.item.ScrapBox
+import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.extension.customShadow
 import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.calendar.CalendarScrapDetail
 
@@ -17,12 +19,15 @@ fun CalendarScrap(
     modifier: Modifier = Modifier,
 ) {
     ScrapBox(
-        modifier = modifier.noRippleClickable {
+        modifier = modifier.customShadow(
+            color = Grey200,
+            shadowRadius = 5.dp,
+            shadowWidth = 1.dp,
+        ).noRippleClickable {
             onInternshipClicked(scrap)
         },
         cornerRadius = 10.dp,
-        scrapColor = Color(android.graphics.Color.parseColor(scrap.color)),
-        elevation = 1.dp,
+        scrapColor = Color(android.graphics.Color.parseColor(scrap.color))
     ) {
         InternItem(
             scrapId = scrap.internshipAnnouncementId,
