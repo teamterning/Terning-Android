@@ -1,7 +1,6 @@
 package com.terning.feature.mypage.mypage.util
 
 object MyPageDefaults {
-    const val VERSION = "1.1.0"
     const val NOTICE_URL =
         "https://abundant-quiver-13f.notion.site/Android-49b3cc2390ee4dc389e25a5097736944"
     const val OPINION_URL = "https://forms.gle/AaLpVptfg6cATYWa7"

@@ -16,6 +16,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "VERSION_NAME", "\"${libs.versions.versionName.get()}\"")
     }
 
     buildTypes {
@@ -92,8 +94,8 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.process.phoenix)
     implementation(libs.accompanist.systemuicontroller)
-    implementation (libs.androidx.core.splashscreen)
-    implementation (libs.androidx.browser)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.browser)
 
     // Compose Preview
     implementation(libs.compose.ui.tooling)
