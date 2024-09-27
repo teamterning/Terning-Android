@@ -2,8 +2,10 @@ package com.terning.feature.onboarding.signin
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,10 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.toast
@@ -39,6 +44,7 @@ fun SignInRoute(
 ) {
 
     val systemUiController = rememberSystemUiController()
+
     SideEffect {
         systemUiController.setStatusBarColor(
             color = White
@@ -47,6 +53,7 @@ fun SignInRoute(
             color = White
         )
     }
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -66,7 +73,8 @@ fun SignInRoute(
                     }
 
                     is SignInSideEffect.SignInFailure ->
-                        signInFailure(context = context,
+                        signInFailure(
+                            context = context,
                             error = sideEffect.error,
                             signInResult = { token, error ->
                                 viewModel.signInResult(token = token, error = error)
@@ -83,9 +91,7 @@ fun SignInRoute(
     SignInScreen(
         onSignInClick = {
             viewModel.startKakaoLogIn(
-                isKakaoAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(
-                    context
-                )
+                isKakaoAvailable = UserApiClient.instance.isKakaoTalkLoginAvailable(context)
             )
         }
     )
@@ -101,21 +107,35 @@ fun SignInScreen(
             .background(color = White)
             .statusBarsPadding()
             .navigationBarsPadding()
-            .padding(horizontal = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(horizontal = 20.dp)
+            .padding(bottom = 82.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
     ) {
         Spacer(modifier = Modifier.weight(1f))
-        TerningImage(
-            painter = R.drawable.ic_terning_login,
-            modifier = Modifier.fillMaxWidth()
-        )
+        SignInLottie()
         Spacer(modifier = Modifier.weight(1f))
         KakaoButton(
             title = stringResource(id = R.string.sign_in_kakao_button),
-            onSignInClick = onSignInClick
+            onSignInClick = onSignInClick,
         )
-        Spacer(modifier = Modifier.weight(1f))
     }
+}
+
+@Composable
+private fun SignInLottie() {
+    val lottieComposition by rememberLottieComposition(LottieCompositionSpec.Asset("terning_sign_in.json"))
+    LottieAnimation(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(
+                (lottieComposition?.bounds
+                    ?.width()
+                    ?.toFloat()
+                    ?: 1f) / (lottieComposition?.bounds?.height() ?: 1)
+            ),
+        composition = lottieComposition,
+    )
 }
 
 private fun startKakoTalkLogIn(

@@ -1,5 +1,6 @@
 package com.terning.feature.onboarding.signin.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -10,9 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.KakaoYellow
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
@@ -37,9 +38,10 @@ fun KakaoButton(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        TerningImage(
-            painter = R.drawable.ic_signin_kakao,
-            modifier = Modifier.padding(horizontal = 8.dp)
+        Image(
+            painter = painterResource(R.drawable.ic_signin_kakao),
+            modifier = Modifier.padding(horizontal = 8.dp),
+            contentDescription = "kakao login icon"
         )
         Text(
             text = title,

@@ -1,4 +1,4 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -8,7 +8,20 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
 android {
+    signingConfigs {
+        create("release") {
+            keyAlias = properties.getProperty("release.keyAlias")
+            keyPassword = properties.getProperty("release.keyPassword")
+            storeFile = file(properties.getProperty("release.storeFile") + "/terning/terning.jks")
+            storePassword = properties.getProperty("release.storePassword")
+        }
+    }
+
     namespace = "com.terning.point"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
@@ -27,10 +40,10 @@ android {
         buildConfigField(
             "String",
             "NATIVE_APP_KEY",
-            gradleLocalProperties(rootDir, providers).getProperty("native.app.key"),
+            properties.getProperty("native.app.key"),
         )
         manifestPlaceholders["NATIVE_APP_KEY"] =
-            gradleLocalProperties(rootDir, providers).getProperty("nativeAppKey")
+            properties.getProperty("nativeAppKey")
     }
 
     buildTypes {
@@ -38,20 +51,21 @@ android {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                gradleLocalProperties(rootDir, providers).getProperty("test.base.url")
+                properties.getProperty("test.base.url")
             )
         }
         release {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                gradleLocalProperties(rootDir, providers).getProperty("base.url")
+                properties.getProperty("base.url")
             )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
