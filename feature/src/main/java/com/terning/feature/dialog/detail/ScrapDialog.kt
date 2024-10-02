@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -89,6 +90,7 @@ fun ScrapDialog(
                     is ScrapDialogSideEffect.PatchedScrap -> {
                         onClickChangeColor()
                         onDismissRequest(false)
+                        context.toast(R.string.dialog_content_calendar_color_change_complete)
                     }
 
                     is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
