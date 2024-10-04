@@ -17,11 +17,11 @@
     <string name="sign_in_kakao_cancel">로그인을 취소하였습니다</string>
 
     <!--SignUp-->
-    <string name="sign_up_title">반가워요!\n이름을 알려주세요</string>
+    <string name="sign_up_title">반가워요!\n닉네임을 알려주세요</string>
     <string name="sign_up_profile_image">프로필 이미지</string>
     <string name="sign_up_profile_button">프로필 버튼</string>
-    <string name="sign_up_name">이름</string>
-    <string name="sign_up_hint">이름을 입력해 주세요</string>
+    <string name="sign_up_name">닉네임</string>
+    <string name="sign_up_hint">닉네임을 입력해 주세요</string>
     <string name="sign_up_next_button">다음으로</string>
 
     <!--Search-->

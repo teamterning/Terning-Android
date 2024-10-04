@@ -64,9 +64,9 @@
 
     <!--NameTextField-->
     <string name="sign_up_helper">12자리 이내, 문자/숫자 가능, 특수문자/기호 입력불가</string>
-    <string name="sign_up_helper_error">이름에 특수문자는 입력할 수 없어요</string>
-    <string name="sign_up_helper_available">사용 가능한 이름이에요</string>
-    <string name="sign_up_helper_out">이름은 12자리 이내로 설정해 주세요</string>
+    <string name="sign_up_helper_error">닉네임에 특수문자는 입력할 수 없어요</string>
+    <string name="sign_up_helper_available">사용 가능한 닉네임이에요</string>
+    <string name="sign_up_helper_out">닉네임은 12자리 이내로 설정해 주세요</string>
 
     <!--ChangeFilter-->
     <string name="change_filter_top_bar_title">필터링 재설정</string>
