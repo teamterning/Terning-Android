@@ -1,5 +1,6 @@
 package com.terning.feature.mypage.mypage.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.image.TerningImage
@@ -38,8 +40,9 @@ fun MyPageItem(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TerningImage(
-                painter = icon,
+            Image(
+                painter = painterResource(id = icon),
+                contentDescription = "my page image",
                 modifier = modifier.size(28.dp)
             )
             Text(
@@ -51,7 +54,7 @@ fun MyPageItem(
         if (version.isNotEmpty())
             Text(
                 text = version,
-                modifier = modifier.padding(end = 16.dp),
+                modifier = modifier.padding(end = 7.dp),
                 style = TerningTheme.typography.button4,
                 color = Grey350
             )

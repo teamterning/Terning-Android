@@ -2,13 +2,13 @@
 compileSdk = "34"
 minSdk = "28"
 targetSdk = "34"
-versionName = "1.1.0"
-versionCode = "10100"
+versionName = "1.1.2"
+versionCode = "10102"
 kotlinCompilerExtensionVersion = "1.5.0"
 jvmTarget = "1.8"
 
 ## Android gradle plugin
-androidGradlePlugin = "8.6.0"
+androidGradlePlugin = "8.5.0"
 androidDesugarJdkLibs = "2.0.4"
 
 ## AndroidX

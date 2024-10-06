@@ -32,16 +32,19 @@ fun CalendarDay(
     onDateSelected: (LocalDate) -> Unit = {}
 ) {
     val backgroundColor =
-        if (isSelected) TerningMain else if (isToday) Grey200 else Color.Transparent
+        if (isSelected)
+            TerningMain
+        else if (isToday) Grey150
+        else Color.Transparent
+
     val textColor =
-        if (dayData.isOutDate) {
-            Grey150
-        } else {
-            if (isSelected)
-                White
-            else
-                Black
-        }
+        if (dayData.isOutDate)
+            Grey200
+        else if (isSelected)
+            White
+        else
+            Black
+
 
     Box(
         modifier = modifier,

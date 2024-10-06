@@ -17,6 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.Grey100
+import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey375
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningSub3
@@ -38,7 +40,11 @@ fun InternTitle(
         Row(
             modifier = Modifier
                 .background(
-                    color = TerningSub3,
+                    color = if (dDay != "지원마감") {
+                        TerningSub3
+                    } else {
+                        Grey100
+                    },
                     shape = RoundedCornerShape(size = 5.dp)
                 )
                 .width(70.dp)
@@ -49,7 +55,11 @@ fun InternTitle(
             Text(
                 text = dDay,
                 style = TerningTheme.typography.title3,
-                color = TerningMain,
+                color = if (dDay != "지원마감") {
+                    TerningMain
+                } else {
+                    Grey300
+                }
             )
         }
 
