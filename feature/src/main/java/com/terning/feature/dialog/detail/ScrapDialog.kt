@@ -89,6 +89,7 @@ fun ScrapDialog(
                     is ScrapDialogSideEffect.PatchedScrap -> {
                         onClickChangeColor()
                         onDismissRequest(false)
+                        context.toast(R.string.dialog_content_calendar_color_change_complete)
                     }
 
                     is ScrapDialogSideEffect.NavigateToDetail -> onClickNavigateButton(
