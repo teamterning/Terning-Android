@@ -38,16 +38,17 @@ fun ImageSlider(
     LaunchedEffect(autoScroll.value) {
         if (autoScroll.value) {
             while (true) {
-                delay(2000)
+                delay(3000)
                 if (!pagerState.isScrollInProgress) {
                     val nextPage = pagerState.currentPage + 1
-                    pagerState.animateScrollToPage(nextPage)
+                    pagerState.animateScrollToPage(nextPage % infiniteImages.size)
                 }
             }
         }
     }
 
     LaunchedEffect(pagerState.currentPage) {
+        val currentPageMod = pagerState.currentPage % images.size
         if (pagerState.currentPage < images.size) {
             pagerState.scrollToPage(pagerState.currentPage + images.size)
         } else if (pagerState.currentPage >= 2 * images.size) {
