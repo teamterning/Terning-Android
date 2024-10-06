@@ -254,7 +254,7 @@ fun SearchProcessScreen(
                         }
                     }
 
-                    if (state.existSearchResults) {
+                    if (internSearchResultData.isNotEmpty()) {
                         LazyColumn(
                             contentPadding = PaddingValues(
                                 top = 12.dp,
@@ -319,6 +319,7 @@ fun SearchProcessScreen(
                             color = Grey400,
                         )
                     }
+
                 }
             }
         }
