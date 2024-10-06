@@ -27,11 +27,9 @@ fun ImageSlider(
     images: List<Int>,
     onAdvertisementClick: () -> Unit,
 ) {
-    val infiniteImages = remember { images + images + images }
     val pagerState = rememberPagerState(
-        initialPage = images.size,
-        initialPageOffsetFraction = 0f,
-        pageCount = { infiniteImages.size }
+        initialPage = 0,
+        pageCount = { Int.MAX_VALUE }
     )
     val autoScroll = remember { mutableStateOf(true) }
 
@@ -41,18 +39,9 @@ fun ImageSlider(
                 delay(3000)
                 if (!pagerState.isScrollInProgress) {
                     val nextPage = pagerState.currentPage + 1
-                    pagerState.animateScrollToPage(nextPage % infiniteImages.size)
+                    pagerState.animateScrollToPage(nextPage)
                 }
             }
-        }
-    }
-
-    LaunchedEffect(pagerState.currentPage) {
-        val currentPageMod = pagerState.currentPage % images.size
-        if (pagerState.currentPage < images.size) {
-            pagerState.scrollToPage(pagerState.currentPage + images.size)
-        } else if (pagerState.currentPage >= 2 * images.size) {
-            pagerState.scrollToPage(pagerState.currentPage - images.size)
         }
     }
 
@@ -69,10 +58,11 @@ fun ImageSlider(
             HorizontalPager(
                 state = pagerState,
                 modifier = modifier,
-                beyondViewportPageCount = infiniteImages.size
+                beyondViewportPageCount = 1
             ) { currentPage ->
+                val pageIndex = currentPage % images.size
                 Image(
-                    painter = painterResource(id = infiniteImages[currentPage % images.size]),
+                    painter = painterResource(id = images[pageIndex]),
                     contentDescription = null,
                     modifier = modifier
                         .fillMaxWidth()
