@@ -61,7 +61,6 @@ fun InternCompanyInfo(
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(CircleShape),
             )
         }
         Column(
