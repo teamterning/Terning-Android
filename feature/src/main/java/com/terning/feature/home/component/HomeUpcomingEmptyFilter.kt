@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.image.TerningImage
-import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -31,9 +31,9 @@ fun HomeUpcomingEmptyFilter(
             .fillMaxWidth()
             .padding(horizontal = 24.dp)
             .customShadow(
-                color = Grey200,
+                color = Grey150,
                 shadowRadius = 5.dp,
-                shadowWidth = 2.dp
+                shadowWidth = 1.dp
             )
             .background(
                 color = White,
