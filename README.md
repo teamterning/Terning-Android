@@ -33,7 +33,7 @@
 <br>
 
 ## DEPENDENCY GRAPH
-  <img width="300px" src="https://github.com/user-attachments/assets/4c1bc9bc-532c-4b2d-b77e-99640b796335"/>
+  <img width="300px" src="https://github.com/user-attachments/assets/9f730e35-2ecf-4d1f-a170-e08a4836fe8a"/>
 
 
 ## MODULE & PACKAGE CONVENTION
