@@ -35,7 +35,6 @@ import coil.request.ImageRequest
 import com.terning.core.designsystem.component.item.ScrapBox
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningSub3
@@ -72,7 +71,7 @@ fun HomeUpcomingInternScreen(
                 modifier = Modifier
                     .width(246.dp)
                     .customShadow(
-                        color = Grey200,
+                        color = Grey150,
                         shadowRadius = 5.dp,
                         shadowWidth = 1.dp
                     ),
