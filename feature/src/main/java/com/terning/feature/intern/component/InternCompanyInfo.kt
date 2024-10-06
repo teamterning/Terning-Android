@@ -51,6 +51,7 @@ fun InternCompanyInfo(
                     color = Grey150,
                     shape = RoundedCornerShape(size = 20.dp)
                 )
+                .clip(RoundedCornerShape(size = 20.dp))
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
