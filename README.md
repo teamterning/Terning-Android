@@ -17,6 +17,10 @@
 
 <br> 
 
+## DOWNLOAD
+<a href="https://play.google.com/store/apps/details?id=com.terning.point"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="100"></a>
+
+
 ## CONTRIBUTORS
 |                                  👑이유빈<br/>([@leeeyubin](https://github.com/leeeyubin))                                    |                                      이석준<br/>([@boiledEgg-s](https://github.com/boiledEgg-s))                                       |                                  김아린<br/>([@arinming](https://github.com/arinming))                                   |                                    박효빈<br/>([@Hyobeen-Park](https://github.com/Hyobeen-Park))                                     |
 |:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
@@ -28,7 +32,12 @@
 
 <br>
 
+## DEPENDENCY GRAPH
+  <img width="300px" src="https://github.com/user-attachments/assets/4c1bc9bc-532c-4b2d-b77e-99640b796335"/>
+
+
 ## MODULE & PACKAGE CONVENTION
+
 ```
 
 🗃️app
@@ -41,6 +50,7 @@
  ┣ 📂extension
  ┣ 📂navigation
  ┣ 📂state
+ ┣ 📂type
  ┗ 📂util
 
 🗃️data
@@ -50,19 +60,19 @@
  ┃ ┣ 📂response
  ┃ ┣ 📂request
  ┣ 📂local
+ ┣ 📂mapper
  ┣ 📂repositoryImpl
  ┗ 📂service
 
 🗃️domain
  ┣ 📂entity
- ┃ ┣ 📂response
- ┃ ┣ 📂request
  ┗ 📂repository
 
 🗃️feature
  ┗ 📂기능 별 패키징
 
 ```
+
 <br>
 
 ## TECH STACK
@@ -77,6 +87,21 @@
 | Third Party Library | Coil, Timber, Kakao SDK, Lottie  |
 | Other Tools | Discode, Notion, Figma  |\
 </br>
+
+## SCREENSHOTS
+|       뷰       |                                                              1                                                              |                                                              2                                                              |                                                              3                                                                                        |
+|:-------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
+| 온보딩 <br> 필터링 설정 | <img width="200px" src="https://github.com/user-attachments/assets/21b01866-318f-44e9-bc36-84413f2785f9"/> | <img width="200px" src="https://github.com/user-attachments/assets/e246f642-f914-43cc-a7b9-63efbafac71c"/> | <img width="200px" src="https://github.com/user-attachments/assets/5480ce13-3440-4887-a103-1f92321c3e32"/> |                                                                                                                                 |                                                                                                                             |
+| 홈 <br> 필터링 재설정 | <img width="200px" src="https://github.com/user-attachments/assets/92d60331-59f6-4259-937a-75ee7cf4bdf2"/> | <img width="200px" src="https://github.com/user-attachments/assets/e3776b7c-1ea9-4e85-9243-174c8e542ec0"/> | <img width="200px" src="https://github.com/user-attachments/assets/61976dea-b36f-44bd-9690-3b9b2fedc1ef"/> |
+| 캘린더 월간 <br> 캘린더 주간  | <img width="200px" src="https://github.com/user-attachments/assets/16558280-aeec-45cc-ad08-b9ded7839ca3"/> | <img width="200px" src="https://github.com/user-attachments/assets/707d4ff4-6091-4baa-8587-ce6086bbb9c9"/> | <img width="200px" src="https://github.com/user-attachments/assets/30c6e248-5613-4b6e-9fa9-39ca0e52cfe4"/> | 
+|   탐색 <br> 공고 상세 페이지   | <img width="200px" src="https://github.com/user-attachments/assets/0ee60e84-446d-4d3f-8d8e-4d6819116b89"/> | <img width="200px" src="https://github.com/user-attachments/assets/7ba40730-bb8a-4bee-a0d3-bc475d7875df"/> | <img width="200px" src="https://github.com/user-attachments/assets/65ce3b74-3d9f-4857-bc47-0881105efdf6"/> | 
+|   마이페이지 <br> 프로필 수정   | <img width="200px" src="https://github.com/user-attachments/assets/66009141-6d48-495d-9242-f891c2d66b91"/> | <img width="200px" src="https://github.com/user-attachments/assets/8ffd5fb8-6e3b-4642-ae0c-8aa21931afbc"/> | <img width="200px" src="https://github.com/user-attachments/assets/25e01ee3-6bc1-4f21-890c-1d31c778c2e8"/> | 
+
+<br>
+
+## DESIGN SYSTEM
+🔗 [TERNING DESIGN SYSTEM](https://teamterning.github.io/Terning-Android/index.html)
+
 
 ## KANBAN BOARD
 🔗 [TERNING PROJECT](https://github.com/orgs/teamterning/projects/1)
