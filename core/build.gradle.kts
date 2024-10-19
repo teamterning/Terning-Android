@@ -1,7 +1,13 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dokka)
+}
+
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
 }
 
 android {
@@ -16,18 +22,25 @@ android {
     }
 
     buildTypes {
+        debug {
+            val devAmplitude = properties["amplitudeDevKey"] as? String ?: ""
+            buildConfigField("String", "AMPLITUDE_KEY", devAmplitude)
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            val prodAmplitude = properties["amplitudeProdKey"] as? String ?: ""
+            buildConfigField("String", "AMPLITUDE_KEY", prodAmplitude)
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
@@ -80,4 +93,6 @@ dependencies {
     implementation(libs.compose.coil)
     implementation(libs.okhttp)
     implementation(libs.lottie)
+    implementation(libs.amplitude)
+    implementation(libs.timber)
 }

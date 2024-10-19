@@ -1,4 +1,6 @@
 package com.terning.core.analytics
 
-class EventType {
+enum class EventType(val prefix: String) {
+    VIEW("view"),
+    CLICK("click")
 }
