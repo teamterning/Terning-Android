@@ -91,6 +91,9 @@ browser = "1.4.0"
 ## dokka
 dokka = "1.9.0"
 
+## amplitude
+amplitude = "1.17.3"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
@@ -158,17 +161,16 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ve
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCoreVersion" }
-
 compose-coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "coil"}
+
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 ossLicense = {group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossVersion"}
 lottie = {group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion"}
-
 kakao-user = {group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoVersion"}
-
 process-phoenix = {group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix"}
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+amplitude = { group = "com.amplitude", name = "analytics-android", version.ref="amplitude" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
