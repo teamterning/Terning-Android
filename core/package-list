@@ -20,10 +20,6 @@ $dokka.location:com.terning.core.designsystem.component.button//RoundButtonPrevi
 $dokka.location:com.terning.core.designsystem.component.button//SortingButton/#androidx.compose.ui.Modifier#kotlin.Int#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/core/com.terning.core.designsystem.component.button/-sorting-button.html
 $dokka.location:com.terning.core.designsystem.component.button//TerningBasicButton/#androidx.compose.ui.graphics.Shape#androidx.compose.ui.text.TextStyle#androidx.compose.ui.unit.Dp#kotlin.Int#kotlin.Function0[kotlin.Unit]#androidx.compose.ui.Modifier#kotlin.Boolean/PointingToDeclaration/core/com.terning.core.designsystem.component.button/-terning-basic-button.html
 $dokka.location:com.terning.core.designsystem.component.button//TerningBasicButtonPreview/#/PointingToDeclaration/core/com.terning.core.designsystem.component.button/-terning-basic-button-preview.html
-$dokka.location:com.terning.core.designsystem.component.datepicker////PointingToDeclaration/core/com.terning.core.designsystem.component.datepicker/index.html
-$dokka.location:com.terning.core.designsystem.component.datepicker//DateItemsPicker/#kotlin.collections.List[kotlin.String]#kotlin.Int#kotlin.Function1[kotlin.String,kotlin.Unit]#androidx.compose.ui.Modifier#kotlin.Boolean/PointingToDeclaration/core/com.terning.core.designsystem.component.datepicker/-date-items-picker.html
-$dokka.location:com.terning.core.designsystem.component.datepicker//DatePickerUI/#kotlin.Int#kotlin.Int#kotlin.Function1[kotlin.Int,kotlin.Unit]#kotlin.Function1[kotlin.Int,kotlin.Unit]/PointingToDeclaration/core/com.terning.core.designsystem.component.datepicker/-date-picker-u-i.html
-$dokka.location:com.terning.core.designsystem.component.datepicker//DateSelectionSection/#kotlin.Int#kotlin.Int#kotlin.Function1[kotlin.String,kotlin.Unit]#kotlin.Function1[kotlin.String,kotlin.Unit]/PointingToDeclaration/core/com.terning.core.designsystem.component.datepicker/-date-selection-section.html
 $dokka.location:com.terning.core.designsystem.component.dialog////PointingToDeclaration/core/com.terning.core.designsystem.component.dialog/index.html
 $dokka.location:com.terning.core.designsystem.component.dialog//TerningBasicDialog/#kotlin.Function0[kotlin.Unit]#androidx.compose.ui.window.DialogProperties#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/core/com.terning.core.designsystem.component.dialog/-terning-basic-dialog.html
 $dokka.location:com.terning.core.designsystem.component.dialog//TerningBasicDialogPreview/#/PointingToDeclaration/core/com.terning.core.designsystem.component.dialog/-terning-basic-dialog-preview.html
@@ -278,7 +274,6 @@ $dokka.location:com.terning.core.util/NoRippleTheme/defaultColor/#/PointingToDec
 $dokka.location:com.terning.core.util/NoRippleTheme/rippleAlpha/#/PointingToDeclaration/core/com.terning.core.util/-no-ripple-theme/ripple-alpha.html
 com.terning.core.designsystem.component.bottomsheet
 com.terning.core.designsystem.component.button
-com.terning.core.designsystem.component.datepicker
 com.terning.core.designsystem.component.dialog
 com.terning.core.designsystem.component.image
 com.terning.core.designsystem.component.item
