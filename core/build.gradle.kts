@@ -77,7 +77,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //ThirdPartyDependencies
-    implementation(libs.compose.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.okhttp)
     implementation(libs.lottie)
 }
