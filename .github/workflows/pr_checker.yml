@@ -48,6 +48,8 @@ jobs:
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
           RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
           RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          AMPLITUDE_DEV_KEY: ${{ secrets.AMPLITUDE_DEV_KEY }}
+          AMPLITUDE_PROD_KEY: ${{ secrets.AMPLITUDE_PROD_KEY }}
         run: |
           echo base.url=\"$BASE_URL\" >> local.properties
           echo test.base.url=\"$TEST_BASE_URL\" >> local.properties
@@ -57,3 +59,5 @@ jobs:
           echo release.keyPassword=\"$RELEASE_KEY_PASSWORD\" >> local.properties
           echo release.storeFile=\"$RELEASE_STORE_FILE\" >> local.properties
           echo release.storePassword=\"$RELEASE_STORE_PASSWORD\" >> local.properties
+          echo amplitudeDevKey=\"$AMPLITUDE_DEV_KEY\" >> local.properties
+          echo amplitudeProdKey=\"$AMPLITUDE_PROD_KEY\" >> local.properties
