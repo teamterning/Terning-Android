@@ -59,7 +59,10 @@ fun HomeFilteringScreen(
                 )
                 .align(Alignment.CenterVertically)
                 .noRippleClickable {
-                    amplitudeTracker.track(type = EventType.CLICK, name = "home_filtering")
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "home_filtering"
+                    )
                     onChangeFilterClick()
                 },
         ) {
