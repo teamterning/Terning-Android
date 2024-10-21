@@ -118,6 +118,10 @@ fun MyPageRoute(
         MyPageLogoutBottomSheet(
             onDismiss = { viewModel.fetchShowLogoutBottomSheet(false) },
             onLogoutClick = {
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "mypage_logout"
+                )
                 viewModel.logoutKakao()
             },
         )
@@ -127,6 +131,10 @@ fun MyPageRoute(
         MyPageQuitBottomSheet(
             onDismiss = { viewModel.fetchShowQuitBottomSheet(false) },
             onQuitClick = {
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "mypage_delete_account"
+                )
                 viewModel.quitKakao()
             }
         )
