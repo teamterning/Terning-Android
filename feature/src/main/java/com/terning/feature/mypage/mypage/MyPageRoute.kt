@@ -34,6 +34,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
@@ -68,6 +70,8 @@ fun MyPageRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val systemUiController = rememberSystemUiController()
+
+    val amplitudeTracker = LocalTracker.current
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -135,7 +139,13 @@ fun MyPageRoute(
                 onEditClick = viewModel::navigateToProfileEdit,
                 onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
                 onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
-                onNoticeClick = { viewModel.fetchShowNotice(true) },
+                onNoticeClick = {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "mypage_notice"
+                    )
+                    viewModel.fetchShowNotice(true)
+                },
                 onOpinionClick = { viewModel.fetchShowOpinion(true) },
                 onServiceClick = { viewModel.fetchShowService(true) },
                 onPersonalClick = { viewModel.fetchShowPersonal(true) },
