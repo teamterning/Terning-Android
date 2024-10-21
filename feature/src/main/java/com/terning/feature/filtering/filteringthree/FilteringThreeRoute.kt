@@ -23,6 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.Grey300
@@ -48,6 +50,8 @@ fun FilteringThreeRoute(
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         with(viewModel) {
@@ -78,7 +82,19 @@ fun FilteringThreeRoute(
         navigateUp = viewModel::navigateUp,
         chosenYear = Calendar.getInstance().currentYear,
         chosenMonth = Calendar.getInstance().currentMonth,
-        onNextClick = viewModel::postFilteringWithServer,
+        onNextClick = {
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "onboarding_completed",
+                properties = mapOf(
+                    "grade" to state.grade,
+                    "workingPeriod" to state.workingPeriod,
+                    "startYear" to state.startYear,
+                    "startMonth" to state.startMonth
+                )
+            )
+            viewModel.postFilteringWithServer()
+        },
         onYearChosen = viewModel::updateStartYear,
         onMonthChosen = viewModel::updateStartMonth
     )
