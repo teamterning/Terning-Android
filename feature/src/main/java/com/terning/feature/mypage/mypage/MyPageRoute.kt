@@ -146,7 +146,13 @@ fun MyPageRoute(
                     )
                     viewModel.fetchShowNotice(true)
                 },
-                onOpinionClick = { viewModel.fetchShowOpinion(true) },
+                onOpinionClick = {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "mypage_comment"
+                    )
+                    viewModel.fetchShowOpinion(true)
+                },
                 onServiceClick = { viewModel.fetchShowService(true) },
                 onPersonalClick = { viewModel.fetchShowPersonal(true) },
                 name = state.name,
