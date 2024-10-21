@@ -136,7 +136,13 @@ fun MyPageRoute(
         is UiState.Success -> {
             MyPageScreen(
                 paddingValues = paddingValues,
-                onEditClick = viewModel::navigateToProfileEdit,
+                onEditClick = {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "mypage_modify_profile"
+                    )
+                    viewModel.navigateToProfileEdit()
+                },
                 onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
                 onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
                 onNoticeClick = {
