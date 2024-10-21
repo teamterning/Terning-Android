@@ -1,6 +1,7 @@
 package com.terning.core.analytics
 
 enum class EventType(val prefix: String) {
-    VIEW("view"),
-    CLICK("click")
+    SCREEN("screen"),
+    CLICK("click"),
+    SCROLL("scroll")
 }

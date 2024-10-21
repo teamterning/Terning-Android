@@ -22,6 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
@@ -46,6 +48,8 @@ fun HomeFilteringScreen(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        val amplitudeTracker = LocalTracker.current
+
         Row(
             modifier = Modifier
                 .border(
@@ -54,7 +58,10 @@ fun HomeFilteringScreen(
                     shape = RoundedCornerShape(5.dp)
                 )
                 .align(Alignment.CenterVertically)
-                .noRippleClickable(onChangeFilterClick),
+                .noRippleClickable {
+                    amplitudeTracker.track(type = EventType.CLICK, name = "home_filtering")
+                    onChangeFilterClick()
+                },
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_home_filtering_28),
