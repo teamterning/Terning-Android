@@ -1,5 +1,17 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:com.terning.core.analytics////PointingToDeclaration/core/com.terning.core.analytics/index.html
+$dokka.location:com.terning.core.analytics//LocalTracker/#/PointingToDeclaration/core/com.terning.core.analytics/-local-tracker.html
+$dokka.location:com.terning.core.analytics/AmplitudeTracker///PointingToDeclaration/core/com.terning.core.analytics/-amplitude-tracker/index.html
+$dokka.location:com.terning.core.analytics/AmplitudeTracker/AmplitudeTracker/#android.content.Context/PointingToDeclaration/core/com.terning.core.analytics/-amplitude-tracker/-amplitude-tracker.html
+$dokka.location:com.terning.core.analytics/AmplitudeTracker/track/#com.terning.core.analytics.EventType#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/core/com.terning.core.analytics/-amplitude-tracker/track.html
+$dokka.location:com.terning.core.analytics/EventType.CLICK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.terning.core.analytics/-event-type/-c-l-i-c-k/index.html
+$dokka.location:com.terning.core.analytics/EventType.VIEW///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.terning.core.analytics/-event-type/-v-i-e-w/index.html
+$dokka.location:com.terning.core.analytics/EventType///PointingToDeclaration/core/com.terning.core.analytics/-event-type/index.html
+$dokka.location:com.terning.core.analytics/EventType/entries/#/PointingToDeclaration/core/com.terning.core.analytics/-event-type/entries.html
+$dokka.location:com.terning.core.analytics/EventType/prefix/#/PointingToDeclaration/core/com.terning.core.analytics/-event-type/prefix.html
+$dokka.location:com.terning.core.analytics/EventType/valueOf/#kotlin.String/PointingToDeclaration/core/com.terning.core.analytics/-event-type/value-of.html
+$dokka.location:com.terning.core.analytics/EventType/values/#/PointingToDeclaration/core/com.terning.core.analytics/-event-type/values.html
 $dokka.location:com.terning.core.designsystem.component.bottomsheet////PointingToDeclaration/core/com.terning.core.designsystem.component.bottomsheet/index.html
 $dokka.location:com.terning.core.designsystem.component.bottomsheet//MyPageLogoutBottomSheet/#androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/core/com.terning.core.designsystem.component.bottomsheet/-my-page-logout-bottom-sheet.html
 $dokka.location:com.terning.core.designsystem.component.bottomsheet//MyPageQuitBottomSheet/#androidx.compose.ui.Modifier#kotlin.Function0[kotlin.Unit]#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/core/com.terning.core.designsystem.component.bottomsheet/-my-page-quit-bottom-sheet.html
@@ -272,6 +284,7 @@ $dokka.location:com.terning.core.util/NoRippleInteractionSource/tryEmit/#android
 $dokka.location:com.terning.core.util/NoRippleTheme///PointingToDeclaration/core/com.terning.core.util/-no-ripple-theme/index.html
 $dokka.location:com.terning.core.util/NoRippleTheme/defaultColor/#/PointingToDeclaration/core/com.terning.core.util/-no-ripple-theme/default-color.html
 $dokka.location:com.terning.core.util/NoRippleTheme/rippleAlpha/#/PointingToDeclaration/core/com.terning.core.util/-no-ripple-theme/ripple-alpha.html
+com.terning.core.analytics
 com.terning.core.designsystem.component.bottomsheet
 com.terning.core.designsystem.component.button
 com.terning.core.designsystem.component.dialog
