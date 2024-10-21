@@ -65,7 +65,6 @@ fun HomeFilteringBottomSheet(
         content = {
             Column(
                 modifier = modifier
-                    .padding(horizontal = 24.dp)
                     .fillMaxWidth(),
             ) {
                 Text(
@@ -73,18 +72,22 @@ fun HomeFilteringBottomSheet(
                     style = TerningTheme.typography.title2,
                     color = Black,
                     modifier = Modifier
+                        .padding(horizontal = 24.dp)
                         .padding(bottom = 16.dp),
                 )
 
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = Grey200,
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp),
                 )
 
                 ChangeFilteringTitleText(
                     text = stringResource(id = R.string.change_filter_grade_title),
                     modifier = Modifier
                         .padding(top = 18.dp, bottom = 12.dp)
+                        .padding(horizontal = 24.dp)
                 )
 
                 ChangeFilteringRadioGroup(
@@ -97,13 +100,16 @@ fun HomeFilteringBottomSheet(
                     ),
                     onButtonClick = { index ->
                         currentGrade = Grade.entries[index]
-                    }
+                    },
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp),
                 )
 
                 ChangeFilteringTitleText(
                     text = stringResource(id = R.string.change_filter_period_title),
                     modifier = Modifier
                         .padding(top = 32.dp, bottom = 12.dp)
+                        .padding(horizontal = 24.dp)
                 )
 
                 ChangeFilteringRadioGroup(
@@ -115,13 +121,16 @@ fun HomeFilteringBottomSheet(
                     ),
                     onButtonClick = { index ->
                         currentPeriod = WorkingPeriod.entries[index]
-                    }
+                    },
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp),
                 )
 
                 ChangeFilteringTitleText(
                     text = stringResource(id = R.string.change_filter_start_work_title),
                     modifier = Modifier
                         .padding(top = 32.dp, bottom = 49.dp)
+                        .padding(horizontal = 24.dp)
                 )
 
                 YearMonthPicker(
@@ -137,6 +146,7 @@ fun HomeFilteringBottomSheet(
                     text = R.string.change_filter_save,
                     cornerRadius = 10.dp,
                     modifier = Modifier
+                        .padding(horizontal = 24.dp)
                         .padding(top = 51.dp),
                     onButtonClick = {
                         currentGrade?.let { grade ->
