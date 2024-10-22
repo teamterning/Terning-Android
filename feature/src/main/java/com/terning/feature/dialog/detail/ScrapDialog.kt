@@ -36,6 +36,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.theme.Grey100
@@ -73,6 +75,8 @@ fun ScrapDialog(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val amplitudeTracker = LocalTracker.current
+
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -123,20 +127,28 @@ fun ScrapDialog(
             isColorChanged = uiState.isColorChanged,
             onClickColorButton = viewModel::changeSelectedColor,
             onClickColorChangeButton = {
-                if (uiState.isColorChanged)
+                if (uiState.isColorChanged) {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "modal_color"
+                    )
                     viewModel.patchScrap(
                         scrapId = internshipAnnouncementId,
                         color = uiState.selectedColorType
                     )
+                }
             },
             onClickNavigateButton = viewModel::navigateToDetail,
             onClickScrapButton = {
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "modal_calender"
+                )
                 viewModel.postScrap(internshipAnnouncementId, uiState.selectedColorType)
             }
         )
     }
 }
-
 
 @Composable
 private fun ScrapDialogScreen(
