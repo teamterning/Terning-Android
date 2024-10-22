@@ -91,6 +91,9 @@ browser = "1.4.0"
 ## dokka
 dokka = "1.9.0"
 
+## amplitude
+amplitude = "1.17.3"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
@@ -170,6 +173,7 @@ kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoVe
 
 process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix" }
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+amplitude = { group = "com.amplitude", name = "analytics-android", version.ref="amplitude" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

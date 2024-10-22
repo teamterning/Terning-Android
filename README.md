@@ -44,6 +44,7 @@
  ┗ 📂di
 
 🗃️core
+ ┣ 📂analytics
  ┣ 📂designsystem
  ┃ ┣ 📂component
  ┃ ┣ 📂theme
