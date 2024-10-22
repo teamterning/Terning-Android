@@ -15,6 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
@@ -27,7 +29,6 @@ import com.terning.core.extension.noRippleClickable
 import com.terning.domain.entity.intern.InternInfo
 import com.terning.feature.R
 import com.terning.feature.intern.InternViewModel
-import com.terning.feature.intern.model.InternUiState
 
 @Composable
 fun InternBottomBar(
@@ -36,6 +37,8 @@ fun InternBottomBar(
     onScrapClick: (InternInfo) -> Unit,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
+    val amplitudeTracker = LocalTracker.current
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -92,6 +95,10 @@ fun InternBottomBar(
                     cornerRadius = 10.dp,
                     text = R.string.intern_move_to_site,
                     onButtonClick = {
+                        amplitudeTracker.track(
+                            type = EventType.CLICK,
+                            name = "detail_url"
+                        )
                         viewModel.updateShowWeb(true)
                     },
                 )
