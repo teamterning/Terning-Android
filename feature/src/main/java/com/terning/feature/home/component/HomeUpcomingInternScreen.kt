@@ -32,6 +32,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.item.ScrapBox
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
@@ -58,6 +60,8 @@ fun HomeUpcomingInternScreen(
         mutableStateOf(null)
     }
 
+    val amplitudeTracker = LocalTracker.current
+
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(horizontal = 24.dp),
@@ -82,6 +86,10 @@ fun HomeUpcomingInternScreen(
                         modifier = Modifier
                             .fillMaxHeight()
                             .noRippleClickable {
+                                amplitudeTracker.track(
+                                    type = EventType.CLICK,
+                                    name = "remind_intern_card"
+                                )
                                 selectedInternItem = homeUpcomingIntern
                                 updateUpcomingDialogVisibility(true)
                             },

@@ -24,6 +24,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey200
@@ -54,6 +56,7 @@ fun InternRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val internState by viewModel.internUiState.collectAsStateWithLifecycle(lifecycleOwner)
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)
@@ -94,6 +97,10 @@ fun InternRoute(
                     viewModel.updateScrapCancelDialogVisibility(true)
                 },
                 onClickScrapButton = {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "detail_scrap"
+                    )
                     viewModel.updateInternDialogVisibility(true)
                 }
             )

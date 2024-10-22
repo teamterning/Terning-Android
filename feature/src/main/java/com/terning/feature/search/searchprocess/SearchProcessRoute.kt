@@ -33,6 +33,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItemWithShadow
@@ -168,6 +170,8 @@ fun SearchProcessScreen(
     val focusManager = LocalFocusManager.current
     val currentSortBy = remember { mutableIntStateOf(state.currentSortBy) }
 
+    val amplitudeTracker = LocalTracker.current
+
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
@@ -267,6 +271,10 @@ fun SearchProcessScreen(
                                     intern = internSearchResultData[index],
                                     navigateToIntern = navigateToIntern,
                                     onScrapButtonClicked = {
+                                        amplitudeTracker.track(
+                                            type = EventType.CLICK,
+                                            name = "quest_scrap"
+                                        )
                                         with(internSearchResultData[index]) {
                                             onScrapButtonClicked(this)
                                         }

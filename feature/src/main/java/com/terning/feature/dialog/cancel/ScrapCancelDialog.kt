@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.TerningLottieAnimation
@@ -37,13 +39,16 @@ fun ScrapCancelDialog(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val amplitudeTracker = LocalTracker.current
+
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect{ sideEffect ->
-                when(sideEffect){
+            .collect { sideEffect ->
+                when (sideEffect) {
                     is ScrapCancelSideEffect.DismissDialog -> {
                         onDismissRequest(true)
                     }
+
                     is ScrapCancelSideEffect.ShowToast -> {
                         context.toast(sideEffect.message)
                     }
@@ -53,7 +58,13 @@ fun ScrapCancelDialog(
 
     ScrapCancelScreen(
         onDismissRequest = { onDismissRequest(false) },
-        onClickScrapCancel = { viewModel.deleteScrap(internshipAnnouncementId) }
+        onClickScrapCancel = {
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "detail_cancel_scrap"
+            )
+            viewModel.deleteScrap(internshipAnnouncementId)
+        }
     )
 
 }
@@ -66,48 +77,48 @@ private fun ScrapCancelScreen(
     TerningBasicDialog(
         onDismissRequest = onDismissRequest
     ) {
-            Column(
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(top = 60.dp)
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TerningLottieAnimation(
+                jsonString = "terning_scrap_cancel.json",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 60.dp)
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                TerningLottieAnimation(
-                    jsonString = "terning_scrap_cancel.json",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(203.dp)
-                )
+                    .height(203.dp)
+            )
 
-                Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-                Text(
-                    text = stringResource(id = R.string.dialog_content_scrap_cancel_main_title),
-                    textAlign = TextAlign.Center,
-                    style = TerningTheme.typography.title4,
-                    color = Grey500,
-                )
+            Text(
+                text = stringResource(id = R.string.dialog_content_scrap_cancel_main_title),
+                textAlign = TextAlign.Center,
+                style = TerningTheme.typography.title4,
+                color = Grey500,
+            )
 
-                Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
-                Text(
-                    text = stringResource(id = R.string.dialog_content_scrap_cancel_sub_title),
-                    style = TerningTheme.typography.body5,
-                    color = Grey350
-                )
-                Spacer(modifier = Modifier.height(40.dp))
+            Text(
+                text = stringResource(id = R.string.dialog_content_scrap_cancel_sub_title),
+                style = TerningTheme.typography.body5,
+                color = Grey350
+            )
+            Spacer(modifier = Modifier.height(40.dp))
 
-                RoundButton(
-                    style = TerningTheme.typography.button3,
-                    paddingVertical = 12.dp,
-                    cornerRadius = 8.dp,
-                    text = R.string.dialog_scrap_cancel_button,
-                    onButtonClick = onClickScrapCancel
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+            RoundButton(
+                style = TerningTheme.typography.button3,
+                paddingVertical = 12.dp,
+                cornerRadius = 8.dp,
+                text = R.string.dialog_scrap_cancel_button,
+                onButtonClick = onClickScrapCancel
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
 
     }
 }

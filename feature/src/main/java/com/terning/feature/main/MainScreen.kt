@@ -34,6 +34,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.snackbar.TerningBasicSnackBar
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
@@ -55,6 +57,7 @@ import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
 import kotlinx.coroutines.launch
+import org.openjdk.tools.javac.Main
 
 @Composable
 fun MainScreen(
@@ -66,6 +69,8 @@ fun MainScreen(
 
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+
+    val amplitudeTracker = LocalTracker.current
 
     BackHandler(enabled = backPressedState) {
         if (System.currentTimeMillis() - backPressedTime <= 3000) {
@@ -101,7 +106,18 @@ fun MainScreen(
                 isVisible = navigator.showBottomBar(),
                 tabs = MainTab.entries.toList(),
                 currentTab = navigator.currentTab,
-                onTabSelected = navigator::navigate
+                onTabSelected = { navigation ->
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = when (navigation) {
+                            MainTab.HOME -> "navigation_home"
+                            MainTab.CALENDAR -> "navigation_calendar"
+                            MainTab.SEARCH -> "navigation_search"
+                            MainTab.MY_PAGE -> "navigation_mypage"
+                        }
+                    )
+                    navigator.navigate(navigation)
+                }
             )
         },
     ) { paddingValues ->

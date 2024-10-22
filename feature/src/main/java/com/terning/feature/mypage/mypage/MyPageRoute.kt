@@ -34,6 +34,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
@@ -68,6 +70,8 @@ fun MyPageRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val systemUiController = rememberSystemUiController()
+
+    val amplitudeTracker = LocalTracker.current
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -114,6 +118,10 @@ fun MyPageRoute(
         MyPageLogoutBottomSheet(
             onDismiss = { viewModel.fetchShowLogoutBottomSheet(false) },
             onLogoutClick = {
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "mypage_logout"
+                )
                 viewModel.logoutKakao()
             },
         )
@@ -123,6 +131,10 @@ fun MyPageRoute(
         MyPageQuitBottomSheet(
             onDismiss = { viewModel.fetchShowQuitBottomSheet(false) },
             onQuitClick = {
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "mypage_delete_account"
+                )
                 viewModel.quitKakao()
             }
         )
@@ -132,11 +144,29 @@ fun MyPageRoute(
         is UiState.Success -> {
             MyPageScreen(
                 paddingValues = paddingValues,
-                onEditClick = viewModel::navigateToProfileEdit,
+                onEditClick = {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "mypage_modify_profile"
+                    )
+                    viewModel.navigateToProfileEdit()
+                },
                 onLogoutClick = { viewModel.fetchShowLogoutBottomSheet(true) },
                 onQuitClick = { viewModel.fetchShowQuitBottomSheet(true) },
-                onNoticeClick = { viewModel.fetchShowNotice(true) },
-                onOpinionClick = { viewModel.fetchShowOpinion(true) },
+                onNoticeClick = {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "mypage_notice"
+                    )
+                    viewModel.fetchShowNotice(true)
+                },
+                onOpinionClick = {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "mypage_comment"
+                    )
+                    viewModel.fetchShowOpinion(true)
+                },
                 onServiceClick = { viewModel.fetchShowService(true) },
                 onPersonalClick = { viewModel.fetchShowPersonal(true) },
                 name = state.name,

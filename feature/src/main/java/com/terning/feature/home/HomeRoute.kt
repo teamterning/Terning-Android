@@ -28,6 +28,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage
@@ -80,6 +82,8 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
+    val amplitudeTracker = LocalTracker.current
+
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
         viewModel.getFilteringInfo()
@@ -97,8 +101,20 @@ fun HomeRoute(
 
     HomeScreen(
         paddingValues = paddingValues,
-        navigateToIntern = { navController.navigateIntern(announcementId = it) },
-        navigateToCalendar = { navController.navigateCalendar() },
+        navigateToIntern = {
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "home_intern_card"
+            )
+            navController.navigateIntern(announcementId = it)
+        },
+        navigateToCalendar = {
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "check_schedule"
+            )
+            navController.navigateCalendar()
+        },
         updateRecommendDialogVisibility = viewModel::updateRecommendDialogVisibility,
         updateUpcomingDialogVisibility = viewModel::updateUpcomingDialogVisibility,
         getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
@@ -143,15 +159,27 @@ fun HomeScreen(
 
     var changeFilteringSheetState by remember { mutableStateOf(false) }
 
+    val amplitudeTracker = LocalTracker.current
+
     if (homeState.sortingSheetVisibility) {
         SortingBottomSheet(
             onDismiss = {
                 viewModel.updateSortingSheetVisibility(false)
             },
             currentSortBy = homeState.sortBy.ordinal,
-            onSortChange = {
+            onSortChange = { sortBy ->
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = when (sortBy) {
+                        0 -> "filtered_deadline"
+                        1 -> "filtered_short_term"
+                        2 -> "filtered_long_term"
+                        3 -> "filtered_scraps"
+                        else -> "filtered_hits"
+                    }
+                )
                 viewModel.updateSortBy(
-                    it,
+                    sortBy,
                     homeFilteringInfo.startYear,
                     homeFilteringInfo.startMonth,
                 )
@@ -169,6 +197,10 @@ fun HomeScreen(
             defaultStartMonth = homeFilteringInfo.startMonth,
             onDismiss = { changeFilteringSheetState = false },
             onChangeButtonClick = { grade, workingPeriod, year, month ->
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "home_filtering_save"
+                )
                 viewModel.putFilteringInfo(grade, workingPeriod, year, month)
                 changeFilteringSheetState = false
             }
@@ -316,6 +348,10 @@ fun HomeScreen(
                         navigateToIntern = navigateToIntern,
                         intern = homeRecommendInternList[index],
                         onScrapButtonClicked = {
+                            amplitudeTracker.track(
+                                type = EventType.CLICK,
+                                name = "home_scrap"
+                            )
                             updateRecommendDialogVisibility(true)
                             with(homeRecommendInternList[index]) {
                                 viewModel.updateHomeInternModel(

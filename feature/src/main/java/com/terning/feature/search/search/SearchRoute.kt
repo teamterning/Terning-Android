@@ -22,6 +22,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.theme.Black
@@ -51,6 +53,8 @@ fun SearchRoute(
 
     val viewState by viewModel.viewState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     val scrapState by viewModel.scrapState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getSearchViews()
@@ -82,7 +86,13 @@ fun SearchRoute(
         modifier = modifier,
         searchViewsList = searchViewsList,
         searchScrapsList = searchScrapsList,
-        navigateToSearchProcess = navigateToSearchProcess,
+        navigateToSearchProcess = {
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "quest_search"
+            )
+            navigateToSearchProcess()
+        },
         navigateToIntern = navigateToIntern,
         onAdvertisementClick = {
             CustomTabsIntent.Builder().build().launchUrl(context, ADVERTISEMENT_URL.toUri())

@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
@@ -45,6 +47,7 @@ fun CalendarRoute(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val amplitudeTracker = LocalTracker.current
 
     CalendarScreen(
         modifier = modifier,
@@ -54,7 +57,15 @@ fun CalendarRoute(
         updateSelectedDate = viewModel::updateSelectedDate,
         disableListVisibility = { viewModel.updateListVisibility(false) },
         disableWeekVisibility = { viewModel.updateWeekVisibility(false) },
-        onClickListButton = { viewModel.updateListVisibility(!uiState.isListEnabled) }
+        onClickListButton = {
+            if (!uiState.isListEnabled) {
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "calendar_list"
+                )
+            }
+            viewModel.updateListVisibility(!uiState.isListEnabled)
+        }
     )
 }
 
@@ -132,7 +143,7 @@ private fun CalendarScreen(
                                 CalendarMonthRoute(
                                     selectedDate = uiState.selectedDate,
                                     updateSelectedDate = { newDate ->
-                                        if(!pagerState.isScrollInProgress)
+                                        if (!pagerState.isScrollInProgress)
                                             onClickNewDate(newDate)
                                     },
                                     modifier = Modifier
