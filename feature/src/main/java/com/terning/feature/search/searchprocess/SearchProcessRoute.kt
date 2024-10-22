@@ -267,6 +267,7 @@ fun SearchProcessScreen(
                                     intern = internSearchResultData[index],
                                     navigateToIntern = navigateToIntern,
                                     onScrapButtonClicked = {
+
                                         with(internSearchResultData[index]) {
                                             onScrapButtonClicked(this)
                                         }
