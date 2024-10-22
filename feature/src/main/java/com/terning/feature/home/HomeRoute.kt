@@ -197,6 +197,10 @@ fun HomeScreen(
             defaultStartMonth = homeFilteringInfo.startMonth,
             onDismiss = { changeFilteringSheetState = false },
             onChangeButtonClick = { grade, workingPeriod, year, month ->
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "home_filtering_save"
+                )
                 viewModel.putFilteringInfo(grade, workingPeriod, year, month)
                 changeFilteringSheetState = false
             }
