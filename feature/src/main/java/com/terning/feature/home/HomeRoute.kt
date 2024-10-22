@@ -167,9 +167,19 @@ fun HomeScreen(
                 viewModel.updateSortingSheetVisibility(false)
             },
             currentSortBy = homeState.sortBy.ordinal,
-            onSortChange = {
+            onSortChange = { sortBy ->
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = when (sortBy) {
+                        0 -> "filtered_deadline"
+                        1 -> "filtered_short_term"
+                        2 -> "filtered_long_term"
+                        3 -> "filtered_scraps"
+                        else -> "filtered_hits"
+                    }
+                )
                 viewModel.updateSortBy(
-                    it,
+                    sortBy,
                     homeFilteringInfo.startYear,
                     homeFilteringInfo.startMonth,
                 )
