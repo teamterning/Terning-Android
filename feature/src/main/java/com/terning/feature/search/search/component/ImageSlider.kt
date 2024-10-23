@@ -37,7 +37,7 @@ fun ImageSlider(
     LaunchedEffect(autoScroll.value) {
         if (autoScroll.value) {
             while (true) {
-                delay(3000)
+                delay(2500)
                 if (!pagerState.isScrollInProgress) {
                     val nextPage = pagerState.currentPage + 1
                     pagerState.animateScrollToPage(nextPage)
