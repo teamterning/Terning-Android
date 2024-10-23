@@ -31,7 +31,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
-import com.terning.domain.entity.search.SearchAdvertisement
+import com.terning.domain.entity.search.SearchBanner
 import com.terning.domain.entity.search.SearchPopularAnnouncement
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
@@ -82,7 +82,7 @@ fun SearchRoute(
 
     SearchScreen(
         modifier = modifier,
-        images = SearchViewModel.advertisementList,
+        bannerList = SearchViewModel.bannerList,
         searchViewsList = searchViewsList,
         searchScrapsList = searchScrapsList,
         navigateToSearchProcess = {
@@ -94,7 +94,7 @@ fun SearchRoute(
         },
         navigateToIntern = navigateToIntern,
         onAdvertisementClick = { pageIndex ->
-            CustomTabsIntent.Builder().build().launchUrl(context, SearchViewModel.advertisementList[pageIndex].url.toUri())
+            CustomTabsIntent.Builder().build().launchUrl(context, SearchViewModel.bannerList[pageIndex].url.toUri())
         }
     )
 }
@@ -102,7 +102,7 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    images: List<SearchAdvertisement>,
+    bannerList: List<SearchBanner>,
     searchViewsList: List<SearchPopularAnnouncement>,
     searchScrapsList: List<SearchPopularAnnouncement>,
     navigateToSearchProcess: () -> Unit,
@@ -143,7 +143,7 @@ fun SearchScreen(
         LazyColumn {
             item {
                 ImageSlider(
-                    images = images,
+                    images = bannerList,
                     onAdvertisementClick = onAdvertisementClick,
                 )
 

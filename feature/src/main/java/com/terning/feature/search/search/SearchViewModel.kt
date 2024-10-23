@@ -3,7 +3,7 @@ package com.terning.feature.search.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.search.SearchAdvertisement
+import com.terning.domain.entity.search.SearchBanner
 import com.terning.domain.repository.SearchRepository
 import com.terning.feature.R
 import com.terning.feature.search.search.model.SearchScrapsListState
@@ -64,16 +64,16 @@ class SearchViewModel @Inject constructor(
     }
 
     companion object {
-        val advertisementList: List<SearchAdvertisement> = listOf(
-            SearchAdvertisement(
+        val bannerList: List<SearchBanner> = listOf(
+            SearchBanner(
                 imageRes = R.drawable.img_ad_1,
                 url = "https://www.instagram.com/p/DBWCO97TRds/?igsh=bDhjMGxlMGliNDc2"
             ),
-            SearchAdvertisement(
+            SearchBanner(
                 imageRes = R.drawable.img_ad_2,
                 url = "https://www.instagram.com/terning_official/"
             ),
-            SearchAdvertisement(
+            SearchBanner(
                 imageRes = R.drawable.img_ad_3,
                 url = "https://forms.gle/4btEwEbUQ3JSjTKP7"
             )
