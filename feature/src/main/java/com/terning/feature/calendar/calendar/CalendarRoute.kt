@@ -91,7 +91,12 @@ private fun CalendarScreen(
         snapshotFlow { pagerState.currentPage }
             .collect { current ->
                 val date = getLocalDateByPage(current)
-                val newDate = LocalDate.of(date.year, date.month, uiState.selectedDate.dayOfMonth)
+
+                val newDate = LocalDate.of(
+                    date.year,
+                    date.month,
+                    uiState.selectedDate.dayOfMonth.coerceAtMost(date.month.minLength())
+                )
                 updateSelectedDate(newDate)
             }
     }
