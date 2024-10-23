@@ -31,15 +31,13 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
+import com.terning.domain.entity.search.SearchBanner
 import com.terning.domain.entity.search.SearchPopularAnnouncement
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
 import com.terning.feature.search.search.component.SearchInternList
 import okhttp3.internal.toImmutableList
-
-const val ADVERTISEMENT_URL =
-    "https://www.instagram.com/terning_official?igsh=NnNma245bnUzbWNm&utm_source=qr"
 
 @Composable
 fun SearchRoute(
@@ -84,6 +82,7 @@ fun SearchRoute(
 
     SearchScreen(
         modifier = modifier,
+        bannerList = SearchViewModel.bannerList,
         searchViewsList = searchViewsList,
         searchScrapsList = searchScrapsList,
         navigateToSearchProcess = {
@@ -94,8 +93,8 @@ fun SearchRoute(
             navigateToSearchProcess()
         },
         navigateToIntern = navigateToIntern,
-        onAdvertisementClick = {
-            CustomTabsIntent.Builder().build().launchUrl(context, ADVERTISEMENT_URL.toUri())
+        onAdvertisementClick = { pageIndex ->
+            CustomTabsIntent.Builder().build().launchUrl(context, SearchViewModel.bannerList[pageIndex].url.toUri())
         }
     )
 }
@@ -103,19 +102,13 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
+    bannerList: List<SearchBanner>,
     searchViewsList: List<SearchPopularAnnouncement>,
     searchScrapsList: List<SearchPopularAnnouncement>,
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
-    onAdvertisementClick: () -> Unit,
+    onAdvertisementClick: (Int) -> Unit,
 ) {
-
-    val images = listOf(
-        R.drawable.img_ad_1,
-        R.drawable.img_ad_2,
-        R.drawable.img_ad_3,
-    )
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -150,7 +143,7 @@ fun SearchScreen(
         LazyColumn {
             item {
                 ImageSlider(
-                    images = images,
+                    images = bannerList,
                     onAdvertisementClick = onAdvertisementClick,
                 )
 

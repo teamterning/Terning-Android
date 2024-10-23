@@ -19,13 +19,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.extension.noRippleClickable
+import com.terning.domain.entity.search.SearchBanner
 import kotlinx.coroutines.delay
 
 @Composable
 fun ImageSlider(
     modifier: Modifier = Modifier,
-    images: List<Int>,
-    onAdvertisementClick: () -> Unit,
+    images: List<SearchBanner>,
+    onAdvertisementClick: (Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -36,7 +37,7 @@ fun ImageSlider(
     LaunchedEffect(autoScroll.value) {
         if (autoScroll.value) {
             while (true) {
-                delay(3000)
+                delay(2500)
                 if (!pagerState.isScrollInProgress) {
                     val nextPage = pagerState.currentPage + 1
                     pagerState.animateScrollToPage(nextPage)
@@ -62,12 +63,12 @@ fun ImageSlider(
             ) { currentPage ->
                 val pageIndex = currentPage % images.size
                 Image(
-                    painter = painterResource(id = images[pageIndex]),
+                    painter = painterResource(id = images[pageIndex].imageRes),
                     contentDescription = null,
                     modifier = modifier
                         .fillMaxWidth()
                         .height(112.dp)
-                        .noRippleClickable(onAdvertisementClick),
+                        .noRippleClickable { onAdvertisementClick(pageIndex) },
                     contentScale = ContentScale.Crop,
                 )
             }
