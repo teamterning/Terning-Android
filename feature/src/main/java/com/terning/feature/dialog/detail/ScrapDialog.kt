@@ -138,7 +138,13 @@ fun ScrapDialog(
                     )
                 }
             },
-            onClickNavigateButton = viewModel::navigateToDetail,
+            onClickNavigateButton = {
+                viewModel.navigateToDetail()
+                amplitudeTracker.track(
+                    type = EventType.CLICK,
+                    name = "modal_detail"
+                )
+            },
             onClickScrapButton = {
                 amplitudeTracker.track(
                     type = EventType.CLICK,

@@ -58,7 +58,7 @@ fun StartFilteringRoute(
             onNextClick()
             amplitudeTracker.track(
                 type = EventType.CLICK,
-                name = "click_start_service"
+                name = "start_service"
             )
         },
         buttonState = state.isButtonVisible,

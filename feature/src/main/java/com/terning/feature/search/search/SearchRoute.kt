@@ -96,7 +96,7 @@ fun SearchRoute(
         onAdvertisementClick = { pageIndex ->
             amplitudeTracker.track(
                 type = EventType.CLICK,
-                name = "click_quest_bannner"
+                name = "quest_banner"
             )
             CustomTabsIntent.Builder().build()
                 .launchUrl(context, SearchViewModel.bannerList[pageIndex].url.toUri())
