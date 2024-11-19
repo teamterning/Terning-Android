@@ -94,7 +94,12 @@ fun SearchRoute(
         },
         navigateToIntern = navigateToIntern,
         onAdvertisementClick = { pageIndex ->
-            CustomTabsIntent.Builder().build().launchUrl(context, SearchViewModel.bannerList[pageIndex].url.toUri())
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "click_quest_bannner"
+            )
+            CustomTabsIntent.Builder().build()
+                .launchUrl(context, SearchViewModel.bannerList[pageIndex].url.toUri())
         }
     )
 }
