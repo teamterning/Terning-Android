@@ -1,0 +1,3 @@
+import com.terning.build_logic.configureComposeAndroid
+
+configureComposeAndroid()

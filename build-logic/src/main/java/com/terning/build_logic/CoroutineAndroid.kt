@@ -14,6 +14,7 @@ internal fun Project.configureCoroutineAndroid() {
 internal fun Project.configureCoroutineKotlin() {
     val libs = extensions.libs
     dependencies {
+        // todo: 정리하기
         "implementation"(libs.findLibrary("coroutines.core").get())
         "testImplementation"(libs.findLibrary("coroutines.test").get())
     }
