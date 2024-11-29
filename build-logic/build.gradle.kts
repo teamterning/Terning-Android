@@ -1,9 +1,23 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.kotlin.jvm)
+    `kotlin-dsl`
+    `kotlin-dsl-precompiled-script-plugins`
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+dependencies {
+    implementation(libs.android.gradlePlugin)
+    implementation(libs.kotlin.gradlePlugin)
+    compileOnly(libs.compose.compiler.gradle.plugin)
+}
+
+gradlePlugin {
+    plugins {
+        register("androidHilt") {
+            id = "terning.android.hilt"
+            implementationClass = "com.terning.build-logic.HiltAndroidPlugin"
+        }
+        register("kotlinHilt") {
+            id = "terning.kotlin.hilt"
+            implementationClass = "com.terning.build-logic.HiltKotlinPlugin"
+        }
+    }
 }
