@@ -3,7 +3,7 @@ package com.terning.feature.onboarding.splash
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import com.terning.domain.repository.TokenRepository
+import com.terning.domain.token.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val tokenRepository: TokenRepository,
+    private val tokenRepository: com.terning.domain.token.repository.TokenRepository,
 ) : ViewModel() {
 
     private val _sideEffects = MutableSharedFlow<SplashState>()

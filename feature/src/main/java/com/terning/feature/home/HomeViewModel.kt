@@ -7,9 +7,9 @@ import com.terning.core.extension.currentYear
 import com.terning.core.state.UiState
 import com.terning.core.type.SortBy
 import com.terning.domain.entity.home.HomeRecommendIntern
-import com.terning.domain.entity.request.ChangeFilteringRequestModel
-import com.terning.domain.repository.HomeRepository
-import com.terning.domain.repository.MyPageRepository
+import com.terning.domain.home.entity.ChangeFilteringRequestModel
+import com.terning.domain.home.repository.HomeRepository
+import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -23,8 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeRepository: HomeRepository,
-    private val myPageRepository: MyPageRepository,
+    private val homeRepository: com.terning.domain.home.repository.HomeRepository,
+    private val myPageRepository: com.terning.domain.mypage.repository.MyPageRepository,
 ) : ViewModel() {
     private val _homeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val homeState get() = _homeState.asStateFlow()
@@ -92,7 +92,12 @@ class HomeViewModel @Inject constructor(
     fun putFilteringInfo(grade: String, workingPeriod: String, year: Int, month: Int) {
         viewModelScope.launch {
             homeRepository.putFilteringInfo(
-                ChangeFilteringRequestModel(grade, workingPeriod, year, month)
+                com.terning.domain.home.entity.ChangeFilteringRequestModel(
+                    grade,
+                    workingPeriod,
+                    year,
+                    month
+                )
             )
         }
     }

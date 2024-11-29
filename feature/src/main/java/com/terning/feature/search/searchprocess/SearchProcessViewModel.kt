@@ -3,8 +3,8 @@ package com.terning.feature.search.searchprocess
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.type.SortBy
-import com.terning.domain.entity.search.SearchResult
-import com.terning.domain.repository.SearchRepository
+import com.terning.domain.search.entity.SearchResult
+import com.terning.domain.search.repository.SearchRepository
 import com.terning.feature.R
 import com.terning.feature.search.searchprocess.models.SearchProcessState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchProcessViewModel @Inject constructor(
-    private val searchRepository: SearchRepository,
+    private val searchRepository: com.terning.domain.search.repository.SearchRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchProcessState())
@@ -29,8 +29,8 @@ class SearchProcessViewModel @Inject constructor(
     private val _sideEffect = MutableSharedFlow<SearchProcessSideEffect>()
     val sideEffect: SharedFlow<SearchProcessSideEffect> = _sideEffect.asSharedFlow()
 
-    private val _internSearchResultData = MutableStateFlow<List<SearchResult>>(emptyList())
-    val internSearchResultData: StateFlow<List<SearchResult>> =
+    private val _internSearchResultData = MutableStateFlow<List<com.terning.domain.search.entity.SearchResult>>(emptyList())
+    val internSearchResultData: StateFlow<List<com.terning.domain.search.entity.SearchResult>> =
         _internSearchResultData.asStateFlow()
 
     fun getSearchList(
@@ -63,7 +63,7 @@ class SearchProcessViewModel @Inject constructor(
     ) {
         _state.update {
             it.copy(
-                searchResult = SearchResult(
+                searchResult = com.terning.domain.search.entity.SearchResult(
                     internshipAnnouncementId = internshipId,
                     title = title,
                     dDay = dDay,

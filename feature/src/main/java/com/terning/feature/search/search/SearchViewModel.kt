@@ -3,8 +3,8 @@ package com.terning.feature.search.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.entity.search.SearchBanner
-import com.terning.domain.repository.SearchRepository
+import com.terning.domain.search.entity.SearchBanner
+import com.terning.domain.search.repository.SearchRepository
 import com.terning.feature.R
 import com.terning.feature.search.search.model.SearchScrapsListState
 import com.terning.feature.search.search.model.SearchViewsListState
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchRepository: SearchRepository,
+    private val searchRepository: com.terning.domain.search.repository.SearchRepository,
 ) : ViewModel() {
     private val _viewState: MutableStateFlow<SearchViewsListState> =
         MutableStateFlow(SearchViewsListState())
@@ -64,16 +64,16 @@ class SearchViewModel @Inject constructor(
     }
 
     companion object {
-        val bannerList: List<SearchBanner> = listOf(
-            SearchBanner(
+        val bannerList: List<com.terning.domain.search.entity.SearchBanner> = listOf(
+            com.terning.domain.search.entity.SearchBanner(
                 imageRes = R.drawable.img_ad_1,
                 url = "https://www.instagram.com/p/DBWCO97TRds/?igsh=bDhjMGxlMGliNDc2"
             ),
-            SearchBanner(
+            com.terning.domain.search.entity.SearchBanner(
                 imageRes = R.drawable.img_ad_2,
                 url = "https://www.instagram.com/terning_official/"
             ),
-            SearchBanner(
+            com.terning.domain.search.entity.SearchBanner(
                 imageRes = R.drawable.img_ad_3,
                 url = "https://forms.gle/4btEwEbUQ3JSjTKP7"
             )

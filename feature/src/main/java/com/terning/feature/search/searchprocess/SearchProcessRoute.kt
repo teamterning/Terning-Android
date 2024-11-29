@@ -49,7 +49,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.addFocusCleaner
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.extension.toast
-import com.terning.domain.entity.search.SearchResult
+import com.terning.domain.search.entity.SearchResult
 import com.terning.feature.R
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -156,14 +156,14 @@ fun SearchProcessScreen(
     navigateToIntern: (Long) -> Unit,
     navigateToBack: () -> Unit,
     state: SearchProcessState = SearchProcessState(),
-    internSearchResultData: List<SearchResult> = emptyList(),
+    internSearchResultData: List<com.terning.domain.search.entity.SearchResult> = emptyList(),
     updateText: (String) -> Unit = {},
     onSearchAction: () -> Unit = {},
     onSortButtonClick: () -> Unit = {},
-    onDismissCancelDialog: (Boolean, SearchResult) -> Unit,
-    onDismissScrapDialog: (Boolean, SearchResult) -> Unit,
+    onDismissCancelDialog: (Boolean, com.terning.domain.search.entity.SearchResult) -> Unit,
+    onDismissScrapDialog: (Boolean, com.terning.domain.search.entity.SearchResult) -> Unit,
     onDismissSheet: () -> Unit = {},
-    onScrapButtonClicked: (SearchResult) -> Unit,
+    onScrapButtonClicked: (com.terning.domain.search.entity.SearchResult) -> Unit,
     onSortChange: (Int) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -372,7 +372,7 @@ fun SearchProcessScreen(
 
 @Composable
 private fun SearchResultInternItem(
-    intern: SearchResult,
+    intern: com.terning.domain.search.entity.SearchResult,
     navigateToIntern: (Long) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,
 ) {

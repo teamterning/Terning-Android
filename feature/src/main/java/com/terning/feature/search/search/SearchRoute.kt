@@ -31,8 +31,8 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.extension.noRippleClickable
 import com.terning.core.state.UiState
-import com.terning.domain.entity.search.SearchBanner
-import com.terning.domain.entity.search.SearchPopularAnnouncement
+import com.terning.domain.search.entity.SearchBanner
+import com.terning.domain.search.entity.SearchPopularAnnouncement
 import com.terning.feature.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
@@ -71,12 +71,12 @@ fun SearchRoute(
     }
 
     val searchViewsList = when (viewState.searchViewsList) {
-        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<SearchPopularAnnouncement>>).data.toImmutableList()
+        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<com.terning.domain.search.entity.SearchPopularAnnouncement>>).data.toImmutableList()
         else -> emptyList()
     }
 
     val searchScrapsList = when (scrapState.searchScrapsList) {
-        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<SearchPopularAnnouncement>>).data.toImmutableList()
+        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<com.terning.domain.search.entity.SearchPopularAnnouncement>>).data.toImmutableList()
         else -> emptyList()
     }
 
@@ -107,9 +107,9 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    bannerList: List<SearchBanner>,
-    searchViewsList: List<SearchPopularAnnouncement>,
-    searchScrapsList: List<SearchPopularAnnouncement>,
+    bannerList: List<com.terning.domain.search.entity.SearchBanner>,
+    searchViewsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>,
+    searchScrapsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>,
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
     onAdvertisementClick: (Int) -> Unit,

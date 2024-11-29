@@ -3,8 +3,8 @@ package com.terning.feature.filtering.filteringthree
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.domain.entity.filtering.Filtering
-import com.terning.domain.repository.FilteringRepository
-import com.terning.domain.repository.TokenRepository
+import com.terning.domain.filtering.repository.FilteringRepository
+import com.terning.domain.token.repository.TokenRepository
 import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,8 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilteringThreeViewModel @Inject constructor(
-    private val filteringRepository: FilteringRepository,
-    private val tokenRepository: TokenRepository
+    private val filteringRepository: com.terning.domain.filtering.repository.FilteringRepository,
+    private val tokenRepository: com.terning.domain.token.repository.TokenRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FilteringThreeState())

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
 import com.terning.domain.entity.calendar.CalendarScrapDetail
-import com.terning.domain.repository.CalendarRepository
+import com.terning.domain.calendar.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarWeekViewModel @Inject constructor(
-    private val calendarRepository: CalendarRepository
+    private val calendarRepository: com.terning.domain.calendar.repository.CalendarRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CalendarWeekUiState())
     val uiState = _uiState.asStateFlow()

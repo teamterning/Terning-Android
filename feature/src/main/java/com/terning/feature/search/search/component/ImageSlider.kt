@@ -19,13 +19,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.search.SearchBanner
+import com.terning.domain.search.entity.SearchBanner
 import kotlinx.coroutines.delay
 
 @Composable
 fun ImageSlider(
     modifier: Modifier = Modifier,
-    images: List<SearchBanner>,
+    images: List<com.terning.domain.search.entity.SearchBanner>,
     onAdvertisementClick: (Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(

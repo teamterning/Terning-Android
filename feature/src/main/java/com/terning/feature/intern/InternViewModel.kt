@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
 import com.terning.domain.entity.intern.InternInfo
-import com.terning.domain.repository.InternRepository
+import com.terning.domain.intern.repository.InternRepository
 import com.terning.feature.R
 import com.terning.feature.intern.model.InternUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InternViewModel @Inject constructor(
-    private val internRepository: InternRepository,
+    private val internRepository: com.terning.domain.intern.repository.InternRepository,
 ) : ViewModel() {
 
     private val _internUiState = MutableStateFlow(InternUiState())

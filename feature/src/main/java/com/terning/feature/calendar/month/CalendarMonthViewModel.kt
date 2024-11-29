@@ -3,7 +3,7 @@ package com.terning.feature.calendar.month
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.state.UiState
-import com.terning.domain.repository.CalendarRepository
+import com.terning.domain.calendar.repository.CalendarRepository
 import com.terning.feature.R
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarMonthViewModel @Inject constructor(
-    private val calendarRepository: CalendarRepository
+    private val calendarRepository: com.terning.domain.calendar.repository.CalendarRepository
 ): ViewModel() {
     private val _uiState = MutableStateFlow(CalendarMonthUiState())
     val uiState = _uiState.asStateFlow()
