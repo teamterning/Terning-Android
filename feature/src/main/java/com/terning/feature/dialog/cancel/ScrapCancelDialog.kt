@@ -39,7 +39,7 @@ fun ScrapCancelDialog(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)

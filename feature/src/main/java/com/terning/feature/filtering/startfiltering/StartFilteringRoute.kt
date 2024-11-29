@@ -46,7 +46,7 @@ fun StartFilteringRoute(
     val configuration = LocalConfiguration.current
     val screenHeight = 780f / configuration.screenHeightDp
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         delay(DELAY)

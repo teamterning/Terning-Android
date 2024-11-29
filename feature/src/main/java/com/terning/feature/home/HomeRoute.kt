@@ -82,7 +82,7 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
@@ -159,7 +159,7 @@ fun HomeScreen(
 
     var changeFilteringSheetState by remember { mutableStateOf(false) }
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     if (homeState.sortingSheetVisibility) {
         SortingBottomSheet(

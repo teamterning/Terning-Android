@@ -71,7 +71,7 @@ fun MyPageRoute(
 
     val systemUiController = rememberSystemUiController()
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     SideEffect {
         systemUiController.setStatusBarColor(

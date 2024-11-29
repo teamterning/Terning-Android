@@ -56,7 +56,7 @@ fun InternRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val internState by viewModel.internUiState.collectAsStateWithLifecycle(lifecycleOwner)
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)

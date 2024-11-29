@@ -51,7 +51,7 @@ fun FilteringThreeRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         with(viewModel) {

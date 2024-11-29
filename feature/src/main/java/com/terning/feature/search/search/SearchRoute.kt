@@ -52,7 +52,7 @@ fun SearchRoute(
     val viewState by viewModel.viewState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     val scrapState by viewModel.scrapState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getSearchViews()

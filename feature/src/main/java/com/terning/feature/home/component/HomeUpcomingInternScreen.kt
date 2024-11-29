@@ -60,7 +60,7 @@ fun HomeUpcomingInternScreen(
         mutableStateOf(null)
     }
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),

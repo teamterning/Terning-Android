@@ -57,7 +57,6 @@ import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
 import kotlinx.coroutines.launch
-import org.openjdk.tools.javac.Main
 
 @Composable
 fun MainScreen(
@@ -70,7 +69,7 @@ fun MainScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     BackHandler(enabled = backPressedState) {
         if (System.currentTimeMillis() - backPressedTime <= 3000) {

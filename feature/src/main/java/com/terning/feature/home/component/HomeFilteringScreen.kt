@@ -48,7 +48,7 @@ fun HomeFilteringScreen(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val amplitudeTracker = LocalTracker.current
+        val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
         Row(
             modifier = Modifier

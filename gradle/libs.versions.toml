@@ -186,3 +186,10 @@ android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlinParcelize" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+
+terning-application = { id = "terning.android.application", version = "unspecified" }
+terning-compose = { id = "terning.android.compose", version = "unspecified" }
+terning-feature = { id = "terning.android.feature", version = "unspecified" }
+terning-data = { id = "terning.android.data", version = "unspecified" }
+terning-library = { id = "terning.android.library", version = "unspecified" }
+terning-kotlin = { id = "terning.kotlin.library", version = "unspecified" }

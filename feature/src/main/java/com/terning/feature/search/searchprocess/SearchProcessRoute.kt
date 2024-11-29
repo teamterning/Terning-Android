@@ -170,7 +170,7 @@ fun SearchProcessScreen(
     val focusManager = LocalFocusManager.current
     val currentSortBy = remember { mutableIntStateOf(state.currentSortBy) }
 
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()

@@ -15,7 +15,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var tracker: AmplitudeTracker
+    lateinit var tracker: com.terning.core.analytics.AmplitudeTracker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
             TerningPointTheme {
-                CompositionLocalProvider(LocalTracker provides tracker) {
+                CompositionLocalProvider(com.terning.core.analytics.LocalTracker provides tracker) {
                     MainScreen(navigator)
                 }
             }

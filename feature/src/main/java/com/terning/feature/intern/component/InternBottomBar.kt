@@ -37,7 +37,7 @@ fun InternBottomBar(
     onScrapClick: (InternInfo) -> Unit,
     viewModel: InternViewModel = hiltViewModel(),
 ) {
-    val amplitudeTracker = LocalTracker.current
+    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
 
     Row(
         modifier = modifier

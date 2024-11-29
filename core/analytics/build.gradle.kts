@@ -1,26 +1,36 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.terning.library)
+}
+
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
 }
 
 android {
-    namespace = "com.terning.core.analytics"
-    compileSdk = 34
+    setNamespace("core.analytics")
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 28
+        minSdk =  libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
+        debug {
+            val devAmplitude = properties["amplitudeDevKey"] as? String ?: ""
+            buildConfigField("String", "AMPLITUDE_KEY", devAmplitude)
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            val prodAmplitude = properties["amplitudeProdKey"] as? String ?: ""
+            buildConfigField("String", "AMPLITUDE_KEY", prodAmplitude)
         }
     }
     compileOptions {
@@ -28,7 +38,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget =  libs.versions.jvmTarget.get()
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
