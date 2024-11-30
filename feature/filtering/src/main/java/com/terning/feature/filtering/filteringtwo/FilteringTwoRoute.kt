@@ -27,7 +27,7 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.R
+import com.terning.feature.filtering.R
 import com.terning.feature.filtering.filteringtwo.component.StatusTwoRadioGroup
 
 @Composable

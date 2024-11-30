@@ -34,7 +34,7 @@ import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.R
+import com.terning.feature.filtering.R
 import kotlinx.coroutines.delay
 
 @Composable

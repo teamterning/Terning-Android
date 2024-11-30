@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navOptions
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.snackbar.TerningBasicSnackBar
 import com.terning.core.designsystem.theme.Grey300
@@ -41,8 +42,8 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
-import com.terning.feature.filtering.filtering.navigation.filteringOneNavGraph
-import com.terning.feature.filtering.filtering.navigation.filteringTwoNavGraph
+import com.terning.feature.filtering.filteringone.navigation.filteringOneNavGraph
+import com.terning.feature.filtering.filteringtwo.navigation.filteringTwoNavGraph
 import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNavGraph
 import com.terning.feature.filtering.startfiltering.navigation.startFilteringNavGraph
 import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
@@ -155,7 +156,16 @@ fun MainScreen(
                 signInNavGraph(navHostController = navigator.navController)
                 signUpNavGraph(navHostController = navigator.navController)
                 startFilteringNavGraph(navHostController = navigator.navController)
-                startHomeNavGraph(navHostController = navigator.navController)
+                startHomeNavGraph(
+                    navigateHome = {
+                        val navOptions = navOptions {
+                            popUpTo(id = navigator.navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                        navigator.navigateHome(navOptions)
+                    }
+                )
                 filteringOneNavGraph(navHostController = navigator.navController)
                 filteringTwoNavGraph(navHostController = navigator.navController)
                 filteringThreeNavGraph(navHostController = navigator.navController)

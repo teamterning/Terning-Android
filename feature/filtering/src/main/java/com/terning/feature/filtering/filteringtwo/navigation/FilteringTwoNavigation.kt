@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering.navigation
+package com.terning.feature.filtering.filteringtwo.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

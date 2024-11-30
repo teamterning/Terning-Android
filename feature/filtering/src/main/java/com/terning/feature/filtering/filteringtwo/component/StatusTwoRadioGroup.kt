@@ -12,8 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.button.FilteringButton
-import com.terning.core.type.WorkingPeriod
-import com.terning.feature.R
+import com.terning.core.designsystem.type.WorkingPeriod
+import com.terning.feature.filtering.R
 
 @Composable
 fun StatusTwoRadioGroup(

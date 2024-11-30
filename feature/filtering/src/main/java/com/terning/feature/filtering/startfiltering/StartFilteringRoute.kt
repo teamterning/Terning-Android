@@ -27,13 +27,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.lottie.compose.LottieConstants
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.R
+import com.terning.feature.filtering.R
 import kotlinx.coroutines.delay
 
 @Composable

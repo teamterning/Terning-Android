@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filtering.navigation
+package com.terning.feature.filtering.filteringone.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -7,6 +7,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
+import com.terning.feature.filtering.filteringtwo.navigation.navigateFilteringTwo
 import com.terning.feature.filtering.filteringone.FilteringOneRoute
 import kotlinx.serialization.Serializable
 

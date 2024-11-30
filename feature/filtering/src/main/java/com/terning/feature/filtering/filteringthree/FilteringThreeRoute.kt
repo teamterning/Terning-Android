@@ -24,17 +24,16 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.extension.currentMonth
+import com.terning.core.designsystem.extension.currentYear
+import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.currentMonth
-import com.terning.core.extension.currentYear
-import com.terning.core.extension.toast
-import com.terning.feature.R
+import com.terning.feature.filtering.R
 import com.terning.feature.filtering.filteringthree.component.YearMonthPicker
 import java.util.Calendar
 

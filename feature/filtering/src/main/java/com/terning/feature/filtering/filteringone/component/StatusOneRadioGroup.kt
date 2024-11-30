@@ -7,14 +7,13 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.button.FilteringButton
-import com.terning.core.type.Grade
-import com.terning.feature.R
+import com.terning.core.designsystem.type.Grade
+import com.terning.feature.filtering.R
 
 @Composable
 fun StatusOneRadioGroup(
