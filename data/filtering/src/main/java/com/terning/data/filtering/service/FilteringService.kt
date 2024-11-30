@@ -1,6 +1,6 @@
 package com.terning.data.filtering.service
 
-import com.terning.data.dto.NonDataBaseResponse
+import com.terning.core.network.NonDataBaseResponse
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST

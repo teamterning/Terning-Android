@@ -1,8 +1,8 @@
 package com.terning.data.filtering.datasourceimpl
 
-import com.terning.data.dto.NonDataBaseResponse
-import com.terning.data.dto.request.FilteringRequestDto
-import com.terning.data.service.FilteringService
+import com.terning.core.network.NonDataBaseResponse
+import com.terning.data.filtering.dto.request.FilteringRequestDto
+import com.terning.data.filtering.service.FilteringService
 import javax.inject.Inject
 
 class FilteringDataSourceImpl @Inject constructor(

@@ -1,10 +1,10 @@
 package com.terning.data.filtering.mapper
 
 import com.terning.data.filtering.dto.request.FilteringRequestDto
-import com.terning.domain.entity.filtering.Filtering
+import com.terning.domain.filtering.entity.Filtering
 
-fun Filtering.toFilteringRequestDto(): com.terning.data.filtering.dto.request.FilteringRequestDto =
-    com.terning.data.filtering.dto.request.FilteringRequestDto(
+fun Filtering.toFilteringRequestDto(): FilteringRequestDto =
+   FilteringRequestDto(
         grade = grade,
         workingPeriod = workingPeriod,
         startYear = startYear,
