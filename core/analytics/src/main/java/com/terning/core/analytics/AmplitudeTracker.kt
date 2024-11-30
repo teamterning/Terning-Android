@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.amplitude.android.Amplitude
 import com.amplitude.android.Configuration
-import com.terning.core.BuildConfig
+import com.amplitude.common.android.BuildConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
