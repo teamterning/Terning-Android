@@ -112,7 +112,9 @@ private const val DELAY: Long = 1000
 fun StartHomeLottieAnimation(
     modifier: Modifier = Modifier
 ) {
-    val lottieComposition by rememberLottieComposition(LottieCompositionSpec.Asset("terning_start_home.json"))
+    val lottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.terning_start_home)
+    )
     LottieAnimation(
         modifier = modifier
             .fillMaxWidth()

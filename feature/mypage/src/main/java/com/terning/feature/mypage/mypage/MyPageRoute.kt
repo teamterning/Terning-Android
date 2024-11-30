@@ -440,6 +440,7 @@ private fun navigateToPersonalWebView(context: Context) {
 }
 
 private fun restartApp(context: Context) {
+   // todo: 화면 이동 및 히스토리 삭제
     Handler(Looper.getMainLooper()).post {
         ProcessPhoenix.triggerRebirth(context)
     }

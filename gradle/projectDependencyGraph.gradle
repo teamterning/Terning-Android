@@ -1,6 +1,6 @@
 task projectDependencyGraph {
     doLast {
-        def dot = new File(rootProject.rootDir, 'project.dot')
+        def dot = new File(rootProject.buildDir, 'reports/dependency-graph/project.dot')
         dot.parentFile.mkdirs()
         dot.delete()
 
@@ -36,8 +36,7 @@ task projectDependencyGraph {
             if (project.plugins.hasPlugin('kotlin2js')) {
                 jsProjects.add(project)
             }
-            if (project.plugins.hasPlugin('com.android.library') ||
-                    project.plugins.hasPlugin('com.android.application')) {
+            if (project.plugins.hasPlugin('com.android.library') || project.plugins.hasPlugin('com.android.application')) {
                 androidProjects.add(project)
             }
             if (project.plugins.hasPlugin('com.android.dynamic-feature')) {
@@ -113,9 +112,7 @@ task projectDependencyGraph {
 
         dot << '}\n'
 
-        def dotPath = "C:/Program Files/Graphviz/bin/dot"
-        def p = "${dotPath} -Tpng -O project.dot".execute([], dot.parentFile)
-
+        def p = 'dot -Tpng -O project.dot'.execute([], dot.parentFile)
         p.waitFor()
         if (p.exitValue() != 0) {
             throw new RuntimeException(p.errorStream.text)

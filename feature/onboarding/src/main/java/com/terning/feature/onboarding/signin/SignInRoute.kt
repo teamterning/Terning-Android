@@ -64,7 +64,7 @@ fun SignInRoute(
                     is SignInSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is SignInSideEffect.NavigateToHome -> navigateToHome()
                     is SignInSideEffect.NavigateSignUp -> navigateToSignUp(sideEffect.authId)
-                    is SignInSideEffect.StartKakaoTalkLogin -> startKakoTalkLogIn(context = context) { token, error ->
+                    is SignInSideEffect.StartKakaoTalkLogin -> startKakaoTalkLogIn(context = context) { token, error ->
                         viewModel.signInResult(token = token, error = error)
                     }
 
@@ -124,7 +124,9 @@ fun SignInScreen(
 
 @Composable
 private fun SignInLottie() {
-    val lottieComposition by rememberLottieComposition(LottieCompositionSpec.Asset("terning_sign_in.json"))
+    val lottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.terning_sign_in)
+    )
     LottieAnimation(
         modifier = Modifier
             .fillMaxWidth()
@@ -138,7 +140,7 @@ private fun SignInLottie() {
     )
 }
 
-private fun startKakoTalkLogIn(
+private fun startKakaoTalkLogIn(
     context: Context,
     signInResult: (OAuthToken?, Throwable?) -> Unit,
 ) {

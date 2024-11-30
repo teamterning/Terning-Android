@@ -104,10 +104,6 @@ dependencies {
     implementation(project(":data:tokenreissue"))
     implementation(project(":data:search"))
 
-    // core
-    implementation(project(":core:network"))
-    implementation(project(":core:local"))
-
     // KotlinDependencies
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.coroutines.android)
