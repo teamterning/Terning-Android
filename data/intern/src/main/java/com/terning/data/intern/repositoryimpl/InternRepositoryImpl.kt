@@ -1,8 +1,8 @@
 package com.terning.data.intern.repositoryimpl
 
 import com.terning.data.intern.mapper.toInternInfo
-import com.terning.domain.entity.intern.InternInfo
-import com.terning.domain.repository.InternRepository
+import com.terning.domain.intern.entity.InternInfo
+import com.terning.domain.intern.repository.InternRepository
 import javax.inject.Inject
 
 class InternRepositoryImpl @Inject constructor(

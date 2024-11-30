@@ -1,8 +1,8 @@
 package com.terning.data.intern.datasourceimpl
 
-import com.terning.data.dto.BaseResponse
-import com.terning.data.dto.response.InternResponseDto
-import com.terning.data.service.InternService
+import com.terning.core.network.BaseResponse
+import com.terning.data.intern.dto.response.InternResponseDto
+import com.terning.data.intern.service.InternService
 import javax.inject.Inject
 
 class InternDataSourceImpl @Inject constructor(
