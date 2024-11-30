@@ -23,16 +23,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.extension.noRippleClickable
-import com.terning.core.type.Grade
-import com.terning.core.type.WorkingPeriod
-import com.terning.domain.entity.home.HomeFilteringInfo
-import com.terning.feature.R
+import com.terning.core.designsystem.type.Grade
+import com.terning.core.designsystem.type.WorkingPeriod
+import com.terning.domain.home.entity.HomeFilteringInfo
+import com.terning.feature.home.R
 
 @Composable
 fun HomeFilteringScreen(

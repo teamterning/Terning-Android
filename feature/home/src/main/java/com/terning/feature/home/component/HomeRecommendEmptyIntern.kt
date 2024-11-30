@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.feature.R
+import com.terning.feature.home.R
 
 @Composable
 fun HomeRecommendEmptyIntern(

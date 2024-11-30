@@ -2,15 +2,13 @@ package com.terning.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.extension.currentMonth
-import com.terning.core.extension.currentYear
-import com.terning.core.state.UiState
-import com.terning.core.type.SortBy
-import com.terning.domain.entity.home.HomeRecommendIntern
-import com.terning.domain.home.entity.ChangeFilteringRequestModel
+import com.terning.core.designsystem.extension.currentMonth
+import com.terning.core.designsystem.extension.currentYear
+import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.type.SortBy
+import com.terning.domain.home.entity.HomeRecommendIntern
 import com.terning.domain.home.repository.HomeRepository
 import com.terning.domain.mypage.repository.MyPageRepository
-import com.terning.feature.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,8 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeRepository: com.terning.domain.home.repository.HomeRepository,
-    private val myPageRepository: com.terning.domain.mypage.repository.MyPageRepository,
+    private val homeRepository: HomeRepository,
+    private val myPageRepository: MyPageRepository,
 ) : ViewModel() {
     private val _homeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val homeState get() = _homeState.asStateFlow()
@@ -175,6 +173,18 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 sortingSheetVisibility = visibility
             )
+        }
+    }
+
+    fun navigateCalendar() {
+        viewModelScope.launch {
+            _homeSideEffect.emit(HomeSideEffect.NavigateToCalendar)
+        }
+    }
+
+    fun navigateIntern(announcementId: Long) {
+        viewModelScope.launch {
+            _homeSideEffect.emit(HomeSideEffect.NavigateToIntern(announcementId))
         }
     }
 }

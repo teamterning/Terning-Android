@@ -1,6 +1,6 @@
 package com.terning.feature.calendar.week.model
 
-import com.terning.core.common.state.UiState
+import com.terning.core.designsystem.state.UiState
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 
 data class CalendarWeekUiState(

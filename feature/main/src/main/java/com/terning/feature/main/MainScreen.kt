@@ -143,7 +143,9 @@ fun MainScreen(
                 splashNavGraph(navHostController = navigator.navController)
                 homeNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController
+                    navHostController = navigator.navController,
+                    navigateToCalendar = navigator::navigateCalendar,
+                    navigateToIntern = navigator::navigateIntern
                 )
                 calendarNavGraph(
                     paddingValues = paddingValues,

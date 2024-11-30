@@ -20,8 +20,11 @@ fun NavController.navigateHome(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.homeNavGraph(
-    paddingValues : PaddingValues,
-    navHostController: NavHostController) {
+    paddingValues: PaddingValues,
+    navHostController: NavHostController,
+    navigateToCalendar: () -> Unit,
+    navigateToIntern:(Long)-> Unit
+) {
     composable<Home>(
         exitTransition = {
             ExitTransition.None
@@ -37,8 +40,11 @@ fun NavGraphBuilder.homeNavGraph(
         }
     ) {
         HomeRoute(
-            paddingValues= paddingValues,
-            navController = navHostController)
+            paddingValues = paddingValues,
+            navController = navHostController,
+            navigateToCalendar = navigateToCalendar,
+            navigateToIntern = navigateToIntern
+        )
     }
 }
 

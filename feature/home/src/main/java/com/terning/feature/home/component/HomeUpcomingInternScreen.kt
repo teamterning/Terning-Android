@@ -33,20 +33,19 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.item.ScrapBox
+import com.terning.core.designsystem.extension.customShadow
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningSub3
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.extension.customShadow
-import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.home.HomeUpcomingIntern
-import com.terning.feature.R
+import com.terning.domain.home.entity.HomeUpcomingIntern
 import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.home.HomeState
+import com.terning.feature.home.R
 
 @Composable
 fun HomeUpcomingInternScreen(

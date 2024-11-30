@@ -2,7 +2,7 @@ package com.terning.feature.calendar.month
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.common.state.UiState
+import com.terning.core.designsystem.state.UiState
 import com.terning.feature.calendar.R
 import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.month.model.CalendarMonthUiState

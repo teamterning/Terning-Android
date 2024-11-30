@@ -21,18 +21,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.terning.core.R
 import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.ChangeFilterButton
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.extension.currentMonth
+import com.terning.core.designsystem.extension.currentYear
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.extension.currentMonth
-import com.terning.core.extension.currentYear
-import com.terning.core.type.Grade
-import com.terning.core.type.WorkingPeriod
-import com.terning.feature.filtering.filteringthree.component.YearMonthPicker
+import com.terning.core.designsystem.type.Grade
+import com.terning.core.designsystem.type.WorkingPeriod
+import com.terning.core.designsystem.R
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)

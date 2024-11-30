@@ -9,9 +9,9 @@ android {
 }
 
 dependencies {
-    // feature
-    implementation(project(":feature:dialog"))
-
     //domain
     implementation(project(":domain:calendar"))
+
+    // feature
+    implementation(project(":feature:dialog"))
 }

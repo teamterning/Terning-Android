@@ -29,27 +29,24 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
+import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
+import com.terning.core.designsystem.extension.noRippleClickable
+import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.noRippleClickable
-import com.terning.core.extension.toast
-import com.terning.core.state.UiState
-import com.terning.core.type.Grade
-import com.terning.core.type.WorkingPeriod
-import com.terning.domain.entity.home.HomeFilteringInfo
-import com.terning.domain.entity.home.HomeRecommendIntern
-import com.terning.domain.entity.home.HomeUpcomingIntern
-import com.terning.feature.R
-import com.terning.feature.calendar.calendar.navigation.navigateCalendar
+import com.terning.core.designsystem.type.Grade
+import com.terning.core.designsystem.type.WorkingPeriod
+import com.terning.domain.home.entity.HomeFilteringInfo
+import com.terning.domain.home.entity.HomeRecommendIntern
+import com.terning.domain.home.entity.HomeUpcomingIntern
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.home.component.HomeFilteringBottomSheet
@@ -58,7 +55,6 @@ import com.terning.feature.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
-import com.terning.feature.intern.navigation.navigateIntern
 
 const val NAME_START_LENGTH = 7
 const val NAME_END_LENGTH = 12
@@ -68,6 +64,8 @@ fun HomeRoute(
     paddingValues: PaddingValues,
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
+    navigateToCalendar: () -> Unit,
+    navigateToIntern: (Long) -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
     SideEffect {
@@ -95,6 +93,8 @@ fun HomeRoute(
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
                     is HomeSideEffect.NavigateToHome -> navController.navigateUp()
+                    is HomeSideEffect.NavigateToCalendar -> navigateToCalendar()
+                    is HomeSideEffect.NavigateToIntern -> navigateToIntern(sideEffect.announcementId)
                 }
             }
     }
@@ -106,14 +106,14 @@ fun HomeRoute(
                 type = EventType.CLICK,
                 name = "home_intern_card"
             )
-            navController.navigateIntern(announcementId = it)
+            viewModel.navigateIntern(announcementId = it)
         },
         navigateToCalendar = {
             amplitudeTracker.track(
                 type = EventType.CLICK,
                 name = "check_schedule"
             )
-            navController.navigateCalendar()
+            viewModel.navigateCalendar()
         },
         updateRecommendDialogVisibility = viewModel::updateRecommendDialogVisibility,
         updateUpcomingDialogVisibility = viewModel::updateUpcomingDialogVisibility,

@@ -15,12 +15,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.image.TerningImage
+import com.terning.core.designsystem.extension.customShadow
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.customShadow
-import com.terning.feature.R
+import com.terning.feature.home.R
 
 @Composable
 fun HomeUpcomingEmptyFilter(

@@ -1,4 +1,4 @@
-package com.terning.core.common.state
+package com.terning.core.designsystem.state
 
 sealed interface UiState<out T> {
     data object Empty : UiState<Nothing>
