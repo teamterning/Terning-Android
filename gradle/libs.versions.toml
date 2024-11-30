@@ -4,7 +4,7 @@ minSdk = "28"
 targetSdk = "34"
 versionName = "1.1.8"
 versionCode = "10108"
-kotlinCompilerExtensionVersion = "1.5.0"
+kotlinCompilerExtensionVersion = "1.5.2"
 jvmTarget = "1.8"
 
 ## Android gradle plugin
@@ -187,6 +187,8 @@ android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlinParcelize" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version = "kotlinCompilerExtensionVersion" }
+
 
 terning-application = { id = "terning.android.application", version = "unspecified" }
 terning-compose = { id = "terning.android.compose", version = "unspecified" }

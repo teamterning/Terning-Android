@@ -1,10 +1,13 @@
+import com.terning.build_logic.setNamespace
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.terning.library)
+    alias(libs.plugins.terning.compose)
+  //  alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.terning.core.common"
+    setNamespace("core:common")
     compileSdk = 34
 
     defaultConfig {

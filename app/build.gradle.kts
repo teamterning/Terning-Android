@@ -1,4 +1,5 @@
 import java.util.Properties
+import com.terning.build_logic.setNamespace
 
 plugins {
     alias(libs.plugins.terning.application)
@@ -18,7 +19,7 @@ android {
         }
     }
 
-    namespace = "com.terning.point"
+    setNamespace("point")
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -106,12 +107,6 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:local"))
     implementation(project(":core:common"))
-
-//
-//    implementation(project(":core"))
-//    implementation(project(":data"))
-//    implementation(project(":domain"))
-//    implementation(project(":feature"))
 
     // KotlinDependencies
     implementation(libs.kotlinx.serialization.json)
