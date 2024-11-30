@@ -1,6 +1,7 @@
 package com.terning.data.calendar.datasourceimpl
 
 import com.terning.core.network.BaseResponse
+import com.terning.data.calendar.datasource.CalendarDataSource
 import com.terning.data.calendar.dto.request.CalendarDayListRequestDto
 import com.terning.data.calendar.dto.request.CalendarMonthListRequestDto
 import com.terning.data.calendar.dto.request.CalendarMonthRequestDto
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 class CalendarDataSourceImpl @Inject constructor(
     private val calendarService: CalendarService
-) : com.terning.data.calendar.datasource.CalendarDataSource {
+) : CalendarDataSource {
     override suspend fun getCalendarMonth(request: CalendarMonthRequestDto): BaseResponse<List<CalendarMonthResponseDto>> =
         calendarService.getCalendarScrapMonth(request.year, request.month)
 

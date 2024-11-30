@@ -102,6 +102,7 @@ dependencies {
     implementation(project(":data:scrap"))
     implementation(project(":data:token"))
     implementation(project(":data:tokenreissue"))
+    implementation(project(":data:search"))
 
     // core
     implementation(project(":core:network"))
