@@ -106,7 +106,6 @@ dependencies {
     // core
     implementation(project(":core:network"))
     implementation(project(":core:local"))
-    implementation(project(":core:common"))
 
     // KotlinDependencies
     implementation(libs.kotlinx.serialization.json)
