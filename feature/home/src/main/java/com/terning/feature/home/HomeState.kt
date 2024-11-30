@@ -1,10 +1,10 @@
 package com.terning.feature.home
 
-import com.terning.core.state.UiState
-import com.terning.core.type.SortBy
-import com.terning.domain.entity.home.HomeFilteringInfo
-import com.terning.domain.entity.home.HomeRecommendIntern
-import com.terning.domain.entity.home.HomeUpcomingIntern
+import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.type.SortBy
+import com.terning.domain.home.entity.HomeFilteringInfo
+import com.terning.domain.home.entity.HomeRecommendIntern
+import com.terning.domain.home.entity.HomeUpcomingIntern
 
 data class HomeState(
     val sortBy: SortBy = SortBy.EARLIEST,

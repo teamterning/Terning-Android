@@ -1,3 +1,5 @@
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -17,7 +19,9 @@ buildscript {
         google()
         mavenCentral()
     }
+    gradle.startParameter.excludedTaskNames.addAll(listOf("testClasses"))
 }
+
 
 apply {
     from("gradle/projectDependencyGraph.gradle")

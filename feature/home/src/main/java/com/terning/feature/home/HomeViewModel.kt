@@ -6,6 +6,7 @@ import com.terning.core.designsystem.extension.currentMonth
 import com.terning.core.designsystem.extension.currentYear
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.type.SortBy
+import com.terning.domain.home.entity.ChangeFilteringRequestModel
 import com.terning.domain.home.entity.HomeRecommendIntern
 import com.terning.domain.home.repository.HomeRepository
 import com.terning.domain.mypage.repository.MyPageRepository
@@ -90,7 +91,7 @@ class HomeViewModel @Inject constructor(
     fun putFilteringInfo(grade: String, workingPeriod: String, year: Int, month: Int) {
         viewModelScope.launch {
             homeRepository.putFilteringInfo(
-                com.terning.domain.home.entity.ChangeFilteringRequestModel(
+                ChangeFilteringRequestModel(
                     grade,
                     workingPeriod,
                     year,

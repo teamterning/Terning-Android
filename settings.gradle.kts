@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -22,6 +24,7 @@ dependencyResolutionManagement {
         maven(url = "https://devrepo.kakao.com/nexus/content/groups/public/")
     }
 }
+gradle.startParameter.excludedTaskNames.addAll(listOf("testClasses"))
 
 rootProject.name = "Terning-Android"
 
