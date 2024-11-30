@@ -1,4 +1,4 @@
-package com.terning.data.local
+package com.terning.core.local
 
 interface TerningDataStore {
     var accessToken: String
