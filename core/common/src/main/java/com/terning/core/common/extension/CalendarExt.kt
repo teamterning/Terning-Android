@@ -1,4 +1,4 @@
-package com.terning.core.extension
+package com.terning.core.common.extension
 
 import java.util.Calendar
 

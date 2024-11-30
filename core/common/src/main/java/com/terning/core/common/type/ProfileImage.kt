@@ -1,7 +1,7 @@
-package com.terning.core.type
+package com.terning.core.common.type
 
 import androidx.annotation.DrawableRes
-import com.terning.core.R
+import com.terning.core.common.R
 
 enum class ProfileImage(
     @DrawableRes val drawableResId: Int,

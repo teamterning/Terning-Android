@@ -1,4 +1,4 @@
-package com.terning.core.util
+package com.terning.core.common.util
 
 object CalendarDefaults {
     const val START_YEAR = 2010

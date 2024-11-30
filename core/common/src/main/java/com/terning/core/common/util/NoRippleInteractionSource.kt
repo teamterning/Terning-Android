@@ -1,4 +1,4 @@
-package com.terning.core.util
+package com.terning.core.common.util
 
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource

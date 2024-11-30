@@ -1,7 +1,7 @@
-package com.terning.core.type
+package com.terning.core.common.type
 
 import androidx.annotation.StringRes
-import com.terning.core.R
+import com.terning.core.common.R
 
 enum class Grade(
     val stringValue: String,

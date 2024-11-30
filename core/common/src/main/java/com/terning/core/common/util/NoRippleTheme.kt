@@ -1,4 +1,4 @@
-package com.terning.core.util
+package com.terning.core.common.util
 
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
