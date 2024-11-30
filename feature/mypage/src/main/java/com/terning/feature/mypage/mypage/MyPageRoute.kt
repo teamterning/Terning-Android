@@ -1,7 +1,8 @@
 package com.terning.feature.mypage.mypage
 
 import android.content.Context
-import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,11 +35,14 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.jakewharton.processphoenix.ProcessPhoenix
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
+import com.terning.core.designsystem.extension.noRippleClickable
+import com.terning.core.designsystem.extension.toast
+import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
@@ -46,14 +50,9 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.noRippleClickable
-import com.terning.core.extension.toast
-import com.terning.core.state.UiState
-import com.terning.feature.BuildConfig
-import com.terning.feature.R
-import com.terning.feature.main.MainActivity
-import com.terning.feature.mypage.component.MyPageProfile
+import com.terning.feature.mypage.R
 import com.terning.feature.mypage.mypage.component.MyPageItem
+import com.terning.feature.mypage.mypage.component.MyPageProfile
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.PERSONAL_URL
@@ -174,8 +173,8 @@ fun MyPageRoute(
             )
         }
 
-        is UiState.Loading -> {}
-        is UiState.Empty -> {}
+         UiState.Loading -> {}
+         UiState.Empty -> {}
         is UiState.Failure -> {
             MyPageScreen(
                 paddingValues = paddingValues,
@@ -440,10 +439,8 @@ private fun navigateToPersonalWebView(context: Context) {
 }
 
 private fun restartApp(context: Context) {
-    Intent(context, MainActivity::class.java).apply {
-        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(this)
+    Handler(Looper.getMainLooper()).post {
+        ProcessPhoenix.triggerRebirth(context)
     }
 }
 

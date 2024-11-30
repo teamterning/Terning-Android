@@ -1,4 +1,4 @@
-package com.terning.feature.mypage.component
+package com.terning.feature.mypage.mypage.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.aspectRatio
@@ -9,8 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.terning.core.R
-import com.terning.core.type.ProfileImage
+import com.terning.core.designsystem.type.ProfileImage
 
 @Composable
 fun MyPageProfile(

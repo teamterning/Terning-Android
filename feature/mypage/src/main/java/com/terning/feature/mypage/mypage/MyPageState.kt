@@ -1,6 +1,6 @@
 package com.terning.feature.mypage.mypage
 
-import com.terning.core.state.UiState
+import com.terning.core.designsystem.state.UiState
 
 data class MyPageState(
     val isGetSuccess: UiState<Boolean> = UiState.Loading,

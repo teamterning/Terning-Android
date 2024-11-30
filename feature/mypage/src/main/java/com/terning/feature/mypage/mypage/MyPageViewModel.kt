@@ -3,10 +3,10 @@ package com.terning.feature.mypage.mypage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.user.UserApiClient
-import com.terning.core.state.UiState
+import com.terning.core.designsystem.state.UiState
 import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.domain.token.repository.TokenRepository
-import com.terning.feature.R
+import com.terning.feature.mypage.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val myPageRepository: com.terning.domain.mypage.repository.MyPageRepository,
-    private val tokenRepository: com.terning.domain.token.repository.TokenRepository
+    private val myPageRepository: MyPageRepository,
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<MyPageState> = MutableStateFlow(MyPageState())
