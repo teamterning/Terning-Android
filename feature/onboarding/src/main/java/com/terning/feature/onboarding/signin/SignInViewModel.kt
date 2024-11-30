@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
-import com.terning.domain.onboarding.entity.SignInRequest
+import com.terning.domain.auth.entity.SignInRequest
 import com.terning.domain.auth.repository.AuthRepository
 import com.terning.domain.token.repository.TokenRepository
-import com.terning.feature.R
+import com.terning.feature.onboarding.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -18,8 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val authRepository: com.terning.domain.auth.repository.AuthRepository,
-    private val tokenRepository: com.terning.domain.token.repository.TokenRepository,
+    private val authRepository: AuthRepository,
+    private val tokenRepository: TokenRepository,
 ) : ViewModel() {
 
     init {
@@ -63,7 +63,7 @@ class SignInViewModel @Inject constructor(
     ) {
         authRepository.postSignIn(
             accessToken,
-            com.terning.domain.onboarding.entity.SignInRequest(authType = authType)
+           SignInRequest(authType = authType)
         ).onSuccess { response ->
             when {
                 response.accessToken == null -> _signInSideEffects.emit(

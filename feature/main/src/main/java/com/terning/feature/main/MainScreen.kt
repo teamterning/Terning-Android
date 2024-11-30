@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.terning.core.analytics.EventType
@@ -43,8 +44,9 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
 import com.terning.feature.filtering.filteringone.navigation.filteringOneNavGraph
-import com.terning.feature.filtering.filteringtwo.navigation.filteringTwoNavGraph
 import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNavGraph
+import com.terning.feature.filtering.filteringtwo.navigation.filteringTwoNavGraph
+import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
 import com.terning.feature.filtering.startfiltering.navigation.startFilteringNavGraph
 import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
@@ -53,8 +55,11 @@ import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.intern.navigation.navigateIntern
 import com.terning.feature.mypage.mypage.navigation.myPageNavGraph
 import com.terning.feature.mypage.profileedit.navigation.profileEditNavGraph
+import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
+import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
+import com.terning.feature.onboarding.splash.navigation.Splash
 import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
@@ -141,23 +146,78 @@ fun MainScreen(
                 navController = navigator.navController,
                 startDestination = navigator.startDestination
             ) {
-                splashNavGraph(navHostController = navigator.navController)
+                splashNavGraph(
+                    navigateHome = {
+                        navigator.navController.navigateHome(
+                            navOptions = NavOptions.Builder().setPopUpTo(
+                                route = Splash,
+                                inclusive = true
+                            ).build()
+                        )
+                    },
+                    navigateSignIn = {
+                        navigator.navController.navigateSignIn(
+                            navOptions = NavOptions.Builder().setPopUpTo(
+                                route = Splash,
+                                inclusive = true
+                            ).build()
+                        )
+                    }
+                )
                 homeNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController,
                     navigateToCalendar = { navigator.navController.navigateHome() },
-                    navigateToIntern = { navigator.navController.navigateIntern() }
+                    navigateToIntern = { announcementId ->
+                        // todo: 지우기
+                        navigator.navController.navigateIntern(announcementId)
+                    }
                 )
                 calendarNavGraph(
                     paddingValues = paddingValues,
-                    navigateIntern = { navigator.navController.navigateIntern() }
+                    navigateIntern = {
+                        // todo: 확인
+                        navigator.navController.navigateIntern()
+                    }
                 )
                 searchNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController
                 )
-                signInNavGraph(navHostController = navigator.navController)
-                signUpNavGraph(navHostController = navigator.navController)
+                signInNavGraph(
+                    navigateHome = {
+                        val navOptions = navOptions {
+                            popUpTo(id = navigator.navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                        navigator.navController.navigateHome(navOptions)
+                    },
+                    navigateSignUp = { authId ->
+                        val navOptions = navOptions {
+                            popUpTo(id = navigator.navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                        navigator.navController.navigateSignUp(
+                            authId = authId,
+                            navOptions = navOptions
+                        )
+                    }
+                )
+                signUpNavGraph(
+                    navigateStartFiltering = { name ->
+                        val navOptions = navOptions {
+                            popUpTo(id = navigator.navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                        navigator.navController.navigateStartFiltering(
+                            name = name,
+                            navOptions = navOptions
+                        )
+                    }
+                )
                 startFilteringNavGraph(navHostController = navigator.navController)
                 startHomeNavGraph(
                     navigateHome = {

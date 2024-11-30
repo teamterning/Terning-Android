@@ -18,7 +18,7 @@ import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.feature.R
+import com.terning.feature.onboarding.R
 
 @Composable
 fun SplashRoute(

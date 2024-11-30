@@ -2,14 +2,10 @@ package com.terning.feature.onboarding.signin.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.navOptions
 import com.terning.core.navigation.Route
-import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.onboarding.signin.SignInRoute
-import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateSignIn(navOptions: NavOptions? = null) {
@@ -20,21 +16,13 @@ fun NavController.navigateSignIn(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.signInNavGraph(
-    navHostController: NavHostController,
+    navigateHome: () -> Unit,
+    navigateSignUp: (String) -> Unit
 ) {
     composable<SignIn> {
-        val navOptions = navOptions {
-            popUpTo(id = navHostController.graph.id) {
-                inclusive = true
-            }
-        }
         SignInRoute(
-            navigateToHome = {
-                navHostController.navigateHome(navOptions = navOptions)
-            },
-            navigateToSignUp = { authId ->
-                navHostController.navigateSignUp(authId = authId, navOptions = navOptions)
-            }
+            navigateToHome = navigateHome,
+            navigateToSignUp = navigateSignUp
         )
     }
 }

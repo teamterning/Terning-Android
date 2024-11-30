@@ -24,19 +24,18 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.ProfileBottomSheet
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.item.ProfileWithPlusButton
 import com.terning.core.designsystem.component.textfield.NameTextField
+import com.terning.core.designsystem.extension.addFocusCleaner
+import com.terning.core.designsystem.extension.noRippleClickable
+import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.addFocusCleaner
-import com.terning.core.extension.noRippleClickable
-import com.terning.core.extension.toast
-import com.terning.feature.R
+import com.terning.feature.onboarding.R
 
 @Composable
 fun SignUpRoute(

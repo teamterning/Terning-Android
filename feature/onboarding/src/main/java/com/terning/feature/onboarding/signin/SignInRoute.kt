@@ -30,10 +30,10 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
+import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.toast
-import com.terning.feature.R
+import com.terning.feature.onboarding.R
 import com.terning.feature.onboarding.signin.component.KakaoButton
 
 @Composable

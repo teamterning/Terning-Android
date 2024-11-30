@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val tokenRepository: com.terning.domain.token.repository.TokenRepository,
+    private val tokenRepository: TokenRepository,
 ) : ViewModel() {
 
     private val _sideEffects = MutableSharedFlow<SplashState>()
