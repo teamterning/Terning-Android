@@ -1,6 +1,6 @@
 package com.terning.data.scrap.service
 
-import com.terning.data.dto.NonDataBaseResponse
+import com.terning.core.network.NonDataBaseResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.PATCH

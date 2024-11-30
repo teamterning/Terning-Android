@@ -1,6 +1,6 @@
 package com.terning.domain.scrap.repository
 
-import com.terning.domain.entity.calendar.CalendarScrapRequest
+import com.terning.domain.scrap.entity.CalendarScrapRequest
 
 interface ScrapRepository {
     suspend fun postScrap(calendarScrapRequest: CalendarScrapRequest): Result<Unit>

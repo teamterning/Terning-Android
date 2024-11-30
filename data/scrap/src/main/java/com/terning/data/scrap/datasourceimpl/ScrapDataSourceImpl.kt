@@ -1,9 +1,9 @@
 package com.terning.data.scrap.datasourceimpl
 
-import com.terning.data.dto.NonDataBaseResponse
-import com.terning.data.dto.request.ScrapColorRequestDto
-import com.terning.data.service.ScrapService
-import com.terning.domain.entity.calendar.CalendarScrapRequest
+import com.terning.core.network.NonDataBaseResponse
+import com.terning.data.scrap.dto.request.ScrapColorRequestDto
+import com.terning.data.scrap.service.ScrapService
+import com.terning.domain.scrap.entity.CalendarScrapRequest
 import javax.inject.Inject
 
 class ScrapDataSourceImpl @Inject constructor(
