@@ -1,10 +1,10 @@
 package com.terning.data.mypage.datasourceimpl
 
-import com.terning.data.dto.BaseResponse
-import com.terning.data.dto.NonDataBaseResponse
-import com.terning.data.dto.request.MyPageProfileEditRequestDto
-import com.terning.data.dto.response.MyPageResponseDto
-import com.terning.data.service.MyPageService
+import com.terning.core.network.BaseResponse
+import com.terning.core.network.NonDataBaseResponse
+import com.terning.data.mypage.dto.request.MyPageProfileEditRequestDto
+import com.terning.data.mypage.dto.response.MyPageResponseDto
+import com.terning.data.mypage.service.MyPageService
 import javax.inject.Inject
 
 class MyPageDataSourceImpl @Inject constructor(

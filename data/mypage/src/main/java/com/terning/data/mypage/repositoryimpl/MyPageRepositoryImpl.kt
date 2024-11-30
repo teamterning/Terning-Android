@@ -2,9 +2,9 @@ package com.terning.data.mypage.repositoryimpl
 
 import com.terning.data.mypage.mapper.toMyPageProfile
 import com.terning.data.mypage.mapper.toMyPageProfileEditRequestDto
-import com.terning.domain.entity.mypage.MyPageProfile
-import com.terning.domain.entity.mypage.MyPageProfileEdit
-import com.terning.domain.repository.MyPageRepository
+import com.terning.domain.mypage.entity.MyPageProfile
+import com.terning.domain.mypage.entity.MyPageProfileEdit
+import com.terning.domain.mypage.repository.MyPageRepository
 import javax.inject.Inject
 
 class MyPageRepositoryImpl @Inject constructor(

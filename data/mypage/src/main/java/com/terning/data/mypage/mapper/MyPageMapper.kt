@@ -1,8 +1,9 @@
 package com.terning.data.mypage.mapper
 
-import com.terning.domain.entity.mypage.MyPageProfile
+import com.terning.data.mypage.dto.response.MyPageResponseDto
+import com.terning.domain.mypage.entity.MyPageProfile
 
-fun com.terning.data.mypage.dto.response.MyPageResponseDto.toMyPageProfile() =
+fun MyPageResponseDto.toMyPageProfile() =
     MyPageProfile(
         name = name,
         profileImage = profileImage,

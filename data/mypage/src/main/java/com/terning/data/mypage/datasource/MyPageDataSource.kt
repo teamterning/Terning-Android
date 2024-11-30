@@ -1,9 +1,9 @@
 package com.terning.data.mypage.datasource
 
-import com.terning.data.dto.BaseResponse
-import com.terning.data.dto.NonDataBaseResponse
-import com.terning.data.dto.request.MyPageProfileEditRequestDto
-import com.terning.data.dto.response.MyPageResponseDto
+import com.terning.core.network.BaseResponse
+import com.terning.core.network.NonDataBaseResponse
+import com.terning.data.mypage.dto.request.MyPageProfileEditRequestDto
+import com.terning.data.mypage.dto.response.MyPageResponseDto
 
 interface MyPageDataSource {
     suspend fun postLogout(): NonDataBaseResponse
