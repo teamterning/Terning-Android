@@ -1,11 +1,7 @@
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.terning.application)
 }
 
 val properties = Properties().apply {
@@ -91,10 +87,31 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":data"))
-    implementation(project(":domain"))
-    implementation(project(":feature"))
+
+    // feature
+    implementation(project(":feature:main"))
+
+    // data
+    implementation(project(":data:auth"))
+    implementation(project(":data:calendar"))
+    implementation(project(":data:filtering"))
+    implementation(project(":data:home"))
+    implementation(project(":data:intern"))
+    implementation(project(":data:mypage"))
+    implementation(project(":data:scrap"))
+    implementation(project(":data:token"))
+    implementation(project(":data:tokenreissue"))
+
+    // core
+    implementation(project(":core:network"))
+    implementation(project(":core:local"))
+    implementation(project(":core:common"))
+
+//
+//    implementation(project(":core"))
+//    implementation(project(":data"))
+//    implementation(project(":domain"))
+//    implementation(project(":feature"))
 
     // KotlinDependencies
     implementation(libs.kotlinx.serialization.json)

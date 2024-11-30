@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.terning.library)
 }
@@ -7,7 +9,8 @@ val properties = Properties().apply {
 }
 
 android {
-    setNamespace("core.analytics")
+//    setNamespace("core.analytics")
+    namespace = "com.terning.core.analytics"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

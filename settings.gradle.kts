@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -23,7 +24,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Terning-Android"
+
 include(":app")
+
 include(":feature")
 include(":data")
 include(":domain")
@@ -65,4 +68,3 @@ include(":core:common")
 include(":core:navigation")
 include(":core:network")
 include(":core:local")
-include(":build-logic")

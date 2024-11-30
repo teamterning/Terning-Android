@@ -4,7 +4,7 @@ import com.terning.build_logic.libs
 
 plugins {
     id("terning.android.library")
-}x
+}
 
 android {
     packaging {

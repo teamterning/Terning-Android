@@ -8,4 +8,4 @@ kotlin {
     jvmToolchain(17)
 }
 
-configureKotlin()oid()
+configureKotlin()
