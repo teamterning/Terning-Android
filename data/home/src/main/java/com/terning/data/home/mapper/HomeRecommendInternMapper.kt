@@ -1,8 +1,9 @@
 package com.terning.data.home.mapper
 
-import com.terning.domain.entity.home.HomeRecommendIntern
+import com.terning.data.home.dto.response.HomeRecommendInternResponseDto
+import com.terning.domain.home.entity.HomeRecommendIntern
 
-fun com.terning.data.home.dto.response.HomeRecommendInternResponseDto.toHomeRecommendInternList(): HomeRecommendIntern =
+fun HomeRecommendInternResponseDto.toHomeRecommendInternList(): HomeRecommendIntern =
     HomeRecommendIntern(
         totalCount = this.totalCount,
         homeRecommendInternDetail = this.result.map {
@@ -10,7 +11,7 @@ fun com.terning.data.home.dto.response.HomeRecommendInternResponseDto.toHomeReco
         }
     )
 
-fun com.terning.data.home.dto.response.HomeRecommendInternResponseDto.Result.toHomeRecommendInternDetail(): HomeRecommendIntern.HomeRecommendInternDetail =
+fun HomeRecommendInternResponseDto.Result.toHomeRecommendInternDetail(): HomeRecommendIntern.HomeRecommendInternDetail =
     HomeRecommendIntern.HomeRecommendInternDetail(
         internshipAnnouncementId = this.internshipAnnouncementId,
         title = this.title,

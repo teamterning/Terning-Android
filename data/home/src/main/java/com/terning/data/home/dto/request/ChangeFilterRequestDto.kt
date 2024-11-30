@@ -1,7 +1,8 @@
 package com.terning.data.home.dto.request
 
-import com.terning.domain.entity.request.ChangeFilteringRequestModel
+import com.terning.domain.home.entity.ChangeFilteringRequestModel
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Serializable
 data class ChangeFilterRequestDto(

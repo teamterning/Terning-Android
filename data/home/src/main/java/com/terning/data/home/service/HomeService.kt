@@ -1,8 +1,9 @@
 package com.terning.data.home.service
 
-import com.terning.data.dto.BaseResponse
-import com.terning.data.dto.NonDataBaseResponse
-import com.terning.data.dto.request.ChangeFilterRequestDto
+import com.terning.core.network.BaseResponse
+import com.terning.core.network.NonDataBaseResponse
+import com.terning.data.home.dto.request.ChangeFilterRequestDto
+import com.terning.data.home.dto.response.HomeUpcomingInternResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
@@ -10,7 +11,7 @@ import retrofit2.http.Query
 
 interface HomeService {
     @GET("api/v1/home/upcoming")
-    suspend fun getHomeUpcomingIntern(): BaseResponse<com.terning.data.home.dto.response.HomeUpcomingInternResponseDto>
+    suspend fun getHomeUpcomingIntern(): BaseResponse<HomeUpcomingInternResponseDto>
 
     @GET("api/v1/home")
     suspend fun getRecommendIntern(

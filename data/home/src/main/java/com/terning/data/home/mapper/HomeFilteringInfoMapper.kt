@@ -1,8 +1,9 @@
 package com.terning.data.home.mapper
 
-import com.terning.domain.entity.home.HomeFilteringInfo
+import com.terning.data.home.dto.response.HomeFilteringInfoResponseDto
+import com.terning.domain.home.entity.HomeFilteringInfo
 
-fun com.terning.data.home.dto.response.HomeFilteringInfoResponseDto.toHomeFilteringInfo(): HomeFilteringInfo =
+fun HomeFilteringInfoResponseDto.toHomeFilteringInfo(): HomeFilteringInfo =
     HomeFilteringInfo(
         grade = this.grade,
         workingPeriod = this.workingPeriod,
