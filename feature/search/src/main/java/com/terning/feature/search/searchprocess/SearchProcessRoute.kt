@@ -34,33 +34,31 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
+import com.terning.core.designsystem.extension.addFocusCleaner
+import com.terning.core.designsystem.extension.noRippleClickable
+import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.addFocusCleaner
-import com.terning.core.extension.noRippleClickable
-import com.terning.core.extension.toast
 import com.terning.domain.search.entity.SearchResult
-import com.terning.feature.R
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
-import com.terning.feature.intern.navigation.navigateIntern
+import com.terning.feature.search.R
 import com.terning.feature.search.searchprocess.models.SearchProcessState
-
 
 @Composable
 fun SearchProcessRoute(
     modifier: Modifier,
     navController: NavHostController,
+    navigateIntern: (Long) -> Unit,
     viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -86,13 +84,17 @@ fun SearchProcessRoute(
                     is SearchProcessSideEffect.ScrapUpdate -> {
                         sideEffect.keyword
                     }
+
+                    is SearchProcessSideEffect.NavigateIntern -> {
+                        navigateIntern(sideEffect.internshipAnnouncementId)
+                    }
                 }
             }
     }
 
     SearchProcessScreen(
         modifier = modifier,
-        navigateToIntern = { navController.navigateIntern(it) },
+        navigateToIntern = { viewModel.navigateIntern(it) },
         navigateToBack = { navController.navigateUp() },
         state = state,
         internSearchResultData = internSearchResultData,
@@ -156,14 +158,14 @@ fun SearchProcessScreen(
     navigateToIntern: (Long) -> Unit,
     navigateToBack: () -> Unit,
     state: SearchProcessState = SearchProcessState(),
-    internSearchResultData: List<com.terning.domain.search.entity.SearchResult> = emptyList(),
+    internSearchResultData: List<SearchResult> = emptyList(),
     updateText: (String) -> Unit = {},
     onSearchAction: () -> Unit = {},
     onSortButtonClick: () -> Unit = {},
-    onDismissCancelDialog: (Boolean, com.terning.domain.search.entity.SearchResult) -> Unit,
-    onDismissScrapDialog: (Boolean, com.terning.domain.search.entity.SearchResult) -> Unit,
+    onDismissCancelDialog: (Boolean, SearchResult) -> Unit,
+    onDismissScrapDialog: (Boolean, SearchResult) -> Unit,
     onDismissSheet: () -> Unit = {},
-    onScrapButtonClicked: (com.terning.domain.search.entity.SearchResult) -> Unit,
+    onScrapButtonClicked: (SearchResult) -> Unit,
     onSortChange: (Int) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -372,7 +374,7 @@ fun SearchProcessScreen(
 
 @Composable
 private fun SearchResultInternItem(
-    intern: com.terning.domain.search.entity.SearchResult,
+    intern: SearchResult,
     navigateToIntern: (Long) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,
 ) {

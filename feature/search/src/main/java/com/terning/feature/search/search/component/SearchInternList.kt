@@ -13,13 +13,13 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.domain.search.entity.SearchPopularAnnouncement
-import com.terning.feature.R
+import com.terning.feature.search.R
 
 @Composable
 fun SearchInternList(
     type: InternListType,
-    searchScrapsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>?,
-    searchViewsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>?,
+    searchScrapsList: List<SearchPopularAnnouncement>?,
+    searchViewsList: List<SearchPopularAnnouncement>?,
     navigateToIntern: (Long) -> Unit,
 ) {
     Column(

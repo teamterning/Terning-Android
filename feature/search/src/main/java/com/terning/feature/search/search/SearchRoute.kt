@@ -23,17 +23,14 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.textfield.SearchTextField
+import com.terning.core.designsystem.extension.noRippleClickable
+import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.noRippleClickable
-import com.terning.core.state.UiState
-import com.terning.domain.search.entity.SearchBanner
-import com.terning.domain.search.entity.SearchPopularAnnouncement
-import com.terning.feature.R
+import com.terning.feature.search.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
 import com.terning.feature.search.search.component.SearchInternList
@@ -120,7 +117,7 @@ fun SearchScreen(
             .background(White)
     ) {
         TerningImage(
-            painter = com.terning.core.R.drawable.ic_terning_logo_typo,
+            painter = R.drawable.ic_terning_logo_typo,
             modifier = Modifier
                 .padding(start = 24.dp, top = 16.dp)
         )

@@ -2,10 +2,9 @@ package com.terning.feature.search.searchprocess
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.type.SortBy
+import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.search.entity.SearchResult
-import com.terning.domain.search.repository.SearchRepository
-import com.terning.feature.R
+import com.terning.feature.search.R
 import com.terning.feature.search.searchprocess.models.SearchProcessState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -29,8 +28,8 @@ class SearchProcessViewModel @Inject constructor(
     private val _sideEffect = MutableSharedFlow<SearchProcessSideEffect>()
     val sideEffect: SharedFlow<SearchProcessSideEffect> = _sideEffect.asSharedFlow()
 
-    private val _internSearchResultData = MutableStateFlow<List<com.terning.domain.search.entity.SearchResult>>(emptyList())
-    val internSearchResultData: StateFlow<List<com.terning.domain.search.entity.SearchResult>> =
+    private val _internSearchResultData = MutableStateFlow<List<SearchResult>>(emptyList())
+    val internSearchResultData: StateFlow<List<SearchResult>> =
         _internSearchResultData.asStateFlow()
 
     fun getSearchList(
@@ -63,7 +62,7 @@ class SearchProcessViewModel @Inject constructor(
     ) {
         _state.update {
             it.copy(
-                searchResult = com.terning.domain.search.entity.SearchResult(
+                searchResult = SearchResult(
                     internshipAnnouncementId = internshipId,
                     title = title,
                     dDay = dDay,
@@ -119,6 +118,12 @@ class SearchProcessViewModel @Inject constructor(
             } else {
                 searchResult
             }
+        }
+    }
+
+    fun navigateIntern(internshipAnnouncementId: Long) {
+        viewModelScope.launch {
+            _sideEffect.emit(SearchProcessSideEffect.NavigateIntern(internshipAnnouncementId))
         }
     }
 }

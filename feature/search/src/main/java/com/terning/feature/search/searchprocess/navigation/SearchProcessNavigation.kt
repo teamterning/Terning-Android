@@ -23,6 +23,7 @@ fun NavController.navigateSearchProcess(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.searchProcessNavGraph(
     navHostController: NavHostController,
+    navigateIntern: (Long) -> Unit,
     paddingValues: PaddingValues
 ) {
     composable<SearchProcess>(
@@ -42,6 +43,9 @@ fun NavGraphBuilder.searchProcessNavGraph(
         SearchProcessRoute(
             modifier = Modifier.padding(paddingValues),
             navController = navHostController,
+            navigateIntern = { internshipAnnouncementId ->
+                navigateIntern(internshipAnnouncementId)
+            }
         )
     }
 }

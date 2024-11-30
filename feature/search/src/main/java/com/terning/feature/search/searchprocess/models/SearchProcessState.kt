@@ -1,11 +1,11 @@
 package com.terning.feature.search.searchprocess.models
 
-import com.terning.core.state.UiState
-import com.terning.core.type.SortBy
+import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.search.entity.SearchResult
 
 data class SearchProcessState(
-    val loadState: UiState<com.terning.domain.search.entity.SearchResult> = UiState.Loading,
+    val loadState: UiState<SearchResult> = UiState.Loading,
     val currentSortBy: Int = 0,
     val text: String = "",
     val keyword: String = "",

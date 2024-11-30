@@ -17,9 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.extension.noRippleClickable
-import com.terning.domain.search.entity.SearchBanner
 import kotlinx.coroutines.delay
 
 @Composable

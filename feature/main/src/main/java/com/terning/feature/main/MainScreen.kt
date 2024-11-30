@@ -62,6 +62,7 @@ import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
 import com.terning.feature.onboarding.splash.navigation.Splash
 import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
+import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
 import kotlinx.coroutines.launch
 
@@ -182,7 +183,10 @@ fun MainScreen(
                 )
                 searchNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController
+                    navigateSearchProcess = { navigator.navController.navigateSearchProcess() },
+                    navigateIntern = { announcementId ->
+                        navigator.navController.navigateIntern(announcementId)
+                    }
                 )
                 signInNavGraph(
                     navigateHome = {
@@ -234,7 +238,10 @@ fun MainScreen(
                 filteringThreeNavGraph(navHostController = navigator.navController)
                 searchProcessNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController
+                    navHostController = navigator.navController,
+                    navigateIntern = { internshipAnnouncementId ->
+                        navigator.navController.navigateIntern(internshipAnnouncementId)
+                    }
                 )
                 internNavGraph(
                     navHostController = navigator.navController

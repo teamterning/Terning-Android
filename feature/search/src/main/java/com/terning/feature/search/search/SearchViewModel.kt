@@ -2,10 +2,8 @@ package com.terning.feature.search.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.state.UiState
-import com.terning.domain.search.entity.SearchBanner
-import com.terning.domain.search.repository.SearchRepository
-import com.terning.feature.R
+import com.terning.core.designsystem.state.UiState
+import com.terning.feature.search.R
 import com.terning.feature.search.search.model.SearchScrapsListState
 import com.terning.feature.search.search.model.SearchViewsListState
 import dagger.hilt.android.lifecycle.HiltViewModel
