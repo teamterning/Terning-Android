@@ -1,7 +1,7 @@
 package com.terning.data.token.repositoryimpl
 
-import com.terning.data.local.TerningDataStore
-import com.terning.domain.repository.TokenRepository
+import com.terning.core.local.TerningDataStore
+import com.terning.domain.token.repository.TokenRepository
 import javax.inject.Inject
 
 class TokenRepositoryImpl @Inject constructor(
