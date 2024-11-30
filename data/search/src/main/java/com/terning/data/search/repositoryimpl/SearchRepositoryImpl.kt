@@ -1,14 +1,16 @@
 package com.terning.data.search.repositoryimpl
 
+import com.terning.data.search.datasource.SearchDataSource
+import com.terning.data.search.dto.request.SearchRequestDto
 import com.terning.data.search.mapper.toSearchPopularAnnouncementList
 import com.terning.data.search.mapper.toSearchResultList
-import com.terning.domain.entity.search.SearchPopularAnnouncement
-import com.terning.domain.entity.search.SearchResult
-import com.terning.domain.repository.SearchRepository
+import com.terning.domain.search.entity.SearchPopularAnnouncement
+import com.terning.domain.search.entity.SearchResult
+import com.terning.domain.search.repository.SearchRepository
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
-    private val searchDataSource: com.terning.data.search.datasource.SearchDataSource,
+    private val searchDataSource: SearchDataSource,
 ) : SearchRepository {
     override suspend fun getSearchList(
         query: String,
@@ -18,7 +20,7 @@ class SearchRepositoryImpl @Inject constructor(
     ): Result<List<SearchResult>> {
         return runCatching {
             searchDataSource.getSearch(
-                com.terning.data.search.dto.request.SearchRequestDto(
+                SearchRequestDto(
                     keyword = query,
                     sortBy = sortBy,
                     page = page,

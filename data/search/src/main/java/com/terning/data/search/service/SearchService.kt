@@ -1,7 +1,8 @@
 package com.terning.data.search.service
 
-import com.terning.data.dto.BaseResponse
-import com.terning.data.dto.response.SearchResultResponseDto
+import com.terning.core.network.BaseResponse
+import com.terning.data.search.dto.response.SearchAnnouncementResponseDto
+import com.terning.data.search.dto.response.SearchResultResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,8 +16,8 @@ interface SearchService {
     ): BaseResponse<SearchResultResponseDto>
 
     @GET("api/v1/search/views")
-    suspend fun getSearchViewsList(): BaseResponse<com.terning.data.search.dto.response.SearchAnnouncementResponseDto>
+    suspend fun getSearchViewsList(): BaseResponse<SearchAnnouncementResponseDto>
 
     @GET("api/v1/search/scraps")
-    suspend fun getSearchScrapsList(): BaseResponse<com.terning.data.search.dto.response.SearchAnnouncementResponseDto>
+    suspend fun getSearchScrapsList(): BaseResponse<SearchAnnouncementResponseDto>
 }

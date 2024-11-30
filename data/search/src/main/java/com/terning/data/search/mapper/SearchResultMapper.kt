@@ -1,8 +1,7 @@
 package com.terning.data.search.mapper
 
-import com.terning.data.dto.response.SearchResultResponseDto
-import com.terning.domain.entity.search.SearchResult
-
+import com.terning.data.search.dto.response.SearchResultResponseDto
+import com.terning.domain.search.entity.SearchResult
 
 fun SearchResultResponseDto.toSearchResultList(): List<SearchResult> {
     return announcements.map {

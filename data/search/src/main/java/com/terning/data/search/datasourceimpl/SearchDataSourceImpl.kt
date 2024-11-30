@@ -1,10 +1,10 @@
 package com.terning.data.search.datasourceimpl
 
-import com.terning.data.dto.BaseResponse
-import com.terning.data.dto.request.SearchRequestDto
-import com.terning.data.dto.response.SearchResultResponseDto
-import com.terning.data.dto.response.SearchAnnouncementResponseDto
-import com.terning.data.service.SearchService
+import com.terning.core.network.BaseResponse
+import com.terning.data.search.dto.request.SearchRequestDto
+import com.terning.data.search.dto.response.SearchAnnouncementResponseDto
+import com.terning.data.search.dto.response.SearchResultResponseDto
+import com.terning.data.search.service.SearchService
 import javax.inject.Inject
 
 class SearchDataSourceImpl @Inject constructor(
