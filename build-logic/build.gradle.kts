@@ -22,10 +22,10 @@ gradlePlugin {
     }
 }
 
-//tasks.named("compileTestKotlin") {
-//    dependsOn("clean")
-//}
-//
+tasks.named("compileTestKotlin") {
+    dependsOn("clean")
+}
+
 tasks.named("processTestResources") {
     dependsOn("compileTestKotlin")
 }
@@ -33,5 +33,3 @@ tasks.named("processTestResources") {
 tasks.named("testClasses") {
     dependsOn("processTestResources")
 }
-
-gradle.startParameter.excludedTaskNames.addAll(listOf("testClasses"))
