@@ -25,7 +25,7 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.feature.R
+import com.terning.feature.intern.R
 
 private const val MAX_LINES = 2
 

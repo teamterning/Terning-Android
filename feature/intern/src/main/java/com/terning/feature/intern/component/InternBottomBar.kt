@@ -16,19 +16,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.extension.customShadow
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.customShadow
-import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.intern.InternInfo
-import com.terning.feature.R
+import com.terning.domain.intern.entity.InternInfo
 import com.terning.feature.intern.InternViewModel
+import com.terning.feature.intern.R
 
 @Composable
 fun InternBottomBar(

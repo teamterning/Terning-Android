@@ -23,8 +23,7 @@ import com.terning.core.designsystem.theme.Grey375
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningSub3
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.feature.R
-
+import com.terning.feature.intern.R
 
 @Composable
 fun InternTitle(

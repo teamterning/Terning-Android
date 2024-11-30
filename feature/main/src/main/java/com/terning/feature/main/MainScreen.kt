@@ -48,6 +48,7 @@ import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNav
 import com.terning.feature.filtering.startfiltering.navigation.startFilteringNavGraph
 import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
+import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.intern.navigation.navigateIntern
 import com.terning.feature.mypage.mypage.navigation.myPageNavGraph
@@ -144,12 +145,12 @@ fun MainScreen(
                 homeNavGraph(
                     paddingValues = paddingValues,
                     navHostController = navigator.navController,
-                    navigateToCalendar = navigator::navigateCalendar,
-                    navigateToIntern = navigator::navigateIntern
+                    navigateToCalendar = { navigator.navController.navigateHome() },
+                    navigateToIntern = { navigator.navController.navigateIntern() }
                 )
                 calendarNavGraph(
                     paddingValues = paddingValues,
-                    navigateIntern = navigator::navigateIntern,
+                    navigateIntern = { navigator.navController.navigateIntern() }
                 )
                 searchNavGraph(
                     paddingValues = paddingValues,
@@ -165,7 +166,7 @@ fun MainScreen(
                                 inclusive = true
                             }
                         }
-                        navigator.navigateHome(navOptions)
+                        navigator.navController.navigateHome(navOptions)
                     }
                 )
                 filteringOneNavGraph(navHostController = navigator.navController)
