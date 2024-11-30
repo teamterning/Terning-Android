@@ -2,10 +2,9 @@ package com.terning.feature.dialog.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.type.ColorType
-import com.terning.domain.entity.calendar.CalendarScrapRequest
-import com.terning.domain.scrap.repository.ScrapRepository
-import com.terning.feature.R
+import com.terning.core.designsystem.type.ColorType
+import com.terning.domain.scrap.entity.CalendarScrapRequest
+import com.terning.featrue.dialog.R
 import com.terning.feature.dialog.detail.state.ScrapDialogUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -15,10 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.terning.core.R
 import com.terning.core.designsystem.component.item.RadioButtonGroups
-import com.terning.core.extension.noRippleClickable
-import com.terning.core.type.ColorType
+import com.terning.core.designsystem.extension.noRippleClickable
+import com.terning.core.designsystem.type.ColorType
+import com.terning.featrue.dialog.R
+
 
 @Composable
 fun ColorPalette(

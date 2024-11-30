@@ -1,6 +1,6 @@
 package com.terning.feature.dialog.detail.state
 
-import com.terning.core.type.ColorType
+import com.terning.core.designsystem.type.ColorType
 
 data class ScrapDialogUiState(
     val initialColorType: ColorType = ColorType.RED,

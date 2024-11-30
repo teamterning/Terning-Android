@@ -2,9 +2,9 @@ package com.terning.feature.dialog.cancel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.domain.entity.calendar.CalendarScrapRequest
+import com.terning.domain.scrap.entity.CalendarScrapRequest
 import com.terning.domain.scrap.repository.ScrapRepository
-import com.terning.feature.R
+import com.terning.featrue.dialog.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ScrapCancelViewModel @Inject constructor(
-    private val scrapRepository: com.terning.domain.scrap.repository.ScrapRepository
+    private val scrapRepository: ScrapRepository
 ) : ViewModel() {
     private var _sideEffect: MutableSharedFlow<ScrapCancelSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()

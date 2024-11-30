@@ -20,16 +20,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
 import com.terning.core.designsystem.component.item.TerningLottieAnimation
+import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.extension.toast
-import com.terning.feature.R
+import com.terning.featrue.dialog.R
 
 @Composable
 fun ScrapCancelDialog(

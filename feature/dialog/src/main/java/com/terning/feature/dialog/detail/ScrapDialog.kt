@@ -37,9 +37,10 @@ import androidx.lifecycle.flowWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import com.terning.core.analytics.EventType
-import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.dialog.TerningBasicDialog
+import com.terning.core.designsystem.extension.getFixHeightByMaxLine
+import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.Grey100
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
@@ -47,10 +48,8 @@ import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.extension.getFixHeightByMaxLine
-import com.terning.core.extension.toast
-import com.terning.core.type.ColorType
-import com.terning.feature.R
+import com.terning.core.designsystem.type.ColorType
+import com.terning.featrue.dialog.R
 import com.terning.feature.dialog.detail.component.ColorPalette
 import com.terning.feature.dialog.detail.component.ScrapColorChangeButton
 import com.terning.feature.dialog.detail.component.ScrapInfoRow
