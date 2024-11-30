@@ -57,7 +57,6 @@ dependencies {
     //domain
     implementation(project(":domain:tokenreissue"))
 
-    //others
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)

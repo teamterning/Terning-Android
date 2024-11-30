@@ -1,11 +1,11 @@
 package com.terning.data.auth.datasourceimpl
 
-import com.terning.data.dto.BaseResponse
-import com.terning.data.dto.request.SignInRequestDto
-import com.terning.data.dto.request.SignUpRequestDto
-import com.terning.data.dto.response.SignInResponseDto
-import com.terning.data.dto.response.SignUpResponseDto
-import com.terning.data.service.AuthService
+import com.terning.core.network.BaseResponse
+import com.terning.data.auth.dto.request.SignInRequestDto
+import com.terning.data.auth.dto.request.SignUpRequestDto
+import com.terning.data.auth.dto.response.SignInResponseDto
+import com.terning.data.auth.dto.response.SignUpResponseDto
+import com.terning.data.auth.service.AuthService
 import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(

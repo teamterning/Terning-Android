@@ -1,9 +1,10 @@
 package com.terning.data.auth.datasource
 
-import com.terning.data.dto.request.SignInRequestDto
-import com.terning.data.dto.request.SignUpRequestDto
-import com.terning.data.dto.response.SignInResponseDto
-import com.terning.data.dto.response.SignUpResponseDto
+import com.terning.core.network.BaseResponse
+import com.terning.data.auth.dto.request.SignInRequestDto
+import com.terning.data.auth.dto.request.SignUpRequestDto
+import com.terning.data.auth.dto.response.SignInResponseDto
+import com.terning.data.auth.dto.response.SignUpResponseDto
 
 interface AuthDataSource {
 
