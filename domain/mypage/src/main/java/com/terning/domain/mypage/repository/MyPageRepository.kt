@@ -1,7 +1,7 @@
 package com.terning.domain.mypage.repository
 
-import com.terning.domain.entity.mypage.MyPageProfile
-import com.terning.domain.entity.mypage.MyPageProfileEdit
+import com.terning.domain.mypage.entity.MyPageProfile
+import com.terning.domain.mypage.entity.MyPageProfileEdit
 
 interface MyPageRepository {
     suspend fun postLogout(): Result<Unit>
