@@ -27,41 +27,52 @@ rootProject.name = "Terning-Android"
 
 include(":app")
 
-include(":feature")
-include(":data")
-include(":domain")
-include(":core")
-include(":feature:calendar")
-include(":feature:dialog")
-include(":feature:filtering")
-include(":feature:home")
-include(":feature:intern")
-include(":feature:main")
-include(":feature:mypage")
-include(":feature:onboarding")
-include(":feature:search")
-include(":domain:auth")
-include(":domain:calendar")
-include(":domain:filtering")
-include(":domain:home")
-include(":domain:intern")
-include(":domain:mypage")
-include(":domain:search")
-include(":domain:tokenreissue")
-include(":domain:token")
-include(":domain:scrap")
-include(":data:auth")
-include(":data:calendar")
-include(":data:filtering")
-include(":data:home")
-include(":data:intern")
-include(":data:mypage")
-include(":data:search")
-include(":data:tokenreissue")
-include(":data:token")
-include(":data:scrap")
-include(":core:analytics")
-include(":core:designsystem")
-include(":core:navigation")
-include(":core:network")
-include(":core:local")
+// core
+include(
+    ":core:analytics",
+    ":core:designsystem",
+    ":core:navigation",
+    ":core:network",
+    ":core:local"
+)
+
+// data
+include(
+    ":data:auth",
+    ":data:calendar",
+    ":data:filtering",
+    ":data:home",
+    ":data:intern",
+    ":data:mypage",
+    ":data:search",
+    ":data:tokenreissue",
+    ":data:token",
+    ":data:scrap"
+)
+
+// domain
+include(
+    ":domain:auth",
+    ":domain:calendar",
+    ":domain:filtering",
+    ":domain:home",
+    ":domain:intern",
+    ":domain:mypage",
+    ":domain:search",
+    ":domain:tokenreissue",
+    ":domain:token",
+    ":domain:scrap"
+)
+
+// feature
+include(
+    ":feature:calendar",
+    ":feature:dialog",
+    ":feature:filtering",
+    ":feature:home",
+    ":feature:intern",
+    ":feature:main",
+    ":feature:mypage",
+    ":feature:onboarding",
+    ":feature:search"
+)

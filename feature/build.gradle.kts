@@ -52,8 +52,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":domain"))
+//    implementation(project(":core"))
+//    implementation(project(":domain"))
 
     // KotlinDependencies
     implementation(libs.kotlin)

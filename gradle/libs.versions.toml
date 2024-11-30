@@ -189,7 +189,6 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version = "kotlinCompilerExtensionVersion" }
 
-
 terning-application = { id = "terning.android.application", version = "unspecified" }
 terning-compose = { id = "terning.android.compose", version = "unspecified" }
 terning-feature = { id = "terning.android.feature", version = "unspecified" }

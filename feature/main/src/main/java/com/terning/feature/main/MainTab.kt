@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import com.terning.core.navigation.MainTabRoute
 import com.terning.core.navigation.Route
-import com.terning.feature.R
 import com.terning.feature.calendar.calendar.navigation.Calendar
 import com.terning.feature.home.navigation.Home
 import com.terning.feature.mypage.mypage.navigation.MyPage
