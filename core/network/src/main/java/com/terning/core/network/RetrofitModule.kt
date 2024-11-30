@@ -1,10 +1,8 @@
-package com.terning.point.di
+package com.terning.core.network
 
-import com.terning.core.extension.isJsonArray
-import com.terning.core.extension.isJsonObject
-import com.terning.point.BuildConfig.BASE_URL
-import com.terning.point.di.qualifier.JWT
-import com.terning.point.di.qualifier.REISSUE
+import com.terning.core.BuildConfig.BASE_URL
+import com.terning.core.network.qualifier.JWT
+import com.terning.core.network.qualifier.REISSUE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

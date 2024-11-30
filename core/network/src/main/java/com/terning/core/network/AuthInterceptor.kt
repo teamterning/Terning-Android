@@ -1,14 +1,12 @@
-package com.terning.point.di
+package com.terning.core.network
 
 import android.content.Context
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import com.jakewharton.processphoenix.ProcessPhoenix
-import com.terning.core.extension.stringToast
-import com.terning.data.local.TerningDataStore
-import com.terning.domain.repository.TokenReissueRepository
-import com.terning.feature.main.MainActivity
+import com.terning.core.local.TerningDataStore
+import com.terning.domain.tokenreissue.repository.TokenReissueRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -63,12 +61,9 @@ class AuthInterceptor @Inject constructor(
                 terningDataStore.clearInfo()
 
                 Handler(Looper.getMainLooper()).post {
-                    context.stringToast(TOKEN_EXPIRED_ERROR)
+                    Toast.makeText(context, TOKEN_EXPIRED_ERROR, Toast.LENGTH_LONG).show()
                     Handler(Looper.getMainLooper()).post {
-                        ProcessPhoenix.triggerRebirth(
-                            context,
-                            Intent(context, MainActivity::class.java)
-                        )
+                        ProcessPhoenix.triggerRebirth(context)
                     }
                 }
             }

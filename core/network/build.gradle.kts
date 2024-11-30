@@ -1,43 +1,70 @@
+import com.terning.build_logic.setNamespace
+import java.util.Properties
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.terning.library)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
 }
 
 android {
-    namespace = "com.terning.core.network"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 28
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+    signingConfigs {
+        create("release") {
+            keyAlias = properties.getProperty("release.keyAlias")
+            keyPassword = properties.getProperty("release.keyPassword")
+            storeFile = file(properties.getProperty("release.storeFile") + "/terning/terning.jks")
+            storePassword = properties.getProperty("release.storePassword")
+        }
     }
 
+    setNamespace("core.network")
+
     buildTypes {
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                properties.getProperty("test.base.url")
+            )
+        }
         release {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                properties.getProperty("base.url")
+            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
 dependencies {
+    // data
+    implementation(project(":core:local"))
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    //domain
+    implementation(project(":domain:tokenreissue"))
+
+    //others
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.kotlin.serialization)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.timber)
+    implementation(libs.process.phoenix)
 }

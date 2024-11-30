@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.extension
+package com.terning.core.network
 
 fun String?.isJsonObject(): Boolean = this?.startsWith("{") == true && this.endsWith("}")
 

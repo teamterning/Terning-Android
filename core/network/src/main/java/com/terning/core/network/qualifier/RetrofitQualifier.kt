@@ -1,5 +1,4 @@
-package com.terning.point.di.qualifier
-
+package com.terning.core.network.qualifier
 
 import javax.inject.Qualifier
 
