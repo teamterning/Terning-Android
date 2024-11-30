@@ -1,9 +1,9 @@
 package com.terning.data.calendar.service
 
+import com.terning.core.network.BaseResponse
 import com.terning.data.calendar.dto.response.CalendarDayListResponseDto
 import com.terning.data.calendar.dto.response.CalendarMonthListResponseDto
 import com.terning.data.calendar.dto.response.CalendarMonthResponseDto
-import com.terning.data.dto.BaseResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

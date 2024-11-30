@@ -3,12 +3,12 @@ package com.terning.data.calendar.repositoryimpl
 import com.terning.data.calendar.datasource.CalendarDataSource
 import com.terning.data.calendar.dto.request.CalendarDayListRequestDto
 import com.terning.data.calendar.dto.request.CalendarMonthListRequestDto
+import com.terning.data.calendar.mapper.toCalendarScrapDetailList
+import com.terning.data.calendar.mapper.toCalendarScrapList
 import com.terning.data.mapper.toCalendarScrapDetail
-import com.terning.data.mapper.toCalendarScrapDetailList
-import com.terning.data.mapper.toCalendarScrapList
-import com.terning.domain.entity.calendar.CalendarScrapDetail
-import com.terning.domain.entity.calendar.CalendarScrap
-import com.terning.domain.repository.CalendarRepository
+import com.terning.domain.calendar.entity.CalendarScrap
+import com.terning.domain.calendar.entity.CalendarScrapDetail
+import com.terning.domain.calendar.repository.CalendarRepository
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
