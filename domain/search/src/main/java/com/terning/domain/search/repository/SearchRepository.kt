@@ -1,7 +1,7 @@
 package com.terning.domain.search.repository
 
-import com.terning.domain.entity.search.SearchResult
-import com.terning.domain.entity.search.SearchPopularAnnouncement
+import com.terning.domain.search.entity.SearchPopularAnnouncement
+import com.terning.domain.search.entity.SearchResult
 
 interface SearchRepository {
     suspend fun getSearchList(
