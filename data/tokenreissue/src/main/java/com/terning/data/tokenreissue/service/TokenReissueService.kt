@@ -1,7 +1,7 @@
-package com.terning.data.service
+package com.terning.data.tokenreissue.service
 
-import com.terning.data.dto.BaseResponse
-import com.terning.data.dto.response.TokenReissueResponseDto
+import com.terning.core.network.BaseResponse
+import com.terning.data.tokenreissue.dto.response.TokenReissueResponseDto
 import retrofit2.http.Header
 import retrofit2.http.POST
 

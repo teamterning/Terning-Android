@@ -1,7 +1,7 @@
-package com.terning.data.mapper.auth
+package com.terning.data.tokenreissue.mapper
 
-import com.terning.data.dto.response.TokenReissueResponseDto
-import com.terning.domain.entity.auth.TokenReissue
+import com.terning.data.tokenreissue.dto.response.TokenReissueResponseDto
+import com.terning.domain.tokenreissue.entity.TokenReissue
 
 fun TokenReissueResponseDto.toTokenReissue(): TokenReissue =
     TokenReissue(accessToken = accessToken)

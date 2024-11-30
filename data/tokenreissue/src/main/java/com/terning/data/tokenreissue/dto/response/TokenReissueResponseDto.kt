@@ -1,4 +1,4 @@
-package com.terning.data.dto.response
+package com.terning.data.tokenreissue.dto.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
