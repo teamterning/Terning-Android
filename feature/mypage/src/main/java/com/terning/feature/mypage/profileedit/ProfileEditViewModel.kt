@@ -2,9 +2,8 @@ package com.terning.feature.mypage.profileedit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.domain.entity.mypage.MyPageProfileEdit
-import com.terning.domain.mypage.repository.MyPageRepository
-import com.terning.feature.R
+import com.terning.domain.mypage.entity.MyPageProfileEdit
+import com.terning.feature.mypage.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

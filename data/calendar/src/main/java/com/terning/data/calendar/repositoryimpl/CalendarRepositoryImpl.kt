@@ -3,9 +3,10 @@ package com.terning.data.calendar.repositoryimpl
 import com.terning.data.calendar.datasource.CalendarDataSource
 import com.terning.data.calendar.dto.request.CalendarDayListRequestDto
 import com.terning.data.calendar.dto.request.CalendarMonthListRequestDto
+import com.terning.data.calendar.dto.request.CalendarMonthRequestDto
 import com.terning.data.calendar.mapper.toCalendarScrapDetailList
+import com.terning.data.calendar.mapper.toCalendarScrapDetail
 import com.terning.data.calendar.mapper.toCalendarScrapList
-import com.terning.data.mapper.toCalendarScrapDetail
 import com.terning.domain.calendar.entity.CalendarScrap
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.domain.calendar.repository.CalendarRepository
@@ -22,7 +23,7 @@ class CalendarRepositoryImpl @Inject constructor(
     ): Result<Map<String, List<CalendarScrap>>> =
         runCatching {
             val result = calendarDataSource.getCalendarMonth(
-                request = com.terning.data.calendar.dto.request.CalendarMonthRequestDto(
+                request = CalendarMonthRequestDto(
                     year = year,
                     month = month
                 )
@@ -59,9 +60,7 @@ class CalendarRepositoryImpl @Inject constructor(
     ): Result<List<CalendarScrapDetail>> =
         runCatching {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val request = CalendarDayListRequestDto(
-                currentDate.format(formatter)
-            )
+            val request = CalendarDayListRequestDto(currentDate.format(formatter))
             val response = calendarDataSource.getCalendarDayList(request)
             val scrapModelList = response.result.map { scrap ->
                 scrap.toCalendarScrapDetail()

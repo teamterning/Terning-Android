@@ -1,9 +1,9 @@
 package com.terning.domain.home.repository
 
-import com.terning.domain.entity.home.HomeFilteringInfo
-import com.terning.domain.entity.home.HomeRecommendIntern
-import com.terning.domain.entity.home.HomeUpcomingIntern
-import com.terning.domain.entity.request.ChangeFilteringRequestModel
+import com.terning.domain.home.entity.ChangeFilteringRequestModel
+import com.terning.domain.home.entity.HomeFilteringInfo
+import com.terning.domain.home.entity.HomeRecommendIntern
+import com.terning.domain.home.entity.HomeUpcomingIntern
 
 interface HomeRepository {
     suspend fun getHomeUpcomingInternList(): Result<HomeUpcomingIntern>

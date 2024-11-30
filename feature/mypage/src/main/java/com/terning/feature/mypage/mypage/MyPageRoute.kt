@@ -57,6 +57,7 @@ import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.PERSONAL_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.SERVICE_URL
+import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 
 @Composable
 fun MyPageRoute(
@@ -415,7 +416,7 @@ fun ServiceInfo(
             )
             MyPageItem(
                 text = stringResource(id = R.string.my_page_version),
-                version = BuildConfig.VERSION_NAME,
+                version = VERSION_NAME,
                 icon = R.drawable.ic_my_page_version
             )
         }

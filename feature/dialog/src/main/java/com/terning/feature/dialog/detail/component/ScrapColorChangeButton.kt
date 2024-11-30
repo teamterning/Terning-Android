@@ -22,13 +22,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey375
-import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningSub5
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.util.NoRippleTheme
-import com.terning.feature.R
+import com.terning.core.designsystem.util.NoRippleTheme
+import com.terning.featrue.dialog.R
 
 @Composable
 fun ScrapColorChangeButton(

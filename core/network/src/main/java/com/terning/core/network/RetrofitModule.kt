@@ -1,6 +1,6 @@
 package com.terning.core.network
 
-import com.terning.core.BuildConfig.BASE_URL
+import com.terning.core.network.BuildConfig.BASE_URL
 import com.terning.core.network.qualifier.JWT
 import com.terning.core.network.qualifier.REISSUE
 import dagger.Module

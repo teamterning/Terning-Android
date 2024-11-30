@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.amplitude.android.Amplitude
 import com.amplitude.android.Configuration
-import com.amplitude.common.android.BuildConfig
+import com.amplitude.common.android.BuildConfig.DEBUG
+import com.terning.core.analytics.BuildConfig.AMPLITUDE_KEY
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,13 +19,13 @@ class AmplitudeTracker @Inject constructor(
 ) {
     private val amplitude = Amplitude(
         Configuration(
-            apiKey = BuildConfig.AMPLITUDE_KEY,
+            apiKey = AMPLITUDE_KEY,
             context = context
         )
     )
 
     fun track(type: EventType, name: String, properties: Map<String, Any?> = emptyMap()) {
-        if (BuildConfig.DEBUG) {
+        if (DEBUG) {
             Timber.d("Amplitude: ${type.prefix}_$name properties: $properties")
         }
         amplitude.track(eventType = "${type.prefix}_$name", eventProperties = properties)

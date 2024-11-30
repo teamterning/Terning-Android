@@ -29,13 +29,13 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
-import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
+import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.CalRed
 import com.terning.core.designsystem.theme.Grey400
