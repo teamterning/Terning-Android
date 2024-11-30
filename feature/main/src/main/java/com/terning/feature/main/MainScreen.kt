@@ -48,6 +48,7 @@ import com.terning.feature.filtering.startfiltering.navigation.startFilteringNav
 import com.terning.feature.filtering.starthome.navigation.startHomeNavGraph
 import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.intern.navigation.internNavGraph
+import com.terning.feature.intern.navigation.navigateIntern
 import com.terning.feature.mypage.mypage.navigation.myPageNavGraph
 import com.terning.feature.mypage.profileedit.navigation.profileEditNavGraph
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
@@ -145,7 +146,7 @@ fun MainScreen(
                 )
                 calendarNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController
+                    navigateIntern = navigator::navigateIntern,
                 )
                 searchNavGraph(
                     paddingValues = paddingValues,

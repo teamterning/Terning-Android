@@ -9,7 +9,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.calendar.calendar.CalendarRoute
-import com.terning.feature.intern.navigation.navigateIntern
 import kotlinx.serialization.Serializable
 
 
@@ -21,13 +20,13 @@ fun NavController.navigateCalendar(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.calendarNavGraph(
-    navHostController: NavController,
+    navigateIntern: (Long) -> Unit,
     paddingValues: PaddingValues
 ) {
     composable<Calendar> {
         CalendarRoute(
             modifier = Modifier.padding(paddingValues),
-            navigateToAnnouncement = navHostController::navigateIntern
+            navigateToAnnouncement = navigateIntern
         )
     }
 }

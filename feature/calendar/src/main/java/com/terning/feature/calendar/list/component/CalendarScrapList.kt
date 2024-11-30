@@ -9,7 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.terning.domain.entity.calendar.CalendarScrapDetail
+import com.terning.domain.calendar.entity.CalendarScrapDetail
 
 @Composable
 internal fun CalendarScrapList(

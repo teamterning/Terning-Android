@@ -6,10 +6,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.item.InternItem
 import com.terning.core.designsystem.component.item.ScrapBox
+import com.terning.core.designsystem.extension.customShadow
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.extension.customShadow
-import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.calendar.CalendarScrapDetail
+import com.terning.domain.calendar.entity.CalendarScrapDetail
 
 @Composable
 fun CalendarScrap(

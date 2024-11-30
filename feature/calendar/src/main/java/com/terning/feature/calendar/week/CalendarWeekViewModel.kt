@@ -2,10 +2,9 @@ package com.terning.feature.calendar.week
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.state.UiState
-import com.terning.domain.entity.calendar.CalendarScrapDetail
-import com.terning.domain.calendar.repository.CalendarRepository
-import com.terning.feature.R
+import com.terning.core.common.state.UiState
+import com.terning.domain.calendar.entity.CalendarScrapDetail
+import com.terning.feature.calendar.R
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

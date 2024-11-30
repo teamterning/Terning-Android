@@ -5,7 +5,7 @@ import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.SizeTransform
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.terning.feature.R
+import com.terning.feature.calendar.R
 
 @Composable
 fun ScreenTransition(

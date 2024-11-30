@@ -16,8 +16,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.domain.entity.calendar.CalendarScrap
-import com.terning.feature.R
+import com.terning.domain.calendar.entity.CalendarScrap
+import com.terning.feature.calendar.R
 
 private const val SCRAP_COUNT_WEEK_SIX = 3
 private const val SCRAP_COUNT_WEEK_FIVE = 4

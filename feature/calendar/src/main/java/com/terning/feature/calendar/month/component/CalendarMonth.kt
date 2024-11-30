@@ -11,12 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.extension.getDateAsMapString
+import com.terning.core.designsystem.extension.isToday
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.core.extension.getDateAsMapString
-import com.terning.core.extension.isToday
-import com.terning.core.extension.noRippleClickable
-import com.terning.domain.entity.calendar.CalendarScrap
+import com.terning.domain.calendar.entity.CalendarScrap
 import com.terning.feature.calendar.calendar.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthModel
 import java.time.LocalDate

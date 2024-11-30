@@ -16,7 +16,7 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.SundayRed
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.feature.R
+import com.terning.feature.calendar.R
 
 @Composable
 fun WeekDaysHeader(

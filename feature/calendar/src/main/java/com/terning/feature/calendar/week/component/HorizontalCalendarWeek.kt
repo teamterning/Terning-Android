@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.terning.core.extension.getWeekIndexContainingSelectedDate
-import com.terning.core.extension.isToday
+import com.terning.core.designsystem.extension.getWeekIndexContainingSelectedDate
+import com.terning.core.designsystem.extension.isToday
 import com.terning.feature.calendar.calendar.component.CalendarDay
 import com.terning.feature.calendar.month.model.MonthModel
 import java.time.LocalDate
