@@ -15,14 +15,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.terning.core.R
+import com.terning.core.designsystem.R
+import com.terning.core.designsystem.extension.getStringAsTitle
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.extension.getStringAsTitle
-import com.terning.core.extension.noRippleClickable
 import java.time.LocalDate
 import java.time.YearMonth
 

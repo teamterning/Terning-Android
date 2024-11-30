@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.terning.core.R
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.theme.TerningTheme
 
 @Composable

@@ -1,4 +1,4 @@
-package com.terning.core.common.extension
+package com.terning.core.designsystem.extension
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity

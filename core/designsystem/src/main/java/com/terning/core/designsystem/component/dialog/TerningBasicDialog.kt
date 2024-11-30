@@ -16,10 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.terning.core.R
+import com.terning.core.designsystem.R
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.noRippleClickable
 
 /**
  * 앱에서 사용하는 다이얼로그의 기본 프레임입니다.

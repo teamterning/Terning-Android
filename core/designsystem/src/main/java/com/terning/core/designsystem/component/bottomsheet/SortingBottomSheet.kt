@@ -16,14 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.terning.core.R
+import com.terning.core.designsystem.R
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.extension.noRippleClickable
-import com.terning.core.type.SortBy
+import com.terning.core.designsystem.type.SortBy
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

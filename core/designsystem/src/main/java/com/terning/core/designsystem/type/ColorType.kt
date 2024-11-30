@@ -1,4 +1,4 @@
-package com.terning.core.common.type
+package com.terning.core.designsystem.type
 
 import androidx.compose.ui.graphics.Color
 import com.terning.core.designsystem.theme.CalBlue2

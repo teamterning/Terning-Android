@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.terning.core.R
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.Grey400

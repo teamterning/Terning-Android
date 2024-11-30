@@ -20,7 +20,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.terning.core.R
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.TerningMain
@@ -28,7 +28,7 @@ import com.terning.core.designsystem.theme.TerningMain2
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.util.NoRippleTheme
+import com.terning.core.designsystem.util.NoRippleTheme
 
 /**
  * 기본 버튼 함수입니다.

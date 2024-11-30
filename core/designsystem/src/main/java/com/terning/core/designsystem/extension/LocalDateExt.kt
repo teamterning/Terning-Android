@@ -1,4 +1,4 @@
-package com.terning.core.common.extension
+package com.terning.core.designsystem.extension
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

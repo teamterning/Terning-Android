@@ -7,10 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.extension.customShadow
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
-import com.terning.core.extension.customShadow
-import com.terning.core.extension.noRippleClickable
 
 @Composable
 fun InternItemWithShadow(

@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.terning.core.R
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey375
@@ -32,7 +32,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningSub5
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.util.NoRippleTheme
+import com.terning.core.designsystem.util.NoRippleTheme
 
 /**
  * 온보딩 과정에서 필터링을 설정할 때 사용되는 버튼입니다.

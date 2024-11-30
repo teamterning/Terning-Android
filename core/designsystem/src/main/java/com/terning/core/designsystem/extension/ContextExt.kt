@@ -1,4 +1,4 @@
-package com.terning.core.common.extension
+package com.terning.core.designsystem.extension
 
 import android.content.Context
 import android.widget.Toast

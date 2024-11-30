@@ -1,4 +1,4 @@
-package com.terning.core.common.util
+package com.terning.core.designsystem.util
 
 import java.util.regex.Pattern
 

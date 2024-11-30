@@ -28,7 +28,7 @@ import com.terning.core.designsystem.theme.Grey50
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.util.NoRippleTheme
+import com.terning.core.designsystem.util.NoRippleTheme
 
 @Composable
 fun ChangeFilterButton(

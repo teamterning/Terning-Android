@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.terning.core.R
+import com.terning.core.designsystem.R
 
 val PretendardSemiBold = FontFamily(Font(R.font.pretendard_semibold))
 val PretendardMedium = FontFamily(Font(R.font.pretendard_medium))

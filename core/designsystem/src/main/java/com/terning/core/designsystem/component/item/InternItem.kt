@@ -28,13 +28,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
-import com.terning.core.R
+import com.terning.core.designsystem.R
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.core.extension.noRippleClickable
 
 /**
  * 홈, 달력, 검색 화면에서 공고를 나타낼 때 사용되는 뷰입니다.

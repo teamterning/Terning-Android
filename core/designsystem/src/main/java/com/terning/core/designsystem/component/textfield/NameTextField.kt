@@ -8,7 +8,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import com.terning.core.R
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey400
@@ -17,7 +17,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.WarningRed
 import com.terning.core.designsystem.theme.White
-import com.terning.core.util.NAME_ERROR_REGEX
+import com.terning.core.designsystem.util.NAME_ERROR_REGEX
 
 data class NameFieldState(
     val name: String,
