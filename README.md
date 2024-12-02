@@ -33,41 +33,53 @@
 <br>
 
 ## DEPENDENCY GRAPH
-  <img width="300px" src="https://github.com/user-attachments/assets/9f730e35-2ecf-4d1f-a170-e08a4836fe8a"/>
-
+  <img src="https://github.com/user-attachments/assets/0d88e4fe-b170-4aae-83e6-c9017b2bc893"/>
 
 ## MODULE & PACKAGE CONVENTION
 
 ```
 
 🗃️app
- ┗ 📂di
+
+🗃️build-logic
+ ┗ 📂build-logic
 
 🗃️core
- ┣ 📂analytics
- ┣ 📂designsystem
+ ┣ 🗃️analytics
+ ┣ 🗃️designsystem
  ┃ ┣ 📂component
+ ┃ ┣ 📂extension
+ ┃ ┣ 📂state
  ┃ ┣ 📂theme
- ┣ 📂extension
- ┣ 📂navigation
- ┣ 📂state
- ┣ 📂type
- ┗ 📂util
+ ┃ ┣ 📂type
+ ┃ ┣ 📂util
+ ┣ 🗃️local
+ ┣ 🗃️navigation
+ ┗ 🗃️network
 
 🗃️data
- ┣ 📂datasource
- ┣ 📂datasourceImpl
- ┣ 📂dto
- ┃ ┣ 📂response
- ┃ ┣ 📂request
- ┣ 📂local
- ┣ 📂mapper
- ┣ 📂repositoryImpl
- ┗ 📂service
+ ┣ 🗃️auth
+ ┣ 🗃️calendar
+ ┣ 🗃️filtering
+ ┣ 🗃️home
+ ┣ 🗃️intern
+ ┣ 🗃️mypage
+ ┣ 🗃️scrap
+ ┣ 🗃️search
+ ┣ 🗃️token
+ ┗ 🗃️tokenreissue
 
 🗃️domain
- ┣ 📂entity
- ┗ 📂repository
+ ┣ 🗃️auth
+ ┣ 🗃️calendar
+ ┣ 🗃️filtering
+ ┣ 🗃️home
+ ┣ 🗃️intern
+ ┣ 🗃️mypage
+ ┣ 🗃️scrap
+ ┣ 🗃️search
+ ┣ 🗃️token
+ ┗ 🗃️tokenreissue
 
 🗃️feature
  ┗ 📂기능 별 패키징
