@@ -171,15 +171,13 @@ fun MainScreen(
                     navHostController = navigator.navController,
                     navigateToCalendar = { navigator.navController.navigateHome() },
                     navigateToIntern = { announcementId ->
-                        // todo: 지우기
                         navigator.navController.navigateIntern(announcementId)
                     }
                 )
                 calendarNavGraph(
                     paddingValues = paddingValues,
-                    navigateIntern = {
-                        // todo: 확인
-                        navigator.navController.navigateIntern()
+                    navigateIntern = { announcementId ->
+                        navigator.navController.navigateIntern(announcementId)
                     }
                 )
                 searchNavGraph(
