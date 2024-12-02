@@ -42,10 +42,7 @@ dependencies {
     implementation(libs.findLibrary("coil.compose").get())
     implementation(libs.findLibrary("coil.network.okhttp").get())
     implementation(libs.findLibrary("timber").get())
-    implementation(libs.findLibrary("ossLicense").get())
     implementation(libs.findLibrary("lottie").get())
-    implementation(libs.findLibrary("process.phoenix").get())
     implementation(libs.findLibrary("accompanist.systemuicontroller").get())
-    implementation(libs.findLibrary("androidx.core.splashscreen").get())
     implementation(libs.findLibrary("androidx.browser").get())
 }
