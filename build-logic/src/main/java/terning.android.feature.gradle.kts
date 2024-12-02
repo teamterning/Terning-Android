@@ -22,7 +22,6 @@ configureHiltAndroid()
 configureSerializationAndroid()
 
 dependencies {
-    // todo: 정리하기
     val libs = project.extensions.libs
 
     // modules
@@ -30,14 +29,14 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:analytics"))
 
-//    // navigation
-//    implementation(libs.findLibrary("hilt.navigation.compose").get())
-//    implementation(libs.findLibrary("androidx.compose.navigation").get())
-//    androidTestImplementation(libs.findLibrary("androidx.compose.navigation.test").get())
-//
-//    // lifecycle
-//    implementation(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-//    implementation(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
+    // navigation
+    implementation(libs.findLibrary("hilt.navigation.compose").get())
+    implementation(libs.findLibrary("androidx.compose.navigation").get())
+    androidTestImplementation(libs.findLibrary("androidx.compose.navigation.test").get())
+
+    // lifecycle
+    implementation(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+    implementation(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
 
     // ThirdPartyDependencies
     implementation(libs.findLibrary("coil.compose").get())
@@ -49,5 +48,4 @@ dependencies {
     implementation(libs.findLibrary("accompanist.systemuicontroller").get())
     implementation(libs.findLibrary("androidx.core.splashscreen").get())
     implementation(libs.findLibrary("androidx.browser").get())
-
 }

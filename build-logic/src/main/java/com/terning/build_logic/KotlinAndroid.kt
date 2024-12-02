@@ -9,15 +9,17 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid() {
+    val libs = extensions.libs
+
     // Plugins
     pluginManager.apply("org.jetbrains.kotlin.android")
 
     // Android settings
     androidExtension.apply {
-        compileSdk = 34
+        compileSdk = libs.findVersion("compileSdk").get().requiredVersion.toInt()
 
         defaultConfig {
-            minSdk = 28
+            minSdk = libs.findVersion("minSdk").get().requiredVersion.toInt()
         }
 
         compileOptions {
@@ -35,16 +37,9 @@ internal fun Project.configureKotlinAndroid() {
                 )
             }
         }
-        testOptions {
-            unitTests {
-                isIncludeAndroidResources = true
-            }
-        }
     }
 
     configureKotlin()
-
-    val libs = extensions.libs
 
     dependencies {
         add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())

@@ -104,11 +104,6 @@ dependencies {
     implementation(project(":data:tokenreissue"))
     implementation(project(":data:search"))
 
-    // KotlinDependencies
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.coroutines.android)
-    implementation(libs.kotlin)
-
     // AndroidXDependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -134,13 +129,12 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation(libs.timber)
     implementation(libs.ossLicense)
     implementation(libs.process.phoenix)
 
     // Compose Preview
     implementation(libs.compose.ui.tooling)
 
-    // KakaoDependencies
+    implementation(libs.timber)
     implementation(libs.kakao.user)
 }

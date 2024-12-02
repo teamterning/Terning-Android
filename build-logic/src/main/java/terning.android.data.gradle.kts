@@ -21,7 +21,6 @@ configureHiltAndroid()
 configureSerializationAndroid()
 
 dependencies {
-    // todo: 정리하기
     val libs = project.extensions.libs
 
     // modules
