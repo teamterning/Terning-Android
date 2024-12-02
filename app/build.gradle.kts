@@ -104,17 +104,6 @@ dependencies {
     implementation(project(":data:tokenreissue"))
     implementation(project(":data:search"))
 
-    // AndroidXDependencies
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
-    ksp(libs.hilt.manager)
-    implementation(libs.androidx.workManager)
-    implementation(libs.androidx.hiltWorkManager)
-    implementation(libs.hilt.compiler)
-    implementation(libs.androidx.hiltWorkManagerCompiler)
-
     // TestDependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
