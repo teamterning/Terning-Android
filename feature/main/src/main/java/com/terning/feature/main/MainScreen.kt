@@ -1,6 +1,7 @@
 package com.terning.feature.main
 
 import android.app.Activity
+import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -248,7 +249,14 @@ fun MainScreen(
                 )
                 myPageNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController
+                    navHostController = navigator.navController,
+                    restartApp = {
+                        Intent(context, MainActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            context.startActivity(this)
+                        }
+                    }
                 )
                 profileEditNavGraph(navHostController = navigator.navController)
             }

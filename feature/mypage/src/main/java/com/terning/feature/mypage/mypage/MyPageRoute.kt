@@ -1,8 +1,6 @@
 package com.terning.feature.mypage.mypage
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +33,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.jakewharton.processphoenix.ProcessPhoenix
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
@@ -50,6 +47,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 import com.terning.feature.mypage.R
 import com.terning.feature.mypage.mypage.component.MyPageItem
 import com.terning.feature.mypage.mypage.component.MyPageProfile
@@ -57,13 +55,13 @@ import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.PERSONAL_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.SERVICE_URL
-import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 
 @Composable
 fun MyPageRoute(
     paddingValues: PaddingValues,
     navigateToProfileEdit: (String, String, String) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
+    restartApp: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -109,7 +107,7 @@ fun MyPageRoute(
                         context
                     )
 
-                    is MyPageSideEffect.RestartApp -> restartApp(context)
+                    is MyPageSideEffect.RestartApp -> restartApp()
                 }
             }
     }
@@ -174,8 +172,8 @@ fun MyPageRoute(
             )
         }
 
-         UiState.Loading -> {}
-         UiState.Empty -> {}
+        UiState.Loading -> {}
+        UiState.Empty -> {}
         is UiState.Failure -> {
             MyPageScreen(
                 paddingValues = paddingValues,
@@ -437,13 +435,6 @@ private fun navigateToServiceWebView(context: Context) {
 
 private fun navigateToPersonalWebView(context: Context) {
     CustomTabsIntent.Builder().build().launchUrl(context, PERSONAL_URL.toUri())
-}
-
-private fun restartApp(context: Context) {
-   // todo: 화면 이동 및 히스토리 삭제
-    Handler(Looper.getMainLooper()).post {
-        ProcessPhoenix.triggerRebirth(context)
-    }
 }
 
 @Preview(showBackground = true)

@@ -21,6 +21,7 @@ fun NavController.navigateMyPage(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.myPageNavGraph(
     paddingValues: PaddingValues,
     navHostController: NavHostController,
+    restartApp: () -> Unit
 ) {
     composable<MyPage> {
         MyPageRoute(
@@ -31,7 +32,8 @@ fun NavGraphBuilder.myPageNavGraph(
                     profileImage,
                     authType
                 )
-            }
+            },
+            restartApp = restartApp
         )
     }
 }
