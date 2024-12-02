@@ -1,6 +1,7 @@
 package com.terning.data.search.datasourceimpl
 
 import com.terning.core.network.BaseResponse
+import com.terning.data.search.datasource.SearchDataSource
 import com.terning.data.search.dto.request.SearchRequestDto
 import com.terning.data.search.dto.response.SearchAnnouncementResponseDto
 import com.terning.data.search.dto.response.SearchResultResponseDto
@@ -9,7 +10,7 @@ import javax.inject.Inject
 
 class SearchDataSourceImpl @Inject constructor(
     private val searchService: SearchService,
-) : com.terning.data.search.datasource.SearchDataSource {
+) : SearchDataSource {
 
     override suspend fun getSearch(request: SearchRequestDto):
             BaseResponse<SearchResultResponseDto> =

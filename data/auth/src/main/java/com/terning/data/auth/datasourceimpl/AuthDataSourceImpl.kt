@@ -1,6 +1,7 @@
 package com.terning.data.auth.datasourceimpl
 
 import com.terning.core.network.BaseResponse
+import com.terning.data.auth.datasource.AuthDataSource
 import com.terning.data.auth.dto.request.SignInRequestDto
 import com.terning.data.auth.dto.request.SignUpRequestDto
 import com.terning.data.auth.dto.response.SignInResponseDto
@@ -10,7 +11,7 @@ import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(
     private val authService: AuthService
-) : com.terning.data.auth.datasource.AuthDataSource {
+) : AuthDataSource {
 
     override suspend fun postSignIn(
         authorization: String,

@@ -3,6 +3,8 @@ package com.terning.data.home.service
 import com.terning.core.network.BaseResponse
 import com.terning.core.network.NonDataBaseResponse
 import com.terning.data.home.dto.request.ChangeFilterRequestDto
+import com.terning.data.home.dto.response.HomeFilteringInfoResponseDto
+import com.terning.data.home.dto.response.HomeRecommendInternResponseDto
 import com.terning.data.home.dto.response.HomeUpcomingInternResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -18,10 +20,10 @@ interface HomeService {
         @Query("sortBy") sortBy: String,
         @Query("startYear") startYear: Int,
         @Query("startMonth") startMonth: Int,
-    ): BaseResponse<com.terning.data.home.dto.response.HomeRecommendInternResponseDto>
+    ): BaseResponse<HomeRecommendInternResponseDto>
 
     @GET("api/v1/filters")
-    suspend fun getFilteringInfo(): BaseResponse<com.terning.data.home.dto.response.HomeFilteringInfoResponseDto>
+    suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto>
 
     @PUT("api/v1/filters")
     suspend fun putFilteringInfo(
