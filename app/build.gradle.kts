@@ -66,7 +66,6 @@ android {
 }
 
 dependencies {
-
     // feature
     implementation(project(":feature:main"))
 
