@@ -44,19 +44,7 @@ android {
     }
 
     buildTypes {
-        debug {
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                properties.getProperty("test.base.url")
-            )
-        }
         release {
-            buildConfigField(
-                "String",
-                "BASE_URL",
-                properties.getProperty("base.url")
-            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -64,10 +52,6 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
@@ -78,12 +62,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes += "/META-INF/gradle/incremental.annotation.processors"
-        }
     }
 }
 
@@ -104,26 +82,7 @@ dependencies {
     implementation(project(":data:tokenreissue"))
     implementation(project(":data:search"))
 
-    // TestDependencies
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-
-    // ThirdPartyDependencies
-    implementation(platform(libs.okhttp.bom))
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.kotlin.serialization)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation(libs.ossLicense)
-    implementation(libs.process.phoenix)
-
-    // Compose Preview
     implementation(libs.compose.ui.tooling)
-
     implementation(libs.timber)
     implementation(libs.kakao.user)
 }
