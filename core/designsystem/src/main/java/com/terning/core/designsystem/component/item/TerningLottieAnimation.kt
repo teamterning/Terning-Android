@@ -12,18 +12,18 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 /**
  * 로티애니메이션을 표시하기 위한 컴포넌트입니다.
  *
- * @param jsonString 로티애니메이션의 JSON 문자열로, assets 폴더에 있는 JSON 파일의 이름입니다.
+ * @param jsonFile 로티애니메이션의 JSON 문자열로, raw 폴더에 있는 JSON 파일의 이름입니다.
  * @param modifier 수정자입니다.
  * @param iterations 반복 횟수입니다. 기본값은 1회입니다.
  */
 
 @Composable
 fun TerningLottieAnimation(
-    jsonString: String,
+    jsonFile: Int,
     modifier: Modifier = Modifier,
     iterations: Int = 1,
 ) {
-    val lottieComposition by rememberLottieComposition(LottieCompositionSpec.Asset(jsonString))
+    val lottieComposition by rememberLottieComposition(LottieCompositionSpec.RawRes(jsonFile))
     LottieAnimation(
         modifier = modifier.clip(RectangleShape),
         composition = lottieComposition,

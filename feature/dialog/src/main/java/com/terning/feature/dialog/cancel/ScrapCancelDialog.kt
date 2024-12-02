@@ -85,7 +85,7 @@ private fun ScrapCancelScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TerningLottieAnimation(
-                jsonString = "terning_scrap_cancel.json",
+                jsonFile = R.raw.terning_scrap_cancel,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(203.dp)
