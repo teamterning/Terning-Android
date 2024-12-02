@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.type.ColorType
 import com.terning.domain.scrap.entity.CalendarScrapRequest
+import com.terning.domain.scrap.repository.ScrapRepository
 import com.terning.featrue.dialog.R
 import com.terning.feature.dialog.detail.state.ScrapDialogUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ScrapDialogViewModel @Inject constructor(
-    private val scrapRepository: com.terning.domain.scrap.repository.ScrapRepository
+    private val scrapRepository: ScrapRepository
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(ScrapDialogUiState())
     val uiState = _uiState.asStateFlow()

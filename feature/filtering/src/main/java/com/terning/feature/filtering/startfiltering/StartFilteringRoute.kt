@@ -29,6 +29,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -47,7 +48,7 @@ fun StartFilteringRoute(
     val configuration = LocalConfiguration.current
     val screenHeight = 780f / configuration.screenHeightDp
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         delay(DELAY)
