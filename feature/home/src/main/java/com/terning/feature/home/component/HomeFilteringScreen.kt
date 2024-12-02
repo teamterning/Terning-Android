@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
@@ -47,7 +48,7 @@ fun HomeFilteringScreen(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+        val amplitudeTracker = LocalTracker.current
 
         Row(
             modifier = Modifier

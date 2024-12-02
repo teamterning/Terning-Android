@@ -29,6 +29,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage
@@ -80,7 +81,7 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
@@ -159,7 +160,7 @@ fun HomeScreen(
 
     var changeFilteringSheetState by remember { mutableStateOf(false) }
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
 
     if (homeState.sortingSheetVisibility) {
         SortingBottomSheet(

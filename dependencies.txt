@@ -1,0 +1,26 @@
+Starting a Gradle Daemon, 1 incompatible Daemon could not be reused, use --status for details
+Type-safe project accessors is an incubating feature.
+
+> Configure project :
+Project accessors enabled, but root project name not explicitly set for 'build-logic'. Checking out the project in different folders will impact the generated code and implicitly the buildscript classpath, breaking caching.
+
+> Task :build-logic:checkKotlinGradlePluginConfigurationErrors
+> Task :build-logic:generateExternalPluginSpecBuilders
+> Task :build-logic:extractPrecompiledScriptPluginPlugins
+> Task :build-logic:compilePluginsBlocks
+
+> Configure project :app
+Kotlin does not yet support 23 JDK target, falling back to Kotlin JVM_21 JVM target
+
+> Task :build-logic:generatePrecompiledScriptPluginAccessors
+> Task :build-logic:generateScriptPluginAdapters
+
+> Task :build-logic:compileKotlin FAILED
+Kotlin does not yet support 23 JDK target, falling back to Kotlin JVM_21 JVM target
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.7/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+7 actionable tasks: 7 executed

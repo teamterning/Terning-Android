@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.item.ScrapBox
 import com.terning.core.designsystem.extension.customShadow
 import com.terning.core.designsystem.extension.noRippleClickable
@@ -59,7 +60,7 @@ fun HomeUpcomingInternScreen(
         mutableStateOf(null)
     }
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
 
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
