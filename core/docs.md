@@ -25,14 +25,14 @@ contentDescription을 사용하지 않는 Image가 담긴 패키지입니다.
 # Package com.terning.core.designsystem.theme
 <terning>의 theme가 있는 패키지입니다.
 
-# Package com.terning.core.extension
+# Package com.terning.core.designsystem.type
+여러 가지 타입을 나타내는 패키지입니다.
+
+# Package com.terning.core.designsystem.extension
 확장함수를 모아놓은 패키지입니다.
 
-# Package com.terning.core.navigation
-네비게이션 루트가 있는 패키지입니다.
-
-# Package com.terning.core.state
+# Package com.terning.core.designsystem.state
 기본 상태를 나타내는 파일이 있는 패키지입니다.
 
-# Package com.terning.core.util
+# Package com.terning.core.designsystem.util
 여러 곳에서 유용하게 쓰이는 객체를 모아놓은 패키지입니다.
