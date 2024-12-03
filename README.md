@@ -89,16 +89,16 @@
 <br>
 
 ## TECH STACK
-| Title | Content |
-| ------------ | -------------------------- |
+| Title | Content                               |
+| ------------ |---------------------------------------|
 | Architecture | Clean Architecture, MVI, Multi-Module |
-| UI Framework  | Jetpack Compose  |
-| Build Tools  | Gradle Version Catalog |
-| Dependency Injection | Hilt  |
-| Network | Retrofit2, OkHttp  |
-| Asynchronous Processing | Coroutine, Flow |
-| Third Party Library | Coil, Timber, Kakao SDK, Lottie  |
-| Other Tools | Discode, Notion, Figma  |\
+| UI Framework  | Jetpack Compose                       |
+| Build Tools  | Gradle Version Catalog, Custom Build Logic              |
+| Dependency Injection | Hilt                                  |
+| Network | Retrofit2, OkHttp                     |
+| Asynchronous Processing | Coroutine, Flow                       |
+| Third Party Library | Coil, Timber, Kakao SDK, Lottie       |
+| Other Tools | Discode, Notion, Figma                |\
 </br>
 
 ## SCREENSHOTS
