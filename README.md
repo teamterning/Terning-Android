@@ -93,7 +93,7 @@
 | ------------ |---------------------------------------|
 | Architecture | Clean Architecture, MVI, Multi-Module |
 | UI Framework  | Jetpack Compose                       |
-| Build Tools  | Custom Build Logic, Gradle Version Catalog,                  |
+| Build Tools  | Custom Build Logic, Gradle Version Catalog                  |
 | Dependency Injection | Hilt                                  |
 | Network | Retrofit2, OkHttp                     |
 | Asynchronous Processing | Coroutine, Flow                       |
