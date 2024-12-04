@@ -1,3 +1,3 @@
-import com.terning.build_logic.configureComposeAndroid
+import com.terning.build_logic.convention.configureComposeAndroid
 
 configureComposeAndroid()

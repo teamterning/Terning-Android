@@ -1,6 +1,6 @@
-import com.terning.build_logic.configureHiltAndroid
-import com.terning.build_logic.configureSerializationAndroid
-import com.terning.build_logic.libs
+import com.terning.build_logic.convention.configureHiltAndroid
+import com.terning.build_logic.convention.configureSerializationAndroid
+import com.terning.build_logic.extension.libs
 
 plugins {
     id("terning.android.library")
@@ -28,15 +28,6 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))
     implementation(project(":core:analytics"))
-
-    // navigation
-    implementation(libs.findLibrary("hilt.navigation.compose").get())
-    implementation(libs.findLibrary("androidx.compose.navigation").get())
-    androidTestImplementation(libs.findLibrary("androidx.compose.navigation.test").get())
-
-    // lifecycle
-    implementation(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-    implementation(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
 
     // ThirdPartyDependencies
     implementation(libs.findLibrary("coil.compose").get())

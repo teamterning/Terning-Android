@@ -1,6 +1,6 @@
-import com.terning.build_logic.configureHiltAndroid
-import com.terning.build_logic.configureSerializationAndroid
-import com.terning.build_logic.libs
+import com.terning.build_logic.convention.configureHiltAndroid
+import com.terning.build_logic.convention.configureSerializationAndroid
+import com.terning.build_logic.extension.libs
 
 plugins {
     id("terning.android.library")

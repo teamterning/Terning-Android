@@ -1,4 +1,4 @@
-import com.terning.build_logic.setNamespace
+import com.terning.build_logic.extension.setNamespace
 import java.util.Properties
 
 plugins {

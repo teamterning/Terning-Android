@@ -1,4 +1,4 @@
-import com.terning.build_logic.setNamespace
+import com.terning.build_logic.extension.setNamespace
 
 plugins {
     alias(libs.plugins.terning.data)

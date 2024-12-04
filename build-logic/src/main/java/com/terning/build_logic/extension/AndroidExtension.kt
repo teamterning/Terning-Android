@@ -1,4 +1,4 @@
-package com.terning.build_logic
+package com.terning.build_logic.extension
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension

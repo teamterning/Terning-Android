@@ -1,4 +1,4 @@
-import com.terning.build_logic.configureKotlin
+import com.terning.build_logic.convention.configureKotlin
 
 plugins {
     kotlin("jvm")

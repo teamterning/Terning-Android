@@ -1,5 +1,7 @@
-package com.terning.build_logic
+package com.terning.build_logic.convention
 
+import com.terning.build_logic.extension.androidExtension
+import com.terning.build_logic.extension.libs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
