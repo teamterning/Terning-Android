@@ -62,9 +62,7 @@ class AuthInterceptor @Inject constructor(
 
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(context, TOKEN_EXPIRED_ERROR, Toast.LENGTH_LONG).show()
-                    Handler(Looper.getMainLooper()).post {
-                        ProcessPhoenix.triggerRebirth(context)
-                    }
+                    ProcessPhoenix.triggerRebirth(context)
                 }
             }
         }
