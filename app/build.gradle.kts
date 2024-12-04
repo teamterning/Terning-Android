@@ -57,7 +57,6 @@ android {
         jvmTarget = libs.versions.jvmTarget.get()
     }
     buildFeatures {
-        compose = true
         buildConfig = true
     }
     composeOptions {
@@ -81,7 +80,6 @@ dependencies {
     implementation(project(":data:tokenreissue"))
     implementation(project(":data:search"))
 
-    implementation(libs.compose.ui.tooling)
     implementation(libs.timber)
     implementation(libs.kakao.user)
 }
