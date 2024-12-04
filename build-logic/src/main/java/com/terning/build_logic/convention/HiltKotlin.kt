@@ -16,12 +16,3 @@ internal fun Project.configureHiltKotlin() {
         "ksp"(libs.findLibrary("hilt.compiler").get())
     }
 }
-
-internal class HiltKotlinPlugin : Plugin<Project> {
-
-    override fun apply(target: Project) {
-        with(target) {
-            configureHiltKotlin()
-        }
-    }
-}

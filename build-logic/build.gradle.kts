@@ -9,19 +9,6 @@ dependencies {
     compileOnly(libs.compose.compiler.gradle.plugin)
 }
 
-gradlePlugin {
-    plugins {
-        register("androidHilt") {
-            id = "terning.android.hilt"
-            implementationClass = "com.terning.build-logic.HiltAndroidPlugin"
-        }
-        register("kotlinHilt") {
-            id = "terning.kotlin.hilt"
-            implementationClass = "com.terning.build-logic.HiltKotlinPlugin"
-        }
-    }
-}
-
 tasks.named("compileTestKotlin") {
     dependsOn("clean")
 }

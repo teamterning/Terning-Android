@@ -15,12 +15,3 @@ internal fun Project.configureSerializationAndroid() {
         add("implementation", libs.findLibrary("kotlinx.serialization.json").get())
     }
 }
-
-internal class SerializationAndroidPlugin : Plugin<Project> {
-
-    override fun apply(target: Project) {
-        with(target) {
-            configureSerializationAndroid()
-        }
-    }
-}
