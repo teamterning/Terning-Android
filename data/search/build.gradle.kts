@@ -9,6 +9,6 @@ android {
 }
 
 dependencies {
-// domain
+    // domain
     implementation(project(":domain:search"))
 }

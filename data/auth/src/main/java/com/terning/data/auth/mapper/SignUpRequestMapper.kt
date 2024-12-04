@@ -4,7 +4,7 @@ import com.terning.data.auth.dto.request.SignUpRequestDto
 import com.terning.domain.auth.entity.SignUpRequest
 
 fun SignUpRequest.toSignUpRequestDto(): SignUpRequestDto =
-    com.terning.data.auth.dto.request.SignUpRequestDto(
+    SignUpRequestDto(
         name = name,
         profileImage = profileImage,
         authType = authType

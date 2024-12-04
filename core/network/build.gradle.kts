@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    // data
+    // core
     implementation(project(":core:local"))
 
     //domain
