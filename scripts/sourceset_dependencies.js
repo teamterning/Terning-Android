@@ -1,1 +1,1 @@
-sourceset_dependencies='{":core:dokkaHtml/debug":[],":core:dokkaHtml/main":[],":core:dokkaHtml/release":[]}'
+sourceset_dependencies='{":core:designsystem:dokkaHtml/debug":[],":core:designsystem:dokkaHtml/generatedByKspDebugKotlin":[],":core:designsystem:dokkaHtml/generatedByKspReleaseKotlin":[],":core:designsystem:dokkaHtml/main":[],":core:designsystem:dokkaHtml/release":[]}'
