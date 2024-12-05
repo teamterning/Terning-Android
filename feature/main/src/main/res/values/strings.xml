@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">terning</string>
+
+    <!--BottomNavigation-->
+    <string name="bottom_nav_home">홈</string>
+    <string name="bottom_nav_calendar">캘린더</string>
+    <string name="bottom_nav_search">탐색</string>
+    <string name="bottom_nav_my_page">마이페이지</string>
+
+</resources>

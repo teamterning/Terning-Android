@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_success">서버통신에 성공했어요</string>
+    <string name="server_failure">서버통신에 실패했어요</string>
+
+    <!--StartFiltering-->
+    <string name="start_filtering_title">터닝에서 내 계획에 딱 맞는\n대학생 인턴 찾기를 도와드릴게요</string>
+    <string name="start_filtering_main_image">시작화면 이미지</string>
+    <string name="start_filtering_button">시작하기</string>
+
+    <!-- StartHome-->
+    <string name="start_home_title">나에게 딱 맞는 공고가 준비됐어요!\n터닝을 시작해 볼까요?</string>
+    <string name="start_home_next_button">내 맞춤 공고 바로 보러가기</string>
+
+    <!--Filtering-->
+    <string name="filtering_status1_title">%s님의 재학 상태를 선택해 주세요</string>
+    <string name="filtering_status1_warning">*5년제 혹은 초과학기인 경우 4학년으로 선택해 주세요</string>
+    <string name="filtering_status1_sub">휴학 중이라면, 휴학 전 마지막 수료 학년을 선택해 주세요</string>
+    <string name="filtering_status1_button1">1학년</string>
+    <string name="filtering_status1_button2">2학년</string>
+    <string name="filtering_status1_button3">3학년</string>
+    <string name="filtering_status1_button4">4학년</string>
+    <string name="filtering_status1_description1">대학생 인턴, 누구보다 빠르게 시작해 보세요!</string>
+    <string name="filtering_status1_description2">인턴이라는 좋은 기회로 단숨에 스펙업하세요!</string>
+    <string name="filtering_status1_description3">지금까지 준비한 역량을 인턴으로 발휘해 보세요!</string>
+    <string name="filtering_status1_description4">사회초년생으로 도약하는 마지막 단계를 경험하세요!</string>
+    <string name="filtering_status2_title">희망하는 인턴 근무 기간을 선택해 주세요</string>
+    <string name="filtering_status2_sub">선택한 기간 동안 근무할 수 있는 인턴 공고를 찾아드릴게요</string>
+    <string name="filtering_status2_button1">1개월 ~ 3개월</string>
+    <string name="filtering_status2_button2">4개월 ~ 6개월</string>
+    <string name="filtering_status2_button3">7개월 이상</string>
+    <string name="filtering_status2_description1">짧은 기간 안에 유의미한 스펙을 쌓을 수 있어요!</string>
+    <string name="filtering_status2_description2">회사와 직무에 대해 이해하기 적당한 기간이에요!</string>
+    <string name="filtering_status2_description3">오랜 기간 내 커리어에 맞는 직무 경험을 만들 수 있어요!</string>
+    <string name="filtering_status3_title">언제부터 인턴 근무가 가능한지 알려주세요</string>
+    <string name="filtering_status3_sub">원하는 근무 시작 시기에 맞는 인턴 공고를 찾아드려요</string>
+    <string name="filtering_button">다음으로</string>
+
+</resources>

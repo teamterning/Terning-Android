@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_success">서버통신에 성공했어요</string>
+    <string name="server_failure">서버통신에 실패했어요</string>
+
+    <!--SignUp-->
+    <string name="sign_up_profile_image">프로필 이미지</string>
+    <string name="sign_up_profile_button">프로필 버튼</string>
+    <string name="sign_up_name">닉네임</string>
+    <string name="sign_up_hint">닉네임을 입력해 주세요</string>
+    <string name="sign_up_next_button">다음으로</string>
+
+    <!--MyPage-->
+    <string name="my_page_logout">로그아웃</string>
+    <string name="my_page_quit">탈퇴하기</string>
+    <string name="my_page_edit_profile">프로필 수정</string>
+    <string name="my_page_terning_community">터닝 커뮤니티</string>
+    <string name="my_page_notice">공지사항</string>
+    <string name="my_page_opinion">의견보내기</string>
+    <string name="my_page_service_info">서비스 정보</string>
+    <string name="my_page_service">서비스 이용약관</string>
+    <string name="my_page_personal">개인정보 처리방침</string>
+    <string name="my_page_version">버전정보</string>
+
+    <!--ProfileEidt-->
+    <string name="profile_edit_title">프로필 수정</string>
+    <string name="profile_edit_save">저장하기</string>
+    <string name="profile_edit_auth_type">연동 계정</string>
+    <string name="profile_edit_kakao">카카오 로그인</string>
+
+</resources>

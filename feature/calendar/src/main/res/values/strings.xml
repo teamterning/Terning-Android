@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_success">서버통신에 성공했어요</string>
+    <string name="server_failure">서버통신에 실패했어요</string>
+
+    <!--Calendar-->
+    <string name="calendar_text_sunday">일</string>
+    <string name="calendar_text_monday">월</string>
+    <string name="calendar_text_tuesday">화</string>
+    <string name="calendar_text_wednesday">수</string>
+    <string name="calendar_text_thursday">목</string>
+    <string name="calendar_text_friday">금</string>
+    <string name="calendar_text_saturday">토</string>
+    <string name="calendar_button_description_previous">previous</string>
+    <string name="calendar_button_description_next">next</string>
+    <string name="calendar_button_description_list">list</string>
+    <string name="calendar_animation_label">Calendar Transition</string>
+    <string name="calendar_empty_scrap">선택하신 날짜에 지원 마감인 스크랩 공고가 없어요</string>
+    <string name="calendar_scrap_overflow">+%s</string>
+
+</resources>
