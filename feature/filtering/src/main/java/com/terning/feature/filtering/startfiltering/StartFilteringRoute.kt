@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -85,11 +86,10 @@ fun StartFilteringScreen(
             .background(White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height((128 * screenHeight).dp))
+        Spacer(modifier = Modifier.height((138 * screenHeight).dp))
         Text(
             text = stringResource(id = R.string.start_filtering_title),
             style = TerningTheme.typography.title1,
-            modifier = Modifier.padding(bottom = 36.dp),
             textAlign = TextAlign.Center
         )
         TerningLottieAnimation(
@@ -97,7 +97,7 @@ fun StartFilteringScreen(
             iterations = LottieConstants.IterateForever,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(372.dp)
+                .aspectRatio(1f)
                 .padding(horizontal = 24.dp)
         )
         Spacer(modifier = Modifier.height((79 * screenHeight).dp))
@@ -106,6 +106,7 @@ fun StartFilteringScreen(
             onButtonClick = onButtonClick,
             onTextClick = onTextClick
         )
+        Spacer(modifier = Modifier.height((24 * screenHeight).dp))
     }
 }
 
@@ -119,7 +120,6 @@ private fun ButtonAnimation(
     AnimatedVisibility(
         visible = buttonState,
         enter = fadeIn(initialAlpha = 0.3f),
-        modifier = Modifier.padding(bottom = 24.dp)
     ) {
         Column(
             modifier = modifier,
