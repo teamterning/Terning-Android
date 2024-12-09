@@ -66,6 +66,8 @@ import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
@@ -113,7 +115,7 @@ fun MainScreen(
         bottomBar = {
             MainBottomBar(
                 isVisible = navigator.showBottomBar(),
-                tabs = MainTab.entries.toList(),
+                tabs = MainTab.entries.toImmutableList(),
                 currentTab = navigator.currentTab,
                 onTabSelected = { navigation ->
                     amplitudeTracker.track(
@@ -278,7 +280,7 @@ fun MainScreen(
 @Composable
 private fun MainBottomBar(
     isVisible: Boolean,
-    tabs: List<MainTab>,
+    tabs: ImmutableList<MainTab>,
     currentTab: MainTab?,
     onTabSelected: (MainTab) -> Unit,
 ) {
