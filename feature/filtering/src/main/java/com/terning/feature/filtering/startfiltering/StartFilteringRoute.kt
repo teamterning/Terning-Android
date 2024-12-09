@@ -96,7 +96,7 @@ fun StartFilteringScreen(
                 .height(372.dp)
                 .padding(horizontal = 24.dp)
         )
-        Spacer(modifier = Modifier.weight(2f))
+        Spacer(modifier = Modifier.height((79 * screenHeight).dp))
         ButtonAnimation(
             buttonState = buttonState,
             onNextClick = onNextClick
