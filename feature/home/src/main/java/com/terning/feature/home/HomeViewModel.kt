@@ -115,12 +115,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateUpcomingDialogVisibility(visibility: Boolean) {
-        _homeState.update {
-            it.copy(homeUpcomingDialogVisibility = visibility)
-        }
-    }
-
     fun updateRecommendDialogVisibility(visibility: Boolean) {
         _homeState.update {
             it.copy(homeRecommendDialogVisibility = visibility)

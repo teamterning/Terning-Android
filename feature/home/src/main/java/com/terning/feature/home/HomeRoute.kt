@@ -114,7 +114,6 @@ fun HomeRoute(
             viewModel.navigateCalendar()
         },
         updateRecommendDialogVisibility = viewModel::updateRecommendDialogVisibility,
-        updateUpcomingDialogVisibility = viewModel::updateUpcomingDialogVisibility,
         getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
         getRecommendInternsData = viewModel::getRecommendInternsData,
         viewModel = viewModel,
@@ -128,7 +127,6 @@ fun HomeScreen(
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
     updateRecommendDialogVisibility: (Boolean) -> Unit,
-    updateUpcomingDialogVisibility: (Boolean) -> Unit,
     getHomeUpcomingInternList: () -> Unit,
     getRecommendInternsData: (Int, Int?, Int?) -> Unit,
     viewModel: HomeViewModel,
@@ -283,11 +281,8 @@ fun HomeScreen(
                     ShowUpcomingTitle()
                     ShowUpcomingIntern(
                         homeUpcomingInternState = homeState.homeUpcomingInternState,
-                        homeState = homeState,
-                        navigateToIntern = { navigateToIntern(it) },
+                        navigateToIntern = navigateToIntern,
                         navigateToCalendar = navigateToCalendar,
-                        updateUpcomingDialogVisibility = updateUpcomingDialogVisibility,
-                        getHomeUpcomingInternList = getHomeUpcomingInternList,
                     )
                 }
             }
@@ -423,11 +418,8 @@ private fun ShowUpcomingTitle() {
 @Composable
 private fun ShowUpcomingIntern(
     homeUpcomingInternState: UiState<HomeUpcomingIntern>,
-    homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
-    updateUpcomingDialogVisibility: (Boolean) -> Unit,
-    getHomeUpcomingInternList: () -> Unit,
 ) {
     when (homeUpcomingInternState) {
         is UiState.Success -> {
@@ -440,10 +432,7 @@ private fun ShowUpcomingIntern(
 
                     else -> HomeUpcomingInternScreen(
                         internList = homeUpcomingInternDetail,
-                        homeState = homeState,
-                        updateUpcomingDialogVisibility = updateUpcomingDialogVisibility,
-                        getHomeUpcomingInternList = getHomeUpcomingInternList,
-                        navigateToIntern = navigateToIntern
+                        navigateToIntern = navigateToIntern,
                     )
                 }
             }
