@@ -167,7 +167,6 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-ossLicense = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "ossVersion" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion" }
 
 kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoVersion" }
