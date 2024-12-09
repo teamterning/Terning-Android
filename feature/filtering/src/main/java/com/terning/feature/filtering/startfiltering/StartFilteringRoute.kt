@@ -3,7 +3,6 @@ package com.terning.feature.filtering.startfiltering
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,17 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
-import com.terning.core.designsystem.component.button.RectangleButton
+import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.component.item.TerningLottieAnimation
+import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -66,7 +65,6 @@ fun StartFilteringRoute(
         buttonState = state.isButtonVisible,
         screenHeight = screenHeight,
     )
-
 }
 
 @Composable
@@ -75,50 +73,68 @@ fun StartFilteringScreen(
     buttonState: Boolean,
     screenHeight: Float,
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .background(White)
+            .background(White),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height((128 * screenHeight).dp))
+        Text(
+            text = stringResource(id = R.string.start_filtering_title),
+            style = TerningTheme.typography.title1,
+            modifier = Modifier.padding(bottom = 36.dp),
+            textAlign = TextAlign.Center
+        )
+        TerningLottieAnimation(
+            jsonFile = R.raw.terning_onboarding_start,
+            iterations = LottieConstants.IterateForever,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(372.dp)
+                .padding(horizontal = 24.dp)
+        )
+        Spacer(modifier = Modifier.weight(2f))
+        ButtonAnimation(
+            buttonState = buttonState,
+            onNextClick = onNextClick
+        )
+    }
+}
+
+@Composable
+private fun ButtonAnimation(
+    buttonState: Boolean,
+    onNextClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    AnimatedVisibility(
+        visible = buttonState,
+        enter = fadeIn(initialAlpha = 0.3f),
+        modifier = Modifier.padding(bottom = 24.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height((128 * screenHeight).dp))
+            RoundButton(
+                style = TerningTheme.typography.button0,
+                paddingVertical = 17.dp,
+                text = R.string.start_filtering_button,
+                onButtonClick = onNextClick,
+                cornerRadius = 10.dp,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = stringResource(id = R.string.start_filtering_title),
-                style = TerningTheme.typography.title1,
-                modifier = Modifier.padding(bottom = 36.dp),
-                textAlign = TextAlign.Center
+                text = stringResource(R.string.start_filtering_later),
+                style = TerningTheme.typography.detail3.copy(
+                    textDecoration = TextDecoration.Underline
+                ),
+                color = Grey500,
             )
-            TerningLottieAnimation(
-                jsonFile = R.raw.terning_onboarding_start,
-                iterations = LottieConstants.IterateForever,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(372.dp)
-                    .padding(horizontal = 24.dp)
-            )
-            Spacer(modifier = Modifier.weight(2f))
-        }
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 12.dp)
-        ) {
-            AnimatedVisibility(
-                visible = buttonState,
-                enter = fadeIn(initialAlpha = 0.3f),
-            ) {
-                RectangleButton(
-                    style = TerningTheme.typography.button0,
-                    paddingVertical = 20.dp,
-                    text = R.string.start_filtering_button,
-                    onButtonClick = onNextClick,
-                )
-            }
         }
     }
 }
@@ -127,7 +143,7 @@ private const val DELAY: Long = 1000
 
 @Preview(showBackground = true)
 @Composable
-fun StartFilteringScreenPreview() {
+private fun StartFilteringScreenPreview() {
     TerningPointTheme {
         StartFilteringScreen(
             onNextClick = {},
