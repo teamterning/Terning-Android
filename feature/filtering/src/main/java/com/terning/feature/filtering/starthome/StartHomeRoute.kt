@@ -3,7 +3,6 @@ package com.terning.feature.filtering.starthome
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -26,11 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.rememberLottieComposition
-import com.terning.core.designsystem.component.button.RectangleButton
+import com.terning.core.designsystem.component.button.RoundButton
+import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -53,7 +50,7 @@ fun StartHomeRoute(
     }
 
     StartHomeScreen(
-        navigateToHome = navigateToHome,
+        onClick = navigateToHome,
         buttonState = state.isButtonVisible,
         screenHeight = screenHeight,
     )
@@ -61,81 +58,59 @@ fun StartHomeRoute(
 
 @Composable
 fun StartHomeScreen(
-    navigateToHome: () -> Unit,
+    onClick: () -> Unit,
     buttonState: Boolean,
     screenHeight: Float,
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(White)
             .statusBarsPadding()
             .navigationBarsPadding()
+            .background(White),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height((128 * screenHeight).dp))
-            Text(
-                text = stringResource(id = R.string.start_home_title),
-                style = TerningTheme.typography.title1,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 30.dp)
-            )
-            StartHomeLottieAnimation()
-        }
-        Box(
+        Spacer(modifier = Modifier.height((128 * screenHeight).dp))
+        Text(
+            text = stringResource(id = R.string.start_home_title),
+            style = TerningTheme.typography.title1,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = 52.dp)
+        )
+        TerningLottieAnimation(
+            jsonFile = R.raw.terning_start_home,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 12.dp),
-            contentAlignment = Alignment.BottomCenter
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .aspectRatio(1f),
+            iterations = LottieConstants.IterateForever
+        )
+        Spacer(modifier = Modifier.height((88 * screenHeight).dp))
+        AnimatedVisibility(
+            visible = buttonState,
+            enter = fadeIn(initialAlpha = 0.3f),
         ) {
-            AnimatedVisibility(
-                visible = buttonState,
-                enter = fadeIn(initialAlpha = 0.3f),
-            ) {
-                RectangleButton(
-                    style = TerningTheme.typography.button0,
-                    paddingVertical = 20.dp,
-                    text = R.string.start_home_next_button,
-                    onButtonClick = navigateToHome,
-                )
-            }
+            RoundButton(
+                style = TerningTheme.typography.button0,
+                paddingVertical = 17.dp,
+                text = R.string.start_home_next_button,
+                onButtonClick = onClick,
+                cornerRadius = 10.dp,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
         }
+        Spacer(modifier = Modifier.height((49 * screenHeight).dp))
     }
 }
 
 private const val DELAY: Long = 1000
 
-@Composable
-fun StartHomeLottieAnimation(
-    modifier: Modifier = Modifier
-) {
-    val lottieComposition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(R.raw.terning_start_home)
-    )
-    LottieAnimation(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(
-                (lottieComposition?.bounds
-                    ?.width()
-                    ?.toFloat()
-                    ?: 1f) / (lottieComposition?.bounds?.height() ?: 1)
-            )
-            .padding(horizontal = 24.dp),
-        composition = lottieComposition,
-        iterations = LottieConstants.IterateForever
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun StartHomeScreenPreview() {
+private fun StartHomeScreenPreview() {
     TerningPointTheme {
         StartHomeScreen(
-            navigateToHome = {},
+            onClick = {},
             buttonState = true,
             screenHeight = 1f
         )

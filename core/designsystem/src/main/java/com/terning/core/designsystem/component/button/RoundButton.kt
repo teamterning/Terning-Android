@@ -46,7 +46,7 @@ fun RoundButton(
 
 @Preview(showBackground = true)
 @Composable
-fun RoundButtonPreview() {
+private fun RoundButtonPreview() {
     TerningPointTheme {
         RoundButton(
             style = TerningTheme.typography.button0,

@@ -44,7 +44,7 @@ fun RectangleButton(
 
 @Preview(showBackground = true)
 @Composable
-fun RectangleButtonPreview() {
+private fun RectangleButtonPreview() {
     TerningPointTheme {
         RectangleButton(
             style = TerningTheme.typography.button0,

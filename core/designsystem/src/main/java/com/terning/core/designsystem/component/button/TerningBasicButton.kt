@@ -57,7 +57,7 @@ fun TerningBasicButton(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         Button(
-            contentPadding = PaddingValues(paddingVertical),
+            contentPadding = PaddingValues(vertical = paddingVertical),
             modifier = modifier.fillMaxWidth(),
             interactionSource = interactionSource,
             enabled = isEnabled,
@@ -80,7 +80,7 @@ fun TerningBasicButton(
 
 @Preview(showBackground = true)
 @Composable
-fun TerningBasicButtonPreview() {
+private fun TerningBasicButtonPreview() {
     TerningPointTheme {
         TerningBasicButton(
             text = R.string.button_preview,

@@ -36,4 +36,5 @@ dependencies {
     implementation(libs.findLibrary("lottie").get())
     implementation(libs.findLibrary("accompanist.systemuicontroller").get())
     implementation(libs.findLibrary("androidx.browser").get())
+    implementation(libs.findLibrary("kotlin.collections.immutable").get())
 }
