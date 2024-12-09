@@ -45,6 +45,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
 import com.terning.feature.filtering.filteringone.navigation.filteringOneNavGraph
+import com.terning.feature.filtering.filteringone.navigation.navigateFilteringOne
 import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNavGraph
 import com.terning.feature.filtering.filteringtwo.navigation.filteringTwoNavGraph
 import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
@@ -221,7 +222,19 @@ fun MainScreen(
                         )
                     }
                 )
-                startFilteringNavGraph(navHostController = navigator.navController)
+                startFilteringNavGraph(
+                    onButtonClick = { name ->
+                        navigator.navController.navigateFilteringOne(name)
+                    },
+                    onTextClick = {
+                        val navOptions = navOptions {
+                            popUpTo(id = navigator.navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                        navigator.navController.navigateHome(navOptions)
+                    }
+                )
                 startHomeNavGraph(
                     navigateHome = {
                         val navOptions = navOptions {
