@@ -41,7 +41,6 @@ fun NavGraphBuilder.homeNavGraph(
     ) {
         HomeRoute(
             paddingValues = paddingValues,
-            navController = navHostController,
             navigateToCalendar = navigateToCalendar,
             navigateToIntern = navigateToIntern
         )

@@ -57,13 +57,11 @@ import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
 
-const val NAME_START_LENGTH = 7
-const val NAME_END_LENGTH = 12
+const val NAME_MAX_LENGTH = 5
 
 @Composable
 fun HomeRoute(
     paddingValues: PaddingValues,
-    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToCalendar: () -> Unit,
     navigateToIntern: (Long) -> Unit
@@ -93,7 +91,6 @@ fun HomeRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is HomeSideEffect.NavigateToHome -> navController.navigateUp()
                     is HomeSideEffect.NavigateToCalendar -> navigateToCalendar()
                     is HomeSideEffect.NavigateToIntern -> navigateToIntern(sideEffect.announcementId)
                 }
@@ -283,7 +280,7 @@ fun HomeScreen(
         ) {
             item {
                 Column {
-                    ShowMainTitleWithName(homeUserName)
+                    ShowUpcomingTitle()
                     ShowUpcomingIntern(
                         homeUpcomingInternState = homeState.homeUpcomingInternState,
                         homeState = homeState,
@@ -299,7 +296,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .background(White)
                 ) {
-                    ShowRecommendTitle()
+                    ShowRecommendTitle(homeUserName)
                     ShowInternFilter(
                         homeFilteringInfo = homeFilteringInfo,
                         onChangeFilterClick = { changeFilteringSheetState = true },
@@ -408,13 +405,9 @@ private fun RecommendInternItem(
 }
 
 @Composable
-private fun ShowMainTitleWithName(userName: String) {
+private fun ShowUpcomingTitle() {
     Text(
-        text = stringResource(
-            id = R.string.home_upcoming_title,
-            if (userName.length in NAME_START_LENGTH..NAME_END_LENGTH) "\n" + userName
-            else userName
-        ),
+        text = stringResource(id = R.string.home_upcoming_title),
         modifier = Modifier
             .padding(
                 top = 2.dp,
@@ -461,9 +454,13 @@ private fun ShowUpcomingIntern(
 }
 
 @Composable
-private fun ShowRecommendTitle() {
+private fun ShowRecommendTitle(userName: String) {
     Text(
-        text = stringResource(id = R.string.home_recommend_main_title),
+        text = stringResource(
+            id = R.string.home_recommend_main_title,
+            userName,
+            if (userName.length > NAME_MAX_LENGTH) "\n" else " "
+        ),
         style = TerningTheme.typography.title1,
         color = Black,
         modifier = Modifier
