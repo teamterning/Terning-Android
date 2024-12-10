@@ -4,13 +4,17 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,13 +35,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.extension.getDateStringInKorean
 import com.terning.core.designsystem.extension.getFullDateStringInKorean
 import com.terning.core.designsystem.extension.swipableVertically
 import com.terning.core.designsystem.extension.toast
+import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -160,7 +165,9 @@ private fun CalendarWeekScreen(
                     shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
                     elevation = 1.dp
                 ),
-
+            colors = CardDefaults.cardColors(
+                containerColor = White
+            ),
             shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
         ) {
             HorizontalCalendarWeek(
@@ -168,7 +175,14 @@ private fun CalendarWeekScreen(
                 onDateSelected = updateSelectedDate,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(White)
+            )
+
+            Spacer(
+                modifier = Modifier
+                    .padding(top = 4.dp, bottom = 8.dp)
+                    .size(width = 55.dp, height = 4.dp)
+                    .background(color = Grey200, shape = RoundedCornerShape(2.dp))
+                    .align(Alignment.CenterHorizontally),
             )
         }
 
