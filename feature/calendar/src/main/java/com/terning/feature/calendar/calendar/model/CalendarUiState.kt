@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 data class CalendarUiState(
     val selectedDate: LocalDate = LocalDate.now(),
-    val calendarModel: CalendarModel = CalendarModel(),
+    val calendarModel: TerningCalendarModel = TerningCalendarModel(),
     val isListEnabled: Boolean = false,
     val isWeekEnabled: Boolean = false
 )

@@ -20,7 +20,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.feature.calendar.month.model.DayModel
+import com.terning.feature.calendar.calendar.model.DayModel
 import java.time.LocalDate
 
 @Composable
@@ -79,19 +79,19 @@ fun CalendarDayPreview() {
     TerningPointTheme {
         Row {
             CalendarDay(
-                dayData = DayModel(LocalDate.now(), false),
+                dayData = DayModel(LocalDate.now(), 0, false),
                 isSelected = true,
                 isToday = true,
                 onDateSelected = {}
             )
             CalendarDay(
-                dayData = DayModel(LocalDate.now(), false),
+                dayData = DayModel(LocalDate.now(), 0, false),
                 isSelected = false,
                 isToday = true,
                 onDateSelected = {}
             )
             CalendarDay(
-                dayData = DayModel(LocalDate.now(), false),
+                dayData = DayModel(LocalDate.now(), 0, false),
                 isSelected = false,
                 isToday = false,
                 onDateSelected = {}

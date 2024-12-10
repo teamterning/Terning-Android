@@ -29,8 +29,7 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getYearMonthByPage
+import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
 import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.CalendarListRoute
@@ -90,7 +89,9 @@ private fun CalendarScreen(
     LaunchedEffect(key1 = pagerState, key2 = uiState.selectedDate) {
         snapshotFlow { pagerState.currentPage }
             .collect { current ->
-                val date = getLocalDateByPage(current)
+                //val date = getLocalDateByPage(current)
+                val date = uiState.calendarModel.getLocalDateByPage(current)
+
 
                 val newDate = LocalDate.of(
                     date.year,
@@ -102,13 +103,14 @@ private fun CalendarScreen(
     }
 
     CompositionLocalProvider(
-        LocalPagerState provides pagerState
+        LocalPagerState provides pagerState,
+        LocalCalendarModel provides uiState.calendarModel
     ) {
         Column(
             modifier = modifier,
         ) {
             CalendarTopAppBar(
-                date = getYearMonthByPage(pagerState.settledPage),
+                date = uiState.calendarModel.getYearMonthByPage(pagerState.settledPage),
                 isListExpanded = uiState.isListEnabled,
                 onListButtonClicked = onClickListButton,
                 onMonthNavigationButtonClicked = { direction ->

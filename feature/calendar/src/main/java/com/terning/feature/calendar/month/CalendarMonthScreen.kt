@@ -15,13 +15,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.extension.toast
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
+import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
 import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.month.component.CalendarMonth
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
-import com.terning.feature.calendar.month.model.MonthModel
 import java.time.LocalDate
-import java.time.YearMonth
 
 @Composable
 fun CalendarMonthRoute(
@@ -30,6 +28,7 @@ fun CalendarMonthRoute(
     modifier: Modifier = Modifier,
     viewModel: CalendarMonthViewModel = hiltViewModel()
 ) {
+    val calendarModel = LocalCalendarModel.current
     val pagerState = LocalPagerState.current
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -47,7 +46,8 @@ fun CalendarMonthRoute(
     LaunchedEffect(key1 = pagerState) {
         snapshotFlow { pagerState.currentPage }
             .collect { currentPage->
-                viewModel.getScrapMonth(currentPage)
+                val localDate = calendarModel.getLocalDateByPage(currentPage)
+                viewModel.getScrapMonth(localDate)
             }
     }
 
@@ -68,13 +68,13 @@ private fun CalendarMonthScreen(
     updateSelectedDate: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val calendarModel = LocalCalendarModel.current
 
     HorizontalPager(
         state = pagerState,
         modifier = modifier.fillMaxSize()
-    ) {page ->
-        val date = getLocalDateByPage(page)
-        val monthModel = MonthModel(YearMonth.of(date.year, date.month))
+    ) { page ->
+        val monthModel = calendarModel.getMonthModelByPage(page = page)
 
         CalendarMonth(
             modifier = Modifier.fillMaxSize(),

@@ -38,7 +38,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
+import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
 import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.list.model.CalendarListUiState
@@ -55,6 +55,7 @@ fun CalendarListRoute(
     viewModel: CalendarListViewModel = hiltViewModel(),
 ) {
     val pagerState = LocalPagerState.current
+    val calendarModel = LocalCalendarModel.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
     val context = LocalContext.current
@@ -71,7 +72,7 @@ fun CalendarListRoute(
     LaunchedEffect(key1 = pagerState) {
         snapshotFlow { pagerState.settledPage }
             .collect { settled ->
-                val date = getLocalDateByPage(settled)
+                val date = calendarModel.getLocalDateByPage(settled)
                 viewModel.updateCurrentDate(date)
                 viewModel.getScrapMonthList(date)
             }
@@ -133,11 +134,13 @@ private fun CalendarListScreen(
     onClickScrapButton: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val calendarModel = LocalCalendarModel.current
+
     HorizontalPager(
         state = pagerState,
         modifier = modifier
     ) { page ->
-        val getDate = getLocalDateByPage(page)
+        val getDate = calendarModel.getLocalDateByPage(page)
 
         LazyColumn(
             modifier = Modifier

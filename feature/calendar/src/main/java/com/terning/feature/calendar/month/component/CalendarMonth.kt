@@ -18,7 +18,7 @@ import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.domain.calendar.entity.CalendarScrap
 import com.terning.feature.calendar.calendar.component.CalendarDay
-import com.terning.feature.calendar.month.model.MonthModel
+import com.terning.feature.calendar.calendar.model.MonthModel
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -36,7 +36,7 @@ internal fun CalendarMonth(
             .fillMaxSize()
             .padding(horizontal = 20.dp),
     ) {
-        val month = monthModel.calendarMonth.weekDays
+        val month = monthModel.calendarMonth
         for (week in month) {
             Row(
                 modifier = Modifier.weight(1f),
