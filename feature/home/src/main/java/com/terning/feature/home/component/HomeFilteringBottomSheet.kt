@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.ChangeFilterButton
 import com.terning.core.designsystem.component.button.RoundButton
@@ -31,7 +32,6 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.type.Grade
 import com.terning.core.designsystem.type.WorkingPeriod
-import com.terning.core.designsystem.R
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,6 +59,9 @@ fun HomeFilteringBottomSheet(
             defaultStartMonth ?: Calendar.getInstance().currentMonth
         )
     }
+
+    // todo: 삭제
+    var nullDate by remember { mutableStateOf(false) }
 
     TerningBasicBottomSheet(
         content = {
@@ -119,6 +122,8 @@ fun HomeFilteringBottomSheet(
                         R.string.change_filter_period_3,
                     ),
                     onButtonClick = { index ->
+                        // todo: 삭제
+                        nullDate = true
                         currentPeriod = WorkingPeriod.entries[index]
                     },
                     modifier = Modifier
@@ -132,12 +137,22 @@ fun HomeFilteringBottomSheet(
                         .padding(horizontal = 24.dp)
                 )
 
-                YearMonthPicker(
+                // todo: null 처리 제대로
+                HomeYearMonthPicker(
                     chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
                     chosenMonth = defaultStartMonth
                         ?: Calendar.getInstance().currentMonth,
-                    onYearChosen = { currentStartYear = it },
-                    onMonthChosen = { currentStartMonth = it }
+                    onYearChosen = {
+                        if (it != null) {
+                            currentStartYear = it
+                        }
+                    },
+                    onMonthChosen = {
+                        if (it != null) {
+                            currentStartMonth = it
+                        }
+                    },
+                    nullDate = nullDate
                 )
                 RoundButton(
                     style = TerningTheme.typography.button0,

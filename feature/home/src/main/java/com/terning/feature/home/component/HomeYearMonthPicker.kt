@@ -56,25 +56,34 @@ class PickerState {
 fun rememberPickerState() = remember { PickerState() }
 
 @Composable
-fun YearMonthPicker(
+fun HomeYearMonthPicker(
     modifier: Modifier = Modifier,
-    chosenYear: Int,
-    chosenMonth: Int,
-    onYearChosen: (Int) -> Unit,
-    onMonthChosen: (Int) -> Unit,
+    chosenYear: Int?,
+    chosenMonth: Int?,
+    onYearChosen: (Int?) -> Unit,
+    onMonthChosen: (Int?) -> Unit,
+    nullDate: Boolean
 ) {
+    // todo: 변수명 제대로
+    val yearsWithNull = if (nullDate) years + "-" else years
+    val monthsWithNull = if (nullDate) months + "-" else months
+
     val yearPickerState = rememberPickerState()
     val monthPickerState = rememberPickerState()
 
-    val startYearIndex = years.indexOf("${chosenYear}년").takeIf { it >= 0 } ?: 0
-    val startMonthIndex = months.indexOf("${chosenMonth}월").takeIf { it >= 0 } ?: 0
+    val startYearIndex =
+        if (nullDate) yearsWithNull.lastIndex else yearsWithNull.indexOf("${chosenYear ?: "-"}년")
+            .takeIf { it >= 0 } ?: 0
+    val startMonthIndex =
+        if (nullDate) monthsWithNull.lastIndex else monthsWithNull.indexOf("${chosenMonth ?: "-"}월")
+            .takeIf { it >= 0 } ?: 0
 
-    LaunchedEffect(chosenYear) {
-        yearPickerState.selectedItem = "${chosenYear}년"
+    LaunchedEffect(nullDate, chosenYear) {
+        yearPickerState.selectedItem = if (nullDate) "-" else "${chosenYear ?: "-"}년"
     }
 
-    LaunchedEffect(chosenMonth) {
-        monthPickerState.selectedItem = "${chosenMonth}월"
+    LaunchedEffect(nullDate, chosenMonth) {
+        monthPickerState.selectedItem = if (nullDate) "-" else "${chosenMonth ?: "-"}월"
     }
 
     Row(
@@ -86,20 +95,20 @@ fun YearMonthPicker(
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = yearPickerState,
-            items = years,
+            items = yearsWithNull,
             startIndex = startYearIndex,
             onItemSelected = { year ->
-                onYearChosen(year.dropLast(1).toInt())
+                onYearChosen(if (year == "-년") null else year.dropLast(1).toInt())
             }
         )
         Spacer(modifier = Modifier.width(18.dp))
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = monthPickerState,
-            items = months,
+            items = monthsWithNull,
             startIndex = startMonthIndex,
             onItemSelected = { month ->
-                onMonthChosen(month.dropLast(1).toInt())
+                onMonthChosen(if (month == "-월") null else month.dropLast(1).toInt())
             }
         )
     }
@@ -121,8 +130,8 @@ fun DatePicker(
     val scrollState = rememberLazyListState(initialFirstVisibleItemIndex = startIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = scrollState)
 
-    LaunchedEffect(itemHeightPixel) {
-        if (itemHeightPixel > 0) scrollState.scrollToItem(startIndex)
+    LaunchedEffect(itemHeightPixel, startIndex) {
+        if (itemHeightPixel > 0 && startIndex >= 0) scrollState.scrollToItem(startIndex)
     }
 
     LaunchedEffect(scrollState) {

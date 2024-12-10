@@ -56,7 +56,7 @@ class PickerState {
 fun rememberPickerState() = remember { PickerState() }
 
 @Composable
-fun YearMonthPicker(
+fun FilteringYearMonthPicker(
     modifier: Modifier = Modifier,
     chosenYear: Int,
     chosenMonth: Int,
