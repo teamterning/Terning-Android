@@ -47,12 +47,10 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
-import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.calendar.model.DayModel
-import com.terning.feature.calendar.calendar.model.LocalPagerState
-import com.terning.feature.calendar.calendar.model.TerningCalendarModel
 import com.terning.feature.calendar.calendar.component.group.CalendarScrapListGroup
 import com.terning.feature.calendar.calendar.component.pager.CalendarWeekPager
+import com.terning.feature.calendar.calendar.model.DayModel
+import com.terning.feature.calendar.calendar.model.TerningCalendarModel
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -61,14 +59,15 @@ import java.time.LocalDate
 
 @Composable
 fun CalendarWeekRoute(
-    calendarUiState: CalendarUiState,
+    selectedDate: DayModel,
+    calendarModel: TerningCalendarModel,
+    pagerState: PagerState,
     navigateToAnnouncement: (Long) -> Unit,
     updateSelectedDate: (DayModel) -> Unit,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarWeekViewModel = hiltViewModel(),
 ) {
-    val pagerState = LocalPagerState.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
 
@@ -82,8 +81,8 @@ fun CalendarWeekRoute(
             }
     }
 
-    LaunchedEffect(key1 = calendarUiState.selectedDate) {
-        viewModel.getScrapWeekList(selectedDate = calendarUiState.selectedDate.date)
+    LaunchedEffect(key1 = selectedDate) {
+        viewModel.getScrapWeekList(selectedDate = selectedDate.date)
     }
 
     BackHandler {
@@ -91,11 +90,11 @@ fun CalendarWeekRoute(
     }
 
     CalendarWeekScreen(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         pagerState = pagerState,
-        calendarModel = calendarUiState.calendarModel,
+        calendarModel = calendarModel,
         uiState = uiState,
-        selectedDate = calendarUiState.selectedDate,
+        selectedDate = selectedDate,
         updateSelectedDate = updateSelectedDate,
         onClickScrapButton = { scrapId ->
             with(viewModel) {
@@ -112,7 +111,7 @@ fun CalendarWeekRoute(
     )
 
     CalendarWeekScrapPatchDialog(
-        currentDate = calendarUiState.selectedDate.date,
+        currentDate = selectedDate.date,
         dialogVisibility = uiState.scrapDetailDialogVisibility,
         internshipModel = uiState.internshipModel,
         navigateToAnnouncement = { announcementId ->
@@ -121,7 +120,7 @@ fun CalendarWeekRoute(
         },
         onDismissInternDialog = { viewModel.updateScrapDetailDialogVisibility(false) },
         onClickChangeColor = {
-            viewModel.getScrapWeekList(calendarUiState.selectedDate.date)
+            viewModel.getScrapWeekList(selectedDate.date)
         },
     )
 
@@ -131,7 +130,7 @@ fun CalendarWeekRoute(
         onDismissCancelDialog = { isCancelled ->
             viewModel.updateScrapCancelDialogVisibility(false)
             if (isCancelled) {
-                viewModel.getScrapWeekList(calendarUiState.selectedDate.date)
+                viewModel.getScrapWeekList(selectedDate.date)
             }
         }
     )

@@ -70,9 +70,5 @@ class TerningCalendarModel (
     companion object {
         private const val DEFAULT_START_YEAR = 2020
         private const val DEFAULT_END_YEAR = 2030
-
-        val LocalCalendarModel = staticCompositionLocalOf<TerningCalendarModel> {
-            error("No CalendarModel provided")
-        }
     }
 }

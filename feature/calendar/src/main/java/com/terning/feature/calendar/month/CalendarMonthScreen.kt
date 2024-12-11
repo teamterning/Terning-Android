@@ -2,6 +2,7 @@ package com.terning.feature.calendar.month
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -16,23 +17,22 @@ import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.calendar.entity.CalendarScrap
-import com.terning.feature.calendar.calendar.model.DayModel
-import com.terning.feature.calendar.calendar.model.LocalPagerState
-import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
 import com.terning.feature.calendar.calendar.component.pager.CalendarMonthPager
+import com.terning.feature.calendar.calendar.model.DayModel
+import com.terning.feature.calendar.calendar.model.TerningCalendarModel
 
 @Composable
 fun CalendarMonthRoute(
     selectedDate: DayModel,
+    calendarModel: TerningCalendarModel,
+    pagerState: PagerState,
     updateSelectedDate: (DayModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarMonthViewModel = hiltViewModel()
 ) {
-    val calendarModel = LocalCalendarModel.current
-    val pagerState = LocalPagerState.current
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)

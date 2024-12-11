@@ -9,7 +9,3 @@ data class CalendarUiState(
     val isListEnabled: Boolean = false,
     val isWeekEnabled: Boolean = false,
 )
-
-val LocalPagerState = compositionLocalOf<PagerState> {
-    error("No PagerState provided")
-}

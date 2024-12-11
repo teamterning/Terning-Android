@@ -28,19 +28,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.extension.getFullDateStringInKorean
 import com.terning.core.designsystem.extension.isListNotEmpty
 import com.terning.core.designsystem.extension.toast
+import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Back
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
-import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
-import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.calendar.component.group.CalendarScrapListGroup
+import com.terning.feature.calendar.calendar.model.TerningCalendarModel
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -50,12 +49,12 @@ import java.time.LocalDate
 @Composable
 fun CalendarListRoute(
     modifier: Modifier = Modifier,
+    calendarModel: TerningCalendarModel,
+    pagerState: PagerState,
     navigateUp: () -> Unit,
     navigateToAnnouncement: (Long) -> Unit,
     viewModel: CalendarListViewModel = hiltViewModel(),
 ) {
-    val pagerState = LocalPagerState.current
-    val calendarModel = LocalCalendarModel.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
     val context = LocalContext.current
@@ -85,6 +84,7 @@ fun CalendarListRoute(
     CalendarListScreen(
         pagerState = pagerState,
         uiState = uiState,
+        calendarModel = calendarModel,
         modifier = modifier,
         onClickScrapButton = { scrapId ->
             with(viewModel) {
@@ -129,12 +129,12 @@ fun CalendarListRoute(
 @Composable
 private fun CalendarListScreen(
     pagerState: PagerState,
+    calendarModel: TerningCalendarModel,
     uiState: CalendarListUiState,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val calendarModel = LocalCalendarModel.current
 
     HorizontalPager(
         state = pagerState,
