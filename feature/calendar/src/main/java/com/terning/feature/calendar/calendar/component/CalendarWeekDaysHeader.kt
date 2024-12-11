@@ -19,7 +19,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.calendar.R
 
 @Composable
-fun WeekDaysHeader(
+fun CalendarWeekDaysHeader(
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -56,6 +56,6 @@ fun WeekDaysHeader(
 @Composable
 fun WeekDaysHeaderPreview() {
     TerningPointTheme {
-        WeekDaysHeader()
+        CalendarWeekDaysHeader()
     }
 }
