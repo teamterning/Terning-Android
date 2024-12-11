@@ -2,6 +2,7 @@ package com.terning.feature.calendar.calendar.model
 
 import androidx.compose.runtime.Immutable
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * 달력의 하루를 나타내는 데이터클래스 모델
@@ -13,7 +14,14 @@ import java.time.LocalDate
 
 @Immutable
 data class DayModel(
-    val date: LocalDate,
+    val date: LocalDate = LocalDate.now(),
     val weekIndex: Int = 0,
     val isOutDate: Boolean = false
-)
+) {
+    fun isToday(): Boolean = date == LocalDate.now()
+
+    fun getScrapMapKey(): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return date.format(formatter)
+    }
+}
