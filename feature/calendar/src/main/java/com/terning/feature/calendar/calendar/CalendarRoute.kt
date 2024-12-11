@@ -1,5 +1,6 @@
 package com.terning.feature.calendar.calendar
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
@@ -25,17 +26,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
+import com.terning.core.designsystem.extension.getWeekIndexContainingSelectedDate
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
+import com.terning.feature.calendar.calendar.state.CalendarUiState
+import com.terning.feature.calendar.calendar.model.DayModel
+import com.terning.feature.calendar.calendar.state.LocalPagerState
 import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
-import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -72,8 +76,8 @@ fun CalendarRoute(
 private fun CalendarScreen(
     uiState: CalendarUiState,
     navigateToAnnouncement: (Long) -> Unit,
-    onClickNewDate: (LocalDate) -> Unit,
-    updateSelectedDate: (LocalDate) -> Unit,
+    onClickNewDate: (DayModel) -> Unit,
+    updateSelectedDate: (DayModel) -> Unit,
     disableListVisibility: () -> Unit,
     disableWeekVisibility: () -> Unit,
     onClickListButton: () -> Unit,
@@ -86,19 +90,26 @@ private fun CalendarScreen(
         pageCount = { uiState.calendarModel.pageCount }
     )
 
+    BackHandler(enabled = uiState.isWeekEnabled) {
+        disableWeekVisibility()
+    }
+
     LaunchedEffect(key1 = pagerState, key2 = uiState.selectedDate) {
         snapshotFlow { pagerState.currentPage }
             .collect { current ->
-                //val date = getLocalDateByPage(current)
                 val date = uiState.calendarModel.getLocalDateByPage(current)
+                val month = uiState.calendarModel.getMonthModelByPage(current)
 
 
                 val newDate = LocalDate.of(
                     date.year,
                     date.month,
-                    uiState.selectedDate.dayOfMonth.coerceAtMost(date.month.minLength())
+                    uiState.selectedDate.date.dayOfMonth.coerceAtMost(date.month.minLength())
                 )
-                updateSelectedDate(newDate)
+
+                val currentWeek = newDate.getWeekIndexContainingSelectedDate(month.inDays)
+                Timber.tag("WeekIndex").d("In CalendarRoute: ${currentWeek.toString()}")
+                updateSelectedDate(DayModel(newDate, currentWeek))
             }
     }
 
@@ -165,7 +176,9 @@ private fun CalendarScreen(
                                         .fillMaxSize(),
                                     navigateUp = disableWeekVisibility,
                                     navigateToAnnouncement = navigateToAnnouncement,
-                                    updateSelectedDate = onClickNewDate
+                                    updateSelectedDate = {
+                                        onClickNewDate(it)
+                                    }
                                 )
                             }
                         )

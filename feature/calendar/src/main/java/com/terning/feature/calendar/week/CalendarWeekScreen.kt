@@ -47,10 +47,12 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
-import com.terning.feature.calendar.calendar.model.CalendarUiState
-import com.terning.feature.calendar.calendar.model.LocalPagerState
+import com.terning.feature.calendar.calendar.state.CalendarUiState
+import com.terning.feature.calendar.calendar.model.DayModel
+import com.terning.feature.calendar.calendar.state.LocalPagerState
+import com.terning.feature.calendar.calendar.model.TerningCalendarModel
 import com.terning.feature.calendar.list.component.CalendarScrapList
-import com.terning.feature.calendar.week.component.HorizontalCalendarWeek
+import com.terning.feature.calendar.week.component.CalendarWeekPager
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -61,7 +63,7 @@ import java.time.LocalDate
 fun CalendarWeekRoute(
     calendarUiState: CalendarUiState,
     navigateToAnnouncement: (Long) -> Unit,
-    updateSelectedDate: (LocalDate) -> Unit,
+    updateSelectedDate: (DayModel) -> Unit,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarWeekViewModel = hiltViewModel(),
@@ -81,7 +83,7 @@ fun CalendarWeekRoute(
     }
 
     LaunchedEffect(key1 = calendarUiState.selectedDate) {
-        viewModel.getScrapWeekList(selectedDate = calendarUiState.selectedDate)
+        viewModel.getScrapWeekList(selectedDate = calendarUiState.selectedDate.date)
     }
 
     BackHandler {
@@ -91,6 +93,7 @@ fun CalendarWeekRoute(
     CalendarWeekScreen(
         modifier = modifier,
         pagerState = pagerState,
+        calendarModel = calendarUiState.calendarModel,
         uiState = uiState,
         selectedDate = calendarUiState.selectedDate,
         updateSelectedDate = updateSelectedDate,
@@ -109,7 +112,7 @@ fun CalendarWeekRoute(
     )
 
     CalendarWeekScrapPatchDialog(
-        currentDate = calendarUiState.selectedDate,
+        currentDate = calendarUiState.selectedDate.date,
         dialogVisibility = uiState.scrapDetailDialogVisibility,
         internshipModel = uiState.internshipModel,
         navigateToAnnouncement = { announcementId ->
@@ -118,7 +121,7 @@ fun CalendarWeekRoute(
         },
         onDismissInternDialog = { viewModel.updateScrapDetailDialogVisibility(false) },
         onClickChangeColor = {
-            viewModel.getScrapWeekList(calendarUiState.selectedDate)
+            viewModel.getScrapWeekList(calendarUiState.selectedDate.date)
         },
     )
 
@@ -128,7 +131,7 @@ fun CalendarWeekRoute(
         onDismissCancelDialog = { isCancelled ->
             viewModel.updateScrapCancelDialogVisibility(false)
             if (isCancelled) {
-                viewModel.getScrapWeekList(calendarUiState.selectedDate)
+                viewModel.getScrapWeekList(calendarUiState.selectedDate.date)
             }
         }
     )
@@ -137,9 +140,10 @@ fun CalendarWeekRoute(
 @Composable
 private fun CalendarWeekScreen(
     uiState: CalendarWeekUiState,
+    calendarModel: TerningCalendarModel,
     pagerState: PagerState,
-    selectedDate: LocalDate,
-    updateSelectedDate: (LocalDate) -> Unit,
+    selectedDate: DayModel,
+    updateSelectedDate: (DayModel) -> Unit,
     onClickInternship: (CalendarScrapDetail) -> Unit,
     onClickScrapButton: (Long) -> Unit,
     modifier: Modifier = Modifier,
@@ -169,11 +173,10 @@ private fun CalendarWeekScreen(
             ),
             shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
         ) {
-            HorizontalCalendarWeek(
+            CalendarWeekPager(
+                monthModel = calendarModel.getMonthModelByPage(selectedDate.date),
                 selectedDate = selectedDate,
-                onDateSelected = updateSelectedDate,
-                modifier = Modifier
-                    .fillMaxWidth()
+                onDateSelect = updateSelectedDate,
             )
 
             Spacer(
@@ -195,7 +198,7 @@ private fun CalendarWeekScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = selectedDate.getDateStringInKorean(),
+                    text = selectedDate.date.getDateStringInKorean(),
                     style = TerningTheme.typography.title5,
                     color = Black,
                     modifier = Modifier

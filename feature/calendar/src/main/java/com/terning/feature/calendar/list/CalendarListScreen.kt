@@ -39,7 +39,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
 import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
-import com.terning.feature.calendar.calendar.model.LocalPagerState
+import com.terning.feature.calendar.calendar.state.LocalPagerState
 import com.terning.feature.calendar.list.component.CalendarScrapList
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
