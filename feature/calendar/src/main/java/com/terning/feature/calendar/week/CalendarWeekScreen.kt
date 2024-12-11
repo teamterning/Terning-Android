@@ -47,12 +47,12 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
-import com.terning.feature.calendar.calendar.state.CalendarUiState
+import com.terning.feature.calendar.calendar.model.CalendarUiState
 import com.terning.feature.calendar.calendar.model.DayModel
-import com.terning.feature.calendar.calendar.state.LocalPagerState
+import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.calendar.model.TerningCalendarModel
-import com.terning.feature.calendar.list.component.CalendarScrapList
-import com.terning.feature.calendar.week.component.CalendarWeekPager
+import com.terning.feature.calendar.calendar.component.group.CalendarScrapListGroup
+import com.terning.feature.calendar.calendar.component.pager.CalendarWeekPager
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -257,7 +257,7 @@ private fun CalendarWeekSuccess(
     onScrapButtonClicked: (Long) -> Unit,
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
 ) {
-    CalendarScrapList(
+    CalendarScrapListGroup(
         scrapList = scrapList,
         onScrapButtonClicked = onScrapButtonClicked,
         onInternshipClicked = onInternshipClicked,

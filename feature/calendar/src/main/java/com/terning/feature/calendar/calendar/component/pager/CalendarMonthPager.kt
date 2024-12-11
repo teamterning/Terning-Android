@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.month.component
+package com.terning.feature.calendar.calendar.component.pager
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager

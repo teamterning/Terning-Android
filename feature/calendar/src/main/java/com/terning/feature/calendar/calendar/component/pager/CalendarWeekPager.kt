@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.week.component
+package com.terning.feature.calendar.calendar.component.pager
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues

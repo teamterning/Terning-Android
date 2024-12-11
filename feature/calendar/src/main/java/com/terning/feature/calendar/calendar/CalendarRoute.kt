@@ -7,7 +7,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.rememberPagerState
@@ -21,25 +20,22 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.extension.getWeekIndexContainingSelectedDate
 import com.terning.core.designsystem.theme.Grey200
-import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
-import com.terning.feature.calendar.calendar.state.CalendarUiState
 import com.terning.feature.calendar.calendar.model.DayModel
-import com.terning.feature.calendar.calendar.state.LocalPagerState
 import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
+import com.terning.feature.calendar.calendar.model.CalendarUiState
+import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.list.CalendarListRoute
 import com.terning.feature.calendar.month.CalendarMonthRoute
 import com.terning.feature.calendar.week.CalendarWeekRoute
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.time.LocalDate
 
 @Composable
@@ -48,8 +44,7 @@ fun CalendarRoute(
     modifier: Modifier = Modifier,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val amplitudeTracker = LocalTracker.current
 
     CalendarScreen(
@@ -108,7 +103,6 @@ private fun CalendarScreen(
                 )
 
                 val currentWeek = newDate.getWeekIndexContainingSelectedDate(month.inDays)
-                Timber.tag("WeekIndex").d("In CalendarRoute: ${currentWeek.toString()}")
                 updateSelectedDate(DayModel(newDate, currentWeek))
             }
     }
@@ -163,10 +157,7 @@ private fun CalendarScreen(
                                     updateSelectedDate = { newDate ->
                                         if (!pagerState.isScrollInProgress)
                                             onClickNewDate(newDate)
-                                    },
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(White),
+                                    }
                                 )
                             },
                             contentTwo = {
@@ -176,9 +167,8 @@ private fun CalendarScreen(
                                         .fillMaxSize(),
                                     navigateUp = disableWeekVisibility,
                                     navigateToAnnouncement = navigateToAnnouncement,
-                                    updateSelectedDate = {
-                                        onClickNewDate(it)
-                                    }
+                                    updateSelectedDate = onClickNewDate
+
                                 )
                             }
                         )

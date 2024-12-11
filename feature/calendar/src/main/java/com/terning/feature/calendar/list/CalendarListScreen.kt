@@ -39,8 +39,8 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
 import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
-import com.terning.feature.calendar.calendar.state.LocalPagerState
-import com.terning.feature.calendar.list.component.CalendarScrapList
+import com.terning.feature.calendar.calendar.model.LocalPagerState
+import com.terning.feature.calendar.calendar.component.group.CalendarScrapListGroup
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -178,7 +178,7 @@ private fun CalendarListScreen(
                                     .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
                             )
 
-                            CalendarScrapList(
+                            CalendarScrapListGroup(
                                 scrapList = scrapMap[dateInKorean].orEmpty().toImmutableList(),
                                 onScrapButtonClicked = onClickScrapButton,
                                 onInternshipClicked = onClickInternship,

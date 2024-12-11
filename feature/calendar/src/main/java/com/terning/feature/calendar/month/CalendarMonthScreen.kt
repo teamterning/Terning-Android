@@ -1,5 +1,7 @@
 package com.terning.feature.calendar.month
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -12,11 +14,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.theme.White
 import com.terning.domain.calendar.entity.CalendarScrap
 import com.terning.feature.calendar.calendar.model.DayModel
-import com.terning.feature.calendar.calendar.state.LocalPagerState
+import com.terning.feature.calendar.calendar.model.LocalPagerState
 import com.terning.feature.calendar.calendar.model.TerningCalendarModel.Companion.LocalCalendarModel
-import com.terning.feature.calendar.month.component.CalendarMonthPager
+import com.terning.feature.calendar.calendar.component.pager.CalendarMonthPager
 
 @Composable
 fun CalendarMonthRoute(
@@ -49,7 +52,9 @@ fun CalendarMonthRoute(
     }
 
     CalendarMonthPager(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxSize()
+            .background(White),
         pagerState = pagerState,
         calendarModel = calendarModel,
         selectedDate = selectedDate,
