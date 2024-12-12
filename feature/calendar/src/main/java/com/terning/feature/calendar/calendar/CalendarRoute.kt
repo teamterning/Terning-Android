@@ -1,6 +1,8 @@
 package com.terning.feature.calendar.calendar
 
+import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -78,6 +80,11 @@ private fun CalendarScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
+    val calendarListTransition =
+        updateTransition(!uiState.isListEnabled, label = "calendarListTransition")
+    val monthWeekTransition =
+        updateTransition(!uiState.isWeekEnabled, label = "monthWeekTransition")
+
     val pagerState = rememberPagerState(
         initialPage = uiState.calendarModel.initialPage,
         pageCount = { uiState.calendarModel.pageCount }
@@ -107,7 +114,10 @@ private fun CalendarScreen(
         CalendarTopAppBar(
             date = uiState.calendarModel.getYearMonthByPage(pagerState.settledPage),
             isListExpanded = uiState.isListEnabled,
-            onListButtonClicked = onClickListButton,
+            onListButtonClicked = {
+                if(!calendarListTransition.isRunning)
+                    onClickListButton()
+            },
             onMonthNavigationButtonClicked = { direction ->
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(
@@ -119,7 +129,7 @@ private fun CalendarScreen(
         )
 
         CalendarListTransition(
-            isCalendarEnabled = !uiState.isListEnabled,
+            transition = calendarListTransition,
             calendarModel = uiState.calendarModel,
             pagerState = pagerState,
             onNavigateToAnnouncement = navigateToAnnouncement,
@@ -137,7 +147,7 @@ private fun CalendarScreen(
                     )
 
                     MonthWeekTransition(
-                        isMonthEnabled = !uiState.isWeekEnabled,
+                        transition = monthWeekTransition,
                         selectedDate = uiState.selectedDate,
                         calendarModel = uiState.calendarModel,
                         pagerState = pagerState,
@@ -155,7 +165,7 @@ private fun CalendarScreen(
 /** 달력 <-> 목록 전환 컴포저블 */
 @Composable
 private fun CalendarListTransition(
-    isCalendarEnabled: Boolean,
+    transition: Transition<Boolean>,
     calendarModel: TerningCalendarModel,
     pagerState: PagerState,
     onNavigateToAnnouncement: (Long) -> Unit,
@@ -163,7 +173,7 @@ private fun CalendarListTransition(
     calendarContent: @Composable () -> Unit,
 ) {
     ScreenTransition(
-        targetState = isCalendarEnabled,
+        transition = transition,
         transitionOne = slideInHorizontally { fullWidth -> -fullWidth } togetherWith
                 slideOutHorizontally { fullWidth -> fullWidth },
         transitionTwo = slideInHorizontally { fullWidth -> fullWidth } togetherWith
@@ -187,7 +197,7 @@ private fun CalendarListTransition(
 /**월간 <-> 주간 전환 컴포저블*/
 @Composable
 private fun MonthWeekTransition(
-    isMonthEnabled: Boolean,
+    transition: Transition<Boolean>,
     selectedDate: DayModel,
     calendarModel: TerningCalendarModel,
     pagerState: PagerState,
@@ -196,7 +206,7 @@ private fun MonthWeekTransition(
     onNavigateUpToMonth: () -> Unit,
 ) {
     ScreenTransition(
-        targetState = isMonthEnabled,
+        transition = transition,
         transitionOne = slideInVertically { fullHeight -> -fullHeight } togetherWith
                 slideOutVertically { fullHeight -> fullHeight },
         transitionTwo = slideInVertically { fullHeight -> fullHeight } togetherWith
