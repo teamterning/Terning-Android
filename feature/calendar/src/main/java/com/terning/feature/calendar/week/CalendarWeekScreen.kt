@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,7 +34,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.designsystem.extension.getDateStringInKorean
-import com.terning.core.designsystem.extension.getFullDateStringInKorean
 import com.terning.core.designsystem.extension.swipableVertically
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
@@ -47,15 +45,14 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
+import com.terning.feature.calendar.calendar.component.dialog.CalendarScrapCancelDialog
+import com.terning.feature.calendar.calendar.component.dialog.CalendarScrapPatchDialog
 import com.terning.feature.calendar.calendar.component.group.CalendarScrapListGroup
 import com.terning.feature.calendar.calendar.component.pager.CalendarWeekPager
 import com.terning.feature.calendar.calendar.model.DayModel
 import com.terning.feature.calendar.calendar.model.TerningCalendarModel
 import com.terning.feature.calendar.week.model.CalendarWeekUiState
-import com.terning.feature.dialog.cancel.ScrapCancelDialog
-import com.terning.feature.dialog.detail.ScrapDialog
 import okhttp3.internal.toImmutableList
-import java.time.LocalDate
 
 @Composable
 fun CalendarWeekRoute(
@@ -110,8 +107,8 @@ fun CalendarWeekRoute(
         },
     )
 
-    CalendarWeekScrapPatchDialog(
-        currentDate = selectedDate.date,
+    CalendarScrapPatchDialog(
+        date = selectedDate.date,
         dialogVisibility = uiState.scrapDetailDialogVisibility,
         internshipModel = uiState.internshipModel,
         navigateToAnnouncement = { announcementId ->
@@ -124,7 +121,7 @@ fun CalendarWeekRoute(
         },
     )
 
-    CalendarWeekScrapCancelDialog(
+    CalendarScrapCancelDialog(
         scrapVisibility = uiState.scrapCancelDialogVisibility,
         internshipAnnouncementId = uiState.internshipAnnouncementId,
         onDismissCancelDialog = { isCancelled ->
@@ -263,55 +260,6 @@ private fun CalendarWeekSuccess(
         modifier = Modifier
             .padding(horizontal = 24.dp)
     )
-}
-
-@Composable
-private fun CalendarWeekScrapCancelDialog(
-    scrapVisibility: Boolean,
-    internshipAnnouncementId: Long?,
-    onDismissCancelDialog: (Boolean) -> Unit,
-) {
-    if (scrapVisibility) {
-        internshipAnnouncementId?.run {
-            ScrapCancelDialog(
-                internshipAnnouncementId = this,
-                onDismissRequest = onDismissCancelDialog
-            )
-        }
-    }
-}
-
-@Composable
-private fun CalendarWeekScrapPatchDialog(
-    currentDate: LocalDate,
-    dialogVisibility: Boolean,
-    internshipModel: CalendarScrapDetail?,
-    navigateToAnnouncement: (Long) -> Unit,
-    onDismissInternDialog: (Boolean) -> Unit,
-    onClickChangeColor: () -> Unit,
-) {
-    if (dialogVisibility) {
-        internshipModel?.let { internship ->
-            val scrapColor = Color(
-                android.graphics.Color.parseColor(
-                    internship.color
-                )
-            )
-            ScrapDialog(
-                title = internship.title,
-                scrapColor = scrapColor,
-                deadline = currentDate.getFullDateStringInKorean(),
-                startYearMonth = internship.startYearMonth,
-                workingPeriod = internship.workingPeriod,
-                internshipAnnouncementId = internship.internshipAnnouncementId,
-                companyImage = internship.companyImage,
-                isScrapped = true,
-                onDismissRequest = onDismissInternDialog,
-                onClickChangeColor = onClickChangeColor,
-                onClickNavigateButton = navigateToAnnouncement
-            )
-        }
-    }
 }
 
 

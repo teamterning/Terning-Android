@@ -1,8 +1,8 @@
 package com.terning.feature.calendar.calendar
 
 import androidx.lifecycle.ViewModel
-import com.terning.feature.calendar.calendar.model.DayModel
 import com.terning.feature.calendar.calendar.model.CalendarUiState
+import com.terning.feature.calendar.calendar.model.DayModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

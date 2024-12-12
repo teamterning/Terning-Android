@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,11 +37,11 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.feature.calendar.R
+import com.terning.feature.calendar.calendar.component.dialog.CalendarScrapCancelDialog
+import com.terning.feature.calendar.calendar.component.dialog.CalendarScrapPatchDialog
 import com.terning.feature.calendar.calendar.component.group.CalendarScrapListGroup
 import com.terning.feature.calendar.calendar.model.TerningCalendarModel
 import com.terning.feature.calendar.list.model.CalendarListUiState
-import com.terning.feature.dialog.cancel.ScrapCancelDialog
-import com.terning.feature.dialog.detail.ScrapDialog
 import okhttp3.internal.toImmutableList
 import java.time.LocalDate
 
@@ -56,8 +55,9 @@ fun CalendarListRoute(
     viewModel: CalendarListViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
     val context = LocalContext.current
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -100,8 +100,8 @@ fun CalendarListRoute(
         }
     )
 
-    CalendarListScrapPatchDialog(
-        currentDate = uiState.currentDate,
+    CalendarScrapPatchDialog(
+        date = uiState.currentDate,
         dialogVisibility = uiState.scrapDetailDialogVisibility,
         internshipModel = uiState.internshipModel,
         navigateToAnnouncement = { announcementId ->
@@ -114,7 +114,7 @@ fun CalendarListRoute(
         },
     )
 
-    CalendarListScrapCancelDialog(
+    CalendarScrapCancelDialog(
         scrapVisibility = uiState.scrapCancelDialogVisibility,
         internshipAnnouncementId = uiState.internshipAnnouncementId,
         onDismissCancelDialog = { isCancelled ->
@@ -140,7 +140,6 @@ private fun CalendarListScreen(
         state = pagerState,
         modifier = modifier
     ) { page ->
-        val getDate = calendarModel.getLocalDateByPage(page)
 
         LazyColumn(
             modifier = Modifier
@@ -163,31 +162,15 @@ private fun CalendarListScreen(
 
                 is UiState.Failure -> {}
                 is UiState.Success -> {
-                    val scrapMap = uiState.loadState.data
-                    items(getDate.lengthOfMonth()) { day ->
-                        val currentDate =
-                            LocalDate.of(getDate.year, getDate.monthValue, day + 1)
-                        val dateInKorean = currentDate.getFullDateStringInKorean()
+                    val date = calendarModel.getLocalDateByPage(page)
 
-                        if (scrapMap[dateInKorean].isListNotEmpty()) {
-                            Text(
-                                text = dateInKorean,
-                                style = TerningTheme.typography.title5,
-                                color = Black,
-                                modifier = Modifier
-                                    .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
-                            )
-
-                            CalendarScrapListGroup(
-                                scrapList = scrapMap[dateInKorean].orEmpty().toImmutableList(),
-                                onScrapButtonClicked = onClickScrapButton,
-                                onInternshipClicked = onClickInternship,
-                                isFromList = true,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 24.dp)
-                            )
-                        }
+                    items(date.lengthOfMonth()) { day ->
+                        CalendarListSuccess(
+                            date = LocalDate.of(date.year, date.monthValue, day + 1),
+                            scrapMap = uiState.loadState.data,
+                            onClickScrapButton = onClickScrapButton,
+                            onClickInternship = onClickInternship,
+                        )
                     }
                 }
             }
@@ -218,50 +201,32 @@ private fun CalendarListEmpty(
 }
 
 @Composable
-private fun CalendarListScrapCancelDialog(
-    scrapVisibility: Boolean,
-    internshipAnnouncementId: Long?,
-    onDismissCancelDialog: (Boolean) -> Unit,
+private fun CalendarListSuccess(
+    date: LocalDate,
+    scrapMap: Map<String, List<CalendarScrapDetail>>,
+    onClickScrapButton: (Long) -> Unit,
+    onClickInternship: (CalendarScrapDetail) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    if (scrapVisibility) {
-        internshipAnnouncementId?.run {
-            ScrapCancelDialog(
-                internshipAnnouncementId = this,
-                onDismissRequest = onDismissCancelDialog
-            )
-        }
-    }
-}
+    val dateInKorean = date.getFullDateStringInKorean()
 
-@Composable
-private fun CalendarListScrapPatchDialog(
-    currentDate: LocalDate,
-    dialogVisibility: Boolean,
-    internshipModel: CalendarScrapDetail?,
-    navigateToAnnouncement: (Long) -> Unit,
-    onDismissInternDialog: (Boolean) -> Unit,
-    onClickChangeColor: () -> Unit,
-) {
-    if (dialogVisibility) {
-        internshipModel?.let { internship ->
-            val scrapColor = Color(
-                android.graphics.Color.parseColor(
-                    internship.color
-                )
-            )
-            ScrapDialog(
-                title = internship.title,
-                scrapColor = scrapColor,
-                deadline = currentDate.getFullDateStringInKorean(),
-                startYearMonth = internship.startYearMonth,
-                workingPeriod = internship.workingPeriod,
-                internshipAnnouncementId = internship.internshipAnnouncementId,
-                companyImage = internship.companyImage,
-                isScrapped = true,
-                onDismissRequest = onDismissInternDialog,
-                onClickChangeColor = onClickChangeColor,
-                onClickNavigateButton = navigateToAnnouncement
-            )
-        }
+    if (scrapMap[dateInKorean].isListNotEmpty()) {
+        Text(
+            text = dateInKorean,
+            style = TerningTheme.typography.title5,
+            color = Black,
+            modifier = modifier
+                .padding(start = 24.dp, top = 16.dp, bottom = 15.dp)
+        )
+
+        CalendarScrapListGroup(
+            scrapList = scrapMap[dateInKorean].orEmpty().toImmutableList(),
+            onScrapButtonClicked = onClickScrapButton,
+            onInternshipClicked = onClickInternship,
+            isFromList = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+        )
     }
 }

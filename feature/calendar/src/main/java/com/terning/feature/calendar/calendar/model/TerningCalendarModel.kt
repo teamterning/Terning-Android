@@ -1,7 +1,6 @@
 package com.terning.feature.calendar.calendar.model
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.staticCompositionLocalOf
 import java.time.LocalDate
 import java.time.YearMonth
 
