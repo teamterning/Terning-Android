@@ -33,6 +33,7 @@ import coil3.request.ImageRequest
 import com.terning.core.designsystem.R
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
@@ -61,9 +62,9 @@ fun InternItem(
     isScraped: Boolean,
     modifier: Modifier = Modifier,
     scrapId: Long = 0,
+    isApplyClosed: Boolean = false,
     onScrapButtonClicked: (Long) -> Unit = {},
 ) {
-    val isApplyClosed = dateDeadline == stringResource(id = R.string.intern_apply_closed)
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -95,7 +96,11 @@ fun InternItem(
             Text(
                 text = dateDeadline,
                 style = TerningTheme.typography.detail0,
-                color = if (isApplyClosed) Grey350 else TerningMain,
+                color = when {
+                    isApplyClosed -> Grey350
+                    dateDeadline == stringResource(id = R.string.intern_apply_closed) -> Grey300
+                    else -> TerningMain
+                },
             )
             TwoLineHeightText(
                 text = title,
