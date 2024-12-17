@@ -16,7 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -30,7 +32,8 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import com.terning.core.designsystem.R
 import com.terning.core.designsystem.extension.noRippleClickable
-import com.terning.core.designsystem.theme.Grey300
+import com.terning.core.designsystem.theme.Black
+import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -60,6 +63,7 @@ fun InternItem(
     scrapId: Long = 0,
     onScrapButtonClicked: (Long) -> Unit = {},
 ) {
+    val isApplyClosed = dateDeadline == stringResource(id = R.string.intern_apply_closed)
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -77,6 +81,10 @@ fun InternItem(
                 .fillMaxHeight()
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(5.dp))
+                .then(
+                    if (isApplyClosed) Modifier.alpha(0.5f)
+                    else Modifier
+                )
         )
 
         Column(
@@ -87,11 +95,12 @@ fun InternItem(
             Text(
                 text = dateDeadline,
                 style = TerningTheme.typography.detail0,
-                color = if (dateDeadline == stringResource(id = R.string.intern_apply_closed)) Grey300 else TerningMain,
+                color = if (isApplyClosed) Grey350 else TerningMain,
             )
             TwoLineHeightText(
                 text = title,
                 style = TerningTheme.typography.title5,
+                color = if (isApplyClosed) Grey350 else Black,
             )
 
 
@@ -103,13 +112,13 @@ fun InternItem(
                 Text(
                     text = stringResource(R.string.intern_item_working_period),
                     style = TerningTheme.typography.detail3,
-                    color = Grey400
+                    color = if (isApplyClosed) Grey350 else Grey400,
                 )
 
                 Text(
                     text = workingPeriod,
                     style = TerningTheme.typography.detail3,
-                    color = TerningMain,
+                    color = if (isApplyClosed) Grey350 else TerningMain,
                     modifier = Modifier.padding(start = 4.dp)
                 )
 
@@ -143,6 +152,7 @@ fun InternItem(
 fun TwoLineHeightText(
     text: String,
     style: TextStyle,
+    color: Color = Black,
 ) {
     val twoLineHeight = with(LocalDensity.current) {
         (style.lineHeight.toDp() * 3) - style.fontSize.toDp()
@@ -151,6 +161,7 @@ fun TwoLineHeightText(
     Text(
         text = text,
         style = style,
+        color = color,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
         modifier = Modifier
