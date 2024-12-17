@@ -41,8 +41,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun StartFilteringRoute(
-    onButtonClick: () -> Unit,
-    onTextClick: () -> Unit,
+    onStartClick: () -> Unit,
+    onLaterClick: () -> Unit,
     viewModel: StartFilteringViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -58,14 +58,14 @@ fun StartFilteringRoute(
     }
 
     StartFilteringScreen(
-        onButtonClick = {
-            onButtonClick()
+        onStartClick = {
+            onStartClick()
             amplitudeTracker.track(
                 type = EventType.CLICK,
                 name = "start_service"
             )
         },
-        onTextClick = onTextClick,
+        onLaterClick = onLaterClick,
         buttonState = state.isButtonVisible,
         screenHeight = screenHeight,
     )
@@ -73,8 +73,8 @@ fun StartFilteringRoute(
 
 @Composable
 fun StartFilteringScreen(
-    onButtonClick: () -> Unit,
-    onTextClick: () -> Unit,
+    onStartClick: () -> Unit,
+    onLaterClick: () -> Unit,
     buttonState: Boolean,
     screenHeight: Float,
 ) {
@@ -103,8 +103,8 @@ fun StartFilteringScreen(
         Spacer(modifier = Modifier.height((79 * screenHeight).dp))
         ButtonAnimation(
             buttonState = buttonState,
-            onButtonClick = onButtonClick,
-            onTextClick = onTextClick
+            onStartClick = onStartClick,
+            onLaterClick = onLaterClick
         )
         Spacer(modifier = Modifier.height((24 * screenHeight).dp))
     }
@@ -113,8 +113,8 @@ fun StartFilteringScreen(
 @Composable
 private fun ButtonAnimation(
     buttonState: Boolean,
-    onButtonClick: () -> Unit,
-    onTextClick: () -> Unit,
+    onStartClick: () -> Unit,
+    onLaterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     AnimatedVisibility(
@@ -129,7 +129,7 @@ private fun ButtonAnimation(
                 style = TerningTheme.typography.button0,
                 paddingVertical = 17.dp,
                 text = R.string.start_filtering_button,
-                onButtonClick = onButtonClick,
+                onButtonClick = onStartClick,
                 cornerRadius = 10.dp,
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
@@ -140,7 +140,7 @@ private fun ButtonAnimation(
                     textDecoration = TextDecoration.Underline
                 ),
                 color = Grey500,
-                modifier = Modifier.noRippleClickable { onTextClick() }
+                modifier = Modifier.noRippleClickable { onLaterClick() }
             )
         }
     }
@@ -153,8 +153,8 @@ private const val DELAY: Long = 1000
 private fun StartFilteringScreenPreview() {
     TerningPointTheme {
         StartFilteringScreen(
-            onButtonClick = {},
-            onTextClick = {},
+            onStartClick = {},
+            onLaterClick = {},
             buttonState = true,
             screenHeight = 1f
         )

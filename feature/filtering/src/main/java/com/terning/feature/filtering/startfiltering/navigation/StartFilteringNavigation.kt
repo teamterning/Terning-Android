@@ -20,14 +20,14 @@ fun NavController.navigateStartFiltering(
 }
 
 fun NavGraphBuilder.startFilteringNavGraph(
-    onButtonClick: (String) -> Unit,
-    onTextClick: () -> Unit
+    onStartClick: (String) -> Unit,
+    onLaterClick: () -> Unit
 ) {
     composable<StartFiltering> {
         val args = it.toRoute<StartFiltering>()
         StartFilteringRoute(
-            onButtonClick = { onButtonClick(args.name) },
-            onTextClick = onTextClick
+            onStartClick = { onStartClick(args.name) },
+            onLaterClick = onLaterClick
         )
     }
 }

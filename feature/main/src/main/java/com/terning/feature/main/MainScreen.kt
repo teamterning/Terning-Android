@@ -225,10 +225,10 @@ fun MainScreen(
                     }
                 )
                 startFilteringNavGraph(
-                    onButtonClick = { name ->
+                    onStartClick = { name ->
                         navigator.navController.navigateFilteringOne(name)
                     },
-                    onTextClick = {
+                    onLaterClick = {
                         val navOptions = navOptions {
                             popUpTo(id = navigator.navController.graph.id) {
                                 inclusive = true
