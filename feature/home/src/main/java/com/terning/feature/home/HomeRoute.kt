@@ -268,10 +268,7 @@ fun HomeScreen(
         )
 
         LazyColumn(
-            contentPadding = PaddingValues(
-                top = 2.dp,
-                bottom = 20.dp,
-            ),
+            contentPadding = PaddingValues(bottom = 20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
                 .fillMaxWidth(),
@@ -298,7 +295,8 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 15.dp, horizontal = 24.dp),
+                            .padding(horizontal = 24.dp)
+                            .padding(top = 15.dp, bottom = 3.dp),
                     ) {
                         Row {
                             Text(

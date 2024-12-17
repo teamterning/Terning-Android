@@ -1,7 +1,6 @@
 package com.terning.feature.home.component
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.home.R
@@ -35,7 +35,7 @@ fun HomeFilteringScreen(
                 color = TerningMain,
                 shape = RoundedCornerShape(5.dp)
             )
-            .clickable {
+            .noRippleClickable {
                 amplitudeTracker.track(
                     type = EventType.CLICK,
                     name = "home_filtering"
