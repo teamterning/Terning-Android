@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +27,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
@@ -292,17 +292,13 @@ fun HomeScreen(
                         .background(White)
                 ) {
                     ShowRecommendTitle(homeUserName)
-                    ShowInternFilter(
-                        homeFilteringInfo = homeFilteringInfo,
-                        onChangeFilterClick = { changeFilteringSheetState = true },
-                    )
 
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 24.dp, end = 18.dp),
+                            .padding(vertical = 15.dp, horizontal = 24.dp),
                     ) {
                         Row {
                             Text(
@@ -323,14 +319,16 @@ fun HomeScreen(
                                 color = Grey400,
                             )
                         }
-                        Row {
-                            SortingButton(
-                                sortBy = homeState.sortBy.ordinal,
-                                onCLick = { viewModel.updateSortingSheetVisibility(true) },
-                                modifier = Modifier
-                                    .padding(vertical = 4.dp)
-                            )
-                        }
+                        Spacer(modifier = Modifier.weight(1f))
+                        SortingButton(
+                            sortBy = homeState.sortBy.ordinal,
+                            onCLick = { viewModel.updateSortingSheetVisibility(true) },
+                        )
+                        HomeFilteringScreen(
+                            onChangeFilterClick = { changeFilteringSheetState = true },
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                        )
                     }
                 }
             }
@@ -458,16 +456,5 @@ private fun ShowRecommendTitle(userName: String) {
                 start = 24.dp,
                 end = 24.dp,
             ),
-    )
-}
-
-@Composable
-private fun ShowInternFilter(
-    homeFilteringInfo: HomeFilteringInfo,
-    onChangeFilterClick: () -> Unit,
-) {
-    HomeFilteringScreen(
-        homeFilteringInfo = homeFilteringInfo,
-        onChangeFilterClick = onChangeFilterClick,
     )
 }
