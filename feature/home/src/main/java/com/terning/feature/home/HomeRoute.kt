@@ -128,7 +128,7 @@ fun HomeScreen(
     navigateToCalendar: () -> Unit,
     updateRecommendDialogVisibility: (Boolean) -> Unit,
     getHomeUpcomingInternList: () -> Unit,
-    getRecommendInternsData: (Int, Int?, Int?) -> Unit,
+    getRecommendInternsData: (Int) -> Unit,
     viewModel: HomeViewModel,
 ) {
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
@@ -221,8 +221,6 @@ fun HomeScreen(
                                 getHomeUpcomingInternList()
                                 getRecommendInternsData(
                                     homeState.sortBy.ordinal,
-                                    homeFilteringInfo.startYear,
-                                    homeFilteringInfo.startMonth
                                 )
                             }
                         }
@@ -242,8 +240,6 @@ fun HomeScreen(
                             if (isScrapped) {
                                 getRecommendInternsData(
                                     homeState.sortBy.ordinal,
-                                    homeFilteringInfo.startYear,
-                                    homeFilteringInfo.startMonth
                                 )
                                 getHomeUpcomingInternList()
                             }

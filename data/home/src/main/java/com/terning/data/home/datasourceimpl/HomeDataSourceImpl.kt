@@ -18,13 +18,9 @@ class HomeDataSourceImpl @Inject constructor(
 
     override suspend fun getRecommendIntern(
         sortBy: String,
-        startYear: Int,
-        startMonth: Int
     ): BaseResponse<HomeRecommendInternResponseDto> =
         homeService.getRecommendIntern(
             sortBy = sortBy,
-            startYear = startYear,
-            startMonth = startMonth
         )
 
     override suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto> =

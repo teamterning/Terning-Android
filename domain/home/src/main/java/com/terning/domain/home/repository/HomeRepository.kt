@@ -10,8 +10,6 @@ interface HomeRepository {
 
     suspend fun getRecommendIntern(
         sortBy: String,
-        startYear: Int,
-        startMonth: Int
     ): Result<HomeRecommendIntern>
 
     suspend fun getFilteringInfo(): Result<HomeFilteringInfo>
