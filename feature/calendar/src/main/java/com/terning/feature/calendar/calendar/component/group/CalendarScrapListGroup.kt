@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.list.component
+package com.terning.feature.calendar.calendar.component.group
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 
 @Composable
-internal fun CalendarScrapList(
+internal fun CalendarScrapListGroup(
     scrapList: List<CalendarScrapDetail>,
     onScrapButtonClicked: (Long) -> Unit,
     onInternshipClicked: (CalendarScrapDetail) -> Unit,
@@ -32,7 +32,7 @@ internal fun CalendarScrapList(
         modifier = topModifier
     ) {
         for (scrap in scrapList) {
-            CalendarScrap(
+            CalendarScrapListItemGroup(
                 scrap = scrap,
                 onScrapButtonClicked = onScrapButtonClicked,
                 onInternshipClicked = onInternshipClicked

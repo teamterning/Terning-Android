@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,7 +15,7 @@ import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.SundayRed
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
-import com.terning.feature.calendar.R
+import com.terning.feature.calendar.calendar.type.WeekDay
 
 @Composable
 fun WeekDaysHeader(
@@ -31,21 +30,12 @@ fun WeekDaysHeader(
                 vertical = 18.dp
             ),
     ) {
-        val dayOfWeek = listOf(
-            R.string.calendar_text_sunday,
-            R.string.calendar_text_monday,
-            R.string.calendar_text_tuesday,
-            R.string.calendar_text_wednesday,
-            R.string.calendar_text_thursday,
-            R.string.calendar_text_friday,
-            R.string.calendar_text_saturday,
-        )
-        dayOfWeek.forEach { day ->
+        WeekDay.entries.forEach { day ->
             Text(
                 modifier = Modifier.weight(1f),
-                text = stringResource(id = day),
+                text = day.nameInKorean,
                 style = TerningTheme.typography.body7,
-                color = if (day == R.string.calendar_text_sunday) SundayRed else Black,
+                color = if (WeekDay.isSunday(day)) SundayRed else Black,
                 textAlign = TextAlign.Center
             )
         }
