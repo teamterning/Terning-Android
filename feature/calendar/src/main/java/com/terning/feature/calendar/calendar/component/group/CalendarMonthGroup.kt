@@ -50,7 +50,6 @@ internal fun CalendarMonthGroup(
             .fillMaxSize()
             .background(White)
             .padding(horizontal = 20.dp)
-
     ) {
         dayModels.forEach {week ->
             CalendarWeekGroup(
