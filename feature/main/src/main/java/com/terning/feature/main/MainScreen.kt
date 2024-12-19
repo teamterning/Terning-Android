@@ -46,6 +46,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
 import com.terning.feature.filtering.filteringone.navigation.filteringOneNavGraph
+import com.terning.feature.filtering.filteringone.navigation.navigateFilteringOne
 import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNavGraph
 import com.terning.feature.filtering.filteringtwo.navigation.filteringTwoNavGraph
 import com.terning.feature.filtering.startfiltering.navigation.navigateStartFiltering
@@ -66,6 +67,8 @@ import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
@@ -113,7 +116,7 @@ fun MainScreen(
         bottomBar = {
             MainBottomBar(
                 isVisible = navigator.showBottomBar(),
-                tabs = MainTab.entries.toList(),
+                tabs = MainTab.entries.toImmutableList(),
                 currentTab = navigator.currentTab,
                 onTabSelected = { navigation ->
                     amplitudeTracker.track(
@@ -222,7 +225,19 @@ fun MainScreen(
                         )
                     }
                 )
-                startFilteringNavGraph(navHostController = navigator.navController)
+                startFilteringNavGraph(
+                    onStartClick = { name ->
+                        navigator.navController.navigateFilteringOne(name)
+                    },
+                    onLaterClick = {
+                        val navOptions = navOptions {
+                            popUpTo(id = navigator.navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                        navigator.navController.navigateHome(navOptions)
+                    }
+                )
                 startHomeNavGraph(
                     navigateHome = {
                         val navOptions = navOptions {
@@ -266,7 +281,7 @@ fun MainScreen(
 @Composable
 private fun MainBottomBar(
     isVisible: Boolean,
-    tabs: List<MainTab>,
+    tabs: ImmutableList<MainTab>,
     currentTab: MainTab?,
     onTabSelected: (MainTab) -> Unit,
 ) {
