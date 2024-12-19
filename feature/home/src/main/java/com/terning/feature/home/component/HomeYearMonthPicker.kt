@@ -1,5 +1,6 @@
 package com.terning.feature.home.component
 
+import android.util.Log
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,36 +55,39 @@ class PickerState {
 
 @Composable
 fun rememberPickerState() = remember { PickerState() }
-
 @Composable
 fun HomeYearMonthPicker(
     modifier: Modifier = Modifier,
     chosenYear: Int?,
     chosenMonth: Int?,
-    onYearChosen: (Int?) -> Unit,
-    onMonthChosen: (Int?) -> Unit,
-    nullDate: Boolean
+    onYearChosen: (Int?, Boolean) -> Unit,
+    onMonthChosen: (Int?,Boolean) -> Unit,
+    isYearNull: Boolean,
+    isMonthNull : Boolean,
 ) {
-    // todo: 변수명 제대로
-    val yearsWithNull = if (nullDate) years + "-" else years
-    val monthsWithNull = if (nullDate) months + "-" else months
+    // todo: 변수명 바꾸기
+    val yearsWithNull = if (isYearNull) years + "-" else years
+    val monthsWithNull = if (isMonthNull) months + "-" else months
 
     val yearPickerState = rememberPickerState()
     val monthPickerState = rememberPickerState()
 
+    Log.d("LYB", yearsWithNull.toString())
+    Log.d("LYB", monthsWithNull.toString())
+
     val startYearIndex =
-        if (nullDate) yearsWithNull.lastIndex else yearsWithNull.indexOf("${chosenYear ?: "-"}년")
+        if (isYearNull) yearsWithNull.lastIndex else yearsWithNull.indexOf("${chosenYear ?: "-"}년")
             .takeIf { it >= 0 } ?: 0
     val startMonthIndex =
-        if (nullDate) monthsWithNull.lastIndex else monthsWithNull.indexOf("${chosenMonth ?: "-"}월")
+        if (isMonthNull) monthsWithNull.lastIndex else monthsWithNull.indexOf("${chosenMonth ?: "-"}월")
             .takeIf { it >= 0 } ?: 0
 
-    LaunchedEffect(nullDate, chosenYear) {
-        yearPickerState.selectedItem = if (nullDate) "-" else "${chosenYear ?: "-"}년"
+    LaunchedEffect(isYearNull, chosenYear) {
+        yearPickerState.selectedItem = if (isYearNull) "-" else "${chosenYear ?: "-"}년"
     }
 
-    LaunchedEffect(nullDate, chosenMonth) {
-        monthPickerState.selectedItem = if (nullDate) "-" else "${chosenMonth ?: "-"}월"
+    LaunchedEffect(isMonthNull, chosenMonth) {
+        monthPickerState.selectedItem = if (isMonthNull) "-" else "${chosenMonth ?: "-"}월"
     }
 
     Row(
@@ -98,7 +102,7 @@ fun HomeYearMonthPicker(
             items = yearsWithNull,
             startIndex = startYearIndex,
             onItemSelected = { year ->
-                onYearChosen(if (year == "-년") null else year.dropLast(1).toInt())
+                onYearChosen(if (year == "-") null else year.dropLast(1).toInt(), year == "-")
             }
         )
         Spacer(modifier = Modifier.width(18.dp))
@@ -108,7 +112,7 @@ fun HomeYearMonthPicker(
             items = monthsWithNull,
             startIndex = startMonthIndex,
             onItemSelected = { month ->
-                onMonthChosen(if (month == "-월") null else month.dropLast(1).toInt())
+                onMonthChosen(if (month == "-") null else month.dropLast(1).toInt(), month == "-")
             }
         )
     }

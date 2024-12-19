@@ -1,5 +1,6 @@
 package com.terning.feature.home.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -60,8 +62,10 @@ fun HomeFilteringBottomSheet(
         )
     }
 
-    // todo: 삭제
-    var nullDate by remember { mutableStateOf(false) }
+    // todo : 만약 year와 month의 서버통신 값이 null이면 false로 넣기
+    var isYearNull by remember { mutableStateOf(false) }
+    var isMonthNull by remember { mutableStateOf(false) }
+    var isCheck by remember { mutableStateOf(false) }
 
     TerningBasicBottomSheet(
         content = {
@@ -122,12 +126,25 @@ fun HomeFilteringBottomSheet(
                         R.string.change_filter_period_3,
                     ),
                     onButtonClick = { index ->
-                        // todo: 삭제
-                        nullDate = true
                         currentPeriod = WorkingPeriod.entries[index]
                     },
                     modifier = Modifier
                         .padding(horizontal = 24.dp),
+                )
+
+                //todo: 추후 삭제 부탁합니다!
+                Checkbox(
+                    checked = isCheck && isYearNull && isMonthNull,
+                    onCheckedChange = { isChecked ->
+                        if (isChecked) {
+                            isYearNull = true
+                            isMonthNull = true
+                            isCheck = true
+                        } else {
+                            isCheck = false
+                        }
+                    },
+                    modifier = Modifier.padding(start = 20.dp)
                 )
 
                 ChangeFilteringTitleText(
@@ -139,21 +156,26 @@ fun HomeFilteringBottomSheet(
 
                 // todo: null 처리 제대로
                 HomeYearMonthPicker(
-                    chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
-                    chosenMonth = defaultStartMonth
-                        ?: Calendar.getInstance().currentMonth,
-                    onYearChosen = {
-                        if (it != null) {
-                            currentStartYear = it
+                    chosenYear = if (isYearNull) null else currentStartYear,
+                    chosenMonth = if (isMonthNull) null else currentStartMonth,
+                    onYearChosen = { year, isNull ->
+                        isYearNull = isNull
+                        if (year != null) {
+                            currentStartYear = year
                         }
+                        Log.d("LYB", "Year chosen: $year, isYearNull: $isYearNull")
                     },
-                    onMonthChosen = {
-                        if (it != null) {
-                            currentStartMonth = it
+                    onMonthChosen = { month, isNull ->
+                        isMonthNull = isNull
+                        if (month != null) {
+                            currentStartMonth = month
                         }
+                        Log.d("LYB", "Month chosen: $month, isMonthNull: $isMonthNull")
                     },
-                    nullDate = nullDate
+                    isYearNull = isYearNull,
+                    isMonthNull = isMonthNull,
                 )
+
                 RoundButton(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 19.dp,
