@@ -56,6 +56,7 @@ import com.terning.feature.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
+import okhttp3.internal.toImmutableList
 
 const val NAME_MAX_LENGTH = 5
 
@@ -144,7 +145,7 @@ fun HomeScreen(
     }
 
     val homeRecommendInternList = when (homeState.homeRecommendInternState) {
-        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail
+        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail.toImmutableList()
         else -> listOf()
     }
 
@@ -424,7 +425,7 @@ private fun ShowUpcomingIntern(
                     )
 
                     else -> HomeUpcomingInternScreen(
-                        internList = homeUpcomingInternDetail,
+                        internList = homeUpcomingInternDetail.toImmutableList(),
                         navigateToIntern = navigateToIntern,
                     )
                 }
