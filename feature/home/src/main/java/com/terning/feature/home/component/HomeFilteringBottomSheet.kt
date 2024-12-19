@@ -156,8 +156,8 @@ fun HomeFilteringBottomSheet(
 
                 // todo: null 처리 제대로
                 HomeYearMonthPicker(
-                    chosenYear = if (isYearNull) null else currentStartYear,
-                    chosenMonth = if (isMonthNull) null else currentStartMonth,
+                    chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
+                    chosenMonth = defaultStartMonth ?: Calendar.getInstance().currentMonth,
                     onYearChosen = { year, isNull ->
                         isYearNull = isNull
                         if (year != null) {
