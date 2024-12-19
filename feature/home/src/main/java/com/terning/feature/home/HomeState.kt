@@ -13,7 +13,6 @@ data class HomeState(
     val homeFilteringInfoState: UiState<HomeFilteringInfo> = UiState.Loading,
     val homeUpcomingInternState: UiState<HomeUpcomingIntern> = UiState.Empty,
     val homeRecommendInternState: UiState<HomeRecommendIntern> = UiState.Loading,
-    val homeUpcomingDialogVisibility: Boolean = false,
     val homeRecommendDialogVisibility: Boolean = false,
     val homeInternModel: HomeRecommendIntern.HomeRecommendInternDetail? = null,
 )
