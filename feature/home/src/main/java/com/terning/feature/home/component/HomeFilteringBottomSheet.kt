@@ -61,10 +61,10 @@ fun HomeFilteringBottomSheet(
         )
     }
 
-    // todo : year와 month의 서버통신 값이 null이면 각각 false로 넣어주세요!
+    // todo: 아래 변수의 mutableStateOf 값을 각각 "defaultStartYear != null"로 넣어주세요.
     var isYearNull by remember { mutableStateOf(false) }
     var isMonthNull by remember { mutableStateOf(false) }
-    // todo: year와 month의 서버통신 값이 null이면 true로 넣어주세요!
+
     var isCheckBoxChecked by remember { mutableStateOf(false) }
 
     var isInitialNullState by remember { mutableStateOf(false) }
@@ -168,8 +168,8 @@ fun HomeFilteringBottomSheet(
                 )
 
                 HomeYearMonthPicker(
-                    chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
-                    chosenMonth = defaultStartMonth ?: Calendar.getInstance().currentMonth,
+                    chosenYear = defaultStartYear,
+                    chosenMonth = defaultStartMonth,
                     onYearChosen = { year, isInitialSelection ->
                         if (year != null) {
                             currentStartYear = year

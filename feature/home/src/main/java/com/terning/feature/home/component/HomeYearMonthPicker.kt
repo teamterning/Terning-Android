@@ -94,10 +94,7 @@ fun HomeYearMonthPicker(
             startIndex = startYearIndex,
             onItemSelected = { year ->
                 if (year == NULL_DATE && !isInitialSelection) isInitialSelection = true
-                onYearChosen(
-                    if (year == NULL_DATE) null else year.dropLast(1).toInt(),
-                    isInitialSelection
-                )
+                onYearChosen(if (year == NULL_DATE) null else year.dropLast(1).toInt(), isInitialSelection)
             }
         )
         Spacer(modifier = Modifier.width(18.dp))
