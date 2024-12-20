@@ -134,9 +134,7 @@ fun DatePicker(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = scrollState)
 
     LaunchedEffect(itemHeightPixel, startIndex) {
-        if (itemHeightPixel > 0 && startIndex >= 0) {
-            scrollState.scrollToItem(startIndex)
-        }
+        if (itemHeightPixel > 0 && startIndex >= 0) scrollState.scrollToItem(startIndex)
     }
 
     LaunchedEffect(scrollState) {
