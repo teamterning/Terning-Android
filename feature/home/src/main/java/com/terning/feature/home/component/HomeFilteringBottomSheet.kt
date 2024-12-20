@@ -65,7 +65,7 @@ fun HomeFilteringBottomSheet(
     var isYearNull by remember { mutableStateOf(false) }
     var isMonthNull by remember { mutableStateOf(false) }
     // todo: year와 month의 서버통신 값이 null이면 true로 넣어주세요!
-    var isCheck by remember { mutableStateOf(false) }
+    var isCheckBoxChecked by remember { mutableStateOf(false) }
 
     var isFirstNullAndFirstChange by remember { mutableStateOf(false) }
 
@@ -154,17 +154,15 @@ fun HomeFilteringBottomSheet(
                         .padding(horizontal = 24.dp)
                 )
 
-                //todo: 예시 체크박스로, 추후 수정 부탁합니다!
+                //todo: 아래는 예시 체크박스로, 추후 수정 부탁합니다!
                 Checkbox(
-                    checked = isCheck,
+                    checked = isCheckBoxChecked,
                     onCheckedChange = { isChecked ->
                         if (isChecked) {
                             isYearNull = true
                             isMonthNull = true
-                            isCheck = true
-                        } else {
-                            isCheck = false
                         }
+                        isCheckBoxChecked = isChecked
                     },
                     modifier = Modifier.padding(start = 20.dp)
                 )
@@ -176,7 +174,7 @@ fun HomeFilteringBottomSheet(
                     onYearChosen = { year, isFirst ->
                         if (year != null) {
                             currentStartYear = year
-                            isCheck = false
+                            isCheckBoxChecked = false
                             isYearNull = false
                             isFirstNullAndFirstChange = isFirst
                         }
@@ -184,7 +182,7 @@ fun HomeFilteringBottomSheet(
                     onMonthChosen = { month, isFirst ->
                         if (month != null) {
                             currentStartMonth = month
-                            isCheck = false
+                            isCheckBoxChecked = false
                             isMonthNull = false
                             isFirstNullAndFirstChange = isFirst
                         }
