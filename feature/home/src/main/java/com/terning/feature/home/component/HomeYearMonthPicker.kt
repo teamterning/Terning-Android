@@ -94,7 +94,10 @@ fun HomeYearMonthPicker(
             startIndex = startYearIndex,
             onItemSelected = { year ->
                 if (year == NULL_DATE && !isInitialSelection) isInitialSelection = true
-                onYearChosen(if (year == NULL_DATE) null else year.dropLast(1).toInt(), isInitialSelection)
+                onYearChosen(
+                    if (year == NULL_DATE) null else year.dropLast(1).toInt(),
+                    isInitialSelection
+                )
             }
         )
         Spacer(modifier = Modifier.width(18.dp))
@@ -136,15 +139,13 @@ fun DatePicker(
         }
     }
 
-    // todo: type safety 하게 수정 필요 && 변수명도 수정
-    val isNullSize = items.size == 12 || items.size == 21
-
     LaunchedEffect(scrollState) {
         snapshotFlow { scrollState.firstVisibleItemIndex }
             .map { index ->
-                var newItem = items
-                if (isNullSize) newItem = items + NULL_DATE
-                newItem.getOrNull(index)
+                val hasNullDate =
+                    items.size == (END_YEAR - START_YEAR + 1) || items.size == (END_MONTH - START_MONTH + 1)
+                val adjustedItems = if (hasNullDate) items + NULL_DATE else items
+                adjustedItems.getOrNull(index)
             }
             .distinctUntilChanged()
             .collect { item ->
