@@ -43,7 +43,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 val years = (START_YEAR..END_YEAR).map { "${it}년" }
-
 val months = (START_MONTH..END_MONTH).map { "${it}월" }
 
 const val NULL_DATE = "-"
