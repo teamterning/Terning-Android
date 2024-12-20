@@ -61,34 +61,31 @@ fun HomeYearMonthPicker(
     modifier: Modifier = Modifier,
     chosenYear: Int?,
     chosenMonth: Int?,
-    onYearChosen: (Int?, Boolean) -> Unit,
-    onMonthChosen: (Int?,Boolean) -> Unit,
+    onYearChosen: (Int?, Boolean, Boolean) -> Unit,
+    onMonthChosen: (Int?, Boolean, Boolean) -> Unit,
     isYearNull: Boolean,
-    isMonthNull : Boolean,
+    isMonthNull: Boolean,
+    years: List<String>,
+    months: List<String>,
+    isFirstNullAndFirstChange: Boolean
 ) {
     // todo: 변수명 바꾸기
-    val yearsWithNull = if (isYearNull) years + "-" else years
-    val monthsWithNull = if (isMonthNull) months + "-" else months
+//    val yearsWithNull = if (isYearNull) years + "-" else years
+//    val monthsWithNull = if (isMonthNull) months + "-" else months
 
     val yearPickerState = rememberPickerState()
     val monthPickerState = rememberPickerState()
 
-    Log.d("LYB", yearsWithNull.toString())
-    Log.d("LYB", monthsWithNull.toString())
+    var isFirst = isFirstNullAndFirstChange
 
-    val startYearIndex =
-        if (isYearNull) yearsWithNull.lastIndex else yearsWithNull.indexOf("${chosenYear ?: "-"}년")
+    val startYearIndex = remember(isYearNull) {
+            if (isYearNull) years.lastIndex else years.indexOf("${chosenYear ?: "-"}년")
+                .takeIf { it >= 0 } ?: 0
+        }
+
+    val startMonthIndex = remember(isMonthNull) {
+        if (isMonthNull) months.lastIndex else months.indexOf("${chosenMonth ?: "-"}월")
             .takeIf { it >= 0 } ?: 0
-    val startMonthIndex =
-        if (isMonthNull) monthsWithNull.lastIndex else monthsWithNull.indexOf("${chosenMonth ?: "-"}월")
-            .takeIf { it >= 0 } ?: 0
-
-    LaunchedEffect(isYearNull, chosenYear) {
-        yearPickerState.selectedItem = if (isYearNull) "-" else "${chosenYear ?: "-"}년"
-    }
-
-    LaunchedEffect(isMonthNull, chosenMonth) {
-        monthPickerState.selectedItem = if (isMonthNull) "-" else "${chosenMonth ?: "-"}월"
     }
 
     Row(
@@ -100,20 +97,30 @@ fun HomeYearMonthPicker(
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = yearPickerState,
-            items = yearsWithNull,
+            items = years,
             startIndex = startYearIndex,
             onItemSelected = { year ->
-                onYearChosen(if (year == "-") null else year.dropLast(1).toInt(), year == "-")
+                if (year == "-" && !isFirst) isFirst = true
+                onYearChosen(
+                    if (year == "-") null else year.dropLast(1).toInt(),
+                    year == "-",
+                    isFirst
+                )
             }
         )
         Spacer(modifier = Modifier.width(18.dp))
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = monthPickerState,
-            items = monthsWithNull,
+            items = months,
             startIndex = startMonthIndex,
             onItemSelected = { month ->
-                onMonthChosen(if (month == "-") null else month.dropLast(1).toInt(), month == "-")
+                if (month == "-" && !isFirst) isFirst = true
+                onMonthChosen(
+                    if (month == "-") null else month.dropLast(1).toInt(),
+                    month == "-",
+                    isFirst
+                )
             }
         )
     }
@@ -136,17 +143,28 @@ fun DatePicker(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = scrollState)
 
     LaunchedEffect(itemHeightPixel, startIndex) {
-        if (itemHeightPixel > 0 && startIndex >= 0) scrollState.scrollToItem(startIndex)
+        if (itemHeightPixel > 0 && startIndex >= 0) {
+            scrollState.scrollToItem(startIndex)
+        }
     }
+
+    // todo: type safety 하게 수정 필요 && 변수명도 수정
+    val isNullSize = items.size == 12 || items.size == 21
 
     LaunchedEffect(scrollState) {
         snapshotFlow { scrollState.firstVisibleItemIndex }
-            .map { index -> items.getOrNull(index) }
+            .map { index ->
+                var newItem = items
+                if (isNullSize) newItem = items + "-"
+                Log.d("PickerDebug", "Index: $index, Item: ${newItem.getOrNull(index)}")
+                newItem.getOrNull(index)
+            }
             .distinctUntilChanged()
             .collect { item ->
                 item?.let {
                     pickerState.selectedItem = it
                     onItemSelected(it)
+                    Log.d("PickerDebug", "Selected Item: $it")
                 }
             }
     }
@@ -166,11 +184,12 @@ fun DatePicker(
                 Spacer(modifier = Modifier.height(itemHeightDp))
             }
             items(items.size) { index ->
+                val isSelected = pickerState.selectedItem == items[index]
                 DatePickerContent(
                     modifier = Modifier
                         .onSizeChanged { intSize: IntSize -> itemHeightPixel = intSize.height },
                     text = items[index],
-                    color = if (pickerState.selectedItem == items[index]) Grey500 else Grey300
+                    color = if (isSelected) Grey500 else Grey300
                 )
             }
             items(visibleItemsMiddle) {

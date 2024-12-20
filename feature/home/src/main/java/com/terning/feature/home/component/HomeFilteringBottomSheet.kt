@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,6 +35,10 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.type.Grade
 import com.terning.core.designsystem.type.WorkingPeriod
+import com.terning.core.designsystem.util.CalendarDefaults.END_MONTH
+import com.terning.core.designsystem.util.CalendarDefaults.END_YEAR
+import com.terning.core.designsystem.util.CalendarDefaults.START_MONTH
+import com.terning.core.designsystem.util.CalendarDefaults.START_YEAR
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,7 +70,10 @@ fun HomeFilteringBottomSheet(
     // todo : 만약 year와 month의 서버통신 값이 null이면 false로 넣기
     var isYearNull by remember { mutableStateOf(false) }
     var isMonthNull by remember { mutableStateOf(false) }
+    // todo: year와 month의 서버통신 값이 null이면 true로 넣기
     var isCheck by remember { mutableStateOf(false) }
+
+    var isFirstNullAndFirstChange by remember { mutableStateOf(false) }
 
     TerningBasicBottomSheet(
         content = {
@@ -132,9 +140,32 @@ fun HomeFilteringBottomSheet(
                         .padding(horizontal = 24.dp),
                 )
 
+                ChangeFilteringTitleText(
+                    text = stringResource(id = R.string.change_filter_start_work_title),
+                    modifier = Modifier
+                        .padding(top = 32.dp, bottom = 49.dp)
+                        .padding(horizontal = 24.dp)
+                )
+
+                val years = (START_YEAR..END_YEAR).map { "${it}년" }
+                val months = (START_MONTH..END_MONTH).map { "${it}월" }
+
+                val yearsWithNull by remember(isYearNull) {
+                    mutableStateOf(
+                        if (isYearNull || isFirstNullAndFirstChange) years + "-"
+                        else years
+                    )
+                }
+                val monthsWithNull by remember(isMonthNull) {
+                    mutableStateOf(
+                        if (isMonthNull || isFirstNullAndFirstChange) months + "-"
+                        else months
+                    )
+                }
+
                 //todo: 추후 삭제 부탁합니다!
                 Checkbox(
-                    checked = isCheck && isYearNull && isMonthNull,
+                    checked = isCheck,
                     onCheckedChange = { isChecked ->
                         if (isChecked) {
                             isYearNull = true
@@ -147,33 +178,31 @@ fun HomeFilteringBottomSheet(
                     modifier = Modifier.padding(start = 20.dp)
                 )
 
-                ChangeFilteringTitleText(
-                    text = stringResource(id = R.string.change_filter_start_work_title),
-                    modifier = Modifier
-                        .padding(top = 32.dp, bottom = 49.dp)
-                        .padding(horizontal = 24.dp)
-                )
-
-                // todo: null 처리 제대로
+                //  todo: null 처리 제대로
                 HomeYearMonthPicker(
                     chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
                     chosenMonth = defaultStartMonth ?: Calendar.getInstance().currentMonth,
-                    onYearChosen = { year, isNull ->
-                        isYearNull = isNull
+                    onYearChosen = { year, isNull, isFirst ->
                         if (year != null) {
                             currentStartYear = year
+                            isCheck = false
+                            isYearNull = false
+                            isFirstNullAndFirstChange = isFirst
                         }
-                        Log.d("LYB", "Year chosen: $year, isYearNull: $isYearNull")
                     },
-                    onMonthChosen = { month, isNull ->
-                        isMonthNull = isNull
+                    onMonthChosen = { month, isNull, isFirst ->
                         if (month != null) {
                             currentStartMonth = month
+                            isCheck = false
+                            isMonthNull = false
+                            isFirstNullAndFirstChange = isFirst
                         }
-                        Log.d("LYB", "Month chosen: $month, isMonthNull: $isMonthNull")
                     },
                     isYearNull = isYearNull,
                     isMonthNull = isMonthNull,
+                    years = yearsWithNull,
+                    months = monthsWithNull,
+                    isFirstNullAndFirstChange = isFirstNullAndFirstChange
                 )
 
                 RoundButton(
@@ -199,7 +228,6 @@ fun HomeFilteringBottomSheet(
                     isEnabled = currentGrade != null && currentPeriod != null
                 )
             }
-
         },
         onDismissRequest = onDismiss,
         sheetState = sheetState,
