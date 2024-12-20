@@ -71,15 +71,13 @@ fun HomeYearMonthPicker(
 
     var isFirst = isFirstNullAndFirstChange
 
-    val startYearIndex = remember(isYearNull) {
+    val startYearIndex =
         if (isYearNull) years.lastIndex else years.indexOf("${chosenYear ?: "-"}년")
-            .takeIf { it >= 0 } ?: 0
-    }
+        .takeIf { it >= 0 } ?: 0
 
-    val startMonthIndex = remember(isMonthNull) {
+    val startMonthIndex =
         if (isMonthNull) months.lastIndex else months.indexOf("${chosenMonth ?: "-"}월")
             .takeIf { it >= 0 } ?: 0
-    }
 
     Row(
         modifier = modifier
