@@ -154,7 +154,7 @@ fun HomeFilteringBottomSheet(
                         .padding(horizontal = 24.dp)
                 )
 
-                //todo: 아래는 예시 체크박스로, 추후 수정 부탁합니다!
+                //todo: 아래는 임시 체크박스로, 추후 수정 부탁합니다!
                 Checkbox(
                     checked = isCheckBoxChecked,
                     onCheckedChange = { isChecked ->

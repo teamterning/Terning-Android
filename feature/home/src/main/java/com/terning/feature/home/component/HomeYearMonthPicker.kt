@@ -171,12 +171,11 @@ fun DatePicker(
                 Spacer(modifier = Modifier.height(itemHeightDp))
             }
             items(items.size) { index ->
-                val isSelected = pickerState.selectedItem == items[index]
                 DatePickerContent(
                     modifier = Modifier
                         .onSizeChanged { intSize: IntSize -> itemHeightPixel = intSize.height },
                     text = items[index],
-                    color = if (isSelected) Grey500 else Grey300
+                    color = if (pickerState.selectedItem == items[index]) Grey500 else Grey300
                 )
             }
             items(visibleItemsMiddle) {
