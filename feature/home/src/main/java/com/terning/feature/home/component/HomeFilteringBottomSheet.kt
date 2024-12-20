@@ -174,7 +174,7 @@ fun HomeFilteringBottomSheet(
                 HomeYearMonthPicker(
                     chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
                     chosenMonth = defaultStartMonth ?: Calendar.getInstance().currentMonth,
-                    onYearChosen = { year, isNull, isFirst ->
+                    onYearChosen = { year, isFirst ->
                         if (year != null) {
                             currentStartYear = year
                             isCheck = false
@@ -182,7 +182,7 @@ fun HomeFilteringBottomSheet(
                             isFirstNullAndFirstChange = isFirst
                         }
                     },
-                    onMonthChosen = { month, isNull, isFirst ->
+                    onMonthChosen = { month, isFirst ->
                         if (month != null) {
                             currentStartMonth = month
                             isCheck = false

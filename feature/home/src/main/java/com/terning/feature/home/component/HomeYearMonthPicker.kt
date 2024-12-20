@@ -58,8 +58,8 @@ fun HomeYearMonthPicker(
     modifier: Modifier = Modifier,
     chosenYear: Int?,
     chosenMonth: Int?,
-    onYearChosen: (Int?, Boolean, Boolean) -> Unit,
-    onMonthChosen: (Int?, Boolean, Boolean) -> Unit,
+    onYearChosen: (Int?, Boolean) -> Unit,
+    onMonthChosen: (Int?, Boolean) -> Unit,
     isYearNull: Boolean,
     isMonthNull: Boolean,
     years: List<String>,
@@ -92,11 +92,7 @@ fun HomeYearMonthPicker(
             startIndex = startYearIndex,
             onItemSelected = { year ->
                 if (year == "-" && !isFirst) isFirst = true
-                onYearChosen(
-                    if (year == "-") null else year.dropLast(1).toInt(),
-                    year == "-",
-                    isFirst
-                )
+                onYearChosen(if (year == "-") null else year.dropLast(1).toInt(), isFirst)
             }
         )
         Spacer(modifier = Modifier.width(18.dp))
@@ -107,11 +103,7 @@ fun HomeYearMonthPicker(
             startIndex = startMonthIndex,
             onItemSelected = { month ->
                 if (month == "-" && !isFirst) isFirst = true
-                onMonthChosen(
-                    if (month == "-") null else month.dropLast(1).toInt(),
-                    month == "-",
-                    isFirst
-                )
+                onMonthChosen(if (month == "-") null else month.dropLast(1).toInt(), isFirst)
             }
         )
     }
