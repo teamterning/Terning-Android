@@ -190,13 +190,8 @@ fun HomeScreen(
 
     if (changeFilteringSheetState) {
         HomeFilteringBottomSheet(
-            defaultGrade = homeFilteringInfo.grade?.let { Grade.fromString(it) },
-            defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let {
-                WorkingPeriod.fromString(it)
-            },
-            defaultStartYear = homeFilteringInfo.startYear,
-            defaultStartMonth = homeFilteringInfo.startMonth,
             onDismiss = { changeFilteringSheetState = false },
+            defaultFilteringInfo = homeFilteringInfo,
             onChangeButtonClick = { grade, workingPeriod, year, month ->
                 amplitudeTracker.track(
                     type = EventType.CLICK,

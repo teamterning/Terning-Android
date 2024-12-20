@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.ChangeFilterButton
 import com.terning.core.designsystem.component.button.RoundButton
@@ -31,33 +32,21 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.type.Grade
 import com.terning.core.designsystem.type.WorkingPeriod
-import com.terning.core.designsystem.R
+import com.terning.domain.home.entity.HomeFilteringInfo
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeFilteringBottomSheet(
     modifier: Modifier = Modifier,
-    defaultGrade: Grade?,
-    defaultWorkingPeriod: WorkingPeriod?,
-    defaultStartYear: Int?,
-    defaultStartMonth: Int?,
+    defaultFilteringInfo: HomeFilteringInfo,
     onDismiss: () -> Unit,
     onChangeButtonClick: (String, String, Int, Int) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    var currentGrade by remember { mutableStateOf(defaultGrade) }
-    var currentPeriod by remember { mutableStateOf(defaultWorkingPeriod) }
-    var currentStartYear by remember {
-        mutableIntStateOf(
-            defaultStartYear ?: Calendar.getInstance().currentYear
-        )
-    }
-    var currentStartMonth by remember {
-        mutableIntStateOf(
-            defaultStartMonth ?: Calendar.getInstance().currentMonth
-        )
+    var currentFilteringInfo by remember {
+        mutableStateOf(defaultFilteringInfo)
     }
 
     TerningBasicBottomSheet(
@@ -66,79 +55,30 @@ fun HomeFilteringBottomSheet(
                 modifier = modifier
                     .fillMaxWidth(),
             ) {
-                Text(
-                    text = stringResource(id = R.string.change_filter_top_bar_title),
-                    style = TerningTheme.typography.title2,
-                    color = Black,
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp)
-                        .padding(bottom = 16.dp),
-                )
-
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = Grey200,
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp),
-                )
-
-                ChangeFilteringTitleText(
-                    text = stringResource(id = R.string.change_filter_grade_title),
-                    modifier = Modifier
-                        .padding(top = 18.dp, bottom = 12.dp)
-                        .padding(horizontal = 24.dp)
-                )
-
-                ChangeFilteringRadioGroup(
-                    initOption = defaultGrade?.ordinal ?: -1,
-                    optionList = listOf(
-                        R.string.change_filter_grade_1,
-                        R.string.change_filter_grade_2,
-                        R.string.change_filter_grade_3,
-                        R.string.change_filter_grade_4,
-                    ),
-                    onButtonClick = { index ->
-                        currentGrade = Grade.entries[index]
+                PlanFilteringScreen(
+                    currentFilteringInfo = currentFilteringInfo,
+                    updateGrade = {
+                        currentFilteringInfo = currentFilteringInfo.copy(
+                            grade = Grade.entries[it].stringValue
+                        )
                     },
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp),
-                )
-
-                ChangeFilteringTitleText(
-                    text = stringResource(id = R.string.change_filter_period_title),
-                    modifier = Modifier
-                        .padding(top = 32.dp, bottom = 12.dp)
-                        .padding(horizontal = 24.dp)
-                )
-
-                ChangeFilteringRadioGroup(
-                    initOption = defaultWorkingPeriod?.ordinal ?: -1,
-                    optionList = listOf(
-                        R.string.change_filter_period_1,
-                        R.string.change_filter_period_2,
-                        R.string.change_filter_period_3,
-                    ),
-                    onButtonClick = { index ->
-                        currentPeriod = WorkingPeriod.entries[index]
+                    updateWorkingPeriod = {
+                        currentFilteringInfo = currentFilteringInfo.copy(
+                            workingPeriod = WorkingPeriod.entries[it].stringValue
+                        )
                     },
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp),
+                    updateStartYear = {
+                        currentFilteringInfo = currentFilteringInfo.copy(
+                            startYear = it
+                        )
+                    },
+                    updateStartMonth = {
+                        currentFilteringInfo = currentFilteringInfo.copy(
+                            startMonth = it
+                        )
+                    },
                 )
 
-                ChangeFilteringTitleText(
-                    text = stringResource(id = R.string.change_filter_start_work_title),
-                    modifier = Modifier
-                        .padding(top = 32.dp, bottom = 49.dp)
-                        .padding(horizontal = 24.dp)
-                )
-
-                YearMonthPicker(
-                    chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
-                    chosenMonth = defaultStartMonth
-                        ?: Calendar.getInstance().currentMonth,
-                    onYearChosen = { currentStartYear = it },
-                    onMonthChosen = { currentStartMonth = it }
-                )
                 RoundButton(
                     style = TerningTheme.typography.button0,
                     paddingVertical = 19.dp,
@@ -148,24 +88,109 @@ fun HomeFilteringBottomSheet(
                         .padding(horizontal = 24.dp)
                         .padding(top = 51.dp),
                     onButtonClick = {
-                        currentGrade?.let { grade ->
-                            currentPeriod?.let { workingPeriod ->
-                                onChangeButtonClick(
-                                    grade.stringValue,
-                                    workingPeriod.stringValue,
-                                    currentStartYear,
-                                    currentStartMonth,
-                                )
+                        currentFilteringInfo.grade?.let {
+                            currentFilteringInfo.workingPeriod?.let { it1 ->
+                                currentFilteringInfo.startYear?.let { it2 ->
+                                    currentFilteringInfo.startMonth?.let { it3 ->
+                                        onChangeButtonClick(
+                                            it,
+                                            it1,
+                                            it2,
+                                            it3
+                                        )
+                                    }
+                                }
                             }
                         }
                     },
-                    isEnabled = currentGrade != null && currentPeriod != null
+                    isEnabled = currentFilteringInfo.grade != null && currentFilteringInfo.workingPeriod != null
                 )
             }
 
         },
         onDismissRequest = onDismiss,
         sheetState = sheetState,
+    )
+}
+
+@Composable
+fun PlanFilteringScreen(
+    currentFilteringInfo: HomeFilteringInfo,
+    updateGrade: (Int) -> Unit,
+    updateWorkingPeriod: (Int) -> Unit,
+    updateStartYear: (Int) -> Unit,
+    updateStartMonth: (Int) -> Unit,
+) {
+    Text(
+        text = stringResource(id = R.string.change_filter_top_bar_title),
+        style = TerningTheme.typography.title2,
+        color = Black,
+        modifier = Modifier
+            .padding(horizontal = 24.dp)
+            .padding(bottom = 16.dp),
+    )
+
+    HorizontalDivider(
+        thickness = 1.dp,
+        color = Grey200,
+        modifier = Modifier
+            .padding(horizontal = 24.dp),
+    )
+
+    ChangeFilteringTitleText(
+        text = stringResource(id = R.string.change_filter_grade_title),
+        modifier = Modifier
+            .padding(top = 18.dp, bottom = 12.dp)
+            .padding(horizontal = 24.dp)
+    )
+
+    ChangeFilteringRadioGroup(
+        initOption = currentFilteringInfo.grade?.let { Grade.fromString(it).ordinal } ?: -1,
+        optionList = listOf(
+            R.string.change_filter_grade_1,
+            R.string.change_filter_grade_2,
+            R.string.change_filter_grade_3,
+            R.string.change_filter_grade_4,
+        ),
+        onButtonClick = updateGrade,
+        columns = 4,
+        modifier = Modifier
+            .padding(horizontal = 24.dp),
+    )
+
+    ChangeFilteringTitleText(
+        text = stringResource(id = R.string.change_filter_period_title),
+        modifier = Modifier
+            .padding(top = 32.dp, bottom = 12.dp)
+            .padding(horizontal = 24.dp)
+    )
+
+    ChangeFilteringRadioGroup(
+        initOption = currentFilteringInfo.workingPeriod?.let { WorkingPeriod.fromString(it).ordinal }
+            ?: -1,
+        optionList = listOf(
+            R.string.change_filter_period_1,
+            R.string.change_filter_period_2,
+            R.string.change_filter_period_3,
+        ),
+        onButtonClick = updateWorkingPeriod,
+        modifier = Modifier
+            .padding(horizontal = 24.dp),
+    )
+
+    ChangeFilteringTitleText(
+        text = stringResource(id = R.string.change_filter_start_work_title),
+        modifier = Modifier
+            .padding(top = 32.dp, bottom = 49.dp)
+            .padding(horizontal = 24.dp)
+    )
+
+    YearMonthPicker(
+        chosenYear = currentFilteringInfo.startYear ?: Calendar.getInstance().currentYear,
+        chosenMonth = currentFilteringInfo.startMonth
+            ?: Calendar.getInstance().currentMonth,
+        onYearChosen = updateStartYear,
+        onMonthChosen = updateStartMonth,
     )
 }
 
@@ -187,12 +212,13 @@ fun ChangeFilteringRadioGroup(
     optionList: List<Int>,
     initOption: Int,
     onButtonClick: (Int) -> Unit,
+    columns: Int = 3,
     modifier: Modifier = Modifier,
 ) {
     var selectedIndex by remember { mutableIntStateOf(initOption) }
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(optionList.size),
+        columns = GridCells.Fixed(columns),
         horizontalArrangement = Arrangement.spacedBy(13.dp),
         modifier = modifier
             .fillMaxWidth()
