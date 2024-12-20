@@ -33,6 +33,7 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.type.Grade
 import com.terning.core.designsystem.type.WorkingPeriod
+import kotlinx.collections.immutable.toImmutableList
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -187,8 +188,8 @@ fun HomeFilteringBottomSheet(
                     },
                     isYearNull = isYearNull,
                     isMonthNull = isMonthNull,
-                    yearsList = yearsList,
-                    monthsList = monthsList,
+                    yearsList = yearsList.toImmutableList(),
+                    monthsList = monthsList.toImmutableList(),
                     isInitialNullState = isInitialNullState
                 )
 
