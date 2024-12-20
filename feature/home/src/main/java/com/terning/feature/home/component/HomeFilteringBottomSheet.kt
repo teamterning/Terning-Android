@@ -61,6 +61,27 @@ fun HomeFilteringBottomSheet(
         )
     }
 
+    // todo : year와 month의 서버통신 값이 null이면 각각 false로 넣어주세요!
+    var isYearNull by remember { mutableStateOf(false) }
+    var isMonthNull by remember { mutableStateOf(false) }
+    // todo: year와 month의 서버통신 값이 null이면 true로 넣어주세요!
+    var isCheck by remember { mutableStateOf(false) }
+
+    var isFirstNullAndFirstChange by remember { mutableStateOf(false) }
+
+    val yearsList by remember(isYearNull) {
+        mutableStateOf(
+            if (isYearNull || isFirstNullAndFirstChange) years + "-"
+            else years
+        )
+    }
+    val monthsList by remember(isMonthNull) {
+        mutableStateOf(
+            if (isMonthNull || isFirstNullAndFirstChange) months + "-"
+            else months
+        )
+    }
+
     TerningBasicBottomSheet(
         content = {
             Column(
@@ -133,29 +154,7 @@ fun HomeFilteringBottomSheet(
                         .padding(horizontal = 24.dp)
                 )
 
-                // todo : 만약 year와 month의 서버통신 값이 null이면 false로 넣기
-                var isYearNull by remember { mutableStateOf(false) }
-                var isMonthNull by remember { mutableStateOf(false) }
-                // todo: year와 month의 서버통신 값이 null이면 true로 넣기
-                var isCheck by remember { mutableStateOf(false) }
-
-                var isFirstNullAndFirstChange by remember { mutableStateOf(false) }
-
-                // todo: 변수명 바꾸기
-                val yearsWithNull by remember(isYearNull) {
-                    mutableStateOf(
-                        if (isYearNull || isFirstNullAndFirstChange) years + "-"
-                        else years
-                    )
-                }
-                val monthsWithNull by remember(isMonthNull) {
-                    mutableStateOf(
-                        if (isMonthNull || isFirstNullAndFirstChange) months + "-"
-                        else months
-                    )
-                }
-
-                //todo: 추후 삭제 부탁합니다!
+                //todo: 예시 체크박스로, 추후 수정 부탁합니다!
                 Checkbox(
                     checked = isCheck,
                     onCheckedChange = { isChecked ->
@@ -192,8 +191,8 @@ fun HomeFilteringBottomSheet(
                     },
                     isYearNull = isYearNull,
                     isMonthNull = isMonthNull,
-                    years = yearsWithNull,
-                    months = monthsWithNull,
+                    yearsList = yearsList,
+                    monthsList = monthsList,
                     isFirstNullAndFirstChange = isFirstNullAndFirstChange
                 )
 

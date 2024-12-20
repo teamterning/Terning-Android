@@ -62,8 +62,8 @@ fun HomeYearMonthPicker(
     onMonthChosen: (Int?, Boolean) -> Unit,
     isYearNull: Boolean,
     isMonthNull: Boolean,
-    years: List<String>,
-    months: List<String>,
+    yearsList: List<String>,
+    monthsList: List<String>,
     isFirstNullAndFirstChange: Boolean
 ) {
     val yearPickerState = rememberPickerState()
@@ -72,11 +72,11 @@ fun HomeYearMonthPicker(
     var isFirst = isFirstNullAndFirstChange
 
     val startYearIndex =
-        if (isYearNull) years.lastIndex else years.indexOf("${chosenYear ?: "-"}년")
+        if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
         .takeIf { it >= 0 } ?: 0
 
     val startMonthIndex =
-        if (isMonthNull) months.lastIndex else months.indexOf("${chosenMonth ?: "-"}월")
+        if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: "-"}월")
             .takeIf { it >= 0 } ?: 0
 
     Row(
@@ -88,7 +88,7 @@ fun HomeYearMonthPicker(
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = yearPickerState,
-            items = years,
+            items = yearsList,
             startIndex = startYearIndex,
             onItemSelected = { year ->
                 if (year == "-" && !isFirst) isFirst = true
@@ -99,7 +99,7 @@ fun HomeYearMonthPicker(
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = monthPickerState,
-            items = months,
+            items = monthsList,
             startIndex = startMonthIndex,
             onItemSelected = { month ->
                 if (month == "-" && !isFirst) isFirst = true
