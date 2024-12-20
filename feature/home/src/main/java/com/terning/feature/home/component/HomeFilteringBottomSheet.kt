@@ -67,17 +67,17 @@ fun HomeFilteringBottomSheet(
     // todo: year와 month의 서버통신 값이 null이면 true로 넣어주세요!
     var isCheckBoxChecked by remember { mutableStateOf(false) }
 
-    var isFirstNullAndFirstChange by remember { mutableStateOf(false) }
+    var isInitialNullState by remember { mutableStateOf(false) }
 
     val yearsList by remember(isYearNull) {
         mutableStateOf(
-            if (isYearNull || isFirstNullAndFirstChange) years + "-"
+            if (isYearNull || isInitialNullState) years + NULL_DATE
             else years
         )
     }
     val monthsList by remember(isMonthNull) {
         mutableStateOf(
-            if (isMonthNull || isFirstNullAndFirstChange) months + "-"
+            if (isMonthNull || isInitialNullState) months + NULL_DATE
             else months
         )
     }
@@ -167,31 +167,30 @@ fun HomeFilteringBottomSheet(
                     modifier = Modifier.padding(start = 20.dp)
                 )
 
-                //  todo: null 처리 제대로
                 HomeYearMonthPicker(
                     chosenYear = defaultStartYear ?: Calendar.getInstance().currentYear,
                     chosenMonth = defaultStartMonth ?: Calendar.getInstance().currentMonth,
-                    onYearChosen = { year, isFirst ->
+                    onYearChosen = { year, isInitialSelection ->
                         if (year != null) {
                             currentStartYear = year
                             isCheckBoxChecked = false
                             isYearNull = false
-                            isFirstNullAndFirstChange = isFirst
+                            isInitialNullState = isInitialSelection
                         }
                     },
-                    onMonthChosen = { month, isFirst ->
+                    onMonthChosen = { month, isInitialSelection ->
                         if (month != null) {
                             currentStartMonth = month
                             isCheckBoxChecked = false
                             isMonthNull = false
-                            isFirstNullAndFirstChange = isFirst
+                            isInitialNullState = isInitialSelection
                         }
                     },
                     isYearNull = isYearNull,
                     isMonthNull = isMonthNull,
                     yearsList = yearsList,
                     monthsList = monthsList,
-                    isFirstNullAndFirstChange = isFirstNullAndFirstChange
+                    isInitialNullState = isInitialNullState
                 )
 
                 RoundButton(

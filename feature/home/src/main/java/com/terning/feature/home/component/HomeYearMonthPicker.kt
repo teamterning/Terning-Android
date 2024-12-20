@@ -46,6 +46,8 @@ val years = (START_YEAR..END_YEAR).map { "${it}년" }.toImmutableList()
 
 val months = (START_MONTH..END_MONTH).map { "${it}월" }.toImmutableList()
 
+const val NULL_DATE = "-"
+
 class PickerState {
     var selectedItem by mutableStateOf("")
 }
@@ -64,16 +66,16 @@ fun HomeYearMonthPicker(
     isMonthNull: Boolean,
     yearsList: List<String>,
     monthsList: List<String>,
-    isFirstNullAndFirstChange: Boolean
+    isInitialNullState: Boolean
 ) {
     val yearPickerState = rememberPickerState()
     val monthPickerState = rememberPickerState()
 
-    var isFirst = isFirstNullAndFirstChange
+    var isInitialSelection by remember { mutableStateOf(isInitialNullState) }
 
     val startYearIndex =
         if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
-        .takeIf { it >= 0 } ?: 0
+            .takeIf { it >= 0 } ?: 0
 
     val startMonthIndex =
         if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: "-"}월")
@@ -91,8 +93,11 @@ fun HomeYearMonthPicker(
             items = yearsList,
             startIndex = startYearIndex,
             onItemSelected = { year ->
-                if (year == "-" && !isFirst) isFirst = true
-                onYearChosen(if (year == "-") null else year.dropLast(1).toInt(), isFirst)
+                if (year == NULL_DATE && !isInitialSelection) isInitialSelection = true
+                onYearChosen(
+                    if (year == NULL_DATE) null else year.dropLast(1).toInt(),
+                    isInitialSelection
+                )
             }
         )
         Spacer(modifier = Modifier.width(18.dp))
@@ -102,8 +107,11 @@ fun HomeYearMonthPicker(
             items = monthsList,
             startIndex = startMonthIndex,
             onItemSelected = { month ->
-                if (month == "-" && !isFirst) isFirst = true
-                onMonthChosen(if (month == "-") null else month.dropLast(1).toInt(), isFirst)
+                if (month == NULL_DATE && !isInitialSelection) isInitialSelection = true
+                onMonthChosen(
+                    if (month == NULL_DATE) null else month.dropLast(1).toInt(),
+                    isInitialSelection
+                )
             }
         )
     }
@@ -138,7 +146,7 @@ fun DatePicker(
         snapshotFlow { scrollState.firstVisibleItemIndex }
             .map { index ->
                 var newItem = items
-                if (isNullSize) newItem = items + "-"
+                if (isNullSize) newItem = items + NULL_DATE
                 newItem.getOrNull(index)
             }
             .distinctUntilChanged()
