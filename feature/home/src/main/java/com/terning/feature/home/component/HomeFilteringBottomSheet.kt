@@ -1,6 +1,5 @@
 package com.terning.feature.home.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,10 +33,6 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.type.Grade
 import com.terning.core.designsystem.type.WorkingPeriod
-import com.terning.core.designsystem.util.CalendarDefaults.END_MONTH
-import com.terning.core.designsystem.util.CalendarDefaults.END_YEAR
-import com.terning.core.designsystem.util.CalendarDefaults.START_MONTH
-import com.terning.core.designsystem.util.CalendarDefaults.START_YEAR
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,14 +60,6 @@ fun HomeFilteringBottomSheet(
             defaultStartMonth ?: Calendar.getInstance().currentMonth
         )
     }
-
-    // todo : 만약 year와 month의 서버통신 값이 null이면 false로 넣기
-    var isYearNull by remember { mutableStateOf(false) }
-    var isMonthNull by remember { mutableStateOf(false) }
-    // todo: year와 month의 서버통신 값이 null이면 true로 넣기
-    var isCheck by remember { mutableStateOf(false) }
-
-    var isFirstNullAndFirstChange by remember { mutableStateOf(false) }
 
     TerningBasicBottomSheet(
         content = {
@@ -147,9 +133,15 @@ fun HomeFilteringBottomSheet(
                         .padding(horizontal = 24.dp)
                 )
 
-                val years = (START_YEAR..END_YEAR).map { "${it}년" }
-                val months = (START_MONTH..END_MONTH).map { "${it}월" }
+                // todo : 만약 year와 month의 서버통신 값이 null이면 false로 넣기
+                var isYearNull by remember { mutableStateOf(false) }
+                var isMonthNull by remember { mutableStateOf(false) }
+                // todo: year와 month의 서버통신 값이 null이면 true로 넣기
+                var isCheck by remember { mutableStateOf(false) }
 
+                var isFirstNullAndFirstChange by remember { mutableStateOf(false) }
+
+                // todo: 변수명 바꾸기
                 val yearsWithNull by remember(isYearNull) {
                     mutableStateOf(
                         if (isYearNull || isFirstNullAndFirstChange) years + "-"

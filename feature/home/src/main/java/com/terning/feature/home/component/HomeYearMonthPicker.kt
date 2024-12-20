@@ -1,6 +1,5 @@
 package com.terning.feature.home.component
 
-import android.util.Log
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,11 +42,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import okhttp3.internal.toImmutableList
 
-private val years =
-    (START_YEAR..END_YEAR).map { "${it}년" }.toImmutableList()
+val years = (START_YEAR..END_YEAR).map { "${it}년" }.toImmutableList()
 
-private val months =
-    (START_MONTH..END_MONTH).map { "${it}월" }.toImmutableList()
+val months = (START_MONTH..END_MONTH).map { "${it}월" }.toImmutableList()
 
 class PickerState {
     var selectedItem by mutableStateOf("")
@@ -69,19 +66,15 @@ fun HomeYearMonthPicker(
     months: List<String>,
     isFirstNullAndFirstChange: Boolean
 ) {
-    // todo: 변수명 바꾸기
-//    val yearsWithNull = if (isYearNull) years + "-" else years
-//    val monthsWithNull = if (isMonthNull) months + "-" else months
-
     val yearPickerState = rememberPickerState()
     val monthPickerState = rememberPickerState()
 
     var isFirst = isFirstNullAndFirstChange
 
     val startYearIndex = remember(isYearNull) {
-            if (isYearNull) years.lastIndex else years.indexOf("${chosenYear ?: "-"}년")
-                .takeIf { it >= 0 } ?: 0
-        }
+        if (isYearNull) years.lastIndex else years.indexOf("${chosenYear ?: "-"}년")
+            .takeIf { it >= 0 } ?: 0
+    }
 
     val startMonthIndex = remember(isMonthNull) {
         if (isMonthNull) months.lastIndex else months.indexOf("${chosenMonth ?: "-"}월")
@@ -156,7 +149,6 @@ fun DatePicker(
             .map { index ->
                 var newItem = items
                 if (isNullSize) newItem = items + "-"
-                Log.d("PickerDebug", "Index: $index, Item: ${newItem.getOrNull(index)}")
                 newItem.getOrNull(index)
             }
             .distinctUntilChanged()
@@ -164,7 +156,6 @@ fun DatePicker(
                 item?.let {
                     pickerState.selectedItem = it
                     onItemSelected(it)
-                    Log.d("PickerDebug", "Selected Item: $it")
                 }
             }
     }
