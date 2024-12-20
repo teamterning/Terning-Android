@@ -61,9 +61,8 @@ fun HomeFilteringBottomSheet(
         )
     }
 
-    // todo: 아래 변수의 mutableStateOf 값을 각각 "defaultStartYear != null"로 넣어주세요.
-    var isYearNull by remember { mutableStateOf(false) }
-    var isMonthNull by remember { mutableStateOf(false) }
+    var isYearNull by remember { mutableStateOf(defaultStartYear != null) }
+    var isMonthNull by remember { mutableStateOf(defaultStartMonth != null) }
 
     var isCheckBoxChecked by remember { mutableStateOf(false) }
 
@@ -154,7 +153,7 @@ fun HomeFilteringBottomSheet(
                         .padding(horizontal = 24.dp)
                 )
 
-                //todo: 아래는 임시 체크박스로, 추후 수정 부탁합니다!
+                //TODO: 아래는 임시 체크박스로, 추후 수정 부탁합니다!
                 Checkbox(
                     checked = isCheckBoxChecked,
                     onCheckedChange = { isChecked ->
