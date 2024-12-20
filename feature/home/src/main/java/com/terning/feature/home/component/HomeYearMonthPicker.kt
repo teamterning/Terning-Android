@@ -75,7 +75,6 @@ fun HomeYearMonthPicker(
     val startYearIndex =
         if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
             .takeIf { it >= 0 } ?: 0
-
     val startMonthIndex =
         if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: "-"}월")
             .takeIf { it >= 0 } ?: 0
