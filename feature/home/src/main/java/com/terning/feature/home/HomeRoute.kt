@@ -43,14 +43,12 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.designsystem.type.Grade
-import com.terning.core.designsystem.type.WorkingPeriod
 import com.terning.domain.home.entity.HomeFilteringInfo
 import com.terning.domain.home.entity.HomeRecommendIntern
 import com.terning.domain.home.entity.HomeUpcomingIntern
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
-import com.terning.feature.home.component.HomeFilteringBottomSheet
+import com.terning.feature.home.component.bottomsheet.HomeFilteringBottomSheet
 import com.terning.feature.home.component.HomeFilteringScreen
 import com.terning.feature.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingEmptyFilter

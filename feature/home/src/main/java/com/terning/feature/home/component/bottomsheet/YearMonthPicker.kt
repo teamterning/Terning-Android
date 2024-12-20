@@ -1,4 +1,4 @@
-package com.terning.feature.home.component
+package com.terning.feature.home.component.bottomsheet
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
