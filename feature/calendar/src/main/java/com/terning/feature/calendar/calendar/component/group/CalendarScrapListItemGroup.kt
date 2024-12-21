@@ -1,4 +1,4 @@
-package com.terning.feature.calendar.list.component
+package com.terning.feature.calendar.calendar.component.group
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +12,7 @@ import com.terning.core.designsystem.theme.Grey200
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 
 @Composable
-fun CalendarScrap(
+fun CalendarScrapListItemGroup(
     scrap: CalendarScrapDetail,
     onScrapButtonClicked: (Long) -> Unit,
     onInternshipClicked: (CalendarScrapDetail) -> Unit,

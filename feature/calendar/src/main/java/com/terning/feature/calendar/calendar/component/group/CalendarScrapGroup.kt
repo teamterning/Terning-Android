@@ -1,10 +1,9 @@
-package com.terning.feature.calendar.month.component
+package com.terning.feature.calendar.calendar.component.group
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,21 +18,23 @@ import com.terning.core.designsystem.theme.White
 import com.terning.domain.calendar.entity.CalendarScrap
 import com.terning.feature.calendar.R
 
-private const val SCRAP_COUNT_WEEK_SIX = 3
-private const val SCRAP_COUNT_WEEK_FIVE = 4
+/**
+ * 달력 위에 띠지를 표시하는 컴포넌트
+ *
+ * @param scrapCount 한칸에 표시 가능한 최대 스크랩
+ * @param scrapLists 스크랩 목록
+ */
 
 @Composable
-internal fun CalendarMonthScrap(
-    weekCount: Int,
+internal fun CalendarScrapGroup(
+    scrapCount: Int,
+    scrapLists: List<CalendarScrap>,
     modifier: Modifier = Modifier,
-    scrapLists: List<CalendarScrap>
 ) {
-    val scrapCount = if(weekCount == 5) SCRAP_COUNT_WEEK_FIVE else SCRAP_COUNT_WEEK_SIX
-
-    LazyColumn(
+    Column(
         modifier = modifier
     ) {
-        items(scrapLists.subList(0, scrapCount.coerceAtMost(scrapLists.size))) { scrap ->
+        scrapLists.subList(0, scrapCount.coerceAtMost(scrapLists.size)).forEach { scrap ->
             Text(
                 text = scrap.title,
                 style = TerningTheme.typography.button5,
@@ -51,17 +52,18 @@ internal fun CalendarMonthScrap(
                     )
             )
         }
-
-        item {
-            if (scrapLists.size > scrapCount) {
-                Text(
-                    text = stringResource(id = R.string.calendar_scrap_overflow, (scrapLists.size - scrapCount)),
-                    style = TerningTheme.typography.detail4,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+        if (scrapLists.size > scrapCount) {
+            Text(
+                text = stringResource(
+                    id = R.string.calendar_scrap_overflow,
+                    (scrapLists.size - scrapCount)
+                ),
+                style = TerningTheme.typography.detail4,
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 2.dp)
+            )
         }
     }
 }
-

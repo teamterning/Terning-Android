@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.calendar.repository.CalendarRepository
 import com.terning.feature.calendar.R
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,9 +28,8 @@ class CalendarMonthViewModel @Inject constructor(
     val sideEffect = _sideEffect.asSharedFlow()
 
     fun getScrapMonth(
-        currentPage: Int
+        date: LocalDate
     ) = viewModelScope.launch(Dispatchers.IO) {
-        val date = getLocalDateByPage(currentPage)
         calendarRepository.getScrapMonth(date.year, date.monthValue)
             .fold(
                 onSuccess = {

@@ -1,7 +1,7 @@
 package com.terning.feature.calendar.month
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,27 +13,26 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.extension.toast
-import com.terning.feature.calendar.calendar.model.CalendarModel.Companion.getLocalDateByPage
-import com.terning.feature.calendar.calendar.model.LocalPagerState
-import com.terning.feature.calendar.month.component.CalendarMonth
-import com.terning.feature.calendar.month.model.CalendarMonthUiState
-import com.terning.feature.calendar.month.model.MonthModel
-import java.time.LocalDate
-import java.time.YearMonth
+import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.theme.White
+import com.terning.domain.calendar.entity.CalendarScrap
+import com.terning.feature.calendar.calendar.component.pager.CalendarMonthPager
+import com.terning.feature.calendar.calendar.model.DayModel
+import com.terning.feature.calendar.calendar.model.TerningCalendarModel
 
 @Composable
 fun CalendarMonthRoute(
-    selectedDate: LocalDate,
-    updateSelectedDate: (LocalDate) -> Unit,
+    selectedDate: DayModel,
+    calendarModel: TerningCalendarModel,
+    pagerState: PagerState,
+    updateSelectedDate: (DayModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CalendarMonthViewModel = hiltViewModel()
 ) {
-    val pagerState = LocalPagerState.current
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val monthUiState by viewModel.uiState.collectAsStateWithLifecycle(lifecycleOwner)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -46,50 +45,28 @@ fun CalendarMonthRoute(
 
     LaunchedEffect(key1 = pagerState) {
         snapshotFlow { pagerState.currentPage }
-            .collect { currentPage->
-                viewModel.getScrapMonth(currentPage)
+            .collect { currentPage ->
+                val localDate = calendarModel.getLocalDateByPage(currentPage)
+                viewModel.getScrapMonth(localDate)
             }
     }
 
-    CalendarMonthScreen(
-        pagerState = pagerState,
-        selectedDate = selectedDate,
-        uiState = monthUiState,
-        updateSelectedDate = updateSelectedDate,
+    CalendarMonthPager(
         modifier = modifier
+            .fillMaxSize()
+            .background(White),
+        pagerState = pagerState,
+        calendarModel = calendarModel,
+        selectedDate = selectedDate,
+        onDateSelect = updateSelectedDate,
+        isWeekEnabled = false,
+        scrapMap = when (uiState.loadState) {
+            UiState.Loading -> emptyMap()
+            UiState.Empty -> emptyMap()
+            is UiState.Failure -> emptyMap()
+            is UiState.Success -> (uiState.loadState as UiState.Success<Map<String, List<CalendarScrap>>>).data
+        },
     )
-}
-
-@Composable
-private fun CalendarMonthScreen(
-    pagerState: PagerState,
-    selectedDate: LocalDate,
-    uiState: CalendarMonthUiState,
-    updateSelectedDate: (LocalDate) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-
-    HorizontalPager(
-        state = pagerState,
-        modifier = modifier.fillMaxSize()
-    ) {page ->
-        val date = getLocalDateByPage(page)
-        val monthModel = MonthModel(YearMonth.of(date.year, date.month))
-
-        CalendarMonth(
-            modifier = Modifier.fillMaxSize(),
-            onDateSelected = updateSelectedDate,
-            monthModel = monthModel,
-            selectedDate = selectedDate,
-            isWeekEnabled = false,
-            scrapMap = when (uiState.loadState) {
-                UiState.Loading -> emptyMap()
-                UiState.Empty -> emptyMap()
-                is UiState.Failure -> emptyMap()
-                is UiState.Success -> uiState.loadState.data
-            },
-        )
-    }
 }
 
 
