@@ -172,7 +172,6 @@ fun MainScreen(
                 )
                 homeNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController,
                     navigateToCalendar = { navigator.navController.navigateCalendar() },
                     navigateToIntern = { announcementId ->
                         navigator.navController.navigateIntern(announcementId)
