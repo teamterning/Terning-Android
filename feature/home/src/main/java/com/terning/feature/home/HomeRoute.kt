@@ -117,6 +117,8 @@ fun HomeRoute(
             viewModel.navigateCalendar()
         },
         updateRecommendDialogVisibility = viewModel::updateRecommendDialogVisibility,
+        updateSortingSheetVisibility = viewModel::updateSortingSheetVisibility,
+        updateSortBy = viewModel::updateSortBy,
         getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
         getRecommendInternsData = viewModel::getRecommendInternsData,
         viewModel = viewModel,
@@ -130,6 +132,8 @@ fun HomeScreen(
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
     updateRecommendDialogVisibility: (Boolean) -> Unit,
+    updateSortingSheetVisibility: (Boolean) -> Unit,
+    updateSortBy: (Int) -> Unit,
     getHomeUpcomingInternList: () -> Unit,
     getRecommendInternsData: (Int) -> Unit,
     viewModel: HomeViewModel,
@@ -163,7 +167,7 @@ fun HomeScreen(
     if (homeState.sortingSheetVisibility) {
         SortingBottomSheet(
             onDismiss = {
-                viewModel.updateSortingSheetVisibility(false)
+                updateSortingSheetVisibility(false)
             },
             currentSortBy = homeState.sortBy.ordinal,
             onSortChange = { sortBy ->
@@ -177,7 +181,7 @@ fun HomeScreen(
                         else -> "filtered_hits"
                     }
                 )
-                viewModel.updateSortBy(sortBy)
+                updateSortBy(sortBy)
             }
         )
     }
@@ -309,7 +313,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.weight(1f))
                         SortingButton(
                             sortBy = homeState.sortBy.ordinal,
-                            onCLick = { viewModel.updateSortingSheetVisibility(true) },
+                            onCLick = { updateSortingSheetVisibility(true) },
                         )
                         HomeFilteringScreen(
                             onChangeFilterClick = { changeFilteringSheetState = true },
