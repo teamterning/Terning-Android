@@ -1,4 +1,4 @@
-package com.terning.feature.filtering.filteringthree.component
+package com.terning.feature.home.component
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -38,15 +38,14 @@ import com.terning.core.designsystem.util.CalendarDefaults.END_MONTH
 import com.terning.core.designsystem.util.CalendarDefaults.END_YEAR
 import com.terning.core.designsystem.util.CalendarDefaults.START_MONTH
 import com.terning.core.designsystem.util.CalendarDefaults.START_YEAR
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import okhttp3.internal.toImmutableList
 
-private val years =
-    (START_YEAR..END_YEAR).map { "${it}년" }.toImmutableList()
+val years = (START_YEAR..END_YEAR).map { "${it}년" }
+val months = (START_MONTH..END_MONTH).map { "${it}월" }
 
-private val months =
-    (START_MONTH..END_MONTH).map { "${it}월" }.toImmutableList()
+const val NULL_DATE = "-"
 
 class PickerState {
     var selectedItem by mutableStateOf("")
@@ -56,26 +55,29 @@ class PickerState {
 fun rememberPickerState() = remember { PickerState() }
 
 @Composable
-fun YearMonthPicker(
+fun HomeYearMonthPicker(
     modifier: Modifier = Modifier,
-    chosenYear: Int,
-    chosenMonth: Int,
-    onYearChosen: (Int) -> Unit,
-    onMonthChosen: (Int) -> Unit,
+    chosenYear: Int?,
+    chosenMonth: Int?,
+    onYearChosen: (Int?, Boolean) -> Unit,
+    onMonthChosen: (Int?, Boolean) -> Unit,
+    isYearNull: Boolean,
+    isMonthNull: Boolean,
+    yearsList: ImmutableList<String>,
+    monthsList: ImmutableList<String>,
+    isInitialNullState: Boolean
 ) {
     val yearPickerState = rememberPickerState()
     val monthPickerState = rememberPickerState()
 
-    val startYearIndex = years.indexOf("${chosenYear}년").takeIf { it >= 0 } ?: 0
-    val startMonthIndex = months.indexOf("${chosenMonth}월").takeIf { it >= 0 } ?: 0
+    var isInitialSelection by remember { mutableStateOf(isInitialNullState) }
 
-    LaunchedEffect(chosenYear) {
-        yearPickerState.selectedItem = "${chosenYear}년"
-    }
-
-    LaunchedEffect(chosenMonth) {
-        monthPickerState.selectedItem = "${chosenMonth}월"
-    }
+    val startYearIndex =
+        if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
+            .takeIf { it >= 0 } ?: 0
+    val startMonthIndex =
+        if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: "-"}월")
+            .takeIf { it >= 0 } ?: 0
 
     Row(
         modifier = modifier
@@ -86,20 +88,28 @@ fun YearMonthPicker(
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = yearPickerState,
-            items = years,
+            items = yearsList,
             startIndex = startYearIndex,
             onItemSelected = { year ->
-                onYearChosen(year.dropLast(1).toInt())
+                if (year == NULL_DATE && !isInitialSelection) isInitialSelection = true
+                onYearChosen(
+                    if (year == NULL_DATE) null else year.dropLast(1).toInt(),
+                    isInitialSelection
+                )
             }
         )
         Spacer(modifier = Modifier.width(18.dp))
         DatePicker(
             modifier = Modifier.weight(1f),
             pickerState = monthPickerState,
-            items = months,
+            items = monthsList,
             startIndex = startMonthIndex,
             onItemSelected = { month ->
-                onMonthChosen(month.dropLast(1).toInt())
+                if (month == NULL_DATE && !isInitialSelection) isInitialSelection = true
+                onMonthChosen(
+                    if (month == NULL_DATE) null else month.dropLast(1).toInt(),
+                    isInitialSelection
+                )
             }
         )
     }
@@ -107,7 +117,7 @@ fun YearMonthPicker(
 
 @Composable
 fun DatePicker(
-    items: List<String>,
+    items: ImmutableList<String>,
     modifier: Modifier = Modifier,
     pickerState: PickerState = rememberPickerState(),
     startIndex: Int = 0,
@@ -121,13 +131,18 @@ fun DatePicker(
     val scrollState = rememberLazyListState(initialFirstVisibleItemIndex = startIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = scrollState)
 
-    LaunchedEffect(itemHeightPixel) {
-        if (itemHeightPixel > 0) scrollState.scrollToItem(startIndex)
+    LaunchedEffect(itemHeightPixel, startIndex) {
+        if (itemHeightPixel > 0 && startIndex >= 0) scrollState.scrollToItem(startIndex)
     }
 
     LaunchedEffect(scrollState) {
         snapshotFlow { scrollState.firstVisibleItemIndex }
-            .map { index -> items.getOrNull(index) }
+            .map { index ->
+                val hasNullDate =
+                    items.size == (END_YEAR - START_YEAR + 1) || items.size == (END_MONTH - START_MONTH + 1)
+                val adjustedItems = if (hasNullDate) items + NULL_DATE else items
+                adjustedItems.getOrNull(index)
+            }
             .distinctUntilChanged()
             .collect { item ->
                 item?.let {

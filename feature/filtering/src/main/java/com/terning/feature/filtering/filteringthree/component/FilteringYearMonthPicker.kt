@@ -1,4 +1,4 @@
-package com.terning.feature.home.component
+package com.terning.feature.filtering.filteringthree.component
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -56,7 +56,7 @@ class PickerState {
 fun rememberPickerState() = remember { PickerState() }
 
 @Composable
-fun YearMonthPicker(
+fun FilteringYearMonthPicker(
     modifier: Modifier = Modifier,
     chosenYear: Int,
     chosenMonth: Int,
