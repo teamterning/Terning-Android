@@ -44,6 +44,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
+import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.filtering.filteringone.navigation.filteringOneNavGraph
 import com.terning.feature.filtering.filteringone.navigation.navigateFilteringOne
 import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNavGraph
@@ -171,8 +172,7 @@ fun MainScreen(
                 )
                 homeNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController,
-                    navigateToCalendar = { navigator.navController.navigateHome() },
+                    navigateToCalendar = { navigator.navController.navigateCalendar() },
                     navigateToIntern = { announcementId ->
                         navigator.navController.navigateIntern(announcementId)
                     }

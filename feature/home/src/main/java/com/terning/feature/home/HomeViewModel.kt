@@ -2,8 +2,6 @@ package com.terning.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.extension.currentMonth
-import com.terning.core.designsystem.extension.currentYear
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.home.entity.ChangeFilteringRequestModel
@@ -17,7 +15,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,12 +28,10 @@ class HomeViewModel @Inject constructor(
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
-    fun getRecommendInternsData(sortBy: Int, startYear: Int?, startMonth: Int?) {
+    fun getRecommendInternsData(sortBy: Int) {
         viewModelScope.launch {
             homeRepository.getRecommendIntern(
                 sortBy = SortBy.entries[sortBy].type,
-                startYear ?: Calendar.getInstance().currentYear,
-                startMonth ?: Calendar.getInstance().currentMonth,
             ).onSuccess { internList ->
                 _homeState.value = _homeState.value.copy(
                     homeRecommendInternState = UiState.Success(internList)
@@ -71,14 +66,6 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Success(filteringInfo)
                 )
-                if (filteringInfo.grade != null) {
-                    getRecommendInternsData(
-                        sortBy = _homeState.value.sortBy.ordinal,
-                        startYear = filteringInfo.startYear,
-                        startMonth = filteringInfo.startMonth,
-                    )
-                    getHomeUpcomingInternList()
-                }
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Failure(exception.toString())
@@ -97,7 +84,10 @@ class HomeViewModel @Inject constructor(
                     year,
                     month
                 )
-            )
+            ).onSuccess {
+                getFilteringInfo()
+                getRecommendInternsData(_homeState.value.sortBy.ordinal)
+            }
         }
     }
 
@@ -112,12 +102,6 @@ class HomeViewModel @Inject constructor(
                     _homeState.value.copy(homeUserNameState = UiState.Failure(exception.toString()))
                 _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
-        }
-    }
-
-    fun updateUpcomingDialogVisibility(visibility: Boolean) {
-        _homeState.update {
-            it.copy(homeUpcomingDialogVisibility = visibility)
         }
     }
 
@@ -156,7 +140,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateSortBy(sortBy: Int, startYear: Int?, startMonth: Int?) {
+    fun updateSortBy(sortBy: Int) {
         _homeState.update {
             it.copy(
                 sortBy = SortBy.entries[sortBy]
@@ -164,8 +148,6 @@ class HomeViewModel @Inject constructor(
         }
         getRecommendInternsData(
             _homeState.value.sortBy.ordinal,
-            startYear ?: Calendar.getInstance().currentYear,
-            startMonth ?: Calendar.getInstance().currentMonth,
         )
     }
 
