@@ -77,7 +77,6 @@ fun HomeRoute(
         )
     }
 
-
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
