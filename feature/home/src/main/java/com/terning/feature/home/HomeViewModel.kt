@@ -66,12 +66,6 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Success(filteringInfo)
                 )
-                if (filteringInfo.grade != null) {
-                    getRecommendInternsData(
-                        sortBy = _homeState.value.sortBy.ordinal,
-                    )
-                    getHomeUpcomingInternList()
-                }
             }.onFailure { exception: Throwable ->
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Failure(exception.toString())
@@ -90,7 +84,10 @@ class HomeViewModel @Inject constructor(
                     year,
                     month
                 )
-            )
+            ).onSuccess {
+                getFilteringInfo()
+                getRecommendInternsData(_homeState.value.sortBy.ordinal)
+            }
         }
     }
 
@@ -143,7 +140,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateSortBy(sortBy: Int, startYear: Int?, startMonth: Int?) {
+    fun updateSortBy(sortBy: Int) {
         _homeState.update {
             it.copy(
                 sortBy = SortBy.entries[sortBy]

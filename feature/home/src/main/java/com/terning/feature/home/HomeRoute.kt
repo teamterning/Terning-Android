@@ -85,6 +85,8 @@ fun HomeRoute(
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
         viewModel.getFilteringInfo()
+        viewModel.getRecommendInternsData(0)
+        viewModel.getHomeUpcomingInternList()
     }
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
@@ -175,11 +177,7 @@ fun HomeScreen(
                         else -> "filtered_hits"
                     }
                 )
-                viewModel.updateSortBy(
-                    sortBy,
-                    homeFilteringInfo.startYear,
-                    homeFilteringInfo.startMonth,
-                )
+                viewModel.updateSortBy(sortBy)
             }
         )
     }
@@ -202,12 +200,6 @@ fun HomeScreen(
                 changeFilteringSheetState = false
             }
         )
-    }
-
-    LaunchedEffect(changeFilteringSheetState) {
-        if (!changeFilteringSheetState) {
-            viewModel.getFilteringInfo()
-        }
     }
 
     if (homeState.homeRecommendDialogVisibility) {
