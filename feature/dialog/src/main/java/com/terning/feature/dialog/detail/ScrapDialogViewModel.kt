@@ -2,6 +2,7 @@ package com.terning.feature.dialog.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.terning.core.designsystem.R.string.server_failure
 import com.terning.core.designsystem.type.ColorType
 import com.terning.domain.scrap.entity.CalendarScrapRequest
 import com.terning.domain.scrap.repository.ScrapRepository
@@ -72,7 +73,7 @@ class ScrapDialogViewModel @Inject constructor(
                         emit(ScrapDialogSideEffect.ScrappedAnnouncement)
                     }
                 }.onFailure {
-                    _sideEffect.emit(ScrapDialogSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffect.emit(ScrapDialogSideEffect.ShowToast(server_failure))
                 }
         }
     }
@@ -88,7 +89,7 @@ class ScrapDialogViewModel @Inject constructor(
                     )
                 }
             }.onFailure {
-                _sideEffect.emit(ScrapDialogSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(ScrapDialogSideEffect.ShowToast(server_failure))
             }
     }
 }

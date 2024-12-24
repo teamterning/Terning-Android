@@ -2,6 +2,7 @@ package com.terning.feature.dialog.cancel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.terning.core.designsystem.R.string.server_failure
 import com.terning.domain.scrap.entity.CalendarScrapRequest
 import com.terning.domain.scrap.repository.ScrapRepository
 import com.terning.featrue.dialog.R
@@ -29,7 +30,7 @@ class ScrapCancelViewModel @Inject constructor(
                 }
 
             }.onFailure {
-                _sideEffect.emit(ScrapCancelSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(ScrapCancelSideEffect.ShowToast(server_failure))
             }
     }
 }
