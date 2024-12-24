@@ -2,8 +2,8 @@ package com.terning.feature.onboarding.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.terning.core.designsystem.R.string.server_failure
 import com.terning.domain.auth.entity.SignUpRequest
-import com.terning.feature.onboarding.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,7 +62,7 @@ class SignUpViewModel @Inject constructor(
 
                 _sideEffects.emit(SignUpSideEffect.NavigateToStartFiltering)
             }.onFailure {
-                _sideEffects.emit(SignUpSideEffect.ShowToast(R.string.server_failure))
+                _sideEffects.emit(SignUpSideEffect.ShowToast(server_failure))
             }
         }
     }

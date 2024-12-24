@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
+import com.terning.core.designsystem.R.string.server_failure
 import com.terning.domain.auth.entity.SignInRequest
 import com.terning.domain.auth.repository.AuthRepository
 import com.terning.domain.token.repository.TokenRepository
@@ -83,7 +84,7 @@ class SignInViewModel @Inject constructor(
                 }
             }
         }.onFailure {
-            _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
+            _signInSideEffects.emit(SignInSideEffect.ShowToast(server_failure))
         }
     }
 
