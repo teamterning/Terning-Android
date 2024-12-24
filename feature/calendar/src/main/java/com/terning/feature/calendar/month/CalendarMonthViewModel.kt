@@ -2,9 +2,9 @@ package com.terning.feature.calendar.month
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.calendar.repository.CalendarRepository
-import com.terning.feature.calendar.R
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

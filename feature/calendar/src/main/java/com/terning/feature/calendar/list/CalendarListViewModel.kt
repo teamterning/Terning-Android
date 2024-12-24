@@ -2,10 +2,10 @@ package com.terning.feature.calendar.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.terning.core.designsystem.R
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.domain.calendar.repository.CalendarRepository
-import com.terning.feature.calendar.R
 import com.terning.feature.calendar.list.model.CalendarListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
