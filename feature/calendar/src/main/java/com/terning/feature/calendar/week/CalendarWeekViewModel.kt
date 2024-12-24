@@ -2,7 +2,7 @@ package com.terning.feature.calendar.week
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.R
+import com.terning.core.designsystem.R.string.server_failure
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.calendar.entity.CalendarScrapDetail
 import com.terning.domain.calendar.repository.CalendarRepository
@@ -78,7 +78,7 @@ class CalendarWeekViewModel @Inject constructor(
                         )
 
                     }
-                    _sideEffect.emit(CalendarWeekSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffect.emit(CalendarWeekSideEffect.ShowToast(server_failure))
                 }
             )
     }

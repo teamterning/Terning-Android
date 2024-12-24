@@ -2,7 +2,7 @@ package com.terning.feature.calendar.month
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.R
+import com.terning.core.designsystem.R.string.server_failure
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.calendar.repository.CalendarRepository
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
@@ -40,7 +40,7 @@ class CalendarMonthViewModel @Inject constructor(
                     }
                 },
                 onFailure = {
-                    _sideEffect.emit(CalendarMonthSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffect.emit(CalendarMonthSideEffect.ShowToast(server_failure))
                 }
             )
     }
