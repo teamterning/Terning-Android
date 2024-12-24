@@ -10,5 +10,5 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:filtering"))
+    implementation(projects.domain.filtering)
 }
