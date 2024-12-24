@@ -10,9 +10,9 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:home"))
-    implementation(project(":domain:mypage"))
+    implementation(projects.domain.home)
+    implementation(projects.domain.mypage)
 
     // feature
-    implementation(project(":feature:dialog"))
+    implementation(projects.feature.dialog)
 }
