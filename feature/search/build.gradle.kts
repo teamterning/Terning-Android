@@ -9,8 +9,8 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:search"))
+    implementation(projects.domain.search)
 
     // feature
-    implementation(project(":feature:dialog"))
+    implementation(projects.feature.dialog)
 }
