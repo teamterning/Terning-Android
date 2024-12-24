@@ -52,10 +52,10 @@ android {
 
 dependencies {
     // core
-    implementation(project(":core:local"))
+    implementation(projects.core.local)
 
     //domain
-    implementation(project(":domain:tokenreissue"))
+    implementation(projects.domain.tokenreissue)
 
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
