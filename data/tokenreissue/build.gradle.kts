@@ -10,5 +10,5 @@ android {
 
 dependencies {
     //domain
-    implementation(project(":domain:tokenreissue"))
+    implementation(projects.domain.tokenreissue)
 }
