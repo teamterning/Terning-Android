@@ -4,25 +4,26 @@
     <string name="server_failure">서버통신에 실패했어요</string>
 
     <!--Home-->
-    <string name="home_upcoming_title">곧 마감되는 %s님의 관심 공고</string>
+    <string name="home_upcoming_title">곧 마감되는 관심 공고</string>
     <string name="home_upcoming_no_scrap">아직 스크랩된 인턴 공고가 없어요!</string>
     <string name="home_upcoming_empty">일주일 내에 마감인 공고가 없어요\n캘린더에서 스크랩한 공고 일정을 확인해 보세요</string>
     <string name="home_upcoming_check_schedule">공고 마감 일정 확인하기</string>
 
     <string name="terning_post_working_period">근무기간</string>
-    <string name="home_recommend_main_title">내 계획에 딱 맞는 대학생 인턴 공고</string>
+    <string name="home_recommend_main_title">%s님에게%s딱 맞는 대학생 인턴 공고</string>
     <string name="home_recommend_filtering">필터링</string>
     <string name="home_recommend_filtering_startYearMonth">%s년 %s월</string>
-    <string name="home_recommend_no_intern">필터링 설정에 일치하는 인턴 공고가 없어요!</string>
+    <string name="home_recommend_no_intern">아직 채용중인 인턴 공고가 없어요!\n새로운 공고가 올라오면 보여드릴게요</string>
     <string name="home_recommend_no_intern_description">인턴 공고가 없어요!</string>
     <string name="home_recommend_no_filtering">
         지금 공고 필터링을 설정하고\n내 계획에 딱 맞는 대학생 인턴 공고를 추천받아보세요!
     </string>
     <string name="home_recommend_total">총</string>
-    <string name="home_recommend_count">개의 공고가 있어요</string>
+    <string name="home_recommend_count">개</string>
     <string name="home_filtering_empty">설정된 필터링 정보가 없어요</string>
 
     <string name="home_company_image">기업 이미지</string>
     <string name="home_recommend_no_filtering_hyphen">-</string>
     <string name="home_scrap_empty">오늘 마감인 공고가 없어요</string>
+    <string name="intern_apply_closed">지원마감</string>
 </resources>

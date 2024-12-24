@@ -19,4 +19,6 @@
     <string name="search_process_no_result_text_main">해당하는 검색 결과가 없어요</string>
     <string name="search_process_total">총</string>
     <string name="search_process_count">개의 공고가 있어요</string>
+
+    <string name="intern_apply_closed">지원마감</string>
 </resources>

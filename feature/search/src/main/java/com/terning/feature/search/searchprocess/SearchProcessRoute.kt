@@ -388,6 +388,7 @@ private fun SearchResultInternItem(
         dateDeadline = intern.dDay,
         workingPeriod = intern.workingPeriod,
         isScrapped = intern.isScrapped,
+        isApplyClosed = intern.dDay == stringResource(id = R.string.intern_apply_closed),
         shadowRadius = 5.dp,
         shadowWidth = 1.dp,
         onScrapButtonClicked = {
