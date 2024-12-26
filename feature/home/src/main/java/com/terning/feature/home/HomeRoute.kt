@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +27,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
@@ -54,14 +54,13 @@ import com.terning.feature.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
+import okhttp3.internal.toImmutableList
 
-const val NAME_START_LENGTH = 7
-const val NAME_END_LENGTH = 12
+const val NAME_MAX_LENGTH = 5
 
 @Composable
 fun HomeRoute(
     paddingValues: PaddingValues,
-    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToCalendar: () -> Unit,
     navigateToIntern: (Long) -> Unit
@@ -84,6 +83,8 @@ fun HomeRoute(
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
         viewModel.getFilteringInfo()
+        viewModel.getRecommendInternsData(0)
+        viewModel.getHomeUpcomingInternList()
     }
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
@@ -91,7 +92,6 @@ fun HomeRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is HomeSideEffect.ShowToast -> context.toast(sideEffect.message)
-                    is HomeSideEffect.NavigateToHome -> navController.navigateUp()
                     is HomeSideEffect.NavigateToCalendar -> navigateToCalendar()
                     is HomeSideEffect.NavigateToIntern -> navigateToIntern(sideEffect.announcementId)
                 }
@@ -115,7 +115,8 @@ fun HomeRoute(
             viewModel.navigateCalendar()
         },
         updateRecommendDialogVisibility = viewModel::updateRecommendDialogVisibility,
-        updateUpcomingDialogVisibility = viewModel::updateUpcomingDialogVisibility,
+        updateSortingSheetVisibility = viewModel::updateSortingSheetVisibility,
+        updateSortBy = viewModel::updateSortBy,
         getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
         getRecommendInternsData = viewModel::getRecommendInternsData,
         viewModel = viewModel,
@@ -129,9 +130,10 @@ fun HomeScreen(
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
     updateRecommendDialogVisibility: (Boolean) -> Unit,
-    updateUpcomingDialogVisibility: (Boolean) -> Unit,
+    updateSortingSheetVisibility: (Boolean) -> Unit,
+    updateSortBy: (Int) -> Unit,
     getHomeUpcomingInternList: () -> Unit,
-    getRecommendInternsData: (Int, Int?, Int?) -> Unit,
+    getRecommendInternsData: (Int) -> Unit,
     viewModel: HomeViewModel,
 ) {
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
@@ -147,7 +149,7 @@ fun HomeScreen(
     }
 
     val homeRecommendInternList = when (homeState.homeRecommendInternState) {
-        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail
+        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail.toImmutableList()
         else -> listOf()
     }
 
@@ -163,7 +165,7 @@ fun HomeScreen(
     if (homeState.sortingSheetVisibility) {
         SortingBottomSheet(
             onDismiss = {
-                viewModel.updateSortingSheetVisibility(false)
+                updateSortingSheetVisibility(false)
             },
             currentSortBy = homeState.sortBy.ordinal,
             onSortChange = { sortBy ->
@@ -177,11 +179,7 @@ fun HomeScreen(
                         else -> "filtered_hits"
                     }
                 )
-                viewModel.updateSortBy(
-                    sortBy,
-                    homeFilteringInfo.startYear,
-                    homeFilteringInfo.startMonth,
-                )
+                updateSortBy(sortBy)
             }
         )
     }
@@ -201,12 +199,6 @@ fun HomeScreen(
         )
     }
 
-    LaunchedEffect(changeFilteringSheetState) {
-        if (!changeFilteringSheetState) {
-            viewModel.getFilteringInfo()
-        }
-    }
-
     if (homeState.homeRecommendDialogVisibility) {
         with(homeState.homeInternModel) {
             if (this != null) {
@@ -219,8 +211,6 @@ fun HomeScreen(
                                 getHomeUpcomingInternList()
                                 getRecommendInternsData(
                                     homeState.sortBy.ordinal,
-                                    homeFilteringInfo.startYear,
-                                    homeFilteringInfo.startMonth
                                 )
                             }
                         }
@@ -240,8 +230,6 @@ fun HomeScreen(
                             if (isScrapped) {
                                 getRecommendInternsData(
                                     homeState.sortBy.ordinal,
-                                    homeFilteringInfo.startYear,
-                                    homeFilteringInfo.startMonth
                                 )
                                 getHomeUpcomingInternList()
                             }
@@ -266,24 +254,18 @@ fun HomeScreen(
         )
 
         LazyColumn(
-            contentPadding = PaddingValues(
-                top = 2.dp,
-                bottom = 20.dp,
-            ),
+            contentPadding = PaddingValues(bottom = 20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
                 .fillMaxWidth(),
         ) {
             item {
                 Column {
-                    ShowMainTitleWithName(homeUserName)
+                    ShowUpcomingTitle()
                     ShowUpcomingIntern(
                         homeUpcomingInternState = homeState.homeUpcomingInternState,
-                        homeState = homeState,
-                        navigateToIntern = { navigateToIntern(it) },
+                        navigateToIntern = navigateToIntern,
                         navigateToCalendar = navigateToCalendar,
-                        updateUpcomingDialogVisibility = updateUpcomingDialogVisibility,
-                        getHomeUpcomingInternList = getHomeUpcomingInternList,
                     )
                 }
             }
@@ -292,18 +274,15 @@ fun HomeScreen(
                     modifier = Modifier
                         .background(White)
                 ) {
-                    ShowRecommendTitle()
-                    ShowInternFilter(
-                        homeFilteringInfo = homeFilteringInfo,
-                        onChangeFilterClick = { changeFilteringSheetState = true },
-                    )
+                    ShowRecommendTitle(homeUserName)
 
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 24.dp, end = 18.dp),
+                            .padding(horizontal = 24.dp)
+                            .padding(top = 15.dp, bottom = 3.dp),
                     ) {
                         Row {
                             Text(
@@ -324,14 +303,16 @@ fun HomeScreen(
                                 color = Grey400,
                             )
                         }
-                        Row {
-                            SortingButton(
-                                sortBy = homeState.sortBy.ordinal,
-                                onCLick = { viewModel.updateSortingSheetVisibility(true) },
-                                modifier = Modifier
-                                    .padding(vertical = 4.dp)
-                            )
-                        }
+                        Spacer(modifier = Modifier.weight(1f))
+                        SortingButton(
+                            sortBy = homeState.sortBy.ordinal,
+                            onCLick = { updateSortingSheetVisibility(true) },
+                        )
+                        HomeFilteringScreen(
+                            onChangeFilterClick = { changeFilteringSheetState = true },
+                            modifier = Modifier
+                                .padding(start = 8.dp)
+                        )
                     }
                 }
             }
@@ -394,6 +375,7 @@ private fun RecommendInternItem(
         dateDeadline = intern.dDay,
         workingPeriod = intern.workingPeriod,
         isScrapped = intern.isScrapped,
+        isApplyClosed = (intern.dDay == stringResource(id = R.string.intern_apply_closed)),
         shadowRadius = 5.dp,
         shadowWidth = 1.dp,
         onScrapButtonClicked = onScrapButtonClicked,
@@ -401,13 +383,9 @@ private fun RecommendInternItem(
 }
 
 @Composable
-private fun ShowMainTitleWithName(userName: String) {
+private fun ShowUpcomingTitle() {
     Text(
-        text = stringResource(
-            id = R.string.home_upcoming_title,
-            if (userName.length in NAME_START_LENGTH..NAME_END_LENGTH) "\n" + userName
-            else userName
-        ),
+        text = stringResource(id = R.string.home_upcoming_title),
         modifier = Modifier
             .padding(
                 top = 2.dp,
@@ -423,11 +401,8 @@ private fun ShowMainTitleWithName(userName: String) {
 @Composable
 private fun ShowUpcomingIntern(
     homeUpcomingInternState: UiState<HomeUpcomingIntern>,
-    homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
     navigateToCalendar: () -> Unit,
-    updateUpcomingDialogVisibility: (Boolean) -> Unit,
-    getHomeUpcomingInternList: () -> Unit,
 ) {
     when (homeUpcomingInternState) {
         is UiState.Success -> {
@@ -439,11 +414,8 @@ private fun ShowUpcomingIntern(
                     )
 
                     else -> HomeUpcomingInternScreen(
-                        internList = homeUpcomingInternDetail,
-                        homeState = homeState,
-                        updateUpcomingDialogVisibility = updateUpcomingDialogVisibility,
-                        getHomeUpcomingInternList = getHomeUpcomingInternList,
-                        navigateToIntern = navigateToIntern
+                        internList = homeUpcomingInternDetail.toImmutableList(),
+                        navigateToIntern = navigateToIntern,
                     )
                 }
             }
@@ -454,9 +426,13 @@ private fun ShowUpcomingIntern(
 }
 
 @Composable
-private fun ShowRecommendTitle() {
+private fun ShowRecommendTitle(userName: String) {
     Text(
-        text = stringResource(id = R.string.home_recommend_main_title),
+        text = stringResource(
+            id = R.string.home_recommend_main_title,
+            userName,
+            if (userName.length > NAME_MAX_LENGTH) "\n" else " "
+        ),
         style = TerningTheme.typography.title1,
         color = Black,
         modifier = Modifier
@@ -465,16 +441,5 @@ private fun ShowRecommendTitle() {
                 start = 24.dp,
                 end = 24.dp,
             ),
-    )
-}
-
-@Composable
-private fun ShowInternFilter(
-    homeFilteringInfo: HomeFilteringInfo,
-    onChangeFilterClick: () -> Unit,
-) {
-    HomeFilteringScreen(
-        homeFilteringInfo = homeFilteringInfo,
-        onChangeFilterClick = onChangeFilterClick,
     )
 }

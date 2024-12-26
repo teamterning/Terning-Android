@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -44,6 +45,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
+import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.filtering.filteringone.navigation.filteringOneNavGraph
 import com.terning.feature.filtering.filteringone.navigation.navigateFilteringOne
 import com.terning.feature.filtering.filteringthree.navigation.filteringThreeNavGraph
@@ -171,8 +173,7 @@ fun MainScreen(
                 )
                 homeNavGraph(
                     paddingValues = paddingValues,
-                    navHostController = navigator.navController,
-                    navigateToCalendar = { navigator.navController.navigateHome() },
+                    navigateToCalendar = { navigator.navController.navigateCalendar() },
                     navigateToIntern = { announcementId ->
                         navigator.navController.navigateIntern(announcementId)
                     }
@@ -309,7 +310,7 @@ private fun MainBottomBar(
                             fontSize = 9.sp
                         )
                     },
-                    colors = androidx.compose.material3.NavigationBarItemDefaults
+                    colors = NavigationBarItemDefaults
                         .colors(
                             selectedIconColor = TerningMain,
                             selectedTextColor = TerningMain,

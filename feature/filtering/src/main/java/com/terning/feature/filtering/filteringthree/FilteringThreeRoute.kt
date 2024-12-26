@@ -35,7 +35,7 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.filtering.R
-import com.terning.feature.filtering.filteringthree.component.YearMonthPicker
+import com.terning.feature.filtering.filteringthree.component.FilteringYearMonthPicker
 import java.util.Calendar
 
 @Composable
@@ -147,7 +147,7 @@ fun FilteringThreeScreen(
                 )
             )
             Spacer(modifier = Modifier.height(61.dp))
-            YearMonthPicker(
+            FilteringYearMonthPicker(
                 chosenYear = chosenYear,
                 chosenMonth = chosenMonth,
                 onYearChosen = { onYearChosen(it) },

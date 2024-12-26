@@ -22,14 +22,10 @@ class HomeRepositoryImpl @Inject constructor(
 
     override suspend fun getRecommendIntern(
         sortBy: String,
-        startYear: Int,
-        startMonth: Int
     ): Result<HomeRecommendIntern> =
         runCatching {
             homeDataSource.getRecommendIntern(
                 sortBy = sortBy,
-                startYear = startYear,
-                startMonth = startMonth
             ).result.toHomeRecommendInternList()
         }
 

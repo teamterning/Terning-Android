@@ -51,15 +51,8 @@ import com.terning.feature.home.R
 @Composable
 fun HomeUpcomingInternScreen(
     internList: List<HomeUpcomingIntern.HomeUpcomingInternDetail>,
-    homeState: HomeState,
     navigateToIntern: (Long) -> Unit,
-    updateUpcomingDialogVisibility: (Boolean) -> Unit,
-    getHomeUpcomingInternList: () -> Unit,
 ) {
-    var selectedInternItem: HomeUpcomingIntern.HomeUpcomingInternDetail? by remember {
-        mutableStateOf(null)
-    }
-
     val amplitudeTracker = LocalTracker.current
 
     LazyRow(
@@ -90,8 +83,7 @@ fun HomeUpcomingInternScreen(
                                     type = EventType.CLICK,
                                     name = "remind_intern_card"
                                 )
-                                selectedInternItem = homeUpcomingIntern
-                                updateUpcomingDialogVisibility(true)
+                                navigateToIntern(homeUpcomingIntern.internshipAnnouncementId)
                             },
                         verticalArrangement = Arrangement.SpaceBetween,
                     ) {
@@ -163,27 +155,6 @@ fun HomeUpcomingInternScreen(
                     }
                 }
             )
-        }
-    }
-
-    if (homeState.homeUpcomingDialogVisibility) {
-        val upcomingIntern = selectedInternItem
-        with(upcomingIntern) {
-            if (this != null) {
-                ScrapDialog(
-                    title = title,
-                    scrapColor = Color(android.graphics.Color.parseColor(color)),
-                    deadline = deadline,
-                    startYearMonth = startYearMonth,
-                    workingPeriod = workingPeriod,
-                    internshipAnnouncementId = internshipAnnouncementId,
-                    companyImage = companyImage,
-                    isScrapped = isScrapped,
-                    onDismissRequest = { updateUpcomingDialogVisibility(false) },
-                    onClickChangeColor = getHomeUpcomingInternList,
-                    onClickNavigateButton = { navigateToIntern(internshipAnnouncementId) }
-                )
-            }
         }
     }
 }
