@@ -26,4 +26,18 @@
     <string name="home_recommend_no_filtering_hyphen">-</string>
     <string name="home_scrap_empty">오늘 마감인 공고가 없어요</string>
     <string name="intern_apply_closed">지원마감</string>
+
+    <string name="change_filter_top_bar_title">필터링</string>
+    <string name="change_filter_grade_title">재학 상태</string>
+    <string name="change_filter_save">저장하기</string>
+    <string name="change_filter_grade_1">1학년</string>
+    <string name="change_filter_grade_2">2학년</string>
+    <string name="change_filter_grade_3">3학년</string>
+    <string name="change_filter_grade_4">4학년</string>
+    <string name="change_filter_period_title">희망 근무 기간</string>
+    <string name="change_filter_period_1">1 ~ 3개월</string>
+    <string name="change_filter_period_2">4 ~ 6개월</string>
+    <string name="change_filter_period_3">7개월 이상</string>
+    <string name="change_filter_start_work_title">근무 시작 시기</string>
+    <string name="intern_with_no_plan_filter">계획 필터링 없이 모든 공고 보기</string>
 </resources>

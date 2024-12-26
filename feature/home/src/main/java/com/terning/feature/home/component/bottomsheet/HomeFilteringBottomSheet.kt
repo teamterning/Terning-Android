@@ -79,8 +79,7 @@ fun HomeFilteringBottomSheet(
                     text = R.string.change_filter_save,
                     cornerRadius = 10.dp,
                     modifier = Modifier
-                        .padding(horizontal = 24.dp)
-                        .padding(top = 51.dp),
+                        .padding(horizontal = 24.dp),
                     onButtonClick = {
                         currentFilteringInfo.grade?.let {
                             currentFilteringInfo.workingPeriod?.let { it1 ->
