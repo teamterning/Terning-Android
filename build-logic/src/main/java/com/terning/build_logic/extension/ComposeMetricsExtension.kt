@@ -6,40 +6,17 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
-fun Project.configureComposeMetrics(moduleName: String ="") {
+fun Project.configureComposeMetrics() {
     extensions.configure<BaseExtension> {
         (this as ExtensionAware).extensions.configure<KotlinJvmOptions> {
-//            freeCompilerArgs += listOf(
-//                "-P",
-//                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${
-//                    rootProject.file("compose-reports/$moduleName").absolutePath
-//                }",
-//                "-P",
-//                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${
-//                    rootProject.file("compose-reports/$moduleName").absolutePath
-//                }"
-//            )
-
-
-//            freeCompilerArgs += listOf(
-//                "-P",
-//                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${
-//                    projectDir.resolve("compose-reports").absolutePath
-//                }",
-//                "-P",
-//                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${
-//                    projectDir.resolve("compose-reports").absolutePath
-//                }"
-//            )
-
             freeCompilerArgs += listOf(
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${
-                    buildDir.resolve("compose-reports").absolutePath
+                    projectDir.resolve("compose-reports").absolutePath
                 }",
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${
-                    buildDir.resolve("compose-reports").absolutePath
+                    projectDir.resolve("compose-reports").absolutePath
                 }"
             )
         }

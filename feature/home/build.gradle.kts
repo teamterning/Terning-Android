@@ -7,7 +7,7 @@ plugins {
 
 android {
     setNamespace("feature.home")
-    configureComposeMetrics("home")
+    configureComposeMetrics()
 }
 
 dependencies {
