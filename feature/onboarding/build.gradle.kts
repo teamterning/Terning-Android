@@ -7,7 +7,7 @@ plugins {
 
 android {
     setNamespace("feature.onboarding")
-    configureComposeMetrics("onboarding")
+    configureComposeMetrics()
 }
 
 dependencies {
