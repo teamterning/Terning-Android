@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class HomeRecommendInternResponseDto(
     @SerialName("totalCount")
     val totalCount: Int,
+    @SerialName("hasNext")
+    val hasNextPage: Boolean,
     @SerialName("result")
     val result: List<Result>
 ) {

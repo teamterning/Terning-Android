@@ -12,6 +12,7 @@ interface HomeDataSource {
 
     suspend fun getRecommendIntern(
         sortBy: String,
+        page: Int,
     ): BaseResponse<HomeRecommendInternResponseDto>
 
     suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto>
