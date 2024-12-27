@@ -19,14 +19,27 @@ fun Project.configureComposeMetrics(moduleName: String ="") {
 //                    rootProject.file("compose-reports/$moduleName").absolutePath
 //                }"
 //            )
+
+
+//            freeCompilerArgs += listOf(
+//                "-P",
+//                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${
+//                    projectDir.resolve("compose-reports").absolutePath
+//                }",
+//                "-P",
+//                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${
+//                    projectDir.resolve("compose-reports").absolutePath
+//                }"
+//            )
+
             freeCompilerArgs += listOf(
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${
-                    projectDir.resolve("compose-reports").absolutePath
+                    buildDir.resolve("compose-reports").absolutePath
                 }",
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${
-                    projectDir.resolve("compose-reports").absolutePath
+                    buildDir.resolve("compose-reports").absolutePath
                 }"
             )
         }
