@@ -1,18 +1,23 @@
 package com.terning.feature.home.component.bottomsheet
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -20,8 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.theme.Black
-import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.component.button.ChangeFilterButton
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
@@ -66,127 +70,148 @@ fun PlanFilteringScreen(
         )
     }
 
-    Text(
-        text = stringResource(id = R.string.change_filter_top_bar_title),
-        style = TerningTheme.typography.title2,
-        color = Black,
-        modifier = Modifier
-            .padding(horizontal = 24.dp)
-            .padding(bottom = 16.dp),
-    )
+    Column {
+        ChangeFilteringTitleText(
+            text = stringResource(id = R.string.change_filter_grade_title),
+            modifier = Modifier
+                .padding(top = 18.dp, bottom = 12.dp)
+                .padding(horizontal = 24.dp)
+        )
 
-    HorizontalDivider(
-        thickness = 1.dp,
-        color = Grey200,
-        modifier = Modifier
-            .padding(horizontal = 24.dp),
-    )
+        ChangePlanFilteringRadioGroup(
+            initOption = currentFilteringInfo.grade?.let { Grade.fromString(it).ordinal } ?: -1,
+            optionList = listOf(
+                R.string.change_filter_grade_1,
+                R.string.change_filter_grade_2,
+                R.string.change_filter_grade_3,
+                R.string.change_filter_grade_4,
+            ),
+            onButtonClick = updateGrade,
+            columns = 4,
+            modifier = Modifier
+                .padding(horizontal = 24.dp),
+        )
 
-    ChangeFilteringTitleText(
-        text = stringResource(id = R.string.change_filter_grade_title),
-        modifier = Modifier
-            .padding(top = 18.dp, bottom = 12.dp)
-            .padding(horizontal = 24.dp)
-    )
+        ChangeFilteringTitleText(
+            text = stringResource(id = R.string.change_filter_period_title),
+            modifier = Modifier
+                .padding(top = 32.dp, bottom = 12.dp)
+                .padding(horizontal = 24.dp)
+        )
 
-    ChangeFilteringRadioGroup(
-        initOption = currentFilteringInfo.grade?.let { Grade.fromString(it).ordinal } ?: -1,
-        optionList = listOf(
-            R.string.change_filter_grade_1,
-            R.string.change_filter_grade_2,
-            R.string.change_filter_grade_3,
-            R.string.change_filter_grade_4,
-        ),
-        onButtonClick = updateGrade,
-        columns = 4,
-        modifier = Modifier
-            .padding(horizontal = 24.dp),
-    )
+        ChangePlanFilteringRadioGroup(
+            initOption = currentFilteringInfo.workingPeriod?.let { WorkingPeriod.fromString(it).ordinal }
+                ?: -1,
+            optionList = listOf(
+                R.string.change_filter_period_1,
+                R.string.change_filter_period_2,
+                R.string.change_filter_period_3,
+            ),
+            onButtonClick = updateWorkingPeriod,
+            modifier = Modifier
+                .padding(horizontal = 24.dp),
+        )
 
-    ChangeFilteringTitleText(
-        text = stringResource(id = R.string.change_filter_period_title),
-        modifier = Modifier
-            .padding(top = 32.dp, bottom = 12.dp)
-            .padding(horizontal = 24.dp)
-    )
+        ChangeFilteringTitleText(
+            text = stringResource(id = R.string.change_filter_start_work_title),
+            modifier = Modifier
+                .padding(top = 32.dp, bottom = 49.dp)
+                .padding(horizontal = 24.dp)
+        )
 
-    ChangeFilteringRadioGroup(
-        initOption = currentFilteringInfo.workingPeriod?.let { WorkingPeriod.fromString(it).ordinal }
-            ?: -1,
-        optionList = listOf(
-            R.string.change_filter_period_1,
-            R.string.change_filter_period_2,
-            R.string.change_filter_period_3,
-        ),
-        onButtonClick = updateWorkingPeriod,
-        modifier = Modifier
-            .padding(horizontal = 24.dp),
-    )
+        HomeYearMonthPicker(
+            chosenYear = currentFilteringInfo.startYear,
+            chosenMonth = currentFilteringInfo.startMonth,
+            onYearChosen = { year, isInitialSelection ->
+                if (year != null) {
+                    updateStartYear(year)
+                    isCheckBoxChecked = false
+                    isYearNull = false
+                    isInitialNullState = isInitialSelection
+                }
+            },
+            onMonthChosen = { month, isInitialSelection ->
+                if (month != null) {
+                    updateStartMonth(month)
+                    isCheckBoxChecked = false
+                    isMonthNull = false
+                    isInitialNullState = isInitialSelection
+                }
+            },
+            isYearNull = isYearNull,
+            isMonthNull = isMonthNull,
+            yearsList = yearsList.toImmutableList(),
+            monthsList = monthsList.toImmutableList(),
+            isInitialNullState = isInitialNullState
+        )
 
-    ChangeFilteringTitleText(
-        text = stringResource(id = R.string.change_filter_start_work_title),
-        modifier = Modifier
-            .padding(top = 32.dp, bottom = 49.dp)
-            .padding(horizontal = 24.dp)
-    )
-
-    HomeYearMonthPicker(
-        chosenYear = currentFilteringInfo.startYear,
-        chosenMonth = currentFilteringInfo.startMonth,
-        onYearChosen = { year, isInitialSelection ->
-            if (year != null) {
-                updateStartYear(year)
-                isCheckBoxChecked = false
-                isYearNull = false
-                isInitialNullState = isInitialSelection
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 13.dp, top = 26.dp, end = 24.dp),
+        ) {
+            CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+                Checkbox(
+                    checked = isCheckBoxChecked,
+                    onCheckedChange = { isChecked ->
+                        if (isChecked) {
+                            isYearNull = true
+                            isMonthNull = true
+                        }
+                        isCheckBoxChecked = isChecked
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = TerningMain,
+                        uncheckedColor = Grey300,
+                        checkmarkColor = White,
+                    ),
+                    interactionSource = NoRippleInteractionSource
+                )
             }
-        },
-        onMonthChosen = { month, isInitialSelection ->
-            if (month != null) {
-                updateStartMonth(month)
-                isCheckBoxChecked = false
-                isMonthNull = false
-                isInitialNullState = isInitialSelection
-            }
-        },
-        isYearNull = isYearNull,
-        isMonthNull = isMonthNull,
-        yearsList = yearsList.toImmutableList(),
-        monthsList = monthsList.toImmutableList(),
-        isInitialNullState = isInitialNullState
-    )
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.End,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 13.dp, top = 26.dp, end = 24.dp),
-    ) {
-        CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
-            Checkbox(
-                checked = isCheckBoxChecked,
-                onCheckedChange = { isChecked ->
-                    if (isChecked) {
-                        isYearNull = true
-                        isMonthNull = true
-                    }
-                    isCheckBoxChecked = isChecked
-                },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = TerningMain,
-                    uncheckedColor = Grey300,
-                    checkmarkColor = White,
-                ),
-                interactionSource = NoRippleInteractionSource
+            Text(
+                text = stringResource(id = R.string.intern_with_no_plan_filter),
+                style = TerningTheme.typography.button3,
+                color = Grey300,
+                modifier = Modifier.padding(start = 6.dp),
             )
         }
+    }
+}
 
-        Text(
-            text = stringResource(id = R.string.intern_with_no_plan_filter),
-            style = TerningTheme.typography.button3,
-            color = Grey300,
-            modifier = Modifier.padding(start = 6.dp),
-        )
+@Composable
+fun ChangePlanFilteringRadioGroup(
+    optionList: List<Int>,
+    initOption: Int,
+    onButtonClick: (Int) -> Unit,
+    columns: Int = 3,
+    modifier: Modifier = Modifier,
+) {
+    var selectedIndex by remember { mutableIntStateOf(initOption) }
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(columns),
+        horizontalArrangement = Arrangement.spacedBy(13.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+
+    ) {
+        itemsIndexed(optionList) { index, option ->
+            ChangeFilterButton(
+                isSelected = selectedIndex == index,
+                modifier = Modifier
+                    .wrapContentHeight(),
+                text = option,
+                cornerRadius = 10.dp,
+                paddingVertical = 10.dp,
+                onButtonClick = {
+                    selectedIndex = index
+                    onButtonClick(index)
+                }
+            )
+        }
     }
 }
