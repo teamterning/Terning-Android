@@ -55,7 +55,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
-
     }
     buildFeatures {
         buildConfig = true
@@ -64,6 +63,7 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
     }
 }
+
 
 dependencies {
     // feature
