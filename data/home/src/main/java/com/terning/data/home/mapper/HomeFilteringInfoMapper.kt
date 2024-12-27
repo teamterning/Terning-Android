@@ -9,4 +9,5 @@ fun HomeFilteringInfoResponseDto.toHomeFilteringInfo(): HomeFilteringInfo =
         workingPeriod = this.workingPeriod,
         startYear = this.startYear,
         startMonth = this.startMonth,
+        jobType = this.jobType,
     )

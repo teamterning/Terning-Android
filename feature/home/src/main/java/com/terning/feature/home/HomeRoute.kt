@@ -43,17 +43,18 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.core.designsystem.type.JobType
 import com.terning.domain.home.entity.HomeFilteringInfo
 import com.terning.domain.home.entity.HomeRecommendIntern
 import com.terning.domain.home.entity.HomeUpcomingIntern
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
-import com.terning.feature.home.component.bottomsheet.HomeFilteringBottomSheet
 import com.terning.feature.home.component.HomeFilteringScreen
 import com.terning.feature.home.component.HomeRecommendEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
+import com.terning.feature.home.component.bottomsheet.HomeFilteringBottomSheet
 import okhttp3.internal.toImmutableList
 
 const val NAME_MAX_LENGTH = 5
@@ -145,7 +146,7 @@ fun HomeScreen(
 
     val homeFilteringInfo = when (homeState.homeFilteringInfoState) {
         is UiState.Success -> (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfo>).data
-        else -> HomeFilteringInfo(null, null, null, null)
+        else -> HomeFilteringInfo(null, null, null, null, JobType.TOTAL.stringValue)
     }
 
     val homeRecommendInternList = when (homeState.homeRecommendInternState) {
@@ -188,12 +189,12 @@ fun HomeScreen(
         HomeFilteringBottomSheet(
             onDismiss = { changeFilteringSheetState = false },
             defaultFilteringInfo = homeFilteringInfo,
-            onChangeButtonClick = { grade, workingPeriod, year, month ->
+            onChangeButtonClick = { grade, workingPeriod, year, month, jobType ->
                 amplitudeTracker.track(
                     type = EventType.CLICK,
                     name = "home_filtering_save"
                 )
-                viewModel.putFilteringInfo(grade, workingPeriod, year, month)
+                viewModel.putFilteringInfo(grade, workingPeriod, year, month, jobType)
                 changeFilteringSheetState = false
             }
         )
