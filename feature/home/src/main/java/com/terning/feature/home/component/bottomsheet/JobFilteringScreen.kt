@@ -46,7 +46,7 @@ fun JobFilteringScreen(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(bottom = 60.dp, start = 23.dp, end = 23.dp, top = 16.dp),
+            .padding(bottom = 60.dp, start = 23.dp, end = 23.dp),
 
         ) {
         itemsIndexed(JobType.entries) { index, option ->

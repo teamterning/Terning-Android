@@ -74,8 +74,7 @@ fun PlanFilteringScreen(
         ChangeFilteringTitleText(
             text = stringResource(id = R.string.change_filter_grade_title),
             modifier = Modifier
-                .padding(top = 18.dp, bottom = 12.dp)
-                .padding(horizontal = 24.dp)
+                .padding(start = 23.dp, end = 23.dp, bottom = 12.dp)
         )
 
         ChangePlanFilteringRadioGroup(

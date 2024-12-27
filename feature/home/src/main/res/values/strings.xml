@@ -28,6 +28,8 @@
     <string name="intern_apply_closed">지원마감</string>
 
     <string name="change_filter_top_bar_title">필터링</string>
+    <string name="change_job_type_filter">직무 카테고리</string>
+    <string name="change_plan_type_filter">계획</string>
     <string name="change_filter_grade_title">재학 상태</string>
     <string name="change_filter_save">저장하기</string>
     <string name="change_filter_grade_1">1학년</string>
