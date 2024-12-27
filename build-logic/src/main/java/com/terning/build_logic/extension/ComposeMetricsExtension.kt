@@ -12,11 +12,15 @@ fun Project.configureComposeMetrics() {
             freeCompilerArgs += listOf(
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${
-                    projectDir.resolve("compose-reports").absolutePath
+                    layout.buildDirectory.dir(
+                        "./compose-reports"
+                    ).get().asFile.absolutePath
                 }",
                 "-P",
                 "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${
-                    projectDir.resolve("compose-reports").absolutePath
+                    layout.buildDirectory.dir(
+                        "./compose-reports"
+                    ).get().asFile.absolutePath
                 }"
             )
         }
