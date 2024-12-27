@@ -1,0 +1,48 @@
+stable class ShowToast {
+  stable val message: Int
+  <runtime stability> = Stable
+}
+stable class NavigateToCalendar {
+  <runtime stability> = Stable
+}
+stable class NavigateToIntern {
+  stable val announcementId: Long
+  <runtime stability> = Stable
+}
+stable class HomeSideEffect {
+  <runtime stability> = Stable
+}
+unstable class HomeState {
+  stable val sortBy: SortBy
+  stable val sortingSheetVisibility: Boolean
+  unstable val homeUserNameState: UiState<String>
+  unstable val homeFilteringInfoState: UiState<HomeFilteringInfo>
+  unstable val homeUpcomingInternState: UiState<HomeUpcomingIntern>
+  unstable val homeRecommendInternState: UiState<HomeRecommendIntern>
+  stable val homeRecommendDialogVisibility: Boolean
+  unstable val homeInternModel: HomeRecommendInternDetail?
+  <runtime stability> = Unstable
+}
+unstable class HomeViewModel {
+  unstable val homeRepository: HomeRepository
+  unstable val myPageRepository: MyPageRepository
+  unstable val _homeState: MutableStateFlow<HomeState>
+  unstable val _homeSideEffect: MutableSharedFlow<HomeSideEffect>
+  <runtime stability> = Unstable
+}
+stable class PickerState {
+  stable var selectedItem$delegate: MutableState<String>
+  <runtime stability> = Stable
+}
+stable class HomeDialogState {
+  stable val isColorChange: Boolean
+  stable val isPaletteOpen: Boolean
+  stable val selectedColor: Color
+  stable val isScrapDialogVisible: Boolean
+  stable val isScrappedState: Boolean
+  stable val isToday: Boolean
+  <runtime stability> = Stable
+}
+stable class Home {
+  <runtime stability> = Stable
+}
