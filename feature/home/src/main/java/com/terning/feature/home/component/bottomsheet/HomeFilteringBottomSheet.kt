@@ -36,6 +36,7 @@ import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.type.Grade
+import com.terning.core.designsystem.type.JobType
 import com.terning.core.designsystem.type.WorkingPeriod
 import com.terning.domain.home.entity.HomeFilteringInfo
 import com.terning.feature.home.R
@@ -51,7 +52,7 @@ fun HomeFilteringBottomSheet(
     modifier: Modifier = Modifier,
     defaultFilteringInfo: HomeFilteringInfo,
     onDismiss: () -> Unit,
-    onChangeButtonClick: (String, String, Int, Int) -> Unit,
+    onChangeButtonClick: (String?, String?, Int?, Int?, String) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -80,11 +81,9 @@ fun HomeFilteringBottomSheet(
                     modifier = Modifier
                         .padding(horizontal = 23.dp),
                     verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.spacedBy(28.dp),
                 ) {
                     filterType.forEachIndexed { index, option ->
-                        if (index == 1) {
-                            Spacer(modifier = Modifier.width(28.dp))
-                        }
                         TerningTab(
                             tabText = stringResource(id = option),
                             selected = pagerState.currentPage == index,
@@ -92,6 +91,7 @@ fun HomeFilteringBottomSheet(
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(index)
                                 }
+                                currentFilteringInfo = defaultFilteringInfo
                             })
                     }
                 }
@@ -105,10 +105,18 @@ fun HomeFilteringBottomSheet(
 
                 HorizontalPager(
                     state = pagerState,
-                    modifier = Modifier.padding(top = 16.dp)
+                    modifier = Modifier
+                        .padding(top = 16.dp),
                 ) {
                     if (pagerState.currentPage == 0) {
-                        JobFilteringScreen(initOption = 0, onButtonClick = {})
+                        JobFilteringScreen(
+                            initOption = JobType.fromString(currentFilteringInfo.jobType).ordinal,
+                            onButtonClick = { jobType ->
+                                currentFilteringInfo = currentFilteringInfo.copy(
+                                    jobType = jobType.stringValue
+                                )
+                            },
+                        )
                     } else {
                         PlanFilteringScreen(
                             currentFilteringInfo = currentFilteringInfo,
@@ -144,19 +152,14 @@ fun HomeFilteringBottomSheet(
                     modifier = Modifier
                         .padding(horizontal = 24.dp),
                     onButtonClick = {
-                        currentFilteringInfo.grade?.let {
-                            currentFilteringInfo.workingPeriod?.let { it1 ->
-                                currentFilteringInfo.startYear?.let { it2 ->
-                                    currentFilteringInfo.startMonth?.let { it3 ->
-                                        onChangeButtonClick(
-                                            it,
-                                            it1,
-                                            it2,
-                                            it3
-                                        )
-                                    }
-                                }
-                            }
+                        with(currentFilteringInfo) {
+                            onChangeButtonClick(
+                                grade,
+                                workingPeriod,
+                                startYear,
+                                startMonth,
+                                jobType
+                            )
                         }
                     },
                     isEnabled = currentFilteringInfo.grade != null && currentFilteringInfo.workingPeriod != null

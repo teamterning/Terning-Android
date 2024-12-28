@@ -88,13 +88,13 @@ fun PlanFilteringScreen(
             onButtonClick = updateGrade,
             columns = 4,
             modifier = Modifier
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = 23.dp),
         )
 
         ChangeFilteringTitleText(
             text = stringResource(id = R.string.change_filter_period_title),
             modifier = Modifier
-                .padding(top = 32.dp, bottom = 12.dp)
+                .padding(top = 24.dp, bottom = 12.dp)
                 .padding(horizontal = 24.dp)
         )
 
@@ -108,14 +108,13 @@ fun PlanFilteringScreen(
             ),
             onButtonClick = updateWorkingPeriod,
             modifier = Modifier
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = 23.dp),
         )
 
         ChangeFilteringTitleText(
             text = stringResource(id = R.string.change_filter_start_work_title),
             modifier = Modifier
-                .padding(top = 32.dp, bottom = 49.dp)
-                .padding(horizontal = 24.dp)
+                .padding(24.dp)
         )
 
         HomeYearMonthPicker(
@@ -196,7 +195,6 @@ fun ChangePlanFilteringRadioGroup(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-
     ) {
         itemsIndexed(optionList) { index, option ->
             ChangeFilterButton(
