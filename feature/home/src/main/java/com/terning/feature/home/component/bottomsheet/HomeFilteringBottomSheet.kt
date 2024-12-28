@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -66,7 +67,8 @@ fun HomeFilteringBottomSheet(
         content = {
             Column(
                 modifier = modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .fillMaxHeight(3 / 4f),
             ) {
                 Text(
                     text = stringResource(id = R.string.change_filter_top_bar_title),
@@ -105,6 +107,7 @@ fun HomeFilteringBottomSheet(
 
                 HorizontalPager(
                     state = pagerState,
+                    beyondViewportPageCount = 1,
                     modifier = Modifier
                         .padding(top = 16.dp),
                 ) {
@@ -143,6 +146,8 @@ fun HomeFilteringBottomSheet(
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier.weight(1f))
 
                 RoundButton(
                     style = TerningTheme.typography.button0,
