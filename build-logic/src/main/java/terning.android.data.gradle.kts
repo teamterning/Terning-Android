@@ -25,8 +25,5 @@ dependencies {
 
     // ThirdPartyDependencies
     implementation(libs.findLibrary("timber").get())
-    implementation(libs.findLibrary("retrofit.core").get())
-    implementation(platform(libs.findLibrary("okhttp.bom").get()))
-    implementation(libs.findLibrary("okhttp.logging").get())
     implementation(libs.findBundle("retrofit").get())
 }

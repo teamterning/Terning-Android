@@ -183,6 +183,10 @@ retrofit =[
     "retrofit-kotlin-serialization",
     "retrofit2-kotlinx-serialization-converter"
 ]
+okhttp = [
+    "okhttp",
+    "okhttp-logging"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
