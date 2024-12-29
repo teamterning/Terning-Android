@@ -2,17 +2,25 @@ package com.terning.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.home.entity.ChangeFilteringRequestModel
 import com.terning.domain.home.entity.HomeRecommendIntern
+import com.terning.domain.home.entity.HomeRecommendedIntern
 import com.terning.domain.home.repository.HomeRepository
 import com.terning.domain.mypage.repository.MyPageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,19 +36,42 @@ class HomeViewModel @Inject constructor(
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
-    fun getRecommendInternsData(sortBy: Int) {
-        viewModelScope.launch {
-            homeRepository.getRecommendIntern(
-                sortBy = SortBy.entries[sortBy].type,
-            ).onSuccess { internList ->
-                _homeState.value = _homeState.value.copy(
-                    homeRecommendInternState = UiState.Success(internList)
+    private val scrapStateFlow = MutableStateFlow(mapOf<Long, Boolean>())
+
+    private val _recommendInternFlow =
+        MutableStateFlow(homeRepository.getRecommendIntern(_homeState.value.sortBy.type))
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val recommendInternFlow: Flow<PagingData<HomeRecommendedIntern>> = combine(
+        _recommendInternFlow.flatMapLatest {
+            it.cachedIn(viewModelScope)
+        }, scrapStateFlow
+    ) { paging, scrapState ->
+        paging.map { intern ->
+            val isScrapped = scrapState[intern.internshipAnnouncementId] ?: intern.isScrapped
+            intern.copy(
+                isScrapped = isScrapped
+            )
+        }
+    }
+
+    private fun refreshRecommendInternFlow() {
+        _recommendInternFlow.value = getRecommendInternData()
+    }
+
+    private fun getRecommendInternData(): Flow<PagingData<HomeRecommendedIntern>> {
+        val pagingFlow = homeRepository.getRecommendIntern(
+            sortBy = _homeState.value.sortBy.type
+        ).cachedIn(viewModelScope)
+
+        return combine(
+            pagingFlow, scrapStateFlow
+        ) { paging, scrapState ->
+            paging.map { intern ->
+                val isScrapped = scrapState[intern.internshipAnnouncementId] ?: intern.isScrapped
+                intern.copy(
+                    isScrapped = isScrapped
                 )
-            }.onFailure { exception: Throwable ->
-                _homeState.value = _homeState.value.copy(
-                    homeRecommendInternState = UiState.Failure(exception.toString())
-                )
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(R.string.server_failure))
             }
         }
     }
@@ -86,7 +117,7 @@ class HomeViewModel @Inject constructor(
                 )
             ).onSuccess {
                 getFilteringInfo()
-                getRecommendInternsData(_homeState.value.sortBy.ordinal)
+                refreshRecommendInternFlow()
             }
         }
     }
@@ -146,9 +177,7 @@ class HomeViewModel @Inject constructor(
                 sortBy = SortBy.entries[sortBy]
             )
         }
-        getRecommendInternsData(
-            _homeState.value.sortBy.ordinal,
-        )
+        refreshRecommendInternFlow()
     }
 
     fun updateSortingSheetVisibility(visibility: Boolean) {
@@ -168,6 +197,16 @@ class HomeViewModel @Inject constructor(
     fun navigateIntern(announcementId: Long) {
         viewModelScope.launch {
             _homeSideEffect.emit(HomeSideEffect.NavigateToIntern(announcementId))
+        }
+    }
+
+    fun updateInternScrapState() {
+        _homeState.value.homeInternModel?.run {
+            val isScrapped = scrapStateFlow.value[this.internshipAnnouncementId] ?: this.isScrapped
+
+            scrapStateFlow.update { currentMap ->
+                currentMap + (this.internshipAnnouncementId to !isScrapped)
+            }
         }
     }
 }

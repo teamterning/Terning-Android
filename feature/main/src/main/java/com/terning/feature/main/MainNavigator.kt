@@ -37,7 +37,7 @@ class MainNavigator(
                   }
               }
             launchSingleTop = true
-            restoreState = true
+            restoreState = false
         }
 
         when (tab) {

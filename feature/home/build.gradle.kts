@@ -15,4 +15,8 @@ dependencies {
 
     // feature
     implementation(project(":feature:dialog"))
+
+    // paging
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 }
