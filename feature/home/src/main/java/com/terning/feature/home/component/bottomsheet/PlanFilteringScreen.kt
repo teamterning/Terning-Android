@@ -45,10 +45,10 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun PlanFilteringScreen(
     currentFilteringInfo: HomeFilteringInfo,
-    updateGrade: (Int) -> Unit,
-    updateWorkingPeriod: (Int) -> Unit,
-    updateStartYear: (Int) -> Unit,
-    updateStartMonth: (Int) -> Unit,
+    updateGrade: (Int?) -> Unit,
+    updateWorkingPeriod: (Int?) -> Unit,
+    updateStartYear: (Int?) -> Unit,
+    updateStartMonth: (Int?) -> Unit,
 ) {
     var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == null) }
     var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == null) }
@@ -79,13 +79,17 @@ fun PlanFilteringScreen(
 
         ChangePlanFilteringRadioGroup(
             initOption = currentFilteringInfo.grade?.let { Grade.fromString(it).ordinal } ?: -1,
+            isCheckBoxChecked = isCheckBoxChecked,
             optionList = listOf(
                 R.string.change_filter_grade_1,
                 R.string.change_filter_grade_2,
                 R.string.change_filter_grade_3,
                 R.string.change_filter_grade_4,
             ),
-            onButtonClick = updateGrade,
+            onButtonClick = {
+                updateGrade(it)
+                isCheckBoxChecked = false
+            },
             columns = 4,
             modifier = Modifier
                 .padding(horizontal = 23.dp),
@@ -101,12 +105,16 @@ fun PlanFilteringScreen(
         ChangePlanFilteringRadioGroup(
             initOption = currentFilteringInfo.workingPeriod?.let { WorkingPeriod.fromString(it).ordinal }
                 ?: -1,
+            isCheckBoxChecked = isCheckBoxChecked,
             optionList = listOf(
                 R.string.change_filter_period_1,
                 R.string.change_filter_period_2,
                 R.string.change_filter_period_3,
             ),
-            onButtonClick = updateWorkingPeriod,
+            onButtonClick = {
+                updateWorkingPeriod(it)
+                isCheckBoxChecked = false
+            },
             modifier = Modifier
                 .padding(horizontal = 23.dp),
         )
@@ -157,6 +165,10 @@ fun PlanFilteringScreen(
                         if (isChecked) {
                             isYearNull = true
                             isMonthNull = true
+                            updateGrade(null)
+                            updateWorkingPeriod(null)
+                            updateStartYear(null)
+                            updateStartMonth(null)
                         }
                         isCheckBoxChecked = isChecked
                     },
@@ -183,11 +195,15 @@ fun PlanFilteringScreen(
 fun ChangePlanFilteringRadioGroup(
     optionList: List<Int>,
     initOption: Int,
+    isCheckBoxChecked: Boolean,
     onButtonClick: (Int) -> Unit,
     columns: Int = 3,
     modifier: Modifier = Modifier,
 ) {
     var selectedIndex by remember { mutableIntStateOf(initOption) }
+    if (isCheckBoxChecked) {
+        selectedIndex = -1
+    }
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(columns),
@@ -198,7 +214,7 @@ fun ChangePlanFilteringRadioGroup(
     ) {
         itemsIndexed(optionList) { index, option ->
             ChangeFilterButton(
-                isSelected = selectedIndex == index,
+                isSelected = selectedIndex == index && !isCheckBoxChecked,
                 modifier = Modifier
                     .wrapContentHeight(),
                 text = option,

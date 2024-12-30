@@ -132,12 +132,16 @@ fun HomeFilteringBottomSheet(
                                 currentFilteringInfo = currentFilteringInfo,
                                 updateGrade = {
                                     currentFilteringInfo = currentFilteringInfo.copy(
-                                        grade = Grade.entries[it].stringValue
+                                        grade = if (it != null) {
+                                            Grade.entries[it].stringValue
+                                        } else null
                                     )
                                 },
                                 updateWorkingPeriod = {
                                     currentFilteringInfo = currentFilteringInfo.copy(
-                                        workingPeriod = WorkingPeriod.entries[it].stringValue
+                                        workingPeriod = if (it != null) {
+                                            WorkingPeriod.entries[it].stringValue
+                                        } else null
                                     )
                                 },
                                 updateStartYear = {
@@ -175,7 +179,7 @@ fun HomeFilteringBottomSheet(
                             )
                         }
                     },
-                    isEnabled = currentFilteringInfo.grade != null && currentFilteringInfo.workingPeriod != null
+                    isEnabled = checkButtonEnable(currentFilteringInfo = currentFilteringInfo)
                 )
             }
 
@@ -228,3 +232,9 @@ fun TerningTab(
         )
     }
 }
+
+private fun checkButtonEnable(currentFilteringInfo: HomeFilteringInfo): Boolean =
+    with(currentFilteringInfo) {
+        (grade == null && workingPeriod == null && startYear == null && startMonth == null)
+                || (grade != null && workingPeriod != null && startYear != null && startMonth != null)
+    }
