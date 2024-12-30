@@ -55,7 +55,9 @@ import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
 import com.terning.feature.home.component.bottomsheet.HomeFilteringBottomSheet
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 const val NAME_MAX_LENGTH = 5
 
@@ -149,10 +151,11 @@ fun HomeScreen(
         else -> HomeFilteringInfo(null, null, null, null, JobType.TOTAL.stringValue)
     }
 
-    val homeRecommendInternList = when (homeState.homeRecommendInternState) {
-        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail.toImmutableList()
-        else -> listOf()
-    }
+    val homeRecommendInternList: ImmutableList<HomeRecommendIntern.HomeRecommendInternDetail> =
+        when (homeState.homeRecommendInternState) {
+            is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail.toImmutableList()
+            else -> persistentListOf()
+        }
 
     val homeRecommendInternTotal = when (homeState.homeRecommendInternState) {
         is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.totalCount
