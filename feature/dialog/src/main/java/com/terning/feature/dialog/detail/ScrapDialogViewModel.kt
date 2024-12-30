@@ -2,7 +2,6 @@ package com.terning.feature.dialog.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.R.string.server_failure
 import com.terning.core.designsystem.type.ColorType
 import com.terning.domain.scrap.entity.CalendarScrapRequest
 import com.terning.domain.scrap.repository.ScrapRepository
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class ScrapDialogViewModel @Inject constructor(
@@ -73,7 +73,7 @@ class ScrapDialogViewModel @Inject constructor(
                         emit(ScrapDialogSideEffect.ScrappedAnnouncement)
                     }
                 }.onFailure {
-                    _sideEffect.emit(ScrapDialogSideEffect.ShowToast(server_failure))
+                    _sideEffect.emit(ScrapDialogSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
         }
     }
@@ -89,7 +89,7 @@ class ScrapDialogViewModel @Inject constructor(
                     )
                 }
             }.onFailure {
-                _sideEffect.emit(ScrapDialogSideEffect.ShowToast(server_failure))
+                _sideEffect.emit(ScrapDialogSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
     }
 }

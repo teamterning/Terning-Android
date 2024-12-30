@@ -2,7 +2,6 @@ package com.terning.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.R.string.server_failure
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.home.entity.ChangeFilteringRequestModel
@@ -17,6 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = _homeState.value.copy(
                     homeRecommendInternState = UiState.Failure(exception.toString())
                 )
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(server_failure))
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
         }
     }
@@ -56,7 +56,7 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = _homeState.value.copy(
                     homeUpcomingInternState = UiState.Failure(exception.toString())
                 )
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(server_failure))
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
         }
     }
@@ -71,7 +71,7 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = _homeState.value.copy(
                     homeFilteringInfoState = UiState.Failure(exception.toString())
                 )
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(server_failure))
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
         }
     }
@@ -101,7 +101,7 @@ class HomeViewModel @Inject constructor(
             }.onFailure { exception: Throwable ->
                 _homeState.value =
                     _homeState.value.copy(homeUserNameState = UiState.Failure(exception.toString()))
-                _homeSideEffect.emit(HomeSideEffect.ShowToast(server_failure))
+                _homeSideEffect.emit(HomeSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
         }
     }

@@ -2,7 +2,6 @@ package com.terning.feature.mypage.profileedit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.R.string.server_failure
 import com.terning.domain.mypage.entity.MyPageProfileEdit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,6 +12,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
@@ -77,7 +77,7 @@ class ProfileEditViewModel @Inject constructor(
             ).onSuccess {
                 _sideEffects.emit(ProfileEditSideEffect.NavigateUp)
             }.onFailure {
-                _sideEffects.emit(ProfileEditSideEffect.ShowToast(server_failure))
+                _sideEffects.emit(ProfileEditSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
         }
     }

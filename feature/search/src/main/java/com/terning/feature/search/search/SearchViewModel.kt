@@ -2,7 +2,6 @@ package com.terning.feature.search.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.core.designsystem.R.string.server_failure
 import com.terning.core.designsystem.state.UiState
 import com.terning.feature.search.R
 import com.terning.feature.search.search.model.SearchScrapsListState
@@ -15,6 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 
 @HiltViewModel
@@ -45,7 +45,7 @@ class SearchViewModel @Inject constructor(
                         searchViewsList = UiState.Success(searchViewsList)
                     )
                 }.onFailure {
-                    _sideEffect.emit(SearchSideEffect.Toast(server_failure))
+                    _sideEffect.emit(SearchSideEffect.Toast(DesignSystemR.string.server_failure))
                 }
         }
     }
@@ -58,7 +58,7 @@ class SearchViewModel @Inject constructor(
                         searchScrapsList = UiState.Success(searchScrapsList)
                     )
                 }.onFailure {
-                    _sideEffect.emit(SearchSideEffect.Toast(server_failure))
+                    _sideEffect.emit(SearchSideEffect.Toast(DesignSystemR.string.server_failure))
                 }
         }
     }
