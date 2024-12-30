@@ -1,4 +1,3 @@
-import com.terning.build_logic.extension.configureComposeMetrics
 import com.terning.build_logic.extension.setNamespace
 
 plugins {
@@ -7,7 +6,6 @@ plugins {
 
 android {
     setNamespace("feature.onboarding")
-    configureComposeMetrics()
 }
 
 dependencies {
