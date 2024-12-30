@@ -18,6 +18,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,6 +64,10 @@ fun HomeFilteringBottomSheet(
     val pagerState = rememberPagerState { 2 }
     val coroutineScope = rememberCoroutineScope()
 
+    LaunchedEffect(pagerState.currentPage) {
+        currentFilteringInfo = defaultFilteringInfo
+    }
+
     TerningBasicBottomSheet(
         content = {
             Column(
@@ -93,7 +98,6 @@ fun HomeFilteringBottomSheet(
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(index)
                                 }
-                                currentFilteringInfo = defaultFilteringInfo
                             })
                     }
                 }
@@ -111,39 +115,43 @@ fun HomeFilteringBottomSheet(
                     modifier = Modifier
                         .padding(top = 16.dp),
                 ) {
-                    if (pagerState.currentPage == 0) {
-                        JobFilteringScreen(
-                            initOption = JobType.fromString(currentFilteringInfo.jobType).ordinal,
-                            onButtonClick = { jobType ->
-                                currentFilteringInfo = currentFilteringInfo.copy(
-                                    jobType = jobType.stringValue
-                                )
-                            },
-                        )
-                    } else {
-                        PlanFilteringScreen(
-                            currentFilteringInfo = currentFilteringInfo,
-                            updateGrade = {
-                                currentFilteringInfo = currentFilteringInfo.copy(
-                                    grade = Grade.entries[it].stringValue
-                                )
-                            },
-                            updateWorkingPeriod = {
-                                currentFilteringInfo = currentFilteringInfo.copy(
-                                    workingPeriod = WorkingPeriod.entries[it].stringValue
-                                )
-                            },
-                            updateStartYear = {
-                                currentFilteringInfo = currentFilteringInfo.copy(
-                                    startYear = it
-                                )
-                            },
-                            updateStartMonth = {
-                                currentFilteringInfo = currentFilteringInfo.copy(
-                                    startMonth = it
-                                )
-                            },
-                        )
+                    when (pagerState.currentPage) {
+                        0 -> {
+                            JobFilteringScreen(
+                                initOption = JobType.fromString(currentFilteringInfo.jobType).ordinal,
+                                onButtonClick = { jobType ->
+                                    currentFilteringInfo = currentFilteringInfo.copy(
+                                        jobType = jobType.stringValue
+                                    )
+                                },
+                            )
+                        }
+
+                        1 -> {
+                            PlanFilteringScreen(
+                                currentFilteringInfo = currentFilteringInfo,
+                                updateGrade = {
+                                    currentFilteringInfo = currentFilteringInfo.copy(
+                                        grade = Grade.entries[it].stringValue
+                                    )
+                                },
+                                updateWorkingPeriod = {
+                                    currentFilteringInfo = currentFilteringInfo.copy(
+                                        workingPeriod = WorkingPeriod.entries[it].stringValue
+                                    )
+                                },
+                                updateStartYear = {
+                                    currentFilteringInfo = currentFilteringInfo.copy(
+                                        startYear = it
+                                    )
+                                },
+                                updateStartMonth = {
+                                    currentFilteringInfo = currentFilteringInfo.copy(
+                                        startMonth = it
+                                    )
+                                },
+                            )
+                        }
                     }
                 }
 
