@@ -10,7 +10,6 @@ class HomePagingSource(
     private val dataSource: HomeDataSource
 ) : PagingSource<Int, Pair<Int, HomeRecommendInternResponseDto.Result>>() {
 
-    private var hasNextPage = false
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Pair<Int, HomeRecommendInternResponseDto.Result>> {
         return try {
@@ -18,7 +17,7 @@ class HomePagingSource(
 
             val response = dataSource.getRecommendIntern(sortBy = sortBy, page = nextParamKey)
             val totalCount = response.result.totalCount
-            hasNextPage = response.result.hasNextPage
+            val hasNextPage = response.result.hasNextPage
 
             LoadResult.Page(
                 data = response.result.result.map {
