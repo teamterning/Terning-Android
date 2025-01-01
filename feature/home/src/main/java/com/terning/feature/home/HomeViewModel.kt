@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,10 +37,11 @@ class HomeViewModel @Inject constructor(
     private val _homeSideEffect = MutableSharedFlow<HomeSideEffect>()
     val homeSideEffect get() = _homeSideEffect.asSharedFlow()
 
-    private val scrapStateFlow = MutableStateFlow(mapOf<Long, Boolean>())
+    private val scrapStateFlow: MutableStateFlow<Map<Long, Boolean>> =
+        MutableStateFlow(emptyMap())
 
-    private val _recommendInternFlow =
-        MutableStateFlow(homeRepository.getRecommendIntern(_homeState.value.sortBy.type))
+    private val _recommendInternFlow: MutableStateFlow<Flow<PagingData<HomeRecommendedIntern>>> =
+        MutableStateFlow(flow { })
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val recommendInternFlow: Flow<PagingData<HomeRecommendedIntern>> = combine(
@@ -55,25 +57,19 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun refreshRecommendInternFlow() {
-        _recommendInternFlow.value = getRecommendInternData()
+    fun getRecommendInternFlow() {
+        refreshScrapStateFlow()
+        refreshRecommendInternFlow()
     }
 
-    private fun getRecommendInternData(): Flow<PagingData<HomeRecommendedIntern>> {
-        val pagingFlow = homeRepository.getRecommendIntern(
+    private fun refreshScrapStateFlow() {
+        scrapStateFlow.value = emptyMap()
+    }
+
+    private fun refreshRecommendInternFlow() {
+        _recommendInternFlow.value = homeRepository.getRecommendIntern(
             sortBy = _homeState.value.sortBy.type
         ).cachedIn(viewModelScope)
-
-        return combine(
-            pagingFlow, scrapStateFlow
-        ) { paging, scrapState ->
-            paging.map { intern ->
-                val isScrapped = scrapState[intern.internshipAnnouncementId] ?: intern.isScrapped
-                intern.copy(
-                    isScrapped = isScrapped
-                )
-            }
-        }
     }
 
     fun getHomeUpcomingInternList() {

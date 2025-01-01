@@ -58,6 +58,7 @@ import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
 import okhttp3.internal.toImmutableList
+import timber.log.Timber
 
 const val NAME_MAX_LENGTH = 5
 private const val ZERO_TOTAL_COUNT = 0
@@ -88,6 +89,7 @@ fun HomeRoute(
         viewModel.getProfile()
         viewModel.getFilteringInfo()
         viewModel.getHomeUpcomingInternList()
+        viewModel.getRecommendInternFlow()
     }
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
