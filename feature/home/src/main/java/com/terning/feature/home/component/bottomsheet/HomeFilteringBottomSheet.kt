@@ -50,7 +50,7 @@ val filterType =
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeFilteringBottomSheet(
+internal fun HomeFilteringBottomSheet(
     modifier: Modifier = Modifier,
     defaultFilteringInfo: HomeFilteringInfo,
     onDismiss: () -> Unit,

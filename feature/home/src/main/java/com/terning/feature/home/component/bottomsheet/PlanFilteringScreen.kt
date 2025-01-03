@@ -35,15 +35,11 @@ import com.terning.core.designsystem.type.WorkingPeriod
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.domain.home.entity.HomeFilteringInfo
 import com.terning.feature.home.R
-import com.terning.feature.home.component.HomeYearMonthPicker
-import com.terning.feature.home.component.NULL_DATE
-import com.terning.feature.home.component.months
-import com.terning.feature.home.component.years
 import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlanFilteringScreen(
+internal fun PlanFilteringScreen(
     currentFilteringInfo: HomeFilteringInfo,
     updateGrade: (Int?) -> Unit,
     updateWorkingPeriod: (Int?) -> Unit,
@@ -192,7 +188,7 @@ fun PlanFilteringScreen(
 }
 
 @Composable
-fun ChangePlanFilteringRadioGroup(
+private fun ChangePlanFilteringRadioGroup(
     optionList: List<Int>,
     initOption: Int,
     isCheckBoxChecked: Boolean,
