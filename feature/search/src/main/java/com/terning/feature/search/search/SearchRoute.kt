@@ -4,6 +4,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,10 +39,10 @@ import okhttp3.internal.toImmutableList
 
 @Composable
 fun SearchRoute(
-    modifier: Modifier,
+    paddingValues: PaddingValues,
+    viewModel: SearchViewModel = hiltViewModel(),
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
-    viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -78,7 +79,7 @@ fun SearchRoute(
     }
 
     SearchScreen(
-        modifier = modifier,
+        paddingValues = paddingValues,
         bannerList = SearchViewModel.bannerList,
         searchViewsList = searchViewsList,
         searchScrapsList = searchScrapsList,
@@ -103,7 +104,7 @@ fun SearchRoute(
 
 @Composable
 fun SearchScreen(
-    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
     bannerList: List<com.terning.domain.search.entity.SearchBanner>,
     searchViewsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>,
     searchScrapsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>,
@@ -112,9 +113,9 @@ fun SearchScreen(
     onAdvertisementClick: (Int) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = Modifier
             .background(White)
+            .padding(paddingValues)
     ) {
         TerningImage(
             painter = R.drawable.ic_terning_logo_typo,
