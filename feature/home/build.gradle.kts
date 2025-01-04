@@ -1,3 +1,4 @@
+import com.terning.build_logic.extension.configureComposeMetrics
 import com.terning.build_logic.extension.setNamespace
 
 plugins {
@@ -10,11 +11,11 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:home"))
-    implementation(project(":domain:mypage"))
+    implementation(projects.domain.home)
+    implementation(projects.domain.mypage)
 
     // feature
-    implementation(project(":feature:dialog"))
+    implementation(projects.feature.dialog)
 
     // paging
     implementation(libs.paging.runtime)

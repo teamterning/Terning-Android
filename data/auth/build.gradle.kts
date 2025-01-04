@@ -10,5 +10,5 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:auth"))
+    implementation(projects.domain.auth)
 }

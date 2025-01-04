@@ -1,9 +1,9 @@
 [versions]
-compileSdk = "34"
+compileSdk = "35"
 minSdk = "28"
-targetSdk = "34"
-versionName = "1.1.8"
-versionCode = "10108"
+targetSdk = "35"
+versionName = "1.2.0"
+versionCode = "10200"
 kotlinCompilerExtensionVersion = "1.5.2"
 jvmTarget = "1.8"
 
@@ -184,6 +184,16 @@ paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.r
 paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 
+[bundles]
+retrofit =[
+    "retrofit-core",
+    "retrofit-kotlin-serialization",
+    "retrofit2-kotlinx-serialization-converter"
+]
+okhttp = [
+    "okhttp",
+    "okhttp-logging"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

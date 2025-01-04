@@ -10,7 +10,7 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:home"))
+    implementation(projects.domain.home)
 
     //paging
     implementation(libs.paging.runtime)

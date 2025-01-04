@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
@@ -83,7 +84,7 @@ class SignInViewModel @Inject constructor(
                 }
             }
         }.onFailure {
-            _signInSideEffects.emit(SignInSideEffect.ShowToast(R.string.server_failure))
+            _signInSideEffects.emit(SignInSideEffect.ShowToast(DesignSystemR.string.server_failure))
         }
     }
 

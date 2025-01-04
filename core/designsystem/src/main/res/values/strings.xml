@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="server_success">서버통신에 성공했어요</string>
+    <string name="server_failure">서버통신에 실패했어요</string>
+
     <!--ContentDescription-->
     <string name="ic_back">뒤로가기 버튼</string>
     <string name="ic_logo">탑 바 로고</string>

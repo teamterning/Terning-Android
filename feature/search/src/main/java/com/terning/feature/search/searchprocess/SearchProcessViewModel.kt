@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.search.entity.SearchResult
-import com.terning.feature.search.R
 import com.terning.feature.search.searchprocess.models.SearchProcessState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,6 +15,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
+
 
 @HiltViewModel
 class SearchProcessViewModel @Inject constructor(
@@ -44,7 +45,7 @@ class SearchProcessViewModel @Inject constructor(
                     _internSearchResultData.value = results
                 }
                 .onFailure {
-                    _sideEffect.emit(SearchProcessSideEffect.Toast(R.string.server_failure))
+                    _sideEffect.emit(SearchProcessSideEffect.Toast(DesignSystemR.string.server_failure))
                 }
         }
     }

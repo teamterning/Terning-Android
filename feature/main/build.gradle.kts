@@ -10,15 +10,15 @@ android {
 
 dependencies {
     // feature
-    implementation(project(":feature:calendar"))
-    implementation(project(":feature:dialog"))
-    implementation(project(":feature:filtering"))
-    implementation(project(":feature:home"))
-    implementation(project(":feature:intern"))
-    implementation(project(":feature:mypage"))
-    implementation(project(":feature:onboarding"))
-    implementation(project(":feature:search"))
+    implementation(projects.feature.calendar)
+    implementation(projects.feature.dialog)
+    implementation(projects.feature.filtering)
+    implementation(projects.feature.home)
+    implementation(projects.feature.intern)
+    implementation(projects.feature.mypage)
+    implementation(projects.feature.onboarding)
+    implementation(projects.feature.search)
 
     //domain
-    implementation(project(":domain:token"))
+    implementation(projects.domain.token)
 }

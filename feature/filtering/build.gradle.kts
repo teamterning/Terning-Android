@@ -10,6 +10,6 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:filtering"))
-    implementation(project(":domain:token"))
+    implementation(projects.domain.filtering)
+    implementation(projects.domain.token)
 }
