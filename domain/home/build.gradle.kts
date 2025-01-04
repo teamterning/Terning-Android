@@ -4,4 +4,6 @@ plugins {
 
 dependencies {
     implementation(libs.paging.common)
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.test)
 }

@@ -10,4 +10,3 @@ kotlin {
 }
 
 configureKotlin()
-configureCoroutineKotlin()
