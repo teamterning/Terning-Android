@@ -125,24 +125,23 @@ fun PlanFilteringScreen(
             modifier = Modifier
                 .padding(24.dp)
         )
-        Log.d("LYB", "current startYear = ${currentFilteringInfo.startYear}")
-        Log.d("LYB", "current startMonth = ${currentFilteringInfo.startMonth}")
+
         HomeYearMonthPicker(
             chosenYear = currentFilteringInfo.startYear,
             chosenMonth = currentFilteringInfo.startMonth,
             onYearChosen = { year, isInitialSelection ->
+                Log.d("LYB", "current year = ${year}")
+                updateStartYear(year)
                 if (year != null) {
-                    Log.d("LYB", "current year = ${year}")
-                    updateStartYear(year)
                     isCheckBoxChecked = false
                     isYearNull = false
                     isInitialNullState = isInitialSelection
                 }
             },
             onMonthChosen = { month, isInitialSelection ->
+                Log.d("LYB", "current month = ${month}")
+                updateStartMonth(month)
                 if (month != null) {
-                    Log.d("LYB", "current month = ${month}")
-                    updateStartMonth(month)
                     isCheckBoxChecked = false
                     isMonthNull = false
                     isInitialNullState = isInitialSelection

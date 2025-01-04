@@ -75,13 +75,12 @@ fun HomeYearMonthPicker(
 
     val startYearIndex =
         if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
-            .takeIf { it >= 0 } ?: 0
+            .takeIf { it >= 0 } ?: yearsList.lastIndex
     Log.d("LYB", "INSIDE datapicker startYearIndex = $startYearIndex")
     val startMonthIndex =
         if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: "-"}월")
-            .takeIf { it >= 0 } ?: 0
+            .takeIf { it >= 0 } ?: monthsList.lastIndex
     Log.d("LYB", "INSIDE datapicker startMonthIndex = $startMonthIndex")
-
 
     Row(
         modifier = modifier
@@ -139,27 +138,20 @@ fun DatePicker(
     LaunchedEffect(itemHeightPixel, startIndex) {
         if (itemHeightPixel > 0 && startIndex >= 0) scrollState.scrollToItem(startIndex)
     }
-    // 현재 index를 상태로 저장
+
     var savedIndex by remember { mutableIntStateOf(startIndex) }
 
     LaunchedEffect(itemHeightPixel, savedIndex) {
-//        if (itemHeightPixel > 0 && savedIndex > 0) {
         scrollState.scrollToItem(savedIndex)
     }
-    // }
 
     LaunchedEffect(scrollState) {
         snapshotFlow { scrollState.firstVisibleItemIndex }
             .map { index ->
-//                savedIndex = index // 현재 index를 저장
                 val hasNullDate =
                     items.size == (END_YEAR - START_YEAR + 1) || items.size == (END_MONTH - START_MONTH + 1)
                 val adjustedItems = if (hasNullDate) items + NULL_DATE else items
                 Log.d("LYB", "***index*** = $index")
-
-                if (index == 12) savedIndex = 12
-                if (index == 21) savedIndex = 21
-                Log.d("LYB", "***savedIndex*** = $savedIndex")
                 adjustedItems.getOrNull(index)
             }
             .distinctUntilChanged()
