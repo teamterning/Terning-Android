@@ -52,6 +52,7 @@ import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.home.component.HomeFilteringScreen
 import com.terning.feature.home.component.HomeRecommendEmptyIntern
+import com.terning.feature.home.component.HomeSortingButton
 import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
@@ -308,7 +309,7 @@ fun HomeScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        SortingButton(
+                        HomeSortingButton(
                             sortBy = homeState.sortBy.ordinal,
                             onCLick = { updateSortingSheetVisibility(true) },
                         )
