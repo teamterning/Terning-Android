@@ -18,6 +18,7 @@ interface HomeService {
     @GET("api/v1/home")
     suspend fun getRecommendIntern(
         @Query("sortBy") sortBy: String,
+        @Query("page") page: Int,
     ): BaseResponse<HomeRecommendInternResponseDto>
 
     @GET("api/v1/filters")

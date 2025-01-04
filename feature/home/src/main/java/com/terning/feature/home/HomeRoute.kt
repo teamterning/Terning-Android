@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
@@ -46,7 +47,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.type.Grade
 import com.terning.core.designsystem.type.WorkingPeriod
 import com.terning.domain.home.entity.HomeFilteringInfo
-import com.terning.domain.home.entity.HomeRecommendIntern
+import com.terning.domain.home.entity.HomeRecommendedIntern
 import com.terning.domain.home.entity.HomeUpcomingIntern
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
@@ -59,6 +60,7 @@ import com.terning.feature.home.component.HomeUpcomingInternScreen
 import okhttp3.internal.toImmutableList
 
 const val NAME_MAX_LENGTH = 5
+private const val ZERO_TOTAL_COUNT = 0
 
 @Composable
 fun HomeRoute(
@@ -85,8 +87,8 @@ fun HomeRoute(
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
         viewModel.getFilteringInfo()
-        viewModel.getRecommendInternsData(0)
         viewModel.getHomeUpcomingInternList()
+        viewModel.getRecommendInternFlow()
     }
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
@@ -120,7 +122,7 @@ fun HomeRoute(
         updateSortingSheetVisibility = viewModel::updateSortingSheetVisibility,
         updateSortBy = viewModel::updateSortBy,
         getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
-        getRecommendInternsData = viewModel::getRecommendInternsData,
+        updateInternModelScrapState = viewModel::updateInternScrapState,
         viewModel = viewModel,
     )
 }
@@ -135,10 +137,11 @@ fun HomeScreen(
     updateSortingSheetVisibility: (Boolean) -> Unit,
     updateSortBy: (Int) -> Unit,
     getHomeUpcomingInternList: () -> Unit,
-    getRecommendInternsData: (Int) -> Unit,
+    updateInternModelScrapState: () -> Unit,
     viewModel: HomeViewModel,
 ) {
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
+    val recommendedInternList = viewModel.recommendInternFlow.collectAsLazyPagingItems()
 
     val homeUserName = when (homeState.homeUserNameState) {
         is UiState.Success -> (homeState.homeUserNameState as UiState.Success<String>).data
@@ -150,14 +153,10 @@ fun HomeScreen(
         else -> HomeFilteringInfo(null, null, null, null)
     }
 
-    val homeRecommendInternList = when (homeState.homeRecommendInternState) {
-        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.homeRecommendInternDetail.toImmutableList()
-        else -> listOf()
-    }
-
-    val homeRecommendInternTotal = when (homeState.homeRecommendInternState) {
-        is UiState.Success -> (homeState.homeRecommendInternState as UiState.Success<HomeRecommendIntern>).data.totalCount
-        else -> 0
+    val homeRecommendInternTotal = remember(recommendedInternList.loadState.refresh) {
+        if(recommendedInternList.itemCount > 0) {
+            recommendedInternList[0]?.totalCount ?: ZERO_TOTAL_COUNT
+        } else { ZERO_TOTAL_COUNT }
     }
 
     var changeFilteringSheetState by remember { mutableStateOf(false) }
@@ -216,9 +215,7 @@ fun HomeScreen(
                             updateRecommendDialogVisibility(false)
                             if (isScrapCancelled) {
                                 getHomeUpcomingInternList()
-                                getRecommendInternsData(
-                                    homeState.sortBy.ordinal,
-                                )
+                                updateInternModelScrapState()
                             }
                         }
                     )
@@ -235,9 +232,7 @@ fun HomeScreen(
                         onDismissRequest = { isScrapped ->
                             updateRecommendDialogVisibility(false)
                             if (isScrapped) {
-                                getRecommendInternsData(
-                                    homeState.sortBy.ordinal,
-                                )
+                                updateInternModelScrapState()
                                 getHomeUpcomingInternList()
                             }
                         },
@@ -324,40 +319,43 @@ fun HomeScreen(
                 }
             }
 
-            if (homeRecommendInternList.isNotEmpty()) {
-                items(homeRecommendInternList.size) { index ->
-                    RecommendInternItem(
-                        navigateToIntern = navigateToIntern,
-                        intern = homeRecommendInternList[index],
-                        onScrapButtonClicked = {
-                            amplitudeTracker.track(
-                                type = EventType.CLICK,
-                                name = "home_scrap"
-                            )
-                            updateRecommendDialogVisibility(true)
-                            with(homeRecommendInternList[index]) {
-                                viewModel.updateHomeInternModel(
-                                    internshipAnnouncementId = internshipAnnouncementId,
-                                    companyImage = companyImage,
-                                    title = title,
-                                    dDay = dDay,
-                                    deadline = deadline,
-                                    workingPeriod = workingPeriod,
-                                    isScrapped = isScrapped,
-                                    color = color,
-                                    startYearMonth = startYearMonth,
-                                )
-                            }
-                        }
-                    )
-                }
-            } else {
+
+            if (recommendedInternList.itemCount == 0) {
                 item {
                     HomeRecommendEmptyIntern(
                         text =
                         if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) R.string.home_recommend_no_filtering
                         else R.string.home_recommend_no_intern
                     )
+                }
+            } else {
+                items(recommendedInternList.itemCount, key = { it }) { index ->
+                    recommendedInternList[index]?.run {
+                        RecommendInternItem(
+                            navigateToIntern = navigateToIntern,
+                            intern = this,
+                            onScrapButtonClicked = {
+                                amplitudeTracker.track(
+                                    type = EventType.CLICK,
+                                    name = "home_scrap"
+                                )
+                                updateRecommendDialogVisibility(true)
+                                with(this) {
+                                    viewModel.updateHomeInternModel(
+                                        internshipAnnouncementId = internshipAnnouncementId,
+                                        companyImage = companyImage,
+                                        title = title,
+                                        dDay = dDay,
+                                        deadline = deadline,
+                                        workingPeriod = workingPeriod,
+                                        isScrapped = isScrapped,
+                                        color = color,
+                                        startYearMonth = startYearMonth,
+                                    )
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -367,7 +365,7 @@ fun HomeScreen(
 
 @Composable
 private fun RecommendInternItem(
-    intern: HomeRecommendIntern.HomeRecommendInternDetail,
+    intern: HomeRecommendedIntern,
     navigateToIntern: (Long) -> Unit,
     onScrapButtonClicked: (Long) -> Unit,
 ) {

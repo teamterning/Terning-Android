@@ -7,6 +7,7 @@ import com.terning.domain.home.entity.HomeRecommendIntern
 import com.terning.domain.home.entity.HomeUpcomingIntern
 
 data class HomeState(
+    val totalCount: Int = 0,
     val sortBy: SortBy = SortBy.EARLIEST,
     val sortingSheetVisibility: Boolean = false,
     val homeUserNameState: UiState<String> = UiState.Loading,
