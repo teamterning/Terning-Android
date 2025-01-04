@@ -45,7 +45,7 @@ import com.terning.feature.home.R
 import kotlinx.coroutines.launch
 import okhttp3.internal.toImmutableList
 
-val filterType =
+private val filterType =
     listOf(R.string.change_job_type_filter, R.string.change_plan_type_filter).toImmutableList()
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,7 +61,7 @@ internal fun HomeFilteringBottomSheet(
     var currentFilteringInfo by remember {
         mutableStateOf(defaultFilteringInfo)
     }
-    val pagerState = rememberPagerState { 2 }
+    val pagerState = rememberPagerState { filterType.size }
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(pagerState.currentPage) {

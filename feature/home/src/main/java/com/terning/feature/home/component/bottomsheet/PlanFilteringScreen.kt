@@ -16,6 +16,7 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -70,7 +71,11 @@ internal fun PlanFilteringScreen(
         ChangeFilteringTitleText(
             text = stringResource(id = R.string.change_filter_grade_title),
             modifier = Modifier
-                .padding(start = 23.dp, end = 23.dp, bottom = 12.dp)
+                .padding(
+                    start = 23.dp,
+                    end = 23.dp,
+                    bottom = 12.dp
+                )
         )
 
         ChangePlanFilteringRadioGroup(
@@ -152,7 +157,11 @@ internal fun PlanFilteringScreen(
             horizontalArrangement = Arrangement.End,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 13.dp, top = 26.dp, end = 24.dp),
+                .padding(
+                    bottom = 13.dp,
+                    top = 26.dp,
+                    end = 24.dp
+                ),
         ) {
             CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
                 Checkbox(
@@ -197,8 +206,11 @@ private fun ChangePlanFilteringRadioGroup(
     modifier: Modifier = Modifier,
 ) {
     var selectedIndex by remember { mutableIntStateOf(initOption) }
-    if (isCheckBoxChecked) {
-        selectedIndex = -1
+
+    LaunchedEffect(isCheckBoxChecked) {
+        if (isCheckBoxChecked) {
+            selectedIndex = -1
+        }
     }
 
     LazyVerticalGrid(
