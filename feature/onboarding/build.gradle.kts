@@ -10,8 +10,8 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:auth"))
-    implementation(project(":domain:token"))
+    implementation(projects.domain.auth)
+    implementation(projects.domain.token)
 
     implementation(libs.kakao.user)
 }

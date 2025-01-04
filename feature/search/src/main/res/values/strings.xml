@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="server_success">서버통신에 성공했어요</string>
-    <string name="server_failure">서버통신에 실패했어요</string>
 
     <!--Search-->
     <string name="search_text_field_hint">관심있는 인턴 공고 키워드를 검색해 보세요</string>

@@ -1,5 +1,6 @@
 import com.terning.build_logic.convention.configureHiltAndroid
 import com.terning.build_logic.convention.configureSerializationAndroid
+import com.terning.build_logic.extension.configureComposeMetrics
 import com.terning.build_logic.extension.libs
 
 plugins {
@@ -20,6 +21,7 @@ android {
 
 configureHiltAndroid()
 configureSerializationAndroid()
+configureComposeMetrics()
 
 dependencies {
     val libs = project.extensions.libs

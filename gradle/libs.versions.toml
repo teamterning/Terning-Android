@@ -1,9 +1,9 @@
 [versions]
-compileSdk = "34"
+compileSdk = "35"
 minSdk = "28"
-targetSdk = "34"
-versionName = "1.1.8"
-versionCode = "10108"
+targetSdk = "35"
+versionName = "1.2.0"
+versionCode = "10200"
 kotlinCompilerExtensionVersion = "1.5.2"
 jvmTarget = "1.8"
 
@@ -175,7 +175,18 @@ kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoVe
 
 process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix" }
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
-amplitude = { group = "com.amplitude", name = "analytics-android", version.ref="amplitude" }
+amplitude = { group = "com.amplitude", name = "analytics-android", version.ref = "amplitude" }
+
+[bundles]
+retrofit =[
+    "retrofit-core",
+    "retrofit-kotlin-serialization",
+    "retrofit2-kotlinx-serialization-converter"
+]
+okhttp = [
+    "okhttp",
+    "okhttp-logging"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

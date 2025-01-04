@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.calendar.repository.CalendarRepository
-import com.terning.feature.calendar.R
 import com.terning.feature.calendar.month.model.CalendarMonthUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class CalendarMonthViewModel @Inject constructor(
@@ -40,7 +40,7 @@ class CalendarMonthViewModel @Inject constructor(
                     }
                 },
                 onFailure = {
-                    _sideEffect.emit(CalendarMonthSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffect.emit(CalendarMonthSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
             )
     }
