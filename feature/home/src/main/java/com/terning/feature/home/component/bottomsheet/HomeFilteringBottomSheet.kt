@@ -245,8 +245,8 @@ fun TerningTab(
 
 private fun checkButtonEnable(currentFilteringInfo: HomeFilteringInfo): Boolean =
     with(currentFilteringInfo) {
-        listOf(grade, workingPeriod, startYear, startMonth).all { it == null } ||
-                listOf(grade, workingPeriod, startYear, startMonth).none { it == null }
+        listOf(grade, workingPeriod, startYear, startMonth).all { it == null || it == 0 } ||
+                listOf(grade, workingPeriod, startYear, startMonth).none { it == null || it == 0 }
     }
 
 @Composable
