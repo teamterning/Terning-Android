@@ -1,4 +1,4 @@
-package com.terning.feature.home.component
+package com.terning.feature.home.component.bottomsheet
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -52,11 +52,10 @@ class PickerState {
 }
 
 @Composable
-fun rememberPickerState() = remember { PickerState() }
+private fun rememberPickerState() = remember { PickerState() }
 
 @Composable
-fun HomeYearMonthPicker(
-    modifier: Modifier = Modifier,
+internal fun HomeYearMonthPicker(
     chosenYear: Int?,
     chosenMonth: Int?,
     onYearChosen: (Int?, Boolean) -> Unit,
@@ -65,7 +64,8 @@ fun HomeYearMonthPicker(
     isMonthNull: Boolean,
     yearsList: ImmutableList<String>,
     monthsList: ImmutableList<String>,
-    isInitialNullState: Boolean
+    isInitialNullState: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     val yearPickerState = rememberPickerState()
     val monthPickerState = rememberPickerState()
@@ -74,10 +74,10 @@ fun HomeYearMonthPicker(
 
     val startYearIndex =
         if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
-            .takeIf { it >= 0 } ?: 0
+            .takeIf { it >= 0 } ?: yearsList.lastIndex
     val startMonthIndex =
         if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: "-"}월")
-            .takeIf { it >= 0 } ?: 0
+            .takeIf { it >= 0 } ?: monthsList.lastIndex
 
     Row(
         modifier = modifier
@@ -116,7 +116,7 @@ fun HomeYearMonthPicker(
 }
 
 @Composable
-fun DatePicker(
+private fun DatePicker(
     items: ImmutableList<String>,
     modifier: Modifier = Modifier,
     pickerState: PickerState = rememberPickerState(),
@@ -133,6 +133,12 @@ fun DatePicker(
 
     LaunchedEffect(itemHeightPixel, startIndex) {
         if (itemHeightPixel > 0 && startIndex >= 0) scrollState.scrollToItem(startIndex)
+    }
+
+    val savedIndex by remember { mutableIntStateOf(startIndex) }
+
+    LaunchedEffect(itemHeightPixel, savedIndex) {
+        scrollState.scrollToItem(savedIndex)
     }
 
     LaunchedEffect(scrollState) {
@@ -196,7 +202,7 @@ fun DatePicker(
 }
 
 @Composable
-fun DatePickerContent(
+private fun DatePickerContent(
     color: Color,
     text: String,
     modifier: Modifier = Modifier,

@@ -1,0 +1,68 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M5.028,11.524L5.084,11.566C5.579,11.939 5.677,12.639 5.304,13.134L4.768,13.845C4.449,14.268 3.847,14.353 3.424,14.034L3.104,13.793C2.681,13.474 2.597,12.872 2.916,12.448L3.451,11.738C3.825,11.243 4.525,11.144 5.02,11.517L5.028,11.524Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"/>
+  <path
+      android:pathData="M7.225,12.46L7.281,12.502C7.776,12.876 7.874,13.576 7.501,14.071L6.61,15.253C6.291,15.676 5.689,15.76 5.266,15.441L4.947,15.201C4.523,14.882 4.439,14.279 4.758,13.856L5.649,12.674C6.022,12.179 6.722,12.081 7.217,12.454L7.225,12.46Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"/>
+  <path
+      android:pathData="M9.086,13.844L9.142,13.886C9.637,14.259 9.735,14.959 9.362,15.455L8.471,16.636C8.152,17.059 7.55,17.144 7.127,16.825L6.807,16.584C6.384,16.265 6.299,15.663 6.618,15.24L7.509,14.058C7.882,13.563 8.583,13.465 9.078,13.838L9.086,13.844Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"/>
+  <path
+      android:pathData="M10.568,15.71L10.623,15.752C11.119,16.126 11.217,16.826 10.844,17.321L10.308,18.032C9.989,18.455 9.387,18.539 8.963,18.22L8.644,17.979C8.221,17.66 8.136,17.058 8.455,16.635L8.991,15.924C9.364,15.429 10.064,15.331 10.56,15.704L10.568,15.71Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"/>
+  <path
+      android:pathData="M10.15,5.72L9,5.75C8.89,5.75 8.78,5.78 8.67,5.83L6,7.18C5.75,7.3 5.46,7.29 5.23,7.13L3.81,6.17C3.47,5.94 3,6.02 2.76,6.36L0.8,9.17C0.57,9.51 0.64,9.97 0.97,10.21L2.23,11.13L2.87,12.49"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"/>
+  <path
+      android:pathData="M19.66,12.78L20.36,12.03C20.52,11.85 20.72,11.73 20.94,11.66L22.93,11.08C23.21,11 23.38,10.69 23.29,10.4L22.2,6.63C22.12,6.35 21.84,6.18 21.56,6.25L19.67,6.71C19.43,6.77 19.17,6.75 18.94,6.66L12.5,4.15C12.02,3.96 11.47,4.1 11.13,4.49L8.97,6.95C8.67,7.29 8.57,7.76 8.71,8.2L9.33,10.19C9.51,10.77 10.06,11.14 10.64,11.08C11.38,11.01 12.09,10.55 11.96,9.52L11.66,8.2L12.05,7.81L19.65,12.79L19.66,12.78Z"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"/>
+  <path
+      android:pathData="M18.39,11.97L19.31,12.56C19.8,12.93 19.98,13.79 19.61,14.29L19.53,14.4C19.16,14.89 18.46,14.99 17.97,14.62L15.19,12.88"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M14.93,12.72L17.54,14.4C18.03,14.77 18.24,15.54 17.87,16.03L17.79,16.14C17.42,16.63 16.52,16.6 16.03,16.23L13.43,14.48"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M13.42,14.48L15.5,15.9C15.99,16.27 16.32,16.95 15.95,17.62L15.87,17.73C15.5,18.22 14.65,18.44 14.15,18.07L12.41,16.85"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M12.4,16.85L13.54,17.77C14.03,18.14 14.13,18.84 13.76,19.33L13.68,19.44C13.31,19.93 12.61,20.03 12.12,19.66L10.06,18.3"
+      android:strokeLineJoin="round"
+      android:strokeWidth="1.25"
+      android:fillColor="#00000000"
+      android:strokeColor="#1EAC61"
+      android:strokeLineCap="round"/>
+</vector>

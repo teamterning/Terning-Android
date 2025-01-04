@@ -103,14 +103,21 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun putFilteringInfo(grade: String, workingPeriod: String, year: Int, month: Int) {
+    fun putFilteringInfo(
+        grade: String?,
+        workingPeriod: String?,
+        year: Int?,
+        month: Int?,
+        jobType: String
+    ) {
         viewModelScope.launch {
             homeRepository.putFilteringInfo(
                 ChangeFilteringRequestModel(
                     grade,
                     workingPeriod,
                     year,
-                    month
+                    month,
+                    jobType
                 )
             ).onSuccess {
                 getFilteringInfo()

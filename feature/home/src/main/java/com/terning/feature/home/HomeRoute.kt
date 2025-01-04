@@ -32,7 +32,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
-import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.extension.noRippleClickable
@@ -44,20 +43,20 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.designsystem.type.Grade
-import com.terning.core.designsystem.type.WorkingPeriod
+import com.terning.core.designsystem.type.JobType
 import com.terning.domain.home.entity.HomeFilteringInfo
 import com.terning.domain.home.entity.HomeRecommendedIntern
 import com.terning.domain.home.entity.HomeUpcomingIntern
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
-import com.terning.feature.home.component.HomeFilteringBottomSheet
 import com.terning.feature.home.component.HomeFilteringScreen
 import com.terning.feature.home.component.HomeRecommendEmptyIntern
+import com.terning.feature.home.component.HomeSortingButton
 import com.terning.feature.home.component.HomeUpcomingEmptyFilter
 import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
-import okhttp3.internal.toImmutableList
+import com.terning.feature.home.component.bottomsheet.HomeFilteringBottomSheet
+import kotlinx.collections.immutable.toImmutableList
 
 const val NAME_MAX_LENGTH = 5
 private const val ZERO_TOTAL_COUNT = 0
@@ -150,13 +149,21 @@ fun HomeScreen(
 
     val homeFilteringInfo = when (homeState.homeFilteringInfoState) {
         is UiState.Success -> (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfo>).data
-        else -> HomeFilteringInfo(null, null, null, null)
+        else -> HomeFilteringInfo(
+            grade = null,
+            workingPeriod = null,
+            startYear = null,
+            startMonth = null,
+            jobType = JobType.TOTAL.stringValue
+        )
     }
 
     val homeRecommendInternTotal = remember(recommendedInternList.loadState.refresh) {
-        if(recommendedInternList.itemCount > 0) {
+        if (recommendedInternList.itemCount > 0) {
             recommendedInternList[0]?.totalCount ?: ZERO_TOTAL_COUNT
-        } else { ZERO_TOTAL_COUNT }
+        } else {
+            ZERO_TOTAL_COUNT
+        }
     }
 
     var changeFilteringSheetState by remember { mutableStateOf(false) }
@@ -187,19 +194,14 @@ fun HomeScreen(
 
     if (changeFilteringSheetState) {
         HomeFilteringBottomSheet(
-            defaultGrade = homeFilteringInfo.grade?.let { Grade.fromString(it) },
-            defaultWorkingPeriod = homeFilteringInfo.workingPeriod?.let {
-                WorkingPeriod.fromString(it)
-            },
-            defaultStartYear = homeFilteringInfo.startYear,
-            defaultStartMonth = homeFilteringInfo.startMonth,
             onDismiss = { changeFilteringSheetState = false },
-            onChangeButtonClick = { grade, workingPeriod, year, month ->
+            defaultFilteringInfo = homeFilteringInfo,
+            onChangeButtonClick = { grade, workingPeriod, year, month, jobType ->
                 amplitudeTracker.track(
                     type = EventType.CLICK,
                     name = "home_filtering_save"
                 )
-                viewModel.putFilteringInfo(grade, workingPeriod, year, month)
+                viewModel.putFilteringInfo(grade, workingPeriod, year, month, jobType)
                 changeFilteringSheetState = false
             }
         )
@@ -306,7 +308,7 @@ fun HomeScreen(
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
-                        SortingButton(
+                        HomeSortingButton(
                             sortBy = homeState.sortBy.ordinal,
                             onCLick = { updateSortingSheetVisibility(true) },
                         )
@@ -319,13 +321,10 @@ fun HomeScreen(
                 }
             }
 
-
             if (recommendedInternList.itemCount == 0) {
                 item {
                     HomeRecommendEmptyIntern(
-                        text =
-                        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) R.string.home_recommend_no_filtering
-                        else R.string.home_recommend_no_intern
+                        text = R.string.home_recommend_no_intern
                     )
                 }
             } else {
