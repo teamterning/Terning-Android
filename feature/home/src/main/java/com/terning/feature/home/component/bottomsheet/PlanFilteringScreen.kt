@@ -48,8 +48,8 @@ internal fun PlanFilteringScreen(
     updateStartYear: (Int?) -> Unit,
     updateStartMonth: (Int?) -> Unit,
 ) {
-    var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == null) }
-    var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == null) }
+    var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == 0 || currentFilteringInfo.startYear == null) }
+    var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == 0 || currentFilteringInfo.startMonth == null) }
 
     var isCheckBoxChecked by remember { mutableStateOf(false) }
 
@@ -131,16 +131,16 @@ internal fun PlanFilteringScreen(
             chosenYear = currentFilteringInfo.startYear,
             chosenMonth = currentFilteringInfo.startMonth,
             onYearChosen = { year, isInitialSelection ->
+                updateStartYear(year)
                 if (year != null) {
-                    updateStartYear(year)
                     isCheckBoxChecked = false
                     isYearNull = false
                     isInitialNullState = isInitialSelection
                 }
             },
             onMonthChosen = { month, isInitialSelection ->
+                updateStartMonth(month)
                 if (month != null) {
-                    updateStartMonth(month)
                     isCheckBoxChecked = false
                     isMonthNull = false
                     isInitialNullState = isInitialSelection
