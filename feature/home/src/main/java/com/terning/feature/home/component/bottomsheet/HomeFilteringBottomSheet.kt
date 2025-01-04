@@ -115,8 +115,8 @@ internal fun HomeFilteringBottomSheet(
                     beyondViewportPageCount = 1,
                     modifier = Modifier
                         .padding(top = 16.dp),
-                ) {
-                    when (pagerState.currentPage) {
+                ) { currentPage ->
+                    when (currentPage) {
                         0 -> {
                             JobFilteringScreen(
                                 initOption = JobType.fromString(currentFilteringInfo.jobType).ordinal,
