@@ -64,21 +64,22 @@ android {
     }
 }
 
+
 dependencies {
     // feature
-    implementation(project(":feature:main"))
+    implementation(projects.feature.main)
 
     // data
-    implementation(project(":data:auth"))
-    implementation(project(":data:calendar"))
-    implementation(project(":data:filtering"))
-    implementation(project(":data:home"))
-    implementation(project(":data:intern"))
-    implementation(project(":data:mypage"))
-    implementation(project(":data:scrap"))
-    implementation(project(":data:token"))
-    implementation(project(":data:tokenreissue"))
-    implementation(project(":data:search"))
+    implementation(projects.data.auth)
+    implementation(projects.data.calendar)
+    implementation(projects.data.filtering)
+    implementation(projects.data.home)
+    implementation(projects.data.intern)
+    implementation(projects.data.mypage)
+    implementation(projects.data.scrap)
+    implementation(projects.data.token)
+    implementation(projects.data.tokenreissue)
+    implementation(projects.data.search)
 
     implementation(libs.timber)
     implementation(libs.kakao.user)

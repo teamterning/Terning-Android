@@ -6,7 +6,6 @@ import com.kakao.sdk.user.UserApiClient
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.domain.token.repository.TokenRepository
-import com.terning.feature.mypage.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
@@ -35,7 +35,7 @@ class MyPageViewModel @Inject constructor(
                 logoutApp()
             } else {
                 viewModelScope.launch {
-                    _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
             }
         }
@@ -47,7 +47,7 @@ class MyPageViewModel @Inject constructor(
                 tokenRepository.clearInfo()
                 _sideEffects.emit(MyPageSideEffect.RestartApp)
             }.onFailure {
-                _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
         }
     }
@@ -58,7 +58,7 @@ class MyPageViewModel @Inject constructor(
                 quitApp()
             } else {
                 viewModelScope.launch {
-                    _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
             }
         }
@@ -70,7 +70,7 @@ class MyPageViewModel @Inject constructor(
                 tokenRepository.clearInfo()
                 _sideEffects.emit(MyPageSideEffect.RestartApp)
             }.onFailure {
-                _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
         }
     }
@@ -86,7 +86,7 @@ class MyPageViewModel @Inject constructor(
                         authType = response.authType
                     )
                 }.onFailure {
-                    _sideEffects.emit(MyPageSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
                     _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
                 }
         }

@@ -10,5 +10,5 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:scrap"))
+    implementation(projects.domain.scrap)
 }

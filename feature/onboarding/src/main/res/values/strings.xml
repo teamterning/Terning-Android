@@ -2,9 +2,6 @@
 <resources>
     <string name="app_name">terning</string>
 
-    <string name="server_success">서버통신에 성공했어요</string>
-    <string name="server_failure">서버통신에 실패했어요</string>
-
     <!--SignIn-->
     <string name="sign_in_kakao_button">카카오로 로그인하기</string>
     <string name="sign_in_kakao_login_fail">카카오톡 로그인에 실패했습니다</string>

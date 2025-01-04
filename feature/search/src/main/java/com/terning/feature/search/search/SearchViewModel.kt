@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
+
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -43,7 +45,7 @@ class SearchViewModel @Inject constructor(
                         searchViewsList = UiState.Success(searchViewsList)
                     )
                 }.onFailure {
-                    _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
+                    _sideEffect.emit(SearchSideEffect.Toast(DesignSystemR.string.server_failure))
                 }
         }
     }
@@ -56,7 +58,7 @@ class SearchViewModel @Inject constructor(
                         searchScrapsList = UiState.Success(searchScrapsList)
                     )
                 }.onFailure {
-                    _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
+                    _sideEffect.emit(SearchSideEffect.Toast(DesignSystemR.string.server_failure))
                 }
         }
     }

@@ -10,8 +10,8 @@ android {
 
 dependencies {
     // core
-    implementation(project(":core:local"))
+    implementation(projects.core.local)
 
     //domain
-    implementation(project(":domain:token"))
+    implementation(projects.domain.token)
 }
