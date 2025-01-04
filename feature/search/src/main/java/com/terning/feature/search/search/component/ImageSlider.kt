@@ -1,6 +1,5 @@
 package com.terning.feature.search.search.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey200
 import kotlinx.coroutines.delay
@@ -29,7 +28,7 @@ fun ImageSlider(
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
-        pageCount = { Int.MAX_VALUE }
+        pageCount = { if (images.isEmpty()) 0 else Int.MAX_VALUE }
     )
     val autoScroll = remember { mutableStateOf(true) }
 
@@ -37,8 +36,8 @@ fun ImageSlider(
         if (autoScroll.value) {
             while (true) {
                 delay(2500)
-                if (!pagerState.isScrollInProgress) {
-                    val nextPage = pagerState.currentPage + 1
+                if (!pagerState.isScrollInProgress && images.isNotEmpty()) {
+                    val nextPage = (pagerState.currentPage + 1) % images.size
                     pagerState.animateScrollToPage(nextPage)
                 }
             }
@@ -51,30 +50,32 @@ fun ImageSlider(
             .background(Grey200),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = modifier,
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            HorizontalPager(
-                state = pagerState,
+        if (images.isNotEmpty()) {
+            Box(
                 modifier = modifier,
-                beyondViewportPageCount = 1
-            ) { currentPage ->
-                val pageIndex = currentPage % images.size
-                Image(
-                    painter = painterResource(id = images[pageIndex].imageRes),
-                    contentDescription = null,
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(112.dp)
-                        .noRippleClickable { onAdvertisementClick(pageIndex) },
-                    contentScale = ContentScale.Crop,
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = modifier,
+                    beyondViewportPageCount = 1
+                ) { currentPage ->
+                    val pageIndex = currentPage % images.size
+                    AsyncImage(
+                        model = images[pageIndex].url,
+                        contentDescription = null,
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .height(112.dp)
+                            .noRippleClickable { onAdvertisementClick(pageIndex) },
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                DotsIndicator(
+                    pageCount = images.size,
+                    currentPage = pagerState.currentPage % images.size
                 )
             }
-            DotsIndicator(
-                pageCount = images.size,
-                currentPage = pagerState.currentPage % images.size
-            )
         }
     }
 }

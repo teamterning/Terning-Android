@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,6 +46,7 @@ fun SearchRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
+    val bannerState by viewModel.bannerState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     val viewState by viewModel.viewState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     val scrapState by viewModel.scrapState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
@@ -55,6 +55,7 @@ fun SearchRoute(
     LaunchedEffect(key1 = true) {
         viewModel.getSearchViews()
         viewModel.getSearchScraps()
+        viewModel.getSearchBanners()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
@@ -66,6 +67,11 @@ fun SearchRoute(
                     }
                 }
             }
+    }
+
+    val bannerList = when (bannerState.searchBannersList) {
+        is UiState.Success -> (bannerState.searchBannersList as UiState.Success<List<com.terning.domain.search.entity.SearchBanner>>).data.toImmutableList()
+        else -> emptyList()
     }
 
     val searchViewsList = when (viewState.searchViewsList) {
@@ -80,7 +86,7 @@ fun SearchRoute(
 
     SearchScreen(
         paddingValues = paddingValues,
-        bannerList = SearchViewModel.bannerList,
+        bannerList = bannerList,
         searchViewsList = searchViewsList,
         searchScrapsList = searchScrapsList,
         navigateToSearchProcess = {
@@ -97,7 +103,7 @@ fun SearchRoute(
                 name = "quest_banner"
             )
             CustomTabsIntent.Builder().build()
-                .launchUrl(context, SearchViewModel.bannerList[pageIndex].url.toUri())
+                .launchUrl(context, bannerList[pageIndex].url.toUri())
         }
     )
 }

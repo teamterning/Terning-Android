@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.state.UiState
 import com.terning.feature.search.R
+import com.terning.feature.search.search.model.SearchBannerListState
 import com.terning.feature.search.search.model.SearchScrapsListState
 import com.terning.feature.search.search.model.SearchViewsListState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,12 +28,20 @@ class SearchViewModel @Inject constructor(
         MutableStateFlow(SearchScrapsListState())
     val scrapState: StateFlow<SearchScrapsListState> = _scrapState.asStateFlow()
 
+    private val _bannerState: MutableStateFlow<SearchBannerListState> =
+        MutableStateFlow(SearchBannerListState())
+    val bannerState: StateFlow<SearchBannerListState> = _bannerState.asStateFlow()
+
     private val _sideEffect: MutableSharedFlow<SearchSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
+
+    private val _bannerList: MutableStateFlow<List<com.terning.domain.search.entity.SearchBanner>> =
+        MutableStateFlow(emptyList())
 
     init {
         getSearchViews()
         getSearchScraps()
+        getSearchBanners()
     }
 
     fun getSearchViews() {
@@ -61,20 +70,17 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    companion object {
-        val bannerList: List<com.terning.domain.search.entity.SearchBanner> = listOf(
-            com.terning.domain.search.entity.SearchBanner(
-                imageRes = R.drawable.img_ad_1,
-                url = "https://www.instagram.com/p/DBWCO97TRds/?igsh=bDhjMGxlMGliNDc2"
-            ),
-            com.terning.domain.search.entity.SearchBanner(
-                imageRes = R.drawable.img_ad_2,
-                url = "https://www.instagram.com/terning_official/"
-            ),
-            com.terning.domain.search.entity.SearchBanner(
-                imageRes = R.drawable.img_ad_3,
-                url = "https://forms.gle/4btEwEbUQ3JSjTKP7"
-            )
-        )
+    fun getSearchBanners() {
+        viewModelScope.launch {
+            searchRepository.getSearchBannersList()
+                .onSuccess { searchBannersList ->
+                    _bannerState.value = _bannerState.value.copy(
+                        searchBannersList = UiState.Success(searchBannersList)
+                    )
+                    _bannerList.value = searchBannersList
+                }.onFailure {
+                    _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
+                }
+        }
     }
 }
