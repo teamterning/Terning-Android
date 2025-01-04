@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -56,7 +55,7 @@ import com.terning.feature.search.searchprocess.models.SearchProcessState
 
 @Composable
 fun SearchProcessRoute(
-    modifier: Modifier,
+    paddingValues: PaddingValues,
     navController: NavHostController,
     navigateIntern: (Long) -> Unit,
     viewModel: SearchProcessViewModel = hiltViewModel(),
@@ -93,7 +92,7 @@ fun SearchProcessRoute(
     }
 
     SearchProcessScreen(
-        modifier = modifier,
+        paddingValues = paddingValues,
         navigateToIntern = { viewModel.navigateIntern(it) },
         navigateToBack = { navController.navigateUp() },
         state = state,
@@ -154,7 +153,7 @@ fun SearchProcessRoute(
 
 @Composable
 fun SearchProcessScreen(
-    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
     navigateToIntern: (Long) -> Unit,
     navigateToBack: () -> Unit,
     state: SearchProcessState = SearchProcessState(),
@@ -179,10 +178,10 @@ fun SearchProcessScreen(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = Modifier
             .background(White)
-            .addFocusCleaner(focusManager),
+            .addFocusCleaner(focusManager)
+            .padding(paddingValues),
     ) {
         BackButtonTopAppBar(
             title = stringResource(
