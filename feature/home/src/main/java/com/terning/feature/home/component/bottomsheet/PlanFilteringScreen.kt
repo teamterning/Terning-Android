@@ -1,6 +1,5 @@
 package com.terning.feature.home.component.bottomsheet
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +16,7 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -36,15 +36,12 @@ import com.terning.core.designsystem.type.WorkingPeriod
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.domain.home.entity.HomeFilteringInfo
 import com.terning.feature.home.R
-import com.terning.feature.home.component.HomeYearMonthPicker
-import com.terning.feature.home.component.NULL_DATE
-import com.terning.feature.home.component.months
-import com.terning.feature.home.component.years
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlanFilteringScreen(
+internal fun PlanFilteringScreen(
     currentFilteringInfo: HomeFilteringInfo,
     updateGrade: (Int?) -> Unit,
     updateWorkingPeriod: (Int?) -> Unit,
@@ -75,7 +72,11 @@ fun PlanFilteringScreen(
         ChangeFilteringTitleText(
             text = stringResource(id = R.string.change_filter_grade_title),
             modifier = Modifier
-                .padding(start = 23.dp, end = 23.dp, bottom = 12.dp)
+                .padding(
+                    start = 23.dp,
+                    end = 23.dp,
+                    bottom = 12.dp
+                )
         )
 
         ChangePlanFilteringRadioGroup(
@@ -86,7 +87,7 @@ fun PlanFilteringScreen(
                 R.string.change_filter_grade_2,
                 R.string.change_filter_grade_3,
                 R.string.change_filter_grade_4,
-            ),
+            ).toImmutableList(),
             onButtonClick = {
                 updateGrade(it)
                 isCheckBoxChecked = false
@@ -111,7 +112,7 @@ fun PlanFilteringScreen(
                 R.string.change_filter_period_1,
                 R.string.change_filter_period_2,
                 R.string.change_filter_period_3,
-            ),
+            ).toImmutableList(),
             onButtonClick = {
                 updateWorkingPeriod(it)
                 isCheckBoxChecked = false
@@ -130,7 +131,6 @@ fun PlanFilteringScreen(
             chosenYear = currentFilteringInfo.startYear,
             chosenMonth = currentFilteringInfo.startMonth,
             onYearChosen = { year, isInitialSelection ->
-                Log.d("LYB", "current year = ${year}")
                 updateStartYear(year)
                 if (year != null) {
                     isCheckBoxChecked = false
@@ -139,7 +139,6 @@ fun PlanFilteringScreen(
                 }
             },
             onMonthChosen = { month, isInitialSelection ->
-                Log.d("LYB", "current month = ${month}")
                 updateStartMonth(month)
                 if (month != null) {
                     isCheckBoxChecked = false
@@ -159,7 +158,11 @@ fun PlanFilteringScreen(
             horizontalArrangement = Arrangement.End,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 13.dp, top = 26.dp, end = 24.dp),
+                .padding(
+                    bottom = 13.dp,
+                    top = 26.dp,
+                    end = 24.dp
+                ),
         ) {
             CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
                 Checkbox(
@@ -195,17 +198,20 @@ fun PlanFilteringScreen(
 }
 
 @Composable
-fun ChangePlanFilteringRadioGroup(
-    optionList: List<Int>,
+private fun ChangePlanFilteringRadioGroup(
+    optionList: ImmutableList<Int>,
     initOption: Int,
     isCheckBoxChecked: Boolean,
     onButtonClick: (Int) -> Unit,
-    columns: Int = 3,
     modifier: Modifier = Modifier,
+    columns: Int = 3,
 ) {
     var selectedIndex by remember { mutableIntStateOf(initOption) }
-    if (isCheckBoxChecked) {
-        selectedIndex = -1
+
+    LaunchedEffect(isCheckBoxChecked) {
+        if (isCheckBoxChecked) {
+            selectedIndex = -1
+        }
     }
 
     LazyVerticalGrid(

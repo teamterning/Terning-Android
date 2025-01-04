@@ -45,23 +45,23 @@ import com.terning.feature.home.R
 import kotlinx.coroutines.launch
 import okhttp3.internal.toImmutableList
 
-val filterType =
+private val filterType =
     listOf(R.string.change_job_type_filter, R.string.change_plan_type_filter).toImmutableList()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeFilteringBottomSheet(
-    modifier: Modifier = Modifier,
+internal fun HomeFilteringBottomSheet(
     defaultFilteringInfo: HomeFilteringInfo,
     onDismiss: () -> Unit,
     onChangeButtonClick: (String?, String?, Int?, Int?, String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     var currentFilteringInfo by remember {
         mutableStateOf(defaultFilteringInfo)
     }
-    val pagerState = rememberPagerState { 2 }
+    val pagerState = rememberPagerState { filterType.size }
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(pagerState.currentPage) {
@@ -98,7 +98,8 @@ fun HomeFilteringBottomSheet(
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(index)
                                 }
-                            })
+                            }
+                        )
                     }
                 }
 
@@ -235,6 +236,6 @@ fun TerningTab(
 
 private fun checkButtonEnable(currentFilteringInfo: HomeFilteringInfo): Boolean =
     with(currentFilteringInfo) {
-        (grade == null && workingPeriod == null && startYear == null && startMonth == null)
-                || (grade != null && workingPeriod != null && startYear != null && startMonth != null)
+        listOf(grade, workingPeriod, startYear, startMonth).all { it == null } ||
+                listOf(grade, workingPeriod, startYear, startMonth).none { it == null }
     }

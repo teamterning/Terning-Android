@@ -1,4 +1,4 @@
-package com.terning.feature.home.component
+package com.terning.feature.home.component.bottomsheet
 
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -52,10 +52,10 @@ class PickerState {
 }
 
 @Composable
-fun rememberPickerState() = remember { PickerState() }
+private fun rememberPickerState() = remember { PickerState() }
 
 @Composable
-fun HomeYearMonthPicker(
+internal fun HomeYearMonthPicker(
     chosenYear: Int?,
     chosenMonth: Int?,
     onYearChosen: (Int?, Boolean) -> Unit,
@@ -116,7 +116,7 @@ fun HomeYearMonthPicker(
 }
 
 @Composable
-fun DatePicker(
+private fun DatePicker(
     items: ImmutableList<String>,
     modifier: Modifier = Modifier,
     pickerState: PickerState = rememberPickerState(),
@@ -202,7 +202,7 @@ fun DatePicker(
 }
 
 @Composable
-fun DatePickerContent(
+private fun DatePickerContent(
     color: Color,
     text: String,
     modifier: Modifier = Modifier,

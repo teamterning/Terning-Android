@@ -32,7 +32,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.type.JobType
 
 @Composable
-fun JobFilteringScreen(
+internal fun JobFilteringScreen(
     initOption: Int,
     onButtonClick: (JobType) -> Unit,
     modifier: Modifier = Modifier,
