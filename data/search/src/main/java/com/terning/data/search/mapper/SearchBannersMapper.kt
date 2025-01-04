@@ -6,7 +6,7 @@ import com.terning.domain.search.entity.SearchBanner
 fun SearchBannersResponseDto.toSearchBannerList(): List<SearchBanner> {
     return banners.map {
         SearchBanner(
-            imageRes = it.imageUrl,
+            imageUrl = it.imageUrl,
             url = it.link,
         )
     }

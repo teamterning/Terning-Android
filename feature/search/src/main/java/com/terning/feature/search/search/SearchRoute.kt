@@ -152,7 +152,7 @@ fun SearchScreen(
         LazyColumn {
             item {
                 ImageSlider(
-                    images = bannerList,
+                    searchBanners = bannerList,
                     onAdvertisementClick = onAdvertisementClick,
                 )
 

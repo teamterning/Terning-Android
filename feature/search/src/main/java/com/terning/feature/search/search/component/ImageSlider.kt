@@ -14,21 +14,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.domain.search.entity.SearchBanner
 import kotlinx.coroutines.delay
 
 @Composable
 fun ImageSlider(
     modifier: Modifier = Modifier,
-    images: List<com.terning.domain.search.entity.SearchBanner>,
+    searchBanners: List<SearchBanner>,
     onAdvertisementClick: (Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
-        pageCount = { if (images.isEmpty()) 0 else Int.MAX_VALUE }
+        pageCount = { Int.MAX_VALUE }
     )
     val autoScroll = remember { mutableStateOf(true) }
 
@@ -36,8 +40,8 @@ fun ImageSlider(
         if (autoScroll.value) {
             while (true) {
                 delay(2500)
-                if (!pagerState.isScrollInProgress && images.isNotEmpty()) {
-                    val nextPage = (pagerState.currentPage + 1) % images.size
+                if (!pagerState.isScrollInProgress) {
+                    val nextPage = pagerState.currentPage + 1
                     pagerState.animateScrollToPage(nextPage)
                 }
             }
@@ -50,7 +54,7 @@ fun ImageSlider(
             .background(Grey200),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (images.isNotEmpty()) {
+        if (searchBanners.isNotEmpty()) {
             Box(
                 modifier = modifier,
                 contentAlignment = Alignment.BottomCenter
@@ -60,20 +64,23 @@ fun ImageSlider(
                     modifier = modifier,
                     beyondViewportPageCount = 1
                 ) { currentPage ->
-                    val pageIndex = currentPage % images.size
+                    val pageIndex = currentPage % searchBanners.size
                     AsyncImage(
-                        model = images[pageIndex].url,
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(searchBanners[pageIndex].imageUrl)
+                            .crossfade(true)
+                            .build(),
                         contentDescription = null,
                         modifier = modifier
                             .fillMaxWidth()
                             .height(112.dp)
                             .noRippleClickable { onAdvertisementClick(pageIndex) },
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
                     )
                 }
                 DotsIndicator(
-                    pageCount = images.size,
-                    currentPage = pagerState.currentPage % images.size
+                    pageCount = searchBanners.size,
+                    currentPage = pagerState.currentPage % searchBanners.size
                 )
             }
         }
