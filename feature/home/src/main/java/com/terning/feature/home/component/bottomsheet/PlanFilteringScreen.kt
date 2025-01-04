@@ -1,5 +1,6 @@
 package com.terning.feature.home.component.bottomsheet
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,8 +51,8 @@ fun PlanFilteringScreen(
     updateStartYear: (Int?) -> Unit,
     updateStartMonth: (Int?) -> Unit,
 ) {
-    var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == null) }
-    var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == null) }
+    var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == 0) }
+    var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == 0) }
 
     var isCheckBoxChecked by remember { mutableStateOf(false) }
 
@@ -124,12 +125,14 @@ fun PlanFilteringScreen(
             modifier = Modifier
                 .padding(24.dp)
         )
-
+        Log.d("LYB", "current startYear = ${currentFilteringInfo.startYear}")
+        Log.d("LYB", "current startMonth = ${currentFilteringInfo.startMonth}")
         HomeYearMonthPicker(
             chosenYear = currentFilteringInfo.startYear,
             chosenMonth = currentFilteringInfo.startMonth,
             onYearChosen = { year, isInitialSelection ->
                 if (year != null) {
+                    Log.d("LYB", "current year = ${year}")
                     updateStartYear(year)
                     isCheckBoxChecked = false
                     isYearNull = false
@@ -138,6 +141,7 @@ fun PlanFilteringScreen(
             },
             onMonthChosen = { month, isInitialSelection ->
                 if (month != null) {
+                    Log.d("LYB", "current month = ${month}")
                     updateStartMonth(month)
                     isCheckBoxChecked = false
                     isMonthNull = false
