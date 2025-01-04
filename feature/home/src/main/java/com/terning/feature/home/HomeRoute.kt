@@ -148,7 +148,13 @@ fun HomeScreen(
 
     val homeFilteringInfo = when (homeState.homeFilteringInfoState) {
         is UiState.Success -> (homeState.homeFilteringInfoState as UiState.Success<HomeFilteringInfo>).data
-        else -> HomeFilteringInfo(null, null, null, null, JobType.TOTAL.stringValue)
+        else -> HomeFilteringInfo(
+            grade = null,
+            workingPeriod = null,
+            startYear = null,
+            startMonth = null,
+            jobType = JobType.TOTAL.stringValue
+        )
     }
 
     val homeRecommendInternList: ImmutableList<HomeRecommendIntern.HomeRecommendInternDetail> =

@@ -36,6 +36,7 @@ import com.terning.core.designsystem.type.WorkingPeriod
 import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.domain.home.entity.HomeFilteringInfo
 import com.terning.feature.home.R
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,7 +87,7 @@ internal fun PlanFilteringScreen(
                 R.string.change_filter_grade_2,
                 R.string.change_filter_grade_3,
                 R.string.change_filter_grade_4,
-            ),
+            ).toImmutableList(),
             onButtonClick = {
                 updateGrade(it)
                 isCheckBoxChecked = false
@@ -111,7 +112,7 @@ internal fun PlanFilteringScreen(
                 R.string.change_filter_period_1,
                 R.string.change_filter_period_2,
                 R.string.change_filter_period_3,
-            ),
+            ).toImmutableList(),
             onButtonClick = {
                 updateWorkingPeriod(it)
                 isCheckBoxChecked = false
@@ -198,12 +199,12 @@ internal fun PlanFilteringScreen(
 
 @Composable
 private fun ChangePlanFilteringRadioGroup(
-    optionList: List<Int>,
+    optionList: ImmutableList<Int>,
     initOption: Int,
     isCheckBoxChecked: Boolean,
     onButtonClick: (Int) -> Unit,
-    columns: Int = 3,
     modifier: Modifier = Modifier,
+    columns: Int = 3,
 ) {
     var selectedIndex by remember { mutableIntStateOf(initOption) }
 

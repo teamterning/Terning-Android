@@ -51,10 +51,10 @@ private val filterType =
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeFilteringBottomSheet(
-    modifier: Modifier = Modifier,
     defaultFilteringInfo: HomeFilteringInfo,
     onDismiss: () -> Unit,
     onChangeButtonClick: (String?, String?, Int?, Int?, String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -98,7 +98,8 @@ internal fun HomeFilteringBottomSheet(
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(index)
                                 }
-                            })
+                            }
+                        )
                     }
                 }
 
@@ -235,6 +236,6 @@ fun TerningTab(
 
 private fun checkButtonEnable(currentFilteringInfo: HomeFilteringInfo): Boolean =
     with(currentFilteringInfo) {
-        (grade == null && workingPeriod == null && startYear == null && startMonth == null)
-                || (grade != null && workingPeriod != null && startYear != null && startMonth != null)
+        listOf(grade, workingPeriod, startYear, startMonth).all { it == null }
+        listOf(grade, workingPeriod, startYear, startMonth).none { it == null }
     }
