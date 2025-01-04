@@ -32,7 +32,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
-import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.extension.noRippleClickable
@@ -322,13 +321,10 @@ fun HomeScreen(
                 }
             }
 
-
             if (recommendedInternList.itemCount == 0) {
                 item {
                     HomeRecommendEmptyIntern(
-                        text =
-                        if (homeState.homeFilteringInfoState is UiState.Success && homeFilteringInfo.grade == null) R.string.home_recommend_no_filtering
-                        else R.string.home_recommend_no_intern
+                        text = R.string.home_recommend_no_intern
                     )
                 }
             } else {

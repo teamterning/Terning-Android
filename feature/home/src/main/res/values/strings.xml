@@ -13,9 +13,6 @@
     <string name="home_recommend_filtering_startYearMonth">%s년 %s월</string>
     <string name="home_recommend_no_intern">아직 채용중인 인턴 공고가 없어요!\n새로운 공고가 올라오면 보여드릴게요</string>
     <string name="home_recommend_no_intern_description">인턴 공고가 없어요!</string>
-    <string name="home_recommend_no_filtering">
-        지금 공고 필터링을 설정하고\n내 계획에 딱 맞는 대학생 인턴 공고를 추천받아보세요!
-    </string>
     <string name="home_recommend_total">총</string>
     <string name="home_recommend_count">개</string>
     <string name="home_filtering_empty">설정된 필터링 정보가 없어요</string>
