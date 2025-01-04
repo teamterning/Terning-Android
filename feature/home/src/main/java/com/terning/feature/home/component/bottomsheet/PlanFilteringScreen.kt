@@ -43,10 +43,11 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 internal fun PlanFilteringScreen(
     currentFilteringInfo: HomeFilteringInfo,
-    updateGrade: (Int?) -> Unit,
-    updateWorkingPeriod: (Int?) -> Unit,
-    updateStartYear: (Int?) -> Unit,
-    updateStartMonth: (Int?) -> Unit,
+    modifier: Modifier = Modifier,
+    updateGrade: (Int?) -> Unit = {},
+    updateWorkingPeriod: (Int?) -> Unit = {},
+    updateStartYear: (Int?) -> Unit = {},
+    updateStartMonth: (Int?) -> Unit = {},
 ) {
     var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == 0 || currentFilteringInfo.startYear == null) }
     var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == 0 || currentFilteringInfo.startMonth == null) }
@@ -68,7 +69,9 @@ internal fun PlanFilteringScreen(
         )
     }
 
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         ChangeFilteringTitleText(
             text = stringResource(id = R.string.change_filter_grade_title),
             modifier = Modifier
