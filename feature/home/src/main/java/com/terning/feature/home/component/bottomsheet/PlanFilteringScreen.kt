@@ -51,8 +51,8 @@ fun PlanFilteringScreen(
     updateStartYear: (Int?) -> Unit,
     updateStartMonth: (Int?) -> Unit,
 ) {
-    var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == 0) }
-    var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == 0) }
+    var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == 0 || currentFilteringInfo.startYear == null) }
+    var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == 0 || currentFilteringInfo.startMonth == null) }
 
     var isCheckBoxChecked by remember { mutableStateOf(false) }
 

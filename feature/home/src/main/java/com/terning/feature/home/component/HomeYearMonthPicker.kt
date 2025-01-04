@@ -1,6 +1,5 @@
 package com.terning.feature.home.component
 
-import android.util.Log
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -76,11 +75,9 @@ fun HomeYearMonthPicker(
     val startYearIndex =
         if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
             .takeIf { it >= 0 } ?: yearsList.lastIndex
-    Log.d("LYB", "INSIDE datapicker startYearIndex = $startYearIndex")
     val startMonthIndex =
         if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: "-"}월")
             .takeIf { it >= 0 } ?: monthsList.lastIndex
-    Log.d("LYB", "INSIDE datapicker startMonthIndex = $startMonthIndex")
 
     Row(
         modifier = modifier
@@ -95,7 +92,6 @@ fun HomeYearMonthPicker(
             startIndex = startYearIndex,
             onItemSelected = { year ->
                 if (year == NULL_DATE && !isInitialSelection) isInitialSelection = true
-                Log.d("LYB", "INSIDE datepicker year = $year")
                 onYearChosen(
                     if (year == NULL_DATE) null else year.dropLast(1).toInt(),
                     isInitialSelection
@@ -139,7 +135,7 @@ fun DatePicker(
         if (itemHeightPixel > 0 && startIndex >= 0) scrollState.scrollToItem(startIndex)
     }
 
-    var savedIndex by remember { mutableIntStateOf(startIndex) }
+    val savedIndex by remember { mutableIntStateOf(startIndex) }
 
     LaunchedEffect(itemHeightPixel, savedIndex) {
         scrollState.scrollToItem(savedIndex)
@@ -151,14 +147,12 @@ fun DatePicker(
                 val hasNullDate =
                     items.size == (END_YEAR - START_YEAR + 1) || items.size == (END_MONTH - START_MONTH + 1)
                 val adjustedItems = if (hasNullDate) items + NULL_DATE else items
-                Log.d("LYB", "***index*** = $index")
                 adjustedItems.getOrNull(index)
             }
             .distinctUntilChanged()
             .collect { item ->
                 item?.let {
                     pickerState.selectedItem = it
-                    Log.d("LYB", "INSIDE datepicker it = $it")
                     onItemSelected(it)
                 }
             }
