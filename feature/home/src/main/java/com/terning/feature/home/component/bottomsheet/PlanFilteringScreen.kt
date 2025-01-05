@@ -52,7 +52,13 @@ internal fun PlanFilteringScreen(
     var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == 0 || currentFilteringInfo.startYear == null) }
     var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == 0 || currentFilteringInfo.startMonth == null) }
 
-    var isCheckBoxChecked by remember { mutableStateOf(false) }
+    var isCheckBoxChecked by remember {
+        mutableStateOf(
+            with(currentFilteringInfo) {
+                listOf(grade, workingPeriod, startYear, startMonth).all { it == null || it == 0 }
+            }
+        )
+    }
 
     var isInitialNullState by remember { mutableStateOf(false) }
 

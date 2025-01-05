@@ -17,7 +17,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -68,10 +67,6 @@ internal fun HomeFilteringBottomSheet(
 
     val density = LocalDensity.current
     var pageHeight by remember { mutableIntStateOf(0) }
-
-    LaunchedEffect(pagerState.currentPage) {
-        currentFilteringInfo = defaultFilteringInfo
-    }
 
     GetPagerHeight(
         onHeightMeasured = {
