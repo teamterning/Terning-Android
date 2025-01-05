@@ -77,6 +77,7 @@ fun MyPageRoute(
         )
     }
 
+
     DisposableEffect(lifecycleOwner) {
         onDispose {
             systemUiController.setStatusBarColor(
