@@ -3,20 +3,11 @@ package com.terning.feature.main
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -30,20 +21,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.snackbar.TerningBasicSnackBar
-import com.terning.core.designsystem.theme.Grey300
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.White
-import com.terning.core.designsystem.util.NoRippleInteractionSource
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.filtering.filteringone.navigation.filteringOneNavGraph
@@ -57,6 +41,7 @@ import com.terning.feature.home.navigation.homeNavGraph
 import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.intern.navigation.internNavGraph
 import com.terning.feature.intern.navigation.navigateIntern
+import com.terning.feature.main.component.MainBottomBar
 import com.terning.feature.mypage.mypage.navigation.myPageNavGraph
 import com.terning.feature.mypage.profileedit.navigation.profileEditNavGraph
 import com.terning.feature.onboarding.signin.navigation.navigateSignIn
@@ -68,7 +53,6 @@ import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
@@ -273,52 +257,6 @@ fun MainScreen(
                     }
                 )
                 profileEditNavGraph(navHostController = navigator.navController)
-            }
-        }
-    }
-}
-
-@Composable
-private fun MainBottomBar(
-    isVisible: Boolean,
-    tabs: ImmutableList<MainTab>,
-    currentTab: MainTab?,
-    onTabSelected: (MainTab) -> Unit,
-) {
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = fadeIn() + slideIn { IntOffset(0, 0) },
-        exit = fadeOut() + slideOut { IntOffset(0, 0) }
-    ) {
-        NavigationBar(containerColor = White) {
-            tabs.forEach { itemType ->
-                NavigationBarItem(
-                    interactionSource = NoRippleInteractionSource,
-                    selected = currentTab == itemType,
-                    onClick = {
-                        onTabSelected(itemType)
-                    },
-                    icon = {
-                        Icon(
-                            painter = painterResource(id = (itemType.icon)),
-                            contentDescription = stringResource(id = itemType.contentDescription)
-                        )
-                    },
-                    label = {
-                        Text(
-                            stringResource(id = itemType.contentDescription),
-                            fontSize = 9.sp
-                        )
-                    },
-                    colors = NavigationBarItemDefaults
-                        .colors(
-                            selectedIconColor = TerningMain,
-                            selectedTextColor = TerningMain,
-                            unselectedIconColor = Grey300,
-                            unselectedTextColor = Grey300,
-                            indicatorColor = White
-                        )
-                )
             }
         }
     }
