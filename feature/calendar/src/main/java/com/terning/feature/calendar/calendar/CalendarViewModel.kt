@@ -27,6 +27,14 @@ class CalendarViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun resetUiState() = _uiState.update { currentState ->
+        currentState.copy(
+            selectedDate = DayModel(),
+            isListEnabled = false,
+            isWeekEnabled = false
+        )
+    }
+
     fun updateSelectedDate(value: DayModel) = _uiState.update { currentState ->
             currentState.copy(
                 selectedDate = value
