@@ -106,7 +106,7 @@ fun StartFilteringScreen(
             onStartClick = onStartClick,
             onLaterClick = onLaterClick
         )
-        Spacer(modifier = Modifier.height((24 * screenHeight).dp))
+        Spacer(modifier = Modifier.height((16 * screenHeight).dp))
     }
 }
 
@@ -133,7 +133,7 @@ private fun ButtonAnimation(
                 cornerRadius = 10.dp,
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = stringResource(R.string.start_filtering_later),
                 style = TerningTheme.typography.detail3.copy(
