@@ -130,12 +130,6 @@ private fun DatePicker(
         if (itemHeightPixel > 0 && startIndex >= 0) scrollState.scrollToItem(startIndex)
     }
 
-    val savedIndex by remember { mutableIntStateOf(startIndex) }
-
-    LaunchedEffect(itemHeightPixel, savedIndex) {
-        scrollState.scrollToItem(savedIndex)
-    }
-
     LaunchedEffect(scrollState) {
         snapshotFlow { scrollState.firstVisibleItemIndex }
             .map { index ->
