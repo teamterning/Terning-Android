@@ -54,17 +54,15 @@ internal fun PlanFilteringScreen(
 
     var isCheckBoxChecked by remember { mutableStateOf(false) }
 
-    var isInitialNullState by remember { mutableStateOf(false) }
-
     val yearsList by remember(isYearNull) {
         mutableStateOf(
-            if (isYearNull || isInitialNullState) years + NULL_DATE
+            if (isYearNull) years + NULL_DATE
             else years
         )
     }
     val monthsList by remember(isMonthNull) {
         mutableStateOf(
-            if (isMonthNull || isInitialNullState) months + NULL_DATE
+            if (isMonthNull) months + NULL_DATE
             else months
         )
     }
@@ -133,27 +131,24 @@ internal fun PlanFilteringScreen(
         HomeYearMonthPicker(
             chosenYear = currentFilteringInfo.startYear,
             chosenMonth = currentFilteringInfo.startMonth,
-            onYearChosen = { year, isInitialSelection ->
+            onYearChosen = { year ->
                 updateStartYear(year)
                 if (year != null) {
                     isCheckBoxChecked = false
                     isYearNull = false
-                    isInitialNullState = isInitialSelection
                 }
             },
-            onMonthChosen = { month, isInitialSelection ->
+            onMonthChosen = { month ->
                 updateStartMonth(month)
                 if (month != null) {
                     isCheckBoxChecked = false
                     isMonthNull = false
-                    isInitialNullState = isInitialSelection
                 }
             },
             isYearNull = isYearNull,
             isMonthNull = isMonthNull,
             yearsList = yearsList.toImmutableList(),
             monthsList = monthsList.toImmutableList(),
-            isInitialNullState = isInitialNullState
         )
 
         Row(

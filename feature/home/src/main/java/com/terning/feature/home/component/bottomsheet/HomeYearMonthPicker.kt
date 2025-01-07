@@ -58,19 +58,16 @@ private fun rememberPickerState() = remember { PickerState() }
 internal fun HomeYearMonthPicker(
     chosenYear: Int?,
     chosenMonth: Int?,
-    onYearChosen: (Int?, Boolean) -> Unit,
-    onMonthChosen: (Int?, Boolean) -> Unit,
+    onYearChosen: (Int?) -> Unit,
+    onMonthChosen: (Int?) -> Unit,
     isYearNull: Boolean,
     isMonthNull: Boolean,
     yearsList: ImmutableList<String>,
     monthsList: ImmutableList<String>,
-    isInitialNullState: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val yearPickerState = rememberPickerState()
     val monthPickerState = rememberPickerState()
-
-    var isInitialSelection by remember { mutableStateOf(isInitialNullState) }
 
     val startYearIndex =
         if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
@@ -91,10 +88,9 @@ internal fun HomeYearMonthPicker(
             items = yearsList,
             startIndex = startYearIndex,
             onItemSelected = { year ->
-                if (year == NULL_DATE && !isInitialSelection) isInitialSelection = true
                 onYearChosen(
-                    if (year == NULL_DATE) null else year.dropLast(1).toInt(),
-                    isInitialSelection
+                    if (year == NULL_DATE) null
+                    else year.dropLast(1).toInt()
                 )
             }
         )
@@ -105,10 +101,9 @@ internal fun HomeYearMonthPicker(
             items = monthsList,
             startIndex = startMonthIndex,
             onItemSelected = { month ->
-                if (month == NULL_DATE && !isInitialSelection) isInitialSelection = true
                 onMonthChosen(
-                    if (month == NULL_DATE) null else month.dropLast(1).toInt(),
-                    isInitialSelection
+                    if (month == NULL_DATE) null
+                    else month.dropLast(1).toInt()
                 )
             }
         )
