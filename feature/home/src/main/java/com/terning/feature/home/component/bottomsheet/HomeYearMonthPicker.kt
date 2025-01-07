@@ -70,10 +70,10 @@ internal fun HomeYearMonthPicker(
     val monthPickerState = rememberPickerState()
 
     val startYearIndex =
-        if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: "-"}년")
+        if (isYearNull) yearsList.lastIndex else yearsList.indexOf("${chosenYear ?: NULL_DATE}년")
             .takeIf { it >= 0 } ?: yearsList.lastIndex
     val startMonthIndex =
-        if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: "-"}월")
+        if (isMonthNull) monthsList.lastIndex else monthsList.indexOf("${chosenMonth ?: NULL_DATE}월")
             .takeIf { it >= 0 } ?: monthsList.lastIndex
 
     Row(
