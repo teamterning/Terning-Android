@@ -68,6 +68,14 @@ internal fun HomeFilteringBottomSheet(
     val density = LocalDensity.current
     var pageHeight by remember { mutableIntStateOf(0) }
 
+    var isCheckBoxChecked by remember {
+        mutableStateOf(
+            with(currentFilteringInfo) {
+                listOf(grade, workingPeriod, startYear, startMonth).all { it == null || it == 0 }
+            }
+        )
+    }
+
     GetPagerHeight(
         onHeightMeasured = {
             pageHeight = it
@@ -137,6 +145,7 @@ internal fun HomeFilteringBottomSheet(
                         1 -> {
                             PlanFilteringScreen(
                                 currentFilteringInfo = currentFilteringInfo,
+                                isCheckBoxChecked = isCheckBoxChecked,
                                 updateGrade = {
                                     currentFilteringInfo = currentFilteringInfo.copy(
                                         grade = if (it != null) {
@@ -161,6 +170,9 @@ internal fun HomeFilteringBottomSheet(
                                         startMonth = it
                                     )
                                 },
+                                updateIsCheckBoxChecked = {
+                                    isCheckBoxChecked = it
+                                }
                             )
                         }
                     }
@@ -184,7 +196,10 @@ internal fun HomeFilteringBottomSheet(
                             )
                         }
                     },
-                    isEnabled = checkButtonEnable(currentFilteringInfo = currentFilteringInfo)
+                    isEnabled = checkButtonEnable(
+                        currentFilteringInfo = currentFilteringInfo,
+                        isCheckBoxChecked = isCheckBoxChecked
+                    )
                 )
             }
 
@@ -238,10 +253,12 @@ fun TerningTab(
     }
 }
 
-private fun checkButtonEnable(currentFilteringInfo: HomeFilteringInfo): Boolean =
+private fun checkButtonEnable(
+    currentFilteringInfo: HomeFilteringInfo,
+    isCheckBoxChecked: Boolean
+): Boolean =
     with(currentFilteringInfo) {
-        listOf(grade, workingPeriod, startYear, startMonth).all { it == null || it == 0 } ||
-                listOf(grade, workingPeriod, startYear, startMonth).none { it == null || it == 0 }
+        isCheckBoxChecked || listOf(grade, workingPeriod, startYear, startMonth).none { it == null }
     }
 
 @Composable
@@ -250,6 +267,7 @@ private fun GetPagerHeight(
 ) {
     PlanFilteringScreen(
         currentFilteringInfo = HomeFilteringInfo(null, null, null, null, "total"),
+        isCheckBoxChecked = false,
         modifier = Modifier
             .onGloballyPositioned {
                 onHeightMeasured(it.size.height)
