@@ -43,16 +43,16 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 internal fun PlanFilteringScreen(
     currentFilteringInfo: HomeFilteringInfo,
+    isCheckBoxChecked: Boolean,
     modifier: Modifier = Modifier,
     updateGrade: (Int?) -> Unit = {},
     updateWorkingPeriod: (Int?) -> Unit = {},
     updateStartYear: (Int?) -> Unit = {},
     updateStartMonth: (Int?) -> Unit = {},
+    updateIsCheckBoxChecked: (Boolean) -> Unit = {},
 ) {
     var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == 0 || currentFilteringInfo.startYear == null) }
     var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == 0 || currentFilteringInfo.startMonth == null) }
-
-    var isCheckBoxChecked by remember { mutableStateOf(false) }
 
     var isInitialNullState by remember { mutableStateOf(false) }
 
@@ -93,7 +93,7 @@ internal fun PlanFilteringScreen(
             ).toImmutableList(),
             onButtonClick = {
                 updateGrade(it)
-                isCheckBoxChecked = false
+                updateIsCheckBoxChecked(false)
             },
             columns = 4,
             modifier = Modifier
@@ -118,7 +118,7 @@ internal fun PlanFilteringScreen(
             ).toImmutableList(),
             onButtonClick = {
                 updateWorkingPeriod(it)
-                isCheckBoxChecked = false
+                updateIsCheckBoxChecked(false)
             },
             modifier = Modifier
                 .padding(horizontal = 23.dp),
@@ -136,7 +136,7 @@ internal fun PlanFilteringScreen(
             onYearChosen = { year, isInitialSelection ->
                 updateStartYear(year)
                 if (year != null) {
-                    isCheckBoxChecked = false
+                    updateIsCheckBoxChecked(false)
                     isYearNull = false
                     isInitialNullState = isInitialSelection
                 }
@@ -144,7 +144,7 @@ internal fun PlanFilteringScreen(
             onMonthChosen = { month, isInitialSelection ->
                 updateStartMonth(month)
                 if (month != null) {
-                    isCheckBoxChecked = false
+                    updateIsCheckBoxChecked(false)
                     isMonthNull = false
                     isInitialNullState = isInitialSelection
                 }
@@ -179,7 +179,7 @@ internal fun PlanFilteringScreen(
                             updateStartYear(null)
                             updateStartMonth(null)
                         }
-                        isCheckBoxChecked = isChecked
+                        updateIsCheckBoxChecked(isChecked)
                     },
                     colors = CheckboxDefaults.colors(
                         checkedColor = TerningMain,
