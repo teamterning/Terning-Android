@@ -14,6 +14,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -47,6 +48,7 @@ fun CalendarRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val amplitudeTracker = LocalTracker.current
 
+
     CalendarScreen(
         uiState = uiState,
         navigateToAnnouncement = navigateToAnnouncement,
@@ -65,6 +67,12 @@ fun CalendarRoute(
         },
         modifier = modifier,
     )
+
+    DisposableEffect(true) {
+        onDispose {
+            viewModel.resetUiState()
+        }
+    }
 }
 
 @Composable
@@ -89,6 +97,10 @@ private fun CalendarScreen(
         initialPage = uiState.calendarModel.initialPage,
         pageCount = { uiState.calendarModel.pageCount }
     )
+
+    LaunchedEffect(true) {
+        pagerState.scrollToPage(uiState.calendarModel.initialPage)
+    }
 
     LaunchedEffect(key1 = pagerState, key2 = uiState.selectedDate) {
         snapshotFlow { pagerState.currentPage }
@@ -115,7 +127,7 @@ private fun CalendarScreen(
             date = uiState.calendarModel.getYearMonthByPage(pagerState.settledPage),
             isListExpanded = uiState.isListEnabled,
             onListButtonClicked = {
-                if(!calendarListTransition.isRunning)
+                if (!calendarListTransition.isRunning)
                     onClickListButton()
             },
             onMonthNavigationButtonClicked = { direction ->
