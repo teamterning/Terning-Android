@@ -78,7 +78,7 @@ fun SearchProcessRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SearchProcessSideEffect.Toast -> context.toast(sideEffect.message)
+                    is SearchProcessSideEffect.ShowToast -> context.toast(sideEffect.message)
 
                     is SearchProcessSideEffect.ScrapUpdate -> {
                         sideEffect.keyword

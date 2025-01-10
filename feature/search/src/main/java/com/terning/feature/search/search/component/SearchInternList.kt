@@ -2,6 +2,7 @@ package com.terning.feature.search.search.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -39,7 +40,7 @@ fun SearchInternList(
             modifier = Modifier
                 .padding(vertical = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 24.dp)
+            contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
             when (type) {
                 InternListType.VIEW -> searchViewsList?.let {

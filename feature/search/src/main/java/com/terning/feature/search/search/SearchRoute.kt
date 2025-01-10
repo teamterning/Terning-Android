@@ -30,11 +30,14 @@ import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.domain.search.entity.SearchBanner
+import com.terning.domain.search.entity.SearchPopularAnnouncement
 import com.terning.feature.search.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
 import com.terning.feature.search.search.component.SearchInternList
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun SearchRoute(
@@ -62,7 +65,7 @@ fun SearchRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SearchSideEffect.Toast -> {
+                    is SearchSideEffect.ShowToast -> {
                         sideEffect.message
                     }
                 }
@@ -70,18 +73,18 @@ fun SearchRoute(
     }
 
     val bannerList = when (bannerState.searchBannersList) {
-        is UiState.Success -> (bannerState.searchBannersList as UiState.Success<List<com.terning.domain.search.entity.SearchBanner>>).data.toImmutableList()
-        else -> emptyList()
+        is UiState.Success -> (bannerState.searchBannersList as UiState.Success<List<SearchBanner>>).data.toImmutableList()
+        else -> emptyList<SearchBanner>().toImmutableList()
     }
 
     val searchViewsList = when (viewState.searchViewsList) {
-        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<com.terning.domain.search.entity.SearchPopularAnnouncement>>).data.toImmutableList()
-        else -> emptyList()
+        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<SearchPopularAnnouncement>>).data.toImmutableList()
+        else -> emptyList<SearchPopularAnnouncement>().toImmutableList()
     }
 
     val searchScrapsList = when (scrapState.searchScrapsList) {
-        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<com.terning.domain.search.entity.SearchPopularAnnouncement>>).data.toImmutableList()
-        else -> emptyList()
+        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<SearchPopularAnnouncement>>).data.toImmutableList()
+        else -> emptyList<SearchPopularAnnouncement>().toImmutableList()
     }
 
     SearchScreen(
@@ -111,9 +114,9 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     paddingValues: PaddingValues,
-    bannerList: List<com.terning.domain.search.entity.SearchBanner>,
-    searchViewsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>,
-    searchScrapsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>,
+    bannerList: ImmutableList<SearchBanner>,
+    searchViewsList: ImmutableList<SearchPopularAnnouncement>,
+    searchScrapsList: ImmutableList<SearchPopularAnnouncement>,
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
     onAdvertisementClick: (Int) -> Unit,

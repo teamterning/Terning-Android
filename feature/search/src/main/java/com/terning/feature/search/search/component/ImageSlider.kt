@@ -22,12 +22,13 @@ import coil3.request.crossfade
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.domain.search.entity.SearchBanner
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
 
 @Composable
 fun ImageSlider(
     modifier: Modifier = Modifier,
-    searchBanners: List<SearchBanner>,
+    searchBanners: ImmutableList<SearchBanner>,
     onAdvertisementClick: (Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(
@@ -61,7 +62,7 @@ fun ImageSlider(
             ) {
                 HorizontalPager(
                     state = pagerState,
-                    modifier = modifier,
+                    modifier = Modifier,
                     beyondViewportPageCount = 1
                 ) { currentPage ->
                     val pageIndex = currentPage % searchBanners.size
@@ -71,7 +72,7 @@ fun ImageSlider(
                             .crossfade(true)
                             .build(),
                         contentDescription = null,
-                        modifier = modifier
+                        modifier = Modifier
                             .fillMaxWidth()
                             .height(112.dp)
                             .noRippleClickable { onAdvertisementClick(pageIndex) },

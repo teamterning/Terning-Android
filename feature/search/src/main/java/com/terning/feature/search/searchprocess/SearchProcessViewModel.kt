@@ -45,7 +45,7 @@ class SearchProcessViewModel @Inject constructor(
                     _internSearchResultData.value = results
                 }
                 .onFailure {
-                    _sideEffect.emit(SearchProcessSideEffect.Toast(DesignSystemR.string.server_failure))
+                    _sideEffect.emit(SearchProcessSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
         }
     }

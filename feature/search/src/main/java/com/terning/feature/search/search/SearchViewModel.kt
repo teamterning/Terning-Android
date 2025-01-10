@@ -3,7 +3,6 @@ package com.terning.feature.search.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.state.UiState
-import com.terning.feature.search.R
 import com.terning.feature.search.search.model.SearchBannerListState
 import com.terning.feature.search.search.model.SearchScrapsListState
 import com.terning.feature.search.search.model.SearchViewsListState
@@ -37,9 +36,6 @@ class SearchViewModel @Inject constructor(
     private val _sideEffect: MutableSharedFlow<SearchSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
-    private val _bannerList: MutableStateFlow<List<com.terning.domain.search.entity.SearchBanner>> =
-        MutableStateFlow(emptyList())
-
     init {
         getSearchViews()
         getSearchScraps()
@@ -54,7 +50,7 @@ class SearchViewModel @Inject constructor(
                         searchViewsList = UiState.Success(searchViewsList)
                     )
                 }.onFailure {
-                    _sideEffect.emit(SearchSideEffect.Toast(DesignSystemR.string.server_failure))
+                    _sideEffect.emit(SearchSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
         }
     }
@@ -67,7 +63,7 @@ class SearchViewModel @Inject constructor(
                         searchScrapsList = UiState.Success(searchScrapsList)
                     )
                 }.onFailure {
-                    _sideEffect.emit(SearchSideEffect.Toast(DesignSystemR.string.server_failure))
+                    _sideEffect.emit(SearchSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
         }
     }
@@ -79,9 +75,8 @@ class SearchViewModel @Inject constructor(
                     _bannerState.value = _bannerState.value.copy(
                         searchBannersList = UiState.Success(searchBannersList)
                     )
-                    _bannerList.value = searchBannersList
                 }.onFailure {
-                    _sideEffect.emit(SearchSideEffect.Toast(R.string.server_failure))
+                    _sideEffect.emit(SearchSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
         }
     }
