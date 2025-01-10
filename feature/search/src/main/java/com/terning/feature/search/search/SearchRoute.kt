@@ -42,9 +42,9 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun SearchRoute(
     paddingValues: PaddingValues,
-    viewModel: SearchViewModel = hiltViewModel(),
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
+    viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
