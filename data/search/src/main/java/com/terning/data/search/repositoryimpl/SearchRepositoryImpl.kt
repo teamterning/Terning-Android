@@ -2,8 +2,10 @@ package com.terning.data.search.repositoryimpl
 
 import com.terning.data.search.datasource.SearchDataSource
 import com.terning.data.search.dto.request.SearchRequestDto
+import com.terning.data.search.mapper.toSearchBannerList
 import com.terning.data.search.mapper.toSearchPopularAnnouncementList
 import com.terning.data.search.mapper.toSearchResultList
+import com.terning.domain.search.entity.SearchBanner
 import com.terning.domain.search.entity.SearchPopularAnnouncement
 import com.terning.domain.search.entity.SearchResult
 import com.terning.domain.search.repository.SearchRepository
@@ -38,5 +40,10 @@ class SearchRepositoryImpl @Inject constructor(
     override suspend fun getSearchScrapsList(): Result<List<SearchPopularAnnouncement>> =
         runCatching {
             searchDataSource.getSearchScraps().result.toSearchPopularAnnouncementList()
+        }
+
+    override suspend fun getSearchBannersList(): Result<List<SearchBanner>> =
+        kotlin.runCatching {
+            searchDataSource.getSearchBanners().result.toSearchBannerList()
         }
 }

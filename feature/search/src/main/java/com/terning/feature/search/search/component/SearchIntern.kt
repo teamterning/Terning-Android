@@ -90,7 +90,7 @@ fun SearchIntern(
         Column {
             ThreeLineHeightText(
                 text = title,
-                style = TerningTheme.typography.body6
+                style = TerningTheme.typography.body5
             )
         }
     }
