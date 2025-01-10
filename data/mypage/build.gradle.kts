@@ -10,5 +10,5 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:mypage"))
+    implementation(projects.domain.mypage)
 }

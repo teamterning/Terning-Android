@@ -1,16 +1,18 @@
 package com.terning.domain.home.repository
 
+import androidx.paging.PagingData
 import com.terning.domain.home.entity.ChangeFilteringRequestModel
 import com.terning.domain.home.entity.HomeFilteringInfo
-import com.terning.domain.home.entity.HomeRecommendIntern
+import com.terning.domain.home.entity.HomeRecommendedIntern
 import com.terning.domain.home.entity.HomeUpcomingIntern
+import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
     suspend fun getHomeUpcomingInternList(): Result<HomeUpcomingIntern>
 
-    suspend fun getRecommendIntern(
-        sortBy: String,
-    ): Result<HomeRecommendIntern>
+    fun getRecommendIntern(
+        sortBy: String
+    ): Flow<PagingData<HomeRecommendedIntern>>
 
     suspend fun getFilteringInfo(): Result<HomeFilteringInfo>
 

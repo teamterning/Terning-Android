@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="server_success">서버통신에 성공했어요</string>
-    <string name="server_failure">서버통신에 실패했어요</string>
 
     <!--StartFiltering-->
     <string name="start_filtering_title">터닝에서 내 계획에 딱 맞는\n대학생 인턴 찾기를 도와드릴게요</string>

@@ -10,8 +10,8 @@ android {
 
 dependencies {
     //domain
-    implementation(project(":domain:calendar"))
+    implementation(projects.domain.calendar)
 
     // feature
-    implementation(project(":feature:dialog"))
+    implementation(projects.feature.dialog)
 }

@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class ScrapDialogViewModel @Inject constructor(
@@ -72,7 +73,7 @@ class ScrapDialogViewModel @Inject constructor(
                         emit(ScrapDialogSideEffect.ScrappedAnnouncement)
                     }
                 }.onFailure {
-                    _sideEffect.emit(ScrapDialogSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffect.emit(ScrapDialogSideEffect.ShowToast(DesignSystemR.string.server_failure))
                 }
         }
     }
@@ -88,7 +89,7 @@ class ScrapDialogViewModel @Inject constructor(
                     )
                 }
             }.onFailure {
-                _sideEffect.emit(ScrapDialogSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(ScrapDialogSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
     }
 }

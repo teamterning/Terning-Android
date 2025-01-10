@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="server_success">서버통신에 성공했어요</string>
+    <string name="server_failure">서버통신에 실패했어요</string>
+
     <!--ContentDescription-->
     <string name="ic_back">뒤로가기 버튼</string>
     <string name="ic_logo">탑 바 로고</string>
@@ -25,8 +28,8 @@
 
     <!--SortByBottom-->
     <string name="sort_by_earliest">채용 마감 이른 순</string>
-    <string name="sort_by_shortest">짧은 근무 기간 순</string>
-    <string name="sort_by_longest">긴 근무 기간 순</string>
+    <string name="sort_by_shortest">근무 기간 짧은 순</string>
+    <string name="sort_by_longest">근무 기간 긴 순</string>
     <string name="sort_by_scrap">스크랩 많은 순</string>
     <string name="sort_by_view_count">조회수 많은 순</string>
     <string name="sort_button_description">정렬 기준</string>
@@ -69,17 +72,22 @@
     <string name="sign_up_helper_out">닉네임은 12자리 이내로 설정해 주세요</string>
 
     <!--ChangeFilter-->
-    <string name="change_filter_top_bar_title">필터링 재설정</string>
-    <string name="change_filter_grade_title">재학 상태</string>
-    <string name="change_filter_save">저장하기</string>
     <string name="change_filter_grade_1">1학년</string>
     <string name="change_filter_grade_2">2학년</string>
     <string name="change_filter_grade_3">3학년</string>
     <string name="change_filter_grade_4">4학년</string>
-    <string name="change_filter_period_title">희망 근무 기간</string>
     <string name="change_filter_period_1">1 ~ 3개월</string>
     <string name="change_filter_period_2">4 ~ 6개월</string>
     <string name="change_filter_period_3">7개월 이상</string>
-    <string name="change_filter_start_work_title">근무 시작 시기</string>
 
+    <!-- JobType -->
+    <string name="job_type_plan">기획/전략</string>
+    <string name="job_type_marketing">마케팅/홍보</string>
+    <string name="job_type_sales">사무/회계</string>
+    <string name="job_type_admin">인사/영업</string>
+    <string name="job_type_design">디자인/예술</string>
+    <string name="job_type_it">개발/IT</string>
+    <string name="job_type_research">연구/생산</string>
+    <string name="job_type_etc">기타</string>
+    <string name="job_type_total">전체 직무</string>
 </resources>

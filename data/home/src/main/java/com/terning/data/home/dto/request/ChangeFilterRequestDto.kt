@@ -7,13 +7,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ChangeFilterRequestDto(
     @SerialName("grade")
-    val grade: String,
+    val grade: String?,
     @SerialName("workingPeriod")
-    val workingPeriod: String,
+    val workingPeriod: String?,
     @SerialName("startYear")
-    val startYear: Int,
+    val startYear: Int?,
     @SerialName("startMonth")
-    val startMonth: Int,
+    val startMonth: Int?,
+    @SerialName("jobType")
+    val jobType: String,
 )
 
 fun ChangeFilteringRequestModel.toChangeFilterRequestDto(): ChangeFilterRequestDto =
@@ -22,4 +24,5 @@ fun ChangeFilteringRequestModel.toChangeFilterRequestDto(): ChangeFilterRequestD
         workingPeriod = workingPeriod,
         startYear = startYear,
         startMonth = startMonth,
+        jobType = jobType,
     )

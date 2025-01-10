@@ -5,4 +5,5 @@ data class HomeFilteringInfo(
     val workingPeriod: String?,
     val startYear: Int?,
     val startMonth: Int?,
+    val jobType: String,
 )

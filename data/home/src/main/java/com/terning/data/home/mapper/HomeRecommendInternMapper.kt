@@ -1,25 +1,19 @@
 package com.terning.data.home.mapper
 
 import com.terning.data.home.dto.response.HomeRecommendInternResponseDto
-import com.terning.domain.home.entity.HomeRecommendIntern
+import com.terning.domain.home.entity.HomeRecommendedIntern
 
-fun HomeRecommendInternResponseDto.toHomeRecommendInternList(): HomeRecommendIntern =
-    HomeRecommendIntern(
-        totalCount = this.totalCount,
-        homeRecommendInternDetail = this.result.map {
-            it.toHomeRecommendInternDetail()
-        }
-    )
 
-fun HomeRecommendInternResponseDto.Result.toHomeRecommendInternDetail(): HomeRecommendIntern.HomeRecommendInternDetail =
-    HomeRecommendIntern.HomeRecommendInternDetail(
+fun HomeRecommendInternResponseDto.Result.toHomeRecommendedIntern(totalCount: Int): HomeRecommendedIntern =
+    HomeRecommendedIntern(
+        totalCount = totalCount,
         internshipAnnouncementId = this.internshipAnnouncementId,
-        title = this.title,
-        dDay = this.dDay,
-        deadline = deadline,
-        workingPeriod = this.workingPeriod,
-        startYearMonth = this.startYearMonth,
         companyImage = this.companyImage,
+        dDay = this.dDay,
+        title = this.title,
+        workingPeriod = this.workingPeriod,
         isScrapped = this.isScrapped,
         color = this.color,
+        deadline = this.deadline,
+        startYearMonth = this.startYearMonth,
     )

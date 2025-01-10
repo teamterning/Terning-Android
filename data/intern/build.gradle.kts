@@ -10,5 +10,5 @@ android {
 
 dependencies {
     // domain
-    implementation(project(":domain:intern"))
+    implementation(projects.domain.intern)
 }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class ScrapCancelViewModel @Inject constructor(
@@ -29,7 +30,7 @@ class ScrapCancelViewModel @Inject constructor(
                 }
 
             }.onFailure {
-                _sideEffect.emit(ScrapCancelSideEffect.ShowToast(R.string.server_failure))
+                _sideEffect.emit(ScrapCancelSideEffect.ShowToast(DesignSystemR.string.server_failure))
             }
     }
 }

@@ -13,4 +13,6 @@ data class HomeFilteringInfoResponseDto(
     val startYear: Int?,
     @SerialName("startMonth")
     val startMonth: Int?,
+    @SerialName("jobType")
+    val jobType: String,
 )

@@ -52,18 +52,15 @@ android {
 
 dependencies {
     // core
-    implementation(project(":core:local"))
+    implementation(projects.core.local)
 
     //domain
-    implementation(project(":domain:tokenreissue"))
+    implementation(projects.domain.tokenreissue)
 
-    implementation(platform(libs.okhttp.bom))
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.timber)
     implementation(libs.process.phoenix)
+    implementation(libs.bundles.retrofit)
+    implementation(libs.bundles.okhttp)
+    implementation(platform(libs.okhttp.bom))
 }

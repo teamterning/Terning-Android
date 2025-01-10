@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="server_success">서버통신에 성공했어요</string>
-    <string name="server_failure">서버통신에 실패했어요</string>
 
     <!--Home-->
     <string name="home_upcoming_title">곧 마감되는 관심 공고</string>
@@ -15,9 +13,6 @@
     <string name="home_recommend_filtering_startYearMonth">%s년 %s월</string>
     <string name="home_recommend_no_intern">아직 채용중인 인턴 공고가 없어요!\n새로운 공고가 올라오면 보여드릴게요</string>
     <string name="home_recommend_no_intern_description">인턴 공고가 없어요!</string>
-    <string name="home_recommend_no_filtering">
-        지금 공고 필터링을 설정하고\n내 계획에 딱 맞는 대학생 인턴 공고를 추천받아보세요!
-    </string>
     <string name="home_recommend_total">총</string>
     <string name="home_recommend_count">개</string>
     <string name="home_filtering_empty">설정된 필터링 정보가 없어요</string>
@@ -26,4 +21,20 @@
     <string name="home_recommend_no_filtering_hyphen">-</string>
     <string name="home_scrap_empty">오늘 마감인 공고가 없어요</string>
     <string name="intern_apply_closed">지원마감</string>
+
+    <string name="change_filter_top_bar_title">필터링</string>
+    <string name="change_job_type_filter">직무 카테고리</string>
+    <string name="change_plan_type_filter">계획</string>
+    <string name="change_filter_grade_title">재학 상태</string>
+    <string name="change_filter_save">저장하기</string>
+    <string name="change_filter_grade_1">1학년</string>
+    <string name="change_filter_grade_2">2학년</string>
+    <string name="change_filter_grade_3">3학년</string>
+    <string name="change_filter_grade_4">4학년</string>
+    <string name="change_filter_period_title">희망 근무 기간</string>
+    <string name="change_filter_period_1">1 ~ 3개월</string>
+    <string name="change_filter_period_2">4 ~ 6개월</string>
+    <string name="change_filter_period_3">7개월 이상</string>
+    <string name="change_filter_start_work_title">근무 시작 시기</string>
+    <string name="intern_with_no_plan_filter">계획 필터링 없이 모든 공고 보기</string>
 </resources>
