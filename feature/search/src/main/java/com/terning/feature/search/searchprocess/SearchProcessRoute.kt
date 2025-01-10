@@ -70,7 +70,7 @@ fun SearchProcessRoute(
         viewModel.getSearchList(
             keyword = state.text,
             page = 0,
-            size = 0
+            size = 100
         )
     }
 
