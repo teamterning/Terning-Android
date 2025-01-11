@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -34,9 +32,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItemWithShadow
@@ -78,7 +76,7 @@ fun SearchProcessRoute(
             0
         }
     }
-
+    
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -150,11 +148,6 @@ fun SearchProcessRoute(
         onSortChange = {
             viewModel.updateSortBy(it)
         },
-        onEndOfListReached = {
-            if (searchResultList.loadState.append is LoadState.NotLoading) {
-                searchResultList.retry()
-            }
-        }
     )
 }
 
@@ -174,13 +167,12 @@ fun SearchProcessScreen(
     onDismissSheet: () -> Unit = {},
     onScrapButtonClicked: (SearchResult) -> Unit,
     onSortChange: (Int) -> Unit = {},
-    onEndOfListReached: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val currentSortBy = remember { mutableIntStateOf(state.currentSortBy) }
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -275,12 +267,9 @@ fun SearchProcessScreen(
                                 top = 12.dp,
                                 bottom = 20.dp,
                             ),
+                            modifier = Modifier
+                                .fillMaxWidth(),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
-                            reverseLayout = false,
-                            state = rememberLazyListState(),
-                            modifier = Modifier.onGloballyPositioned {
-
-                            }
                         ) {
                             items(internSearchResultData.size) { index ->
                                 SearchResultInternItem(
@@ -383,7 +372,6 @@ fun SearchProcessScreen(
         }
     }
 }
-
 
 @Composable
 private fun SearchResultInternItem(

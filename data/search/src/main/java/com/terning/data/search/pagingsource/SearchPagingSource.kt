@@ -27,12 +27,14 @@ class SearchPagingSource(
             val totalCount = response.result.totalCount
             val hasNextPage = response.result.hasNext
 
+            val nextKey = if (hasNextPage) nextParamKey + 1 else null
+
             LoadResult.Page(
                 data = response.result.announcements.map {
                     Pair(totalCount, it)
                 },
                 prevKey = null,
-                nextKey = if (hasNextPage) nextParamKey + 1 else null
+                nextKey = nextKey
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
@@ -45,5 +47,4 @@ class SearchPagingSource(
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
-
 }
