@@ -11,4 +11,5 @@ android {
 dependencies {
     // domain
     implementation(projects.domain.search)
+    implementation(libs.androidx.paging.common.android)
 }

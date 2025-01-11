@@ -1,16 +1,17 @@
 package com.terning.domain.search.repository
 
+import androidx.paging.PagingData
 import com.terning.domain.search.entity.SearchBanner
 import com.terning.domain.search.entity.SearchPopularAnnouncement
 import com.terning.domain.search.entity.SearchResult
+import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
-    suspend fun getSearchList(
+
+    fun getSearchList(
         query: String,
         sortBy: String,
-        page: Int,
-        size: Int,
-    ): Result<List<SearchResult>>
+    ): Flow<PagingData<SearchResult>>
 
     suspend fun getSearchViewsList(): Result<List<SearchPopularAnnouncement>>
     suspend fun getSearchScrapsList(): Result<List<SearchPopularAnnouncement>>
