@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
@@ -61,17 +62,22 @@ fun SearchProcessRoute(
     viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val internSearchResultData by viewModel.internSearchResultData.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val searchResultList = viewModel.internSearchResultFlow.collectAsLazyPagingItems()
+
+    val searchResultTotal = remember(searchResultList.loadState.refresh) {
+        if (searchResultList.itemCount > 0) {
+            searchResultList[0]?.totalCount ?: 0
+        } else {
+            0
+        }
+    }
+
     LaunchedEffect(true) {
-        viewModel.getSearchList(
-            keyword = state.text,
-            page = 0,
-            size = 100
-        )
+        viewModel.getSearchListFlow()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
@@ -96,18 +102,14 @@ fun SearchProcessRoute(
         navigateToIntern = { viewModel.navigateIntern(it) },
         navigateToBack = { navController.navigateUp() },
         state = state,
-        internSearchResultData = internSearchResultData,
+        internSearchResultData = searchResultList.itemSnapshotList.items,
+        searchResultTotal = searchResultTotal,
         updateText = {
             viewModel.updateText(it)
         },
         onSearchAction = {
             viewModel.updateQuery(state.text)
-            viewModel.getSearchList(
-                keyword = state.text,
-                sortBy = state.currentSortBy,
-                page = 0,
-                size = 100,
-            )
+            viewModel.getSearchListFlow()
             viewModel.updateShowSearchResults(true)
             viewModel.updateExistSearchResults()
         },
@@ -158,6 +160,7 @@ fun SearchProcessScreen(
     navigateToBack: () -> Unit,
     state: SearchProcessState = SearchProcessState(),
     internSearchResultData: List<SearchResult> = emptyList(),
+    searchResultTotal: Int = 0,
     updateText: (String) -> Unit = {},
     onSearchAction: () -> Unit = {},
     onSortButtonClick: () -> Unit = {},
@@ -241,7 +244,7 @@ fun SearchProcessScreen(
                             )
                             Spacer(modifier = Modifier.padding(start = 3.dp))
                             Text(
-                                text = internSearchResultData.size.toString(),
+                                text = searchResultTotal.toString(), // Display total search results here
                                 style = TerningTheme.typography.button3,
                                 color = TerningMain,
                             )
