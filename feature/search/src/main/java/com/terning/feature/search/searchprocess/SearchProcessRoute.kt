@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -32,6 +34,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
@@ -74,10 +77,6 @@ fun SearchProcessRoute(
         } else {
             0
         }
-    }
-
-    LaunchedEffect(true) {
-        viewModel.getSearchListFlow()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
@@ -144,11 +143,17 @@ fun SearchProcessRoute(
                 workingPeriod = it.workingPeriod,
                 companyImage = it.companyImage,
                 isScrapped = it.isScrapped,
-                color = it.color
+                color = it.color,
+                totalCount = searchResultTotal
             )
         },
         onSortChange = {
             viewModel.updateSortBy(it)
+        },
+        onEndOfListReached = {
+            if (searchResultList.loadState.append is LoadState.NotLoading) {
+                searchResultList.retry()
+            }
         }
     )
 }
@@ -169,6 +174,7 @@ fun SearchProcessScreen(
     onDismissSheet: () -> Unit = {},
     onScrapButtonClicked: (SearchResult) -> Unit,
     onSortChange: (Int) -> Unit = {},
+    onEndOfListReached: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
@@ -223,6 +229,7 @@ fun SearchProcessScreen(
                     .addFocusCleaner(focusManager),
                 onSearchAction = onSearchAction
             )
+
             if (state.showSearchResults) {
                 Column(
                     modifier = Modifier
@@ -244,7 +251,7 @@ fun SearchProcessScreen(
                             )
                             Spacer(modifier = Modifier.padding(start = 3.dp))
                             Text(
-                                text = searchResultTotal.toString(), // Display total search results here
+                                text = searchResultTotal.toString(),
                                 style = TerningTheme.typography.button3,
                                 color = TerningMain,
                             )
@@ -268,7 +275,12 @@ fun SearchProcessScreen(
                                 top = 12.dp,
                                 bottom = 20.dp,
                             ),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            reverseLayout = false,
+                            state = rememberLazyListState(),
+                            modifier = Modifier.onGloballyPositioned {
+
+                            }
                         ) {
                             items(internSearchResultData.size) { index ->
                                 SearchResultInternItem(
@@ -331,44 +343,43 @@ fun SearchProcessScreen(
                             color = Grey400,
                         )
                     }
-
                 }
             }
         }
+    }
 
-        if (state.sheetState) {
-            SortingBottomSheet(
-                currentSortBy = state.currentSortBy,
-                onDismiss = onDismissSheet,
-                newSortBy = currentSortBy,
-                onSortChange = onSortChange
+    if (state.sheetState) {
+        SortingBottomSheet(
+            currentSortBy = state.currentSortBy,
+            onDismiss = onDismissSheet,
+            newSortBy = currentSortBy,
+            onSortChange = onSortChange
+        )
+    }
+
+    if (state.isScrapDialogVisible) {
+        val searchResult = state.searchResult
+        if (searchResult.isScrapped) {
+            ScrapCancelDialog(
+                internshipAnnouncementId = searchResult.internshipAnnouncementId,
+                onDismissRequest = { isScrapped ->
+                    onDismissCancelDialog(isScrapped, searchResult)
+                }
             )
-        }
-
-        if (state.isScrapDialogVisible) {
-            val searchResult = state.searchResult
-            if (searchResult.isScrapped) {
-                ScrapCancelDialog(
-                    internshipAnnouncementId = searchResult.internshipAnnouncementId,
-                    onDismissRequest = { isScrapped ->
-                        onDismissCancelDialog(isScrapped, searchResult)
-                    }
-                )
-            } else {
-                ScrapDialog(
-                    title = searchResult.title,
-                    scrapColor = CalRed,
-                    deadline = searchResult.deadline,
-                    startYearMonth = searchResult.startYearMonth,
-                    workingPeriod = searchResult.workingPeriod,
-                    internshipAnnouncementId = searchResult.internshipAnnouncementId,
-                    companyImage = searchResult.companyImage,
-                    isScrapped = false,
-                    onDismissRequest = { isScrapped ->
-                        onDismissScrapDialog(isScrapped, searchResult)
-                    }
-                )
-            }
+        } else {
+            ScrapDialog(
+                title = searchResult.title,
+                scrapColor = CalRed,
+                deadline = searchResult.deadline,
+                startYearMonth = searchResult.startYearMonth,
+                workingPeriod = searchResult.workingPeriod,
+                internshipAnnouncementId = searchResult.internshipAnnouncementId,
+                companyImage = searchResult.companyImage,
+                isScrapped = false,
+                onDismissRequest = { isScrapped ->
+                    onDismissScrapDialog(isScrapped, searchResult)
+                }
+            )
         }
     }
 }

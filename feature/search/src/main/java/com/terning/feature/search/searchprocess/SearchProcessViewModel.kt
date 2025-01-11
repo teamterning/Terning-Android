@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.search.entity.SearchResult
+import com.terning.domain.search.repository.SearchRepository
 import com.terning.feature.search.searchprocess.models.SearchProcessState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchProcessViewModel @Inject constructor(
-    private val searchRepository: com.terning.domain.search.repository.SearchRepository,
+    private val searchRepository: SearchRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchProcessState())
@@ -84,6 +85,7 @@ class SearchProcessViewModel @Inject constructor(
         deadline: String,
         startYearMonth: String,
         color: String?,
+        totalCount: Int,
     ) {
         _state.update {
             it.copy(
@@ -97,7 +99,7 @@ class SearchProcessViewModel @Inject constructor(
                     deadline = deadline,
                     startYearMonth = startYearMonth,
                     color = color ?: "",
-                    totalCount = 0
+                    totalCount = totalCount
                 )
             )
         }

@@ -26,7 +26,7 @@ class SearchRepositoryImpl @Inject constructor(
         sortBy: String,
     ): Flow<PagingData<SearchResult>> {
         return Pager(
-            PagingConfig(pageSize = 10)
+            PagingConfig(pageSize = 20)
         ) {
             SearchPagingSource(
                 query = query,
