@@ -54,17 +54,15 @@ internal fun PlanFilteringScreen(
     var isYearNull by remember { mutableStateOf(currentFilteringInfo.startYear == 0 || currentFilteringInfo.startYear == null) }
     var isMonthNull by remember { mutableStateOf(currentFilteringInfo.startMonth == 0 || currentFilteringInfo.startMonth == null) }
 
-    var isInitialNullState by remember { mutableStateOf(false) }
-
     val yearsList by remember(isYearNull) {
         mutableStateOf(
-            if (isYearNull || isInitialNullState) years + NULL_DATE
+            if (isYearNull) years + NULL_DATE
             else years
         )
     }
     val monthsList by remember(isMonthNull) {
         mutableStateOf(
-            if (isMonthNull || isInitialNullState) months + NULL_DATE
+            if (isMonthNull) months + NULL_DATE
             else months
         )
     }
@@ -133,27 +131,24 @@ internal fun PlanFilteringScreen(
         HomeYearMonthPicker(
             chosenYear = currentFilteringInfo.startYear,
             chosenMonth = currentFilteringInfo.startMonth,
-            onYearChosen = { year, isInitialSelection ->
+            onYearChosen = { year ->
                 updateStartYear(year)
                 if (year != null) {
                     updateIsCheckBoxChecked(false)
                     isYearNull = false
-                    isInitialNullState = isInitialSelection
                 }
             },
-            onMonthChosen = { month, isInitialSelection ->
+            onMonthChosen = { month ->
                 updateStartMonth(month)
                 if (month != null) {
                     updateIsCheckBoxChecked(false)
                     isMonthNull = false
-                    isInitialNullState = isInitialSelection
                 }
             },
             isYearNull = isYearNull,
             isMonthNull = isMonthNull,
             yearsList = yearsList.toImmutableList(),
             monthsList = monthsList.toImmutableList(),
-            isInitialNullState = isInitialNullState
         )
 
         Row(

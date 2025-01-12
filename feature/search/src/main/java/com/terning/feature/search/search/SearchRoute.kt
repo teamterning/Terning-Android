@@ -4,8 +4,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,15 +30,18 @@ import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
+import com.terning.domain.search.entity.SearchBanner
+import com.terning.domain.search.entity.SearchPopularAnnouncement
 import com.terning.feature.search.R
 import com.terning.feature.search.search.component.ImageSlider
 import com.terning.feature.search.search.component.InternListType
 import com.terning.feature.search.search.component.SearchInternList
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun SearchRoute(
-    modifier: Modifier,
+    paddingValues: PaddingValues,
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
     viewModel: SearchViewModel = hiltViewModel(),
@@ -46,6 +49,7 @@ fun SearchRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
+    val bannerState by viewModel.bannerState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     val viewState by viewModel.viewState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
     val scrapState by viewModel.scrapState.collectAsStateWithLifecycle(lifecycleOwner = lifecycleOwner)
 
@@ -54,32 +58,38 @@ fun SearchRoute(
     LaunchedEffect(key1 = true) {
         viewModel.getSearchViews()
         viewModel.getSearchScraps()
+        viewModel.getSearchBanners()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SearchSideEffect.Toast -> {
+                    is SearchSideEffect.ShowToast -> {
                         sideEffect.message
                     }
                 }
             }
     }
 
+    val bannerList = when (bannerState.searchBannersList) {
+        is UiState.Success -> (bannerState.searchBannersList as UiState.Success<List<SearchBanner>>).data.toImmutableList()
+        else -> emptyList<SearchBanner>().toImmutableList()
+    }
+
     val searchViewsList = when (viewState.searchViewsList) {
-        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<com.terning.domain.search.entity.SearchPopularAnnouncement>>).data.toImmutableList()
-        else -> emptyList()
+        is UiState.Success -> (viewState.searchViewsList as UiState.Success<List<SearchPopularAnnouncement>>).data.toImmutableList()
+        else -> emptyList<SearchPopularAnnouncement>().toImmutableList()
     }
 
     val searchScrapsList = when (scrapState.searchScrapsList) {
-        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<com.terning.domain.search.entity.SearchPopularAnnouncement>>).data.toImmutableList()
-        else -> emptyList()
+        is UiState.Success -> (scrapState.searchScrapsList as UiState.Success<List<SearchPopularAnnouncement>>).data.toImmutableList()
+        else -> emptyList<SearchPopularAnnouncement>().toImmutableList()
     }
 
     SearchScreen(
-        modifier = modifier,
-        bannerList = SearchViewModel.bannerList,
+        paddingValues = paddingValues,
+        bannerList = bannerList,
         searchViewsList = searchViewsList,
         searchScrapsList = searchScrapsList,
         navigateToSearchProcess = {
@@ -96,25 +106,25 @@ fun SearchRoute(
                 name = "quest_banner"
             )
             CustomTabsIntent.Builder().build()
-                .launchUrl(context, SearchViewModel.bannerList[pageIndex].url.toUri())
+                .launchUrl(context, bannerList[pageIndex].url.toUri())
         }
     )
 }
 
 @Composable
 fun SearchScreen(
-    modifier: Modifier = Modifier,
-    bannerList: List<com.terning.domain.search.entity.SearchBanner>,
-    searchViewsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>,
-    searchScrapsList: List<com.terning.domain.search.entity.SearchPopularAnnouncement>,
+    paddingValues: PaddingValues,
+    bannerList: ImmutableList<SearchBanner>,
+    searchViewsList: ImmutableList<SearchPopularAnnouncement>,
+    searchScrapsList: ImmutableList<SearchPopularAnnouncement>,
     navigateToSearchProcess: () -> Unit,
     navigateToIntern: (Long) -> Unit,
     onAdvertisementClick: (Int) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = Modifier
             .background(White)
+            .padding(paddingValues)
     ) {
         TerningImage(
             painter = R.drawable.ic_terning_logo_typo,
@@ -145,7 +155,7 @@ fun SearchScreen(
         LazyColumn {
             item {
                 ImageSlider(
-                    images = bannerList,
+                    searchBanners = bannerList,
                     onAdvertisementClick = onAdvertisementClick,
                 )
 
