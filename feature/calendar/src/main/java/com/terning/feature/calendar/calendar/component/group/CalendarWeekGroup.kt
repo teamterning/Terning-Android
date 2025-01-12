@@ -3,6 +3,7 @@ package com.terning.feature.calendar.calendar.component.group
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
@@ -45,7 +46,7 @@ internal fun CalendarWeekGroup(
     ){
         dayModels.forEach { dayModel ->
             Column(
-                modifier = Modifier
+                modifier = (Modifier.fillMaxHeight().takeIf { !isWeekEnabled } ?: Modifier)
                     .weight(1f)
                     .noRippleClickable {
                         if (!dayModel.isOutDate) {
@@ -107,7 +108,7 @@ private fun CalendarWeekGroupScrapPreview() {
 
         CalendarWeekGroup(
             selectedDay = DayModel(date = LocalDate.now().minusDays(1), weekIndex = 0, isOutDate = false),
-            isWeekEnabled = false,
+            isWeekEnabled = true,
             dayModels = listOf(
                 DayModel(date = LocalDate.now().minusDays(3), weekIndex = 0, isOutDate = false),
                 DayModel(date = LocalDate.now().minusDays(2), weekIndex = 0, isOutDate = false),
