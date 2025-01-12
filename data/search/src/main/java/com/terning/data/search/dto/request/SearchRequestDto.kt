@@ -11,6 +11,4 @@ data class SearchRequestDto(
     val sortBy: String,
     @SerialName("page")
     val page: Int,
-    @SerialName("size")
-    val size: Int,
 )

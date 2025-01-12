@@ -21,7 +21,6 @@ class SearchPagingSource(
                     keyword = query,
                     sortBy = sortBy,
                     page = nextParamKey,
-                    size = params.loadSize
                 )
             )
             val totalCount = response.result.totalCount
@@ -43,8 +42,8 @@ class SearchPagingSource(
 
     override fun getRefreshKey(state: PagingState<Int, Pair<Int, SearchResultResponseDto.SearchAnnouncementDto>>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
-            val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
 }

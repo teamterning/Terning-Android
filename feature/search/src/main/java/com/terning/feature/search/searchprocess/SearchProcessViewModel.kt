@@ -74,7 +74,6 @@ class SearchProcessViewModel @Inject constructor(
         ).cachedIn(viewModelScope)
     }
 
-
     fun updateSearchResult(
         internshipId: Long,
         title: String,
