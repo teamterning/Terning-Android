@@ -1,6 +1,5 @@
 package com.terning.feature.search.searchprocess
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -141,7 +140,6 @@ fun SearchProcessRoute(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchProcessScreen(
     paddingValues: PaddingValues,
