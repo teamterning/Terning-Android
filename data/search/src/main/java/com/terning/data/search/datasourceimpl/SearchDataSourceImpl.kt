@@ -19,7 +19,6 @@ class SearchDataSourceImpl @Inject constructor(
             request.keyword,
             request.sortBy,
             request.page,
-            request.size
         )
 
     override suspend fun getSearchViews(): BaseResponse<SearchAnnouncementResponseDto> =

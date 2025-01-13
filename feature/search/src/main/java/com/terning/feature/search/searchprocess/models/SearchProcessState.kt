@@ -19,15 +19,16 @@ data class SearchProcessState(
     val selectedInternIndex: Int = 0,
     val sheetState: Boolean = false,
     val changeFilterState: Boolean = false,
-    val searchResult: com.terning.domain.search.entity.SearchResult = com.terning.domain.search.entity.SearchResult(
+    val searchResult: SearchResult = SearchResult(
         internshipAnnouncementId = 0,
         title = "",
-        companyImage = "",
         dDay = "",
         workingPeriod = "",
+        companyImage = "",
         isScrapped = false,
         deadline = "",
         startYearMonth = "",
         color = "",
+        totalCount = 0,
     ),
 )

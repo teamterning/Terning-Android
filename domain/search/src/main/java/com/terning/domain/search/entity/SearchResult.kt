@@ -1,6 +1,7 @@
 package com.terning.domain.search.entity
 
 data class SearchResult(
+    val totalCount: Int,
     val internshipAnnouncementId: Long,
     val title: String,
     val dDay: String,

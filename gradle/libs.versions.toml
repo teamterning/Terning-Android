@@ -97,6 +97,7 @@ amplitude = "1.17.3"
 
 ## Paging
 paging = "3.3.2"
+pagingCommonAndroid = "3.3.5"
 
 
 [libraries]
@@ -183,6 +184,7 @@ amplitude = { group = "com.amplitude", name = "analytics-android", version.ref =
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }
 
 [bundles]
 retrofit =[

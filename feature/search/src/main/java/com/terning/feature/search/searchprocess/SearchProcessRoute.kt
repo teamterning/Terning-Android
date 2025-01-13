@@ -16,7 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -32,7 +35,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.button.SortingButton
 import com.terning.core.designsystem.component.item.InternItemWithShadow
@@ -56,23 +61,14 @@ import com.terning.feature.search.searchprocess.models.SearchProcessState
 @Composable
 fun SearchProcessRoute(
     paddingValues: PaddingValues,
+    viewModel: SearchProcessViewModel = hiltViewModel(),
     navController: NavHostController,
     navigateIntern: (Long) -> Unit,
-    viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val internSearchResultData by viewModel.internSearchResultData.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
-    LaunchedEffect(true) {
-        viewModel.getSearchList(
-            keyword = state.text,
-            page = 0,
-            size = 100
-        )
-    }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -96,18 +92,12 @@ fun SearchProcessRoute(
         navigateToIntern = { viewModel.navigateIntern(it) },
         navigateToBack = { navController.navigateUp() },
         state = state,
-        internSearchResultData = internSearchResultData,
         updateText = {
             viewModel.updateText(it)
         },
         onSearchAction = {
             viewModel.updateQuery(state.text)
-            viewModel.getSearchList(
-                keyword = state.text,
-                sortBy = state.currentSortBy,
-                page = 0,
-                size = 100,
-            )
+            viewModel.getSearchListFlow()
             viewModel.updateShowSearchResults(true)
             viewModel.updateExistSearchResults()
         },
@@ -142,12 +132,14 @@ fun SearchProcessRoute(
                 workingPeriod = it.workingPeriod,
                 companyImage = it.companyImage,
                 isScrapped = it.isScrapped,
-                color = it.color
+                color = it.color,
+                totalCount = it.totalCount
             )
         },
         onSortChange = {
             viewModel.updateSortBy(it)
-        }
+        },
+        viewModel = viewModel
     )
 }
 
@@ -157,7 +149,6 @@ fun SearchProcessScreen(
     navigateToIntern: (Long) -> Unit,
     navigateToBack: () -> Unit,
     state: SearchProcessState = SearchProcessState(),
-    internSearchResultData: List<SearchResult> = emptyList(),
     updateText: (String) -> Unit = {},
     onSearchAction: () -> Unit = {},
     onSortButtonClick: () -> Unit = {},
@@ -166,16 +157,33 @@ fun SearchProcessScreen(
     onDismissSheet: () -> Unit = {},
     onScrapButtonClicked: (SearchResult) -> Unit,
     onSortChange: (Int) -> Unit = {},
+    viewModel: SearchProcessViewModel,
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val currentSortBy = remember { mutableIntStateOf(state.currentSortBy) }
+    var isInitialFocusSet by rememberSaveable { mutableStateOf(false) }
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
+
+    val searchResultList = viewModel.internSearchResultFlow.collectAsLazyPagingItems()
+
+    val searchResultTotal = remember(searchResultList.loadState.refresh) {
+        if (searchResultList.itemCount > 0) {
+            searchResultList[0]?.totalCount ?: 0
+        } else {
+            0
+        }
+    }
+
 
     LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+        if (!isInitialFocusSet) {
+            focusRequester.requestFocus()
+            isInitialFocusSet = true
+        }
     }
+
 
     Column(
         modifier = Modifier
@@ -220,6 +228,7 @@ fun SearchProcessScreen(
                     .addFocusCleaner(focusManager),
                 onSearchAction = onSearchAction
             )
+
             if (state.showSearchResults) {
                 Column(
                     modifier = Modifier
@@ -241,7 +250,7 @@ fun SearchProcessScreen(
                             )
                             Spacer(modifier = Modifier.padding(start = 3.dp))
                             Text(
-                                text = internSearchResultData.size.toString(),
+                                text = searchResultTotal.toString(),
                                 style = TerningTheme.typography.button3,
                                 color = TerningMain,
                             )
@@ -259,28 +268,32 @@ fun SearchProcessScreen(
                         }
                     }
 
-                    if (internSearchResultData.isNotEmpty()) {
+                    if (searchResultList.itemCount > 0) {
                         LazyColumn(
                             contentPadding = PaddingValues(
                                 top = 12.dp,
                                 bottom = 20.dp,
                             ),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
-                            items(internSearchResultData.size) { index ->
-                                SearchResultInternItem(
-                                    intern = internSearchResultData[index],
-                                    navigateToIntern = navigateToIntern,
-                                    onScrapButtonClicked = {
-                                        amplitudeTracker.track(
-                                            type = EventType.CLICK,
-                                            name = "quest_scrap"
-                                        )
-                                        with(internSearchResultData[index]) {
-                                            onScrapButtonClicked(this)
+                            items(searchResultList.itemCount, key = { it }) { index ->
+                                searchResultList[index]?.run {
+                                    SearchResultInternItem(
+                                        intern = searchResultList.itemSnapshotList.items[index],
+                                        navigateToIntern = navigateToIntern,
+                                        onScrapButtonClicked = {
+                                            amplitudeTracker.track(
+                                                type = EventType.CLICK,
+                                                name = "quest_scrap"
+                                            )
+                                            with(searchResultList.itemSnapshotList.items[index]) {
+                                                onScrapButtonClicked(this)
+                                            }
                                         }
-                                    }
-                                )
+                                    )
+                                }
                             }
                         }
                     } else {
@@ -328,48 +341,46 @@ fun SearchProcessScreen(
                             color = Grey400,
                         )
                     }
-
                 }
             }
         }
+    }
 
-        if (state.sheetState) {
-            SortingBottomSheet(
-                currentSortBy = state.currentSortBy,
-                onDismiss = onDismissSheet,
-                newSortBy = currentSortBy,
-                onSortChange = onSortChange
+    if (state.sheetState) {
+        SortingBottomSheet(
+            currentSortBy = state.currentSortBy,
+            onDismiss = onDismissSheet,
+            newSortBy = currentSortBy,
+            onSortChange = onSortChange
+        )
+    }
+
+    if (state.isScrapDialogVisible) {
+        val searchResult = state.searchResult
+        if (searchResult.isScrapped) {
+            ScrapCancelDialog(
+                internshipAnnouncementId = searchResult.internshipAnnouncementId,
+                onDismissRequest = { isScrapped ->
+                    onDismissCancelDialog(isScrapped, searchResult)
+                }
             )
-        }
-
-        if (state.isScrapDialogVisible) {
-            val searchResult = state.searchResult
-            if (searchResult.isScrapped) {
-                ScrapCancelDialog(
-                    internshipAnnouncementId = searchResult.internshipAnnouncementId,
-                    onDismissRequest = { isScrapped ->
-                        onDismissCancelDialog(isScrapped, searchResult)
-                    }
-                )
-            } else {
-                ScrapDialog(
-                    title = searchResult.title,
-                    scrapColor = CalRed,
-                    deadline = searchResult.deadline,
-                    startYearMonth = searchResult.startYearMonth,
-                    workingPeriod = searchResult.workingPeriod,
-                    internshipAnnouncementId = searchResult.internshipAnnouncementId,
-                    companyImage = searchResult.companyImage,
-                    isScrapped = false,
-                    onDismissRequest = { isScrapped ->
-                        onDismissScrapDialog(isScrapped, searchResult)
-                    }
-                )
-            }
+        } else {
+            ScrapDialog(
+                title = searchResult.title,
+                scrapColor = CalRed,
+                deadline = searchResult.deadline,
+                startYearMonth = searchResult.startYearMonth,
+                workingPeriod = searchResult.workingPeriod,
+                internshipAnnouncementId = searchResult.internshipAnnouncementId,
+                companyImage = searchResult.companyImage,
+                isScrapped = false,
+                onDismissRequest = { isScrapped ->
+                    onDismissScrapDialog(isScrapped, searchResult)
+                }
+            )
         }
     }
 }
-
 
 @Composable
 private fun SearchResultInternItem(
