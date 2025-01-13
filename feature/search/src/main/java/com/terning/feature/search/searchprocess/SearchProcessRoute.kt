@@ -1,5 +1,6 @@
 package com.terning.feature.search.searchprocess
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -58,25 +59,15 @@ import com.terning.feature.search.searchprocess.models.SearchProcessState
 @Composable
 fun SearchProcessRoute(
     paddingValues: PaddingValues,
+    viewModel: SearchProcessViewModel = hiltViewModel(),
     navController: NavHostController,
     navigateIntern: (Long) -> Unit,
-    viewModel: SearchProcessViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    val searchResultList = viewModel.internSearchResultFlow.collectAsLazyPagingItems()
-
-    val searchResultTotal = remember(searchResultList.loadState.refresh) {
-        if (searchResultList.itemCount > 0) {
-            searchResultList[0]?.totalCount ?: 0
-        } else {
-            0
-        }
-    }
-    
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -99,8 +90,6 @@ fun SearchProcessRoute(
         navigateToIntern = { viewModel.navigateIntern(it) },
         navigateToBack = { navController.navigateUp() },
         state = state,
-        internSearchResultData = searchResultList.itemSnapshotList.items,
-        searchResultTotal = searchResultTotal,
         updateText = {
             viewModel.updateText(it)
         },
@@ -142,23 +131,23 @@ fun SearchProcessRoute(
                 companyImage = it.companyImage,
                 isScrapped = it.isScrapped,
                 color = it.color,
-                totalCount = searchResultTotal
+                totalCount = it.totalCount
             )
         },
         onSortChange = {
             viewModel.updateSortBy(it)
         },
+        viewModel = viewModel
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchProcessScreen(
     paddingValues: PaddingValues,
     navigateToIntern: (Long) -> Unit,
     navigateToBack: () -> Unit,
     state: SearchProcessState = SearchProcessState(),
-    internSearchResultData: List<SearchResult> = emptyList(),
-    searchResultTotal: Int = 0,
     updateText: (String) -> Unit = {},
     onSearchAction: () -> Unit = {},
     onSortButtonClick: () -> Unit = {},
@@ -167,12 +156,23 @@ fun SearchProcessScreen(
     onDismissSheet: () -> Unit = {},
     onScrapButtonClicked: (SearchResult) -> Unit,
     onSortChange: (Int) -> Unit = {},
+    viewModel: SearchProcessViewModel,
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val currentSortBy = remember { mutableIntStateOf(state.currentSortBy) }
 
     val amplitudeTracker = LocalTracker.current
+
+    val searchResultList = viewModel.internSearchResultFlow.collectAsLazyPagingItems()
+
+    val searchResultTotal = remember(searchResultList.loadState.refresh) {
+        if (searchResultList.itemCount > 0) {
+            searchResultList[0]?.totalCount ?: 0
+        } else {
+            0
+        }
+    }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -261,7 +261,7 @@ fun SearchProcessScreen(
                         }
                     }
 
-                    if (internSearchResultData.isNotEmpty()) {
+                    if (searchResultList.itemCount > 0) {
                         LazyColumn(
                             contentPadding = PaddingValues(
                                 top = 12.dp,
@@ -271,20 +271,22 @@ fun SearchProcessScreen(
                                 .fillMaxWidth(),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
-                            items(internSearchResultData.size) { index ->
-                                SearchResultInternItem(
-                                    intern = internSearchResultData[index],
-                                    navigateToIntern = navigateToIntern,
-                                    onScrapButtonClicked = {
-                                        amplitudeTracker.track(
-                                            type = EventType.CLICK,
-                                            name = "quest_scrap"
-                                        )
-                                        with(internSearchResultData[index]) {
-                                            onScrapButtonClicked(this)
+                            items(searchResultList.itemCount, key = { it }) { index ->
+                                searchResultList[index]?.run {
+                                    SearchResultInternItem(
+                                        intern = searchResultList.itemSnapshotList.items[index],
+                                        navigateToIntern = navigateToIntern,
+                                        onScrapButtonClicked = {
+                                            amplitudeTracker.track(
+                                                type = EventType.CLICK,
+                                                name = "quest_scrap"
+                                            )
+                                            with(searchResultList.itemSnapshotList.items[index]) {
+                                                onScrapButtonClicked(this)
+                                            }
                                         }
-                                    }
-                                )
+                                    )
+                                }
                             }
                         }
                     } else {
