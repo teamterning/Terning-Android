@@ -16,7 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -159,6 +162,7 @@ fun SearchProcessScreen(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     val currentSortBy = remember { mutableIntStateOf(state.currentSortBy) }
+    var isInitialFocusSet by rememberSaveable { mutableStateOf(false) }
 
     val amplitudeTracker = LocalTracker.current
 
@@ -172,9 +176,14 @@ fun SearchProcessScreen(
         }
     }
 
+
     LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+        if (!isInitialFocusSet) {
+            focusRequester.requestFocus()
+            isInitialFocusSet = true
+        }
     }
+
 
     Column(
         modifier = Modifier
