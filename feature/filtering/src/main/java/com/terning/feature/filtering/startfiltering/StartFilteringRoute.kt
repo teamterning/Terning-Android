@@ -65,7 +65,13 @@ fun StartFilteringRoute(
                 name = "start_service"
             )
         },
-        onLaterClick = onLaterClick,
+        onLaterClick = {
+            onLaterClick()
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "skip_plan"
+            )
+        },
         buttonState = state.isButtonVisible,
         screenHeight = screenHeight,
     )
