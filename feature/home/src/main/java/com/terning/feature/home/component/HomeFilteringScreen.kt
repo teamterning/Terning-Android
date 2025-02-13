@@ -38,7 +38,7 @@ fun HomeFilteringScreen(
             .noRippleClickable {
                 amplitudeTracker.track(
                     type = EventType.CLICK,
-                    name = "home_filtering"
+                    name = "filtering"
                 )
                 onChangeFilterClick()
             },
