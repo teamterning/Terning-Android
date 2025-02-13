@@ -286,7 +286,7 @@ fun SearchProcessScreen(
                                         onScrapButtonClicked = {
                                             amplitudeTracker.track(
                                                 type = EventType.CLICK,
-                                                name = "quest_scrap"
+                                                name = "search_scrap"
                                             )
                                             with(searchResultList.itemSnapshotList.items[index]) {
                                                 onScrapButtonClicked(this)
