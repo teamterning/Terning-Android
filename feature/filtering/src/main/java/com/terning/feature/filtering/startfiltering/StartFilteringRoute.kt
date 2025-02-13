@@ -69,7 +69,7 @@ fun StartFilteringRoute(
             onLaterClick()
             amplitudeTracker.track(
                 type = EventType.CLICK,
-                name = "skip_plan"
+                name = "onboarding_pass"
             )
         },
         buttonState = state.isButtonVisible,
