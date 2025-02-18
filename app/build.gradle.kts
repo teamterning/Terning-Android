@@ -47,6 +47,7 @@ android {
         debug {
             applicationIdSuffix = ".debug"
             isDebuggable = true
+            manifestPlaceholders["appName"] = "@string/app_name_debug"
         }
         release {
             isMinifyEnabled = false
@@ -55,6 +56,7 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
+            manifestPlaceholders["appName"] = "@string/app_name"
         }
     }
     kotlinOptions {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">terning</string>
+    <string name="app_name_debug">terning(DEBUG)</string>
 
     <!--BottomNavigation-->
     <string name="bottom_nav_home">홈</string>
