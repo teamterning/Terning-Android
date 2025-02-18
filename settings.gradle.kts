@@ -78,3 +78,5 @@ include(
     ":feature:onboarding",
     ":feature:search"
 )
+
+include(":baselineprofile")

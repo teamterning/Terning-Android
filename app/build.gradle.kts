@@ -3,6 +3,8 @@ import com.terning.build_logic.extension.setNamespace
 
 plugins {
     alias(libs.plugins.terning.application)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.baselineprofile)
 }
 
 val properties = Properties().apply {
@@ -83,4 +85,8 @@ dependencies {
 
     implementation(libs.timber)
     implementation(libs.kakao.user)
+
+    // baseline profile
+    implementation(libs.androidx.profileinstaller)
+    "baselineProfile"(project(":baselineprofile"))
 }
