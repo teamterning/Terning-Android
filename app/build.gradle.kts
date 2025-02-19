@@ -3,7 +3,6 @@ import com.terning.build_logic.extension.setNamespace
 
 plugins {
     alias(libs.plugins.terning.application)
-    alias(libs.plugins.android.application)
     alias(libs.plugins.baselineprofile)
 }
 
