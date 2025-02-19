@@ -54,6 +54,12 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
         }
+        create("benchmark"){
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks +=listOf("release")
+            isDebuggable = false
+            proguardFiles("baseline-profiles-rules.pro")
+        }
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
@@ -83,10 +89,10 @@ dependencies {
     implementation(projects.data.tokenreissue)
     implementation(projects.data.search)
 
+    // baseline profile
+    baselineProfile(projects.baselineprofile)
+    implementation(libs.androidx.profileinstaller)
+
     implementation(libs.timber)
     implementation(libs.kakao.user)
-
-    // baseline profile
-    implementation(libs.androidx.profileinstaller)
-    "baselineProfile"(project(":baselineprofile"))
 }
