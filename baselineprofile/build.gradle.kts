@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.terning.point.baselineprofile"
-    compileSdk = 35
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -16,12 +16,12 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 
     defaultConfig {
-        minSdk = 28
-        targetSdk = 35
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
@@ -29,6 +29,9 @@ android {
 
     targetProjectPath = ":app"
 
+    // This code creates the gradle managed device used to generate baseline profiles.
+    // To use GMD please invoke generation through the command line:
+    // ./gradlew :app:generateBaselineProfile
     testOptions.managedDevices.devices {
         create<ManagedVirtualDevice>("pixel5Api33") {
             device = "Pixel 5"
