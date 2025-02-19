@@ -16,7 +16,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = "11"
     }
 
     defaultConfig {
