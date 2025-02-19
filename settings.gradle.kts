@@ -29,6 +29,9 @@ rootProject.name = "Terning-Android"
 
 include(":app")
 
+// baseline profile
+include(":baselineprofile")
+
 // core
 include(
     ":core:analytics",
@@ -78,6 +81,3 @@ include(
     ":feature:onboarding",
     ":feature:search"
 )
-
-// baseline profile
-include(":baselineprofile")

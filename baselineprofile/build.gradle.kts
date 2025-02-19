@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ManagedVirtualDevice
+
 plugins {
     alias(libs.plugins.android.test)
     alias(libs.plugins.kotlin.android)
@@ -22,16 +24,26 @@ android {
         targetSdk = 35
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
     }
 
     targetProjectPath = ":app"
+
+    testOptions.managedDevices.devices {
+        create<ManagedVirtualDevice>("pixel5Api33") {
+            device = "Pixel 5"
+            apiLevel = 33
+            systemImageSource = "google"
+        }
+    }
 
 }
 
 // This is the configuration block for the Baseline Profile plugin.
 // You can specify to run the generators on a managed devices or connected devices.
 baselineProfile {
-    useConnectedDevices = true
+    managedDevices += "pixel5Api33"
+    useConnectedDevices = false
 }
 
 dependencies {

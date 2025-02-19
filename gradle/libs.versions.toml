@@ -102,7 +102,7 @@ pagingCommonAndroid = "3.3.5"
 # Baseline Profile
 uiautomator = "2.3.0"
 benchmarkMacroJunit4 = "1.3.3"
-baselineprofile = "1.2.4"
+baselineprofile = "1.3.3"
 profileinstaller = "1.4.1"
 
 [libraries]
