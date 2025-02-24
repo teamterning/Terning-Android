@@ -1,8 +1,9 @@
-import java.util.Properties
 import com.terning.build_logic.extension.setNamespace
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.terning.application)
+    alias(libs.plugins.baselineprofile)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -56,6 +57,12 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
         }
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+            proguardFiles("baseline-profiles-rules.pro")
+        }
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
@@ -83,6 +90,10 @@ dependencies {
     implementation(projects.data.token)
     implementation(projects.data.tokenreissue)
     implementation(projects.data.search)
+
+    // baseline profile
+    baselineProfile(projects.baselineprofile)
+    implementation(libs.androidx.profileinstaller)
 
     implementation(libs.timber)
     implementation(libs.kakao.user)
