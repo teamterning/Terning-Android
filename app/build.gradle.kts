@@ -3,6 +3,7 @@ import com.terning.build_logic.extension.setNamespace
 
 plugins {
     alias(libs.plugins.terning.application)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 val properties = Properties().apply {
@@ -44,6 +45,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -64,7 +68,6 @@ android {
     }
 }
 
-
 dependencies {
     // feature
     implementation(projects.feature.main)
@@ -83,4 +86,5 @@ dependencies {
 
     implementation(libs.timber)
     implementation(libs.kakao.user)
+    implementation(libs.kotlinx.serialization.json)
 }
