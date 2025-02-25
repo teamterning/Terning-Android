@@ -41,7 +41,7 @@ workManagerVersion = "2.8.1"
 ossVersion = "17.0.0"
 
 ## Kotlin
-kotlin = "1.9.0"
+kotlin = "2.0.0"
 kotlinxImmutable = "0.3.7"
 kotlinxSerializationJsonVersion = "1.5.1"
 serialization = "1.6.3"
