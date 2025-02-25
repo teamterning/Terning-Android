@@ -4,7 +4,6 @@ minSdk = "28"
 targetSdk = "35"
 versionName = "1.2.2"
 versionCode = "102020"
-kotlinCompilerExtensionVersion = "1.5.2"
 jvmTarget = "1.8"
 
 ## Android gradle plugin
@@ -19,10 +18,10 @@ androidxActivity = "1.9.0"
 androidxDatastore = "1.1.1"
 
 ## Kotlin Symbol Processing
-ksp = "1.9.0-1.0.12"
+ksp = "2.0.0-1.0.22"
 
 ## Compose
-androidxComposeBom = "2024.04.01"
+androidxComposeBom = "2024.05.00"
 androidxComposeMaterial3 = "1.2.1"
 composeNavigation = "2.8.0-beta04"
 composeSavable = "1.4.3"
@@ -120,7 +119,7 @@ androidx-hiltWorkManagerCompiler = { group = "androidx.hilt", name = "hilt-compi
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref  = "androidxComposeBom" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
@@ -128,7 +127,6 @@ androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-t
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 androidx-compose-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "composeNavigation" }
 androidx-compose-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "composeSavable" }
-compose-compiler-gradle-plugin = { group = "androidx.compose.compiler", name = "compiler", version.ref = "kotlinCompilerExtensionVersion" }
 
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -218,7 +216,6 @@ android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlinParcelize" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version = "kotlinCompilerExtensionVersion" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
