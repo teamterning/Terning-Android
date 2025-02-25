@@ -21,7 +21,7 @@ androidxDatastore = "1.1.1"
 ksp = "2.0.0-1.0.22"
 
 ## Compose
-androidxComposeBom = "2024.05.00"
+androidxComposeBom = "2024.04.01"
 androidxComposeMaterial3 = "1.2.1"
 composeNavigation = "2.8.0-beta04"
 composeSavable = "1.4.3"
@@ -119,7 +119,7 @@ androidx-hiltWorkManagerCompiler = { group = "androidx.hilt", name = "hilt-compi
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref  = "androidxComposeBom" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
