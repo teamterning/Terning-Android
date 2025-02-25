@@ -30,6 +30,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.extension.noRippleClickable
@@ -75,6 +77,8 @@ internal fun HomeFilteringBottomSheet(
             }
         )
     }
+
+    val amplitudeTracker = LocalTracker.current
 
     GetPagerHeight(
         onHeightMeasured = {
@@ -193,6 +197,18 @@ internal fun HomeFilteringBottomSheet(
                                 startYear,
                                 startMonth,
                                 jobType
+                            )
+                            amplitudeTracker.track(
+                                type = EventType.CLICK,
+                                name = "home_filtering_save",
+                                properties = mapOf(
+                                    "jobType" to jobType,
+                                    "grade" to grade,
+                                    "workingPeriod" to workingPeriod,
+                                    "startYear" to startYear,
+                                    "startMonth" to startMonth,
+                                    "planSaveAll" to isCheckBoxChecked
+                                )
                             )
                         }
                     },
