@@ -1,8 +1,10 @@
-import java.util.Properties
 import com.terning.build_logic.extension.setNamespace
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.terning.application)
+    alias(libs.plugins.baselineprofile)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 val properties = Properties().apply {
@@ -44,6 +46,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -51,6 +56,12 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
+        }
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+            proguardFiles("baseline-profiles-rules.pro")
         }
     }
     kotlinOptions {
@@ -63,7 +74,6 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtensionVersion.get()
     }
 }
-
 
 dependencies {
     // feature
@@ -81,6 +91,11 @@ dependencies {
     implementation(projects.data.tokenreissue)
     implementation(projects.data.search)
 
+    // baseline profile
+    baselineProfile(projects.baselineprofile)
+    implementation(libs.androidx.profileinstaller)
+
     implementation(libs.timber)
     implementation(libs.kakao.user)
+    implementation(libs.kotlinx.serialization.json)
 }
