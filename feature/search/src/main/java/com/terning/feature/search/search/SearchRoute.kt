@@ -95,7 +95,7 @@ fun SearchRoute(
         navigateToSearchProcess = {
             amplitudeTracker.track(
                 type = EventType.CLICK,
-                name = "quest_search"
+                name = "search_search"
             )
             navigateToSearchProcess()
         },
@@ -103,7 +103,7 @@ fun SearchRoute(
         onAdvertisementClick = { pageIndex ->
             amplitudeTracker.track(
                 type = EventType.CLICK,
-                name = "quest_banner"
+                name = "search_banner"
             )
             CustomTabsIntent.Builder().build()
                 .launchUrl(context, bannerList[pageIndex].url.toUri())

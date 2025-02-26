@@ -33,13 +33,15 @@
 <br>
 
 ## DEPENDENCY GRAPH
-  <img src="https://github.com/user-attachments/assets/0d88e4fe-b170-4aae-83e6-c9017b2bc893"/>
+  <img src="https://github.com/user-attachments/assets/a3f8cda6-0057-45ed-abac-714f25cb2243"/>
 
 ## MODULE & PACKAGE CONVENTION
 
 ```
 
 🗃️app
+
+🗃️baselineprofile
 
 🗃️build-logic
  ┣ 📂️convention

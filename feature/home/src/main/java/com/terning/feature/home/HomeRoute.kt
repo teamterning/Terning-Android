@@ -180,11 +180,11 @@ fun HomeScreen(
                 amplitudeTracker.track(
                     type = EventType.CLICK,
                     name = when (sortBy) {
-                        0 -> "filtered_deadline"
-                        1 -> "filtered_short_term"
-                        2 -> "filtered_long_term"
-                        3 -> "filtered_scraps"
-                        else -> "filtered_hits"
+                        0 -> "in_order_of_deadline"
+                        1 -> "in_order_of_short_term"
+                        2 -> "in_order_of_long_term"
+                        3 -> "in_order_of_scraps"
+                        else -> "in_order_of_hits"
                     }
                 )
                 updateSortBy(sortBy)
@@ -197,10 +197,6 @@ fun HomeScreen(
             onDismiss = { changeFilteringSheetState = false },
             defaultFilteringInfo = homeFilteringInfo,
             onChangeButtonClick = { grade, workingPeriod, year, month, jobType ->
-                amplitudeTracker.track(
-                    type = EventType.CLICK,
-                    name = "home_filtering_save"
-                )
                 viewModel.putFilteringInfo(grade, workingPeriod, year, month, jobType)
                 changeFilteringSheetState = false
             }

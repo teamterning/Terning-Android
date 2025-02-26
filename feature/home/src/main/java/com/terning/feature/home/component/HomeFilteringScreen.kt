@@ -55,7 +55,7 @@ fun HomeFilteringScreen(
                 onClick = {
                     amplitudeTracker.track(
                         type = EventType.CLICK,
-                        name = "home_filtering"
+                        name = "filtering"
                     )
                     onChangeFilterClick()
                 }
