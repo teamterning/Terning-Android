@@ -1,25 +1,17 @@
 package com.terning.build_logic.convention
 
-import com.android.build.gradle.BaseExtension
 import com.terning.build_logic.extension.libs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
 internal fun Project.configureComposeAndroid() {
+    with(plugins) {
+        apply("org.jetbrains.kotlin.plugin.compose")
+    }
 
     val libs = extensions.libs
-
-    extensions.getByType<BaseExtension>().apply {
-        composeOptions {
-            kotlinCompilerExtensionVersion =
-                libs.findVersion("kotlinCompilerExtensionVersion").get().requiredVersion
-        }
-    }
-
-    extensions.getByType<BaseExtension>().apply {
-        buildFeatures.compose = true
-    }
 
     dependencies {
         add("implementation", libs.findLibrary("androidx.compose.material3").get())
@@ -31,5 +23,10 @@ internal fun Project.configureComposeAndroid() {
         add("implementation", libs.findLibrary("androidx.compose.saveable").get())
         add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
         add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+    }
+
+    extensions.getByType<ComposeCompilerGradlePluginExtension>().apply {
+        enableStrongSkippingMode.set(true)
+        includeSourceInformation.set(true)
     }
 }

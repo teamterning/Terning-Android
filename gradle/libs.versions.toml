@@ -4,7 +4,6 @@ minSdk = "28"
 targetSdk = "35"
 versionName = "1.2.2"
 versionCode = "102020"
-kotlinCompilerExtensionVersion = "1.5.2"
 jvmTarget = "1.8"
 
 ## Android gradle plugin
@@ -19,7 +18,7 @@ androidxActivity = "1.9.0"
 androidxDatastore = "1.1.1"
 
 ## Kotlin Symbol Processing
-ksp = "1.9.0-1.0.12"
+ksp = "2.0.0-1.0.22"
 
 ## Compose
 androidxComposeBom = "2024.04.01"
@@ -41,7 +40,7 @@ workManagerVersion = "2.8.1"
 ossVersion = "17.0.0"
 
 ## Kotlin
-kotlin = "1.9.0"
+kotlin = "2.0.0"
 kotlinxImmutable = "0.3.7"
 kotlinxSerializationJsonVersion = "1.5.1"
 serialization = "1.6.3"
@@ -128,7 +127,6 @@ androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-t
 androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 androidx-compose-navigation-test = { group = "androidx.navigation", name = "navigation-testing", version.ref = "composeNavigation" }
 androidx-compose-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "composeSavable" }
-compose-compiler-gradle-plugin = { group = "androidx.compose.compiler", name = "compiler", version.ref = "kotlinCompilerExtensionVersion" }
 
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -173,6 +171,7 @@ coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-
 kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+compose-compiler-extension = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
@@ -217,8 +216,8 @@ android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlinParcelize" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version = "kotlinCompilerExtensionVersion" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 terning-application = { id = "terning.android.application", version = "unspecified" }
 terning-compose = { id = "terning.android.compose", version = "unspecified" }
