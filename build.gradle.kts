@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.baselineprofile) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 buildscript {

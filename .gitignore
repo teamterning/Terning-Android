@@ -51,6 +51,9 @@ gen-external-apklibs
 # BlueJ files
 *.ctxt
 
+# Kotlin files
+.kotlin/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
