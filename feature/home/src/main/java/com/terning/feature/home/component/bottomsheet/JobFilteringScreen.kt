@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.extension.noRippleClickable
-import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey300
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.TerningMain
@@ -74,7 +74,7 @@ private fun JobTypeItem(
         modifier = modifier
             .border(
                 width = 1.dp,
-                color = if (isSelected) TerningMain else Grey200,
+                color = if (isSelected) TerningMain else Grey150,
                 shape = RoundedCornerShape(10.dp)
             )
             .noRippleClickable { onButtonClick(jobType) }
