@@ -14,4 +14,10 @@ dependencies {
 
     // feature
     implementation(projects.feature.dialog)
+
+    testImplementation(libs.bundles.androidx.compose.ui.test)
+    testImplementation(libs.hilt.android.testing)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.coroutines.test)
+    testImplementation(projects.core.testing)
 }
