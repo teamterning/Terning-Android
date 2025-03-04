@@ -81,3 +81,4 @@ include(
     ":feature:onboarding",
     ":feature:search"
 )
+include(":core:testing")
