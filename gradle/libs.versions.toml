@@ -107,6 +107,7 @@ profileinstaller = "1.4.1"
 # Google
 google-services = "4.4.2"
 firebaseBom = "33.10.0"
+firebaseMessaging = "24.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -200,6 +201,7 @@ androidx-paging-common-android = { group = "androidx.paging", name = "paging-com
 
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessaging" }
 
 [bundles]
 retrofit =[
