@@ -79,7 +79,7 @@ dependencies {
     // feature
     implementation(projects.feature.main)
 
-    // dataz
+    // data
     implementation(projects.data.auth)
     implementation(projects.data.calendar)
     implementation(projects.data.filtering)
