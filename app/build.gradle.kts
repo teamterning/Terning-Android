@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.terning.application)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.service)
 }
 
 val properties = Properties().apply {
@@ -98,4 +99,7 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.kakao.user)
     implementation(libs.kotlinx.serialization.json)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
 }
