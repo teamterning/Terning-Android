@@ -1,9 +1,11 @@
+import com.terning.build_logic.extension.setNamespace
+
 plugins {
     alias(libs.plugins.terning.library)
 }
 
 android {
-    namespace = "com.watcha.testing"
+    setNamespace("testing")
 }
 
 dependencies {
