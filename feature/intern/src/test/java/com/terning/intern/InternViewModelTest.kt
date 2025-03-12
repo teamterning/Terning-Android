@@ -4,10 +4,10 @@ import com.terning.core.designsystem.state.UiState
 import com.terning.domain.intern.entity.InternInfo
 import com.terning.domain.intern.repository.InternRepository
 import com.terning.feature.intern.InternViewModel
-import com.watcha.testing.util.MainDispatcherRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.terning.testing.util.MainDispatcherRule
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -15,7 +15,6 @@ import org.junit.Test
 import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.mock
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class InternViewModelTest {
 
     @get:Rule
@@ -55,8 +54,8 @@ class InternViewModelTest {
         viewModel.getInternInfo(1)
 
         val uiState = viewModel.internUiState.first()
-        assert(uiState.loadState is UiState.Success)
-        assert((uiState.loadState as UiState.Success).data == mockInternInfo)
+        assertTrue(uiState.loadState is UiState.Success)
+        assertEquals((uiState.loadState as UiState.Success).data, mockInternInfo)
     }
 
 }
