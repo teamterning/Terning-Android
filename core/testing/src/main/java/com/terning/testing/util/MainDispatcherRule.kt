@@ -1,4 +1,4 @@
-package com.watcha.testing.util
+package com.terning.testing.util
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

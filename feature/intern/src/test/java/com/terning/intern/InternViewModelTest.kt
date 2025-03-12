@@ -53,7 +53,6 @@ class InternViewModelTest {
             .`when`(internRepository).getInternInfo(1)
 
         viewModel.getInternInfo(1)
-        advanceUntilIdle()
 
         val uiState = viewModel.internUiState.first()
         assert(uiState.loadState is UiState.Success)

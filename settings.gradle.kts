@@ -38,8 +38,7 @@ include(
     ":core:designsystem",
     ":core:navigation",
     ":core:network",
-    ":core:local",
-    ":core:testing"
+    ":core:local"
 )
 
 // data
@@ -82,3 +81,4 @@ include(
     ":feature:onboarding",
     ":feature:search"
 )
+include(":core:testing")
