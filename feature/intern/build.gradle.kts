@@ -14,4 +14,6 @@ dependencies {
 
     // feature
     implementation(projects.feature.dialog)
+
+    testImplementation(projects.core.testing)
 }
