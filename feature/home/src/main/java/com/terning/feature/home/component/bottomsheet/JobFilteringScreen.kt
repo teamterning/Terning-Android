@@ -80,9 +80,7 @@ private fun JobTypeItem(
             .noRippleClickable { onButtonClick(jobType) }
             .padding(
                 top = 31.dp,
-                bottom = 33.dp,
-                start = 27.dp,
-                end = 26.dp
+                bottom = 33.dp
             ),
     ) {
         Icon(
