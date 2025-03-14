@@ -3,13 +3,16 @@ package com.terning.feature.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
@@ -34,6 +39,7 @@ import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
+import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
@@ -317,46 +323,72 @@ fun HomeScreen(
                 }
             }
 
-            if (recommendedInternList.itemCount == 0) {
-                item {
-                    HomeRecommendEmptyIntern(
-                        text = R.string.home_recommend_no_intern
-                    )
-                }
-            } else {
-                items(recommendedInternList.itemCount, key = { it }) { index ->
-                    recommendedInternList[index]?.run {
-                        RecommendInternItem(
-                            navigateToIntern = navigateToIntern,
-                            intern = this,
-                            onScrapButtonClicked = {
-                                amplitudeTracker.track(
-                                    type = EventType.CLICK,
-                                    name = "home_scrap"
-                                )
-                                updateRecommendDialogVisibility(true)
-                                with(this) {
-                                    viewModel.updateHomeInternModel(
-                                        internshipAnnouncementId = internshipAnnouncementId,
-                                        companyImage = companyImage,
-                                        title = title,
-                                        dDay = dDay,
-                                        deadline = deadline,
-                                        workingPeriod = workingPeriod,
-                                        isScrapped = isScrapped,
-                                        color = color,
-                                        startYearMonth = startYearMonth,
-                                    )
-                                }
-                            }
+            recommendedInternLazyList(
+                recommendedInternList = recommendedInternList,
+                navigateToIntern = navigateToIntern,
+                onScrapButtonClicked = { internItem ->
+                    with(internItem) {
+                        amplitudeTracker.track(
+                            type = EventType.CLICK,
+                            name = "home_scrap"
+                        )
+                        updateRecommendDialogVisibility(true)
+                        viewModel.updateHomeInternModel(
+                            internshipAnnouncementId = internshipAnnouncementId,
+                            companyImage = companyImage,
+                            title = title,
+                            dDay = dDay,
+                            deadline = deadline,
+                            workingPeriod = workingPeriod,
+                            isScrapped = isScrapped,
+                            color = color,
+                            startYearMonth = startYearMonth,
                         )
                     }
+                }
+            )
+        }
+    }
+}
+
+private fun LazyListScope.recommendedInternLazyList(
+    recommendedInternList: LazyPagingItems<HomeRecommendedIntern>,
+    navigateToIntern: (Long) -> Unit,
+    onScrapButtonClicked: (HomeRecommendedIntern) -> Unit,
+) {
+    if (recommendedInternList.itemCount == 0) {
+        item {
+            HomeRecommendEmptyIntern(
+                text = R.string.home_recommend_no_intern,
+            )
+        }
+    } else {
+        items(recommendedInternList.itemCount, key = { it }) { index ->
+            recommendedInternList[index]?.run {
+                RecommendInternItem(
+                    navigateToIntern = navigateToIntern,
+                    intern = this,
+                    onScrapButtonClicked = { onScrapButtonClicked(this) },
+                )
+            }
+        }
+
+        item {
+            if (recommendedInternList.loadState.append == LoadState.Loading) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    TerningLottieAnimation(
+                        jsonFile = com.terning.core.designsystem.R.raw.paging_loading_animation,
+                        modifier = Modifier.size(28.dp),
+                        iterations = Int.MAX_VALUE,
+                    )
                 }
             }
         }
     }
 }
-
 
 @Composable
 private fun RecommendInternItem(
