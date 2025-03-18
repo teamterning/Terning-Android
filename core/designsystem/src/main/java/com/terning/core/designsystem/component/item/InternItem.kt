@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.terning.core.designsystem.R
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Black
@@ -65,6 +66,8 @@ fun InternItem(
     isApplyClosed: Boolean = false,
     onScrapButtonClicked: (Long) -> Unit = {},
 ) {
+    val context = LocalContext.current
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -73,9 +76,11 @@ fun InternItem(
         verticalAlignment = Alignment.Bottom
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
+            model = ImageRequest.Builder(context)
                 .data(imageUrl)
+                .crossfade(true)
                 .build(),
+            placeholder = painterResource(R.drawable.ic_terning_intern_item_image_loading_76),
             contentDescription = title,
             contentScale = ContentScale.Fit,
             modifier = Modifier
@@ -179,10 +184,10 @@ fun TwoLineHeightText(
 fun InternItemPreview() {
     TerningPointTheme {
         InternItem(
-            imageUrl = "",
-            title = "[Someone] 콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인콘텐츠 마케터 대학생 마케터 대학생 인턴 채용 공고",
-            dateDeadline = "3",
-            workingPeriod = "6",
+            imageUrl = "https://media-cdn.linkareer.com/activity_manager/logos/519245",
+            title = "영상 디자이너 (모션그래픽) (인턴/1년)",
+            dateDeadline = "D-13",
+            workingPeriod = "3개월",
             isScraped = true
         )
     }
