@@ -14,11 +14,11 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -66,8 +66,6 @@ fun InternItem(
     isApplyClosed: Boolean = false,
     onScrapButtonClicked: (Long) -> Unit = {},
 ) {
-    val context = LocalContext.current
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -75,22 +73,10 @@ fun InternItem(
             .padding(10.dp),
         verticalAlignment = Alignment.Bottom
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(context)
-                .data(imageUrl)
-                .crossfade(true)
-                .build(),
-            placeholder = painterResource(R.drawable.ic_terning_intern_item_image_loading_76),
-            contentDescription = title,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .fillMaxHeight()
-                .aspectRatio(1f)
-                .clip(RoundedCornerShape(5.dp))
-                .then(
-                    if (isApplyClosed) Modifier.alpha(0.5f)
-                    else Modifier
-                )
+        InternImage(
+            imageUrl = imageUrl,
+            title = title,
+            isApplyClosed = isApplyClosed,
         )
 
         Column(
@@ -107,12 +93,12 @@ fun InternItem(
                     else -> TerningMain
                 },
             )
-            TwoLineHeightText(
+
+            InternTitleText(
                 text = title,
                 style = TerningTheme.typography.title5,
-                color = if (isApplyClosed) Grey350 else Black,
+                isApplyClosed = isApplyClosed,
             )
-
 
             Row(
                 modifier = Modifier
@@ -132,41 +118,56 @@ fun InternItem(
                     modifier = Modifier.padding(start = 4.dp)
                 )
 
-                Box(
+                InternScrapButton(
+                    isScrapped = isScraped,
+                    onScrapButtonClicked = { onScrapButtonClicked(scrapId) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),
-                    contentAlignment = Alignment.BottomEnd
-                ) {
-                    Image(
-                        painter = painterResource(
-                            id =
-                            if (isScraped)
-                                R.drawable.ic_bookmark_filled
-                            else
-                                R.drawable.ic_bookmark_outlined
-                        ),
-                        contentDescription = stringResource(id = R.string.intern_item_scrap),
-                        modifier = modifier
-                            .noRippleClickable {
-                                onScrapButtonClicked(scrapId)
-                            },
-                    )
-                }
+                )
             }
         }
     }
 }
 
 @Composable
-fun TwoLineHeightText(
+private fun InternImage(
+    imageUrl: String,
+    title: String,
+    isApplyClosed: Boolean,
+) {
+    val context = LocalContext.current
+    val shape = RoundedCornerShape(5.dp)
+    val alphaModifier = if (isApplyClosed) Modifier.alpha(0.5f)
+    else Modifier
+
+    AsyncImage(
+        model = ImageRequest.Builder(context)
+            .data(imageUrl)
+            .crossfade(true)
+            .build(),
+        placeholder = painterResource(R.drawable.ic_terning_intern_item_image_loading_76),
+        contentDescription = title,
+        contentScale = ContentScale.Fit,
+        modifier = Modifier
+            .fillMaxHeight()
+            .aspectRatio(1f)
+            .clip(shape)
+            .then(alphaModifier)
+    )
+}
+
+
+@Composable
+private fun InternTitleText(
     text: String,
     style: TextStyle,
-    color: Color = Black,
+    isApplyClosed: Boolean,
 ) {
     val twoLineHeight = with(LocalDensity.current) {
         (style.lineHeight.toDp() * 3) - style.fontSize.toDp()
     }
+    val color = if (isApplyClosed) Grey350 else Black
 
     Text(
         text = text,
@@ -177,6 +178,33 @@ fun TwoLineHeightText(
         modifier = Modifier
             .height(twoLineHeight)
     )
+}
+
+@Composable
+private fun InternScrapButton(
+    isScrapped: Boolean,
+    onScrapButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val scrapDrawable = remember(isScrapped) {
+        if (isScrapped)
+            R.drawable.ic_bookmark_filled
+        else
+            R.drawable.ic_bookmark_outlined
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        Image(
+            painter = painterResource(id = scrapDrawable),
+            contentDescription = stringResource(id = R.string.intern_item_scrap),
+            modifier = Modifier.noRippleClickable(onScrapButtonClicked),
+        )
+    }
 }
 
 @Preview(showBackground = true)
