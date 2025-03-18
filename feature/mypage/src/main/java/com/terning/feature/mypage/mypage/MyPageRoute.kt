@@ -182,13 +182,21 @@ fun MyPageRoute(
         }
     }
 
-    if (state.showNotice) viewModel.fetchShowNotice(false)
+    if (state.showNotice) {
+        viewModel.fetchShowNotice(false)
+    }
 
-    if (state.showOpinion) viewModel.fetchShowOpinion(false)
+    if (state.showOpinion) {
+        viewModel.fetchShowOpinion(false)
+    }
 
-    if (state.showService) viewModel.fetchShowService(false)
+    if (state.showService) {
+        viewModel.fetchShowService(false)
+    }
 
-    if (state.showPersonal) viewModel.fetchShowPersonal(false)
+    if (state.showPersonal) {
+        viewModel.fetchShowPersonal(false)
+    }
 
 }
 
