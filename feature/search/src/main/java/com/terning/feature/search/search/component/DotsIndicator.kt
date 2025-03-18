@@ -20,7 +20,7 @@ import com.terning.core.designsystem.theme.White
 fun DotsIndicator(
     modifier: Modifier = Modifier,
     pageCount: Int,
-    pagerState: PagerState,
+    pageIndex: Int,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -28,7 +28,7 @@ fun DotsIndicator(
         modifier = Modifier.padding(8.dp)
     ) {
         repeat(pageCount) { index ->
-            val isSelected = index == pagerState.currentPage % pageCount
+            val isSelected = index == pageIndex % pageCount
 
             Box(
                 modifier = modifier

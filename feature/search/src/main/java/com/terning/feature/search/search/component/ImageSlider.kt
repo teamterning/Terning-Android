@@ -97,7 +97,7 @@ fun ImageSlider(
 
                 DotsIndicator(
                     pageCount = pageCount,
-                    pagerState = pagerState,
+                    pageIndex = pagerState.currentPage
                 )
             }
         }
