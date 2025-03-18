@@ -6,15 +6,15 @@ import androidx.compose.runtime.Immutable
 sealed interface MyPageUiModel {
     @Immutable
     data class Header(
-        val title: String
+        val text: Int
     ) : MyPageUiModel
 
     @Immutable
     data class MyPageItem(
         val leadingIcon: Int,
-        val text: String,
-        val onItemClick: () -> Unit,
-        val trailingContent: @Composable () -> Unit,
+        val text: Int,
+        val onItemClick: () -> Unit = {},
+        val trailingContent: @Composable () -> Unit = {},
     ) : MyPageUiModel
 
     @Immutable

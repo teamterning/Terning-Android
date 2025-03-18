@@ -11,6 +11,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
@@ -27,7 +28,7 @@ internal fun MyPageSection(
     items: ImmutableList<MyPageUiModel>,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    Column( // TODO : 수정하기
         modifier = modifier
             .padding(
                 top = 8.dp,
@@ -54,7 +55,7 @@ internal fun MyPageSection(
                 when (item) {
                     is MyPageUiModel.Header -> {
                         Text(
-                            text = item.title,
+                            text = stringResource(id = item.text),
                             style = TerningTheme.typography.body6,
                             color = Grey400,
                         )
@@ -63,7 +64,7 @@ internal fun MyPageSection(
 
                     is MyPageUiModel.MyPageItem -> {
                         MyPageItem(
-                            text = item.text,
+                            text = stringResource(id = item.text),
                             icon = item.leadingIcon,
                             onButtonClick = item.onItemClick,
                             trailingContent = item.trailingContent

@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.extension.noRippleClickable
-import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.mypage.R
@@ -52,16 +51,17 @@ internal fun MyPageItem(
                 style = TerningTheme.typography.body5
             )
         }
-        if (version.isNotEmpty()) {
-            Text(
-                text = version,
-                modifier = modifier.padding(end = 7.dp),
-                style = TerningTheme.typography.button4,
-                color = Grey350
-            )
-        } else {
-            TerningImage(painter = R.drawable.ic_my_page_go_detail)
-        }
+        trailingContent()
+//        if (version.isNotEmpty()) {
+//            Text(
+//                text = version,
+//                modifier = modifier.padding(end = 7.dp),
+//                style = TerningTheme.typography.button4,
+//                color = Grey350
+//            )
+//        } else {
+//            TerningImage(painter = R.drawable.ic_my_page_go_detail)
+//        }
     }
 }
 

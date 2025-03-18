@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -21,6 +19,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,7 +40,6 @@ import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Back
-import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -49,12 +47,13 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 import com.terning.feature.mypage.R
-import com.terning.feature.mypage.mypage.component.MyPageItem
 import com.terning.feature.mypage.mypage.component.MyPageProfile
+import com.terning.feature.mypage.mypage.model.MyPageUiModel
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.PERSONAL_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.SERVICE_URL
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun MyPageRoute(
@@ -66,7 +65,6 @@ fun MyPageRoute(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
     val systemUiController = rememberSystemUiController()
 
     val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
@@ -213,6 +211,45 @@ private fun MyPageScreen(
     name: String = "",
     profileImage: String = ""
 ) {
+    val terningCommunityItems = remember {
+        persistentListOf(
+            MyPageUiModel.Header(text = R.string.my_page_terning_community),
+            MyPageUiModel.MyPageItem(
+                leadingIcon = R.drawable.ic_my_page_notice,
+                text = R.string.my_page_notice,
+                onItemClick = onNoticeClick
+            ),
+            MyPageUiModel.HorizontalDivider,
+            MyPageUiModel.MyPageItem(
+                leadingIcon = R.drawable.ic_my_page_opinion,
+                text = R.string.my_page_opinion,
+                onItemClick = onOpinionClick
+            )
+        )
+    }
+    val serviceInfoItems = remember {
+        persistentListOf(
+            MyPageUiModel.Header(text = R.string.my_page_service_info),
+            MyPageUiModel.MyPageItem(
+                leadingIcon = R.drawable.ic_my_page_service,
+                text = R.string.my_page_service,
+                onItemClick = onServiceClick
+            ),
+            MyPageUiModel.HorizontalDivider,
+            MyPageUiModel.MyPageItem(
+                leadingIcon = R.drawable.ic_my_page_personal,
+                text = R.string.my_page_personal,
+                onItemClick = onPersonalClick
+            ),
+            MyPageUiModel.HorizontalDivider,
+            MyPageUiModel.MyPageItem(
+                leadingIcon = R.drawable.ic_my_page_version,
+                text = R.string.my_page_version,
+                trailingContent = { VERSION_NAME }
+            )
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -224,14 +261,14 @@ private fun MyPageScreen(
             profileImage = profileImage,
             onEditClick = onEditClick
         )
-        TerningCommunity(
-            onNoticeClick = onNoticeClick,
-            onOpinionClick = onOpinionClick
-        )
-        ServiceInfo(
-            onServiceClick = onServiceClick,
-            onPersonalClick = onPersonalClick
-        )
+//        TerningCommunity(
+//            onNoticeClick = onNoticeClick,
+//            onOpinionClick = onOpinionClick
+//        )
+//        ServiceInfo(
+//            onServiceClick = onServiceClick,
+//            onPersonalClick = onPersonalClick
+//        )
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Min)
@@ -308,123 +345,6 @@ private fun UserProfile(
                 )
                 TerningImage(painter = R.drawable.ic_my_page_go_edit)
             }
-        }
-    }
-}
-
-@Composable
-private fun TerningCommunity(
-    modifier: Modifier = Modifier,
-    onNoticeClick: () -> Unit,
-    onOpinionClick: () -> Unit
-) {
-    Column(
-        modifier = modifier
-            .padding(
-                top = 8.dp,
-                start = 24.dp,
-                end = 24.dp,
-                bottom = 20.dp
-            )
-            .background(
-                color = White,
-                shape = RoundedCornerShape(15.dp)
-            )
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 16.dp,
-                    bottom = 20.dp,
-                    start = 16.dp,
-                    end = 9.dp
-                )
-        ) {
-            Text(
-                text = stringResource(id = R.string.my_page_terning_community),
-                style = TerningTheme.typography.body6,
-                color = Grey400,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_notice),
-                icon = R.drawable.ic_my_page_notice,
-                onButtonClick = onNoticeClick
-            )
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 20.dp),
-                thickness = 1.dp,
-                color = Grey150
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_opinion),
-                icon = R.drawable.ic_my_page_opinion,
-                onButtonClick = onOpinionClick
-            )
-        }
-    }
-}
-
-@Composable
-private fun ServiceInfo(
-    modifier: Modifier = Modifier,
-    onServiceClick: () -> Unit,
-    onPersonalClick: () -> Unit
-) {
-    Column(
-        modifier = modifier
-            .padding(
-                start = 24.dp,
-                end = 24.dp,
-                bottom = 16.dp
-            )
-            .background(
-                color = White,
-                shape = RoundedCornerShape(15.dp)
-            )
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 16.dp,
-                    bottom = 20.dp,
-                    start = 16.dp,
-                    end = 9.dp
-                )
-        ) {
-            Text(
-                text = stringResource(id = R.string.my_page_service_info),
-                style = TerningTheme.typography.body6,
-                color = Grey400,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_service),
-                icon = R.drawable.ic_my_page_service,
-                onButtonClick = onServiceClick
-            )
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 20.dp),
-                thickness = 1.dp,
-                color = Grey150
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_personal),
-                icon = R.drawable.ic_my_page_personal,
-                onButtonClick = onPersonalClick
-            )
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 20.dp),
-                thickness = 1.dp,
-                color = Grey150
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_version),
-                version = VERSION_NAME,
-                icon = R.drawable.ic_my_page_version
-            )
         }
     }
 }
