@@ -209,10 +209,10 @@ private fun InternScrapButton(
 
 @Preview(showBackground = true)
 @Composable
-fun InternItemPreview() {
+private fun InternItemPreview() {
     TerningPointTheme {
         InternItem(
-            imageUrl = "https://media-cdn.linkareer.com/activity_manager/logos/519245",
+            imageUrl = "https://media-cdn.linkareer.com/activity_manager/logos/522888",
             title = "영상 디자이너 (모션그래픽) (인턴/1년)",
             dateDeadline = "D-13",
             workingPeriod = "3개월",
