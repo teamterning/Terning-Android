@@ -16,4 +16,7 @@ sealed interface MyPageUiModel {
         val onItemClick: () -> Unit,
         val trailingContent: @Composable () -> Unit,
     ) : MyPageUiModel
+
+    @Immutable
+    data object HorizontalDivider : MyPageUiModel
 }

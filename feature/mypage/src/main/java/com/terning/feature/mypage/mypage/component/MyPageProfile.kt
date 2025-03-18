@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.type.ProfileImage
 
 @Composable
-fun MyPageProfile(
+internal fun MyPageProfile(
     modifier: Modifier = Modifier,
     profileImage: String
 ) {

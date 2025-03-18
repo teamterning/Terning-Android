@@ -201,7 +201,7 @@ fun MyPageRoute(
 }
 
 @Composable
-fun MyPageScreen(
+private fun MyPageScreen(
     onEditClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {},
     onQuitClick: () -> Unit = {},
@@ -270,7 +270,7 @@ fun MyPageScreen(
 }
 
 @Composable
-fun UserProfile(
+private fun UserProfile(
     name: String,
     onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -313,7 +313,7 @@ fun UserProfile(
 }
 
 @Composable
-fun TerningCommunity(
+private fun TerningCommunity(
     modifier: Modifier = Modifier,
     onNoticeClick: () -> Unit,
     onOpinionClick: () -> Unit
@@ -367,7 +367,7 @@ fun TerningCommunity(
 }
 
 @Composable
-fun ServiceInfo(
+private fun ServiceInfo(
     modifier: Modifier = Modifier,
     onServiceClick: () -> Unit,
     onPersonalClick: () -> Unit
@@ -447,7 +447,7 @@ private fun navigateToPersonalWebView(context: Context) {
 
 @Preview(showBackground = true)
 @Composable
-fun MyPageScreenPreview() {
+private fun MyPageScreenPreview() {
     TerningPointTheme {
         MyPageScreen(
             name = "터닝이",

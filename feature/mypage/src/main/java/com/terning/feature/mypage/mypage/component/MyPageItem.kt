@@ -21,12 +21,13 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.mypage.R
 
 @Composable
-fun MyPageItem(
+internal fun MyPageItem(
     text: String,
     icon: Int,
     modifier: Modifier = Modifier,
     version: String = "",
-    onButtonClick: () -> Unit = {}
+    onButtonClick: () -> Unit = {},
+    trailingContent: @Composable () -> Unit = { TerningImage(painter = R.drawable.ic_my_page_go_detail) }
 ) {
     Row(
         modifier = modifier
@@ -51,20 +52,22 @@ fun MyPageItem(
                 style = TerningTheme.typography.body5
             )
         }
-        if (version.isNotEmpty())
+        if (version.isNotEmpty()) {
             Text(
                 text = version,
                 modifier = modifier.padding(end = 7.dp),
                 style = TerningTheme.typography.button4,
                 color = Grey350
             )
-        else TerningImage(painter = R.drawable.ic_my_page_go_detail)
+        } else {
+            TerningImage(painter = R.drawable.ic_my_page_go_detail)
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun MyPageItemPreview() {
+private fun MyPageItemPreview() {
     TerningPointTheme {
         MyPageItem(
             text = "공지사항",
