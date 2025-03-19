@@ -83,8 +83,8 @@ import kotlin.math.roundToInt
 fun MyPageRoute(
     paddingValues: PaddingValues,
     navigateToProfileEdit: (String, String, String) -> Unit,
+    restartApp: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
-    restartApp: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
