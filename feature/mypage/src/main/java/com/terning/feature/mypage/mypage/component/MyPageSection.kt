@@ -12,16 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.mypage.model.MyPageUiModel
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 internal fun MyPageSection(
@@ -81,15 +78,5 @@ internal fun MyPageSection(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MyPageSectionPreview() { // TODO: make preview parameter
-    TerningPointTheme {
-        MyPageSection(
-            items = persistentListOf()
-        )
     }
 }
