@@ -59,7 +59,7 @@ import com.terning.feature.search.R
 import com.terning.feature.search.searchprocess.models.SearchProcessState
 
 @Composable
-fun SearchProcessRoute(
+internal fun SearchProcessRoute(
     paddingValues: PaddingValues,
     viewModel: SearchProcessViewModel = hiltViewModel(),
     navController: NavHostController,
@@ -144,7 +144,7 @@ fun SearchProcessRoute(
 }
 
 @Composable
-fun SearchProcessScreen(
+private fun SearchProcessScreen(
     paddingValues: PaddingValues,
     navigateToIntern: (Long) -> Unit,
     navigateToBack: () -> Unit,
