@@ -29,7 +29,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun ImageSlider(
+internal fun ImageSlider(
     modifier: Modifier = Modifier,
     searchBanners: ImmutableList<SearchBanner>,
     onAdvertisementClick: (Int) -> Unit,
