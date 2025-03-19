@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -19,7 +22,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -49,6 +54,7 @@ import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 import com.terning.feature.mypage.R
 import com.terning.feature.mypage.mypage.component.MyPageProfile
 import com.terning.feature.mypage.mypage.component.MyPageSection
+import com.terning.feature.mypage.mypage.component.MyPageToggleButton
 import com.terning.feature.mypage.mypage.model.MyPageUiModel
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
@@ -257,13 +263,23 @@ private fun MyPageScreen(
             )
         )
     }
+
+    var checked by remember { mutableStateOf(false) }
+
     val alarmItems = remember {
         persistentListOf(
             MyPageUiModel.Header(text = R.string.my_page_alarm),
             MyPageUiModel.MyPageItem(
                 leadingIcon = R.drawable.ic_my_page_alarm,
                 text = R.string.my_page_push_alarm,
-                trailingContent = { } // TODO: make toggle button
+                trailingContent = {
+                    MyPageToggleButton(
+                        isChecked = checked,
+                        onCheckedChange = {
+                            checked = it
+                        }
+                    )
+                }
             )
         )
     }
@@ -273,6 +289,7 @@ private fun MyPageScreen(
             .fillMaxSize()
             .background(Back)
             .padding(paddingValues)
+            .verticalScroll(rememberScrollState())
     ) {
         UserProfile(
             name = name,
@@ -316,6 +333,7 @@ private fun MyPageScreen(
                 }
             )
         }
+        Spacer(modifier = Modifier.height(100.dp))
     }
 }
 
