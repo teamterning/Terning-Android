@@ -25,7 +25,7 @@ internal fun MyPageSection(
     items: ImmutableList<MyPageUiModel>,
     modifier: Modifier = Modifier
 ) {
-    Column( // TODO : 수정하기
+    Column(
         modifier = modifier
             .padding(
                 top = 8.dp,
@@ -37,44 +37,40 @@ internal fun MyPageSection(
                 color = White,
                 shape = RoundedCornerShape(15.dp)
             )
+            .fillMaxWidth()
+            .padding(
+                top = 16.dp,
+                bottom = 20.dp,
+                start = 16.dp,
+                end = 9.dp
+            )
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 16.dp,
-                    bottom = 20.dp,
-                    start = 16.dp,
-                    end = 9.dp
-                )
-        ) {
-            items.forEach { item ->
-                when (item) {
-                    is MyPageUiModel.Header -> {
-                        Text(
-                            text = stringResource(id = item.text),
-                            style = TerningTheme.typography.body6,
-                            color = Grey400,
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                    }
+        items.forEach { item ->
+            when (item) {
+                is MyPageUiModel.Header -> {
+                    Text(
+                        text = stringResource(id = item.text),
+                        style = TerningTheme.typography.body6,
+                        color = Grey400,
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
 
-                    is MyPageUiModel.MyPageItem -> {
-                        MyPageItem(
-                            text = stringResource(id = item.text),
-                            icon = item.leadingIcon,
-                            onButtonClick = item.onItemClick,
-                            trailingContent = item.trailingContent
-                        )
-                    }
+                is MyPageUiModel.MyPageItem -> {
+                    MyPageItem(
+                        text = stringResource(id = item.text),
+                        icon = item.leadingIcon,
+                        onButtonClick = item.onItemClick,
+                        trailingContent = item.trailingContent
+                    )
+                }
 
-                    is MyPageUiModel.HorizontalDivider -> {
-                        HorizontalDivider(
-                            modifier = Modifier.padding(vertical = 20.dp),
-                            thickness = 1.dp,
-                            color = Grey150
-                        )
-                    }
+                is MyPageUiModel.HorizontalDivider -> {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 20.dp),
+                        thickness = 1.dp,
+                        color = Grey150
+                    )
                 }
             }
         }
