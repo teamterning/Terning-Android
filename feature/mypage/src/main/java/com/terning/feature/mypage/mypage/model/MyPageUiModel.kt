@@ -2,7 +2,9 @@ package com.terning.feature.mypage.mypage.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 
+@Stable
 sealed interface MyPageUiModel {
     @Immutable
     data class Header(
