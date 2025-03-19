@@ -408,6 +408,7 @@ private fun MyPageToggleButton(
 
     Row(
         modifier = modifier
+            .padding(end = 7.dp)
             .clip(CircleShape)
             .height(toggleHeight)
             .width(toggleWidth)
