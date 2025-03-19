@@ -17,20 +17,20 @@ import com.terning.core.designsystem.theme.White
 
 @Composable
 internal fun DotsIndicator(
-    modifier: Modifier = Modifier,
     pageCount: Int,
     pageIndex: Int,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(8.dp)
+        modifier = modifier.padding(8.dp)
     ) {
         repeat(pageCount) { index ->
             val isSelected = index == pageIndex % pageCount
 
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .padding(2.dp)
                     .clip(CircleShape)
                     .size(6.dp)
