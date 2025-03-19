@@ -10,9 +10,11 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,10 +31,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun ImageSlider(
+internal fun BannerSlider(
     modifier: Modifier = Modifier,
     searchBanners: ImmutableList<SearchBanner>,
-    onAdvertisementClick: (Int) -> Unit,
+    onBannerClick: (Int) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pageCount = searchBanners.size
@@ -41,16 +43,16 @@ internal fun ImageSlider(
         initialPageOffsetFraction = 0f,
         pageCount = { Int.MAX_VALUE }
     )
-    val autoScroll = remember { mutableStateOf(true) }
+    var autoScroll by remember { mutableStateOf(true) }
 
-    LaunchedEffect(autoScroll.value) {
-        while (autoScroll.value) {
+    LaunchedEffect(autoScroll) {
+        while (autoScroll) {
             delay(BANNER_DELAY)
             coroutineScope.launch {
                 val nextPage = pagerState.currentPage + 1
                 pagerState.animateScrollToPage(
                     page = nextPage,
-                    animationSpec = tween(durationMillis = 1000)
+                    animationSpec = tween(durationMillis = BANNER_ANIMATION_DURATION)
                 )
             }
         }
@@ -84,11 +86,11 @@ internal fun ImageSlider(
                             .fillMaxWidth()
                             .height(112.dp)
                             .noRippleClickable {
-                                autoScroll.value = false
-                                onAdvertisementClick(pageIndex)
+                                autoScroll = false
+                                onBannerClick(pageIndex)
                                 coroutineScope.launch {
                                     delay(BANNER_DELAY)
-                                    autoScroll.value = true
+                                    autoScroll = true
                                 }
                             },
                         contentScale = ContentScale.Crop,
@@ -105,3 +107,4 @@ internal fun ImageSlider(
 }
 
 private const val BANNER_DELAY = 2500L
+private const val BANNER_ANIMATION_DURATION = 1000
