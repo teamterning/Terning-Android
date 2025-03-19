@@ -19,6 +19,8 @@
     <string name="my_page_service">서비스 이용약관</string>
     <string name="my_page_personal">개인정보 처리방침</string>
     <string name="my_page_version">버전정보</string>
+    <string name="my_page_alarm">알림 설정</string>
+    <string name="my_page_push_alarm">푸쉬 알림</string>
 
     <!--ProfileEidt-->
     <string name="profile_edit_title">프로필 수정</string>

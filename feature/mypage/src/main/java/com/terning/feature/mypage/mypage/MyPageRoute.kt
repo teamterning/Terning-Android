@@ -48,6 +48,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 import com.terning.feature.mypage.R
 import com.terning.feature.mypage.mypage.component.MyPageProfile
+import com.terning.feature.mypage.mypage.component.MyPageSection
 import com.terning.feature.mypage.mypage.model.MyPageUiModel
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
@@ -245,7 +246,24 @@ private fun MyPageScreen(
             MyPageUiModel.MyPageItem(
                 leadingIcon = R.drawable.ic_my_page_version,
                 text = R.string.my_page_version,
-                trailingContent = { VERSION_NAME }
+                trailingContent = {
+                    Text(
+                        text = VERSION_NAME,
+                        modifier = Modifier.padding(end = 7.dp),
+                        style = TerningTheme.typography.button4,
+                        color = Grey350
+                    )
+                }
+            )
+        )
+    }
+    val alarmItems = remember {
+        persistentListOf(
+            MyPageUiModel.Header(text = R.string.my_page_alarm),
+            MyPageUiModel.MyPageItem(
+                leadingIcon = R.drawable.ic_my_page_alarm,
+                text = R.string.my_page_push_alarm,
+                trailingContent = { } // TODO: make toggle button
             )
         )
     }
@@ -261,14 +279,9 @@ private fun MyPageScreen(
             profileImage = profileImage,
             onEditClick = onEditClick
         )
-//        TerningCommunity(
-//            onNoticeClick = onNoticeClick,
-//            onOpinionClick = onOpinionClick
-//        )
-//        ServiceInfo(
-//            onServiceClick = onServiceClick,
-//            onPersonalClick = onPersonalClick
-//        )
+        MyPageSection(items = terningCommunityItems)
+        MyPageSection(items = serviceInfoItems)
+        MyPageSection(items = alarmItems)
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Min)

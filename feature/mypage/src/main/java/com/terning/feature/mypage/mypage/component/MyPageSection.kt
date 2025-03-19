@@ -86,7 +86,7 @@ internal fun MyPageSection(
 
 @Preview(showBackground = true)
 @Composable
-private fun MyPageSectionPreview() {
+private fun MyPageSectionPreview() { // TODO: make preview parameter
     TerningPointTheme {
         MyPageSection(
             items = persistentListOf()
