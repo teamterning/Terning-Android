@@ -7,11 +7,11 @@ import com.google.firebase.remoteconfig.remoteConfigSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import com.terning.core.firebase.remoteconfig.RemoteConfigKey.LATEST_APP_VERSION
+import com.terning.core.firebase.remoteconfig.RemoteConfigKey.MAJOR_UPDATE_BODY
+import com.terning.core.firebase.remoteconfig.RemoteConfigKey.MAJOR_UPDATE_TITLE
 
-object RemoteConfigModule {
-    const val LATEST_APP_VERSION = "android_app_version"
-    const val MAJOR_UPDATE_TITLE = "android_update_title"
-    const val MAJOR_UPDATE_BODY = "android_update_body"
+object RemoteConfigUtil {
     private const val TAG = "FirebaseRemoteConfig"
 
     private val remoteConfig: FirebaseRemoteConfig by lazy {
@@ -22,24 +22,24 @@ object RemoteConfigModule {
             setConfigSettingsAsync(configSettings)
             setDefaultsAsync(
                 mapOf(
-                    LATEST_APP_VERSION to "",
-                    MAJOR_UPDATE_BODY to "",
-                    MAJOR_UPDATE_TITLE to "",
+                    LATEST_APP_VERSION.key to "",
+                    MAJOR_UPDATE_BODY.key to "",
+                    MAJOR_UPDATE_TITLE.key to "",
                 )
             )
         }
     }
 
-    suspend fun onFetchCompleteListener(callback: (Map<String, String>) -> Unit) {
+    suspend fun onVersionFetchCompleteListener(callback: (Map<RemoteConfigKey, String>) -> Unit) {
         withContext(Dispatchers.IO) {
             try {
                 val fetchTask = remoteConfig.fetchAndActivate()
                 fetchTask.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val map = mutableMapOf(
-                            LATEST_APP_VERSION to remoteConfig.getString(LATEST_APP_VERSION),
-                            MAJOR_UPDATE_TITLE to remoteConfig.getString(MAJOR_UPDATE_BODY),
-                            MAJOR_UPDATE_BODY to remoteConfig.getString(MAJOR_UPDATE_TITLE),
+                            getConfigKeyToStringPair(LATEST_APP_VERSION),
+                            getConfigKeyToStringPair(MAJOR_UPDATE_TITLE),
+                            getConfigKeyToStringPair(MAJOR_UPDATE_BODY),
                         )
                         callback(map)
                     }
@@ -49,4 +49,9 @@ object RemoteConfigModule {
             }
         }
     }
+
+    private fun getConfigKeyToStringPair(configKey: RemoteConfigKey): Pair<RemoteConfigKey, String> =
+        configKey to remoteConfig.getString(configKey.key)
 }
+
+
