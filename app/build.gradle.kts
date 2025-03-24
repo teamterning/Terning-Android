@@ -77,8 +77,8 @@ android {
 }
 
 dependencies {
-    // feature
-    implementation(projects.feature.main)
+    // core
+    implementation(projects.core.local)
 
     // data
     implementation(projects.data.auth)
@@ -91,6 +91,9 @@ dependencies {
     implementation(projects.data.token)
     implementation(projects.data.tokenreissue)
     implementation(projects.data.search)
+
+    // feature
+    implementation(projects.feature.main)
 
     // baseline profile
     baselineProfile(projects.baselineprofile)
