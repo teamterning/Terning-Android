@@ -38,7 +38,8 @@ include(
     ":core:designsystem",
     ":core:navigation",
     ":core:network",
-    ":core:local"
+    ":core:local",
+    ":core:firebase"
 )
 
 // data
