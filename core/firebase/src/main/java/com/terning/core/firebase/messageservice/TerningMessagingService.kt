@@ -1,4 +1,4 @@
-package com.terning.point
+package com.terning.core.firebase.messageservice
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.terning.core.firebase.R
 import com.terning.core.local.TerningDataStore
 import com.terning.feature.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +16,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TerningMessagingService : FirebaseMessagingService() {  // todo : 파이어베이스 모듈로 옮기기 by leeeyubin
+class TerningMessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var terningDataStore: TerningDataStore

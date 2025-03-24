@@ -77,9 +77,6 @@ android {
 }
 
 dependencies {
-    // core
-    implementation(projects.core.local)
-
     // data
     implementation(projects.data.auth)
     implementation(projects.data.calendar)

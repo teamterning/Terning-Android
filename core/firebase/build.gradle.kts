@@ -1,6 +1,5 @@
 import com.terning.build_logic.extension.setNamespace
 
-
 plugins {
     alias(libs.plugins.terning.library)
 }
@@ -10,8 +9,16 @@ android {
 }
 
 dependencies {
+    // core
+    implementation(projects.core.local)
+
+    // feature
+    implementation(projects.feature.main)
+
+    // timber
     implementation(libs.timber)
 
+    // firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
