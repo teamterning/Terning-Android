@@ -199,6 +199,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion" }
 
 kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakaoVersion" }
+kakao-share = { group = "com.kakao.share", name = "v2-share", version.ref = "kakaoVersion" }
 
 process-phoenix = { group = "com.jakewharton", name = "process-phoenix", version.ref = "processPhoenix" }
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }

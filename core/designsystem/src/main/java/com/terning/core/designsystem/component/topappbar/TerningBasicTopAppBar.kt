@@ -46,7 +46,7 @@ fun TerningBasicTopAppBar(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = stringResource(id = R.string.ic_back),
-                        modifier = Modifier
+                        modifier = modifier
                             .padding(start = 8.dp)
                             .noRippleClickable { onBackButtonClick() }
                     )

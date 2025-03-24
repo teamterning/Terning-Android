@@ -14,6 +14,7 @@ dependencies {
 
     // feature
     implementation(projects.feature.dialog)
+    implementation(libs.kakao.share)
 
     testImplementation(projects.core.testing)
 }
