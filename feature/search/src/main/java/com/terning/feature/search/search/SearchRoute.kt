@@ -33,7 +33,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.domain.search.entity.SearchBanner
 import com.terning.domain.search.entity.SearchPopularAnnouncement
 import com.terning.feature.search.R
-import com.terning.feature.search.search.component.ImageSlider
+import com.terning.feature.search.search.component.BannerSlider
 import com.terning.feature.search.search.component.InternListType
 import com.terning.feature.search.search.component.SearchInternList
 import kotlinx.collections.immutable.ImmutableList
@@ -154,9 +154,9 @@ fun SearchScreen(
 
         LazyColumn {
             item {
-                ImageSlider(
+                BannerSlider(
                     searchBanners = bannerList,
-                    onAdvertisementClick = onAdvertisementClick,
+                    onBannerClick = onAdvertisementClick,
                 )
 
                 Spacer(modifier = Modifier.padding(top = 20.dp))
