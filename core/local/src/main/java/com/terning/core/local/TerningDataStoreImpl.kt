@@ -19,13 +19,18 @@ class TerningDataStoreImpl @Inject constructor(
         get() = dataStore.getLong(USER_ID, 0L)
         set(value) = dataStore.edit { putLong(USER_ID, value) }
 
+    override var alarmAvailable: Boolean
+        get() = dataStore.getBoolean(ALARM, false)
+        set(value) = dataStore.edit { putBoolean(ALARM, value) }
+
     override fun clearInfo() {
-        dataStore.edit().clear().commit()
+        dataStore.edit().clear().apply()
     }
 
     companion object {
         private const val ACCESS_TOKEN = "ACCESS_TOKEN"
         private const val REFRESH_TOKEN = "REFRESH_TOKEN"
         private const val USER_ID = "USER_ID"
+        private const val ALARM = "ALARM"
     }
 }
