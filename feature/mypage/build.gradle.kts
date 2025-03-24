@@ -17,9 +17,16 @@ android {
 }
 
 dependencies {
+    // core
+    implementation(projects.core.local)
+
     // domain
     implementation(projects.domain.mypage)
     implementation(projects.domain.token)
 
+    // kakao
     implementation(libs.kakao.user)
+
+    // firebase
+    implementation(libs.permissions)
 }

@@ -1,6 +1,12 @@
 package com.terning.feature.mypage.mypage
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -41,11 +47,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
@@ -79,6 +89,8 @@ import com.terning.feature.mypage.mypage.util.MyPageDefaults.SERVICE_URL
 import kotlinx.collections.immutable.persistentListOf
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalPermissionsApi::class)
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun MyPageRoute(
     paddingValues: PaddingValues,
@@ -90,7 +102,16 @@ fun MyPageRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val systemUiController = rememberSystemUiController()
+
     val amplitudeTracker = LocalTracker.current
+
+    var isChecked by remember { mutableStateOf(viewModel.getAlarmAvailability()) }
+    val permissionState =
+        rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+
+    rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        isChecked = viewModel.getAlarmAvailability()
+    }
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -188,8 +209,19 @@ fun MyPageRoute(
                 },
                 onServiceClick = { viewModel.fetchShowService(true) },
                 onPersonalClick = { viewModel.fetchShowPersonal(true) },
+                onAlarmClick = {
+                    val currentAlarmAvailability = viewModel.getAlarmAvailability()
+
+                    if (currentAlarmAvailability || permissionState.status.isGranted) {
+                        viewModel.updateAlarmAvailability(!currentAlarmAvailability)
+                        isChecked = !currentAlarmAvailability
+                    } else {
+                        permissionState.launchPermissionRequest()
+                    }
+                },
                 name = state.name,
-                profileImage = state.profileImage
+                profileImage = state.profileImage,
+                isChecked = isChecked
             )
         }
 
@@ -220,6 +252,7 @@ fun MyPageRoute(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun MyPageScreen(
     onEditClick: () -> Unit = {},
@@ -229,71 +262,66 @@ private fun MyPageScreen(
     onOpinionClick: () -> Unit = {},
     onServiceClick: () -> Unit = {},
     onPersonalClick: () -> Unit = {},
+    onAlarmClick: () -> Unit = {},
     paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
-    profileImage: String = ""
+    profileImage: String = "",
+    isChecked: Boolean = false
 ) {
-    val terningCommunityItems = remember {
-        persistentListOf(
-            MyPageUiModel.Header(text = R.string.my_page_terning_community),
-            MyPageUiModel.MyPageItem(
-                leadingIcon = R.drawable.ic_my_page_notice,
-                text = R.string.my_page_notice,
-                onItemClick = onNoticeClick
-            ),
-            MyPageUiModel.HorizontalDivider,
-            MyPageUiModel.MyPageItem(
-                leadingIcon = R.drawable.ic_my_page_opinion,
-                text = R.string.my_page_opinion,
-                onItemClick = onOpinionClick
-            )
+    val terningCommunityItems = persistentListOf(
+        MyPageUiModel.Header(text = R.string.my_page_terning_community),
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_notice,
+            text = R.string.my_page_notice,
+            onItemClick = onNoticeClick
+        ),
+        MyPageUiModel.HorizontalDivider,
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_opinion,
+            text = R.string.my_page_opinion,
+            onItemClick = onOpinionClick
         )
-    }
-    val serviceInfoItems = remember {
-        persistentListOf(
-            MyPageUiModel.Header(text = R.string.my_page_service_info),
-            MyPageUiModel.MyPageItem(
-                leadingIcon = R.drawable.ic_my_page_service,
-                text = R.string.my_page_service,
-                onItemClick = onServiceClick
-            ),
-            MyPageUiModel.HorizontalDivider,
-            MyPageUiModel.MyPageItem(
-                leadingIcon = R.drawable.ic_my_page_personal,
-                text = R.string.my_page_personal,
-                onItemClick = onPersonalClick
-            ),
-            MyPageUiModel.HorizontalDivider,
-            MyPageUiModel.MyPageItem(
-                leadingIcon = R.drawable.ic_my_page_version,
-                text = R.string.my_page_version,
-                trailingContent = {
-                    Text(
-                        text = VERSION_NAME,
-                        modifier = Modifier.padding(end = 7.dp),
-                        style = TerningTheme.typography.button4,
-                        color = Grey350
-                    )
-                }
-            )
+    )
+    val serviceInfoItems = persistentListOf(
+        MyPageUiModel.Header(text = R.string.my_page_service_info),
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_service,
+            text = R.string.my_page_service,
+            onItemClick = onServiceClick
+        ),
+        MyPageUiModel.HorizontalDivider,
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_personal,
+            text = R.string.my_page_personal,
+            onItemClick = onPersonalClick
+        ),
+        MyPageUiModel.HorizontalDivider,
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_version,
+            text = R.string.my_page_version,
+            trailingContent = {
+                Text(
+                    text = VERSION_NAME,
+                    modifier = Modifier.padding(end = 7.dp),
+                    style = TerningTheme.typography.button4,
+                    color = Grey350
+                )
+            }
         )
-    }
-    var check by remember { mutableStateOf(true) } // todo: delete
-    val alarmItems = remember {
-        persistentListOf(
-            MyPageUiModel.Header(text = R.string.my_page_alarm),
-            MyPageUiModel.MyPageItem(
-                leadingIcon = R.drawable.ic_my_page_alarm,
-                text = R.string.my_page_push_alarm,
-                trailingContent = {
-                    MyPageToggleButton(
-                        check = check,
-                        onClick = { check = !check }
-                    )
-                }
-            )
+    )
+    val alarmItems = persistentListOf(
+        MyPageUiModel.Header(text = R.string.my_page_alarm),
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_alarm,
+            text = R.string.my_page_push_alarm,
+            trailingContent = {
+                MyPageToggleButton(
+                    check = isChecked,
+                    onClick = onAlarmClick
+                )
+            }
         )
-    }
+    )
 
     Column(
         modifier = Modifier
@@ -450,6 +478,7 @@ private object ToggleDefaults {
     val toggleHorizontalPadding: Dp = 1.dp
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Preview(showBackground = true)
 @Composable
 private fun MyPageScreenPreview() {

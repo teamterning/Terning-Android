@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.user.UserApiClient
 import com.terning.core.designsystem.state.UiState
+import com.terning.core.local.TerningDataStore
 import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.domain.token.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.terning.core.designsystem.R as DesignSystemR
@@ -20,7 +22,8 @@ import com.terning.core.designsystem.R as DesignSystemR
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val myPageRepository: MyPageRepository,
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
+    private val terningDataStore: TerningDataStore
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<MyPageState> = MutableStateFlow(MyPageState())
@@ -131,4 +134,9 @@ class MyPageViewModel @Inject constructor(
     fun navigateToProfileEdit() =
         viewModelScope.launch { _sideEffects.emit(MyPageSideEffect.NavigateToProfileEdit) }
 
+    fun updateAlarmAvailability(availability: Boolean) {
+        terningDataStore.alarmAvailable = availability
+    }
+
+    fun getAlarmAvailability(): Boolean = terningDataStore.alarmAvailable
 }
