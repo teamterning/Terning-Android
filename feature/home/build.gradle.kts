@@ -10,6 +10,9 @@ android {
 }
 
 dependencies {
+    // core
+    implementation(projects.core.local)
+
     // domain
     implementation(projects.domain.home)
     implementation(projects.domain.mypage)
@@ -20,4 +23,7 @@ dependencies {
     // paging
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
+
+    // firebase
+    implementation(libs.permissions)
 }

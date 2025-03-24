@@ -1,5 +1,8 @@
 package com.terning.feature.home
 
+import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +31,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
@@ -61,6 +67,8 @@ import kotlinx.collections.immutable.toImmutableList
 const val NAME_MAX_LENGTH = 5
 private const val ZERO_TOTAL_COUNT = 0
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeRoute(
     paddingValues: PaddingValues,
@@ -68,6 +76,15 @@ fun HomeRoute(
     navigateToCalendar: () -> Unit,
     navigateToIntern: (Long) -> Unit
 ) {
+    val permissionState =
+        rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+
+    LaunchedEffect(key1 = Unit) {
+        if (!permissionState.status.isGranted) {
+            permissionState.launchPermissionRequest()
+        }
+    }
+
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(
