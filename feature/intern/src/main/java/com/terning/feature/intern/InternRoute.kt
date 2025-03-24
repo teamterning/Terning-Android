@@ -32,6 +32,7 @@ import androidx.navigation.NavHostController
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
+import com.kakao.sdk.template.model.Button
 import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.ItemContent
@@ -79,6 +80,10 @@ fun InternRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is InternSideEffect.Toast -> context.toast(sideEffect.message)
+                    is InternSideEffect.ShareKakaoTalk -> shareToKakaoTalk(
+                        context,
+                        sideEffect.internInfo
+                    )
                 }
             }
     }
@@ -93,6 +98,11 @@ fun InternRoute(
                 internUiState = internState,
                 internInfo = (internState.loadState as UiState.Success).data,
                 navController = navController,
+                onClickShareButton = {
+                    viewModel.shareWithKakaoTalk(
+                        internInfo = (internState.loadState as UiState.Success).data
+                    )
+                },
                 onDismissCancelDialog = {
                     with(viewModel) {
                         updateScrapCancelDialogVisibility(false)
@@ -127,6 +137,7 @@ fun InternScreen(
     navController: NavHostController,
     internUiState: InternUiState,
     internInfo: InternInfo,
+    onClickShareButton: () -> Unit,
     onDismissCancelDialog: (Boolean) -> Unit,
     onDismissScrapDialog: (Boolean) -> Unit,
     onClickCancelButton: (InternInfo) -> Unit,
@@ -176,9 +187,7 @@ fun InternScreen(
                     {},
                     {
                         IconButton(
-                            onClick = {
-                                shareToKakao(context, internInfo)
-                            }
+                            onClick = onClickShareButton
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_share_32),
@@ -186,7 +195,7 @@ fun InternScreen(
                                 modifier = Modifier
                                     .padding(end = 8.dp)
                                     .noRippleClickable {
-                                        shareToKakao(context, internInfo)
+                                        onClickShareButton()
                                     }
                             )
                         }
@@ -325,24 +334,20 @@ fun InternScreen(
     }
 }
 
-
-fun shareToKakao(
-    context: Context,
-    internInfo: InternInfo
-) {
+private fun shareToKakaoTalk(context: Context, internInfo: InternInfo) {
     val defaultFeed = FeedTemplate(
         content = Content(
             imageUrl = internInfo.companyImage,
             link = Link(
                 webUrl = internInfo.url,
-                mobileWebUrl = internInfo.url,
+                mobileWebUrl = internInfo.url
             )
         ),
         itemContent = ItemContent(
             titleImageText = internInfo.title,
             titleImageCategory = internInfo.detail,
         ),
-        buttonTitle = "공고 보러가기",
+        buttonTitle = "공고 보러가기"
     )
 
     if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
