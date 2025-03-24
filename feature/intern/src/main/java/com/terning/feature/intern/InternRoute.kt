@@ -1,5 +1,7 @@
 package com.terning.feature.intern
 
+import android.content.ActivityNotFoundException
+import android.content.Context
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -27,6 +29,13 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
+import com.kakao.sdk.common.util.KakaoCustomTabsClient
+import com.kakao.sdk.share.ShareClient
+import com.kakao.sdk.share.WebSharerClient
+import com.kakao.sdk.template.model.Content
+import com.kakao.sdk.template.model.FeedTemplate
+import com.kakao.sdk.template.model.ItemContent
+import com.kakao.sdk.template.model.Link
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.extension.customShadow
@@ -47,6 +56,7 @@ import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
 import com.terning.feature.intern.component.InternTitle
 import com.terning.feature.intern.model.InternUiState
+import timber.log.Timber
 import java.text.DecimalFormat
 
 @Composable
@@ -68,7 +78,7 @@ fun InternRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is InternViewSideEffect.Toast -> context.toast(sideEffect.message)
+                    is InternSideEffect.Toast -> context.toast(sideEffect.message)
                 }
             }
     }
@@ -166,14 +176,18 @@ fun InternScreen(
                     {},
                     {
                         IconButton(
-                            onClick = {}
+                            onClick = {
+                                shareToKakao(context, internInfo)
+                            }
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_share_32),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .padding(end = 8.dp)
-                                    .noRippleClickable { }
+                                    .noRippleClickable {
+                                        shareToKakao(context, internInfo)
+                                    }
                             )
                         }
                     }
@@ -307,6 +321,49 @@ fun InternScreen(
                 onClickChangeColor = { },
                 onClickNavigateButton = { }
             )
+        }
+    }
+}
+
+
+fun shareToKakao(
+    context: Context,
+    internInfo: InternInfo
+) {
+    val defaultFeed = FeedTemplate(
+        content = Content(
+            imageUrl = internInfo.companyImage,
+            link = Link(
+                webUrl = internInfo.url,
+                mobileWebUrl = internInfo.url,
+            )
+        ),
+        itemContent = ItemContent(
+            titleImageText = internInfo.title,
+            titleImageCategory = internInfo.detail,
+        ),
+        buttonTitle = "공고 보러가기",
+    )
+
+    if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
+        ShareClient.instance.shareDefault(context, defaultFeed) { sharingResult, error ->
+            if (sharingResult != null) {
+                context.startActivity(sharingResult.intent)
+            }
+        }
+    } else {
+        val sharerUrl = WebSharerClient.instance.makeDefaultUrl(defaultFeed)
+
+        try {
+            KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
+        } catch (e: UnsupportedOperationException) {
+            Timber.e(e.toString())
+        }
+
+        try {
+            KakaoCustomTabsClient.open(context, sharerUrl)
+        } catch (e: ActivityNotFoundException) {
+            Timber.e(e.toString())
         }
     }
 }
