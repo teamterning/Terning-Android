@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -186,6 +187,8 @@ private fun TerningUpdateDialog(
                     style = TerningTheme.typography.body4.copy(
                         textAlign = TextAlign.Center,
                     ),
+                    maxLines = 3,
+                    overflow = TextOverflow.Clip,
                     color = Grey400,
                 )
             }
@@ -213,7 +216,7 @@ private fun TerningPatchUpdateDialogPreview() {
     TerningPointTheme {
         TerningPatchUpdateDialog(
             onDismissButtonClick = {},
-            onUpdateButtonClick = {}
+            onUpdateButtonClick = {},
         )
     }
 }
