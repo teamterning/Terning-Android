@@ -209,8 +209,9 @@ paging-common = { group = "androidx.paging", name = "paging-common", version.ref
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }
 
-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessaging" }
 
 [bundles]
@@ -241,7 +242,7 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-google-service = {id = "com.google.gms.google-services", version.ref = "google-services"}
+google-service = { id = "com.google.gms.google-services", version.ref = "google-services" }
 
 terning-application = { id = "terning.android.application", version = "unspecified" }
 terning-compose = { id = "terning.android.compose", version = "unspecified" }
