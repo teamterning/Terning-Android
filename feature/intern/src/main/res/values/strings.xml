@@ -19,6 +19,5 @@
     <string name="intern_scrap_add_toast_message">관심 공고가 캘린더에 스크랩되었어요!</string>
     <string name="intern_scrap_delete_toast_message">관심 공고가 캘린더에서 사라졌어요!</string>
     <string name="search_image">공고 이미지</string>
-    <string name="intern_share_button">공고 보러가기</string>
 
 </resources>

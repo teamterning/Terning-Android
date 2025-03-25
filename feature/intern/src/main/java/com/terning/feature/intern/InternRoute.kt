@@ -1,6 +1,5 @@
 package com.terning.feature.intern
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
@@ -32,11 +31,6 @@ import androidx.navigation.NavHostController
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
-import com.kakao.sdk.template.model.Button
-import com.kakao.sdk.template.model.Content
-import com.kakao.sdk.template.model.FeedTemplate
-import com.kakao.sdk.template.model.ItemContent
-import com.kakao.sdk.template.model.Link
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.extension.customShadow
@@ -335,40 +329,37 @@ fun InternScreen(
 }
 
 private fun shareToKakaoTalk(context: Context, internInfo: InternInfo) {
-    val defaultFeed = FeedTemplate(
-        content = Content(
-            imageUrl = internInfo.companyImage,
-            link = Link(
-                webUrl = internInfo.url,
-                mobileWebUrl = internInfo.url
-            )
-        ),
-        itemContent = ItemContent(
-            titleImageText = internInfo.title,
-            titleImageCategory = internInfo.detail,
-        ),
-        buttonTitle = "공고 보러가기"
+    val templateId = 118600L
+
+    val templateArgs = mapOf(
+        "COMPANY_IMG" to internInfo.companyImage,
+        "TITLE" to internInfo.title,
+        "DEADLINE" to internInfo.deadline,
+        "START_DATE" to internInfo.startYearMonth,
+        "PERIOD" to internInfo.workingPeriod,
+        "REGI_WEB_DOMAIN" to internInfo.url,
+        "A_E" to internInfo.url,
+        "I_E" to internInfo.url
     )
 
     if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
-        ShareClient.instance.shareDefault(context, defaultFeed) { sharingResult, error ->
-            if (sharingResult != null) {
+        ShareClient.instance.shareCustom(
+            context,
+            templateId,
+            templateArgs
+        ) { sharingResult, error ->
+            if (error != null) {
+                Timber.e("카카오톡 공유 실패: ${error.message}")
+            } else if (sharingResult != null) {
                 context.startActivity(sharingResult.intent)
             }
         }
     } else {
-        val sharerUrl = WebSharerClient.instance.makeDefaultUrl(defaultFeed)
-
+        val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId, templateArgs)
         try {
             KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
-        } catch (e: UnsupportedOperationException) {
-            Timber.e(e.toString())
-        }
-
-        try {
-            KakaoCustomTabsClient.open(context, sharerUrl)
-        } catch (e: ActivityNotFoundException) {
-            Timber.e(e.toString())
+        } catch (e: Exception) {
+            Timber.e("웹 공유 실패: ${e.message}")
         }
     }
 }

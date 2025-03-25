@@ -1,16 +1,7 @@
 package com.terning.feature.intern
 
-import android.content.ActivityNotFoundException
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kakao.sdk.common.util.KakaoCustomTabsClient
-import com.kakao.sdk.share.ShareClient
-import com.kakao.sdk.share.WebSharerClient
-import com.kakao.sdk.template.model.Content
-import com.kakao.sdk.template.model.FeedTemplate
-import com.kakao.sdk.template.model.ItemContent
-import com.kakao.sdk.template.model.Link
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.intern.entity.InternInfo
 import com.terning.domain.intern.repository.InternRepository
@@ -22,7 +13,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
