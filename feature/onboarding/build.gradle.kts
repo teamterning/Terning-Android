@@ -14,4 +14,5 @@ dependencies {
     implementation(projects.domain.token)
 
     implementation(libs.kakao.user)
+    implementation(libs.semver)
 }
