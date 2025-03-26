@@ -9,9 +9,7 @@ import com.terning.core.firebase.remoteconfig.RemoteConfigKey.MAJOR_UPDATE_BODY
 import com.terning.core.firebase.remoteconfig.RemoteConfigKey.MAJOR_UPDATE_TITLE
 import timber.log.Timber
 
-object RemoteConfigUtil {
-    private const val TAG = "FirebaseRemoteConfig"
-
+class TerningRemoteConfig {
     private val remoteConfig: FirebaseRemoteConfig by lazy {
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
@@ -28,7 +26,7 @@ object RemoteConfigUtil {
         }
     }
 
-    fun onVersionFetchCompleteListener(callback: (Map<RemoteConfigKey, String>) -> Unit) {
+    fun addOnVersionFetchCompleteListener(callback: (Map<RemoteConfigKey, String>) -> Unit) {
         try {
             val fetchTask = remoteConfig.fetchAndActivate()
             fetchTask.addOnCompleteListener { task ->
@@ -46,9 +44,10 @@ object RemoteConfigUtil {
         }
     }
 
-
     private fun getConfigKeyToStringPair(configKey: RemoteConfigKey): Pair<RemoteConfigKey, String> =
         configKey to remoteConfig.getString(configKey.key)
+
+    companion object {
+        private const val TAG = "FirebaseRemoteConfig"
+    }
 }
-
-
