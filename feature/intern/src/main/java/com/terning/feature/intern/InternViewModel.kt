@@ -37,7 +37,7 @@ class InternViewModel @Inject constructor(
                     _internUiState.value = _internUiState.value.copy(
                         loadState = UiState.Failure(exception.toString())
                     )
-                    _sideEffect.emit(InternViewSideEffect.Toast(R.string.server_failure))
+                    _sideEffect.emit(InternViewSideEffect.ShowToast(R.string.server_failure))
                 }
         }
     }

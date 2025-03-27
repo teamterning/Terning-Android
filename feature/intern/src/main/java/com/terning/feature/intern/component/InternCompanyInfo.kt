@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -38,9 +37,14 @@ fun InternCompanyInfo(
     company: String,
     companyCategory: String,
 ) {
+    val image = if (companyImage == "") {
+        ic_terning_intern_item_image_loading_128
+    } else {
+        companyImage
+    }
+
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -58,20 +62,16 @@ fun InternCompanyInfo(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .crossfade(true)
-                    .data(companyImage)
+                    .data(image)
                     .build(),
                 contentDescription = stringResource(id = R.string.search_image),
                 contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                placeholder = painterResource(ic_terning_intern_item_image_loading_128),
+                modifier = Modifier.fillMaxWidth(),
             )
         }
+
         Column(
-            verticalArrangement = Arrangement.spacedBy(
-                4.dp,
-                Alignment.Bottom
-            ),
+            verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Bottom),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(

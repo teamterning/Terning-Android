@@ -54,7 +54,9 @@ fun InternRoute(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+
     val internState by viewModel.internUiState.collectAsStateWithLifecycle(lifecycleOwner)
+
     val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
@@ -65,46 +67,61 @@ fun InternRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is InternViewSideEffect.Toast -> context.toast(sideEffect.message)
+                    is InternViewSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
     }
 
-    when (internState.loadState) {
-        UiState.Loading -> {}
-        UiState.Empty -> {}
-        is UiState.Failure -> {}
-        is UiState.Success -> {
-            InternScreen(
-                announcementId = announcementId,
-                internUiState = internState,
-                internInfo = (internState.loadState as UiState.Success).data,
-                navController = navController,
-                onDismissCancelDialog = {
-                    with(viewModel) {
-                        updateScrapCancelDialogVisibility(false)
-                        getInternInfo(announcementId)
-                    }
-                },
-                onDismissScrapDialog = {
-                    with(viewModel) {
-                        updateInternDialogVisibility(false)
-                        getInternInfo(announcementId)
-                    }
-                },
-                onClickCancelButton = {
-                    viewModel.updateScrapCancelDialogVisibility(true)
-                },
-                onClickScrapButton = {
-                    amplitudeTracker.track(
-                        type = EventType.CLICK,
-                        name = "detail_scrap"
-                    )
-                    viewModel.updateInternDialogVisibility(true)
-                }
-            )
-        }
+
+    val internInfo = when (internState.loadState) {
+        is UiState.Success -> (internState.loadState as UiState.Success<InternInfo>).data
+        else -> InternInfo(
+            dDay = "",
+            title = "",
+            viewCount = 0,
+            company = "",
+            companyCategory = "",
+            companyImage = "",
+            deadline = "",
+            workingPeriod = "",
+            startYearMonth = "",
+            qualification = "",
+            jobType = "",
+            url = "",
+            detail = "",
+            isScrapped = false,
+            scrapCount = 0
+        )
     }
+
+    InternScreen(
+        announcementId = announcementId,
+        internUiState = internState,
+        internInfo = internInfo,
+        navController = navController,
+        onDismissCancelDialog = {
+            with(viewModel) {
+                updateScrapCancelDialogVisibility(false)
+                getInternInfo(announcementId)
+            }
+        },
+        onDismissScrapDialog = {
+            with(viewModel) {
+                updateInternDialogVisibility(false)
+                getInternInfo(announcementId)
+            }
+        },
+        onClickCancelButton = {
+            viewModel.updateScrapCancelDialogVisibility(true)
+        },
+        onClickScrapButton = {
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "detail_scrap"
+            )
+            viewModel.updateInternDialogVisibility(true)
+        }
+    )
 }
 
 @Composable
