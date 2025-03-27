@@ -4,6 +4,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
@@ -23,9 +24,12 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.airbnb.lottie.compose.LottieConstants
+import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.domain.search.entity.SearchBanner
+import com.terning.feature.search.R.raw.terning_banner_loading
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -60,8 +64,7 @@ internal fun BannerSlider(
 
     Column(
         modifier
-            .fillMaxWidth()
-            .background(Grey200),
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (searchBanners.isNotEmpty()) {
@@ -100,6 +103,20 @@ internal fun BannerSlider(
                 DotsIndicator(
                     pageCount = pageCount,
                     pageIndex = pagerState.currentPage
+                )
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                TerningLottieAnimation(
+                    jsonFile = terning_banner_loading,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(112.dp),
+                    iterations = LottieConstants.IterateForever
                 )
             }
         }
