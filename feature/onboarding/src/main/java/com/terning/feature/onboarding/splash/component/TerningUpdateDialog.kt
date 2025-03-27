@@ -9,9 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
@@ -20,15 +21,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.terning.core.designsystem.theme.Grey150
@@ -42,12 +48,12 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleTheme
-import com.terning.feature.onboarding.R.string.update_dialog_patch_title
-import com.terning.feature.onboarding.R.string.update_dialog_patch_body
+import com.terning.feature.onboarding.R.string.update_dialog_major_button_update
 import com.terning.feature.onboarding.R.string.update_dialog_patch_button_dismiss
 import com.terning.feature.onboarding.R.string.update_dialog_patch_button_update
-import com.terning.feature.onboarding.R.string.update_dialog_major_button_update
 
+private const val MIN_DIALOG_WIDTH = 300
+private const val MIN_TEXT_HEIGHT = 94
 
 /**
  * 중~대규모 업데이트의 경우 사용하는 팝업 다이얼로그입니다.
@@ -69,6 +75,7 @@ internal fun TerningMajorUpdateDialog(
             pressedContainerColor = TerningMain2,
             containerColor = TerningMain,
             onClick = onUpdateButtonClick,
+            modifier = it,
         )
     }
 }
@@ -79,14 +86,17 @@ internal fun TerningMajorUpdateDialog(
  */
 @Composable
 internal fun TerningPatchUpdateDialog(
+    titleText: String,
+    bodyText: String,
     onDismissButtonClick: () -> Unit,
     onUpdateButtonClick: () -> Unit,
 ) {
     TerningUpdateDialog(
-        titleText = stringResource(update_dialog_patch_title),
-        bodyText = stringResource(update_dialog_patch_body),
+        titleText = titleText,
+        bodyText = bodyText,
     ) {
         Row(
+            modifier = it,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             UpdateDialogButton(
@@ -128,7 +138,6 @@ private fun UpdateDialogButton(
         Button(
             contentPadding = PaddingValues(vertical = 12.dp),
             modifier = modifier
-                .fillMaxWidth()
                 .height(40.dp),
             interactionSource = interactionSource,
             enabled = true,
@@ -151,23 +160,25 @@ private fun UpdateDialogButton(
 private fun TerningUpdateDialog(
     titleText: String,
     bodyText: String,
-    buttonContent: @Composable () -> Unit,
+    buttonContent: @Composable (Modifier) -> Unit,
 ) {
+    val density = LocalDensity.current
     val shape = RoundedCornerShape(20.dp)
+    var dialogSize by remember { mutableStateOf(0.dp) }
 
     Dialog(
         onDismissRequest = { },
         properties = DialogProperties(
             dismissOnBackPress = false,
             dismissOnClickOutside = false,
-            usePlatformDefaultWidth = true,
+            usePlatformDefaultWidth = false,
         )
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .padding(horizontal = 30.dp)
-                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+                .wrapContentWidth()
                 .background(color = White, shape = shape)
                 .padding(12.dp),
         ) {
@@ -180,7 +191,18 @@ private fun TerningUpdateDialog(
 
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.defaultMinSize(minHeight = 93.dp),
+                modifier = Modifier
+                    .defaultMinSize(
+                        minHeight = with(density) {
+                            MIN_TEXT_HEIGHT.toDp()
+                        }
+                    )
+                    .onGloballyPositioned {
+                        dialogSize = with(density) {
+                            max(it.size.width.toDp(), MIN_DIALOG_WIDTH.toDp())
+                        }
+                    }
+                    .padding(horizontal = 16.dp),
             ) {
                 Text(
                     text = bodyText,
@@ -193,7 +215,7 @@ private fun TerningUpdateDialog(
                 )
             }
 
-            buttonContent()
+            buttonContent(Modifier.width(dialogSize))
         }
     }
 }
@@ -215,6 +237,8 @@ private fun MajorUpdateDialogPreview() {
 private fun TerningPatchUpdateDialogPreview() {
     TerningPointTheme {
         TerningPatchUpdateDialog(
+            titleText = "새로운 버전 업데이트 안내",
+            bodyText = "최적의 서비스 사용 환경을 위해 최신 버전으로 업데이트 해주세요!",
             onDismissButtonClick = {},
             onUpdateButtonClick = {},
         )
