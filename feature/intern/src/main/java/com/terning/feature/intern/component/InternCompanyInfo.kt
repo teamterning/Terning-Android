@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.terning.core.designsystem.R.drawable.ic_terning_intern_item_image_loading_76
+import com.terning.core.designsystem.R.drawable.ic_terning_intern_item_image_loading_128
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
@@ -60,7 +60,7 @@ fun InternCompanyInfo(
                     .crossfade(true)
                     .data(companyImage)
                     .build(),
-                placeholder = painterResource(ic_terning_intern_item_image_loading_76),
+                placeholder = painterResource(ic_terning_intern_item_image_loading_128),
                 contentDescription = stringResource(id = R.string.search_image),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
