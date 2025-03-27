@@ -14,7 +14,7 @@ import timber.log.Timber
 class TerningRemoteConfig {
     private val remoteConfig: FirebaseRemoteConfig by lazy {
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 0
+            minimumFetchIntervalInSeconds = 3600
         }
         Firebase.remoteConfig.apply {
             setConfigSettingsAsync(configSettings)
