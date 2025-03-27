@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.extension.customShadow
 import com.terning.core.designsystem.extension.toast
@@ -54,7 +55,7 @@ fun InternRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val internState by viewModel.internUiState.collectAsStateWithLifecycle(lifecycleOwner)
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)

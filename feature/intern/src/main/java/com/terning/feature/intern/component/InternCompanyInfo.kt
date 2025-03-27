@@ -60,11 +60,11 @@ fun InternCompanyInfo(
                     .crossfade(true)
                     .data(companyImage)
                     .build(),
-                placeholder = painterResource(ic_terning_intern_item_image_loading_128),
                 contentDescription = stringResource(id = R.string.search_image),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                placeholder = painterResource(ic_terning_intern_item_image_loading_128),
             )
         }
         Column(
