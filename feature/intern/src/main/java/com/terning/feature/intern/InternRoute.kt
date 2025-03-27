@@ -33,12 +33,10 @@ import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
-import com.terning.core.designsystem.extension.customShadow
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.CalRed
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -170,10 +168,6 @@ fun InternScreen(
         ) {
             BackButtonTopAppBar(
                 title = stringResource(id = R.string.intern_top_app_bar_title),
-                modifier = Modifier.customShadow(
-                    color = Grey200,
-                    offsetY = 2.dp
-                ),
                 onBackButtonClick = {
                     navController.popBackStack()
                 },
