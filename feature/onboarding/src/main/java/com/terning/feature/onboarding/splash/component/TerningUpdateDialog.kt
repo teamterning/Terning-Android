@@ -193,13 +193,11 @@ private fun TerningUpdateDialog(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .defaultMinSize(
-                        minHeight = with(density) {
-                            MIN_TEXT_HEIGHT.toDp()
-                        }
+                        minHeight = MIN_TEXT_HEIGHT.dp
                     )
                     .onGloballyPositioned {
                         dialogSize = with(density) {
-                            max(it.size.width.toDp(), MIN_DIALOG_WIDTH.toDp())
+                            max(it.size.width.toDp(), MIN_DIALOG_WIDTH.dp)
                         }
                     }
                     .padding(horizontal = 16.dp),
