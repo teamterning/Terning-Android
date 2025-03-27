@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.terning.core.designsystem.R.drawable.ic_terning_intern_item_image_loading_128
 import com.terning.core.designsystem.R.drawable.ic_terning_intern_item_image_loading_popular
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Black

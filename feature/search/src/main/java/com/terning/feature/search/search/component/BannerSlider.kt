@@ -1,7 +1,6 @@
 package com.terning.feature.search.search.component
 
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +26,6 @@ import coil3.request.crossfade
 import com.airbnb.lottie.compose.LottieConstants
 import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.extension.noRippleClickable
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.domain.search.entity.SearchBanner
 import com.terning.feature.search.R.raw.terning_banner_loading
 import kotlinx.collections.immutable.ImmutableList
