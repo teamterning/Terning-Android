@@ -1,32 +1,58 @@
 package com.terning.feature.onboarding.splash
 
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.update.entity.UpdateState
+import com.terning.domain.update.usecase.GetUpdateStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val tokenRepository: TokenRepository,
+    private val getLatestVersionUseCase: GetUpdateStateUseCase
 ) : ViewModel() {
 
     private val _sideEffects = MutableSharedFlow<SplashState>()
     val sideEffects: SharedFlow<SplashState> get() = _sideEffects.asSharedFlow()
 
+    private var _updateState: MutableStateFlow<UpdateState> =
+        MutableStateFlow(UpdateState.InitialState)
+    val updateState = _updateState.asStateFlow()
+
     private fun getAccessToken(): Boolean = tokenRepository.getAccessToken().isNotBlank()
 
-    fun showSplash(lifecycleOwner: LifecycleOwner) {
-        lifecycleOwner.lifecycleScope.launch {
-            delay(DELAY_TIME)
-            _sideEffects.emit(SplashState.HasAccessToken(getAccessToken()))
+    suspend fun showSplash() {
+        _updateState.value = UpdateState.InitialState
+        delay(DELAY_TIME)
+    }
+
+    suspend fun checkUpdateState(version: String?) {
+        getLatestVersionUseCase.invoke(
+            version = version,
+            callback = { updateState ->
+                _updateState.value = updateState
+                checkIfUpdateNotAvailable(updateState)
+            }
+        )
+    }
+
+    private fun checkIfUpdateNotAvailable(updateState: UpdateState) {
+        if (updateState is UpdateState.NoUpdateAvailable) {
+            checkIfAccessTokenAvailable()
         }
+    }
+
+    fun checkIfAccessTokenAvailable() = viewModelScope.launch {
+        _sideEffects.emit(SplashState.HasAccessToken(getAccessToken()))
     }
 
     companion object {
