@@ -1,5 +1,5 @@
 package com.terning.feature.onboarding.splash
 
-sealed class SplashState {
-    data class HasAccessToken(val hasAccessToken: Boolean) : SplashState()
-}
+data class SplashState (
+    val newRoute: String = ""
+)

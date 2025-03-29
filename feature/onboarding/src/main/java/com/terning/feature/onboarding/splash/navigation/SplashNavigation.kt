@@ -17,12 +17,16 @@ fun NavController.navigateSplash(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.splashNavGraph(
     navigateHome: () -> Unit,
-    navigateSignIn: () -> Unit
+    navigateSignIn: () -> Unit,
+    navigateNewRoute: (String) -> Unit,
+    newRoute: String? = null
 ) {
     composable<Splash> {
         SplashRoute(
             navigateToHome = navigateHome,
-            navigateToSignIn = navigateSignIn
+            navigateToSignIn = navigateSignIn,
+            navigateNewRoute = navigateNewRoute,
+            newRoute = newRoute
         )
     }
 }

@@ -2,7 +2,9 @@ package com.terning.feature.main
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Column
@@ -26,6 +28,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.snackbar.TerningBasicSnackBar
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
@@ -56,9 +59,11 @@ import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
+    newRoute: String?
 ) {
     val context = LocalContext.current
     var backPressedState by remember { mutableStateOf(true) }
@@ -67,7 +72,7 @@ fun MainScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
 
     BackHandler(enabled = backPressedState) {
         if (System.currentTimeMillis() - backPressedTime <= 3000) {
@@ -153,7 +158,9 @@ fun MainScreen(
                                 inclusive = true
                             ).build()
                         )
-                    }
+                    },
+                    navigateNewRoute = {},
+                    newRoute = newRoute
                 )
                 homeNavGraph(
                     paddingValues = paddingValues,
