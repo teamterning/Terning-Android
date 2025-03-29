@@ -3,6 +3,8 @@ package com.terning.feature.onboarding.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.domain.auth.entity.SignUpRequest
+import com.terning.domain.auth.repository.AuthRepository
+import com.terning.domain.token.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,8 +18,8 @@ import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val authRepository: com.terning.domain.auth.repository.AuthRepository,
-    private val tokenRepository: com.terning.domain.token.repository.TokenRepository
+    private val authRepository: AuthRepository,
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState())
