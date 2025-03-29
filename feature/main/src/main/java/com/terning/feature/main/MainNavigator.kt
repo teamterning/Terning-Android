@@ -17,6 +17,7 @@ import com.terning.feature.search.search.navigation.navigateSearch
 class MainNavigator(
     val navController: NavHostController,
 ) {
+
     private val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
@@ -46,10 +47,6 @@ class MainNavigator(
             MainTab.SEARCH -> navController.navigateSearch(navOptions)
             MainTab.MY_PAGE -> navController.navigateMyPage(navOptions)
         }
-    }
-
-    fun navigateUp() {
-        navController.navigateUp()
     }
 
     @Composable
