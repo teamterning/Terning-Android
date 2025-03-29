@@ -39,7 +39,8 @@ include(
     ":core:navigation",
     ":core:network",
     ":core:local",
-    ":core:firebase"
+    ":core:firebase",
+    ":core:navigator"
 )
 
 // data
