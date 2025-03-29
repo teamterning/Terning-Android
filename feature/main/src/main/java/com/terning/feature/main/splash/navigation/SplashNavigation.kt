@@ -24,7 +24,6 @@ fun NavGraphBuilder.splashNavGraph(
         SplashRoute(
             navigateToHome = navigateHome,
             navigateToSignIn = navigateSignIn,
-            redirect = "redirect"
         )
     }
 }

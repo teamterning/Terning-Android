@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val name = intent.data?.getQueryParameter("redirect") ?: "undefined"
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
 

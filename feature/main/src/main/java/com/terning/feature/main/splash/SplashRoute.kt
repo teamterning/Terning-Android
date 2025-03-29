@@ -24,7 +24,6 @@ import com.terning.feature.main.R
 fun SplashRoute(
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit,
-    redirect : String,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
