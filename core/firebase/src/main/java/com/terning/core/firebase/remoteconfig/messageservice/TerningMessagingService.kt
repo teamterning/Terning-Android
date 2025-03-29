@@ -39,7 +39,7 @@ class TerningMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        if (message.data.isEmpty() )
+        if (message.data.isEmpty())
             //|| !terningDataStore.alarmAvailable)
         return
 

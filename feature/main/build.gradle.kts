@@ -11,6 +11,7 @@ android {
 dependencies {
     // core
     implementation(projects.core.firebase)
+    implementation(projects.core.navigator)
 
     //domain
     implementation(projects.domain.token)
