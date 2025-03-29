@@ -9,9 +9,6 @@ android {
 }
 
 dependencies {
-    // core
-    implementation(projects.core.local)
-
     // timber
     implementation(libs.timber)
 
