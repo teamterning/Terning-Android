@@ -2,9 +2,7 @@ package com.terning.feature.main
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import androidx.activity.compose.BackHandler
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Column
@@ -59,11 +57,9 @@ import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
-    newRoute: String?
 ) {
     val context = LocalContext.current
     var backPressedState by remember { mutableStateOf(true) }
@@ -159,8 +155,6 @@ fun MainScreen(
                             ).build()
                         )
                     },
-                    navigateNewRoute = {},
-                    newRoute = newRoute
                 )
                 homeNavGraph(
                     paddingValues = paddingValues,
