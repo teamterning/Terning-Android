@@ -27,7 +27,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleInteractionSource
-import com.terning.feature.main.MainTab
+import com.terning.feature.main.main.MainTab
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

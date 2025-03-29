@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.splash
+package com.terning.feature.main.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,12 +18,13 @@ import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.feature.onboarding.R
+import com.terning.feature.main.R
 
 @Composable
 fun SplashRoute(
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit,
+    redirect : String,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
@@ -47,10 +48,9 @@ fun SplashRoute(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SplashSideEffect.HasAccessToken -> {
-                        if (sideEffect.hasAccessToken) {
-                            navigateToHome()
-                        } else navigateToSignIn()
+                    is SplashState.HasAccessToken -> {
+                        if (sideEffect.hasAccessToken) navigateToHome()
+                        else navigateToSignIn()
                     }
                 }
             }

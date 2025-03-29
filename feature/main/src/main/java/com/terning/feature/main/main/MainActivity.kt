@@ -1,5 +1,7 @@
-package com.terning.feature.main
+package com.terning.feature.main.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,6 +31,18 @@ class MainActivity : ComponentActivity() {
                     MainScreen(navigator)
                 }
             }
+        }
+    }
+
+    companion object {
+        private const val EXTRA_TYPE = "EXTRA_DEFAULT"
+
+        @JvmStatic
+        fun getIntent(
+            context: Context,
+            type: String? = null,
+        ) = Intent(context, MainActivity::class.java).apply {
+            putExtra(EXTRA_TYPE, type)
         }
     }
 }

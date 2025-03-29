@@ -1,4 +1,4 @@
-package com.terning.feature.main
+package com.terning.feature.main.main
 
 import android.app.Activity
 import android.content.Intent
@@ -49,8 +49,8 @@ import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
-import com.terning.feature.onboarding.splash.navigation.Splash
-import com.terning.feature.onboarding.splash.navigation.splashNavGraph
+import com.terning.feature.main.splash.navigation.Splash
+import com.terning.feature.main.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph

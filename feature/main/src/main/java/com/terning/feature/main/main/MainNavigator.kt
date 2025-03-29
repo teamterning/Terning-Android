@@ -1,4 +1,4 @@
-package com.terning.feature.main
+package com.terning.feature.main.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -11,7 +11,7 @@ import androidx.navigation.navOptions
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.mypage.mypage.navigation.navigateMyPage
-import com.terning.feature.onboarding.splash.navigation.Splash
+import com.terning.feature.main.splash.navigation.Splash
 import com.terning.feature.search.search.navigation.navigateSearch
 
 class MainNavigator(

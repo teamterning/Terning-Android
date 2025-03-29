@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.terning.feature.main.MainActivity"
+            android:name="com.terning.feature.main.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

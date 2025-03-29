@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.splash
+package com.terning.feature.main.splash
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
@@ -17,15 +17,15 @@ class SplashViewModel @Inject constructor(
     private val tokenRepository: TokenRepository,
 ) : ViewModel() {
 
-    private val _sideEffects = MutableSharedFlow<SplashSideEffect>()
-    val sideEffects: SharedFlow<SplashSideEffect> get() = _sideEffects.asSharedFlow()
+    private val _sideEffects = MutableSharedFlow<SplashState>()
+    val sideEffects: SharedFlow<SplashState> get() = _sideEffects.asSharedFlow()
 
     private fun getAccessToken(): Boolean = tokenRepository.getAccessToken().isNotBlank()
 
     fun showSplash(lifecycleOwner: LifecycleOwner) {
         lifecycleOwner.lifecycleScope.launch {
             delay(DELAY_TIME)
-            _sideEffects.emit(SplashSideEffect.HasAccessToken(hasAccessToken = getAccessToken()))
+            _sideEffects.emit(SplashState.HasAccessToken(getAccessToken()))
         }
     }
 
