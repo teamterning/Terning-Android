@@ -12,7 +12,7 @@ dependencies {
     // core
     implementation(projects.core.local)
 
-    // feature
+    // feature TODO: 의존성 없애기
     implementation(projects.feature.main)
 
     // timber

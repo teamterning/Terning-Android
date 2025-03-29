@@ -9,6 +9,9 @@ android {
 }
 
 dependencies {
+    // core TODO: 의존성 넣기
+    // implementation(projects.core.firebase)
+
     // feature
     implementation(projects.feature.calendar)
     implementation(projects.feature.dialog)
