@@ -15,7 +15,7 @@ fun NavGraphBuilder.splashNavGraph(
     composable<Splash>(
         deepLinks = listOf(
             navDeepLink {
-                uriPattern = "terning://splash?=mypage"
+                uriPattern = "terning://splash"
                 action = Intent.ACTION_VIEW
                 mimeType = "*/*"
             }

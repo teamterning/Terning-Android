@@ -25,5 +25,13 @@
                 <data android:scheme="terning" />
             </intent-filter>
         </activity>
+        <!--        TODO: 이거는 지우고 마이페이지에서 적용해주기!-->
+        <service
+            android:name="com.terning.core.firebase.remoteconfig.messageservice.TerningMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>
