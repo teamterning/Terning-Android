@@ -7,6 +7,9 @@ import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import timber.log.Timber
 
+private const val TERNING_PLAY_STORE_URL =
+    "https://play.google.com/store/apps/details?id=com.terning.point"
+
 fun Context.toast(@StringRes message: Int) {
     Toast.makeText(this, getString(message), Toast.LENGTH_SHORT).show()
 }
@@ -30,10 +33,8 @@ fun Context.getVersionName(): String? = runCatching {
 )
 
 fun Context.launchPlayStore() = runCatching {
-    val terningPlayStoreUri = "https://play.google.com/store/apps/details?id=com.terning.point".toUri()
+    val terningPlayStoreUri = TERNING_PLAY_STORE_URL.toUri()
     Intent(Intent.ACTION_VIEW).apply { data = terningPlayStoreUri }
 }.onSuccess { playStoreIntent ->
     startActivity(playStoreIntent)
-}.onFailure {
-    Timber.e(it)
-}
+}.onFailure(Timber::e)
