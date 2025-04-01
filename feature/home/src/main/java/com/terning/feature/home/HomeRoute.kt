@@ -36,6 +36,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
+import com.terning.core.designsystem.R.raw.paging_loading_animation
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
@@ -380,7 +381,7 @@ private fun LazyListScope.recommendedInternLazyList(
                     contentAlignment = Alignment.Center,
                 ) {
                     TerningLottieAnimation(
-                        jsonFile = com.terning.core.designsystem.R.raw.paging_loading_animation,
+                        jsonFile = paging_loading_animation,
                         modifier = Modifier.size(28.dp),
                         iterations = Int.MAX_VALUE,
                     )
