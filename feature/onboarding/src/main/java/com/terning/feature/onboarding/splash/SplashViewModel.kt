@@ -36,7 +36,7 @@ class SplashViewModel @Inject constructor(
     }
 
     suspend fun checkUpdateState(version: String?) {
-        getLatestVersionUseCase.invoke(
+        getLatestVersionUseCase(
             version = version,
             callback = { updateState ->
                 _updateState.value = updateState
