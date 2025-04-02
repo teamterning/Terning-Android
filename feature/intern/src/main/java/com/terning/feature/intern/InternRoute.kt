@@ -36,6 +36,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.intern.entity.InternInfo
+import com.terning.domain.intern.entity.InternInfo.Companion.EMPTY_INTERN
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.intern.component.InternBottomBar
@@ -73,26 +74,7 @@ fun InternRoute(
     }
 
 
-    val internInfo = when (internState.loadState) {
-        is UiState.Success -> (internState.loadState as UiState.Success<InternInfo>).data
-        else -> InternInfo(
-            dDay = "",
-            title = "",
-            viewCount = 0,
-            company = "",
-            companyCategory = "",
-            companyImage = "",
-            deadline = "",
-            workingPeriod = "",
-            startYearMonth = "",
-            qualification = "",
-            jobType = "",
-            url = "",
-            detail = "",
-            isScrapped = false,
-            scrapCount = 0
-        )
-    }
+    val internInfo = (internState.loadState as? UiState.Success<InternInfo>)?.data ?: EMPTY_INTERN
 
     InternScreen(
         announcementId = announcementId,

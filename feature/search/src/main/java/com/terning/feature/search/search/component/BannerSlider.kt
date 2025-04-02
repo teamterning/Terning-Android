@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.compose.SubcomposeAsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.airbnb.lottie.compose.LottieConstants
@@ -77,7 +78,8 @@ internal fun BannerSlider(
                     key = { it }
                 ) { currentPage ->
                     val pageIndex = currentPage % pageCount
-                    AsyncImage(
+
+                    SubcomposeAsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(searchBanners[pageIndex].imageUrl)
                             .crossfade(true)
@@ -95,6 +97,15 @@ internal fun BannerSlider(
                                 }
                             },
                         contentScale = ContentScale.Crop,
+                        loading = {
+                            TerningLottieAnimation(
+                                jsonFile = terning_banner_loading,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(112.dp),
+                                iterations = LottieConstants.IterateForever
+                            )
+                        }
                     )
                 }
 

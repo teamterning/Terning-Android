@@ -37,10 +37,8 @@ fun InternCompanyInfo(
     company: String,
     companyCategory: String,
 ) {
-    val image = if (companyImage == "") {
+    val image = companyImage.ifBlank {
         ic_terning_intern_item_image_loading_128
-    } else {
-        companyImage
     }
 
     Column(
