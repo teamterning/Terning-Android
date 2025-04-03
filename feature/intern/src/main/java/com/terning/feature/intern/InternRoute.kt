@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.extension.customShadow
 import com.terning.core.designsystem.extension.toast
@@ -35,6 +36,7 @@ import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.intern.entity.InternInfo
+import com.terning.domain.intern.entity.InternInfo.Companion.EMPTY_INTERN
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.intern.component.InternBottomBar
@@ -53,8 +55,10 @@ fun InternRoute(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+
     val internState by viewModel.internUiState.collectAsStateWithLifecycle(lifecycleOwner)
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)
@@ -64,46 +68,42 @@ fun InternRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is InternViewSideEffect.Toast -> context.toast(sideEffect.message)
+                    is InternViewSideEffect.ShowToast -> context.toast(sideEffect.message)
                 }
             }
     }
 
-    when (internState.loadState) {
-        UiState.Loading -> {}
-        UiState.Empty -> {}
-        is UiState.Failure -> {}
-        is UiState.Success -> {
-            InternScreen(
-                announcementId = announcementId,
-                internUiState = internState,
-                internInfo = (internState.loadState as UiState.Success).data,
-                navController = navController,
-                onDismissCancelDialog = {
-                    with(viewModel) {
-                        updateScrapCancelDialogVisibility(false)
-                        getInternInfo(announcementId)
-                    }
-                },
-                onDismissScrapDialog = {
-                    with(viewModel) {
-                        updateInternDialogVisibility(false)
-                        getInternInfo(announcementId)
-                    }
-                },
-                onClickCancelButton = {
-                    viewModel.updateScrapCancelDialogVisibility(true)
-                },
-                onClickScrapButton = {
-                    amplitudeTracker.track(
-                        type = EventType.CLICK,
-                        name = "detail_scrap"
-                    )
-                    viewModel.updateInternDialogVisibility(true)
-                }
+
+    val internInfo = (internState.loadState as? UiState.Success<InternInfo>)?.data ?: EMPTY_INTERN
+
+    InternScreen(
+        announcementId = announcementId,
+        internUiState = internState,
+        internInfo = internInfo,
+        navController = navController,
+        onDismissCancelDialog = {
+            with(viewModel) {
+                updateScrapCancelDialogVisibility(false)
+                getInternInfo(announcementId)
+            }
+        },
+        onDismissScrapDialog = {
+            with(viewModel) {
+                updateInternDialogVisibility(false)
+                getInternInfo(announcementId)
+            }
+        },
+        onClickCancelButton = {
+            viewModel.updateScrapCancelDialogVisibility(true)
+        },
+        onClickScrapButton = {
+            amplitudeTracker.track(
+                type = EventType.CLICK,
+                name = "detail_scrap"
             )
+            viewModel.updateInternDialogVisibility(true)
         }
-    }
+    )
 }
 
 @Composable
