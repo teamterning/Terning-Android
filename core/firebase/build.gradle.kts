@@ -9,6 +9,10 @@ android {
 }
 
 dependencies {
+    //core
+    implementation(projects.core.navigator)
+    implementation(projects.core.local)
+
     // timber
     implementation(libs.timber)
 
@@ -17,7 +21,4 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.config)
-
-    // todo: 나중에 지우기
-    implementation(projects.core.local)
 }
