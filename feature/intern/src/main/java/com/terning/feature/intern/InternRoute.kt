@@ -1,6 +1,5 @@
 package com.terning.feature.intern
 
-import android.content.Context
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -11,15 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -28,15 +24,13 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
-import com.kakao.sdk.common.util.KakaoCustomTabsClient
-import com.kakao.sdk.share.ShareClient
-import com.kakao.sdk.share.WebSharerClient
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
-import com.terning.core.designsystem.extension.noRippleClickable
+import com.terning.core.designsystem.extension.customShadow
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.CalRed
+import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
@@ -49,7 +43,6 @@ import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
 import com.terning.feature.intern.component.InternTitle
 import com.terning.feature.intern.model.InternUiState
-import timber.log.Timber
 import java.text.DecimalFormat
 
 @Composable
@@ -60,8 +53,10 @@ fun InternRoute(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+
     val internState by viewModel.internUiState.collectAsStateWithLifecycle(lifecycleOwner)
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+
+    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getInternInfo(announcementId)
@@ -79,6 +74,9 @@ fun InternRoute(
                 }
             }
     }
+
+
+    val internInfo = (internState.loadState as? UiState.Success<InternInfo>)?.data ?: EMPTY_INTERN
 
     when (internState.loadState) {
         UiState.Loading -> {}
