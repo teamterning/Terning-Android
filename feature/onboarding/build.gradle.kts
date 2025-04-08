@@ -12,6 +12,10 @@ dependencies {
     // domain
     implementation(projects.domain.auth)
     implementation(projects.domain.token)
+    implementation(projects.domain.update)
+
+    // core
+    implementation(projects.core.designsystem)
 
     implementation(libs.kakao.user)
     implementation(libs.semver)
