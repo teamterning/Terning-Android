@@ -17,4 +17,24 @@ data class InternInfo(
     val url: String,
     val isScrapped: Boolean,
     val color: String? = null,
-)
+) {
+    companion object {
+        val EMPTY_INTERN = InternInfo(
+            dDay = "",
+            title = "",
+            viewCount = 0,
+            company = "",
+            companyCategory = "",
+            companyImage = "",
+            deadline = "",
+            workingPeriod = "",
+            startYearMonth = "",
+            qualification = "",
+            jobType = "",
+            url = "",
+            detail = "",
+            isScrapped = false,
+            scrapCount = 0
+        )
+    }
+}
