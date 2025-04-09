@@ -1,4 +1,4 @@
-package com.terning.feature.main.main
+package com.terning.feature.main
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -7,7 +7,6 @@ import com.terning.core.navigation.MainTabRoute
 import com.terning.core.navigation.Route
 import com.terning.feature.calendar.calendar.navigation.Calendar
 import com.terning.feature.home.navigation.Home
-import com.terning.feature.main.R
 import com.terning.feature.mypage.mypage.navigation.MyPage
 import com.terning.feature.search.search.navigation.Search
 
