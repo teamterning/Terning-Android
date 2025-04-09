@@ -1,11 +1,12 @@
-package com.terning.feature.main.splash.navigation
+package com.terning.feature.onboarding.splash.navigation
 
-import android.content.Intent
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import androidx.navigation.toRoute
 import com.terning.core.navigation.Route
-import com.terning.feature.main.splash.SplashRoute
+import com.terning.feature.onboarding.splash.SplashRoute
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.splashNavGraph(
@@ -14,14 +15,14 @@ fun NavGraphBuilder.splashNavGraph(
 ) {
     composable<Splash>(
         deepLinks = listOf(
-            navDeepLink {
-                uriPattern = "terning://splash"
-                action = Intent.ACTION_VIEW
-                mimeType = "*/*"
-            }
+            navDeepLink<Splash>(
+                basePath = "terning://splash"
+            )
         )
     ) {
+        val redirect = it.toRoute<Splash>().redirect
         SplashRoute(
+            redirect = redirect,
             navigateToHome = navigateHome,
             navigateToSignIn = navigateSignIn,
         )
@@ -29,4 +30,7 @@ fun NavGraphBuilder.splashNavGraph(
 }
 
 @Serializable
-data object Splash : Route
+data class Splash(
+    @SerialName("redirect")
+    val redirect: String
+) : Route

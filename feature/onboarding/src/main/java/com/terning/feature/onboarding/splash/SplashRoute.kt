@@ -1,4 +1,4 @@
-package com.terning.feature.main.splash
+package com.terning.feature.onboarding.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,10 +18,11 @@ import androidx.lifecycle.flowWithLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.feature.main.R
+import com.terning.feature.onboarding.R
 
 @Composable
-fun SplashRoute(
+internal fun SplashRoute(
+    redirect: String,
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),
@@ -40,14 +41,14 @@ fun SplashRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(key1 = true) {
-        viewModel.showSplash(lifecycleOwner)
+        viewModel.showSplash()
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SplashState.HasAccessToken -> {
+                    is SplashSideEffect.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) navigateToHome()
                         else navigateToSignIn()
                     }
@@ -59,7 +60,7 @@ fun SplashRoute(
 }
 
 @Composable
-fun SplashScreen(
+private fun SplashScreen(
 ) {
     Column(
         modifier = Modifier
@@ -78,7 +79,7 @@ fun SplashScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SplashScreenPreview() {
+private fun SplashScreenPreview() {
     TerningPointTheme {
         SplashScreen()
     }

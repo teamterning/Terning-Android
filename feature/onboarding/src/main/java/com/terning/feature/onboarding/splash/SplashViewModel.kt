@@ -1,8 +1,7 @@
-package com.terning.feature.main.splash
+package com.terning.feature.onboarding.splash
 
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.terning.domain.token.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -17,15 +16,15 @@ class SplashViewModel @Inject constructor(
     private val tokenRepository: TokenRepository,
 ) : ViewModel() {
 
-    private val _sideEffects = MutableSharedFlow<SplashState>()
-    val sideEffects: SharedFlow<SplashState> get() = _sideEffects.asSharedFlow()
+    private val _sideEffects = MutableSharedFlow<SplashSideEffect>()
+    val sideEffects: SharedFlow<SplashSideEffect> get() = _sideEffects.asSharedFlow()
 
     private fun getAccessToken(): Boolean = tokenRepository.getAccessToken().isNotBlank()
 
-    fun showSplash(lifecycleOwner: LifecycleOwner) {
-        lifecycleOwner.lifecycleScope.launch {
+    fun showSplash() {
+        viewModelScope.launch {
             delay(DELAY_TIME)
-            _sideEffects.emit(SplashState.HasAccessToken(getAccessToken()))
+            _sideEffects.emit(SplashSideEffect.HasAccessToken(getAccessToken()))
         }
     }
 
