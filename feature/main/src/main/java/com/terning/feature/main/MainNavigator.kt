@@ -1,4 +1,4 @@
-package com.terning.feature.main.main
+package com.terning.feature.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -11,7 +11,7 @@ import androidx.navigation.navOptions
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.mypage.mypage.navigation.navigateMyPage
-import com.terning.feature.main.splash.navigation.Splash
+import com.terning.feature.onboarding.splash.navigation.Splash
 import com.terning.feature.search.search.navigation.navigateSearch
 
 class MainNavigator(
@@ -22,7 +22,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Splash
+    fun startDestination(redirect: String?) = Splash(redirect = redirect)
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
@@ -31,12 +31,12 @@ class MainNavigator(
 
     fun navigate(tab: MainTab) {
         val navOptions = navOptions {
-              navController.currentDestination?.route?.let {
-                  popUpTo(it){
-                      inclusive = true
-                      saveState = true
-                  }
-              }
+            navController.currentDestination?.route?.let {
+                popUpTo(it) {
+                    inclusive = true
+                    saveState = true
+                }
+            }
             launchSingleTop = true
             restoreState = true
         }

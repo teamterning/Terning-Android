@@ -1,4 +1,4 @@
-package com.terning.feature.main.main
+package com.terning.feature.main
 
 import android.app.Activity
 import android.content.Intent
@@ -49,8 +49,8 @@ import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
-import com.terning.feature.main.splash.navigation.Splash
-import com.terning.feature.main.splash.navigation.splashNavGraph
+import com.terning.feature.onboarding.splash.navigation.Splash
+import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
@@ -60,6 +60,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     navigator: MainNavigator = rememberMainNavigator(),
+    redirect: String?
 ) {
     val context = LocalContext.current
     var backPressedState by remember { mutableStateOf(true) }
@@ -136,13 +137,13 @@ fun MainScreen(
                     ExitTransition.None
                 },
                 navController = navigator.navController,
-                startDestination = navigator.startDestination
+                startDestination = navigator.startDestination(redirect)
             ) {
                 splashNavGraph(
                     navigateHome = {
                         navigator.navController.navigateHome(
                             navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash,
+                                route = Splash(""),
                                 inclusive = true
                             ).build()
                         )
@@ -150,7 +151,7 @@ fun MainScreen(
                     navigateSignIn = {
                         navigator.navController.navigateSignIn(
                             navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash,
+                                route = Splash(""),
                                 inclusive = true
                             ).build()
                         )

@@ -32,5 +32,5 @@ fun NavGraphBuilder.splashNavGraph(
 @Serializable
 data class Splash(
     @SerialName("redirect")
-    val redirect: String
+    val redirect: String?
 ) : Route

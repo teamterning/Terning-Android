@@ -22,7 +22,7 @@ import com.terning.feature.onboarding.R
 
 @Composable
 internal fun SplashRoute(
-    redirect: String,
+    redirect: String?,
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),

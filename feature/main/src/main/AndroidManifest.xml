@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.terning.feature.main.main.MainActivity"
+            android:name="com.terning.feature.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -25,7 +25,6 @@
                 <data android:scheme="terning" />
             </intent-filter>
         </activity>
-        <!--        TODO: 이거는 지우고 마이페이지에서 적용해주기!-->
         <service
             android:name="com.terning.core.firebase.remoteconfig.messageservice.TerningMessagingService"
             android:exported="false">
@@ -33,5 +32,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
     </application>
 </manifest>

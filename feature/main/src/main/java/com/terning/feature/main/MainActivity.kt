@@ -1,8 +1,9 @@
-package com.terning.feature.main.main
+package com.terning.feature.main
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -22,28 +23,25 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        val name = intent.data?.getQueryParameter("redirect") ?: "undefined"
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
+            Log.d("LYB", "intent.data = ${intent.data.toString()}")
+            val redirect: String? = intent.data?.getQueryParameter(REDIRECT)
 
             TerningPointTheme {
                 CompositionLocalProvider(LocalTracker provides tracker) {
-                    MainScreen(navigator)
+                    MainScreen(navigator, redirect)
                 }
             }
         }
     }
 
     companion object {
-        private const val EXTRA_TYPE = "EXTRA_DEFAULT"
+        private const val REDIRECT: String = "redirect"
 
         @JvmStatic
         fun getIntent(
             context: Context,
-            type: String? = null,
-        ) = Intent(context, MainActivity::class.java).apply {
-            putExtra(EXTRA_TYPE, type)
-        }
+        ) = Intent(context, MainActivity::class.java)
     }
 }
