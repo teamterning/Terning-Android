@@ -54,7 +54,8 @@ include(
     ":data:search",
     ":data:tokenreissue",
     ":data:token",
-    ":data:scrap"
+    ":data:scrap",
+    ":data:update"
 )
 
 // domain
@@ -68,7 +69,8 @@ include(
     ":domain:search",
     ":domain:tokenreissue",
     ":domain:token",
-    ":domain:scrap"
+    ":domain:scrap",
+    ":domain:update"
 )
 
 // feature
@@ -83,4 +85,5 @@ include(
     ":feature:onboarding",
     ":feature:search"
 )
+
 include(":core:testing")
