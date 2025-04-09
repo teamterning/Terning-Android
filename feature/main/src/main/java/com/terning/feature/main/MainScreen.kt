@@ -49,11 +49,11 @@ import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
-import com.terning.feature.onboarding.splash.navigation.Splash
-import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
+import com.terning.feature.splash.navigation.Splash
+import com.terning.feature.splash.navigation.splashNavGraph
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 

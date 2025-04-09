@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.splash
+package com.terning.feature.splash
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -29,9 +29,8 @@ import com.terning.core.designsystem.extension.launchPlayStore
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.domain.update.entity.UpdateState
-import com.terning.feature.onboarding.R
-import com.terning.feature.onboarding.splash.component.TerningMajorUpdateDialog
-import com.terning.feature.onboarding.splash.component.TerningPatchUpdateDialog
+import com.terning.feature.splash.component.TerningMajorUpdateDialog
+import com.terning.feature.splash.component.TerningPatchUpdateDialog
 import kotlinx.coroutines.launch
 
 @Composable

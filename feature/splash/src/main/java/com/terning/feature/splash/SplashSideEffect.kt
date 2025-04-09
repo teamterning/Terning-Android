@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.splash
+package com.terning.feature.splash
 
 sealed class SplashSideEffect {
     data class HasAccessToken(val hasAccessToken: Boolean) : SplashSideEffect()

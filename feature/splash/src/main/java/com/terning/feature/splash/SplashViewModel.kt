@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.splash
+package com.terning.feature.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

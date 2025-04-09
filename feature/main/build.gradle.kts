@@ -25,4 +25,5 @@ dependencies {
     implementation(projects.feature.mypage)
     implementation(projects.feature.onboarding)
     implementation(projects.feature.search)
+    implementation(projects.feature.splash)
 }

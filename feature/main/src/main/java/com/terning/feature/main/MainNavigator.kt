@@ -11,8 +11,8 @@ import androidx.navigation.navOptions
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.home.navigation.navigateHome
 import com.terning.feature.mypage.mypage.navigation.navigateMyPage
-import com.terning.feature.onboarding.splash.navigation.Splash
 import com.terning.feature.search.search.navigation.navigateSearch
+import com.terning.feature.splash.navigation.Splash
 
 class MainNavigator(
     val navController: NavHostController,
