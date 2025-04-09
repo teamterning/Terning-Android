@@ -1,5 +1,6 @@
 package com.terning.build_logic.convention
 
+import com.android.build.gradle.LibraryExtension
 import com.terning.build_logic.extension.libs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -29,4 +30,9 @@ internal fun Project.configureComposeAndroid() {
         enableStrongSkippingMode.set(true)
         includeSourceInformation.set(true)
     }
+
+    extensions.getByType<LibraryExtension>().apply {
+        buildFeatures.compose = true
+    }
+
 }

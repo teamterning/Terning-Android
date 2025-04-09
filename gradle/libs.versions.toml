@@ -113,6 +113,9 @@ google-services = "4.4.2"
 firebaseBom = "33.10.0"
 firebaseMessaging = "24.1.0"
 
+# Semver
+semver = "2.1.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
@@ -213,6 +216,8 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-config = { group = "com.google.firebase", name = "firebase-config" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessaging" }
+
+semver = { group = "net.swiftzer.semver", name = "semver", version.ref = "semver" }
 
 [bundles]
 retrofit = [

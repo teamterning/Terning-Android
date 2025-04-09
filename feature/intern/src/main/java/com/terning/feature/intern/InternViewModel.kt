@@ -3,7 +3,6 @@ package com.terning.feature.intern
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.state.UiState
-import com.terning.domain.intern.entity.InternInfo
 import com.terning.domain.intern.repository.InternRepository
 import com.terning.feature.intern.model.InternUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,7 +37,7 @@ class InternViewModel @Inject constructor(
                     _internUiState.value = _internUiState.value.copy(
                         loadState = UiState.Failure(exception.toString())
                     )
-                    _sideEffect.emit(InternViewSideEffect.Toast(R.string.server_failure))
+                    _sideEffect.emit(InternViewSideEffect.ShowToast(R.string.server_failure))
                 }
         }
     }
@@ -55,14 +54,6 @@ class InternViewModel @Inject constructor(
         _internUiState.update { currentState ->
             currentState.copy(
                 internDialogVisibility = visibility
-            )
-        }
-    }
-
-    fun updateInternshipModel(scrapDetailModel: InternInfo?) {
-        _internUiState.update { currentState ->
-            currentState.copy(
-                internshipModel = scrapDetailModel
             )
         }
     }

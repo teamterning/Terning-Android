@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.terning.core.designsystem.R.drawable.ic_terning_intern_item_image_loading_128
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
@@ -36,9 +37,12 @@ fun InternCompanyInfo(
     company: String,
     companyCategory: String,
 ) {
+    val image = companyImage.ifBlank {
+        ic_terning_intern_item_image_loading_128
+    }
+
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -56,19 +60,16 @@ fun InternCompanyInfo(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .crossfade(true)
-                    .data(companyImage)
+                    .data(image)
                     .build(),
                 contentDescription = stringResource(id = R.string.search_image),
                 contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
+
         Column(
-            verticalArrangement = Arrangement.spacedBy(
-                4.dp,
-                Alignment.Bottom
-            ),
+            verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Bottom),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(

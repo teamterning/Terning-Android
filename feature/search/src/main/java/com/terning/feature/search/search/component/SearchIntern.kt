@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.terning.core.designsystem.R.drawable.ic_terning_intern_item_image_loading_popular
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.Black
 import com.terning.core.designsystem.theme.Grey100
@@ -80,7 +82,8 @@ fun SearchIntern(
                         topStart = 5.dp,
                         topEnd = 5.dp
                     )
-                )
+                ),
+            placeholder = painterResource(ic_terning_intern_item_image_loading_popular),
         )
         HorizontalDivider(
             color = Grey100,
