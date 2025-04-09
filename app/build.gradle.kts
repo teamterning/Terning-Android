@@ -91,6 +91,7 @@ dependencies {
     implementation(projects.data.token)
     implementation(projects.data.tokenreissue)
     implementation(projects.data.search)
+    implementation(projects.data.update)
 
     // baseline profile
     baselineProfile(projects.baselineprofile)

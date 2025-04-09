@@ -30,6 +30,7 @@ composeSavable = "1.4.3"
 hilt = "2.48.1"
 hiltNavigationCompose = "1.2.0"
 hiltManager = "1.0.0"
+javax-inject = "1"
 
 ## Network
 okhttp = "4.12.0"
@@ -114,7 +115,7 @@ firebaseBom = "33.10.0"
 firebaseMessaging = "24.1.0"
 
 # Semver
-semver = "2.1.0"
+semver = "2.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -166,6 +167,7 @@ hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testi
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 hilt-manager = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltManager" }
+javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javax-inject" }
 
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
