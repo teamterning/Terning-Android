@@ -41,6 +41,9 @@ internal fun SplashRoute(
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+    val updateState by viewModel.updateState.collectAsStateWithLifecycle()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -50,10 +53,6 @@ internal fun SplashRoute(
             color = TerningMain
         )
     }
-
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val context = LocalContext.current
-    val updateState by viewModel.updateState.collectAsStateWithLifecycle()
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
