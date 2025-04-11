@@ -37,7 +37,6 @@ jobs:
 
       - name: Create google-services
         run: |
-          mkdir ./app/src/debug
           echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' > ./app/src/google-services.json
 
       - name: Create Local Properties
