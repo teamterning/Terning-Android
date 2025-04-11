@@ -59,8 +59,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
+    redirect: String?,
     navigator: MainNavigator = rememberMainNavigator(),
-    redirect: String?
 ) {
     val context = LocalContext.current
     var backPressedState by remember { mutableStateOf(true) }

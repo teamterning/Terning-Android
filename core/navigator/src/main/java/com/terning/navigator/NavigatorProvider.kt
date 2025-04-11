@@ -6,5 +6,4 @@ interface NavigatorProvider {
     fun getMainActivityIntent(
         deeplink: String?,
     ): Intent
-
 }

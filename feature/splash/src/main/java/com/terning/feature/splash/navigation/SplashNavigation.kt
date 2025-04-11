@@ -9,6 +9,8 @@ import com.terning.feature.splash.SplashRoute
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+private const val SPLASH_PATH: String = "terning://splash"
+
 fun NavGraphBuilder.splashNavGraph(
     navigateHome: () -> Unit,
     navigateSignIn: () -> Unit,
@@ -16,13 +18,13 @@ fun NavGraphBuilder.splashNavGraph(
     composable<Splash>(
         deepLinks = listOf(
             navDeepLink<Splash>(
-                basePath = "terning://splash"
+                basePath = SPLASH_PATH
             )
         )
     ) {
-        val redirect = it.toRoute<Splash>().redirect
+        val args = it.toRoute<Splash>()
         SplashRoute(
-            redirect = redirect,
+            redirect = args.redirect,
             navigateToHome = navigateHome,
             navigateToSignIn = navigateSignIn,
         )
