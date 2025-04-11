@@ -35,6 +35,11 @@ jobs:
       - name: Change gradlew permissions
         run: chmod +x ./gradlew
 
+      - name: Create google-services
+        run: |
+          mkdir ./app/src/debug
+          echo '${{ secrets.GOOGLE_SERVICES_JSON_DEBUG }}' > ./app/src/debug/google-services.json
+
       - name: Create Local Properties
         run: touch local.properties
 
