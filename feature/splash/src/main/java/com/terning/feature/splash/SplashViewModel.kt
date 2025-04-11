@@ -22,7 +22,7 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _sideEffects = MutableSharedFlow<SplashSideEffect>()
-    val sideEffects: SharedFlow<SplashSideEffect> get() = _sideEffects.asSharedFlow()
+    val sideEffects: SharedFlow<SplashSideEffect> = _sideEffects.asSharedFlow()
 
     private var _updateState: MutableStateFlow<UpdateState> =
         MutableStateFlow(UpdateState.InitialState)

@@ -35,6 +35,7 @@ class TerningMessagingService : FirebaseMessagingService() {
 
     override fun handleIntent(intent: Intent?) {
         super.handleIntent(intent)
+
         if (intent?.getStringExtra(TITLE)?.isEmpty() == true) return
 
         val title = intent?.getStringExtra(TITLE).orEmpty()
