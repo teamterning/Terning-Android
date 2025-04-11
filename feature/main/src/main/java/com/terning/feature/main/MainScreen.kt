@@ -143,7 +143,7 @@ fun MainScreen(
                     navigateHome = {
                         navigator.navController.navigateHome(
                             navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash(""),
+                                route = Splash(redirect),
                                 inclusive = true
                             ).build()
                         )
@@ -151,7 +151,7 @@ fun MainScreen(
                     navigateSignIn = {
                         navigator.navController.navigateSignIn(
                             navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash(""),
+                                route = Splash(redirect),
                                 inclusive = true
                             ).build()
                         )
