@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.splash
+package com.terning.feature.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,8 +21,8 @@ class SplashViewModel @Inject constructor(
     private val getLatestVersionUseCase: GetUpdateStateUseCase
 ) : ViewModel() {
 
-    private val _sideEffects = MutableSharedFlow<SplashState>()
-    val sideEffects: SharedFlow<SplashState> get() = _sideEffects.asSharedFlow()
+    private val _sideEffects = MutableSharedFlow<SplashSideEffect>()
+    val sideEffects: SharedFlow<SplashSideEffect> = _sideEffects.asSharedFlow()
 
     private var _updateState: MutableStateFlow<UpdateState> =
         MutableStateFlow(UpdateState.InitialState)
@@ -52,7 +52,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun checkIfAccessTokenAvailable() = viewModelScope.launch {
-        _sideEffects.emit(SplashState.HasAccessToken(getAccessToken()))
+        _sideEffects.emit(SplashSideEffect.HasAccessToken(getAccessToken()))
     }
 
     companion object {

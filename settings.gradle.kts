@@ -39,7 +39,9 @@ include(
     ":core:navigation",
     ":core:network",
     ":core:local",
-    ":core:firebase"
+    ":core:firebase",
+    ":core:navigator",
+    ":core:testing"
 )
 
 // data
@@ -82,7 +84,6 @@ include(
     ":feature:main",
     ":feature:mypage",
     ":feature:onboarding",
-    ":feature:search"
+    ":feature:search",
+    ":feature:splash"
 )
-
-include(":core:testing")

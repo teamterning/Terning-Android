@@ -7,4 +7,6 @@
     <string name="bottom_nav_search">탐색</string>
     <string name="bottom_nav_my_page">마이</string>
 
+    <string name="default_notification_channel_id">terning</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.splash
+package com.terning.feature.splash
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -29,18 +29,21 @@ import com.terning.core.designsystem.extension.launchPlayStore
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.domain.update.entity.UpdateState
-import com.terning.feature.onboarding.R
-import com.terning.feature.onboarding.splash.component.TerningMajorUpdateDialog
-import com.terning.feature.onboarding.splash.component.TerningPatchUpdateDialog
+import com.terning.feature.splash.component.TerningMajorUpdateDialog
+import com.terning.feature.splash.component.TerningPatchUpdateDialog
 import kotlinx.coroutines.launch
 
 @Composable
-fun SplashRoute(
+internal fun SplashRoute(
+    redirect: String?,
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val systemUiController = rememberSystemUiController()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
+    val updateState by viewModel.updateState.collectAsStateWithLifecycle()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -50,10 +53,6 @@ fun SplashRoute(
             color = TerningMain
         )
     }
-
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val context = LocalContext.current
-    val updateState by viewModel.updateState.collectAsStateWithLifecycle()
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -77,7 +76,7 @@ fun SplashRoute(
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is SplashState.HasAccessToken -> {
+                    is SplashSideEffect.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) navigateToHome()
                         else navigateToSignIn()
                     }
@@ -93,7 +92,7 @@ fun SplashRoute(
 }
 
 @Composable
-fun SplashScreen(
+private fun SplashScreen(
     updateState: UpdateState,
     onUpdateButtonClick: () -> Unit,
     onUpdateSkipButtonClick: () -> Unit,
@@ -140,7 +139,7 @@ fun SplashScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SplashScreenPreview() {
+private fun SplashScreenPreview() {
     TerningPointTheme {
         SplashScreen(
             updateState = UpdateState.NoUpdateAvailable,

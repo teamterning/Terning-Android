@@ -5,13 +5,16 @@ plugins {
 }
 
 android {
-    setNamespace("feature.onboarding")
+    setNamespace("feature.splash")
 }
 
 dependencies {
+    // core
+    implementation(projects.core.designsystem)
+
     // domain
-    implementation(projects.domain.auth)
+    implementation(projects.domain.update)
     implementation(projects.domain.token)
 
-    implementation(libs.kakao.user)
+    implementation(libs.semver)
 }

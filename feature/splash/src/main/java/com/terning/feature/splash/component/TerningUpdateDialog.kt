@@ -1,4 +1,4 @@
-package com.terning.feature.onboarding.splash.component
+package com.terning.feature.splash.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -48,9 +48,9 @@ import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.util.NoRippleTheme
-import com.terning.feature.onboarding.R.string.update_dialog_major_button_update
-import com.terning.feature.onboarding.R.string.update_dialog_patch_button_dismiss
-import com.terning.feature.onboarding.R.string.update_dialog_patch_button_update
+import com.terning.feature.splash.R.string.update_dialog_major_button_update
+import com.terning.feature.splash.R.string.update_dialog_patch_button_dismiss
+import com.terning.feature.splash.R.string.update_dialog_patch_button_update
 
 private const val MIN_DIALOG_WIDTH = 300
 private const val MIN_TEXT_HEIGHT = 94
