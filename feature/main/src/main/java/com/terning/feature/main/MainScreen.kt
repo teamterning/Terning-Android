@@ -26,6 +26,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.snackbar.TerningBasicSnackBar
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.navigation.calendarNavGraph
@@ -48,16 +49,17 @@ import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
-import com.terning.feature.onboarding.splash.navigation.Splash
-import com.terning.feature.onboarding.splash.navigation.splashNavGraph
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
+import com.terning.feature.splash.navigation.Splash
+import com.terning.feature.splash.navigation.splashNavGraph
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
+    redirect: String?,
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     val context = LocalContext.current
@@ -67,7 +69,7 @@ fun MainScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val amplitudeTracker = LocalTracker.current
 
     BackHandler(enabled = backPressedState) {
         if (System.currentTimeMillis() - backPressedTime <= 3000) {
@@ -135,13 +137,13 @@ fun MainScreen(
                     ExitTransition.None
                 },
                 navController = navigator.navController,
-                startDestination = navigator.startDestination
+                startDestination = navigator.getStartDestination(redirect)
             ) {
                 splashNavGraph(
                     navigateHome = {
                         navigator.navController.navigateHome(
                             navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash,
+                                route = Splash(redirect),
                                 inclusive = true
                             ).build()
                         )
@@ -149,11 +151,11 @@ fun MainScreen(
                     navigateSignIn = {
                         navigator.navController.navigateSignIn(
                             navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash,
+                                route = Splash(redirect),
                                 inclusive = true
                             ).build()
                         )
-                    }
+                    },
                 )
                 homeNavGraph(
                     paddingValues = paddingValues,

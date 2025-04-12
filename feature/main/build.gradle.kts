@@ -9,8 +9,12 @@ android {
 }
 
 dependencies {
-    // core TODO: 의존성 넣기
-    // implementation(projects.core.firebase)
+    // core
+    implementation(projects.core.firebase)
+    implementation(projects.core.navigator)
+
+    //domain
+    implementation(projects.domain.token)
 
     // feature
     implementation(projects.feature.calendar)
@@ -21,7 +25,5 @@ dependencies {
     implementation(projects.feature.mypage)
     implementation(projects.feature.onboarding)
     implementation(projects.feature.search)
-
-    //domain
-    implementation(projects.domain.token)
+    implementation(projects.feature.splash)
 }

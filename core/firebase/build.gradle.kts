@@ -9,16 +9,13 @@ android {
 }
 
 dependencies {
-    // core
+    //core
+    implementation(projects.core.navigator)
     implementation(projects.core.local)
-
-    // feature TODO: 의존성 없애기
-    implementation(projects.feature.main)
 
     // timber
     implementation(libs.timber)
 
-    // firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)

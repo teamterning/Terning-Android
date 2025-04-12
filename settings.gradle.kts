@@ -39,7 +39,9 @@ include(
     ":core:navigation",
     ":core:network",
     ":core:local",
-    ":core:firebase"
+    ":core:firebase",
+    ":core:navigator",
+    ":core:testing"
 )
 
 // data
@@ -53,7 +55,8 @@ include(
     ":data:search",
     ":data:tokenreissue",
     ":data:token",
-    ":data:scrap"
+    ":data:scrap",
+    ":data:update"
 )
 
 // domain
@@ -67,7 +70,8 @@ include(
     ":domain:search",
     ":domain:tokenreissue",
     ":domain:token",
-    ":domain:scrap"
+    ":domain:scrap",
+    ":domain:update"
 )
 
 // feature
@@ -80,6 +84,6 @@ include(
     ":feature:main",
     ":feature:mypage",
     ":feature:onboarding",
-    ":feature:search"
+    ":feature:search",
+    ":feature:splash"
 )
-include(":core:testing")

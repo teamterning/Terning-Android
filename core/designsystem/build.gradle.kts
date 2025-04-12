@@ -20,6 +20,7 @@ tasks.dokkaHtml.configure {
 }
 
 dependencies {
+    implementation(libs.timber)
     implementation(libs.lottie)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
