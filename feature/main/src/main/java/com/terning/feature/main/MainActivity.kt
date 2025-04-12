@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity() {
     companion object {
         private const val REDIRECT: String = "redirect"
 
-        @JvmStatic
         fun getIntent(
             context: Context,
         ) = Intent(context, MainActivity::class.java)
