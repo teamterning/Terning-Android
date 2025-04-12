@@ -42,21 +42,27 @@ class TerningMessagingService : FirebaseMessagingService() {
         val body = intent?.getStringExtra(BODY).orEmpty()
         val type = intent?.getStringExtra(TYPE).orEmpty()
 
-        sendNotification(title = title, body = body, type = type)
+        sendNotification(
+            title = title,
+            body = body,
+            type = type
+        )
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        if (message.data.isEmpty())
-        // TODO: 조건 추가 by 이유빈 ->  || !terningDataStore.alarmAvailable
-            return
+        if (message.data.isEmpty() || !terningDataStore.alarmAvailable) return
 
         val title = message.data[TITLE].orEmpty()
         val body = message.data[BODY].orEmpty()
         val type = message.data[TYPE].orEmpty()
 
-        sendNotification(title = title, body = body, type = type)
+        sendNotification(
+            title = title,
+            body = body,
+            type = type
+        )
     }
 
     private fun sendNotification(title: String, body: String, type: String) {
