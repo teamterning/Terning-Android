@@ -137,7 +137,7 @@ fun MainScreen(
                     ExitTransition.None
                 },
                 navController = navigator.navController,
-                startDestination = navigator.startDestination(redirect)
+                startDestination = navigator.getStartDestination(redirect)
             ) {
                 splashNavGraph(
                     navigateHome = {

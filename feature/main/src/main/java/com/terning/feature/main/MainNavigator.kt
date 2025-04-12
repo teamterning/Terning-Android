@@ -22,7 +22,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    fun startDestination(redirect: String?) = Splash(redirect = redirect)
+    fun getStartDestination(redirect: String?) = Splash(redirect = redirect)
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
