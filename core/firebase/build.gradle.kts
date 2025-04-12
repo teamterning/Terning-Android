@@ -16,6 +16,7 @@ dependencies {
     // timber
     implementation(libs.timber)
 
+    // firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
