@@ -50,10 +50,15 @@
 🗃️core
  ┣ 🗃️analytics
  ┣ 🗃️designsystem
+ ┃ ┣ 📂component
+ ┃ ┣ 📂extension
+ ┃ ┣ 📂state
+ ┃ ┣ 📂theme
+ ┃ ┣ 📂type
+ ┃ ┣ 📂util
  ┣ 🗃️local
  ┣ 🗃️navigation
- ┣ 🗃️network
- ┗ 🗃testing
+ ┗ 🗃️network
 
 🗃️data
  ┣ 🗃️auth
