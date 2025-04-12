@@ -1,18 +1,21 @@
 package com.terning.core.firebase.messageservice
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.firebase.R
 import com.terning.core.local.TerningDataStore
-import com.terning.feature.main.MainActivity
+import com.terning.navigator.NavigatorProvider
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.Random
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -20,6 +23,9 @@ class TerningMessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var terningDataStore: TerningDataStore
+
+    @Inject
+    lateinit var navigatorProvider: NavigatorProvider
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -29,35 +35,42 @@ class TerningMessagingService : FirebaseMessagingService() {
 
     override fun handleIntent(intent: Intent?) {
         super.handleIntent(intent)
-        if (intent?.getStringExtra("title")?.isNullOrEmpty() == true) return
 
-        val title = intent?.getStringExtra("title").orEmpty()
-        val body = intent?.getStringExtra("body").orEmpty()
-        val type = intent?.getStringExtra("type").orEmpty()
-        sendNotification(title, body, type)
+        if (intent?.getStringExtra(TITLE)?.isEmpty() == true) return
+
+        val title = intent?.getStringExtra(TITLE).orEmpty()
+        val body = intent?.getStringExtra(BODY).orEmpty()
+        val type = intent?.getStringExtra(TYPE).orEmpty()
+
+        sendNotification(title = title, body = body, type = type)
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        if (message.data.isEmpty() || !terningDataStore.alarmAvailable) return
+        if (message.data.isEmpty())
+        // TODO: 조건 추가 by 이유빈 ->  || !terningDataStore.alarmAvailable
+            return
 
-        val title = message.data["title"].orEmpty()
-        val body = message.data["body"].orEmpty()
-        val type = message.data["type"].orEmpty()
+        val title = message.data[TITLE].orEmpty()
+        val body = message.data[BODY].orEmpty()
+        val type = message.data[TYPE].orEmpty()
 
-        sendNotification(title = title, body = body, type)
+        sendNotification(title = title, body = body, type = type)
     }
 
-    private fun sendNotification(title: String?, body: String?, type: String?) {
-        val notifyId = System.currentTimeMillis().toInt()
-        val intent =
-            MainActivity.getIntent(this, type = type).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    private fun sendNotification(title: String, body: String, type: String) {
+        val notifyId = Random().nextInt()
+        val intent = navigatorProvider.getMainActivityIntent(deeplink = type).apply {
+            action = Intent.ACTION_VIEW
+            data = type.toUri()
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
         val pendingIntent = PendingIntent.getActivity(
-            this,
+            this@TerningMessagingService,
             notifyId,
             intent,
-            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE,
+            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE
         )
         val channelId: String = CHANNEL_ID
         val notificationBuilder =
@@ -70,12 +83,21 @@ class TerningMessagingService : FirebaseMessagingService() {
             }
 
         getSystemService<NotificationManager>()?.run {
+            createNotificationChannel(
+                NotificationChannel(
+                    channelId,
+                    channelId,
+                    NotificationManager.IMPORTANCE_HIGH,
+                ),
+            )
             notify(notifyId, notificationBuilder.build())
         }
     }
 
     companion object {
-        private const val CHANNEL_ID = "TERNING"
-        private const val TYPE = "TYPE"
+        private const val CHANNEL_ID: String = "terning"
+        private const val TITLE: String = "title"
+        private const val BODY: String = "body"
+        private const val TYPE: String = "type"
     }
 }
