@@ -3,6 +3,7 @@ package com.terning.feature.mypage.mypage
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -108,13 +109,12 @@ fun MyPageRoute(
     val amplitudeTracker = LocalTracker.current
 
     var isChecked by remember { mutableStateOf(viewModel.getAlarmAvailability()) }
+    val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
     val permissionState =
-        rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+        rememberPermissionState(permission = notificationPermission)
     val notificationSettingsLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
-            if (!permissionState.status.isGranted) {
-                isChecked = false
-            }
+            isChecked = (context.checkSelfPermission(notificationPermission) == PackageManager.PERMISSION_GRANTED)
         }
 
     SideEffect {
