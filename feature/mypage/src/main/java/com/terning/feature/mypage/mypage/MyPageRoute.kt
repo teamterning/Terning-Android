@@ -109,10 +109,6 @@ fun MyPageRoute(
     val permissionState =
         rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
-    rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        isChecked = viewModel.getAlarmAvailability()
-    }
-
     SideEffect {
         systemUiController.setStatusBarColor(
             color = Back
@@ -212,11 +208,11 @@ fun MyPageRoute(
                 onAlarmClick = {
                     val currentAlarmAvailability = viewModel.getAlarmAvailability()
 
-                    if (currentAlarmAvailability || permissionState.status.isGranted) {
+                    if (permissionState.status.isGranted) {
                         viewModel.updateAlarmAvailability(!currentAlarmAvailability)
                         isChecked = !currentAlarmAvailability
                     } else {
-                        permissionState.launchPermissionRequest()
+                        // todo: 다이얼로그 띄움
                     }
                 },
                 name = state.name,

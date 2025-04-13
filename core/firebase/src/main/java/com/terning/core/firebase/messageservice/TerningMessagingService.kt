@@ -36,7 +36,9 @@ class TerningMessagingService : FirebaseMessagingService() {
     override fun handleIntent(intent: Intent?) {
         super.handleIntent(intent)
 
-        if (intent?.getStringExtra(TITLE)?.isEmpty() == true) return
+        if (intent?.getStringExtra(TITLE)?.isEmpty() == true
+            || !terningDataStore.alarmAvailable
+        ) return
 
         val title = intent?.getStringExtra(TITLE).orEmpty()
         val body = intent?.getStringExtra(BODY).orEmpty()
