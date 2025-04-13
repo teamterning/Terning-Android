@@ -86,6 +86,7 @@ fun HomeRoute(
     val permissionState =
         rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
+    // TODO: Home에서 알림 한 번만 뜨게 하기 by 이유빈
     LaunchedEffect(key1 = Unit) {
         if (!permissionState.status.isGranted) {
             permissionState.launchPermissionRequest()
