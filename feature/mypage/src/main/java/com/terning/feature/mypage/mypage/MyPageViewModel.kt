@@ -139,4 +139,13 @@ class MyPageViewModel @Inject constructor(
     }
 
     fun getAlarmAvailability(): Boolean = terningDataStore.alarmAvailable
+
+    fun updateAlarmVisibility(visibility: Boolean) {
+        _state.update { currentState ->
+            currentState.copy(
+                showAlarmDialog = visibility
+            )
+        }
+    }
+
 }

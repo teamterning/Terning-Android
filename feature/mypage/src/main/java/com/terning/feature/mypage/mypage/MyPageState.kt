@@ -13,4 +13,5 @@ data class MyPageState(
     val showPersonal: Boolean = false,
     val showLogoutBottomSheet: Boolean = false,
     val showQuitBottomSheet: Boolean = false,
+    val showAlarmDialog: Boolean = false
 )

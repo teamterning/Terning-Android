@@ -2,8 +2,9 @@ package com.terning.feature.mypage.mypage
 
 import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.os.Build
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -47,7 +48,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -79,6 +79,7 @@ import com.terning.feature.mypage.mypage.ToggleDefaults.thumbSize
 import com.terning.feature.mypage.mypage.ToggleDefaults.toggleHeight
 import com.terning.feature.mypage.mypage.ToggleDefaults.toggleHorizontalPadding
 import com.terning.feature.mypage.mypage.ToggleDefaults.toggleWidth
+import com.terning.feature.mypage.mypage.component.MyPageAlarmDialog
 import com.terning.feature.mypage.mypage.component.MyPageProfile
 import com.terning.feature.mypage.mypage.component.MyPageSection
 import com.terning.feature.mypage.mypage.model.MyPageUiModel
@@ -88,6 +89,7 @@ import com.terning.feature.mypage.mypage.util.MyPageDefaults.PERSONAL_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.SERVICE_URL
 import kotlinx.collections.immutable.persistentListOf
 import kotlin.math.roundToInt
+
 
 @OptIn(ExperimentalPermissionsApi::class)
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -108,6 +110,12 @@ fun MyPageRoute(
     var isChecked by remember { mutableStateOf(viewModel.getAlarmAvailability()) }
     val permissionState =
         rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+    val notificationSettingsLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            if (!permissionState.status.isGranted) {
+                isChecked = false
+            }
+        }
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -125,6 +133,9 @@ fun MyPageRoute(
 
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
+        if (!permissionState.status.isGranted) {
+            isChecked = false
+        }
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
@@ -176,6 +187,19 @@ fun MyPageRoute(
         )
     }
 
+    if (state.showAlarmDialog) {
+        MyPageAlarmDialog(
+            onLaterClick = { viewModel.updateAlarmVisibility(false) },
+            onSettingClick = {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = ("package:" + context.packageName).toUri()
+                }
+                notificationSettingsLauncher.launch(intent)
+                viewModel.updateAlarmVisibility(false)
+            }
+        )
+    }
+
     when (state.isGetSuccess) {
         is UiState.Success -> {
             MyPageScreen(
@@ -212,7 +236,7 @@ fun MyPageRoute(
                         viewModel.updateAlarmAvailability(!currentAlarmAvailability)
                         isChecked = !currentAlarmAvailability
                     } else {
-                        // todo: 다이얼로그 띄움
+                        viewModel.updateAlarmVisibility(true)
                     }
                 },
                 name = state.name,
