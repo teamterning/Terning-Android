@@ -49,9 +49,29 @@ class SignUpViewModel @Inject constructor(
         _state.value = _state.value.copy(authId = authId)
     }
 
-    fun postSignUpWithServer() {
+    fun fetchAndSaveFcmToken() {
         viewModelScope.launch {
-            val fcmToken : String = getFcmToken()
+            runCatching {
+                tokenRepository.setFcmToken(getDeviceToken())
+            }.onSuccess {
+                postSignUpWithServer()
+            }.onFailure(Timber::e)
+        }
+    }
+
+    private suspend fun getDeviceToken(): String = suspendCoroutine { continuation ->
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Timber.tag("okhttp").d("FCM TOKEN : ${task.result}")
+                continuation.resume(task.result)
+            } else {
+                continuation.resumeWithException(task.exception ?: Exception())
+            }
+        }
+    }
+
+    private fun postSignUpWithServer() {
+        viewModelScope.launch {
             authRepository.postSignUp(
                 state.value.authId,
                 state.value.run {
@@ -59,31 +79,18 @@ class SignUpViewModel @Inject constructor(
                         name = name,
                         profileImage = profileImage,
                         authType = KAKA0,
-                        fcmToken = fcmToken
+                        fcmToken = tokenRepository.getFcmToken()
                     )
                 }
             ).onSuccess { response ->
-                tokenRepository.setTokens(
-                    accessToken = response.accessToken,
-                    refreshToken = response.refreshToken,
-                    fcmToken = fcmToken
-                )
-                tokenRepository.setUserId(response.userId)
-
+                tokenRepository.apply {
+                    setAccessToken(response.accessToken)
+                    setRefreshToken(response.refreshToken)
+                    setUserId(response.userId)
+                }
                 _sideEffects.emit(SignUpSideEffect.NavigateToStartFiltering)
             }.onFailure {
                 _sideEffects.emit(SignUpSideEffect.ShowToast(DesignSystemR.string.server_failure))
-            }
-        }
-    }
-
-    private suspend fun getFcmToken(): String = suspendCoroutine { continuation ->
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Timber.tag("okhttp").d("FCM TOKEN : ${task.result}")
-                continuation.resume(task.result)
-            } else {
-                continuation.resumeWithException(task.exception ?: Exception())
             }
         }
     }
