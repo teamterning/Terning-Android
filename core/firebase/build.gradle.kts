@@ -11,7 +11,9 @@ android {
 dependencies {
     //core
     implementation(projects.core.navigator)
-    implementation(projects.core.local)
+
+    // domain
+    implementation(projects.domain.token)
 
     // timber
     implementation(libs.timber)
