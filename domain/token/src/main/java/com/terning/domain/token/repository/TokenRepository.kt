@@ -5,11 +5,17 @@ interface TokenRepository {
 
     fun getRefreshToken(): String
 
-    fun setTokens(accessToken: String, refreshToken: String)
+    fun getFcmToken(): String
+
+    fun setAccessToken(accessToken: String)
+
+    fun setRefreshToken(refreshToken: String)
+
+    fun setFcmToken(fcmToken: String)
 
     fun setUserId(userId: Long)
 
-    fun getUserId() : Long
+    fun getUserId(): Long
 
     fun clearInfo()
 }
