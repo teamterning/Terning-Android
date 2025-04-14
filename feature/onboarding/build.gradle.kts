@@ -13,5 +13,9 @@ dependencies {
     implementation(projects.domain.auth)
     implementation(projects.domain.token)
 
+    // kakao
     implementation(libs.kakao.user)
+
+    // firebase
+    implementation(libs.firebase.messaging)
 }
