@@ -11,9 +11,12 @@ import androidx.core.net.toUri
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.firebase.R
-import com.terning.core.local.TerningDataStore
+import com.terning.domain.token.repository.TokenRepository
 import com.terning.navigator.NavigatorProvider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Random
 import javax.inject.Inject
@@ -22,7 +25,7 @@ import javax.inject.Inject
 class TerningMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var terningDataStore: TerningDataStore
+    lateinit var tokenRepository: TokenRepository
 
     @Inject
     lateinit var navigatorProvider: NavigatorProvider
@@ -31,6 +34,10 @@ class TerningMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
 
         Timber.tag("okhttp").d("ON NEW TOKEN")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            tokenRepository.setFcmToken(token)
+        }
     }
 
     override fun handleIntent(intent: Intent?) {
@@ -49,7 +56,8 @@ class TerningMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(message)
 
         if (message.data.isEmpty())
-        // TODO: 조건 추가 by 이유빈 ->  || !terningDataStore.alarmAvailable
+            // TODO: 조건 추가 by 이유빈 ->  || !terningDataStore.alarmAvailable
+            // TODO: #352번 브렌치에서 관련 코드 수정하기
             return
 
         val title = message.data[TITLE].orEmpty()
