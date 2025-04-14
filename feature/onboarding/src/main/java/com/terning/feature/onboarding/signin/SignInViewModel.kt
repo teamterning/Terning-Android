@@ -64,22 +64,19 @@ class SignInViewModel @Inject constructor(
     ) {
         authRepository.postSignIn(
             accessToken,
-           SignInRequest(authType = authType)
+            SignInRequest(authType = authType)
         ).onSuccess { response ->
             when {
-                response.accessToken == null -> _signInSideEffects.emit(
-                    SignInSideEffect.NavigateSignUp(
-                        response.authId,
-                    )
-                )
+                response.accessToken == null -> {
+                    _signInSideEffects.emit(SignInSideEffect.NavigateSignUp(response.authId))
+                }
 
                 else -> {
-                    tokenRepository.setTokens(
-                        accessToken = response.accessToken ?: return,
-                        refreshToken = response.refreshToken ?: return
-                    )
-                    tokenRepository.setUserId(response.userId ?: return)
-
+                    tokenRepository.apply {
+                        setAccessToken(response.accessToken ?: return)
+                        setRefreshToken(response.refreshToken ?: return)
+                        setUserId(response.userId ?: return)
+                    }
                     _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
                 }
             }
