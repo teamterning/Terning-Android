@@ -6,5 +6,4 @@ data class SignInResponse(
     val userId: Long?,
     val authId: String,
     val authType: String,
-   // val fcmTokenReissueRequired: Boolean
 )

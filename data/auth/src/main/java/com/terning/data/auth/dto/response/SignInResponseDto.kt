@@ -14,7 +14,5 @@ data class SignInResponseDto(
     @SerialName("authId")
     val authId: String,
     @SerialName("authType")
-    val authType: String,
-//    @SerialName("fcmTokenReissueRequired")
-//    val fcmTokenReissueRequired: Boolean
+    val authType: String
 )
