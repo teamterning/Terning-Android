@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Update Dialog-->
+    <string name="update_dialog_patch_title">새로운 버전 업데이트 안내</string>
+    <string name="update_dialog_patch_body">최적의 서비스 사용 환경을 위해\n최신 버전으로 업데이트 해주세요!</string>
+    <string name="update_dialog_patch_button_dismiss">다음에 하기</string>
+    <string name="update_dialog_patch_button_update">업데이트 하기</string>
+    <string name="update_dialog_major_button_update">업데이트 하러 가기</string>
+</resources>

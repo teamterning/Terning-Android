@@ -1,5 +1,7 @@
 package com.terning.feature.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,11 +24,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
+            val redirect: String? = intent.data?.getQueryParameter(REDIRECT)
+
             TerningPointTheme {
                 CompositionLocalProvider(LocalTracker provides tracker) {
-                    MainScreen(navigator)
+                    MainScreen(
+                        redirect = redirect,
+                        navigator = navigator
+                    )
                 }
             }
         }
+    }
+
+    companion object {
+        private const val REDIRECT: String = "redirect"
+
+        fun getIntent(
+            context: Context,
+        ) = Intent(context, MainActivity::class.java)
     }
 }
