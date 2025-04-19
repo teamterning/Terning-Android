@@ -10,5 +10,4 @@ fun SignInResponseDto.toSignInResponse(): SignInResponse =
         userId = userId,
         authId = authId,
         authType = authType,
-       // fcmTokenReissueRequired = fcmTokenReissueRequired
     )
