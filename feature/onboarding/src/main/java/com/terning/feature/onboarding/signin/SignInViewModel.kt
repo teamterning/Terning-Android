@@ -72,7 +72,7 @@ class SignInViewModel @Inject constructor(
                 }
 
                 else -> {
-                    // todo: fcmTokenReissueRequired 분기처리 by leeeyubin
+                    // todo: fcmTokenReissueRequired 분기처리 by 이유빈
                     tokenRepository.apply {
                         setAccessToken(response.accessToken ?: return)
                         setRefreshToken(response.refreshToken ?: return)
