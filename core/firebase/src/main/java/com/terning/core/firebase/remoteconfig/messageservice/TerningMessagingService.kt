@@ -34,10 +34,6 @@ class TerningMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
 
         Timber.tag("okhttp").d("ON NEW TOKEN")
-
-        CoroutineScope(Dispatchers.IO).launch {
-            tokenRepository.setFcmToken(token)
-        }
     }
 
     override fun handleIntent(intent: Intent?) {
