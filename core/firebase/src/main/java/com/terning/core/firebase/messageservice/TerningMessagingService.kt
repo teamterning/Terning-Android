@@ -1,4 +1,4 @@
-package com.terning.core.firebase.remoteconfig.messageservice
+package com.terning.core.firebase.messageservice
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -14,9 +14,6 @@ import com.terning.core.firebase.R
 import com.terning.domain.token.repository.TokenRepository
 import com.terning.navigator.NavigatorProvider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Random
 import javax.inject.Inject
