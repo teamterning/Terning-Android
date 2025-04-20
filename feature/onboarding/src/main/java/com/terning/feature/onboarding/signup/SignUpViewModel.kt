@@ -49,14 +49,14 @@ class SignUpViewModel @Inject constructor(
         viewModelScope.launch {
             tokenRepository.fetchAndSetFcmToken()
                 .onSuccess {
-                    postSignUpWithServer()
+                    signUpUser()
                 }.onFailure(Timber::e)
         }
     }
 
-    private fun postSignUpWithServer() {
+    private fun signUpUser() {
         viewModelScope.launch {
-            authRepository.postSignUp(
+            authRepository.signUp(
                 state.value.authId,
                 state.value.run {
                     SignUpRequest(

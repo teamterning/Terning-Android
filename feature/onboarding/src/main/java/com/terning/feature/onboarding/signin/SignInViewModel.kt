@@ -62,7 +62,7 @@ class SignInViewModel @Inject constructor(
         accessToken: String,
         authType: String = KAKAO,
     ) {
-        authRepository.postSignIn(
+        authRepository.signIn(
             accessToken,
             SignInRequest(authType = authType)
         ).onSuccess { response ->
