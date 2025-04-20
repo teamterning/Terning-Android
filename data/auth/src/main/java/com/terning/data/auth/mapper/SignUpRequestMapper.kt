@@ -7,5 +7,6 @@ fun SignUpRequest.toSignUpRequestDto(): SignUpRequestDto =
     SignUpRequestDto(
         name = name,
         profileImage = profileImage,
-        authType = authType
+        authType = authType,
+        fcmToken = fcmToken
     )

@@ -16,7 +16,7 @@ class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource
 ) : AuthRepository {
 
-    override suspend fun postSignIn(
+    override suspend fun signIn(
         authorization: String,
         request: SignInRequest
     ): Result<SignInResponse> = runCatching {
@@ -26,7 +26,7 @@ class AuthRepositoryImpl @Inject constructor(
         ).result.toSignInResponse()
     }
 
-    override suspend fun postSignUp(
+    override suspend fun signUp(
         authId: String,
         request: SignUpRequest
     ): Result<SignUpResponse> = runCatching {
