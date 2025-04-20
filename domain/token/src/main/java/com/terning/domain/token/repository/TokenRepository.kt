@@ -17,5 +17,7 @@ interface TokenRepository {
 
     fun setUserId(userId: Long)
 
+    fun getAlarmAvailable(): Boolean
+
     fun clearInfo()
 }

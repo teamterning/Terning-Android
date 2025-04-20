@@ -37,8 +37,8 @@ class TerningMessagingService : FirebaseMessagingService() {
         super.handleIntent(intent)
 
         if (intent?.getStringExtra(TITLE)?.isEmpty() == true
-          //  || !tokenRepository.alarmAvailable
-            ) return
+            || !tokenRepository.getAlarmAvailable()
+        ) return
 
         val title = intent?.getStringExtra(TITLE).orEmpty()
         val body = intent?.getStringExtra(BODY).orEmpty()
@@ -55,8 +55,8 @@ class TerningMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(message)
 
         if (message.data.isEmpty()
-          //  || !terningDataStore.alarmAvailable
-            ) return
+            || !tokenRepository.getAlarmAvailable()
+        ) return
 
         val title = message.data[TITLE].orEmpty()
         val body = message.data[BODY].orEmpty()

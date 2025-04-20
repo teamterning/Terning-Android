@@ -33,6 +33,8 @@ class TokenRepositoryImpl @Inject constructor(
         terningDataStore.userId = userId
     }
 
+    override fun getAlarmAvailable(): Boolean = terningDataStore.alarmAvailable
+
     override fun clearInfo() {
         terningDataStore.clearInfo()
     }
