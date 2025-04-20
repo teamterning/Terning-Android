@@ -2,7 +2,6 @@ package com.terning.feature.onboarding.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.messaging.FirebaseMessaging
 import com.terning.domain.auth.entity.SignUpRequest
 import com.terning.domain.auth.repository.AuthRepository
 import com.terning.domain.token.repository.TokenRepository
@@ -16,9 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
@@ -51,22 +47,10 @@ class SignUpViewModel @Inject constructor(
 
     fun fetchAndSaveFcmToken() {
         viewModelScope.launch {
-            runCatching {
-                tokenRepository.setFcmToken(getDeviceToken())
-            }.onSuccess {
-                postSignUpWithServer()
-            }.onFailure(Timber::e)
-        }
-    }
-
-    private suspend fun getDeviceToken(): String = suspendCoroutine { continuation ->
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Timber.tag("okhttp").d("FCM TOKEN : ${task.result}")
-                continuation.resume(task.result)
-            } else {
-                continuation.resumeWithException(task.exception ?: Exception())
-            }
+            tokenRepository.fetchAndSetFcmToken()
+                .onSuccess {
+                    postSignUpWithServer()
+                }.onFailure(Timber::e)
         }
     }
 

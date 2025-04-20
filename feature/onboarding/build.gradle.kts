@@ -15,7 +15,4 @@ dependencies {
 
     // kakao
     implementation(libs.kakao.user)
-
-    // firebase
-    implementation(libs.firebase.messaging)
 }
