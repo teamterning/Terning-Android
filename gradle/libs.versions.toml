@@ -83,7 +83,6 @@ mockito = "5.10.0"
 mockito-inline = "5.2.0"
 androidxTestRules = "1.6.1"
 
-
 ## Kakao
 kakaoVersion = "2.20.1"
 

@@ -14,5 +14,5 @@ data class SignInResponseDto(
     @SerialName("authId")
     val authId: String,
     @SerialName("authType")
-    val authType: String,
+    val authType: String
 )

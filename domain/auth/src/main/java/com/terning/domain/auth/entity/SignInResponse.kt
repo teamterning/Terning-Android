@@ -5,5 +5,5 @@ data class SignInResponse(
     val refreshToken: String?,
     val userId: Long?,
     val authId: String,
-    val authType: String
+    val authType: String,
 )

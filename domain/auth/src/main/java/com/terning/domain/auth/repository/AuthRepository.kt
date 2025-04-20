@@ -7,12 +7,12 @@ import com.terning.domain.auth.entity.SignUpResponse
 
 interface AuthRepository {
 
-    suspend fun postSignIn(
+    suspend fun signIn(
         authorization: String,
         request: SignInRequest
     ): Result<SignInResponse>
 
-    suspend fun postSignUp(
+    suspend fun signUp(
         authId: String,
         request: SignUpRequest
     ): Result<SignUpResponse>

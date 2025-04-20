@@ -11,7 +11,7 @@ import androidx.core.net.toUri
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.firebase.R
-import com.terning.core.local.TerningDataStore
+import com.terning.domain.token.repository.TokenRepository
 import com.terning.navigator.NavigatorProvider
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class TerningMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var terningDataStore: TerningDataStore
+    lateinit var tokenRepository: TokenRepository
 
     @Inject
     lateinit var navigatorProvider: NavigatorProvider
@@ -37,8 +37,8 @@ class TerningMessagingService : FirebaseMessagingService() {
         super.handleIntent(intent)
 
         if (intent?.getStringExtra(TITLE)?.isEmpty() == true
-            || !terningDataStore.alarmAvailable
-        ) return
+          //  || !tokenRepository.alarmAvailable
+            ) return
 
         val title = intent?.getStringExtra(TITLE).orEmpty()
         val body = intent?.getStringExtra(BODY).orEmpty()
@@ -54,7 +54,9 @@ class TerningMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        if (message.data.isEmpty() || !terningDataStore.alarmAvailable) return
+        if (message.data.isEmpty()
+          //  || !terningDataStore.alarmAvailable
+            ) return
 
         val title = message.data[TITLE].orEmpty()
         val body = message.data[BODY].orEmpty()

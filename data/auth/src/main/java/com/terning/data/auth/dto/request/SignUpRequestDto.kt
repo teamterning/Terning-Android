@@ -10,5 +10,7 @@ data class SignUpRequestDto(
     @SerialName("profileImage")
     val profileImage: String,
     @SerialName("authType")
-    val authType: String
+    val authType: String,
+    @SerialName("fcmToken")
+    val fcmToken: String
 )
