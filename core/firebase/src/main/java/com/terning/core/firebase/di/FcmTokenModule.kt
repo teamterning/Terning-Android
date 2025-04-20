@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object FcmFirebaseModule {
+object FcmTokenModule {
     @Provides
     @Singleton
-    fun provideFcmFirebaseProviderImpl(): FcmTokenProvider = FcmTokenProviderImpl()
+    fun provideFcmTokenProviderImpl(): FcmTokenProvider = FcmTokenProviderImpl()
 }
