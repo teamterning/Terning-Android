@@ -3,7 +3,6 @@ package com.terning.core.designsystem.util
 import android.content.Context
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
-import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
 import dagger.hilt.android.qualifiers.ApplicationContext
