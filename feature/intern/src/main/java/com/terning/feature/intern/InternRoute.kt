@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -174,24 +173,17 @@ fun InternScreen(
                 onBackButtonClick = {
                     navController.popBackStack()
                 },
-                actions = listOf(
-                    {},
-                    {
-                        IconButton(
-                            onClick = onClickShareButton
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_share_32),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .padding(end = 8.dp)
-                                    .noRippleClickable {
-                                        onClickShareButton()
-                                    }
+                actions = listOf {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_share_32),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .noRippleClickable(
+                                onClick = onClickShareButton
                             )
-                        }
-                    }
-                )
+                    )
+                }
             )
 
             LazyColumn(
