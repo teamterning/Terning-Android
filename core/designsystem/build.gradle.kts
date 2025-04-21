@@ -24,4 +24,5 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+    implementation(libs.kakao.share)
 }

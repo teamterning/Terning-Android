@@ -1,6 +1,5 @@
 package com.terning.feature.intern
 
-import android.content.Context
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -27,9 +26,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
-import com.kakao.sdk.common.util.KakaoCustomTabsClient
-import com.kakao.sdk.share.ShareClient
-import com.kakao.sdk.share.WebSharerClient
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
@@ -49,7 +45,6 @@ import com.terning.feature.intern.component.InternInfoRow
 import com.terning.feature.intern.component.InternPageTitle
 import com.terning.feature.intern.component.InternTitle
 import com.terning.feature.intern.model.InternUiState
-import timber.log.Timber
 import java.text.DecimalFormat
 
 @Composable
@@ -74,10 +69,6 @@ fun InternRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is InternSideEffect.Toast -> context.toast(sideEffect.message)
-                    is InternSideEffect.ShareKakaoTalk -> shareToKakaoTalk(
-                        context,
-                        sideEffect.internInfo
-                    )
                 }
             }
     }
@@ -93,8 +84,8 @@ fun InternRoute(
                 internInfo = (internState.loadState as UiState.Success).data,
                 navController = navController,
                 onClickShareButton = {
-                    viewModel.shareWithKakaoTalk(
-                        internInfo = (internState.loadState as UiState.Success).data
+                    viewModel.onKakaoShareClicked(
+                        (internState.loadState as UiState.Success).data
                     )
                 },
                 onDismissCancelDialog = {
@@ -313,42 +304,6 @@ fun InternScreen(
                 onClickChangeColor = { },
                 onClickNavigateButton = { }
             )
-        }
-    }
-}
-
-private fun shareToKakaoTalk(context: Context, internInfo: InternInfo) {
-    val templateId = 118600L
-
-    val templateArgs = mapOf(
-        "COMPANY_IMG" to internInfo.companyImage,
-        "TITLE" to internInfo.title,
-        "DEADLINE" to internInfo.deadline,
-        "START_DATE" to internInfo.startYearMonth,
-        "PERIOD" to internInfo.workingPeriod,
-        "REGI_WEB_DOMAIN" to internInfo.url,
-        "A_E" to internInfo.url,
-        "I_E" to internInfo.url
-    )
-
-    if (ShareClient.instance.isKakaoTalkSharingAvailable(context)) {
-        ShareClient.instance.shareCustom(
-            context,
-            templateId,
-            templateArgs
-        ) { sharingResult, error ->
-            if (error != null) {
-                Timber.e("카카오톡 공유 실패: ${error.message}")
-            } else if (sharingResult != null) {
-                context.startActivity(sharingResult.intent)
-            }
-        }
-    } else {
-        val sharerUrl = WebSharerClient.instance.makeCustomUrl(templateId, templateArgs)
-        try {
-            KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
-        } catch (e: Exception) {
-            Timber.e("웹 공유 실패: ${e.message}")
         }
     }
 }

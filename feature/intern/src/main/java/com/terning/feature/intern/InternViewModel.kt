@@ -3,6 +3,7 @@ package com.terning.feature.intern
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.util.KakaoUtil
 import com.terning.domain.intern.entity.InternInfo
 import com.terning.domain.intern.repository.InternRepository
 import com.terning.feature.intern.model.InternUiState
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InternViewModel @Inject constructor(
     private val internRepository: InternRepository,
+    private val kakaoUtil: KakaoUtil
 ) : ViewModel() {
 
     private val _internUiState = MutableStateFlow(InternUiState())
@@ -65,12 +67,17 @@ class InternViewModel @Inject constructor(
         }
     }
 
-
-    fun shareWithKakaoTalk(
+    fun onKakaoShareClicked(
         internInfo: InternInfo
     ) {
-        viewModelScope.launch {
-            _sideEffect.emit(InternSideEffect.ShareKakaoTalk(internInfo))
-        }
+        val templateArgs = mapOf(
+            "COMPANY_IMG" to internInfo.companyImage,
+            "TITLE" to internInfo.title,
+            "DEADLINE" to internInfo.deadline,
+            "START_DATE" to internInfo.startYearMonth,
+            "PERIOD" to internInfo.workingPeriod,
+            "REGI_WEB_DOMAIN" to internInfo.url
+        )
+        kakaoUtil.shareToKakaoTalk(templateArgs)
     }
 }
