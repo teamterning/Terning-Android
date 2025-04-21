@@ -77,9 +77,6 @@ android {
 }
 
 dependencies {
-    // feature
-    implementation(projects.feature.main)
-
     // data
     implementation(projects.data.auth)
     implementation(projects.data.calendar)
@@ -92,6 +89,9 @@ dependencies {
     implementation(projects.data.tokenreissue)
     implementation(projects.data.search)
     implementation(projects.data.update)
+
+    // feature
+    implementation(projects.feature.main)
 
     // baseline profile
     baselineProfile(projects.baselineprofile)

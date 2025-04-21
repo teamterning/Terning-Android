@@ -62,24 +62,22 @@ class SignInViewModel @Inject constructor(
         accessToken: String,
         authType: String = KAKAO,
     ) {
-        authRepository.postSignIn(
+        authRepository.signIn(
             accessToken,
-           SignInRequest(authType = authType)
+            SignInRequest(authType = authType)
         ).onSuccess { response ->
             when {
-                response.accessToken == null -> _signInSideEffects.emit(
-                    SignInSideEffect.NavigateSignUp(
-                        response.authId,
-                    )
-                )
+                response.accessToken == null -> {
+                    _signInSideEffects.emit(SignInSideEffect.NavigateSignUp(response.authId))
+                }
 
                 else -> {
-                    tokenRepository.setTokens(
-                        accessToken = response.accessToken ?: return,
-                        refreshToken = response.refreshToken ?: return
-                    )
-                    tokenRepository.setUserId(response.userId ?: return)
-
+                    // todo: fcmTokenReissueRequired 분기처리 by 이유빈
+                    tokenRepository.apply {
+                        setAccessToken(response.accessToken ?: return)
+                        setRefreshToken(response.refreshToken ?: return)
+                        setUserId(response.userId ?: return)
+                    }
                     _signInSideEffects.emit(SignInSideEffect.NavigateToHome)
                 }
             }

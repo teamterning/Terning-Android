@@ -83,7 +83,7 @@ fun SignUpRoute(
                 type = EventType.SIGNUP,
                 name = "kakao"
             )
-            viewModel.postSignUpWithServer()
+            viewModel.fetchAndSaveFcmToken()
         },
         onInputChange = { name ->
             viewModel.updateName(name)

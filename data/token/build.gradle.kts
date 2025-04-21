@@ -11,6 +11,7 @@ android {
 dependencies {
     // core
     implementation(projects.core.local)
+    implementation(projects.core.firebase)
 
     //domain
     implementation(projects.domain.token)

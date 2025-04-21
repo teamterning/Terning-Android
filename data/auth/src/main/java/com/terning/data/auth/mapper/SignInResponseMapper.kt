@@ -9,5 +9,5 @@ fun SignInResponseDto.toSignInResponse(): SignInResponse =
         refreshToken = refreshToken,
         userId = userId,
         authId = authId,
-        authType = authType
+        authType = authType,
     )
