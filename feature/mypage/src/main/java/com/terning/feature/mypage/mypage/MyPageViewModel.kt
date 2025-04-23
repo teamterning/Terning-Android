@@ -138,7 +138,7 @@ class MyPageViewModel @Inject constructor(
 
     fun getAlarmAvailability(): Boolean = tokenRepository.getAlarmAvailable()
 
-    fun updateAlarmVisibility(visibility: Boolean) {
+    fun updateDialogVisibility(visibility: Boolean) {
         _state.update { currentState ->
             currentState.copy(
                 showAlarmDialog = visibility

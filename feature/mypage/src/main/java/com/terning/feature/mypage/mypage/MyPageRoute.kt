@@ -88,17 +88,17 @@ fun MyPageRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val systemUiController = rememberSystemUiController()
-
     val amplitudeTracker = LocalTracker.current
-
     var isChecked by remember { mutableStateOf(viewModel.getAlarmAvailability()) }
     val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
     val permissionState =
         rememberPermissionState(permission = notificationPermission)
     val notificationSettingsLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
-            isChecked =
-                (context.checkSelfPermission(notificationPermission) == PackageManager.PERMISSION_GRANTED)
+            val isGranted =
+                context.checkSelfPermission(notificationPermission) == PackageManager.PERMISSION_GRANTED
+            isChecked = isGranted
+            viewModel.updateAlarmAvailability(isGranted)
         }
 
     SideEffect {
@@ -173,13 +173,13 @@ fun MyPageRoute(
 
     if (state.showAlarmDialog) {
         MyPageAlarmDialog(
-            onLaterClick = { viewModel.updateAlarmVisibility(false) },
+            onLaterClick = { viewModel.updateDialogVisibility(false) },
             onSettingClick = {
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                     data = ("package:" + context.packageName).toUri()
                 }
                 notificationSettingsLauncher.launch(intent)
-                viewModel.updateAlarmVisibility(false)
+                viewModel.updateDialogVisibility(false)
             }
         )
     }
@@ -220,7 +220,7 @@ fun MyPageRoute(
                         viewModel.updateAlarmAvailability(!currentAlarmAvailability)
                         isChecked = !currentAlarmAvailability
                     } else {
-                        viewModel.updateAlarmVisibility(true)
+                        viewModel.updateDialogVisibility(true)
                     }
                 },
                 name = state.name,
