@@ -11,7 +11,6 @@ android {
 dependencies {
     // domain
     implementation(projects.domain.intern)
-    implementation(libs.kakao.share)
 
     // feature
     implementation(projects.feature.dialog)
