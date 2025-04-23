@@ -23,6 +23,6 @@ dependencies {
     // kakao
     implementation(libs.kakao.user)
 
-    // firebase
+    // permission
     implementation(libs.permissions)
 }

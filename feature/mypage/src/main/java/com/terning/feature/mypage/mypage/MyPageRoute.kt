@@ -10,10 +10,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,12 +20,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
@@ -41,13 +35,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -67,30 +57,23 @@ import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Back
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
-import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 import com.terning.feature.mypage.R
-import com.terning.feature.mypage.mypage.ToggleDefaults.thumbSize
-import com.terning.feature.mypage.mypage.ToggleDefaults.toggleHeight
-import com.terning.feature.mypage.mypage.ToggleDefaults.toggleHorizontalPadding
-import com.terning.feature.mypage.mypage.ToggleDefaults.toggleWidth
 import com.terning.feature.mypage.mypage.component.MyPageAlarmDialog
 import com.terning.feature.mypage.mypage.component.MyPageProfile
 import com.terning.feature.mypage.mypage.component.MyPageSection
+import com.terning.feature.mypage.mypage.component.MyPageToggleButton
 import com.terning.feature.mypage.mypage.model.MyPageUiModel
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.PERSONAL_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.SERVICE_URL
 import kotlinx.collections.immutable.persistentListOf
-import kotlin.math.roundToInt
-
 
 @OptIn(ExperimentalPermissionsApi::class)
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -114,7 +97,8 @@ fun MyPageRoute(
         rememberPermissionState(permission = notificationPermission)
     val notificationSettingsLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
-            isChecked = (context.checkSelfPermission(notificationPermission) == PackageManager.PERMISSION_GRANTED)
+            isChecked =
+                (context.checkSelfPermission(notificationPermission) == PackageManager.PERMISSION_GRANTED)
         }
 
     SideEffect {
@@ -131,7 +115,7 @@ fun MyPageRoute(
         }
     }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(Unit) {
         viewModel.getProfile()
         if (!permissionState.status.isGranted) {
             isChecked = false
@@ -272,7 +256,6 @@ fun MyPageRoute(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun MyPageScreen(
     onEditClick: () -> Unit = {},
@@ -439,42 +422,6 @@ private fun UserProfile(
     }
 }
 
-@Composable
-private fun MyPageToggleButton(
-    check: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val density = LocalDensity.current
-    val minBound = with(density) { 0.dp.toPx() }
-    val maxBound =
-        with(density) { (toggleWidth - thumbSize - toggleHorizontalPadding * 2).toPx() }
-    val state by animateFloatAsState(
-        targetValue = if (check) maxBound else minBound
-    )
-    val background = if (check) TerningMain else Grey200
-
-    Row(
-        modifier = modifier
-            .padding(end = 7.dp)
-            .clip(CircleShape)
-            .height(toggleHeight)
-            .width(toggleWidth)
-            .background(background)
-            .noRippleClickable(onClick = onClick),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            Modifier
-                .padding(horizontal = toggleHorizontalPadding)
-                .offset { IntOffset(state.roundToInt(), 0) }
-                .size(thumbSize)
-                .clip(CircleShape)
-                .background(White)
-        )
-    }
-}
-
 private fun navigateToNoticeWebView(context: Context) {
     CustomTabsIntent.Builder().build().launchUrl(context, NOTICE_URL.toUri())
 }
@@ -491,14 +438,6 @@ private fun navigateToPersonalWebView(context: Context) {
     CustomTabsIntent.Builder().build().launchUrl(context, PERSONAL_URL.toUri())
 }
 
-private object ToggleDefaults {
-    val toggleHeight: Dp = 20.dp
-    val toggleWidth: Dp = 34.dp
-    val thumbSize: Dp = 18.dp
-    val toggleHorizontalPadding: Dp = 1.dp
-}
-
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Preview(showBackground = true)
 @Composable
 private fun MyPageScreenPreview() {
