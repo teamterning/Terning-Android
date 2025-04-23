@@ -21,6 +21,6 @@ dependencies {
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
 
-    // firebase
+    // permission
     implementation(libs.permissions)
 }
