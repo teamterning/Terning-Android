@@ -221,8 +221,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun completeNotificationCheck() {
-        _homeState.update {
-            it.copy(hasRequestedNotification = true)
+        _homeState.update { currentState ->
+            currentState.copy(hasRequestedNotification = true)
         }
     }
 }

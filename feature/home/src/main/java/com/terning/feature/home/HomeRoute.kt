@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -71,6 +72,9 @@ import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
 import com.terning.feature.home.component.bottomsheet.HomeFilteringBottomSheet
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 const val NAME_MAX_LENGTH = 5
 private const val ZERO_TOTAL_COUNT = 0
@@ -88,14 +92,17 @@ fun HomeRoute(
         rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
     val homeState by viewModel.homeState.collectAsStateWithLifecycle()
 
-    if (!homeState.hasRequestedNotification) {
-        LaunchedEffect(Unit) {
-            if (!permissionState.status.isGranted) {
-                permissionState.launchPermissionRequest()
-            }
+    LaunchedEffect(Unit) {
+        if (!permissionState.status.isGranted) {
+            permissionState.launchPermissionRequest()
 
-            viewModel.updateAlarmAvailability(permissionState.status is PermissionStatus.Granted)
-            viewModel.completeNotificationCheck()
+            snapshotFlow { permissionState.status }
+                .map { it is PermissionStatus.Granted }
+                .distinctUntilChanged()
+                .collectLatest { isGranted ->
+                    viewModel.updateAlarmAvailability(isGranted)
+                    viewModel.completeNotificationCheck()
+                }
         }
     }
 
