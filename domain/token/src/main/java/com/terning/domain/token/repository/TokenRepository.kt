@@ -19,5 +19,7 @@ interface TokenRepository {
 
     fun getAlarmAvailable(): Boolean
 
+    fun setAlarmAvailable(availability: Boolean)
+
     fun clearInfo()
 }

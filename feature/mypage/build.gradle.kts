@@ -16,9 +16,6 @@ android {
 }
 
 dependencies {
-    // core
-    implementation(projects.core.local)
-
     // domain
     implementation(projects.domain.mypage)
     implementation(projects.domain.token)

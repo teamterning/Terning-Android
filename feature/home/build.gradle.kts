@@ -10,9 +10,6 @@ android {
 }
 
 dependencies {
-    // core
-    implementation(projects.core.local)
-
     // domain
     implementation(projects.domain.home)
     implementation(projects.domain.mypage)
