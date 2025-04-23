@@ -13,6 +13,7 @@ dependencies {
     // domain
     implementation(projects.domain.home)
     implementation(projects.domain.mypage)
+    implementation(projects.domain.token)
 
     // feature
     implementation(projects.feature.dialog)

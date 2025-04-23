@@ -16,4 +16,5 @@ data class HomeState(
     val homeRecommendInternState: UiState<HomeRecommendIntern> = UiState.Loading,
     val homeRecommendDialogVisibility: Boolean = false,
     val homeInternModel: HomeRecommendIntern.HomeRecommendInternDetail? = null,
+    val hasRequestedNotification: Boolean = false
 )

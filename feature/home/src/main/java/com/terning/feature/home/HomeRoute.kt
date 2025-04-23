@@ -37,6 +37,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -85,11 +86,16 @@ fun HomeRoute(
 ) {
     val permissionState =
         rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
 
-    // TODO: Home에서 알림 한 번만 뜨게 하기 by 이유빈
-    LaunchedEffect(key1 = Unit) {
-        if (!permissionState.status.isGranted) {
-            permissionState.launchPermissionRequest()
+    if (!homeState.hasRequestedNotification) {
+        LaunchedEffect(Unit) {
+            if (!permissionState.status.isGranted) {
+                permissionState.launchPermissionRequest()
+            }
+
+            viewModel.updateAlarmAvailability(permissionState.status is PermissionStatus.Granted)
+            viewModel.completeNotificationCheck()
         }
     }
 
@@ -148,6 +154,7 @@ fun HomeRoute(
         getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
         updateInternModelScrapState = viewModel::updateInternScrapState,
         viewModel = viewModel,
+        homeState = homeState
     )
 }
 
@@ -163,8 +170,8 @@ fun HomeScreen(
     getHomeUpcomingInternList: () -> Unit,
     updateInternModelScrapState: () -> Unit,
     viewModel: HomeViewModel,
+    homeState: HomeState
 ) {
-    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
     val recommendedInternList = viewModel.recommendInternFlow.collectAsLazyPagingItems()
 
     val homeUserName = when (homeState.homeUserNameState) {
