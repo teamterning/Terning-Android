@@ -22,13 +22,14 @@ import com.terning.core.designsystem.theme.White
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TerningBasicTopAppBar(
+    modifier: Modifier = Modifier,
     title: String = "",
-    modifier: Modifier,
     showBackButton: Boolean = false,
     actions: List<@Composable () -> Unit> = emptyList(),
     onBackButtonClick: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
+        modifier = modifier,
         title = {
             Text(
                 text = title,
@@ -56,7 +57,7 @@ fun TerningBasicTopAppBar(
             }
         },
         actions = {
-            actions.drop(1).forEach { action ->
+            actions.forEach { action ->
                 action()
             }
         },

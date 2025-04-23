@@ -7,6 +7,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
+
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -33,6 +37,8 @@
                 <data
                     android:host="oauth"
                     android:scheme="kakao${NATIVE_APP_KEY}" />
+
+                <data android:host="kakaolink" />
             </intent-filter>
         </activity>
 
