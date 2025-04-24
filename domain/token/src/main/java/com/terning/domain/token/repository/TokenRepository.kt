@@ -21,5 +21,9 @@ interface TokenRepository {
 
     fun setAlarmAvailable(availability: Boolean)
 
+    fun setPermissionRequested(requested: Boolean)
+
+    fun getPermissionRequested(): Boolean
+
     fun clearInfo()
 }

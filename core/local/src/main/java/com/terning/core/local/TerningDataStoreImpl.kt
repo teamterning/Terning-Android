@@ -27,6 +27,10 @@ class TerningDataStoreImpl @Inject constructor(
         get() = dataStore.getBoolean(ALARM, false)
         set(value) = dataStore.edit { putBoolean(ALARM, value) }
 
+    override var hasRequestedPermission: Boolean
+        get() = dataStore.getBoolean(PERMISSION_REQUESTED, false)
+        set(value) = dataStore.edit { putBoolean(PERMISSION_REQUESTED, value) }
+
     override fun clearInfo() {
         dataStore.edit().clear().apply()
     }
@@ -37,5 +41,6 @@ class TerningDataStoreImpl @Inject constructor(
         private const val FCM_TOKEN = "FCM_TOKEN"
         private const val USER_ID = "USER_ID"
         private const val ALARM = "ALARM"
+        private const val PERMISSION_REQUESTED = "PERMISSION_REQUESTED"
     }
 }

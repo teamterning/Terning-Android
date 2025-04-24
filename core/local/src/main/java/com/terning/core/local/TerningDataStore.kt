@@ -6,5 +6,6 @@ interface TerningDataStore {
     var fcmToken: String
     var userId: Long
     var alarmAvailable: Boolean
+    var hasRequestedPermission: Boolean
     fun clearInfo()
 }

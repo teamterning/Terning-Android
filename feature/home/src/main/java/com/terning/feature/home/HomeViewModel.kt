@@ -220,4 +220,10 @@ class HomeViewModel @Inject constructor(
         tokenRepository.setAlarmAvailable(availability)
     }
 
+    fun updatePermissionRequested(requested: Boolean) {
+        tokenRepository.setPermissionRequested(requested)
+    }
+
+    fun getPermissionRequested() : Boolean = tokenRepository.getPermissionRequested()
+
 }

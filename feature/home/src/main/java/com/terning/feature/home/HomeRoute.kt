@@ -92,7 +92,7 @@ fun HomeRoute(
         rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
 
     LaunchedEffect(Unit) {
-        if (!permissionState.status.isGranted) {
+        if (!permissionState.status.isGranted && !viewModel.getPermissionRequested()) {
             permissionState.launchPermissionRequest()
 
             snapshotFlow { permissionState.status }
@@ -100,6 +100,7 @@ fun HomeRoute(
                 .distinctUntilChanged()
                 .collectLatest { isGranted ->
                     viewModel.updateAlarmAvailability(isGranted)
+                    viewModel.updatePermissionRequested(true)
                 }
         }
     }

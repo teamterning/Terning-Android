@@ -39,6 +39,12 @@ class TokenRepositoryImpl @Inject constructor(
         terningDataStore.alarmAvailable = availability
     }
 
+    override fun setPermissionRequested(requested: Boolean) {
+        terningDataStore.hasRequestedPermission = requested
+    }
+
+    override fun getPermissionRequested(): Boolean = terningDataStore.hasRequestedPermission
+
     override fun clearInfo() {
         terningDataStore.clearInfo()
     }
