@@ -121,7 +121,7 @@ fun MyPageRoute(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = true) {
         viewModel.getProfile()
     }
 

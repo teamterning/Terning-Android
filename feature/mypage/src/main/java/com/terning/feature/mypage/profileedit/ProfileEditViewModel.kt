@@ -3,6 +3,7 @@ package com.terning.feature.mypage.profileedit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.domain.mypage.entity.MyPageProfileEdit
+import com.terning.domain.mypage.repository.MyPageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ import com.terning.core.designsystem.R as DesignSystemR
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
-    private val myPageRepository: com.terning.domain.mypage.repository.MyPageRepository,
+    private val myPageRepository: MyPageRepository,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<ProfileEditState> = MutableStateFlow(ProfileEditState())
