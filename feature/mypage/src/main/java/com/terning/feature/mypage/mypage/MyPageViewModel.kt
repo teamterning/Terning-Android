@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.user.UserApiClient
 import com.terning.core.designsystem.state.UiState
 import com.terning.domain.mypage.repository.MyPageRepository
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ import com.terning.core.designsystem.R as DesignSystemR
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val myPageRepository: MyPageRepository,
-    private val tokenRepository: TokenRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<MyPageState> = MutableStateFlow(MyPageState())
@@ -45,7 +45,7 @@ class MyPageViewModel @Inject constructor(
     private fun logoutApp() {
         viewModelScope.launch {
             myPageRepository.postLogout().onSuccess {
-                tokenRepository.clearInfo()
+                userRepository.clearInfo()
                 _sideEffects.emit(MyPageSideEffect.RestartApp)
             }.onFailure {
                 _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
@@ -68,7 +68,7 @@ class MyPageViewModel @Inject constructor(
     private fun quitApp() {
         viewModelScope.launch {
             myPageRepository.deleteQuit().onSuccess {
-                tokenRepository.clearInfo()
+                userRepository.clearInfo()
                 _sideEffects.emit(MyPageSideEffect.RestartApp)
             }.onFailure {
                 _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
@@ -133,10 +133,10 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch { _sideEffects.emit(MyPageSideEffect.NavigateToProfileEdit) }
 
     fun updateAlarmAvailability(availability: Boolean) {
-        tokenRepository.setAlarmAvailable(availability)
+        userRepository.setAlarmAvailable(availability)
     }
 
-    fun getAlarmAvailability(): Boolean = tokenRepository.getAlarmAvailable()
+    fun getAlarmAvailability(): Boolean = userRepository.getAlarmAvailable()
 
     fun updateDialogVisibility(visibility: Boolean) {
         _state.update { currentState ->

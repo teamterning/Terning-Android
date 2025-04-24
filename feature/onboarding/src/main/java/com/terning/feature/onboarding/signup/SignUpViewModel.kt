@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.domain.auth.entity.SignUpRequest
 import com.terning.domain.auth.repository.AuthRepository
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import com.terning.core.designsystem.R as DesignSystemR
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val tokenRepository: TokenRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<SignUpState> = MutableStateFlow(SignUpState())
@@ -47,7 +47,7 @@ class SignUpViewModel @Inject constructor(
 
     fun fetchAndSaveFcmToken() {
         viewModelScope.launch {
-            tokenRepository.fetchAndSetFcmToken()
+            userRepository.fetchAndSetFcmToken()
                 .onSuccess {
                     signUpUser()
                 }.onFailure(Timber::e)
@@ -63,11 +63,11 @@ class SignUpViewModel @Inject constructor(
                         name = name,
                         profileImage = profileImage,
                         authType = KAKA0,
-                        fcmToken = tokenRepository.getFcmToken()
+                        fcmToken = userRepository.getFcmToken()
                     )
                 }
             ).onSuccess { response ->
-                tokenRepository.apply {
+                userRepository.apply {
                     setAccessToken(response.accessToken)
                     setRefreshToken(response.refreshToken)
                     setUserId(response.userId)

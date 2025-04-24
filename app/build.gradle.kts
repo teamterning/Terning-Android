@@ -85,7 +85,7 @@ dependencies {
     implementation(projects.data.intern)
     implementation(projects.data.mypage)
     implementation(projects.data.scrap)
-    implementation(projects.data.token)
+    implementation(projects.data.user)
     implementation(projects.data.tokenreissue)
     implementation(projects.data.search)
     implementation(projects.data.update)

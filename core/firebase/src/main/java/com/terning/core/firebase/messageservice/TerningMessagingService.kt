@@ -11,7 +11,7 @@ import androidx.core.net.toUri
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.firebase.R
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.user.repository.UserRepository
 import com.terning.navigator.NavigatorProvider
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class TerningMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var tokenRepository: TokenRepository
+    lateinit var userRepository: UserRepository
 
     @Inject
     lateinit var navigatorProvider: NavigatorProvider
@@ -37,7 +37,7 @@ class TerningMessagingService : FirebaseMessagingService() {
         super.handleIntent(intent)
 
         if (intent?.getStringExtra(TITLE)?.isEmpty() == true
-            || !tokenRepository.getAlarmAvailable()
+            || !userRepository.getAlarmAvailable()
         ) return
 
         val title = intent?.getStringExtra(TITLE).orEmpty()
@@ -55,7 +55,7 @@ class TerningMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(message)
 
         if (message.data.isEmpty()
-            || !tokenRepository.getAlarmAvailable()
+            || !userRepository.getAlarmAvailable()
         ) return
 
         val title = message.data[TITLE].orEmpty()

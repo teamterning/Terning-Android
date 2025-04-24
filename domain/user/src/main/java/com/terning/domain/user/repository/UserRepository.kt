@@ -1,6 +1,6 @@
-package com.terning.domain.token.repository
+package com.terning.domain.user.repository
 
-interface TokenRepository {
+interface UserRepository {
     fun getAccessToken(): String
 
     fun setAccessToken(accessToken: String)

@@ -18,7 +18,7 @@ android {
 dependencies {
     // domain
     implementation(projects.domain.mypage)
-    implementation(projects.domain.token)
+    implementation(projects.domain.user)
 
     // kakao
     implementation(libs.kakao.user)

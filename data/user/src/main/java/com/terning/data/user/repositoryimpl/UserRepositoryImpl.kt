@@ -1,14 +1,14 @@
-package com.terning.data.token.repositoryimpl
+package com.terning.data.user.repositoryimpl
 
 import com.terning.core.firebase.fcmtoken.FcmTokenProvider
 import com.terning.core.local.TerningDataStore
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.user.repository.UserRepository
 import javax.inject.Inject
 
-class TokenRepositoryImpl @Inject constructor(
+class UserRepositoryImpl @Inject constructor(
     private val terningDataStore: TerningDataStore,
     private val fcmTokenProvider: FcmTokenProvider
-) : TokenRepository {
+) : UserRepository {
     override fun getAccessToken(): String = terningDataStore.accessToken
 
     override fun setAccessToken(accessToken: String) {
