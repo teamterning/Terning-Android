@@ -10,7 +10,6 @@ android {
 
 dependencies {
     // core
-    implementation(projects.core.firebase)
     implementation(projects.core.navigator)
 
     // feature
