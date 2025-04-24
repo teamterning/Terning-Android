@@ -89,10 +89,16 @@ fun MyPageRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val systemUiController = rememberSystemUiController()
     val amplitudeTracker = LocalTracker.current
-    var isChecked by remember { mutableStateOf(viewModel.getAlarmAvailability()) }
+
     val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
     val permissionState =
         rememberPermissionState(permission = notificationPermission)
+    var isChecked by remember {
+        mutableStateOf(
+            if (!permissionState.status.isGranted) false
+            else viewModel.getAlarmAvailability()
+        )
+    }
     val notificationSettingsLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
             val isGranted =
@@ -117,9 +123,6 @@ fun MyPageRoute(
 
     LaunchedEffect(Unit) {
         viewModel.getProfile()
-        if (!permissionState.status.isGranted) {
-            isChecked = false
-        }
     }
 
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
