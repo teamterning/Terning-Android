@@ -220,9 +220,4 @@ class HomeViewModel @Inject constructor(
         tokenRepository.setAlarmAvailable(availability)
     }
 
-    fun completeNotificationCheck() {
-        _homeState.update { currentState ->
-            currentState.copy(hasRequestedNotification = true)
-        }
-    }
 }

@@ -90,7 +90,6 @@ fun HomeRoute(
 ) {
     val permissionState =
         rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
-    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         if (!permissionState.status.isGranted) {
@@ -101,7 +100,6 @@ fun HomeRoute(
                 .distinctUntilChanged()
                 .collectLatest { isGranted ->
                     viewModel.updateAlarmAvailability(isGranted)
-                    viewModel.completeNotificationCheck()
                 }
         }
     }
@@ -161,7 +159,6 @@ fun HomeRoute(
         getHomeUpcomingInternList = viewModel::getHomeUpcomingInternList,
         updateInternModelScrapState = viewModel::updateInternScrapState,
         viewModel = viewModel,
-        homeState = homeState
     )
 }
 
@@ -177,8 +174,8 @@ fun HomeScreen(
     getHomeUpcomingInternList: () -> Unit,
     updateInternModelScrapState: () -> Unit,
     viewModel: HomeViewModel,
-    homeState: HomeState
 ) {
+    val homeState by viewModel.homeState.collectAsStateWithLifecycle()
     val recommendedInternList = viewModel.recommendInternFlow.collectAsLazyPagingItems()
 
     val homeUserName = when (homeState.homeUserNameState) {
