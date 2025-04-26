@@ -43,11 +43,13 @@ class TerningMessagingService : FirebaseMessagingService() {
         val title = intent?.getStringExtra(TITLE).orEmpty()
         val body = intent?.getStringExtra(BODY).orEmpty()
         val type = intent?.getStringExtra(TYPE).orEmpty()
+        val imageUrl = intent?.getStringExtra(IMAGE_URL).orEmpty()
 
         sendNotification(
             title = title,
             body = body,
-            type = type
+            type = type,
+            imageUrl = imageUrl
         )
     }
 
@@ -61,15 +63,22 @@ class TerningMessagingService : FirebaseMessagingService() {
         val title = message.data[TITLE].orEmpty()
         val body = message.data[BODY].orEmpty()
         val type = message.data[TYPE].orEmpty()
+        val imageUrl = message.data[IMAGE_URL].orEmpty()
 
         sendNotification(
             title = title,
             body = body,
-            type = type
+            type = type,
+            imageUrl = imageUrl
         )
     }
 
-    private fun sendNotification(title: String, body: String, type: String) {
+    private fun sendNotification(
+        title: String,
+        body: String,
+        type: String,
+        imageUrl: String
+    ) {
         val notifyId = Random().nextInt()
         val intent = navigatorProvider.getMainActivityIntent(deeplink = type).apply {
             action = Intent.ACTION_VIEW
@@ -109,5 +118,6 @@ class TerningMessagingService : FirebaseMessagingService() {
         private const val TITLE: String = "title"
         private const val BODY: String = "body"
         private const val TYPE: String = "type"
+        private const val IMAGE_URL: String = "imageUrl"
     }
 }
