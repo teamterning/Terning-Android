@@ -48,14 +48,14 @@ private const val MIN_DIALOG_WIDTH = 300
 private const val MIN_TEXT_HEIGHT = 94
 
 /**
- * 앱에서 상태를 업데이트 해야 하는 상황이 있을 때 사용하는 다이얼로그 입니다.
+ * 앱에서 공지해야 하는 상황이 있을 때 사용하는 다이얼로그 입니다.
  *
  * @param titleText 다이얼로그의 제목입니다.
  * @param bodyText 다이얼로그의 상세 내용입니다.
  * @param buttonContent 다이얼로그의 내용을 구성하는 버튼 컴포저블 콘텐츠입니다.
  */
 @Composable
-fun TerningUpdateDialog(
+fun TerningNoticeDialog(
     titleText: String,
     bodyText: String,
     buttonContent: @Composable (Modifier) -> Unit,
@@ -117,7 +117,7 @@ fun TerningUpdateDialog(
 }
 
 /**
- * 업데이트 다이얼로그에 들어가는 버튼입니다.
+ * 공지 다이얼로그에 들어가는 버튼입니다.
  *
  * @param text 버튼의 텍스트입니다.
  * @param contentColor 버튼의 배경 색상입니다.
@@ -127,7 +127,7 @@ fun TerningUpdateDialog(
  * @param modifier Modifier 수정자입니다.
  */
 @Composable
-fun UpdateDialogButton(
+fun NoticeDialogButton(
     text: String,
     contentColor: Color,
     containerColor: Color,
@@ -164,12 +164,12 @@ fun UpdateDialogButton(
 
 @Preview(showBackground = true)
 @Composable
-private fun TerningUpdateDialogPreview() {
-    TerningUpdateDialog(
+private fun TerningNoticeDialogPreview() {
+    TerningNoticeDialog(
         titleText = "titleText",
         bodyText = "bodyText",
     ) {
-        UpdateDialogButton(
+        NoticeDialogButton(
             text = stringResource(R.string.button_preview),
             contentColor = White,
             pressedContainerColor = TerningMain2,

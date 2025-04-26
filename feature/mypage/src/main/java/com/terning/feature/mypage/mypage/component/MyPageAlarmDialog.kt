@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.dialog.TerningUpdateDialog
-import com.terning.core.designsystem.component.dialog.UpdateDialogButton
+import com.terning.core.designsystem.component.dialog.NoticeDialogButton
+import com.terning.core.designsystem.component.dialog.TerningNoticeDialog
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey350
@@ -23,7 +23,7 @@ internal fun MyPageAlarmDialog(
     onLaterClick: () -> Unit,
     onSettingClick: () -> Unit
 ) {
-    TerningUpdateDialog(
+    TerningNoticeDialog(
         titleText = stringResource(R.string.dialog_title),
         bodyText = stringResource(R.string.dialog_body),
     ) {
@@ -31,7 +31,7 @@ internal fun MyPageAlarmDialog(
             modifier = it,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            UpdateDialogButton(
+            NoticeDialogButton(
                 text = stringResource(R.string.dialog_later),
                 contentColor = Grey350,
                 pressedContainerColor = Grey200,
@@ -39,7 +39,7 @@ internal fun MyPageAlarmDialog(
                 onClick = onLaterClick,
                 modifier = Modifier.weight(1f)
             )
-            UpdateDialogButton(
+            NoticeDialogButton(
                 text = stringResource(R.string.dialog_setting),
                 contentColor = White,
                 pressedContainerColor = TerningMain2,

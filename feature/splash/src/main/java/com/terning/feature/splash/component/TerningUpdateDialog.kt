@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.dialog.TerningUpdateDialog
-import com.terning.core.designsystem.component.dialog.UpdateDialogButton
+import com.terning.core.designsystem.component.dialog.NoticeDialogButton
+import com.terning.core.designsystem.component.dialog.TerningNoticeDialog
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey350
@@ -30,11 +30,11 @@ internal fun TerningMajorUpdateDialog(
     bodyText: String,
     onUpdateButtonClick: () -> Unit,
 ) {
-    TerningUpdateDialog(
+    TerningNoticeDialog(
         titleText = titleText,
         bodyText = bodyText,
     ) {
-        UpdateDialogButton(
+        NoticeDialogButton(
             text = stringResource(update_dialog_major_button_update),
             contentColor = White,
             pressedContainerColor = TerningMain2,
@@ -56,7 +56,7 @@ internal fun TerningPatchUpdateDialog(
     onDismissButtonClick: () -> Unit,
     onUpdateButtonClick: () -> Unit,
 ) {
-    TerningUpdateDialog(
+    TerningNoticeDialog(
         titleText = titleText,
         bodyText = bodyText,
     ) {
@@ -64,7 +64,7 @@ internal fun TerningPatchUpdateDialog(
             modifier = it,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            UpdateDialogButton(
+            NoticeDialogButton(
                 text = stringResource(update_dialog_patch_button_dismiss),
                 contentColor = Grey350,
                 pressedContainerColor = Grey200,
@@ -73,7 +73,7 @@ internal fun TerningPatchUpdateDialog(
                 modifier = Modifier.weight(1f)
             )
 
-            UpdateDialogButton(
+            NoticeDialogButton(
                 text = stringResource(update_dialog_patch_button_update),
                 contentColor = White,
                 pressedContainerColor = TerningMain2,
