@@ -5,7 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 
 @Stable
-sealed interface MyPageUiModel {
+internal sealed interface MyPageUiModel {
     @Immutable
     data class Header(
         val text: Int
