@@ -7,7 +7,7 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.terning.domain.auth.entity.SignInRequest
 import com.terning.domain.auth.repository.AuthRepository
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.user.repository.UserRepository
 import com.terning.feature.onboarding.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,11 +20,11 @@ import com.terning.core.designsystem.R as DesignSystemR
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val tokenRepository: TokenRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     init {
-        tokenRepository.clearInfo()
+        userRepository.clearInfo()
     }
 
     private val _signInSideEffects = MutableSharedFlow<SignInSideEffect>()
@@ -73,7 +73,7 @@ class SignInViewModel @Inject constructor(
 
                 else -> {
                     // todo: fcmTokenReissueRequired 분기처리 by 이유빈
-                    tokenRepository.apply {
+                    userRepository.apply {
                         setAccessToken(response.accessToken ?: return)
                         setRefreshToken(response.refreshToken ?: return)
                         setUserId(response.userId ?: return)

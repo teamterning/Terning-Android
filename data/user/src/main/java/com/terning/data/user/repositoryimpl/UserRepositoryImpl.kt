@@ -1,14 +1,14 @@
-package com.terning.data.token.repositoryimpl
+package com.terning.data.user.repositoryimpl
 
 import com.terning.core.firebase.fcmtoken.FcmTokenProvider
 import com.terning.core.local.TerningDataStore
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.user.repository.UserRepository
 import javax.inject.Inject
 
-class TokenRepositoryImpl @Inject constructor(
+class UserRepositoryImpl @Inject constructor(
     private val terningDataStore: TerningDataStore,
     private val fcmTokenProvider: FcmTokenProvider
-) : TokenRepository {
+) : UserRepository {
     override fun getAccessToken(): String = terningDataStore.accessToken
 
     override fun setAccessToken(accessToken: String) {
@@ -32,6 +32,18 @@ class TokenRepositoryImpl @Inject constructor(
     override fun setUserId(userId: Long) {
         terningDataStore.userId = userId
     }
+
+    override fun getAlarmAvailable(): Boolean = terningDataStore.alarmAvailable
+
+    override fun setAlarmAvailable(availability: Boolean) {
+        terningDataStore.alarmAvailable = availability
+    }
+
+    override fun setPermissionRequested(requested: Boolean) {
+        terningDataStore.hasRequestedPermission = requested
+    }
+
+    override fun getPermissionRequested(): Boolean = terningDataStore.hasRequestedPermission
 
     override fun clearInfo() {
         terningDataStore.clearInfo()

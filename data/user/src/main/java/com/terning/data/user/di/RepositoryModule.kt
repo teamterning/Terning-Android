@@ -1,7 +1,7 @@
-package com.terning.data.token.di
+package com.terning.data.user.di
 
-import com.terning.data.token.repositoryimpl.TokenRepositoryImpl
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.data.user.repositoryimpl.UserRepositoryImpl
+import com.terning.domain.user.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindTokenRepository(tokenRepositoryImpl: TokenRepositoryImpl): TokenRepository
+    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 }

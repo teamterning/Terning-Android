@@ -13,7 +13,7 @@ dependencies {
     implementation(projects.core.navigator)
 
     // domain
-    implementation(projects.domain.token)
+    implementation(projects.domain.user)
 
     // timber
     implementation(libs.timber)

@@ -1,5 +1,8 @@
 package com.terning.feature.home
 
+import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +37,10 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
@@ -64,10 +72,15 @@ import com.terning.feature.home.component.HomeUpcomingEmptyIntern
 import com.terning.feature.home.component.HomeUpcomingInternScreen
 import com.terning.feature.home.component.bottomsheet.HomeFilteringBottomSheet
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 
 const val NAME_MAX_LENGTH = 5
 private const val ZERO_TOTAL_COUNT = 0
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeRoute(
     paddingValues: PaddingValues,
@@ -75,6 +88,23 @@ fun HomeRoute(
     navigateToCalendar: () -> Unit,
     navigateToIntern: (Long) -> Unit
 ) {
+    val permissionState =
+        rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+
+    LaunchedEffect(Unit) {
+        if (!permissionState.status.isGranted && !viewModel.getPermissionRequested()) {
+            permissionState.launchPermissionRequest()
+
+            snapshotFlow { permissionState.status }
+                .map { it is PermissionStatus.Granted }
+                .distinctUntilChanged()
+                .collectLatest { isGranted ->
+                    viewModel.updateAlarmAvailability(isGranted)
+                    viewModel.updatePermissionRequested(true)
+                }
+        }
+    }
+
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(

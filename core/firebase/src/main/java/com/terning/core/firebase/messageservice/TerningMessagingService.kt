@@ -11,7 +11,7 @@ import androidx.core.net.toUri
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.firebase.R
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.user.repository.UserRepository
 import com.terning.navigator.NavigatorProvider
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class TerningMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var tokenRepository: TokenRepository
+    lateinit var userRepository: UserRepository
 
     @Inject
     lateinit var navigatorProvider: NavigatorProvider
@@ -36,28 +36,37 @@ class TerningMessagingService : FirebaseMessagingService() {
     override fun handleIntent(intent: Intent?) {
         super.handleIntent(intent)
 
-        if (intent?.getStringExtra(TITLE)?.isEmpty() == true) return
+        if (intent?.getStringExtra(TITLE)?.isEmpty() == true
+            || !userRepository.getAlarmAvailable()
+        ) return
 
         val title = intent?.getStringExtra(TITLE).orEmpty()
         val body = intent?.getStringExtra(BODY).orEmpty()
         val type = intent?.getStringExtra(TYPE).orEmpty()
 
-        sendNotification(title = title, body = body, type = type)
+        sendNotification(
+            title = title,
+            body = body,
+            type = type
+        )
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        if (message.data.isEmpty())
-            // TODO: 조건 추가 by 이유빈 ->  || !terningDataStore.alarmAvailable
-            // TODO: #352번 브렌치에서 관련 코드 수정하기
-            return
+        if (message.data.isEmpty()
+            || !userRepository.getAlarmAvailable()
+        ) return
 
         val title = message.data[TITLE].orEmpty()
         val body = message.data[BODY].orEmpty()
         val type = message.data[TYPE].orEmpty()
 
-        sendNotification(title = title, body = body, type = type)
+        sendNotification(
+            title = title,
+            body = body,
+            type = type
+        )
     }
 
     private fun sendNotification(title: String, body: String, type: String) {

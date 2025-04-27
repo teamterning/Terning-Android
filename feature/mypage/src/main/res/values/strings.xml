@@ -19,6 +19,8 @@
     <string name="my_page_service">서비스 이용약관</string>
     <string name="my_page_personal">개인정보 처리방침</string>
     <string name="my_page_version">버전정보</string>
+    <string name="my_page_alarm">알림 설정</string>
+    <string name="my_page_push_alarm">푸쉬 알림</string>
 
     <!--ProfileEidt-->
     <string name="profile_edit_title">프로필 수정</string>
@@ -26,4 +28,9 @@
     <string name="profile_edit_auth_type">연동 계정</string>
     <string name="profile_edit_kakao">카카오 로그인</string>
 
+    <!--AlarmDialog-->
+    <string name="dialog_title">알림 권한 설정</string>
+    <string name="dialog_body">푸시알림을 받기 위해서는\n"설정>애플리케이션>terning>알림"에서\n알림 권한을 설정해주세요!</string>
+    <string name="dialog_later">다음에 하기</string>
+    <string name="dialog_setting">설정 바로 가기</string>
 </resources>

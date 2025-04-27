@@ -85,7 +85,7 @@ dependencies {
     implementation(projects.data.intern)
     implementation(projects.data.mypage)
     implementation(projects.data.scrap)
-    implementation(projects.data.token)
+    implementation(projects.data.user)
     implementation(projects.data.tokenreissue)
     implementation(projects.data.search)
     implementation(projects.data.update)
@@ -100,7 +100,4 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.kakao.user)
     implementation(libs.kotlinx.serialization.json)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.messaging)
 }

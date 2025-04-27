@@ -2,7 +2,9 @@ package com.terning.feature.main
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Column
@@ -57,6 +59,7 @@ import com.terning.feature.splash.navigation.splashNavGraph
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun MainScreen(
     redirect: String?,

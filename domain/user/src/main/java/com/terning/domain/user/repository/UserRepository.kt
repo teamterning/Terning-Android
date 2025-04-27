@@ -1,6 +1,6 @@
-package com.terning.domain.token.repository
+package com.terning.domain.user.repository
 
-interface TokenRepository {
+interface UserRepository {
     fun getAccessToken(): String
 
     fun setAccessToken(accessToken: String)
@@ -16,6 +16,14 @@ interface TokenRepository {
     fun getUserId(): Long
 
     fun setUserId(userId: Long)
+
+    fun getAlarmAvailable(): Boolean
+
+    fun setAlarmAvailable(availability: Boolean)
+
+    fun setPermissionRequested(requested: Boolean)
+
+    fun getPermissionRequested(): Boolean
 
     fun clearInfo()
 }

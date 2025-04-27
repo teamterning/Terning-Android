@@ -2,9 +2,9 @@ package com.terning.feature.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.terning.domain.token.repository.TokenRepository
 import com.terning.domain.update.entity.UpdateState
 import com.terning.domain.update.usecase.GetUpdateStateUseCase
+import com.terning.domain.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val tokenRepository: TokenRepository,
+    private val userRepository: UserRepository,
     private val getLatestVersionUseCase: GetUpdateStateUseCase
 ) : ViewModel() {
 
@@ -28,7 +28,7 @@ class SplashViewModel @Inject constructor(
         MutableStateFlow(UpdateState.InitialState)
     val updateState = _updateState.asStateFlow()
 
-    private fun getAccessToken(): Boolean = tokenRepository.getAccessToken().isNotBlank()
+    private fun getAccessToken(): Boolean = userRepository.getAccessToken().isNotBlank()
 
     suspend fun showSplash() {
         _updateState.value = UpdateState.InitialState
@@ -56,6 +56,6 @@ class SplashViewModel @Inject constructor(
     }
 
     companion object {
-        private const val DELAY_TIME = 2200L
+        private const val DELAY_TIME = 500L
     }
 }

@@ -12,6 +12,7 @@ import com.terning.domain.home.entity.HomeRecommendIntern
 import com.terning.domain.home.entity.HomeRecommendedIntern
 import com.terning.domain.home.repository.HomeRepository
 import com.terning.domain.mypage.repository.MyPageRepository
+import com.terning.domain.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +32,7 @@ import com.terning.core.designsystem.R as DesignSystemR
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
     private val myPageRepository: MyPageRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     private val _homeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val homeState get() = _homeState.asStateFlow()
@@ -160,17 +162,17 @@ class HomeViewModel @Inject constructor(
         _homeState.update {
             it.copy(
                 homeInternModel =
-                HomeRecommendIntern.HomeRecommendInternDetail(
-                    internshipAnnouncementId = internshipAnnouncementId,
-                    companyImage = companyImage,
-                    title = title,
-                    dDay = dDay,
-                    deadline = deadline,
-                    workingPeriod = workingPeriod,
-                    isScrapped = isScrapped,
-                    color = color ?: "",
-                    startYearMonth = startYearMonth,
-                )
+                    HomeRecommendIntern.HomeRecommendInternDetail(
+                        internshipAnnouncementId = internshipAnnouncementId,
+                        companyImage = companyImage,
+                        title = title,
+                        dDay = dDay,
+                        deadline = deadline,
+                        workingPeriod = workingPeriod,
+                        isScrapped = isScrapped,
+                        color = color ?: "",
+                        startYearMonth = startYearMonth,
+                    )
             )
         }
     }
@@ -213,4 +215,15 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateAlarmAvailability(availability: Boolean) {
+        userRepository.setAlarmAvailable(availability)
+    }
+
+    fun updatePermissionRequested(requested: Boolean) {
+        userRepository.setPermissionRequested(requested)
+    }
+
+    fun getPermissionRequested() : Boolean = userRepository.getPermissionRequested()
+
 }

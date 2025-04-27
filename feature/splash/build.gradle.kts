@@ -14,7 +14,7 @@ dependencies {
 
     // domain
     implementation(projects.domain.update)
-    implementation(projects.domain.token)
+    implementation(projects.domain.user)
 
     implementation(libs.semver)
 }

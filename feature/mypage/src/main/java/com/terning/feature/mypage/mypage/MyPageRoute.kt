@@ -1,6 +1,14 @@
 package com.terning.feature.mypage.mypage
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,12 +16,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -21,6 +30,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,8 +44,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
+import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
 import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
 import com.terning.core.designsystem.component.image.TerningImage
@@ -41,7 +57,6 @@ import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.Back
-import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey350
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -49,27 +64,48 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 import com.terning.feature.mypage.R
-import com.terning.feature.mypage.mypage.component.MyPageItem
+import com.terning.feature.mypage.mypage.component.MyPageAlarmDialog
 import com.terning.feature.mypage.mypage.component.MyPageProfile
+import com.terning.feature.mypage.mypage.component.MyPageSection
+import com.terning.feature.mypage.mypage.component.MyPageToggleButton
+import com.terning.feature.mypage.mypage.model.MyPageUiModel
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.NOTICE_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.OPINION_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.PERSONAL_URL
 import com.terning.feature.mypage.mypage.util.MyPageDefaults.SERVICE_URL
+import kotlinx.collections.immutable.persistentListOf
 
+@OptIn(ExperimentalPermissionsApi::class)
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun MyPageRoute(
     paddingValues: PaddingValues,
     navigateToProfileEdit: (String, String, String) -> Unit,
+    restartApp: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
-    restartApp: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
     val systemUiController = rememberSystemUiController()
+    val amplitudeTracker = LocalTracker.current
 
-    val amplitudeTracker = com.terning.core.analytics.LocalTracker.current
+    val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
+    val permissionState =
+        rememberPermissionState(permission = notificationPermission)
+    var isChecked by remember {
+        mutableStateOf(
+            if (!permissionState.status.isGranted) false
+            else viewModel.getAlarmAvailability()
+        )
+    }
+    val notificationSettingsLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            val isGranted =
+                context.checkSelfPermission(notificationPermission) == PackageManager.PERMISSION_GRANTED
+            isChecked = isGranted
+            viewModel.updateAlarmAvailability(isGranted)
+        }
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -138,6 +174,19 @@ fun MyPageRoute(
         )
     }
 
+    if (state.showAlarmDialog) {
+        MyPageAlarmDialog(
+            onLaterClick = { viewModel.updateDialogVisibility(false) },
+            onSettingClick = {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = ("package:" + context.packageName).toUri()
+                }
+                notificationSettingsLauncher.launch(intent)
+                viewModel.updateDialogVisibility(false)
+            }
+        )
+    }
+
     when (state.isGetSuccess) {
         is UiState.Success -> {
             MyPageScreen(
@@ -167,8 +216,19 @@ fun MyPageRoute(
                 },
                 onServiceClick = { viewModel.fetchShowService(true) },
                 onPersonalClick = { viewModel.fetchShowPersonal(true) },
+                onAlarmClick = {
+                    val currentAlarmAvailability = viewModel.getAlarmAvailability()
+
+                    if (permissionState.status.isGranted) {
+                        viewModel.updateAlarmAvailability(!currentAlarmAvailability)
+                        isChecked = !currentAlarmAvailability
+                    } else {
+                        viewModel.updateDialogVisibility(true)
+                    }
+                },
                 name = state.name,
-                profileImage = state.profileImage
+                profileImage = state.profileImage,
+                isChecked = isChecked
             )
         }
 
@@ -182,18 +242,25 @@ fun MyPageRoute(
         }
     }
 
-    if (state.showNotice) viewModel.fetchShowNotice(false)
+    if (state.showNotice) {
+        viewModel.fetchShowNotice(false)
+    }
 
-    if (state.showOpinion) viewModel.fetchShowOpinion(false)
+    if (state.showOpinion) {
+        viewModel.fetchShowOpinion(false)
+    }
 
-    if (state.showService) viewModel.fetchShowService(false)
+    if (state.showService) {
+        viewModel.fetchShowService(false)
+    }
 
-    if (state.showPersonal) viewModel.fetchShowPersonal(false)
-
+    if (state.showPersonal) {
+        viewModel.fetchShowPersonal(false)
+    }
 }
 
 @Composable
-fun MyPageScreen(
+private fun MyPageScreen(
     onEditClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {},
     onQuitClick: () -> Unit = {},
@@ -201,29 +268,82 @@ fun MyPageScreen(
     onOpinionClick: () -> Unit = {},
     onServiceClick: () -> Unit = {},
     onPersonalClick: () -> Unit = {},
+    onAlarmClick: () -> Unit = {},
     paddingValues: PaddingValues = PaddingValues(),
     name: String = "",
-    profileImage: String = ""
+    profileImage: String = "",
+    isChecked: Boolean = false
 ) {
+    val terningCommunityItems = persistentListOf(
+        MyPageUiModel.Header(text = R.string.my_page_terning_community),
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_notice,
+            text = R.string.my_page_notice,
+            onItemClick = onNoticeClick
+        ),
+        MyPageUiModel.HorizontalDivider,
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_opinion,
+            text = R.string.my_page_opinion,
+            onItemClick = onOpinionClick
+        )
+    )
+    val serviceInfoItems = persistentListOf(
+        MyPageUiModel.Header(text = R.string.my_page_service_info),
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_service,
+            text = R.string.my_page_service,
+            onItemClick = onServiceClick
+        ),
+        MyPageUiModel.HorizontalDivider,
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_personal,
+            text = R.string.my_page_personal,
+            onItemClick = onPersonalClick
+        ),
+        MyPageUiModel.HorizontalDivider,
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_version,
+            text = R.string.my_page_version,
+            trailingContent = {
+                Text(
+                    text = VERSION_NAME,
+                    modifier = Modifier.padding(end = 7.dp),
+                    style = TerningTheme.typography.button4,
+                    color = Grey350
+                )
+            }
+        )
+    )
+    val alarmItems = persistentListOf(
+        MyPageUiModel.Header(text = R.string.my_page_alarm),
+        MyPageUiModel.MyPageItem(
+            leadingIcon = R.drawable.ic_my_page_alarm,
+            text = R.string.my_page_push_alarm,
+            trailingContent = {
+                MyPageToggleButton(
+                    check = isChecked,
+                    onClick = onAlarmClick
+                )
+            }
+        )
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Back)
             .padding(paddingValues)
+            .verticalScroll(rememberScrollState())
     ) {
         UserProfile(
             name = name,
             profileImage = profileImage,
             onEditClick = onEditClick
         )
-        TerningCommunity(
-            onNoticeClick = onNoticeClick,
-            onOpinionClick = onOpinionClick
-        )
-        ServiceInfo(
-            onServiceClick = onServiceClick,
-            onPersonalClick = onPersonalClick
-        )
+        MyPageSection(items = terningCommunityItems)
+        MyPageSection(items = serviceInfoItems)
+        MyPageSection(items = alarmItems)
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Min)
@@ -258,11 +378,12 @@ fun MyPageScreen(
                 }
             )
         }
+        Spacer(modifier = Modifier.height(100.dp))
     }
 }
 
 @Composable
-fun UserProfile(
+private fun UserProfile(
     name: String,
     onEditClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -304,123 +425,6 @@ fun UserProfile(
     }
 }
 
-@Composable
-fun TerningCommunity(
-    modifier: Modifier = Modifier,
-    onNoticeClick: () -> Unit,
-    onOpinionClick: () -> Unit
-) {
-    Column(
-        modifier = modifier
-            .padding(
-                top = 8.dp,
-                start = 24.dp,
-                end = 24.dp,
-                bottom = 20.dp
-            )
-            .background(
-                color = White,
-                shape = RoundedCornerShape(15.dp)
-            )
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 16.dp,
-                    bottom = 20.dp,
-                    start = 16.dp,
-                    end = 9.dp
-                )
-        ) {
-            Text(
-                text = stringResource(id = R.string.my_page_terning_community),
-                style = TerningTheme.typography.body6,
-                color = Grey400,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_notice),
-                icon = R.drawable.ic_my_page_notice,
-                onButtonClick = onNoticeClick
-            )
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 20.dp),
-                thickness = 1.dp,
-                color = Grey150
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_opinion),
-                icon = R.drawable.ic_my_page_opinion,
-                onButtonClick = onOpinionClick
-            )
-        }
-    }
-}
-
-@Composable
-fun ServiceInfo(
-    modifier: Modifier = Modifier,
-    onServiceClick: () -> Unit,
-    onPersonalClick: () -> Unit
-) {
-    Column(
-        modifier = modifier
-            .padding(
-                start = 24.dp,
-                end = 24.dp,
-                bottom = 16.dp
-            )
-            .background(
-                color = White,
-                shape = RoundedCornerShape(15.dp)
-            )
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 16.dp,
-                    bottom = 20.dp,
-                    start = 16.dp,
-                    end = 9.dp
-                )
-        ) {
-            Text(
-                text = stringResource(id = R.string.my_page_service_info),
-                style = TerningTheme.typography.body6,
-                color = Grey400,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_service),
-                icon = R.drawable.ic_my_page_service,
-                onButtonClick = onServiceClick
-            )
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 20.dp),
-                thickness = 1.dp,
-                color = Grey150
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_personal),
-                icon = R.drawable.ic_my_page_personal,
-                onButtonClick = onPersonalClick
-            )
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 20.dp),
-                thickness = 1.dp,
-                color = Grey150
-            )
-            MyPageItem(
-                text = stringResource(id = R.string.my_page_version),
-                version = VERSION_NAME,
-                icon = R.drawable.ic_my_page_version
-            )
-        }
-    }
-}
-
 private fun navigateToNoticeWebView(context: Context) {
     CustomTabsIntent.Builder().build().launchUrl(context, NOTICE_URL.toUri())
 }
@@ -439,7 +443,7 @@ private fun navigateToPersonalWebView(context: Context) {
 
 @Preview(showBackground = true)
 @Composable
-fun MyPageScreenPreview() {
+private fun MyPageScreenPreview() {
     TerningPointTheme {
         MyPageScreen(
             name = "터닝이",

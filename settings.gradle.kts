@@ -54,7 +54,7 @@ include(
     ":data:mypage",
     ":data:search",
     ":data:tokenreissue",
-    ":data:token",
+    ":data:user",
     ":data:scrap",
     ":data:update"
 )
@@ -69,7 +69,7 @@ include(
     ":domain:mypage",
     ":domain:search",
     ":domain:tokenreissue",
-    ":domain:token",
+    ":domain:user",
     ":domain:scrap",
     ":domain:update"
 )

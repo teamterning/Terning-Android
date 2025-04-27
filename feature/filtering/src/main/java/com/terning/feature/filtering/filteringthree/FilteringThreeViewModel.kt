@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.domain.filtering.entity.Filtering
 import com.terning.domain.filtering.repository.FilteringRepository
-import com.terning.domain.token.repository.TokenRepository
+import com.terning.domain.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import com.terning.core.designsystem.R as DesignSystemR
 @HiltViewModel
 class FilteringThreeViewModel @Inject constructor(
     private val filteringRepository:FilteringRepository,
-    private val tokenRepository: TokenRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FilteringThreeState())
@@ -48,7 +48,7 @@ class FilteringThreeViewModel @Inject constructor(
     fun postFilteringWithServer() {
         viewModelScope.launch {
             filteringRepository.postFiltering(
-                tokenRepository.getUserId(),
+                userRepository.getUserId(),
                 state.value.run {
                     Filtering(
                         grade = grade,

@@ -112,6 +112,7 @@ profileinstaller = "1.4.1"
 google-services = "4.4.2"
 firebaseBom = "33.10.0"
 firebaseMessaging = "24.1.0"
+permissions = "0.33.1-alpha"
 
 # Semver
 semver = "2.0.0"
@@ -218,6 +219,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-config = { group = "com.google.firebase", name = "firebase-config" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessaging" }
+permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "permissions" }
 
 semver = { group = "net.swiftzer.semver", name = "semver", version.ref = "semver" }
 

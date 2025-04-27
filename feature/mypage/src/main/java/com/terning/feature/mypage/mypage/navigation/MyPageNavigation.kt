@@ -1,5 +1,7 @@
 package com.terning.feature.mypage.mypage.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -18,6 +20,7 @@ fun NavController.navigateMyPage(navOptions: NavOptions? = null) {
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun NavGraphBuilder.myPageNavGraph(
     paddingValues: PaddingValues,
     navHostController: NavHostController,

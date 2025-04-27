@@ -11,5 +11,5 @@ android {
 dependencies {
     // domain
     implementation(projects.domain.filtering)
-    implementation(projects.domain.token)
+    implementation(projects.domain.user)
 }

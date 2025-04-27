@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    setNamespace("data.token")
+    setNamespace("data.user")
 }
 
 dependencies {
@@ -14,5 +14,5 @@ dependencies {
     implementation(projects.core.firebase)
 
     //domain
-    implementation(projects.domain.token)
+    implementation(projects.domain.user)
 }

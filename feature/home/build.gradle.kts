@@ -13,6 +13,7 @@ dependencies {
     // domain
     implementation(projects.domain.home)
     implementation(projects.domain.mypage)
+    implementation(projects.domain.user)
 
     // feature
     implementation(projects.feature.dialog)
@@ -20,4 +21,7 @@ dependencies {
     // paging
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
+
+    // permission
+    implementation(libs.permissions)
 }
