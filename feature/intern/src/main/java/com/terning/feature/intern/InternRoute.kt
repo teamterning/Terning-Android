@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -27,16 +29,14 @@ import androidx.navigation.NavHostController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
-import com.terning.core.designsystem.extension.customShadow
+import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.theme.CalRed
-import com.terning.core.designsystem.theme.Grey200
 import com.terning.core.designsystem.theme.Grey400
 import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.domain.intern.entity.InternInfo
-import com.terning.domain.intern.entity.InternInfo.Companion.EMPTY_INTERN
 import com.terning.feature.dialog.cancel.ScrapCancelDialog
 import com.terning.feature.dialog.detail.ScrapDialog
 import com.terning.feature.intern.component.InternBottomBar
@@ -68,42 +68,51 @@ fun InternRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is InternViewSideEffect.ShowToast -> context.toast(sideEffect.message)
+                    is InternSideEffect.Toast -> context.toast(sideEffect.message)
                 }
             }
     }
 
-
-    val internInfo = (internState.loadState as? UiState.Success<InternInfo>)?.data ?: EMPTY_INTERN
-
-    InternScreen(
-        announcementId = announcementId,
-        internUiState = internState,
-        internInfo = internInfo,
-        navController = navController,
-        onDismissCancelDialog = {
-            with(viewModel) {
-                updateScrapCancelDialogVisibility(false)
-                getInternInfo(announcementId)
-            }
-        },
-        onDismissScrapDialog = {
-            with(viewModel) {
-                updateInternDialogVisibility(false)
-                getInternInfo(announcementId)
-            }
-        },
-        onClickCancelButton = {
-            viewModel.updateScrapCancelDialogVisibility(true)
-        },
-        onClickScrapButton = {
-            amplitudeTracker.track(
-                type = EventType.CLICK,
-                name = "detail_scrap"
+    when (internState.loadState) {
+        UiState.Loading -> {}
+        UiState.Empty -> {}
+        is UiState.Failure -> {}
+        is UiState.Success -> {
+            InternScreen(
+                announcementId = announcementId,
+                internUiState = internState,
+                internInfo = (internState.loadState as UiState.Success).data,
+                navController = navController,
+                onClickShareButton = {
+                    viewModel.onKakaoShareClicked(
+                        (internState.loadState as UiState.Success).data
+                    )
+                },
+                onDismissCancelDialog = {
+                    with(viewModel) {
+                        updateScrapCancelDialogVisibility(false)
+                        getInternInfo(announcementId)
+                    }
+                },
+                onDismissScrapDialog = {
+                    with(viewModel) {
+                        updateInternDialogVisibility(false)
+                        getInternInfo(announcementId)
+                    }
+                },
+                onClickCancelButton = {
+                    viewModel.updateScrapCancelDialogVisibility(true)
+                },
+                onClickScrapButton = {
+                    amplitudeTracker.track(
+                        type = EventType.CLICK,
+                        name = "detail_scrap"
+                    )
+                    viewModel.updateInternDialogVisibility(true)
+                }
             )
-            viewModel.updateInternDialogVisibility(true)
         }
-    )
+    }
 }
 
 @Composable
@@ -113,6 +122,7 @@ fun InternScreen(
     navController: NavHostController,
     internUiState: InternUiState,
     internInfo: InternInfo,
+    onClickShareButton: () -> Unit,
     onDismissCancelDialog: (Boolean) -> Unit,
     onDismissScrapDialog: (Boolean) -> Unit,
     onClickCancelButton: (InternInfo) -> Unit,
@@ -151,13 +161,20 @@ fun InternScreen(
         ) {
             BackButtonTopAppBar(
                 title = stringResource(id = R.string.intern_top_app_bar_title),
-                modifier = Modifier.customShadow(
-                    color = Grey200,
-                    offsetY = 2.dp
-                ),
                 onBackButtonClick = {
                     navController.popBackStack()
                 },
+                actions = listOf {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_share_32),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .noRippleClickable(
+                                onClick = onClickShareButton
+                            )
+                    )
+                }
             )
 
             LazyColumn(

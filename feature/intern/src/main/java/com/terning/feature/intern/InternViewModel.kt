@@ -3,6 +3,8 @@ package com.terning.feature.intern
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.util.KakaoUtil
+import com.terning.domain.intern.entity.InternInfo
 import com.terning.domain.intern.repository.InternRepository
 import com.terning.feature.intern.model.InternUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,12 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class InternViewModel @Inject constructor(
     private val internRepository: InternRepository,
+    private val kakaoUtil: KakaoUtil
 ) : ViewModel() {
 
     private val _internUiState = MutableStateFlow(InternUiState())
     val internUiState get() = _internUiState.asStateFlow()
 
-    private val _sideEffect: MutableSharedFlow<InternViewSideEffect> = MutableSharedFlow()
+    private val _sideEffect: MutableSharedFlow<InternSideEffect> = MutableSharedFlow()
     val sideEffect = _sideEffect.asSharedFlow()
 
     fun getInternInfo(id: Long) {
@@ -37,7 +40,7 @@ class InternViewModel @Inject constructor(
                     _internUiState.value = _internUiState.value.copy(
                         loadState = UiState.Failure(exception.toString())
                     )
-                    _sideEffect.emit(InternViewSideEffect.ShowToast(R.string.server_failure))
+                    _sideEffect.emit(InternSideEffect.Toast(R.string.server_failure))
                 }
         }
     }
@@ -62,5 +65,19 @@ class InternViewModel @Inject constructor(
         _internUiState.update {
             it.copy(showWeb = show)
         }
+    }
+
+    fun onKakaoShareClicked(
+        internInfo: InternInfo
+    ) {
+        val templateArgs = mapOf(
+            "COMPANY_IMG" to internInfo.companyImage,
+            "TITLE" to internInfo.title,
+            "DEADLINE" to internInfo.deadline,
+            "START_DATE" to internInfo.startYearMonth,
+            "PERIOD" to internInfo.workingPeriod,
+            "REGI_WEB_DOMAIN" to internInfo.url
+        )
+        kakaoUtil.shareToKakaoTalk(templateArgs)
     }
 }
