@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -106,19 +105,11 @@ fun HomeRoute(
     }
 
     val systemUiController = rememberSystemUiController()
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = White
-        )
-        systemUiController.setNavigationBarColor(
-            color = White
-        )
+
+    LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(color = White)
+        systemUiController.setNavigationBarColor(color = White)
     }
-
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val context = LocalContext.current
-
-    val amplitudeTracker = LocalTracker.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
@@ -126,6 +117,9 @@ fun HomeRoute(
         viewModel.getHomeUpcomingInternList()
         viewModel.getRecommendInternFlow()
     }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -137,6 +131,8 @@ fun HomeRoute(
                 }
             }
     }
+
+    val amplitudeTracker = LocalTracker.current
 
     HomeScreen(
         paddingValues = paddingValues,

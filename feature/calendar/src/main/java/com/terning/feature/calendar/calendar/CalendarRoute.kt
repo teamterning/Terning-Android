@@ -23,11 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.component.topappbar.CalendarTopAppBar
 import com.terning.core.designsystem.extension.getWeekIndexContainingSelectedDate
 import com.terning.core.designsystem.theme.Grey200
+import com.terning.core.designsystem.theme.White
 import com.terning.feature.calendar.calendar.component.ScreenTransition
 import com.terning.feature.calendar.calendar.component.WeekDaysHeader
 import com.terning.feature.calendar.calendar.model.CalendarUiState
@@ -48,6 +50,12 @@ fun CalendarRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val amplitudeTracker = LocalTracker.current
 
+    val systemUiController = rememberSystemUiController()
+
+    LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(color = White)
+        systemUiController.setNavigationBarColor(color = White)
+    }
 
     CalendarScreen(
         uiState = uiState,
