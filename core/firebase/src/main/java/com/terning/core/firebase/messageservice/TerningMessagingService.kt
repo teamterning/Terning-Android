@@ -1,8 +1,10 @@
 package com.terning.core.firebase.messageservice
 
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
@@ -82,9 +84,31 @@ class TerningMessagingService : FirebaseMessagingService() {
         imageUrl: String
     ) {
         val notifyId = Random().nextInt()
-        val intent = navigatorProvider.getMainActivityIntent(deeplink = type).apply {
+        val isForeground = isAppInForeground()
+        val redirect: String = when (type) {
+            "CALENDAR" -> if (isForeground) {
+                "terning://calendar"
+            } else {
+                "terning://splash?redirect=calendar"
+            }
+
+            "HOME" -> if (isForeground) {
+                "terning://home"
+            } else {
+                "terning://splash?redirect=home"
+            }
+
+            "SEARCH" -> if (isForeground) {
+                "terning://search"
+            } else {
+                "terning://splash?redirect=search"
+            }
+
+            else -> ""
+        }
+        val intent = navigatorProvider.getMainActivityIntent(deeplink = redirect).apply {
             action = Intent.ACTION_VIEW
-            data = type.toUri()
+            data = redirect.toUri()
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         val pendingIntent = PendingIntent.getActivity(
@@ -126,6 +150,16 @@ class TerningMessagingService : FirebaseMessagingService() {
             )
             .build()
         imageLoader.enqueue(request)
+    }
+
+    private fun isAppInForeground(): Boolean {
+        val appProcesses =
+            (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).runningAppProcesses
+        val packageName = packageName
+        return appProcesses?.any {
+            it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND &&
+                    it.processName == packageName
+        } == true
     }
 
     companion object {

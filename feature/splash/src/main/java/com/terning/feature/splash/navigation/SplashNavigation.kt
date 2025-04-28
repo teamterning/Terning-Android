@@ -14,6 +14,8 @@ private const val SPLASH_PATH: String = "terning://splash"
 fun NavGraphBuilder.splashNavGraph(
     navigateHome: () -> Unit,
     navigateSignIn: () -> Unit,
+    navigateSearch: () -> Unit,
+    navigateCalendar: () -> Unit
 ) {
     composable<Splash>(
         deepLinks = listOf(
@@ -27,6 +29,8 @@ fun NavGraphBuilder.splashNavGraph(
             redirect = args.redirect,
             navigateToHome = navigateHome,
             navigateToSignIn = navigateSignIn,
+            navigateToSearch = navigateSearch,
+            navigateToCalendar = navigateCalendar
         )
     }
 }

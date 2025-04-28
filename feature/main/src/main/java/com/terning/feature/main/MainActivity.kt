@@ -28,10 +28,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
             val redirect: String? = intent.data?.getQueryParameter(REDIRECT)
+            val host: String? = intent.data?.host
 
             TerningPointTheme {
                 CompositionLocalProvider(LocalTracker provides tracker) {
                     MainScreen(
+                        host = host,
                         redirect = redirect,
                         navigator = navigator
                     )
