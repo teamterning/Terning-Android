@@ -8,11 +8,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.home.HomeRoute
 import kotlinx.serialization.Serializable
-
-private const val HOME_PATH: String = "terning://home"
 
 fun NavController.navigateHome(navOptions: NavOptions? = null) {
     navigate(
@@ -30,7 +29,7 @@ fun NavGraphBuilder.homeNavGraph(
     composable<Home>(
         deepLinks = listOf(
             navDeepLink<Home>(
-                basePath = HOME_PATH
+                basePath = DeeplinkDefaults.build("home")
             )
         )
     ) {

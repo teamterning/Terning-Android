@@ -8,11 +8,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.calendar.calendar.CalendarRoute
 import kotlinx.serialization.Serializable
-
-private const val CALENDAR_PATH: String = "terning://calendar"
 
 fun NavController.navigateCalendar(navOptions: NavOptions? = null) {
     navigate(
@@ -28,7 +27,7 @@ fun NavGraphBuilder.calendarNavGraph(
     composable<Calendar>(
         deepLinks = listOf(
             navDeepLink<Calendar>(
-                basePath = CALENDAR_PATH
+                basePath = DeeplinkDefaults.build("calendar")
             )
         )
     ) {

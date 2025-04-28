@@ -27,6 +27,7 @@ import com.terning.core.designsystem.extension.getVersionName
 import com.terning.core.designsystem.extension.launchPlayStore
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.type.NotificationRedirect
 import com.terning.domain.update.entity.UpdateState
 import com.terning.feature.splash.component.TerningMajorUpdateDialog
 import com.terning.feature.splash.component.TerningPatchUpdateDialog
@@ -76,15 +77,15 @@ internal fun SplashRoute(
                 when (sideEffect) {
                     is SplashSideEffect.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) {
-                            if (redirect?.isBlank() == false) {
-                                when (redirect) {
-                                    "calendar" -> navigateToCalendar()
-                                    "home" -> navigateToHome()
-                                    "search" -> navigateToSearch()
-                                    else -> {}
-                                }
-                            } else {
+                            if (redirect.isNullOrBlank()) {
                                 navigateToHome()
+                            } else {
+                                when (NotificationRedirect.from(redirect)) {
+                                    NotificationRedirect.CALENDAR -> navigateToCalendar()
+                                    NotificationRedirect.HOME -> navigateToHome()
+                                    NotificationRedirect.SEARCH -> navigateToSearch()
+                                    else -> navigateToHome()
+                                }
                             }
                         } else {
                             navigateToSignIn()

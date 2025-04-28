@@ -14,6 +14,9 @@ import coil3.ImageLoader
 import coil3.request.ImageRequest
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.terning.core.designsystem.type.NotificationRedirect
+import com.terning.core.designsystem.util.DeeplinkDefaults
+import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.R
 import com.terning.domain.user.repository.UserRepository
 import com.terning.navigator.NavigatorProvider
@@ -40,40 +43,38 @@ class TerningMessagingService : FirebaseMessagingService() {
     override fun handleIntent(intent: Intent?) {
         super.handleIntent(intent)
 
-        if (intent?.getStringExtra(TITLE)?.isEmpty() == true
-            || !userRepository.getAlarmAvailable()
-        ) return
-
-        val title = intent?.getStringExtra(TITLE).orEmpty()
-        val body = intent?.getStringExtra(BODY).orEmpty()
-        val type = intent?.getStringExtra(TYPE).orEmpty()
-        val imageUrl = intent?.getStringExtra(IMAGE_URL).orEmpty()
-
-        sendNotification(
-            title = title,
-            body = body,
-            type = type,
-            imageUrl = imageUrl
+        extractInformation(
+            title = intent?.getStringExtra(TITLE),
+            body = intent?.getStringExtra(BODY),
+            type = intent?.getStringExtra(TYPE),
+            imageUrl = intent?.getStringExtra(IMAGE_URL)
         )
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        if (message.data.isEmpty()
-            || !userRepository.getAlarmAvailable()
-        ) return
+        extractInformation(
+            title = message.data[TITLE],
+            body = message.data[BODY],
+            type = message.data[TYPE],
+            imageUrl = message.data[IMAGE_URL]
+        )
+    }
 
-        val title = message.data[TITLE].orEmpty()
-        val body = message.data[BODY].orEmpty()
-        val type = message.data[TYPE].orEmpty()
-        val imageUrl = message.data[IMAGE_URL].orEmpty()
+    private fun extractInformation(
+        title: String?,
+        body: String?,
+        type: String?,
+        imageUrl: String?
+    ) {
+        if (title.isNullOrEmpty() || !userRepository.getAlarmAvailable()) return
 
         sendNotification(
             title = title,
-            body = body,
-            type = type,
-            imageUrl = imageUrl
+            body = body.orEmpty(),
+            type = type.orEmpty(),
+            imageUrl = imageUrl.orEmpty()
         )
     }
 
@@ -85,30 +86,10 @@ class TerningMessagingService : FirebaseMessagingService() {
     ) {
         val notifyId = Random().nextInt()
         val isForeground = isAppInForeground()
-        val redirect: String = when (type) {
-            "CALENDAR" -> if (isForeground) {
-                "terning://calendar"
-            } else {
-                "terning://splash?redirect=calendar"
-            }
-
-            "HOME" -> if (isForeground) {
-                "terning://home"
-            } else {
-                "terning://splash?redirect=home"
-            }
-
-            "SEARCH" -> if (isForeground) {
-                "terning://search"
-            } else {
-                "terning://splash?redirect=search"
-            }
-
-            else -> ""
-        }
-        val intent = navigatorProvider.getMainActivityIntent(deeplink = redirect).apply {
+        val deeplink = buildRedirect(type, isForeground)
+        val intent = navigatorProvider.getMainActivityIntent(deeplink = deeplink).apply {
             action = Intent.ACTION_VIEW
-            data = redirect.toUri()
+            data = deeplink.toUri()
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         val pendingIntent = PendingIntent.getActivity(
@@ -117,9 +98,8 @@ class TerningMessagingService : FirebaseMessagingService() {
             intent,
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE
         )
-        val channelId: String = CHANNEL_ID
         val notificationBuilder =
-            NotificationCompat.Builder(this, channelId).apply {
+            NotificationCompat.Builder(this, CHANNEL_ID).apply {
                 setSmallIcon(R.mipmap.ic_terning_launcher)
                 setContentTitle(title)
                 setContentText(body)
@@ -130,8 +110,8 @@ class TerningMessagingService : FirebaseMessagingService() {
         val notificationManager = getSystemService<NotificationManager>()
         notificationManager?.createNotificationChannel(
             NotificationChannel(
-                channelId,
-                channelId,
+                CHANNEL_ID,
+                CHANNEL_ID,
                 NotificationManager.IMPORTANCE_HIGH
             )
         )
@@ -149,6 +129,7 @@ class TerningMessagingService : FirebaseMessagingService() {
                 }
             )
             .build()
+
         imageLoader.enqueue(request)
     }
 
@@ -160,6 +141,13 @@ class TerningMessagingService : FirebaseMessagingService() {
             it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND &&
                     it.processName == packageName
         } == true
+    }
+
+    private fun buildRedirect(type: String, isForeground: Boolean): String {
+        val base = NotificationRedirect.from(type) ?: return ""
+
+        return if (isForeground) DeeplinkDefaults.build(base.path)
+        else DeeplinkDefaults.build("splash?$REDIRECT=${base.path}")
     }
 
     companion object {
