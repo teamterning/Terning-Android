@@ -86,7 +86,7 @@ class TerningMessagingService : FirebaseMessagingService() {
     ) {
         val notifyId = Random().nextInt()
         val isForeground = isAppInForeground()
-        val deeplink = buildRedirect(type, isForeground)
+        val deeplink = buildDeeplink(type, isForeground)
         val intent = navigatorProvider.getMainActivityIntent(deeplink = deeplink).apply {
             action = Intent.ACTION_VIEW
             data = deeplink.toUri()
@@ -143,7 +143,7 @@ class TerningMessagingService : FirebaseMessagingService() {
         } == true
     }
 
-    private fun buildRedirect(type: String, isForeground: Boolean): String {
+    private fun buildDeeplink(type: String, isForeground: Boolean): String {
         val base = NotificationRedirect.from(type) ?: return ""
 
         return if (isForeground) DeeplinkDefaults.build(base.path)
