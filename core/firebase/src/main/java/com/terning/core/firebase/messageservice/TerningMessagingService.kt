@@ -158,4 +158,3 @@ class TerningMessagingService : FirebaseMessagingService() {
         private const val IMAGE_URL: String = "imageUrl"
     }
 }
-
