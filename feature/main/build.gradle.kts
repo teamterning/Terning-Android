@@ -11,6 +11,7 @@ android {
 dependencies {
     // core
     implementation(projects.core.navigator)
+    implementation(projects.core.firebase)
 
     // feature
     implementation(projects.feature.calendar)

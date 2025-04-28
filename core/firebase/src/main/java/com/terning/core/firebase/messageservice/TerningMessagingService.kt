@@ -5,9 +5,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import coil3.BitmapImage
+import coil3.ImageLoader
+import coil3.request.ImageRequest
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.firebase.R
@@ -97,20 +99,33 @@ class TerningMessagingService : FirebaseMessagingService() {
                 setSmallIcon(R.mipmap.ic_terning_launcher)
                 setContentTitle(title)
                 setContentText(body)
-                setPriority(NotificationManagerCompat.IMPORTANCE_HIGH)
+                setAutoCancel(true)
+                setPriority(NotificationCompat.PRIORITY_HIGH)
                 setContentIntent(pendingIntent)
             }
-
-        getSystemService<NotificationManager>()?.run {
-            createNotificationChannel(
-                NotificationChannel(
-                    channelId,
-                    channelId,
-                    NotificationManager.IMPORTANCE_HIGH,
-                ),
+        val notificationManager = getSystemService<NotificationManager>()
+        notificationManager?.createNotificationChannel(
+            NotificationChannel(
+                channelId,
+                channelId,
+                NotificationManager.IMPORTANCE_HIGH
             )
-            notify(notifyId, notificationBuilder.build())
-        }
+        )
+        val imageLoader = ImageLoader(this)
+        val request = ImageRequest.Builder(this)
+            .data(imageUrl)
+            .target(
+                onSuccess = { image ->
+                    val bitmap = (image as BitmapImage).bitmap
+                    notificationBuilder.setLargeIcon(bitmap)
+                    notificationManager?.notify(notifyId, notificationBuilder.build())
+                },
+                onError = {
+                    notificationManager?.notify(notifyId, notificationBuilder.build())
+                }
+            )
+            .build()
+        imageLoader.enqueue(request)
     }
 
     companion object {
@@ -121,3 +136,4 @@ class TerningMessagingService : FirebaseMessagingService() {
         private const val IMAGE_URL: String = "imageUrl"
     }
 }
+
