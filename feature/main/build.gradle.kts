@@ -12,6 +12,7 @@ dependencies {
     // core
     implementation(projects.core.navigator)
     implementation(projects.core.firebase)
+    implementation(projects.core.designsystem)
 
     // feature
     implementation(projects.feature.calendar)

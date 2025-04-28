@@ -11,6 +11,7 @@ android {
 dependencies {
     //core
     implementation(projects.core.navigator)
+    implementation(projects.core.designsystem)
 
     // domain
     implementation(projects.domain.user)
