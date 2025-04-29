@@ -37,7 +37,7 @@ class TerningMessagingService : FirebaseMessagingService() {
     lateinit var navigatorProvider: NavigatorProvider
 
     @Inject
-    lateinit var tracker: AmplitudeTracker
+    lateinit var amplitudeTracker: AmplitudeTracker
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -48,23 +48,27 @@ class TerningMessagingService : FirebaseMessagingService() {
     override fun handleIntent(intent: Intent?) {
         super.handleIntent(intent)
 
-        extractInformation(
-            title = intent?.getStringExtra(TITLE),
-            body = intent?.getStringExtra(BODY),
-            type = intent?.getStringExtra(TYPE),
-            imageUrl = intent?.getStringExtra(IMAGE_URL)
-        )
+        if (!isAppInForeground()) {
+            extractInformation(
+                title = intent?.getStringExtra(TITLE),
+                body = intent?.getStringExtra(BODY),
+                type = intent?.getStringExtra(TYPE),
+                imageUrl = intent?.getStringExtra(IMAGE_URL)
+            )
+        }
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        extractInformation(
-            title = message.data[TITLE],
-            body = message.data[BODY],
-            type = message.data[TYPE],
-            imageUrl = message.data[IMAGE_URL]
-        )
+        if (isAppInForeground()) {
+            extractInformation(
+                title = message.data[TITLE],
+                body = message.data[BODY],
+                type = message.data[TYPE],
+                imageUrl = message.data[IMAGE_URL]
+            )
+        }
     }
 
     private fun extractInformation(
@@ -75,7 +79,7 @@ class TerningMessagingService : FirebaseMessagingService() {
     ) {
         if (title.isNullOrEmpty() || !userRepository.getAlarmAvailable()) return
 
-        tracker.track(
+        amplitudeTracker.track(
             type = EventType.PUSH_NOTIFICATION,
             name = "received"
         )
@@ -101,6 +105,7 @@ class TerningMessagingService : FirebaseMessagingService() {
             action = Intent.ACTION_VIEW
             data = deeplink.toUri()
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra(FROM_NOTIFICATION, true)
         }
         val pendingIntent = PendingIntent.getActivity(
             this@TerningMessagingService,
@@ -169,5 +174,6 @@ class TerningMessagingService : FirebaseMessagingService() {
         private const val BODY: String = "body"
         private const val TYPE: String = "type"
         private const val IMAGE_URL: String = "imageUrl"
+        const val FROM_NOTIFICATION: String = "fromNotification"
     }
 }
