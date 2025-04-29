@@ -14,6 +14,8 @@ import coil3.ImageLoader
 import coil3.request.ImageRequest
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.terning.core.analytics.AmplitudeTracker
+import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.type.NotificationRedirect
 import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
@@ -33,6 +35,9 @@ class TerningMessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var navigatorProvider: NavigatorProvider
+
+    @Inject
+    lateinit var tracker: AmplitudeTracker
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -69,6 +74,11 @@ class TerningMessagingService : FirebaseMessagingService() {
         imageUrl: String?
     ) {
         if (title.isNullOrEmpty() || !userRepository.getAlarmAvailable()) return
+
+        tracker.track(
+            type = EventType.PUSH_NOTIFICATION,
+            name = "received"
+        )
 
         sendNotification(
             title = title,
