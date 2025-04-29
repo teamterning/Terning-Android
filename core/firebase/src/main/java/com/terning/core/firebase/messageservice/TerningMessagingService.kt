@@ -136,10 +136,12 @@ class TerningMessagingService : FirebaseMessagingService() {
     private fun isAppInForeground(): Boolean {
         val appProcesses =
             (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).runningAppProcesses
+
         return appProcesses?.any {
             val isForeground =
                 it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
             val isCurrentApp = it.processName == packageName
+
             isForeground && isCurrentApp
         } == true
     }
