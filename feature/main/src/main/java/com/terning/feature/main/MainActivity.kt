@@ -10,9 +10,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.CompositionLocalProvider
 import com.terning.core.analytics.AmplitudeTracker
+import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
+import com.terning.core.firebase.messageservice.TerningMessagingService.Companion.FROM_NOTIFICATION
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,8 +30,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
-            val redirect: String? = intent.data?.getQueryParameter(REDIRECT)
-            val host: String? = intent.data?.host
+            val (host, redirect) = handleDeeplink(intent)
 
             TerningPointTheme {
                 CompositionLocalProvider(LocalTracker provides tracker) {
@@ -43,7 +44,32 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun handleDeeplink(intent: Intent?): Pair<String?, String?> {
+        val uri = intent?.data
+        val uriString = uri?.toString()
+
+        if (uriString.isNullOrEmpty()) return null to null
+
+        val host = uri.host
+        val redirect = uri.getQueryParameter(REDIRECT)
+
+        if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
+            && intent.getBooleanExtra(FROM_NOTIFICATION, false)
+        ) {
+            tracker.track(
+                type = EventType.PUSH_NOTIFICATION,
+                name = "opened"
+            )
+        }
+
+        intent.putExtra(ALREADY_TRACKED, true)
+
+        return host to redirect
+    }
+
     companion object {
+        private const val ALREADY_TRACKED: String = "alreadyTracked"
+
         fun getIntent(
             context: Context,
         ) = Intent(context, MainActivity::class.java)

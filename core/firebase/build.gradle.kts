@@ -12,6 +12,7 @@ dependencies {
     //core
     implementation(projects.core.navigator)
     implementation(projects.core.designsystem)
+    implementation(projects.core.analytics)
 
     // domain
     implementation(projects.domain.user)
