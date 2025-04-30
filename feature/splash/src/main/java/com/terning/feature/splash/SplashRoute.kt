@@ -27,6 +27,7 @@ import com.terning.core.designsystem.extension.getVersionName
 import com.terning.core.designsystem.extension.launchPlayStore
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.type.NotificationRedirect
 import com.terning.domain.update.entity.UpdateState
 import com.terning.feature.splash.component.TerningMajorUpdateDialog
@@ -51,6 +52,13 @@ internal fun SplashRoute(
     LaunchedEffect(Unit) {
         systemUiController.setStatusBarColor(color = TerningMain)
         systemUiController.setNavigationBarColor(color = TerningMain)
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            systemUiController.setStatusBarColor(color = White)
+            systemUiController.setNavigationBarColor(color = White)
+        }
     }
 
     DisposableEffect(lifecycleOwner) {

@@ -40,7 +40,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.R.raw.paging_loading_animation
@@ -102,13 +101,6 @@ fun HomeRoute(
                     viewModel.updatePermissionRequested(true)
                 }
         }
-    }
-
-    val systemUiController = rememberSystemUiController()
-
-    LaunchedEffect(Unit) {
-        systemUiController.setStatusBarColor(color = White)
-        systemUiController.setNavigationBarColor(color = White)
     }
 
     LaunchedEffect(key1 = true) {
