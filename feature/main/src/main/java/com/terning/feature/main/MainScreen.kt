@@ -70,11 +70,8 @@ fun MainScreen(
     val context = LocalContext.current
     var backPressedState by remember { mutableStateOf(true) }
     var backPressedTime = 0L
-
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-
-    val amplitudeTracker = LocalTracker.current
 
     BackHandler(enabled = backPressedState) {
         if (System.currentTimeMillis() - backPressedTime <= 3000) {
@@ -90,6 +87,12 @@ fun MainScreen(
         }
         backPressedTime = System.currentTimeMillis()
     }
+
+    val amplitudeTracker = LocalTracker.current
+    val splashNavOptions = NavOptions.Builder().setPopUpTo(
+        route = Splash(redirect),
+        inclusive = true
+    ).build()
 
     Scaffold(
         snackbarHost = {
@@ -146,36 +149,16 @@ fun MainScreen(
             ) {
                 splashNavGraph(
                     navigateHome = {
-                        navigator.navController.navigateHome(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash(redirect),
-                                inclusive = true
-                            ).build()
-                        )
+                        navigator.navController.navigateHome(navOptions = splashNavOptions)
                     },
                     navigateSignIn = {
-                        navigator.navController.navigateSignIn(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash(redirect),
-                                inclusive = true
-                            ).build()
-                        )
+                        navigator.navController.navigateSignIn(navOptions = splashNavOptions)
                     },
                     navigateCalendar = {
-                        navigator.navController.navigateCalendar(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash(redirect),
-                                inclusive = true
-                            ).build()
-                        )
+                        navigator.navController.navigateCalendar(navOptions = splashNavOptions)
                     },
                     navigateSearch = {
-                        navigator.navController.navigateSearch(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash(redirect),
-                                inclusive = true
-                            ).build()
-                        )
+                        navigator.navController.navigateSearch(navOptions = splashNavOptions)
                     }
                 )
                 homeNavGraph(
