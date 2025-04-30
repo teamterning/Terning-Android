@@ -12,6 +12,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,10 +29,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
             val redirect: String? = intent.data?.getQueryParameter(REDIRECT)
+            val host: String? = intent.data?.host
 
             TerningPointTheme {
                 CompositionLocalProvider(LocalTracker provides tracker) {
                     MainScreen(
+                        host = host,
                         redirect = redirect,
                         navigator = navigator
                     )
@@ -41,8 +44,6 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object {
-        private const val REDIRECT: String = "redirect"
-
         fun getIntent(
             context: Context,
         ) = Intent(context, MainActivity::class.java)

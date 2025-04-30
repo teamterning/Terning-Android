@@ -28,7 +28,6 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -107,17 +106,13 @@ fun MyPageRoute(
             viewModel.updateAlarmAvailability(isGranted)
         }
 
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = Back
-        )
+    LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(color = Back)
     }
 
     DisposableEffect(lifecycleOwner) {
         onDispose {
-            systemUiController.setStatusBarColor(
-                color = White
-            )
+            systemUiController.setStatusBarColor(color = White)
         }
     }
 

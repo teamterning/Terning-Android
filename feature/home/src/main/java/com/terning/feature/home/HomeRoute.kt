@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,7 +40,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.R.raw.paging_loading_animation
@@ -105,27 +103,15 @@ fun HomeRoute(
         }
     }
 
-    val systemUiController = rememberSystemUiController()
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = White
-        )
-        systemUiController.setNavigationBarColor(
-            color = White
-        )
-    }
-
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val context = LocalContext.current
-
-    val amplitudeTracker = LocalTracker.current
-
     LaunchedEffect(key1 = true) {
         viewModel.getProfile()
         viewModel.getFilteringInfo()
         viewModel.getHomeUpcomingInternList()
         viewModel.getRecommendInternFlow()
     }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     LaunchedEffect(viewModel.homeSideEffect, lifecycleOwner) {
         viewModel.homeSideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -137,6 +123,8 @@ fun HomeRoute(
                 }
             }
     }
+
+    val amplitudeTracker = LocalTracker.current
 
     HomeScreen(
         paddingValues = paddingValues,

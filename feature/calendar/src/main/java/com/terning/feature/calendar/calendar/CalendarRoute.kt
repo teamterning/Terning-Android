@@ -48,7 +48,6 @@ fun CalendarRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val amplitudeTracker = LocalTracker.current
 
-
     CalendarScreen(
         uiState = uiState,
         navigateToAnnouncement = navigateToAnnouncement,

@@ -51,6 +51,7 @@ import com.terning.feature.onboarding.signin.navigation.navigateSignIn
 import com.terning.feature.onboarding.signin.navigation.signInNavGraph
 import com.terning.feature.onboarding.signup.navigation.navigateSignUp
 import com.terning.feature.onboarding.signup.navigation.signUpNavGraph
+import com.terning.feature.search.search.navigation.navigateSearch
 import com.terning.feature.search.search.navigation.searchNavGraph
 import com.terning.feature.search.searchprocess.navigation.navigateSearchProcess
 import com.terning.feature.search.searchprocess.navigation.searchProcessNavGraph
@@ -62,17 +63,15 @@ import kotlinx.coroutines.launch
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun MainScreen(
+    host: String?,
     redirect: String?,
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     val context = LocalContext.current
     var backPressedState by remember { mutableStateOf(true) }
     var backPressedTime = 0L
-
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-
-    val amplitudeTracker = LocalTracker.current
 
     BackHandler(enabled = backPressedState) {
         if (System.currentTimeMillis() - backPressedTime <= 3000) {
@@ -88,6 +87,12 @@ fun MainScreen(
         }
         backPressedTime = System.currentTimeMillis()
     }
+
+    val amplitudeTracker = LocalTracker.current
+    val splashNavOptions = NavOptions.Builder().setPopUpTo(
+        route = Splash(redirect),
+        inclusive = true
+    ).build()
 
     Scaffold(
         snackbarHost = {
@@ -140,25 +145,21 @@ fun MainScreen(
                     ExitTransition.None
                 },
                 navController = navigator.navController,
-                startDestination = navigator.getStartDestination(redirect)
+                startDestination = navigator.getStartDestination(redirect = redirect, host = host)
             ) {
                 splashNavGraph(
                     navigateHome = {
-                        navigator.navController.navigateHome(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash(redirect),
-                                inclusive = true
-                            ).build()
-                        )
+                        navigator.navController.navigateHome(navOptions = splashNavOptions)
                     },
                     navigateSignIn = {
-                        navigator.navController.navigateSignIn(
-                            navOptions = NavOptions.Builder().setPopUpTo(
-                                route = Splash(redirect),
-                                inclusive = true
-                            ).build()
-                        )
+                        navigator.navController.navigateSignIn(navOptions = splashNavOptions)
                     },
+                    navigateCalendar = {
+                        navigator.navController.navigateCalendar(navOptions = splashNavOptions)
+                    },
+                    navigateSearch = {
+                        navigator.navController.navigateSearch(navOptions = splashNavOptions)
+                    }
                 )
                 homeNavGraph(
                     paddingValues = paddingValues,

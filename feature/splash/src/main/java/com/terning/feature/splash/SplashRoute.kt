@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +27,8 @@ import com.terning.core.designsystem.extension.getVersionName
 import com.terning.core.designsystem.extension.launchPlayStore
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.theme.White
+import com.terning.core.designsystem.type.NotificationRedirect
 import com.terning.domain.update.entity.UpdateState
 import com.terning.feature.splash.component.TerningMajorUpdateDialog
 import com.terning.feature.splash.component.TerningPatchUpdateDialog
@@ -38,20 +39,26 @@ internal fun SplashRoute(
     redirect: String?,
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit,
+    navigateToCalendar: () -> Unit,
+    navigateToSearch: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
-    val systemUiController = rememberSystemUiController()
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
     val updateState by viewModel.updateState.collectAsStateWithLifecycle()
 
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = TerningMain
-        )
-        systemUiController.setNavigationBarColor(
-            color = TerningMain
-        )
+    val systemUiController = rememberSystemUiController()
+
+    LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(color = TerningMain)
+        systemUiController.setNavigationBarColor(color = TerningMain)
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            systemUiController.setStatusBarColor(color = White)
+            systemUiController.setNavigationBarColor(color = White)
+        }
     }
 
     DisposableEffect(lifecycleOwner) {
@@ -77,8 +84,20 @@ internal fun SplashRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SplashSideEffect.HasAccessToken -> {
-                        if (sideEffect.hasAccessToken) navigateToHome()
-                        else navigateToSignIn()
+                        if (sideEffect.hasAccessToken) {
+                            if (redirect.isNullOrBlank()) {
+                                navigateToHome()
+                            } else {
+                                when (NotificationRedirect.from(redirect)) {
+                                    NotificationRedirect.CALENDAR -> navigateToCalendar()
+                                    NotificationRedirect.HOME -> navigateToHome()
+                                    NotificationRedirect.SEARCH -> navigateToSearch()
+                                    else -> navigateToHome()
+                                }
+                            }
+                        } else {
+                            navigateToSignIn()
+                        }
                     }
                 }
             }

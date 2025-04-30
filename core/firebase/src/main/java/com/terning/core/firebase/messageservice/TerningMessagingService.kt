@@ -1,15 +1,22 @@
 package com.terning.core.firebase.messageservice
 
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import coil3.BitmapImage
+import coil3.ImageLoader
+import coil3.request.ImageRequest
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.terning.core.designsystem.type.NotificationRedirect
+import com.terning.core.designsystem.util.DeeplinkDefaults
+import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.R
 import com.terning.domain.user.repository.UserRepository
 import com.terning.navigator.NavigatorProvider
@@ -36,44 +43,53 @@ class TerningMessagingService : FirebaseMessagingService() {
     override fun handleIntent(intent: Intent?) {
         super.handleIntent(intent)
 
-        if (intent?.getStringExtra(TITLE)?.isEmpty() == true
-            || !userRepository.getAlarmAvailable()
-        ) return
-
-        val title = intent?.getStringExtra(TITLE).orEmpty()
-        val body = intent?.getStringExtra(BODY).orEmpty()
-        val type = intent?.getStringExtra(TYPE).orEmpty()
-
-        sendNotification(
-            title = title,
-            body = body,
-            type = type
+        extractInformation(
+            title = intent?.getStringExtra(TITLE),
+            body = intent?.getStringExtra(BODY),
+            type = intent?.getStringExtra(TYPE),
+            imageUrl = intent?.getStringExtra(IMAGE_URL)
         )
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        if (message.data.isEmpty()
-            || !userRepository.getAlarmAvailable()
-        ) return
-
-        val title = message.data[TITLE].orEmpty()
-        val body = message.data[BODY].orEmpty()
-        val type = message.data[TYPE].orEmpty()
-
-        sendNotification(
-            title = title,
-            body = body,
-            type = type
+        extractInformation(
+            title = message.data[TITLE],
+            body = message.data[BODY],
+            type = message.data[TYPE],
+            imageUrl = message.data[IMAGE_URL]
         )
     }
 
-    private fun sendNotification(title: String, body: String, type: String) {
+    private fun extractInformation(
+        title: String?,
+        body: String?,
+        type: String?,
+        imageUrl: String?
+    ) {
+        if (title.isNullOrEmpty() || !userRepository.getAlarmAvailable()) return
+
+        sendNotification(
+            title = title,
+            body = body.orEmpty(),
+            type = type.orEmpty(),
+            imageUrl = imageUrl.orEmpty()
+        )
+    }
+
+    private fun sendNotification(
+        title: String,
+        body: String,
+        type: String,
+        imageUrl: String
+    ) {
         val notifyId = Random().nextInt()
-        val intent = navigatorProvider.getMainActivityIntent(deeplink = type).apply {
+        val isForeground = isAppInForeground()
+        val deeplink = buildDeeplink(type, isForeground)
+        val intent = navigatorProvider.getMainActivityIntent(deeplink = deeplink).apply {
             action = Intent.ACTION_VIEW
-            data = type.toUri()
+            data = deeplink.toUri()
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         val pendingIntent = PendingIntent.getActivity(
@@ -82,26 +98,59 @@ class TerningMessagingService : FirebaseMessagingService() {
             intent,
             PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_MUTABLE
         )
-        val channelId: String = CHANNEL_ID
         val notificationBuilder =
-            NotificationCompat.Builder(this, channelId).apply {
+            NotificationCompat.Builder(this, CHANNEL_ID).apply {
                 setSmallIcon(R.mipmap.ic_terning_launcher)
                 setContentTitle(title)
                 setContentText(body)
-                setPriority(NotificationManagerCompat.IMPORTANCE_HIGH)
+                setAutoCancel(true)
+                setPriority(NotificationCompat.PRIORITY_HIGH)
                 setContentIntent(pendingIntent)
             }
-
-        getSystemService<NotificationManager>()?.run {
-            createNotificationChannel(
-                NotificationChannel(
-                    channelId,
-                    channelId,
-                    NotificationManager.IMPORTANCE_HIGH,
-                ),
+        val notificationManager = getSystemService<NotificationManager>()
+        notificationManager?.createNotificationChannel(
+            NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_ID,
+                NotificationManager.IMPORTANCE_HIGH
             )
-            notify(notifyId, notificationBuilder.build())
-        }
+        )
+        val imageLoader = ImageLoader(this)
+        val request = ImageRequest.Builder(this)
+            .data(imageUrl)
+            .target(
+                onSuccess = { image ->
+                    val bitmap = (image as BitmapImage).bitmap
+                    notificationBuilder.setLargeIcon(bitmap)
+                    notificationManager?.notify(notifyId, notificationBuilder.build())
+                },
+                onError = {
+                    notificationManager?.notify(notifyId, notificationBuilder.build())
+                }
+            )
+            .build()
+
+        imageLoader.enqueue(request)
+    }
+
+    private fun isAppInForeground(): Boolean {
+        val appProcesses =
+            (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).runningAppProcesses
+
+        return appProcesses?.any {
+            val isForeground =
+                it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+            val isCurrentApp = it.processName == packageName
+
+            isForeground && isCurrentApp
+        } == true
+    }
+
+    private fun buildDeeplink(type: String, isForeground: Boolean): String {
+        val base = NotificationRedirect.from(type) ?: return ""
+
+        return if (isForeground) DeeplinkDefaults.build(base.path)
+        else DeeplinkDefaults.build("splash?$REDIRECT=${base.path}")
     }
 
     companion object {
@@ -109,5 +158,6 @@ class TerningMessagingService : FirebaseMessagingService() {
         private const val TITLE: String = "title"
         private const val BODY: String = "body"
         private const val TYPE: String = "type"
+        private const val IMAGE_URL: String = "imageUrl"
     }
 }

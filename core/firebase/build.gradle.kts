@@ -11,6 +11,7 @@ android {
 dependencies {
     //core
     implementation(projects.core.navigator)
+    implementation(projects.core.designsystem)
 
     // domain
     implementation(projects.domain.user)
@@ -23,4 +24,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.config)
+
+    // coil
+    implementation(libs.coil.compose)
 }
