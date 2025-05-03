@@ -45,8 +45,6 @@
 🗃️baselineprofile
 
 🗃️build-logic
- ┣ 📂️convention
- ┗ 📂extension
 
 🗃️core
  ┣ 🗃️analytics
