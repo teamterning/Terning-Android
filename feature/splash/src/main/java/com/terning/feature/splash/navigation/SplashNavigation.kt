@@ -14,7 +14,8 @@ fun NavGraphBuilder.splashNavGraph(
     navigateHome: () -> Unit,
     navigateSignIn: () -> Unit,
     navigateSearch: () -> Unit,
-    navigateCalendar: () -> Unit
+    navigateCalendar: () -> Unit,
+    navigateToInternDetail: (internId: String) -> Unit,
 ) {
     composable<Splash>(
         deepLinks = listOf(
@@ -26,10 +27,12 @@ fun NavGraphBuilder.splashNavGraph(
         val args = it.toRoute<Splash>()
         SplashRoute(
             redirect = args.redirect,
+            internId = args.internId,
             navigateToHome = navigateHome,
             navigateToSignIn = navigateSignIn,
             navigateToSearch = navigateSearch,
-            navigateToCalendar = navigateCalendar
+            navigateToCalendar = navigateCalendar,
+            navigateToInternDetail = navigateToInternDetail,
         )
     }
 }
@@ -37,5 +40,7 @@ fun NavGraphBuilder.splashNavGraph(
 @Serializable
 data class Splash(
     @SerialName("redirect")
-    val redirect: String?
+    val redirect: String? = null,
+    @SerialName("internId")
+    val internId: String? = null
 ) : Route

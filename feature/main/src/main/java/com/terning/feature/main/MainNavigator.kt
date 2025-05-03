@@ -26,11 +26,12 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    fun getStartDestination(redirect: String?, host: String?) =
+    fun getStartDestination(redirect: String?, host: String?, internId: String?) =
         when (NotificationRedirect.from(host)) {
             NotificationRedirect.SEARCH -> Search
             NotificationRedirect.HOME -> Home
             NotificationRedirect.CALENDAR -> Calendar
+            NotificationRedirect.INTERN -> Splash(internId = internId)
             else -> Splash(redirect)
         }
 

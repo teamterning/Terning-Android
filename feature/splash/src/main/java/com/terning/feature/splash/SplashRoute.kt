@@ -37,10 +37,12 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun SplashRoute(
     redirect: String?,
+    internId: String?,
     navigateToHome: () -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToCalendar: () -> Unit,
     navigateToSearch: () -> Unit,
+    navigateToInternDetail: (internId: String) -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -73,27 +75,27 @@ internal fun SplashRoute(
                 }
             }
         }
+
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
-
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SplashSideEffect.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) {
-                            if (redirect.isNullOrBlank()) {
-                                navigateToHome()
-                            } else {
-                                when (NotificationRedirect.from(redirect)) {
-                                    NotificationRedirect.CALENDAR -> navigateToCalendar()
-                                    NotificationRedirect.HOME -> navigateToHome()
-                                    NotificationRedirect.SEARCH -> navigateToSearch()
-                                    else -> navigateToHome()
-                                }
+                            when (NotificationRedirect.from(redirect)) {
+                                NotificationRedirect.CALENDAR -> navigateToCalendar()
+                                NotificationRedirect.HOME -> navigateToHome()
+                                NotificationRedirect.SEARCH -> navigateToSearch()
+                                NotificationRedirect.INTERN -> navigateToInternDetail(
+                                    internId ?: ""
+                                )
+
+                                else -> navigateToHome()
                             }
                         } else {
                             navigateToSignIn()
@@ -102,6 +104,7 @@ internal fun SplashRoute(
                 }
             }
     }
+
 
     SplashScreen(
         updateState = updateState,

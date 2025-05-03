@@ -65,6 +65,7 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     host: String?,
     redirect: String?,
+    internId: String?,
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     val context = LocalContext.current
@@ -145,7 +146,11 @@ fun MainScreen(
                     ExitTransition.None
                 },
                 navController = navigator.navController,
-                startDestination = navigator.getStartDestination(redirect = redirect, host = host)
+                startDestination = navigator.getStartDestination(
+                    redirect = redirect,
+                    host = host,
+                    internId = internId
+                )
             ) {
                 splashNavGraph(
                     navigateHome = {
@@ -159,6 +164,9 @@ fun MainScreen(
                     },
                     navigateSearch = {
                         navigator.navController.navigateSearch(navOptions = splashNavOptions)
+                    },
+                    navigateToInternDetail = {
+                        navigator.navController.navigateIntern(navOptions = splashNavOptions)
                     }
                 )
                 homeNavGraph(

@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="terning" />
+
             </intent-filter>
         </activity>
         <service
