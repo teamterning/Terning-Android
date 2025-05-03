@@ -51,15 +51,12 @@
 🗃️core
  ┣ 🗃️analytics
  ┣ 🗃️designsystem
- ┃ ┣ 📂component
- ┃ ┣ 📂extension
- ┃ ┣ 📂state
- ┃ ┣ 📂theme
- ┃ ┣ 📂type
- ┃ ┣ 📂util
+ ┣ 🗃firebase
  ┣ 🗃️local
  ┣ 🗃️navigation
- ┗ 🗃️network
+ ┣ 🗃navigator
+ ┣ 🗃network
+ ┗ 🗃testing
 
 🗃️data
  ┣ 🗃️auth
@@ -70,8 +67,9 @@
  ┣ 🗃️mypage
  ┣ 🗃️scrap
  ┣ 🗃️search
- ┣ 🗃️token
- ┗ 🗃️tokenreissue
+ ┣ 🗃️tokenreissue
+ ┣ 🗃update
+ ┗ 🗃user
 
 🗃️domain
  ┣ 🗃️auth
@@ -82,8 +80,9 @@
  ┣ 🗃️mypage
  ┣ 🗃️scrap
  ┣ 🗃️search
- ┣ 🗃️token
- ┗ 🗃️tokenreissue
+ ┣ 🗃️tokenreissue
+ ┣ 🗃update
+ ┗ 🗃user
 
 🗃️feature
  ┗ 🗃️기능 별 모듈화
