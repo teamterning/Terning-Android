@@ -9,11 +9,10 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
+import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.navigation.Route
 import com.terning.feature.intern.InternRoute
 import kotlinx.serialization.Serializable
-
-private const val INTERN_PATH: String = "terning://intern"
 
 fun NavController.navigateIntern(
     announcementId: Long = 0,
@@ -43,7 +42,7 @@ fun NavGraphBuilder.internNavGraph(
         },
         deepLinks = listOf(
             navDeepLink<Intern>(
-                basePath = INTERN_PATH
+                basePath = DeeplinkDefaults.build("intern")
             )
         )
     ) {

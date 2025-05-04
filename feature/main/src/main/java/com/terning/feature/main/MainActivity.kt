@@ -2,6 +2,7 @@ package com.terning.feature.main
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,6 +14,7 @@ import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.util.DeeplinkDefaults.INTERN_ID
 import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.messageservice.TerningMessagingService.Companion.FROM_NOTIFICATION
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +30,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
             val (host, redirect, internId) = handleDeeplink(intent)
@@ -46,14 +49,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleDeeplink(intent: Intent?): Triple<String?, String?, String?> {
-        val uri = intent?.data
-        val uriString = uri?.toString()
-
-        if (uriString.isNullOrEmpty()) return Triple(null, null, null)
+        val uri: Uri? = intent?.data
+        if (uri == null || uri.toString().isEmpty()) {
+            return Triple(null, null, null)
+        }
 
         val host = uri.host
         val redirect = uri.getQueryParameter(REDIRECT)
-        val internId = uri.getQueryParameter("internId")
+        val internId = uri.getQueryParameter(INTERN_ID)
 
         if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
             && intent.getBooleanExtra(FROM_NOTIFICATION, false)
@@ -72,8 +75,8 @@ class MainActivity : ComponentActivity() {
     companion object {
         private const val ALREADY_TRACKED: String = "alreadyTracked"
 
-        fun getIntent(
-            context: Context,
-        ) = Intent(context, MainActivity::class.java)
+        fun getIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
     }
 }

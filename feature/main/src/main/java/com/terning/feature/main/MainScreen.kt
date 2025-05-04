@@ -131,6 +131,8 @@ fun MainScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier.fillMaxSize()
+
+
         ) {
             NavHost(
                 enterTransition = {
