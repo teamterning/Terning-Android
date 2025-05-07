@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InternViewModel @Inject constructor(
     private val internRepository: InternRepository,
-    private val kakaoUtil: KakaoUtil
+    private val kakaoUtil: KakaoUtil,
 ) : ViewModel() {
 
     private val _internUiState = MutableStateFlow(InternUiState())
@@ -68,7 +68,8 @@ class InternViewModel @Inject constructor(
     }
 
     fun onKakaoShareClicked(
-        internInfo: InternInfo
+        internInfo: InternInfo,
+        announcementId: String,
     ) {
         val templateArgs = mapOf(
             "COMPANY_IMG" to internInfo.companyImage,
@@ -76,7 +77,10 @@ class InternViewModel @Inject constructor(
             "DEADLINE" to internInfo.deadline,
             "START_DATE" to internInfo.startYearMonth,
             "PERIOD" to internInfo.workingPeriod,
-            "REGI_WEB_DOMAIN" to internInfo.url
+            "A_E" to "kakaolint",
+            "A_E_D" to "intern",
+            "redirect" to "intern",
+            "internId" to announcementId,
         )
         kakaoUtil.shareToKakaoTalk(templateArgs)
     }

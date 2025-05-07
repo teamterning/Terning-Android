@@ -31,8 +31,8 @@ class MainNavigator(
             NotificationRedirect.SEARCH -> Search
             NotificationRedirect.HOME -> Home
             NotificationRedirect.CALENDAR -> Calendar
-            NotificationRedirect.INTERN -> Splash(internId = internId)
-            else -> Splash(redirect)
+            NotificationRedirect.INTERN -> Splash(redirect = redirect, internId = internId)
+            else -> Splash(redirect = redirect)
         }
 
     val currentTab: MainTab?
