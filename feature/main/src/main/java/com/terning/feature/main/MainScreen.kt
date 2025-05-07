@@ -168,7 +168,10 @@ fun MainScreen(
                         navigator.navController.navigateSearch(navOptions = splashNavOptions)
                     },
                     navigateToInternDetail = {
-                        navigator.navController.navigateIntern(navOptions = splashNavOptions)
+                        navigator.navController.navigateIntern(
+                            announcementId = it.toLong(),
+                            navOptions = splashNavOptions
+                        )
                     }
                 )
                 homeNavGraph(
