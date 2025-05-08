@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                 return Triple(host, redirect, internId)
             }
 
-            "kakaolint" -> {
+            "kakaolink" -> {
                 if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
                     && intent.getBooleanExtra(FROM_NOTIFICATION, false)
                 ) {
@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun sendKakaoLinkIntent(redirect: String?, internId: String?) {
-        val kakaoLinkUrl = "kakaolint://splash?redirect=$redirect&internId=$internId"
+        val kakaoLinkUrl = "kakaolink://splash?redirect=$redirect&internId=$internId"
         val uri = Uri.parse(kakaoLinkUrl)
 
         val intent = Intent(Intent.ACTION_VIEW, uri).apply {

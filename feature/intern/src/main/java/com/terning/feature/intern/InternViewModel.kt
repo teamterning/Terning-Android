@@ -77,7 +77,7 @@ class InternViewModel @Inject constructor(
             "DEADLINE" to internInfo.deadline,
             "START_DATE" to internInfo.startYearMonth,
             "PERIOD" to internInfo.workingPeriod,
-            "A_E" to "kakaolint",
+            "A_E" to "kakaolink",
             "A_E_D" to "intern",
             "redirect" to "intern",
             "internId" to announcementId,
