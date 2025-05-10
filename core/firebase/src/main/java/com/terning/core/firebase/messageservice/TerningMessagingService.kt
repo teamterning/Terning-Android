@@ -16,7 +16,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.EventType
-import com.terning.core.designsystem.type.NotificationRedirect
+import com.terning.core.designsystem.type.DeeplinkHost
 import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.R
@@ -162,7 +162,7 @@ class TerningMessagingService : FirebaseMessagingService() {
     }
 
     private fun buildDeeplink(type: String, isForeground: Boolean): String {
-        val base = NotificationRedirect.from(type) ?: return ""
+        val base = DeeplinkHost.from(type) ?: return ""
 
         return if (isForeground) DeeplinkDefaults.build(base.path)
         else DeeplinkDefaults.build("splash?$REDIRECT=${base.path}")
