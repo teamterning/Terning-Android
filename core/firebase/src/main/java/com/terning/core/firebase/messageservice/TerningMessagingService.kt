@@ -18,7 +18,6 @@ import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.EventType
 import com.terning.core.designsystem.type.DeeplinkHost
 import com.terning.core.designsystem.util.DeeplinkDefaults
-import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.R
 import com.terning.domain.user.repository.UserRepository
 import com.terning.navigator.NavigatorProvider
@@ -165,7 +164,7 @@ class TerningMessagingService : FirebaseMessagingService() {
         val base = DeeplinkHost.from(type) ?: return ""
 
         return if (isForeground) DeeplinkDefaults.build(base.path)
-        else DeeplinkDefaults.build("splash?$REDIRECT=${base.path}")
+        else DeeplinkDefaults.build(host = BACKGROUND_HOST, redirect = base.path)
     }
 
     companion object {
@@ -174,6 +173,7 @@ class TerningMessagingService : FirebaseMessagingService() {
         private const val BODY: String = "body"
         private const val TYPE: String = "type"
         private const val IMAGE_URL: String = "imageUrl"
+        private const val BACKGROUND_HOST: String = "splash"
         const val FROM_NOTIFICATION: String = "fromNotification"
     }
 }
