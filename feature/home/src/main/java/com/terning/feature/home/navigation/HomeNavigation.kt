@@ -8,14 +8,19 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import androidx.navigation.toRoute
 import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.navigation.MainTabRoute
 import com.terning.feature.home.HomeRoute
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateHome(navOptions: NavOptions? = null) {
+fun NavController.navigateHome(
+    internId: String?,
+    navOptions: NavOptions? = null
+) {
     navigate(
-        route = Home,
+        route = Home(internId),
         navOptions = navOptions
     )
 }
@@ -33,7 +38,9 @@ fun NavGraphBuilder.homeNavGraph(
             )
         )
     ) {
+        val args = it.toRoute<Home>()
         HomeRoute(
+            internId = args.internId,
             paddingValues = paddingValues,
             navigateToCalendar = navigateToCalendar,
             navigateToIntern = navigateToIntern
@@ -42,4 +49,7 @@ fun NavGraphBuilder.homeNavGraph(
 }
 
 @Serializable
-data object Home : MainTabRoute
+data class Home(
+    @SerialName("internId")
+    val internId: String? = null
+) : MainTabRoute
