@@ -26,16 +26,18 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    fun getStartDestination(host: String?, redirect: String?, internId: String?) =
-        when (DeeplinkHost.from(host)) {
-            DeeplinkHost.SEARCH -> Search
-            DeeplinkHost.HOME -> Home(internId = null)
-            DeeplinkHost.CALENDAR -> Calendar
-            DeeplinkHost.KAKAOLINK -> Splash(redirect = redirect, internId = internId)
+    fun getStartDestination(
+        host: String?,
+        redirect: String?,
+        internId: String?
+    ) = when (DeeplinkHost.from(host)) {
+        DeeplinkHost.SEARCH -> Search
+        DeeplinkHost.HOME -> Home(internId = null)
+        DeeplinkHost.CALENDAR -> Calendar
+        DeeplinkHost.KAKAOLINK -> Splash(redirect = redirect, internId = internId)
 
-            else -> Splash(redirect = redirect)
-        }
-
+        else -> Splash(redirect = redirect)
+    }
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
