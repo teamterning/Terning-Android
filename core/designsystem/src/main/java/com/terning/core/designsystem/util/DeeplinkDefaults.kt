@@ -3,6 +3,7 @@ package com.terning.core.designsystem.util
 import android.net.Uri
 
 object DeeplinkDefaults {
+    private const val SCHEME: String = "terning"
     const val REDIRECT: String = "redirect"
     const val INTERN_ID: String = "internId"
 
@@ -12,7 +13,7 @@ object DeeplinkDefaults {
         internId: String? = null
     ): String {
         val uriBuilder = Uri.Builder()
-            .scheme("terning")
+            .scheme(SCHEME)
             .authority(host)
 
         redirect?.let { uriBuilder.appendQueryParameter(REDIRECT, it) }
