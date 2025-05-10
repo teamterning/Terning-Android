@@ -7,9 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
-import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.navigation.Route
 import com.terning.feature.intern.InternRoute
 import kotlinx.serialization.Serializable
@@ -39,12 +37,7 @@ fun NavGraphBuilder.internNavGraph(
         },
         popExitTransition = {
             ExitTransition.None
-        },
-        deepLinks = listOf(
-            navDeepLink<Intern>(
-                basePath = DeeplinkDefaults.build("intern")
-            )
-        )
+        }
     ) {
         val args = it.toRoute<Intern>()
         InternRoute(
