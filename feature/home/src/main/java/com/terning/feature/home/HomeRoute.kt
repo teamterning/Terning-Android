@@ -105,12 +105,12 @@ fun HomeRoute(
         }
     }
 
-    val hasNavigatedToIntern = rememberSaveable { mutableStateOf(false) }
+    var hasNavigatedToIntern by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(internId, hasNavigatedToIntern.value) {
-        if (internId != null && !hasNavigatedToIntern.value) {
+    LaunchedEffect(internId, hasNavigatedToIntern) {
+        if (internId != null && !hasNavigatedToIntern) {
             navigateToIntern(internId.toLong())
-            hasNavigatedToIntern.value = true
+            hasNavigatedToIntern = true
         }
     }
 
