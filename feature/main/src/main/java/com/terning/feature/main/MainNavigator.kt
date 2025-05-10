@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.terning.core.designsystem.type.DeeplinkHost
+import com.terning.core.designsystem.type.DeeplinkType
 import com.terning.feature.calendar.calendar.navigation.Calendar
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.home.navigation.Home
@@ -30,11 +30,11 @@ class MainNavigator(
         host: String?,
         redirect: String?,
         internId: String?
-    ) = when (DeeplinkHost.from(host)) {
-        DeeplinkHost.SEARCH -> Search
-        DeeplinkHost.HOME -> Home(internId = null)
-        DeeplinkHost.CALENDAR -> Calendar
-        DeeplinkHost.KAKAOLINK -> Splash(redirect = redirect, internId = internId)
+    ) = when (DeeplinkType.from(host)) {
+        DeeplinkType.SEARCH -> Search
+        DeeplinkType.HOME -> Home(internId = null)
+        DeeplinkType.CALENDAR -> Calendar
+        DeeplinkType.KAKAOLINK -> Splash(redirect = redirect, internId = internId)
 
         else -> Splash(redirect = redirect)
     }

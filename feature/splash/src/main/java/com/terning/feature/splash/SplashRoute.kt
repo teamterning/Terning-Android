@@ -28,7 +28,7 @@ import com.terning.core.designsystem.extension.launchPlayStore
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.designsystem.type.DeeplinkHost
+import com.terning.core.designsystem.type.DeeplinkType
 import com.terning.domain.update.entity.UpdateState
 import com.terning.feature.splash.component.TerningMajorUpdateDialog
 import com.terning.feature.splash.component.TerningPatchUpdateDialog
@@ -87,11 +87,11 @@ internal fun SplashRoute(
                 when (sideEffect) {
                     is SplashSideEffect.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) {
-                            when (DeeplinkHost.from(redirect)) {
-                                DeeplinkHost.CALENDAR -> navigateToCalendar()
-                                DeeplinkHost.HOME -> navigateToHome(null)
-                                DeeplinkHost.SEARCH -> navigateToSearch()
-                                DeeplinkHost.INTERN -> navigateToHome(internId.orEmpty())
+                            when (DeeplinkType.from(redirect)) {
+                                DeeplinkType.CALENDAR -> navigateToCalendar()
+                                DeeplinkType.HOME -> navigateToHome(null)
+                                DeeplinkType.SEARCH -> navigateToSearch()
+                                DeeplinkType.INTERN -> navigateToHome(internId.orEmpty())
 
                                 else -> navigateToHome(null)
                             }

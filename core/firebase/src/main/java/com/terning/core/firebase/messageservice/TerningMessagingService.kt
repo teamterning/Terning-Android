@@ -16,7 +16,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.EventType
-import com.terning.core.designsystem.type.DeeplinkHost
+import com.terning.core.designsystem.type.DeeplinkType
 import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.firebase.R
 import com.terning.domain.user.repository.UserRepository
@@ -161,7 +161,7 @@ class TerningMessagingService : FirebaseMessagingService() {
     }
 
     private fun buildDeeplink(type: String, isForeground: Boolean): String {
-        val base = DeeplinkHost.from(type) ?: return ""
+        val base = DeeplinkType.from(type) ?: return ""
 
         return if (isForeground) DeeplinkDefaults.build(host = base.path)
         else DeeplinkDefaults.build(host = BACKGROUND_HOST, redirect = base.path)
