@@ -68,6 +68,7 @@ class MainActivity : ComponentActivity() {
                 name = "opened"
             )
         }
+
         intent.putExtra(ALREADY_TRACKED, true)
 
         return Triple(host, redirect, internId)
