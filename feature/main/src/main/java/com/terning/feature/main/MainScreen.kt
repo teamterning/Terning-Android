@@ -91,7 +91,7 @@ fun MainScreen(
 
     val amplitudeTracker = LocalTracker.current
     val splashNavOptions = NavOptions.Builder().setPopUpTo(
-        route = Splash(redirect),
+        route = Splash(redirect = redirect, internId = internId),
         inclusive = true
     ).build()
 
@@ -131,8 +131,6 @@ fun MainScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier.fillMaxSize()
-
-
         ) {
             NavHost(
                 enterTransition = {
@@ -149,14 +147,17 @@ fun MainScreen(
                 },
                 navController = navigator.navController,
                 startDestination = navigator.getStartDestination(
-                    redirect = redirect,
                     host = host,
+                    redirect = redirect,
                     internId = internId
                 )
             ) {
                 splashNavGraph(
-                    navigateHome = {
-                        navigator.navController.navigateHome(navOptions = splashNavOptions)
+                    navigateHome = { internId ->
+                        navigator.navController.navigateHome(
+                            navOptions = splashNavOptions,
+                            internId = internId
+                        )
                     },
                     navigateSignIn = {
                         navigator.navController.navigateSignIn(navOptions = splashNavOptions)
@@ -166,12 +167,6 @@ fun MainScreen(
                     },
                     navigateSearch = {
                         navigator.navController.navigateSearch(navOptions = splashNavOptions)
-                    },
-                    navigateToInternDetail = {
-                        navigator.navController.navigateIntern(
-                            announcementId = it.toLong(),
-                            navOptions = splashNavOptions
-                        )
                     }
                 )
                 homeNavGraph(
@@ -201,7 +196,10 @@ fun MainScreen(
                                 inclusive = true
                             }
                         }
-                        navigator.navController.navigateHome(navOptions)
+                        navigator.navController.navigateHome(
+                            navOptions = navOptions,
+                            internId = null
+                        )
                     },
                     navigateSignUp = { authId ->
                         val navOptions = navOptions {
@@ -238,7 +236,10 @@ fun MainScreen(
                                 inclusive = true
                             }
                         }
-                        navigator.navController.navigateHome(navOptions)
+                        navigator.navController.navigateHome(
+                            navOptions = navOptions,
+                            internId = null
+                        )
                     }
                 )
                 startHomeNavGraph(
@@ -248,7 +249,10 @@ fun MainScreen(
                                 inclusive = true
                             }
                         }
-                        navigator.navController.navigateHome(navOptions)
+                        navigator.navController.navigateHome(
+                            navOptions = navOptions,
+                            internId = null
+                        )
                     }
                 )
                 filteringOneNavGraph(navHostController = navigator.navController)
