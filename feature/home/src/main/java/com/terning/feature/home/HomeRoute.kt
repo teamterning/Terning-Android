@@ -105,12 +105,12 @@ fun HomeRoute(
         }
     }
 
-    var hasNavigatedToIntern by rememberSaveable { mutableStateOf(false) }
+    var hasHandledInternDeeplink by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(internId, hasNavigatedToIntern) {
-        if (internId != null && !hasNavigatedToIntern) {
+    LaunchedEffect(internId, hasHandledInternDeeplink) {
+        if (internId != null && !hasHandledInternDeeplink) {
             navigateToIntern(internId.toLong())
-            hasNavigatedToIntern = true
+            hasHandledInternDeeplink = true
         }
     }
 
