@@ -2,7 +2,6 @@ package com.terning.feature.main
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -49,12 +48,10 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleDeeplink(intent: Intent?): Triple<String?, String?, String?> {
-        val uri: Uri? = intent?.data
-        val uriString: String? = uri?.toString()
+        val uri = intent?.data
+        val uriString = uri?.toString()
 
-        if (uriString.isNullOrEmpty()) {
-            return Triple(null, null, null)
-        }
+        if (uriString.isNullOrEmpty()) return Triple(null, null, null)
 
         val host = uri.host
         val redirect = uri.getQueryParameter(REDIRECT)
