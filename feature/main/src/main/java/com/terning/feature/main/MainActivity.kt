@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
 
     private fun handleDeeplink(intent: Intent?): Triple<String?, String?, String?> {
         val uri: Uri? = intent?.data
-        val uriString = uri?.toString()
+        val uriString: String? = uri?.toString()
 
         if (uriString.isNullOrEmpty()) {
             return Triple(null, null, null)
@@ -76,8 +76,8 @@ class MainActivity : ComponentActivity() {
     companion object {
         private const val ALREADY_TRACKED: String = "alreadyTracked"
 
-        fun getIntent(context: Context): Intent {
-            return Intent(context, MainActivity::class.java)
-        }
+        fun getIntent(
+            context: Context,
+        ) = Intent(context, MainActivity::class.java)
     }
 }
