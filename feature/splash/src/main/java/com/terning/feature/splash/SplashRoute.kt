@@ -28,7 +28,7 @@ import com.terning.core.designsystem.extension.launchPlayStore
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.designsystem.type.NotificationRedirect
+import com.terning.core.designsystem.type.DeeplinkHost
 import com.terning.domain.update.entity.UpdateState
 import com.terning.feature.splash.component.TerningMajorUpdateDialog
 import com.terning.feature.splash.component.TerningPatchUpdateDialog
@@ -38,11 +38,10 @@ import kotlinx.coroutines.launch
 internal fun SplashRoute(
     redirect: String?,
     internId: String?,
-    navigateToHome: () -> Unit,
+    navigateToHome: (internId: String?) -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToCalendar: () -> Unit,
     navigateToSearch: () -> Unit,
-    navigateToInternDetail: (internId: String) -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -81,21 +80,20 @@ internal fun SplashRoute(
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
+
     LaunchedEffect(viewModel.sideEffects, lifecycleOwner) {
         viewModel.sideEffects.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
                     is SplashSideEffect.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) {
-                            when (NotificationRedirect.from(redirect)) {
-                                NotificationRedirect.CALENDAR -> navigateToCalendar()
-                                NotificationRedirect.HOME -> navigateToHome()
-                                NotificationRedirect.SEARCH -> navigateToSearch()
-                                NotificationRedirect.INTERN -> navigateToInternDetail(
-                                    internId ?: ""
-                                )
+                            when (DeeplinkHost.from(redirect)) {
+                                DeeplinkHost.CALENDAR -> navigateToCalendar()
+                                DeeplinkHost.HOME -> navigateToHome(null)
+                                DeeplinkHost.SEARCH -> navigateToSearch()
+                                DeeplinkHost.INTERN -> navigateToHome(internId.orEmpty())
 
-                                else -> navigateToHome()
+                                else -> navigateToHome(null)
                             }
                         } else {
                             navigateToSignIn()
@@ -104,7 +102,6 @@ internal fun SplashRoute(
                 }
             }
     }
-
 
     SplashScreen(
         updateState = updateState,

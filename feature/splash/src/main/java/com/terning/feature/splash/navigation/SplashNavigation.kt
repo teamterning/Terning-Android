@@ -11,11 +11,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.splashNavGraph(
-    navigateHome: () -> Unit,
+    navigateHome: (internId: String?) -> Unit,
     navigateSignIn: () -> Unit,
     navigateSearch: () -> Unit,
     navigateCalendar: () -> Unit,
-    navigateToInternDetail: (internId: String) -> Unit,
 ) {
     composable<Splash>(
         deepLinks = listOf(
@@ -31,8 +30,7 @@ fun NavGraphBuilder.splashNavGraph(
             navigateToHome = navigateHome,
             navigateToSignIn = navigateSignIn,
             navigateToSearch = navigateSearch,
-            navigateToCalendar = navigateCalendar,
-            navigateToInternDetail = navigateToInternDetail,
+            navigateToCalendar = navigateCalendar
         )
     }
 }
