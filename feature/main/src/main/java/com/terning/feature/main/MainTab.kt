@@ -18,7 +18,7 @@ enum class MainTab(
     HOME(
         icon = R.drawable.ic_nav_home,
         contentDescription = R.string.bottom_nav_home,
-        route = Home
+        route = Home(null)
     ),
     CALENDAR(
         icon = R.drawable.ic_nav_calendar,
