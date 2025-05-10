@@ -50,49 +50,28 @@ class MainActivity : ComponentActivity() {
 
     private fun handleDeeplink(intent: Intent?): Triple<String?, String?, String?> {
         val uri: Uri? = intent?.data
-        if (uri == null || uri.toString().isEmpty()) {
+        val uriString = uri?.toString()
+
+        if (uriString.isNullOrEmpty()) {
             return Triple(null, null, null)
         }
 
-        val scheme = uri.scheme
         val host = uri.host
         val redirect = uri.getQueryParameter(REDIRECT)
         val internId = uri.getQueryParameter(INTERN_ID)
 
-        when (scheme) {
-            "terning" -> {
-                if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
-                    && intent.getBooleanExtra(FROM_NOTIFICATION, false)
-                ) {
-                    tracker.track(
-                        type = EventType.PUSH_NOTIFICATION,
-                        name = "opened"
-                    )
-                }
-                intent.putExtra(ALREADY_TRACKED, true)
-
-                return Triple(host, redirect, internId)
-            }
-
-            "kakaolink" -> {
-                if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
-                    && intent.getBooleanExtra(FROM_NOTIFICATION, false)
-                ) {
-                    tracker.track(
-                        type = EventType.PUSH_NOTIFICATION,
-                        name = "opened"
-                    )
-                }
-
-                intent.putExtra(ALREADY_TRACKED, true)
-
-                return Triple(host, redirect, internId)
-            }
+        if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
+            && intent.getBooleanExtra(FROM_NOTIFICATION, false)
+        ) {
+            tracker.track(
+                type = EventType.PUSH_NOTIFICATION,
+                name = "opened"
+            )
         }
+        intent.putExtra(ALREADY_TRACKED, true)
 
-        return Triple(null, null, null)
+        return Triple(host, redirect, internId)
     }
-
 
     companion object {
         private const val ALREADY_TRACKED: String = "alreadyTracked"
@@ -100,16 +79,5 @@ class MainActivity : ComponentActivity() {
         fun getIntent(context: Context): Intent {
             return Intent(context, MainActivity::class.java)
         }
-    }
-
-    private fun sendKakaoLinkIntent(redirect: String?, internId: String?) {
-        val kakaoLinkUrl = "kakaolink://splash?redirect=$redirect&internId=$internId"
-        val uri = Uri.parse(kakaoLinkUrl)
-
-        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-
-        startActivity(intent)
     }
 }
