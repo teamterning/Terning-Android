@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -81,6 +82,7 @@ private const val ZERO_TOTAL_COUNT = 0
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeRoute(
+    internId: String?,
     paddingValues: PaddingValues,
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToCalendar: () -> Unit,
@@ -100,6 +102,15 @@ fun HomeRoute(
                     viewModel.updateAlarmAvailability(isGranted)
                     viewModel.updatePermissionRequested(true)
                 }
+        }
+    }
+
+    val hasNavigatedToIntern = rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(internId, hasNavigatedToIntern.value) {
+        if (internId != null && !hasNavigatedToIntern.value) {
+            navigateToIntern(internId.toLong())
+            hasNavigatedToIntern.value = true
         }
     }
 
