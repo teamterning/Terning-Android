@@ -30,8 +30,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                    android:scheme="kakaolink"
-                    android:host="intern" />
+                    android:scheme="kakao${NATIVE_APP_KEY}"
+                    android:host="kakaolink" />
             </intent-filter>
         </activity>
         <service

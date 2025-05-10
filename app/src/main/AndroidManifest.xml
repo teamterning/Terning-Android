@@ -28,18 +28,6 @@
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="oauth"
-                    android:scheme="kakao${NATIVE_APP_KEY}" />
-
-                <data android:host="kakaolink" />
-            </intent-filter>
         </activity>
 
     </application>
