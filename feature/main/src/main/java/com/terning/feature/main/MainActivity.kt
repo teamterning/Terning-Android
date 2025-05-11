@@ -13,8 +13,11 @@ import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.util.DeeplinkDefaults.INTERN_ID
+import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.messageservice.TerningMessagingService.Companion.FROM_NOTIFICATION
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,14 +33,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
-            val (host, action, id) = handleDeeplink(intent)
+            val (host, redirect, internId) = handleDeeplink(intent)
 
             TerningPointTheme {
                 CompositionLocalProvider(LocalTracker provides tracker) {
                     MainScreen(
                         host = host,
-                        action = action,
-                        id = id,
+                        redirect = redirect,
+                        internId = internId,
                         navigator = navigator
                     )
                 }
@@ -51,10 +54,10 @@ class MainActivity : ComponentActivity() {
 
         if (uriString.isNullOrEmpty()) return Triple(null, null, null)
 
+        Timber.tag("LYB").d("uri = $uri")
         val host = uri.host
-        val action =  uri.getQueryParameter("action")
-        val id = uri.getQueryParameter("id")
-
+        val redirect = uri.getQueryParameter(REDIRECT)
+        val internId = uri.getQueryParameter(INTERN_ID)
 
         if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
             && intent.getBooleanExtra(FROM_NOTIFICATION, false)
@@ -67,7 +70,7 @@ class MainActivity : ComponentActivity() {
 
         intent.putExtra(ALREADY_TRACKED, true)
 
-        return Triple(host, action, id)
+        return Triple(host, redirect, internId)
     }
 
     companion object {

@@ -4,20 +4,20 @@ import android.net.Uri
 
 object DeeplinkDefaults {
     private const val SCHEME: String = "terning"
-    const val ACTION: String = "action"
-    const val ID: String = "id"
+    const val REDIRECT: String = "redirect"
+    const val INTERN_ID: String = "internId"
 
     fun build(
         host: String,
-        action: String? = null,
-        id: String? = null
+        redirect: String? = null,
+        internId: String? = null
     ): String {
         val uriBuilder = Uri.Builder()
             .scheme(SCHEME)
             .authority(host)
 
-        action?.let { uriBuilder.appendQueryParameter(ACTION, it) }
-        id?.let { uriBuilder.appendQueryParameter(ID, it) }
+        redirect?.let { uriBuilder.appendQueryParameter(REDIRECT, it) }
+        internId?.let { uriBuilder.appendQueryParameter(INTERN_ID, it) }
 
         return uriBuilder.build().toString()
     }
