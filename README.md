@@ -22,10 +22,10 @@
 
 
 ## CONTRIBUTORS
-|                                  👑이유빈<br/>([@leeeyubin](https://github.com/leeeyubin))                                    |                                      이석준<br/>([@boiledEgg-s](https://github.com/boiledEgg-s))                                       |                                  김아린<br/>([@arinming](https://github.com/arinming))                                   |                                    박효빈<br/>([@Hyobeen-Park](https://github.com/Hyobeen-Park))                                     |
-|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
-| <img width="200px" src="https://github.com/user-attachments/assets/fdaf7ee5-6180-4c61-b0f4-3105f700afcf"/> | <img width="200px" src="https://github.com/user-attachments/assets/e5405ebc-c08e-4a50-92c1-e627d8b684e7"/> | <img width="200px" src="https://github.com/user-attachments/assets/fc939187-eb24-468a-8824-7adb790506b6"/>     | <img width="200px" src="https://github.com/user-attachments/assets/f4784902-a4a9-4d9d-aa58-4d83f3979907"/>  |
-|                                                      `온보딩`<br/>`마이 페이지`<br/>                                                      |                                                         `캘린더 월간`<br/>`캘린더 주간`<br/>                                                       |                                          `탐색`<br/>`공고 상세 페이지`<br/>                                       |                                                      `홈`<br/>`필터링 재설정`<br/>                                                |
+|                                  👑이유빈<br/>([@leeeyubin](https://github.com/leeeyubin))                                    |                                              이석준<br/>([@boiledeggg](https://github.com/boiledeggg))                                              |                                  김아린<br/>([@arinming](https://github.com/arinming))                                   |                                    박효빈<br/>([@Hyobeen-Park](https://github.com/Hyobeen-Park))                                     |
+|:---------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
+| <img width="200px" src="https://github.com/user-attachments/assets/fdaf7ee5-6180-4c61-b0f4-3105f700afcf"/> |               <img width="200px" src="https://github.com/user-attachments/assets/e5405ebc-c08e-4a50-92c1-e627d8b684e7"/>               | <img width="200px" src="https://github.com/user-attachments/assets/fc939187-eb24-468a-8824-7adb790506b6"/>     | <img width="200px" src="https://github.com/user-attachments/assets/f4784902-a4a9-4d9d-aa58-4d83f3979907"/>  |
+|                                                      `온보딩`<br/>`마이 페이지`<br/>                                                      |                                                       `캘린더 월간`<br/>`캘린더 주간`<br/>                                                       |                                          `탐색`<br/>`공고 상세 페이지`<br/>                                       |                                                      `홈`<br/>`필터링 재설정`<br/>                                                |
 
 
 
@@ -33,7 +33,8 @@
 <br>
 
 ## DEPENDENCY GRAPH
-  <img src="https://github.com/user-attachments/assets/a3f8cda6-0057-45ed-abac-714f25cb2243"/>
+  <img src="https://github.com/user-attachments/assets/8ea92b03-e7a8-44ef-ac3f-b293042c607c"/>
+
 
 ## MODULE & PACKAGE CONVENTION
 
@@ -44,21 +45,16 @@
 🗃️baselineprofile
 
 🗃️build-logic
- ┣ 📂️convention
- ┗ 📂extension
 
 🗃️core
  ┣ 🗃️analytics
  ┣ 🗃️designsystem
- ┃ ┣ 📂component
- ┃ ┣ 📂extension
- ┃ ┣ 📂state
- ┃ ┣ 📂theme
- ┃ ┣ 📂type
- ┃ ┣ 📂util
+ ┣ 🗃firebase
  ┣ 🗃️local
  ┣ 🗃️navigation
- ┗ 🗃️network
+ ┣ 🗃navigator
+ ┣ 🗃network
+ ┗ 🗃testing
 
 🗃️data
  ┣ 🗃️auth
@@ -69,8 +65,9 @@
  ┣ 🗃️mypage
  ┣ 🗃️scrap
  ┣ 🗃️search
- ┣ 🗃️token
- ┗ 🗃️tokenreissue
+ ┣ 🗃️tokenreissue
+ ┣ 🗃update
+ ┗ 🗃user
 
 🗃️domain
  ┣ 🗃️auth
@@ -81,8 +78,9 @@
  ┣ 🗃️mypage
  ┣ 🗃️scrap
  ┣ 🗃️search
- ┣ 🗃️token
- ┗ 🗃️tokenreissue
+ ┣ 🗃️tokenreissue
+ ┣ 🗃update
+ ┗ 🗃user
 
 🗃️feature
  ┗ 🗃️기능 별 모듈화
@@ -92,26 +90,27 @@
 <br>
 
 ## TECH STACK
-| Title | Content                               |
-| ------------ |---------------------------------------|
-| Architecture | Clean Architecture, MVI, Multi-Module |
-| UI Framework  | Jetpack Compose                       |
-| Build Tools  | Custom Build Logic, Gradle Version Catalog                  |
-| Dependency Injection | Hilt                                  |
-| Network | Retrofit2, OkHttp                     |
-| Asynchronous Processing | Coroutine, Flow                       |
-| Third Party Library | Coil, Timber, Kakao SDK, Lottie       |
-| Other Tools | Discode, Notion, Figma                |\
+| Title | Content                                                   |
+| ------------ |-----------------------------------------------------------|
+| Architecture | Clean Architecture, MVI, Multi-Module                     |
+| UI Framework  | Jetpack Compose                                           |
+| Build Tools  | Custom Build Logic, Gradle Version Catalog                |
+| Dependency Injection | Hilt                                                      |
+| Network | Retrofit2, OkHttp                                         |
+| Asynchronous Processing | Coroutine, Flow                                           |
+| Third Party Library | Kakao SDK, Firebase Cloud Messaging, Coil, Timber, Lottie |
+| Analytics | Amplitude                                                 |
+| Other Tools | Discode, Notion, Figma                                    |\
 </br>
 
 ## SCREENSHOTS
-|       뷰       |                                                              1                                                              |                                                              2                                                              |                                                              3                                                                                        |
-|:-------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
-| 온보딩 <br> 필터링 설정 | <img width="200px" src="https://github.com/user-attachments/assets/e3b39df0-78f3-4c7b-8049-f5133f18d419"/> | <img width="200px" src="https://github.com/user-attachments/assets/f3cd3efb-b0bc-4bf3-b3ee-0a8be316883a"/> | <img width="200px" src="https://github.com/user-attachments/assets/11d5283c-0537-484a-b822-bcb291e79203"/> |                                                                                                                                 |                                                                                                                             |
-| 홈 <br> 필터링 재설정 | <img width="200px" src="https://github.com/user-attachments/assets/4f558239-fde5-41d7-b7d8-6988b3091fe6"/> | <img width="200px" src="https://github.com/user-attachments/assets/5c7d77d3-3cdc-4f30-8b1d-4e1878266f04"/> | <img width="200px" src="https://github.com/user-attachments/assets/d3202b3b-d8fe-42cf-b7aa-3e54be928736"/> |
-| 캘린더 월간 <br> 캘린더 주간  | <img width="200px" src="https://github.com/user-attachments/assets/0af96542-a560-41f6-87e1-a063dbc49e7c"/> | <img width="200px" src="https://github.com/user-attachments/assets/5d50db13-40af-4f40-b395-235d1560a023"/> | <img width="200px" src="https://github.com/user-attachments/assets/cfdf0ef3-e299-43ba-8208-97d46b320acf"/> | 
-|   탐색 <br> 공고 상세 페이지   | <img width="200px" src="https://github.com/user-attachments/assets/0505ed7f-407a-46dd-a06d-22974da5097a"/> | <img width="200px" src="https://github.com/user-attachments/assets/c7c1ff76-2160-4a96-873e-edd069ddf824"/> | <img width="200px" src="https://github.com/user-attachments/assets/c78b5d07-fbbc-408d-b088-3b94ebc3350e"/> | 
-|   마이페이지 <br> 프로필 수정   | <img width="200px" src="https://github.com/user-attachments/assets/53b9fb41-9190-4f21-98fb-416d52703e55"/> | <img width="200px" src="https://github.com/user-attachments/assets/678c19cd-3aa5-4056-a807-82fbfc307dac"/> | <img width="200px" src="https://github.com/user-attachments/assets/1e7311d4-34b6-4a12-907a-5afbf68ef898"/> | 
+|       뷰       |                                                      1                                                      |                                                              2                                                              |                                                                                                              3                                                                                                              |
+|:-------------:|:-----------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 온보딩 <br> 필터링 설정 | <img width="200px" src="https://github.com/user-attachments/assets/e3b39df0-78f3-4c7b-8049-f5133f18d419"/>  | <img width="200px" src="https://github.com/user-attachments/assets/0977a2fb-af82-49df-809c-97c54996c375"/> |                                                         <img width="200px" src="https://github.com/user-attachments/assets/4d80be5d-dae8-476a-86dc-53338460bde4"/>                                                          |                                                                                                                                 |                                                                                                                             |
+| 홈 <br> 필터링 재설정 | <img width="200px" src="https://github.com/user-attachments/assets/f48bd6b0-dfb4-429f-93c0-fd61ef44a493"/>  | <img width="200px" src="https://github.com/user-attachments/assets/e74a4adc-ae2c-4b7e-bee1-3c6fef71e481"/> |                                                         <img width="200px" src="https://github.com/user-attachments/assets/e580459b-f17f-40a4-94c4-0a7227487c92"/>                                                          |
+| 캘린더 월간 <br> 캘린더 주간  | <img width="200px" src="https://github.com/user-attachments/assets/0af96542-a560-41f6-87e1-a063dbc49e7c"/>  | <img width="200px" src="https://github.com/user-attachments/assets/5d50db13-40af-4f40-b395-235d1560a023"/> |                                                         <img width="200px" src="https://github.com/user-attachments/assets/cfdf0ef3-e299-43ba-8208-97d46b320acf"/>                                                          | 
+|   탐색 <br> 공고 상세 페이지   | <img width="200px" src ="https://github.com/user-attachments/assets/a5420d6d-e596-44a3-b518-967beaa277f4"/> | <img width="200px" src="https://github.com/user-attachments/assets/7579df61-7508-4621-8af8-4eb01d0d6e1d"/> |                                                         <img width="200px" src="https://github.com/user-attachments/assets/c78b5d07-fbbc-408d-b088-3b94ebc3350e"/>                                                          | 
+|   마이페이지 <br> 프로필 수정   |                                         <img width="200px" src="https://github.com/user-attachments/assets/bd9f7e73-dc7a-49ce-8bcf-cbf3dd654475"/>                                         | <img width="200px" src="https://github.com/user-attachments/assets/913558de-c115-48f4-bc13-4b87c0583727"/> |                                                                                                 <img width="200px" src="https://github.com/user-attachments/assets/a3d18004-b1ef-451f-92e0-e559e46b20e8"/>                                                                                                 | 
 
 <br>
 
