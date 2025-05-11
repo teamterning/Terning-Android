@@ -164,7 +164,7 @@ class TerningMessagingService : FirebaseMessagingService() {
         val base = DeeplinkType.from(type) ?: return ""
 
         return if (isForeground) DeeplinkDefaults.build(host = base.path)
-        else DeeplinkDefaults.build(host = BACKGROUND_HOST, redirect = base.path)
+        else DeeplinkDefaults.build(host = BACKGROUND_HOST, action = base.path)
     }
 
     companion object {

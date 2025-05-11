@@ -25,8 +25,8 @@ fun NavGraphBuilder.splashNavGraph(
     ) {
         val args = it.toRoute<Splash>()
         SplashRoute(
-            redirect = args.redirect,
-            internId = args.internId,
+            action = args.action,
+            id = args.id,
             navigateToHome = navigateHome,
             navigateToSignIn = navigateSignIn,
             navigateToSearch = navigateSearch,
@@ -37,8 +37,8 @@ fun NavGraphBuilder.splashNavGraph(
 
 @Serializable
 data class Splash(
-    @SerialName("redirect")
-    val redirect: String? = null,
-    @SerialName("internId")
-    val internId: String? = null
+    @SerialName("action")
+    val action: String? = null,
+    @SerialName("id")
+    val id: String? = null
 ) : Route

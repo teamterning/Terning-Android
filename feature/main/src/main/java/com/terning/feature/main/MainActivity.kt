@@ -13,8 +13,6 @@ import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.theme.TerningPointTheme
-import com.terning.core.designsystem.util.DeeplinkDefaults.INTERN_ID
-import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.messageservice.TerningMessagingService.Companion.FROM_NOTIFICATION
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,14 +30,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
-            val (host, redirect, internId) = handleDeeplink(intent)
+            val (host, action, id) = handleDeeplink(intent)
 
             TerningPointTheme {
                 CompositionLocalProvider(LocalTracker provides tracker) {
                     MainScreen(
                         host = host,
-                        redirect = redirect,
-                        internId = internId,
+                        action = action,
+                        id = id,
                         navigator = navigator
                     )
                 }
@@ -54,8 +52,8 @@ class MainActivity : ComponentActivity() {
         if (uriString.isNullOrEmpty()) return Triple(null, null, null)
 
         val host = uri.host
-        val redirect = uri.getQueryParameter("redirect") ?: uri.getQueryParameter("action")
-        val id = uri.getQueryParameter("internId") ?: uri.getQueryParameter("id")
+        val action =  uri.getQueryParameter("action")
+        val id = uri.getQueryParameter("id")
 
 
         if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
@@ -69,7 +67,7 @@ class MainActivity : ComponentActivity() {
 
         intent.putExtra(ALREADY_TRACKED, true)
 
-        return Triple(host, redirect, id)
+        return Triple(host, action, id)
     }
 
     companion object {

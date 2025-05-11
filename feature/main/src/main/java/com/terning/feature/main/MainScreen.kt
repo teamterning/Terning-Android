@@ -64,8 +64,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     host: String?,
-    redirect: String?,
-    internId: String?,
+    action: String?,
+    id: String?,
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     val context = LocalContext.current
@@ -91,7 +91,7 @@ fun MainScreen(
 
     val amplitudeTracker = LocalTracker.current
     val splashNavOptions = NavOptions.Builder().setPopUpTo(
-        route = Splash(redirect = redirect, internId = internId),
+        route = Splash(action = action, id = id),
         inclusive = true
     ).build()
 
@@ -148,8 +148,8 @@ fun MainScreen(
                 navController = navigator.navController,
                 startDestination = navigator.getStartDestination(
                     host = host,
-                    redirect = redirect,
-                    internId = internId
+                    action = action,
+                    id = id
                 )
             ) {
                 splashNavGraph(

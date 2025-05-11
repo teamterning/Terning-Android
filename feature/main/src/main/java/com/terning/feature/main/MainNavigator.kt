@@ -28,15 +28,15 @@ class MainNavigator(
 
     fun getStartDestination(
         host: String?,
-        redirect: String?,
-        internId: String?
+        action: String?,
+        id: String?
     ) = when (DeeplinkType.from(host)) {
         DeeplinkType.SEARCH -> Search
         DeeplinkType.HOME -> Home(internId = null)
         DeeplinkType.CALENDAR -> Calendar
-        DeeplinkType.KAKAOLINK -> Splash(redirect = redirect, internId = internId)
+        DeeplinkType.KAKAOLINK -> Splash(action = action, id = id)
 
-        else -> Splash(redirect = redirect)
+        else -> Splash(action = action)
     }
 
     val currentTab: MainTab?

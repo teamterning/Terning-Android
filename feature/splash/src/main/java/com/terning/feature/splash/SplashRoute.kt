@@ -36,8 +36,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun SplashRoute(
-    redirect: String?,
-    internId: String?,
+    action: String?,
+    id: String?,
     navigateToHome: (internId: String?) -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToCalendar: () -> Unit,
@@ -87,11 +87,11 @@ internal fun SplashRoute(
                 when (sideEffect) {
                     is SplashSideEffect.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) {
-                            when (DeeplinkType.from(redirect)) {
+                            when (DeeplinkType.from(action)) {
                                 DeeplinkType.CALENDAR -> navigateToCalendar()
                                 DeeplinkType.HOME -> navigateToHome(null)
                                 DeeplinkType.SEARCH -> navigateToSearch()
-                                DeeplinkType.INTERN -> navigateToHome(internId.orEmpty())
+                                DeeplinkType.INTERN -> navigateToHome(id.orEmpty())
 
                                 else -> navigateToHome(null)
                             }
