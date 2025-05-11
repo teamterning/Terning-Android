@@ -17,7 +17,6 @@ import com.terning.core.designsystem.util.DeeplinkDefaults.INTERN_ID
 import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.messageservice.TerningMessagingService.Companion.FROM_NOTIFICATION
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,7 +53,6 @@ class MainActivity : ComponentActivity() {
 
         if (uriString.isNullOrEmpty()) return Triple(null, null, null)
 
-        Timber.tag("LYB").d("uri = $uri")
         val host = uri.host
         val redirect = uri.getQueryParameter(REDIRECT)
         val internId = uri.getQueryParameter(INTERN_ID)
