@@ -65,6 +65,7 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     host: String?,
     redirect: String?,
+    internId: String?,
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     val context = LocalContext.current
@@ -90,7 +91,7 @@ fun MainScreen(
 
     val amplitudeTracker = LocalTracker.current
     val splashNavOptions = NavOptions.Builder().setPopUpTo(
-        route = Splash(redirect),
+        route = Splash(redirect = redirect, internId = internId),
         inclusive = true
     ).build()
 
@@ -145,11 +146,18 @@ fun MainScreen(
                     ExitTransition.None
                 },
                 navController = navigator.navController,
-                startDestination = navigator.getStartDestination(redirect = redirect, host = host)
+                startDestination = navigator.getStartDestination(
+                    host = host,
+                    redirect = redirect,
+                    internId = internId
+                )
             ) {
                 splashNavGraph(
-                    navigateHome = {
-                        navigator.navController.navigateHome(navOptions = splashNavOptions)
+                    navigateHome = { internId ->
+                        navigator.navController.navigateHome(
+                            navOptions = splashNavOptions,
+                            internId = internId
+                        )
                     },
                     navigateSignIn = {
                         navigator.navController.navigateSignIn(navOptions = splashNavOptions)
@@ -188,7 +196,10 @@ fun MainScreen(
                                 inclusive = true
                             }
                         }
-                        navigator.navController.navigateHome(navOptions)
+                        navigator.navController.navigateHome(
+                            navOptions = navOptions,
+                            internId = null
+                        )
                     },
                     navigateSignUp = { authId ->
                         val navOptions = navOptions {
@@ -225,7 +236,10 @@ fun MainScreen(
                                 inclusive = true
                             }
                         }
-                        navigator.navController.navigateHome(navOptions)
+                        navigator.navController.navigateHome(
+                            navOptions = navOptions,
+                            internId = null
+                        )
                     }
                 )
                 startHomeNavGraph(
@@ -235,7 +249,10 @@ fun MainScreen(
                                 inclusive = true
                             }
                         }
-                        navigator.navController.navigateHome(navOptions)
+                        navigator.navController.navigateHome(
+                            navOptions = navOptions,
+                            internId = null
+                        )
                     }
                 )
                 filteringOneNavGraph(navHostController = navigator.navController)

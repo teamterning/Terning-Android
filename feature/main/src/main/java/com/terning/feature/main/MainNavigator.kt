@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.terning.core.designsystem.type.NotificationRedirect
+import com.terning.core.designsystem.type.DeeplinkType
 import com.terning.feature.calendar.calendar.navigation.Calendar
 import com.terning.feature.calendar.calendar.navigation.navigateCalendar
 import com.terning.feature.home.navigation.Home
@@ -26,13 +26,18 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    fun getStartDestination(redirect: String?, host: String?) =
-        when (NotificationRedirect.from(host)) {
-            NotificationRedirect.SEARCH -> Search
-            NotificationRedirect.HOME -> Home
-            NotificationRedirect.CALENDAR -> Calendar
-            else -> Splash(redirect)
-        }
+    fun getStartDestination(
+        host: String?,
+        redirect: String?,
+        internId: String?
+    ) = when (DeeplinkType.from(host)) {
+        DeeplinkType.SEARCH -> Search
+        DeeplinkType.HOME -> Home(internId = null)
+        DeeplinkType.CALENDAR -> Calendar
+        DeeplinkType.KAKAOLINK -> Splash(redirect = redirect, internId = internId)
+
+        else -> Splash(redirect = redirect)
+    }
 
     val currentTab: MainTab?
         @Composable get() = MainTab.find { tab ->
@@ -52,7 +57,7 @@ class MainNavigator(
         }
 
         when (tab) {
-            MainTab.HOME -> navController.navigateHome(navOptions)
+            MainTab.HOME -> navController.navigateHome(navOptions = navOptions, internId = null)
             MainTab.CALENDAR -> navController.navigateCalendar(navOptions)
             MainTab.SEARCH -> navController.navigateSearch(navOptions)
             MainTab.MY_PAGE -> navController.navigateMyPage(navOptions)

@@ -13,6 +13,7 @@ import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.theme.TerningPointTheme
+import com.terning.core.designsystem.util.DeeplinkDefaults.INTERN_ID
 import com.terning.core.designsystem.util.DeeplinkDefaults.REDIRECT
 import com.terning.core.firebase.messageservice.TerningMessagingService.Companion.FROM_NOTIFICATION
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,15 +29,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
-            val (host, redirect) = handleDeeplink(intent)
+            val (host, redirect, internId) = handleDeeplink(intent)
 
             TerningPointTheme {
                 CompositionLocalProvider(LocalTracker provides tracker) {
                     MainScreen(
                         host = host,
                         redirect = redirect,
+                        internId = internId,
                         navigator = navigator
                     )
                 }
@@ -44,14 +47,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun handleDeeplink(intent: Intent?): Pair<String?, String?> {
+    private fun handleDeeplink(intent: Intent?): Triple<String?, String?, String?> {
         val uri = intent?.data
         val uriString = uri?.toString()
 
-        if (uriString.isNullOrEmpty()) return null to null
+        if (uriString.isNullOrEmpty()) return Triple(null, null, null)
 
         val host = uri.host
         val redirect = uri.getQueryParameter(REDIRECT)
+        val internId = uri.getQueryParameter(INTERN_ID)
 
         if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
             && intent.getBooleanExtra(FROM_NOTIFICATION, false)
@@ -64,7 +68,7 @@ class MainActivity : ComponentActivity() {
 
         intent.putExtra(ALREADY_TRACKED, true)
 
-        return host to redirect
+        return Triple(host, redirect, internId)
     }
 
     companion object {

@@ -85,7 +85,8 @@ fun InternRoute(
                 navController = navController,
                 onClickShareButton = {
                     viewModel.onKakaoShareClicked(
-                        (internState.loadState as UiState.Success).data
+                        (internState.loadState as UiState.Success).data,
+                        announcementId.toString()
                     )
                 },
                 onDismissCancelDialog = {

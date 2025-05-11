@@ -1,11 +1,28 @@
 import com.terning.build_logic.extension.setNamespace
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.terning.feature)
 }
 
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
 android {
+    buildFeatures {
+        buildConfig = true
+    }
+
     setNamespace("feature.main")
+    
+    defaultConfig {
+        buildConfigField(
+            "String",
+            "NATIVE_APP_KEY",
+            properties.getProperty("native.app.key"),
+        )
+    }
 }
 
 dependencies {

@@ -28,7 +28,7 @@ import com.terning.core.designsystem.extension.launchPlayStore
 import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
-import com.terning.core.designsystem.type.NotificationRedirect
+import com.terning.core.designsystem.type.DeeplinkType
 import com.terning.domain.update.entity.UpdateState
 import com.terning.feature.splash.component.TerningMajorUpdateDialog
 import com.terning.feature.splash.component.TerningPatchUpdateDialog
@@ -37,7 +37,8 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun SplashRoute(
     redirect: String?,
-    navigateToHome: () -> Unit,
+    internId: String?,
+    navigateToHome: (internId: String?) -> Unit,
     navigateToSignIn: () -> Unit,
     navigateToCalendar: () -> Unit,
     navigateToSearch: () -> Unit,
@@ -73,6 +74,7 @@ internal fun SplashRoute(
                 }
             }
         }
+
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
@@ -85,15 +87,13 @@ internal fun SplashRoute(
                 when (sideEffect) {
                     is SplashSideEffect.HasAccessToken -> {
                         if (sideEffect.hasAccessToken) {
-                            if (redirect.isNullOrBlank()) {
-                                navigateToHome()
-                            } else {
-                                when (NotificationRedirect.from(redirect)) {
-                                    NotificationRedirect.CALENDAR -> navigateToCalendar()
-                                    NotificationRedirect.HOME -> navigateToHome()
-                                    NotificationRedirect.SEARCH -> navigateToSearch()
-                                    else -> navigateToHome()
-                                }
+                            when (DeeplinkType.from(redirect)) {
+                                DeeplinkType.CALENDAR -> navigateToCalendar()
+                                DeeplinkType.HOME -> navigateToHome(null)
+                                DeeplinkType.SEARCH -> navigateToSearch()
+                                DeeplinkType.INTERN -> navigateToHome(internId.orEmpty())
+
+                                else -> navigateToHome(null)
                             }
                         } else {
                             navigateToSignIn()

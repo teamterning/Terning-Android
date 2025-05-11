@@ -37,7 +37,6 @@ class KakaoUtil @Inject constructor(
             } catch (e: Exception) {
                 Timber.e("웹 공유 실패: ${e.message}")
             }
-
         }
     }
 }
