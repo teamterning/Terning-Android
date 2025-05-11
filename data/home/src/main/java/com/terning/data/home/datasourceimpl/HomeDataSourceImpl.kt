@@ -4,6 +4,7 @@ import com.terning.core.network.BaseResponse
 import com.terning.core.network.NonDataBaseResponse
 import com.terning.data.home.datasource.HomeDataSource
 import com.terning.data.home.dto.request.ChangeFilterRequestDto
+import com.terning.data.home.dto.request.FcmTokenRequestDto
 import com.terning.data.home.dto.response.HomeFilteringInfoResponseDto
 import com.terning.data.home.dto.response.HomeRecommendInternResponseDto
 import com.terning.data.home.dto.response.HomeUpcomingInternResponseDto
@@ -30,4 +31,7 @@ class HomeDataSourceImpl @Inject constructor(
 
     override suspend fun putFilteringInfo(changeFilterRequestDto: ChangeFilterRequestDto): NonDataBaseResponse =
         homeService.putFilteringInfo(changeFilterRequestDto)
+
+    override suspend fun sendFcmToken(fcmTokenRequestDto: FcmTokenRequestDto): NonDataBaseResponse =
+        homeService.sendFcmToken(fcmTokenRequestDto)
 }
