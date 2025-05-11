@@ -54,8 +54,9 @@ class MainActivity : ComponentActivity() {
         if (uriString.isNullOrEmpty()) return Triple(null, null, null)
 
         val host = uri.host
-        val redirect = uri.getQueryParameter(REDIRECT)
-        val internId = uri.getQueryParameter(INTERN_ID)
+        val redirect = uri.getQueryParameter("redirect") ?: uri.getQueryParameter("action")
+        val id = uri.getQueryParameter("internId") ?: uri.getQueryParameter("id")
+
 
         if (!intent.getBooleanExtra(ALREADY_TRACKED, false)
             && intent.getBooleanExtra(FROM_NOTIFICATION, false)
@@ -68,7 +69,7 @@ class MainActivity : ComponentActivity() {
 
         intent.putExtra(ALREADY_TRACKED, true)
 
-        return Triple(host, redirect, internId)
+        return Triple(host, redirect, id)
     }
 
     companion object {
