@@ -83,8 +83,6 @@ class InternViewModel @Inject constructor(
             "I_E_D" to "jobDetail",
             "redirect" to "intern",
             "internId" to announcementId,
-            "action" to "jobDetail",
-            "JOB_ID" to announcementId
             )
         kakaoUtil.shareToKakaoTalk(templateArgs)
     }
