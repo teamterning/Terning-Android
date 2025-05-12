@@ -95,6 +95,8 @@ fun HomeRoute(
         if (!permissionState.status.isGranted && !viewModel.getPermissionRequested()) {
             permissionState.launchPermissionRequest()
 
+            viewModel.fetchAndSaveFcmToken()
+
             snapshotFlow { permissionState.status }
                 .map { it is PermissionStatus.Granted }
                 .distinctUntilChanged()

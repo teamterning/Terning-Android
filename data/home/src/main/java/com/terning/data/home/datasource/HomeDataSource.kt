@@ -3,6 +3,7 @@ package com.terning.data.home.datasource
 import com.terning.core.network.BaseResponse
 import com.terning.core.network.NonDataBaseResponse
 import com.terning.data.home.dto.request.ChangeFilterRequestDto
+import com.terning.data.home.dto.request.FcmTokenRequestDto
 import com.terning.data.home.dto.response.HomeFilteringInfoResponseDto
 import com.terning.data.home.dto.response.HomeRecommendInternResponseDto
 import com.terning.data.home.dto.response.HomeUpcomingInternResponseDto
@@ -18,4 +19,6 @@ interface HomeDataSource {
     suspend fun getFilteringInfo(): BaseResponse<HomeFilteringInfoResponseDto>
 
     suspend fun putFilteringInfo(changeFilterRequestDto: ChangeFilterRequestDto): NonDataBaseResponse
+
+    suspend fun sendFcmToken(fcmTokenRequestDto: FcmTokenRequestDto): NonDataBaseResponse
 }

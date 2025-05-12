@@ -9,8 +9,10 @@ import com.terning.data.home.dto.request.toChangeFilterRequestDto
 import com.terning.data.home.mapper.toHomeFilteringInfo
 import com.terning.data.home.mapper.toHomeRecommendedIntern
 import com.terning.data.home.mapper.toHomeUpcomingInternList
+import com.terning.data.home.mapper.toRequestDto
 import com.terning.data.home.pagingsource.HomePagingSource
 import com.terning.domain.home.entity.ChangeFilteringRequestModel
+import com.terning.domain.home.entity.FcmToken
 import com.terning.domain.home.entity.HomeFilteringInfo
 import com.terning.domain.home.entity.HomeRecommendedIntern
 import com.terning.domain.home.entity.HomeUpcomingIntern
@@ -51,5 +53,10 @@ class HomeRepositoryImpl @Inject constructor(
             homeDataSource.putFilteringInfo(
                 putFilteringRequest.toChangeFilterRequestDto()
             )
+        }
+
+    override suspend fun sendFcmToken(fcmTokenRequest: FcmToken): Result<Unit> =
+        runCatching {
+            homeDataSource.sendFcmToken(fcmTokenRequest.toRequestDto())
         }
 }

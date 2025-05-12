@@ -8,6 +8,7 @@ import androidx.paging.map
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.home.entity.ChangeFilteringRequestModel
+import com.terning.domain.home.entity.FcmToken
 import com.terning.domain.home.entity.HomeRecommendIntern
 import com.terning.domain.home.entity.HomeRecommendedIntern
 import com.terning.domain.home.repository.HomeRepository
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import com.terning.core.designsystem.R as DesignSystemR
 
@@ -224,6 +226,22 @@ class HomeViewModel @Inject constructor(
         userRepository.setPermissionRequested(requested)
     }
 
-    fun getPermissionRequested() : Boolean = userRepository.getPermissionRequested()
+    fun getPermissionRequested(): Boolean = userRepository.getPermissionRequested()
 
+    fun fetchAndSaveFcmToken() {
+        viewModelScope.launch {
+            userRepository.fetchAndSetFcmToken()
+                .onSuccess {
+                    sendFcmToken()
+                }.onFailure(Timber::e)
+        }
+    }
+
+    private fun sendFcmToken() {
+        viewModelScope.launch {
+            homeRepository.sendFcmToken(
+                FcmToken(userRepository.getFcmToken())
+            ).onFailure(Timber::e)
+        }
+    }
 }
