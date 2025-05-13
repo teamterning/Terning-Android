@@ -2,8 +2,8 @@
 compileSdk = "35"
 minSdk = "28"
 targetSdk = "35"
-versionName = "1.3.0"
-versionCode = "103030"
+versionName = "1.3.4"
+versionCode = "103040"
 jvmTarget = "1.8"
 
 ## Android gradle plugin
@@ -215,7 +215,6 @@ paging-common = { group = "androidx.paging", name = "paging-common", version.ref
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }
 
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessaging" }
