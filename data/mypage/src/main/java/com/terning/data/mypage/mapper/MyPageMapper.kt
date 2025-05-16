@@ -7,5 +7,6 @@ fun MyPageResponseDto.toMyPageProfile() =
     MyPageProfile(
         name = name,
         profileImage = profileImage,
-        authType = authType
+        authType = authType,
+        pushStatus = pushStatus
     )
