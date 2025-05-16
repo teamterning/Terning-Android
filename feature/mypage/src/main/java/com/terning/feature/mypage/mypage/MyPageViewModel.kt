@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.user.UserApiClient
 import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.type.AlarmType.DISABLED
+import com.terning.core.designsystem.type.AlarmType.ENABLED
+import com.terning.domain.mypage.entity.AlarmStatus
 import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.domain.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -84,7 +87,7 @@ class MyPageViewModel @Inject constructor(
                         isGetSuccess = UiState.Success(true),
                         name = response.name,
                         profileImage = response.profileImage,
-                        authType = response.authType
+                        authType = response.authType // todo: 여기서 응답값에 대한 분기처리
                     )
                 }.onFailure {
                     _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
@@ -133,7 +136,11 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch { _sideEffects.emit(MyPageSideEffect.NavigateToProfileEdit) }
 
     fun updateAlarmAvailability(availability: Boolean) {
-        userRepository.setAlarmAvailable(availability)
+       // userRepository.setAlarmAvailable(availability) todo: 삭제
+        viewModelScope.launch {
+            if (availability) myPageRepository.updateAlarmState(AlarmStatus(ENABLED.value))
+            else myPageRepository.updateAlarmState(AlarmStatus(DISABLED.value))
+        }
     }
 
     fun getAlarmAvailability(): Boolean = userRepository.getAlarmAvailable()
