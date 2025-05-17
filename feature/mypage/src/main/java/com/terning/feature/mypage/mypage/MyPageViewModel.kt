@@ -10,6 +10,7 @@ import com.terning.core.designsystem.type.AlarmType.ENABLED
 import com.terning.domain.mypage.entity.AlarmStatus
 import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.domain.user.repository.UserRepository
+import com.terning.feature.mypage.mypage.model.AlarmInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
