@@ -15,7 +15,7 @@ dependencies {
     implementation(projects.core.analytics)
 
     // domain
-    implementation(projects.domain.user)
+    implementation(projects.domain.mypage)
 
     // timber
     implementation(libs.timber)
