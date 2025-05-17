@@ -50,13 +50,11 @@ class MyPageViewModel @Inject constructor(
                 .groupBy { it.id }
                 .flatMapMerge { (_, flow) -> flow.debounce(DEBOUNCE_DURATION) }
                 .collect { info ->
-                    val result = myPageRepository.updateAlarmState(
+                    myPageRepository.updateAlarmState(
                         AlarmStatus(if (info.isAlarmAvailable) ENABLED.value else DISABLED.value)
-                    )
-
-                    if (result.isSuccess) {
+                    ).onSuccess {
                         lastSuccessfulAlarmStatus[info.id] = info.isAlarmAvailable
-                    } else {
+                    }.onFailure {
                         val previous = lastSuccessfulAlarmStatus[info.id] ?: !info.isAlarmAvailable
                         _state.update { currentState ->
                             currentState.copy(alarmStatus = if (previous) ENABLED.value else DISABLED.value)
