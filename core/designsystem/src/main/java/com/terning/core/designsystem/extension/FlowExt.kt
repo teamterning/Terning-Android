@@ -8,16 +8,17 @@ import kotlinx.coroutines.flow.flow
 
 fun <T, K> Flow<T>.groupBy(getKey: (T) -> K): Flow<Pair<K, Flow<T>>> = flow {
     val storage = mutableMapOf<K, SendChannel<T>>()
-
-    collect { t ->
-        val key = getKey(t)
-        val channel = storage.getOrPut(key) {
-            Channel<T>(capacity = Channel.BUFFERED).also {
-                emit(key to it.consumeAsFlow())
+    try {
+        collect { t ->
+            val key = getKey(t)
+            val channel = storage.getOrPut(key) {
+                Channel<T>(capacity = Channel.BUFFERED).also {
+                    emit(key to it.consumeAsFlow())
+                }
             }
+            channel.send(t)
         }
-        channel.send(t)
+    } finally {
+        storage.values.forEach { it.close() }
     }
-
-    storage.values.forEach { it.close() }
 }
