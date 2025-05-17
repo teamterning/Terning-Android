@@ -104,6 +104,8 @@ fun HomeRoute(
                     viewModel.updateAlarmAvailability(isGranted)
                     viewModel.updatePermissionRequested(true)
                 }
+        } else {
+            viewModel.updateAlarmAvailability(false)
         }
     }
 
