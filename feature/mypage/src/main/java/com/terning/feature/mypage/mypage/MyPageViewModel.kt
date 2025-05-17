@@ -59,7 +59,7 @@ class MyPageViewModel @Inject constructor(
                     } else {
                         val previous = lastSuccessfulAlarmStatus[info.id] ?: !info.isAlarmAvailable
                         _state.update { currentState ->
-                            currentState.copy(pushStatus = if (previous) ENABLED.value else DISABLED.value)
+                            currentState.copy(alarmStatus = if (previous) ENABLED.value else DISABLED.value)
                         }
                         userRepository.setAlarmAvailable(previous)
 
@@ -125,7 +125,7 @@ class MyPageViewModel @Inject constructor(
                             name = response.name,
                             profileImage = response.profileImage,
                             authType = response.authType,
-                            pushStatus = response.pushStatus
+                            alarmStatus = response.alarmStatus
                         )
                     }
                 }.onFailure {
@@ -176,7 +176,7 @@ class MyPageViewModel @Inject constructor(
 
     fun updateAlarmAvailability(availability: Boolean) {
         _state.update { currentState ->
-            currentState.copy(pushStatus = if (availability) ENABLED.value else DISABLED.value)
+            currentState.copy(alarmStatus = if (availability) ENABLED.value else DISABLED.value)
         }
 
         userRepository.setAlarmAvailable(availability)

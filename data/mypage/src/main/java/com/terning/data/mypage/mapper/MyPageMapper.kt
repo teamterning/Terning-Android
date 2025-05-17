@@ -8,5 +8,5 @@ fun MyPageResponseDto.toMyPageProfile() =
         name = name,
         profileImage = profileImage,
         authType = authType,
-        pushStatus = pushStatus
+        alarmStatus = pushStatus
     )

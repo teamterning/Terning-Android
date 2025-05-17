@@ -15,5 +15,5 @@ data class MyPageState(
     val showLogoutBottomSheet: Boolean = false,
     val showQuitBottomSheet: Boolean = false,
     val showAlarmDialog: Boolean = false,
-    val pushStatus: String = DISABLED.value,
+    val alarmStatus: String = DISABLED.value,
 )

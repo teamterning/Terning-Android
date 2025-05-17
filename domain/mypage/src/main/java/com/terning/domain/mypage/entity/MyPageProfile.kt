@@ -4,5 +4,5 @@ data class MyPageProfile(
     val name: String,
     val profileImage: String,
     val authType: String,
-    val pushStatus: String
+    val alarmStatus: String
 )
