@@ -1,8 +1,10 @@
 package com.terning.data.mypage.repositoryimpl
 
 import com.terning.data.mypage.datasource.MyPageDataSource
+import com.terning.data.mypage.mapper.toAlarmStatusRequestDto
 import com.terning.data.mypage.mapper.toMyPageProfile
 import com.terning.data.mypage.mapper.toMyPageProfileEditRequestDto
+import com.terning.domain.mypage.entity.AlarmStatus
 import com.terning.domain.mypage.entity.MyPageProfile
 import com.terning.domain.mypage.entity.MyPageProfileEdit
 import com.terning.domain.mypage.repository.MyPageRepository
@@ -33,5 +35,10 @@ class MyPageRepositoryImpl @Inject constructor(
             myPageDataSource.editProfile(
                 request.toMyPageProfileEditRequestDto()
             )
+        }
+
+    override suspend fun updateAlarmState(request: AlarmStatus): Result<Unit> =
+        runCatching {
+            myPageDataSource.updateAlarmState(request.toAlarmStatusRequestDto())
         }
 }
