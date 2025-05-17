@@ -110,11 +110,9 @@ fun MyPageRoute(
             viewModel.updateAlarmAvailability(isGranted)
         }
 
-    LaunchedEffect(Unit) {
-        systemUiController.setStatusBarColor(color = Back)
-    }
-
     DisposableEffect(lifecycleOwner) {
+        systemUiController.setStatusBarColor(color = Back)
+
         onDispose {
             systemUiController.setStatusBarColor(color = White)
         }
