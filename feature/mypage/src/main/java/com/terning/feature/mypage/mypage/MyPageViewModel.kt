@@ -57,8 +57,8 @@ class MyPageViewModel @Inject constructor(
                         lastSuccessfulAlarmStatus[info.id] = info.isAlarmAvailable
                     } else {
                         val previous = lastSuccessfulAlarmStatus[info.id] ?: !info.isAlarmAvailable
-                        _state.update {
-                            it.copy(pushStatus = if (previous) ENABLED.value else DISABLED.value)
+                        _state.update { currentState ->
+                            currentState.copy(pushStatus = if (previous) ENABLED.value else DISABLED.value)
                         }
                         userRepository.setAlarmAvailable(previous)
 
@@ -174,8 +174,8 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch { _sideEffects.emit(MyPageSideEffect.NavigateToProfileEdit) }
 
     fun updateAlarmAvailability(availability: Boolean) {
-        _state.update { state ->
-            state.copy(pushStatus = if (availability) ENABLED.value else DISABLED.value)
+        _state.update { currentState ->
+            currentState.copy(pushStatus = if (availability) ENABLED.value else DISABLED.value)
         }
 
         userRepository.setAlarmAvailable(availability)
