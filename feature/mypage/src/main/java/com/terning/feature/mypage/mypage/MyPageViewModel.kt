@@ -83,12 +83,15 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             myPageRepository.getProfile()
                 .onSuccess { response ->
-                    _state.value = _state.value.copy(
-                        isGetSuccess = UiState.Success(true),
-                        name = response.name,
-                        profileImage = response.profileImage,
-                        authType = response.authType // todo: 여기서 응답값에 대한 분기처리
-                    )
+                    _state.update { currentState ->
+                        currentState.copy(
+                            isGetSuccess = UiState.Success(true),
+                            name = response.name,
+                            profileImage = response.profileImage,
+                            authType = response.authType,
+                            pushStatus = response.pushStatus
+                        )
+                    }
                 }.onFailure {
                     _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
                     _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
@@ -136,10 +139,24 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch { _sideEffects.emit(MyPageSideEffect.NavigateToProfileEdit) }
 
     fun updateAlarmAvailability(availability: Boolean) {
-       // userRepository.setAlarmAvailable(availability) todo: 삭제
+        val previousPushStatus = _state.value.pushStatus
+        val optimisticPushStatus = if (availability) ENABLED.value else DISABLED.value
+
+        _state.update { it.copy(pushStatus = optimisticPushStatus) }
+
         viewModelScope.launch {
-            if (availability) myPageRepository.updateAlarmState(AlarmStatus(ENABLED.value))
-            else myPageRepository.updateAlarmState(AlarmStatus(DISABLED.value))
+            userRepository.setAlarmAvailable(availability)
+
+            val result = if (availability) {
+                myPageRepository.updateAlarmState(AlarmStatus(ENABLED.value))
+            } else {
+                myPageRepository.updateAlarmState(AlarmStatus(DISABLED.value))
+            }
+
+            result.onFailure {
+                _state.update { it.copy(pushStatus = previousPushStatus) }
+                _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
+            }
         }
     }
 
