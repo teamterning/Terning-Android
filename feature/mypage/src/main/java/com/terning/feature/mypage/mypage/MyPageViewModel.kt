@@ -47,7 +47,7 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             debounceFlow
                 .groupBy { it.id }
-                .flatMapMerge { (_, flow) -> flow.debounce(300L) }
+                .flatMapMerge { (_, flow) -> flow.debounce(DEBOUNCE_DURATION) }
                 .collect { info ->
                     val result = myPageRepository.updateAlarmState(
                         AlarmStatus(if (info.isAlarmAvailable) ENABLED.value else DISABLED.value)
@@ -181,7 +181,7 @@ class MyPageViewModel @Inject constructor(
         userRepository.setAlarmAvailable(availability)
 
         viewModelScope.launch {
-            debounceFlow.emit(AlarmInfo(id = "user", isAlarmAvailable = availability))
+            debounceFlow.emit(AlarmInfo(id = DEBOUNCE_KEY, isAlarmAvailable = availability))
         }
     }
 
@@ -193,5 +193,10 @@ class MyPageViewModel @Inject constructor(
                 showAlarmDialog = visibility
             )
         }
+    }
+
+    companion object {
+        private const val DEBOUNCE_DURATION = 300L
+        private const val DEBOUNCE_KEY = "NOTIFICATION"
     }
 }
