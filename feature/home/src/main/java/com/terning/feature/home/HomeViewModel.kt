@@ -222,7 +222,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateAlarmAvailability(availability: Boolean) {
-        //  userRepository.setAlarmAvailable(availability) todo: 삭제
+        userRepository.setAlarmAvailable(availability)
+
         viewModelScope.launch {
             if (availability) myPageRepository.updateAlarmState(AlarmStatus(ENABLED.value))
             else myPageRepository.updateAlarmState(AlarmStatus(DISABLED.value))
