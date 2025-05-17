@@ -252,4 +252,6 @@ class HomeViewModel @Inject constructor(
             ).onFailure(Timber::e)
         }
     }
+
+    fun getAlarmAvailability(): Boolean = userRepository.getAlarmAvailable()
 }
