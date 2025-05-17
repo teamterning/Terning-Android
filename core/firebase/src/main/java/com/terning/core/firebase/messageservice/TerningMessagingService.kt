@@ -16,14 +16,12 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.terning.core.analytics.AmplitudeTracker
 import com.terning.core.analytics.EventType
-import com.terning.core.designsystem.type.AlarmType
 import com.terning.core.designsystem.type.DeeplinkType
 import com.terning.core.designsystem.util.DeeplinkDefaults
 import com.terning.core.firebase.R
-import com.terning.domain.mypage.repository.MyPageRepository
+import com.terning.domain.user.repository.UserRepository
 import com.terning.navigator.NavigatorProvider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.util.Random
 import javax.inject.Inject
@@ -32,7 +30,7 @@ import javax.inject.Inject
 class TerningMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var myPageRepository: MyPageRepository
+    lateinit var userRepository: UserRepository
 
     @Inject
     lateinit var navigatorProvider: NavigatorProvider
@@ -78,13 +76,7 @@ class TerningMessagingService : FirebaseMessagingService() {
         type: String?,
         imageUrl: String?
     ) {
-        if (title.isNullOrEmpty()) return
-
-        val isAlarmAvailable: Boolean = runBlocking {
-            myPageRepository.getProfile().getOrNull()?.pushStatus == AlarmType.ENABLED.value
-        }
-
-        if (!isAlarmAvailable) return
+        if (title.isNullOrEmpty() || !userRepository.getAlarmAvailable()) return
 
         amplitudeTracker.track(
             type = EventType.PUSH_NOTIFICATION,
