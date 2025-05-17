@@ -104,7 +104,8 @@ fun HomeRoute(
                     viewModel.updateAlarmAvailability(isGranted)
                     viewModel.updatePermissionRequested(true)
                 }
-        } else {
+        }
+        else {
             val isAlarmAvailable = viewModel.getAlarmAvailability()
             viewModel.updateAlarmAvailability(isAlarmAvailable)
         }

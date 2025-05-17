@@ -3,12 +3,14 @@ package com.terning.feature.mypage.mypage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.user.UserApiClient
+import com.terning.core.designsystem.extension.groupBy
 import com.terning.core.designsystem.state.UiState
 import com.terning.core.designsystem.type.AlarmType.DISABLED
 import com.terning.core.designsystem.type.AlarmType.ENABLED
 import com.terning.domain.mypage.entity.AlarmStatus
 import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.domain.user.repository.UserRepository
+import com.terning.feature.mypage.mypage.model.AlarmInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -19,6 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,9 +40,9 @@ class MyPageViewModel @Inject constructor(
     private val _sideEffects = MutableSharedFlow<MyPageSideEffect>()
     val sideEffects: SharedFlow<MyPageSideEffect> get() = _sideEffects.asSharedFlow()
 
-    private val debounceFlow = MutableSharedFlow<Boolean>()
+    private val debounceFlow = MutableSharedFlow<AlarmInfo>()
 
-    private var lastSuccessfulAlarmStatus: Boolean? = null
+    private val lastSuccessfulAlarmStatus = mutableMapOf<String, Boolean>()
 
     init {
         handleDebouncedAlarm()
@@ -48,14 +51,15 @@ class MyPageViewModel @Inject constructor(
     private fun handleDebouncedAlarm() {
         viewModelScope.launch {
             debounceFlow
-                .debounce(DEBOUNCE_DURATION)
-                .collect { isEnabled ->
+                .groupBy { it.id }
+                .flatMapMerge { (_, flow) -> flow.debounce(DEBOUNCE_DURATION) }
+                .collect { info ->
                     myPageRepository.updateAlarmState(
-                        AlarmStatus(if (isEnabled) ENABLED.value else DISABLED.value)
+                        AlarmStatus(if (info.isAlarmAvailable) ENABLED.value else DISABLED.value)
                     ).onSuccess {
-                        lastSuccessfulAlarmStatus = isEnabled
+                        lastSuccessfulAlarmStatus[info.id] = info.isAlarmAvailable
                     }.onFailure {
-                        val previous = lastSuccessfulAlarmStatus ?: !isEnabled
+                        val previous = lastSuccessfulAlarmStatus[info.id] ?: !info.isAlarmAvailable
                         _state.update { currentState ->
                             currentState.copy(alarmStatus = if (previous) ENABLED.value else DISABLED.value)
                         }
@@ -128,7 +132,8 @@ class MyPageViewModel @Inject constructor(
                     }
                 }.onFailure {
                     _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
-                    _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
+                    _state.value =
+                        _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
                 }
         }
     }
@@ -180,7 +185,7 @@ class MyPageViewModel @Inject constructor(
         userRepository.setAlarmAvailable(availability)
 
         viewModelScope.launch {
-            debounceFlow.emit(availability)
+            debounceFlow.emit(AlarmInfo(id = DEBOUNCE_KEY, isAlarmAvailable = availability))
         }
     }
 
@@ -196,5 +201,6 @@ class MyPageViewModel @Inject constructor(
 
     companion object {
         private const val DEBOUNCE_DURATION = 300L
+        private const val DEBOUNCE_KEY = "NOTIFICATION"
     }
 }
