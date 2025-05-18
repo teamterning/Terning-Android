@@ -67,6 +67,7 @@ $dokka.location:com.terning.core.designsystem.extension//getFullDateStringInKore
 $dokka.location:com.terning.core.designsystem.extension//getStringAsTitle/java.time.LocalDate#/PointingToDeclaration/designsystem/com.terning.core.designsystem.extension/get-string-as-title.html
 $dokka.location:com.terning.core.designsystem.extension//getVersionName/android.content.Context#/PointingToDeclaration/designsystem/com.terning.core.designsystem.extension/get-version-name.html
 $dokka.location:com.terning.core.designsystem.extension//getWeekIndexContainingSelectedDate/java.time.LocalDate#kotlin.Int/PointingToDeclaration/designsystem/com.terning.core.designsystem.extension/get-week-index-containing-selected-date.html
+$dokka.location:com.terning.core.designsystem.extension//groupBy/kotlinx.coroutines.flow.Flow[TypeParam(bounds=[kotlin.Any?])]#kotlin.Function1[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/designsystem/com.terning.core.designsystem.extension/group-by.html
 $dokka.location:com.terning.core.designsystem.extension//isListNotEmpty/kotlin.collections.List[TypeParam(bounds=[kotlin.Any?])]?#/PointingToDeclaration/designsystem/com.terning.core.designsystem.extension/is-list-not-empty.html
 $dokka.location:com.terning.core.designsystem.extension//isToday/java.time.LocalDate#/PointingToDeclaration/designsystem/com.terning.core.designsystem.extension/is-today.html
 $dokka.location:com.terning.core.designsystem.extension//launchPlayStore/android.content.Context#/PointingToDeclaration/designsystem/com.terning.core.designsystem.extension/launch-play-store.html
@@ -175,6 +176,13 @@ $dokka.location:com.terning.core.designsystem.theme/TerningTypography/title4/#/P
 $dokka.location:com.terning.core.designsystem.theme/TerningTypography/title5/#/PointingToDeclaration/designsystem/com.terning.core.designsystem.theme/-terning-typography/title5.html
 $dokka.location:com.terning.core.designsystem.theme/TerningTypography/update/#com.terning.core.designsystem.theme.TerningTypography/PointingToDeclaration/designsystem/com.terning.core.designsystem.theme/-terning-typography/update.html
 $dokka.location:com.terning.core.designsystem.type////PointingToDeclaration/designsystem/com.terning.core.designsystem.type/index.html
+$dokka.location:com.terning.core.designsystem.type/AlarmType.DISABLED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}designsystem/com.terning.core.designsystem.type/-alarm-type/-d-i-s-a-b-l-e-d/index.html
+$dokka.location:com.terning.core.designsystem.type/AlarmType.ENABLED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}designsystem/com.terning.core.designsystem.type/-alarm-type/-e-n-a-b-l-e-d/index.html
+$dokka.location:com.terning.core.designsystem.type/AlarmType///PointingToDeclaration/designsystem/com.terning.core.designsystem.type/-alarm-type/index.html
+$dokka.location:com.terning.core.designsystem.type/AlarmType/entries/#/PointingToDeclaration/designsystem/com.terning.core.designsystem.type/-alarm-type/entries.html
+$dokka.location:com.terning.core.designsystem.type/AlarmType/value/#/PointingToDeclaration/designsystem/com.terning.core.designsystem.type/-alarm-type/value.html
+$dokka.location:com.terning.core.designsystem.type/AlarmType/valueOf/#kotlin.String/PointingToDeclaration/designsystem/com.terning.core.designsystem.type/-alarm-type/value-of.html
+$dokka.location:com.terning.core.designsystem.type/AlarmType/values/#/PointingToDeclaration/designsystem/com.terning.core.designsystem.type/-alarm-type/values.html
 $dokka.location:com.terning.core.designsystem.type/ColorType.BLUE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}designsystem/com.terning.core.designsystem.type/-color-type/-b-l-u-e/index.html
 $dokka.location:com.terning.core.designsystem.type/ColorType.Companion///PointingToDeclaration/designsystem/com.terning.core.designsystem.type/-color-type/-companion/index.html
 $dokka.location:com.terning.core.designsystem.type/ColorType.Companion/findColorType/#androidx.compose.ui.graphics.Color/PointingToDeclaration/designsystem/com.terning.core.designsystem.type/-color-type/-companion/find-color-type.html
