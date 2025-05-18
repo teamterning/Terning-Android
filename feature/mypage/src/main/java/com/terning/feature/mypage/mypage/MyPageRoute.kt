@@ -94,8 +94,12 @@ fun MyPageRoute(
         rememberPermissionState(permission = notificationPermission)
     var isChecked by remember {
         mutableStateOf(
-            if (!permissionState.status.isGranted) false
-            else viewModel.getAlarmAvailability()
+            if (!permissionState.status.isGranted) {
+                viewModel.updateAlarmAvailability(false)
+                false
+            } else {
+                viewModel.getAlarmAvailability()
+            }
         )
     }
     val notificationSettingsLauncher =
@@ -106,17 +110,15 @@ fun MyPageRoute(
             viewModel.updateAlarmAvailability(isGranted)
         }
 
-    LaunchedEffect(Unit) {
-        systemUiController.setStatusBarColor(color = Back)
-    }
-
     DisposableEffect(lifecycleOwner) {
+        systemUiController.setStatusBarColor(color = Back)
+
         onDispose {
             systemUiController.setStatusBarColor(color = White)
         }
     }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(Unit) {
         viewModel.getProfile()
     }
 

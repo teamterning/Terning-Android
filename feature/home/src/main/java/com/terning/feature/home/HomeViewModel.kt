@@ -6,12 +6,15 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.type.AlarmType.DISABLED
+import com.terning.core.designsystem.type.AlarmType.ENABLED
 import com.terning.core.designsystem.type.SortBy
 import com.terning.domain.home.entity.ChangeFilteringRequestModel
 import com.terning.domain.home.entity.FcmToken
 import com.terning.domain.home.entity.HomeRecommendIntern
 import com.terning.domain.home.entity.HomeRecommendedIntern
 import com.terning.domain.home.repository.HomeRepository
+import com.terning.domain.mypage.entity.AlarmStatus
 import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.domain.user.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -220,6 +223,11 @@ class HomeViewModel @Inject constructor(
 
     fun updateAlarmAvailability(availability: Boolean) {
         userRepository.setAlarmAvailable(availability)
+
+        viewModelScope.launch {
+            if (availability) myPageRepository.updateAlarmState(AlarmStatus(ENABLED.value))
+            else myPageRepository.updateAlarmState(AlarmStatus(DISABLED.value))
+        }
     }
 
     fun updatePermissionRequested(requested: Boolean) {
@@ -244,4 +252,6 @@ class HomeViewModel @Inject constructor(
             ).onFailure(Timber::e)
         }
     }
+
+    fun getAlarmAvailability(): Boolean = userRepository.getAlarmAvailable()
 }

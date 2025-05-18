@@ -10,5 +10,7 @@ data class MyPageResponseDto(
     @SerialName("profileImage")
     val profileImage: String,
     @SerialName("authType")
-    val authType: String
+    val authType: String,
+    @SerialName("pushStatus")
+    val pushStatus: String
 )

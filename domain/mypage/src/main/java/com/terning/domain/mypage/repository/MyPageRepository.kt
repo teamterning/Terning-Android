@@ -1,5 +1,6 @@
 package com.terning.domain.mypage.repository
 
+import com.terning.domain.mypage.entity.AlarmStatus
 import com.terning.domain.mypage.entity.MyPageProfile
 import com.terning.domain.mypage.entity.MyPageProfileEdit
 
@@ -12,5 +13,9 @@ interface MyPageRepository {
 
     suspend fun editProfile(
         request: MyPageProfileEdit
+    ): Result<Unit>
+
+    suspend fun updateAlarmState(
+        request: AlarmStatus
     ): Result<Unit>
 }

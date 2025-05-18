@@ -3,21 +3,31 @@ package com.terning.feature.mypage.mypage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.user.UserApiClient
+import com.terning.core.designsystem.extension.groupBy
 import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.type.AlarmType.DISABLED
+import com.terning.core.designsystem.type.AlarmType.ENABLED
+import com.terning.domain.mypage.entity.AlarmStatus
 import com.terning.domain.mypage.repository.MyPageRepository
 import com.terning.domain.user.repository.UserRepository
+import com.terning.feature.mypage.mypage.model.AlarmInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.terning.core.designsystem.R as DesignSystemR
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val myPageRepository: MyPageRepository,
@@ -29,6 +39,37 @@ class MyPageViewModel @Inject constructor(
 
     private val _sideEffects = MutableSharedFlow<MyPageSideEffect>()
     val sideEffects: SharedFlow<MyPageSideEffect> get() = _sideEffects.asSharedFlow()
+
+    private val debounceFlow = MutableSharedFlow<AlarmInfo>()
+
+    private val lastSuccessfulAlarmStatus = mutableMapOf<String, Boolean>()
+
+    init {
+        handleDebouncedAlarm()
+    }
+
+    private fun handleDebouncedAlarm() {
+        viewModelScope.launch {
+            debounceFlow
+                .groupBy { it.id }
+                .flatMapMerge { (_, flow) -> flow.debounce(DEBOUNCE_DURATION) }
+                .collect { info ->
+                    myPageRepository.updateAlarmState(
+                        AlarmStatus(if (info.isAlarmAvailable) ENABLED.value else DISABLED.value)
+                    ).onSuccess {
+                        lastSuccessfulAlarmStatus[info.id] = info.isAlarmAvailable
+                    }.onFailure {
+                        val previous = lastSuccessfulAlarmStatus[info.id] ?: !info.isAlarmAvailable
+                        _state.update { currentState ->
+                            currentState.copy(alarmStatus = if (previous) ENABLED.value else DISABLED.value)
+                        }
+                        userRepository.setAlarmAvailable(previous)
+
+                        _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
+                    }
+                }
+        }
+    }
 
     fun logoutKakao() {
         UserApiClient.instance.logout { error ->
@@ -80,15 +121,19 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             myPageRepository.getProfile()
                 .onSuccess { response ->
-                    _state.value = _state.value.copy(
-                        isGetSuccess = UiState.Success(true),
-                        name = response.name,
-                        profileImage = response.profileImage,
-                        authType = response.authType
-                    )
+                    _state.update { currentState ->
+                        currentState.copy(
+                            isGetSuccess = UiState.Success(true),
+                            name = response.name,
+                            profileImage = response.profileImage,
+                            authType = response.authType,
+                            alarmStatus = response.alarmStatus
+                        )
+                    }
                 }.onFailure {
                     _sideEffects.emit(MyPageSideEffect.ShowToast(DesignSystemR.string.server_failure))
-                    _state.value = _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
+                    _state.value =
+                        _state.value.copy(isGetSuccess = UiState.Failure(it.toString()))
                 }
         }
     }
@@ -133,7 +178,15 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch { _sideEffects.emit(MyPageSideEffect.NavigateToProfileEdit) }
 
     fun updateAlarmAvailability(availability: Boolean) {
+        _state.update { currentState ->
+            currentState.copy(alarmStatus = if (availability) ENABLED.value else DISABLED.value)
+        }
+
         userRepository.setAlarmAvailable(availability)
+
+        viewModelScope.launch {
+            debounceFlow.emit(AlarmInfo(id = DEBOUNCE_KEY, isAlarmAvailable = availability))
+        }
     }
 
     fun getAlarmAvailability(): Boolean = userRepository.getAlarmAvailable()
@@ -146,4 +199,8 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
+    companion object {
+        private const val DEBOUNCE_DURATION = 300L
+        private const val DEBOUNCE_KEY = "NOTIFICATION"
+    }
 }

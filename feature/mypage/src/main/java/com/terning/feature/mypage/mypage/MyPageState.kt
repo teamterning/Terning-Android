@@ -1,6 +1,7 @@
 package com.terning.feature.mypage.mypage
 
 import com.terning.core.designsystem.state.UiState
+import com.terning.core.designsystem.type.AlarmType.DISABLED
 
 data class MyPageState(
     val isGetSuccess: UiState<Boolean> = UiState.Loading,
@@ -13,5 +14,6 @@ data class MyPageState(
     val showPersonal: Boolean = false,
     val showLogoutBottomSheet: Boolean = false,
     val showQuitBottomSheet: Boolean = false,
-    val showAlarmDialog: Boolean = false
+    val showAlarmDialog: Boolean = false,
+    val alarmStatus: String = DISABLED.value,
 )

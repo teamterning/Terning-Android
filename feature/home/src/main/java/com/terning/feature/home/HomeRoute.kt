@@ -105,6 +105,10 @@ fun HomeRoute(
                     viewModel.updatePermissionRequested(true)
                 }
         }
+        else {
+            val isAlarmAvailable = viewModel.getAlarmAvailability()
+            viewModel.updateAlarmAvailability(isAlarmAvailable)
+        }
     }
 
     var hasHandledInternDeeplink by rememberSaveable { mutableStateOf(false) }
