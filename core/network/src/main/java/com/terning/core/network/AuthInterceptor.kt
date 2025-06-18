@@ -58,18 +58,11 @@ class AuthInterceptor @Inject constructor(
                     Timber.d(t.message)
                 }
 
-                terningDataStore.clearInfo()
-
-                Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(context, MESSAGE_TOKEN_EXPIRED, Toast.LENGTH_LONG).show()
-                    ProcessPhoenix.triggerRebirth(context)
-                }
+                restartApp(MESSAGE_TOKEN_EXPIRED)
             }
 
             CODE_MANY_REQUESTS -> {
-                Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(context, MESSAGE_TOO_MANY_REQUESTS, Toast.LENGTH_LONG).show()
-                }
+                restartApp(MESSAGE_TOO_MANY_REQUESTS)
             }
         }
         return response
@@ -77,6 +70,15 @@ class AuthInterceptor @Inject constructor(
 
     private fun Request.Builder.newAuthBuilder() =
         this.addHeader(AUTHORIZATION, "$BEARER ${terningDataStore.accessToken}")
+
+    private fun restartApp(message: String) {
+        terningDataStore.clearInfo()
+
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            ProcessPhoenix.triggerRebirth(context)
+        }
+    }
 
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401
