@@ -84,7 +84,7 @@ class AuthInterceptor @Inject constructor(
         private const val CODE_TOKEN_EXPIRED = 401
         private const val CODE_MANY_REQUESTS = 429
         private const val MESSAGE_TOKEN_EXPIRED = "토큰이 만료되었어요\n다시 로그인 해주세요"
-        private const val MESSAGE_TOO_MANY_REQUESTS = "요청 횟수가 너무 많아요\n잠시 후 다시 시도해 주세요"
+        private const val MESSAGE_TOO_MANY_REQUESTS = "요청 횟수가 너무 많아요\n로그인 후 다시 시도해 주세요"
         private const val BEARER = "Bearer"
         private const val AUTHORIZATION = "Authorization"
     }
