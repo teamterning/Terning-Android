@@ -58,12 +58,11 @@ class AuthInterceptor @Inject constructor(
                     Timber.d(t.message)
                 }
 
-                terningDataStore.clearInfo()
+                restartApp(MESSAGE_TOKEN_EXPIRED)
+            }
 
-                Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(context, TOKEN_EXPIRED_ERROR, Toast.LENGTH_LONG).show()
-                    ProcessPhoenix.triggerRebirth(context)
-                }
+            CODE_MANY_REQUESTS -> {
+                restartApp(MESSAGE_TOO_MANY_REQUESTS)
             }
         }
         return response
@@ -72,9 +71,20 @@ class AuthInterceptor @Inject constructor(
     private fun Request.Builder.newAuthBuilder() =
         this.addHeader(AUTHORIZATION, "$BEARER ${terningDataStore.accessToken}")
 
+    private fun restartApp(message: String) {
+        terningDataStore.clearInfo()
+
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            ProcessPhoenix.triggerRebirth(context)
+        }
+    }
+
     companion object {
         private const val CODE_TOKEN_EXPIRED = 401
-        private const val TOKEN_EXPIRED_ERROR = "토큰이 만료되었어요\n다시 로그인 해주세요"
+        private const val CODE_MANY_REQUESTS = 429
+        private const val MESSAGE_TOKEN_EXPIRED = "토큰이 만료되었어요\n다시 로그인 해주세요"
+        private const val MESSAGE_TOO_MANY_REQUESTS = "요청 횟수가 너무 많아요\n로그인 후 다시 시도해 주세요"
         private const val BEARER = "Bearer"
         private const val AUTHORIZATION = "Authorization"
     }
