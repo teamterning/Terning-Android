@@ -4,4 +4,7 @@ import com.terning.data.auth.dto.request.SignInRequestDto
 import com.terning.domain.auth.entity.SignInRequest
 
 fun SignInRequest.toSignInRequestDto(): SignInRequestDto =
-    SignInRequestDto(authType = authType)
+    SignInRequestDto(
+        authType = authType,
+        fcmToken = fcmToken
+    )

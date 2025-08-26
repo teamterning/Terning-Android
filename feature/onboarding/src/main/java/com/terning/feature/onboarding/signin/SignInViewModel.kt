@@ -62,9 +62,13 @@ class SignInViewModel @Inject constructor(
         accessToken: String,
         authType: String = KAKAO,
     ) {
+        userRepository.fetchAndSetFcmToken()
         authRepository.signIn(
             accessToken,
-            SignInRequest(authType = authType)
+            SignInRequest(
+                authType = authType,
+                fcmToken = userRepository.getFcmToken()
+            )
         ).onSuccess { response ->
             when {
                 response.accessToken == null -> {
