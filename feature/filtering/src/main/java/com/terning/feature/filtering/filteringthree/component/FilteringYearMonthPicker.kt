@@ -38,9 +38,10 @@ import com.terning.core.designsystem.util.CalendarDefaults.END_MONTH
 import com.terning.core.designsystem.util.CalendarDefaults.END_YEAR
 import com.terning.core.designsystem.util.CalendarDefaults.START_MONTH
 import com.terning.core.designsystem.util.CalendarDefaults.START_YEAR
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import okhttp3.internal.toImmutableList
 
 private val years =
     (START_YEAR..END_YEAR).map { "${it}년" }.toImmutableList()
@@ -107,7 +108,7 @@ fun FilteringYearMonthPicker(
 
 @Composable
 fun DatePicker(
-    items: List<String>,
+    items: ImmutableList<String>,
     modifier: Modifier = Modifier,
     pickerState: PickerState = rememberPickerState(),
     startIndex: Int = 0,
