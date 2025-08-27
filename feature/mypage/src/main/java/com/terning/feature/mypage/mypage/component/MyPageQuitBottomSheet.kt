@@ -33,10 +33,10 @@ import kotlinx.coroutines.launch
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPageQuitBottomSheet(
-    modifier: Modifier = Modifier.Companion,
+internal fun MyPageQuitBottomSheet(
     onDismiss: () -> Unit,
-    onQuitClick: () -> Unit
+    onQuitClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
@@ -44,7 +44,7 @@ fun MyPageQuitBottomSheet(
     TerningBasicBottomSheet(
         content = {
             Column(
-                horizontalAlignment = Alignment.Companion.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = modifier
             ) {
                 Spacer(modifier = modifier.height(10.dp))

@@ -13,8 +13,8 @@ import com.terning.core.designsystem.type.ProfileImage
 
 @Composable
 internal fun MyPageProfile(
+    profileImage: String,
     modifier: Modifier = Modifier,
-    profileImage: String
 ) {
     val userProfile = ProfileImage.fromString(profileImage)
 

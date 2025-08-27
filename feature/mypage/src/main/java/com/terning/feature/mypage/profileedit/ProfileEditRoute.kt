@@ -105,7 +105,7 @@ fun ProfileEditRoute(
 }
 
 @Composable
-fun ProfileEditScreen(
+private fun ProfileEditScreen(
     profileEditState: ProfileEditState,
     onProfileEditClick: (Boolean) -> Unit,
     onInputChange: (String) -> Unit,
@@ -192,7 +192,7 @@ private const val KAKA0 = "KAKAO"
 
 @Preview(showBackground = true)
 @Composable
-fun ProfileEditScreenPreview() {
+private fun ProfileEditScreenPreview() {
     TerningPointTheme {
         ProfileEditScreen(
             profileEditState = ProfileEditState(),
