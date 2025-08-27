@@ -97,7 +97,7 @@ fun SignUpRoute(
 }
 
 @Composable
-fun SignUpScreen(
+private fun SignUpScreen(
     state: SignUpState,
     onSignUpClick: () -> Unit,
     onInputChange: (String) -> Unit,
@@ -166,7 +166,7 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreenPreview() {
+private fun SignUpScreenPreview() {
     TerningPointTheme {
         SignUpScreen(
             state = SignUpState(),
