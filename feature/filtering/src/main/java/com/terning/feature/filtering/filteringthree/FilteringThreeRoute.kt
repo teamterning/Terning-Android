@@ -39,7 +39,7 @@ import com.terning.feature.filtering.filteringthree.component.FilteringYearMonth
 import java.util.Calendar
 
 @Composable
-fun FilteringThreeRoute(
+internal fun FilteringThreeRoute(
     grade: String,
     workingPeriod: String,
     navigateUp: () -> Unit,

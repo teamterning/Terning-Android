@@ -31,7 +31,7 @@ import com.terning.feature.filtering.R
 import com.terning.feature.filtering.filteringone.component.StatusOneRadioGroup
 
 @Composable
-fun FilteringOneRoute(
+internal fun FilteringOneRoute(
     name: String,
     onNextClick: (String) -> Unit,
     navigateUp: () -> Unit,

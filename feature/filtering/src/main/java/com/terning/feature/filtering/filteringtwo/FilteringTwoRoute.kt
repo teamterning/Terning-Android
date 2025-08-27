@@ -31,7 +31,7 @@ import com.terning.feature.filtering.R
 import com.terning.feature.filtering.filteringtwo.component.StatusTwoRadioGroup
 
 @Composable
-fun FilteringTwoRoute(
+internal fun FilteringTwoRoute(
     grade: String,
     onNextClick: (String, String) -> Unit,
     navigateUp: () -> Unit,

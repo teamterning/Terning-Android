@@ -38,7 +38,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.R
 
 @Composable
-fun ProfileEditRoute(
+internal fun ProfileEditRoute(
     navigateUp: () -> Unit,
     initialName: String,
     initialProfile: String,

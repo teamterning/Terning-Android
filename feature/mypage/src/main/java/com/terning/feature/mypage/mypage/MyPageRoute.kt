@@ -78,7 +78,7 @@ import kotlinx.collections.immutable.persistentListOf
 @OptIn(ExperimentalPermissionsApi::class)
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-fun MyPageRoute(
+internal fun MyPageRoute(
     paddingValues: PaddingValues,
     navigateToProfileEdit: (String, String, String) -> Unit,
     restartApp: () -> Unit,

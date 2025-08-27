@@ -37,7 +37,7 @@ import com.terning.feature.onboarding.R
 import com.terning.feature.onboarding.signin.component.KakaoButton
 
 @Composable
-fun SignInRoute(
+internal fun SignInRoute(
     navigateToHome: () -> Unit,
     navigateToSignUp: (String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel(),
