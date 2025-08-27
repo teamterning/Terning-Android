@@ -29,7 +29,7 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.type.DeeplinkType
-import com.terning.domain.update.entity.UpdateState
+import com.terning.feature.splash.SplashUiState
 import com.terning.feature.splash.component.TerningMajorUpdateDialog
 import com.terning.feature.splash.component.TerningPatchUpdateDialog
 import kotlinx.coroutines.launch
@@ -104,7 +104,7 @@ internal fun SplashRoute(
     }
 
     SplashScreen(
-        updateState = updateState,
+        splashUiState = updateState.toUi(),
         onUpdateButtonClick = context::launchPlayStore,
         onUpdateSkipButtonClick = viewModel::checkIfAccessTokenAvailable
     )
@@ -112,26 +112,26 @@ internal fun SplashRoute(
 
 @Composable
 private fun SplashScreen(
-    updateState: UpdateState,
+    splashUiState: SplashUiState,
     onUpdateButtonClick: () -> Unit,
     onUpdateSkipButtonClick: () -> Unit,
 ) {
-    when (updateState) {
-        is UpdateState.MajorUpdateAvailable -> {
+    when (splashUiState) {
+        is SplashUiState.MajorUpdateAvailable -> {
             AnimatedVisibility(visible = true) {
                 TerningMajorUpdateDialog(
-                    titleText = updateState.title,
-                    bodyText = updateState.content,
+                    titleText = splashUiState.title,
+                    bodyText = splashUiState.content,
                     onUpdateButtonClick = onUpdateButtonClick,
                 )
             }
         }
 
-        is UpdateState.PatchUpdateAvailable -> {
+        is SplashUiState.PatchUpdateAvailable -> {
             AnimatedVisibility(visible = true) {
                 TerningPatchUpdateDialog(
-                    titleText = updateState.title,
-                    bodyText = updateState.content,
+                    titleText = splashUiState.title,
+                    bodyText = splashUiState.content,
                     onDismissButtonClick = onUpdateSkipButtonClick,
                     onUpdateButtonClick = onUpdateButtonClick,
                 )
@@ -161,7 +161,7 @@ private fun SplashScreen(
 private fun SplashScreenPreview() {
     TerningPointTheme {
         SplashScreen(
-            updateState = UpdateState.NoUpdateAvailable,
+            splashUiState = SplashUiState.NoUpdateAvailable,
             onUpdateButtonClick = {},
             onUpdateSkipButtonClick = {},
         )
