@@ -73,7 +73,7 @@ fun FilteringOneRoute(
 }
 
 @Composable
-fun FilteringOneScreen(
+private fun FilteringOneScreen(
     name: String,
     onNextClick: (String) -> Unit,
     navigateUp: () -> Unit,
@@ -153,7 +153,7 @@ fun FilteringOneScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun FilteringOneScreenPreview() {
+private fun FilteringOneScreenPreview() {
     TerningPointTheme {
         FilteringOneScreen(
             name = "터닝이",

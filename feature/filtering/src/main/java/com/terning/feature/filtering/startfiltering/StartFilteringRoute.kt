@@ -78,7 +78,7 @@ fun StartFilteringRoute(
 }
 
 @Composable
-fun StartFilteringScreen(
+private fun StartFilteringScreen(
     onStartClick: () -> Unit,
     onLaterClick: () -> Unit,
     buttonState: Boolean,

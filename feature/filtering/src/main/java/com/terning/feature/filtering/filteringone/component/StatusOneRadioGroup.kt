@@ -16,7 +16,7 @@ import com.terning.core.designsystem.type.Grade
 import com.terning.feature.filtering.R
 
 @Composable
-fun StatusOneRadioGroup(
+internal fun StatusOneRadioGroup(
     onButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {

@@ -57,7 +57,7 @@ fun StartHomeRoute(
 }
 
 @Composable
-fun StartHomeScreen(
+private fun StartHomeScreen(
     onClick: () -> Unit,
     buttonState: Boolean,
     screenHeight: Float,

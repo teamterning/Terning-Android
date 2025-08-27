@@ -101,7 +101,7 @@ fun FilteringThreeRoute(
 }
 
 @Composable
-fun FilteringThreeScreen(
+private fun FilteringThreeScreen(
     navigateUp: () -> Unit,
     chosenYear: Int,
     chosenMonth: Int,
@@ -167,7 +167,7 @@ fun FilteringThreeScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun FilteringThreeScreenPreview() {
+private fun FilteringThreeScreenPreview() {
     TerningPointTheme {
         FilteringThreeScreen(
             navigateUp = { },
