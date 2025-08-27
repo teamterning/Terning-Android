@@ -1,6 +1,7 @@
 package com.terning.feature.search.search
 
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -24,7 +26,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.textfield.SearchTextField
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.state.UiState
@@ -127,10 +128,11 @@ fun SearchScreen(
             .background(White)
             .padding(paddingValues)
     ) {
-        TerningImage(
-            painter = R.drawable.ic_terning_logo_typo,
+        Image(
+            painter = painterResource(R.drawable.ic_terning_logo_typo),
             modifier = Modifier
-                .padding(start = 24.dp, top = 16.dp)
+                .padding(start = 24.dp, top = 16.dp),
+            contentDescription = "logo typo"
         )
 
         Box(

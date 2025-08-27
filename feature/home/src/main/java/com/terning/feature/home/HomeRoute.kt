@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,7 +47,6 @@ import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
 import com.terning.core.designsystem.R.raw.paging_loading_animation
 import com.terning.core.designsystem.component.bottomsheet.SortingBottomSheet
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.component.item.InternItemWithShadow
 import com.terning.core.designsystem.component.item.TerningLottieAnimation
 import com.terning.core.designsystem.extension.noRippleClickable
@@ -104,8 +105,7 @@ fun HomeRoute(
                     viewModel.updateAlarmAvailability(isGranted)
                     viewModel.updatePermissionRequested(true)
                 }
-        }
-        else {
+        } else {
             val isAlarmAvailable = viewModel.getAlarmAvailability()
             viewModel.updateAlarmAvailability(isAlarmAvailable)
         }
@@ -289,10 +289,10 @@ fun HomeScreen(
             .background(White)
             .padding(paddingValues)
     ) {
-        TerningImage(
-            painter = R.drawable.ic_terning_logo_typo,
-            modifier = Modifier
-                .padding(start = 24.dp, top = 16.dp, bottom = 16.dp)
+        Image(
+            painter = painterResource(R.drawable.ic_terning_logo_typo),
+            modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 16.dp),
+            contentDescription = "home logo"
         )
 
         LazyColumn(

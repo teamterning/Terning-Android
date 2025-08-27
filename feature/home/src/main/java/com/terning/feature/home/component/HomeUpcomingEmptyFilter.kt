@@ -1,5 +1,6 @@
 package com.terning.feature.home.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,10 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.extension.customShadow
 import com.terning.core.designsystem.theme.Grey150
 import com.terning.core.designsystem.theme.Grey500
@@ -42,11 +43,12 @@ fun HomeUpcomingEmptyFilter(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TerningImage(
-            painter = R.drawable.ic_home_scrap_empty,
+        Image(
+            painter = painterResource(R.drawable.ic_home_scrap_empty),
             modifier = Modifier
                 .padding(top = 23.dp)
-                .size(44.dp)
+                .size(44.dp),
+            contentDescription = "scrap empty"
         )
         Text(
             text = stringResource(id = R.string.home_upcoming_no_scrap),

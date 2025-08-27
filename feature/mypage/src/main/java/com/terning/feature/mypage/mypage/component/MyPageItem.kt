@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
@@ -25,7 +24,7 @@ internal fun MyPageItem(
     icon: Int,
     modifier: Modifier = Modifier,
     onButtonClick: () -> Unit = {},
-    trailingContent: @Composable () -> Unit = { TerningImage(painter = R.drawable.ic_my_page_go_detail) }
+    trailingContent: @Composable () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -60,7 +59,13 @@ private fun MyPageItemPreview() {
     TerningPointTheme {
         MyPageItem(
             text = "공지사항",
-            icon = R.drawable.ic_my_page_notice
+            icon = R.drawable.ic_my_page_notice,
+            trailingContent = {
+                Image(
+                    painter = painterResource(R.drawable.ic_my_page_go_detail),
+                    contentDescription = ""
+                )
+            }
         )
     }
 }
