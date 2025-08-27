@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.component.bottomsheet
+package com.terning.feature.mypage.mypage.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.R
+import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.Grey400
@@ -32,7 +33,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPageLogoutBottomSheet(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
     onDismiss: () -> Unit,
     onLogoutClick: () -> Unit
 ) {
@@ -42,7 +43,7 @@ fun MyPageLogoutBottomSheet(
     TerningBasicBottomSheet(
         content = {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.Companion.CenterHorizontally,
                 modifier = modifier
             ) {
                 Spacer(modifier = modifier.height(10.dp))

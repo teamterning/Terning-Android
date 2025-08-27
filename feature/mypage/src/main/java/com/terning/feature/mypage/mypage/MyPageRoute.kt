@@ -51,8 +51,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
-import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
-import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
+import com.terning.feature.mypage.mypage.component.MyPageLogoutBottomSheet
+import com.terning.feature.mypage.mypage.component.MyPageQuitBottomSheet
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState

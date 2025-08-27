@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.component.bottomsheet
+package com.terning.feature.mypage.mypage.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.R
+import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.Grey400
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyPageQuitBottomSheet(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
     onDismiss: () -> Unit,
     onQuitClick: () -> Unit
 ) {
@@ -43,7 +44,7 @@ fun MyPageQuitBottomSheet(
     TerningBasicBottomSheet(
         content = {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.Companion.CenterHorizontally,
                 modifier = modifier
             ) {
                 Spacer(modifier = modifier.height(10.dp))
@@ -55,7 +56,7 @@ fun MyPageQuitBottomSheet(
                 Text(
                     text = stringResource(id = R.string.my_page_quit_sub),
                     style = TerningTheme.typography.body3,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Companion.Center,
                     color = Grey400
                 )
                 Spacer(modifier = modifier.height(36.dp))
@@ -67,7 +68,7 @@ fun MyPageQuitBottomSheet(
                     onButtonClick = {
                         onQuitClick()
                     },
-                    modifier = Modifier.padding(
+                    modifier = Modifier.Companion.padding(
                         start = 24.dp,
                         end = 24.dp
                     )
@@ -86,7 +87,7 @@ fun MyPageQuitBottomSheet(
                                 }
                             }
                     },
-                    modifier = Modifier.padding(
+                    modifier = Modifier.Companion.padding(
                         start = 24.dp,
                         end = 24.dp,
                     )
