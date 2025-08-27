@@ -56,7 +56,7 @@ internal fun MyPageQuitBottomSheet(
                 Text(
                     text = stringResource(id = R.string.my_page_quit_sub),
                     style = TerningTheme.typography.body3,
-                    textAlign = TextAlign.Companion.Center,
+                    textAlign = TextAlign.Center,
                     color = Grey400
                 )
                 Spacer(modifier = modifier.height(36.dp))
@@ -68,7 +68,7 @@ internal fun MyPageQuitBottomSheet(
                     onButtonClick = {
                         onQuitClick()
                     },
-                    modifier = Modifier.Companion.padding(
+                    modifier = Modifier.padding(
                         start = 24.dp,
                         end = 24.dp
                     )
@@ -87,7 +87,7 @@ internal fun MyPageQuitBottomSheet(
                                 }
                             }
                     },
-                    modifier = Modifier.Companion.padding(
+                    modifier = Modifier.padding(
                         start = 24.dp,
                         end = 24.dp,
                     )
