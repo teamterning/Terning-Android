@@ -35,9 +35,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -51,8 +52,6 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
-import com.terning.feature.mypage.mypage.component.MyPageLogoutBottomSheet
-import com.terning.feature.mypage.mypage.component.MyPageQuitBottomSheet
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
@@ -65,7 +64,9 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 import com.terning.feature.mypage.R
 import com.terning.feature.mypage.mypage.component.MyPageAlarmDialog
+import com.terning.feature.mypage.mypage.component.MyPageLogoutBottomSheet
 import com.terning.feature.mypage.mypage.component.MyPageProfile
+import com.terning.feature.mypage.mypage.component.MyPageQuitBottomSheet
 import com.terning.feature.mypage.mypage.component.MyPageSection
 import com.terning.feature.mypage.mypage.component.MyPageToggleButton
 import com.terning.feature.mypage.mypage.model.MyPageUiModel
@@ -280,7 +281,7 @@ private fun MyPageScreen(
             onItemClick = onNoticeClick,
             trailingContent = {
                 Image(
-                    painter = painterResource(R.drawable.ic_my_page_go_detail),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
                     contentDescription = "go detail"
                 )
             }
@@ -292,7 +293,7 @@ private fun MyPageScreen(
             onItemClick = onOpinionClick,
             trailingContent = {
                 Image(
-                    painter = painterResource(R.drawable.ic_my_page_go_detail),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
                     contentDescription = "go detail"
                 )
             }
@@ -306,7 +307,7 @@ private fun MyPageScreen(
             onItemClick = onServiceClick,
             trailingContent = {
                 Image(
-                    painter = painterResource(R.drawable.ic_my_page_go_detail),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
                     contentDescription = "go detail"
                 )
             }
@@ -318,7 +319,7 @@ private fun MyPageScreen(
             onItemClick = onPersonalClick,
             trailingContent = {
                 Image(
-                    painter = painterResource(R.drawable.ic_my_page_go_detail),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
                     contentDescription = ""
                 )
             }
@@ -442,7 +443,7 @@ private fun UserProfile(
                     color = Grey400
                 )
                 Image(
-                    painter = painterResource(R.drawable.ic_my_page_go_edit),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_edit),
                     contentDescription = "go edit"
                 )
             }

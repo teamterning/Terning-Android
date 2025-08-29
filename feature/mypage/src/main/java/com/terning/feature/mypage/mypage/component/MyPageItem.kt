@@ -10,7 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.extension.noRippleClickable
@@ -39,7 +40,7 @@ internal fun MyPageItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = icon),
+                imageVector = ImageVector.vectorResource(id = icon),
                 contentDescription = "my page image",
                 modifier = modifier.size(28.dp)
             )
@@ -62,7 +63,7 @@ private fun MyPageItemPreview() {
             icon = R.drawable.ic_my_page_notice,
             trailingContent = {
                 Image(
-                    painter = painterResource(R.drawable.ic_my_page_go_detail),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
                     contentDescription = ""
                 )
             }

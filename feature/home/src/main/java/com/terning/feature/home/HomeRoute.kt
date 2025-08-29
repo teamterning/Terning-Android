@@ -28,9 +28,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -290,7 +292,7 @@ fun HomeScreen(
             .padding(paddingValues)
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_terning_logo_typo),
+            imageVector = ImageVector.vectorResource(R.drawable.ic_terning_logo_typo),
             modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 16.dp),
             contentDescription = "home logo"
         )
