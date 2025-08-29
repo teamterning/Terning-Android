@@ -39,7 +39,7 @@ import com.terning.feature.filtering.filteringthree.component.FilteringYearMonth
 import java.util.Calendar
 
 @Composable
-fun FilteringThreeRoute(
+internal fun FilteringThreeRoute(
     grade: String,
     workingPeriod: String,
     navigateUp: () -> Unit,
@@ -101,7 +101,7 @@ fun FilteringThreeRoute(
 }
 
 @Composable
-fun FilteringThreeScreen(
+private fun FilteringThreeScreen(
     navigateUp: () -> Unit,
     chosenYear: Int,
     chosenMonth: Int,
@@ -167,7 +167,7 @@ fun FilteringThreeScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun FilteringThreeScreenPreview() {
+private fun FilteringThreeScreenPreview() {
     TerningPointTheme {
         FilteringThreeScreen(
             navigateUp = { },

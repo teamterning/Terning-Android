@@ -10,6 +10,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,8 +35,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -49,9 +52,6 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.terning.core.analytics.EventType
 import com.terning.core.analytics.LocalTracker
-import com.terning.core.designsystem.component.bottomsheet.MyPageLogoutBottomSheet
-import com.terning.core.designsystem.component.bottomsheet.MyPageQuitBottomSheet
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.state.UiState
@@ -64,7 +64,9 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.BuildConfig.VERSION_NAME
 import com.terning.feature.mypage.R
 import com.terning.feature.mypage.mypage.component.MyPageAlarmDialog
+import com.terning.feature.mypage.mypage.component.MyPageLogoutBottomSheet
 import com.terning.feature.mypage.mypage.component.MyPageProfile
+import com.terning.feature.mypage.mypage.component.MyPageQuitBottomSheet
 import com.terning.feature.mypage.mypage.component.MyPageSection
 import com.terning.feature.mypage.mypage.component.MyPageToggleButton
 import com.terning.feature.mypage.mypage.model.MyPageUiModel
@@ -77,7 +79,7 @@ import kotlinx.collections.immutable.persistentListOf
 @OptIn(ExperimentalPermissionsApi::class)
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-fun MyPageRoute(
+internal fun MyPageRoute(
     paddingValues: PaddingValues,
     navigateToProfileEdit: (String, String, String) -> Unit,
     restartApp: () -> Unit,
@@ -276,13 +278,25 @@ private fun MyPageScreen(
         MyPageUiModel.MyPageItem(
             leadingIcon = R.drawable.ic_my_page_notice,
             text = R.string.my_page_notice,
-            onItemClick = onNoticeClick
+            onItemClick = onNoticeClick,
+            trailingContent = {
+                Image(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
+                    contentDescription = "go detail"
+                )
+            }
         ),
         MyPageUiModel.HorizontalDivider,
         MyPageUiModel.MyPageItem(
             leadingIcon = R.drawable.ic_my_page_opinion,
             text = R.string.my_page_opinion,
-            onItemClick = onOpinionClick
+            onItemClick = onOpinionClick,
+            trailingContent = {
+                Image(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
+                    contentDescription = "go detail"
+                )
+            }
         )
     )
     val serviceInfoItems = persistentListOf(
@@ -290,13 +304,25 @@ private fun MyPageScreen(
         MyPageUiModel.MyPageItem(
             leadingIcon = R.drawable.ic_my_page_service,
             text = R.string.my_page_service,
-            onItemClick = onServiceClick
+            onItemClick = onServiceClick,
+            trailingContent = {
+                Image(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
+                    contentDescription = "go detail"
+                )
+            }
         ),
         MyPageUiModel.HorizontalDivider,
         MyPageUiModel.MyPageItem(
             leadingIcon = R.drawable.ic_my_page_personal,
             text = R.string.my_page_personal,
-            onItemClick = onPersonalClick
+            onItemClick = onPersonalClick,
+            trailingContent = {
+                Image(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
+                    contentDescription = ""
+                )
+            }
         ),
         MyPageUiModel.HorizontalDivider,
         MyPageUiModel.MyPageItem(
@@ -416,7 +442,10 @@ private fun UserProfile(
                     style = TerningTheme.typography.button3,
                     color = Grey400
                 )
-                TerningImage(painter = R.drawable.ic_my_page_go_edit)
+                Image(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_edit),
+                    contentDescription = "go edit"
+                )
             }
         }
     }

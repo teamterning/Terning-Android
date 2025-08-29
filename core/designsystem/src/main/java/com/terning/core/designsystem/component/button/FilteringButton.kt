@@ -101,7 +101,7 @@ fun FilteringButton(
 
 @Preview(showBackground = true)
 @Composable
-fun FilteringButtonPreview() {
+private fun FilteringButtonPreview() {
     TerningPointTheme {
         Column {
             FilteringButton(

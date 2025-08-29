@@ -62,5 +62,4 @@ dependencies {
     implementation(libs.process.phoenix)
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.okhttp)
-    implementation(platform(libs.okhttp.bom))
 }

@@ -29,7 +29,6 @@ import com.terning.core.designsystem.component.button.RectangleButton
 import com.terning.core.designsystem.component.item.ProfileWithPlusButton
 import com.terning.core.designsystem.component.textfield.NameTextField
 import com.terning.core.designsystem.extension.addFocusCleaner
-import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -98,7 +97,7 @@ fun SignUpRoute(
 }
 
 @Composable
-fun SignUpScreen(
+private fun SignUpScreen(
     state: SignUpState,
     onSignUpClick: () -> Unit,
     onInputChange: (String) -> Unit,
@@ -133,9 +132,7 @@ fun SignUpScreen(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             ProfileWithPlusButton(
-                modifier = Modifier.noRippleClickable {
-                    onProfileEditClick(true)
-                },
+                onClick = { onProfileEditClick(true) },
                 profileImage = state.profileImage
             )
         }
@@ -169,7 +166,7 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreenPreview() {
+private fun SignUpScreenPreview() {
     TerningPointTheme {
         SignUpScreen(
             state = SignUpState(),

@@ -30,7 +30,6 @@ import com.terning.core.designsystem.component.item.ProfileWithPlusButton
 import com.terning.core.designsystem.component.textfield.NameTextField
 import com.terning.core.designsystem.component.topappbar.BackButtonTopAppBar
 import com.terning.core.designsystem.extension.addFocusCleaner
-import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.extension.toast
 import com.terning.core.designsystem.theme.Grey500
 import com.terning.core.designsystem.theme.TerningPointTheme
@@ -39,7 +38,7 @@ import com.terning.core.designsystem.theme.White
 import com.terning.feature.mypage.R
 
 @Composable
-fun ProfileEditRoute(
+internal fun ProfileEditRoute(
     navigateUp: () -> Unit,
     initialName: String,
     initialProfile: String,
@@ -106,7 +105,7 @@ fun ProfileEditRoute(
 }
 
 @Composable
-fun ProfileEditScreen(
+private fun ProfileEditScreen(
     profileEditState: ProfileEditState,
     onProfileEditClick: (Boolean) -> Unit,
     onInputChange: (String) -> Unit,
@@ -140,11 +139,10 @@ fun ProfileEditScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             ProfileWithPlusButton(
-                modifier = Modifier
-                    .noRippleClickable {
-                        onProfileEditClick(true)
-                    }
-                    .align(Alignment.CenterHorizontally),
+                onClick = {
+                    onProfileEditClick(true)
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally),
                 profileImage = profileEditState.profile
             )
             Spacer(modifier = Modifier.height(48.dp))
@@ -194,7 +192,7 @@ private const val KAKA0 = "KAKAO"
 
 @Preview(showBackground = true)
 @Composable
-fun ProfileEditScreenPreview() {
+private fun ProfileEditScreenPreview() {
     TerningPointTheme {
         ProfileEditScreen(
             profileEditState = ProfileEditState(),

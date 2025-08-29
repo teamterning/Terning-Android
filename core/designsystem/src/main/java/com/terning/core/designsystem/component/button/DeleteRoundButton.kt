@@ -70,7 +70,7 @@ fun DeleteRoundButton(
 
 @Preview(showBackground = true)
 @Composable
-fun DeleteRoundButtonPreview() {
+private fun DeleteRoundButtonPreview() {
     TerningPointTheme {
         DeleteRoundButton(
             style = TextStyle(),

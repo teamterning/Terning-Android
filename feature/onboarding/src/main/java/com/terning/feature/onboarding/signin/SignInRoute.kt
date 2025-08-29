@@ -37,7 +37,7 @@ import com.terning.feature.onboarding.R
 import com.terning.feature.onboarding.signin.component.KakaoButton
 
 @Composable
-fun SignInRoute(
+internal fun SignInRoute(
     navigateToHome: () -> Unit,
     navigateToSignUp: (String) -> Unit,
     viewModel: SignInViewModel = hiltViewModel(),
@@ -98,7 +98,7 @@ fun SignInRoute(
 }
 
 @Composable
-fun SignInScreen(
+private fun SignInScreen(
     onSignInClick: () -> Unit,
 ) {
     Column(
@@ -175,7 +175,7 @@ private const val KAKAO_NOT_LOGGED_IN = "statusCode=302"
 
 @Preview(showBackground = true)
 @Composable
-fun SignInScreenPreview() {
+private fun SignInScreenPreview() {
     TerningPointTheme {
         SignInScreen(
             onSignInClick = {}

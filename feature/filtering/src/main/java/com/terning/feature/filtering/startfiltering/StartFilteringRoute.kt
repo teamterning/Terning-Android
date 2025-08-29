@@ -40,7 +40,7 @@ import com.terning.feature.filtering.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun StartFilteringRoute(
+internal fun StartFilteringRoute(
     onStartClick: () -> Unit,
     onLaterClick: () -> Unit,
     viewModel: StartFilteringViewModel = hiltViewModel()
@@ -78,7 +78,7 @@ fun StartFilteringRoute(
 }
 
 @Composable
-fun StartFilteringScreen(
+private fun StartFilteringScreen(
     onStartClick: () -> Unit,
     onLaterClick: () -> Unit,
     buttonState: Boolean,

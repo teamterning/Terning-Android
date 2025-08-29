@@ -35,7 +35,7 @@ import com.terning.feature.filtering.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun StartHomeRoute(
+internal fun StartHomeRoute(
     navigateToHome: () -> Unit,
     viewModel: StartHomeViewModel = hiltViewModel()
 ) {
@@ -57,7 +57,7 @@ fun StartHomeRoute(
 }
 
 @Composable
-fun StartHomeScreen(
+private fun StartHomeScreen(
     onClick: () -> Unit,
     buttonState: Boolean,
     screenHeight: Float,

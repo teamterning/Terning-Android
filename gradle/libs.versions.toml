@@ -169,8 +169,6 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 hilt-manager = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltManager" }
 javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javax-inject" }
 
-okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
-okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
@@ -229,7 +227,6 @@ retrofit = [
     "retrofit2-kotlinx-serialization-converter"
 ]
 okhttp = [
-    "okhttp",
     "okhttp-logging"
 ]
 androidx-compose-ui-test = [

@@ -10,10 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.terning.core.designsystem.component.image.TerningImage
 import com.terning.core.designsystem.extension.noRippleClickable
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.TerningTheme
@@ -25,7 +25,7 @@ internal fun MyPageItem(
     icon: Int,
     modifier: Modifier = Modifier,
     onButtonClick: () -> Unit = {},
-    trailingContent: @Composable () -> Unit = { TerningImage(painter = R.drawable.ic_my_page_go_detail) }
+    trailingContent: @Composable () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -40,7 +40,7 @@ internal fun MyPageItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = icon),
+                imageVector = ImageVector.vectorResource(id = icon),
                 contentDescription = "my page image",
                 modifier = modifier.size(28.dp)
             )
@@ -60,7 +60,13 @@ private fun MyPageItemPreview() {
     TerningPointTheme {
         MyPageItem(
             text = "공지사항",
-            icon = R.drawable.ic_my_page_notice
+            icon = R.drawable.ic_my_page_notice,
+            trailingContent = {
+                Image(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_my_page_go_detail),
+                    contentDescription = ""
+                )
+            }
         )
     }
 }

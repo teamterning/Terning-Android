@@ -1,4 +1,4 @@
-package com.terning.core.designsystem.component.bottomsheet
+package com.terning.feature.mypage.mypage.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +12,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.R
+import com.terning.core.designsystem.component.bottomsheet.TerningBasicBottomSheet
 import com.terning.core.designsystem.component.button.DeleteRoundButton
 import com.terning.core.designsystem.component.button.RoundButton
 import com.terning.core.designsystem.theme.Grey400
@@ -21,20 +23,20 @@ import com.terning.core.designsystem.theme.TerningTheme
 import kotlinx.coroutines.launch
 
 /**
- * 로그아웃을 할 수 있는 바텀시트입니다.
+ * 회원탈퇴를 할 수 있는 바텀시트입니다.
  *
- * 로그아웃 버튼과, 취소 버튼으로 이루어져있습니다.
+ * 회원탈퇴 버튼과, 취소 버튼으로 이루어져있습니다.
  *
  * @param modifier 바텀시트에 적용할 Modifier입니다.
  * @param onDismiss 취소 버튼 클릭 시, 바텀시트가 닫히면서 호출되는 함수입니다.
- * @param onLogoutClick 로그아웃 버튼 클릭 시, 호출되는 콜백 함수입니다.
+ * @param onQuitClick 회원탈퇴 버튼 클릭 시, 호출되는 콜백 함수입니다.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyPageLogoutBottomSheet(
-    modifier: Modifier = Modifier,
+internal fun MyPageQuitBottomSheet(
     onDismiss: () -> Unit,
-    onLogoutClick: () -> Unit
+    onQuitClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
@@ -50,25 +52,26 @@ fun MyPageLogoutBottomSheet(
                     text = stringResource(id = R.string.my_page_bottom_sheet_title),
                     style = TerningTheme.typography.heading1,
                 )
-                Spacer(modifier = modifier.height(60.dp))
+                Spacer(modifier = modifier.height(28.dp))
                 Text(
-                    text = stringResource(id = R.string.my_page_logout_sub),
-                    style = TerningTheme.typography.body4,
-                    color = Grey400,
+                    text = stringResource(id = R.string.my_page_quit_sub),
+                    style = TerningTheme.typography.body3,
+                    textAlign = TextAlign.Center,
+                    color = Grey400
                 )
-                Spacer(modifier = modifier.height(64.dp))
+                Spacer(modifier = modifier.height(36.dp))
                 RoundButton(
                     style = TerningTheme.typography.button2,
                     paddingVertical = 15.dp,
                     cornerRadius = 10.dp,
-                    text = R.string.my_page_logout_button,
+                    text = R.string.my_page_quit_button,
                     onButtonClick = {
-                        onLogoutClick()
+                        onQuitClick()
                     },
-                    modifier = modifier.padding(
+                    modifier = Modifier.padding(
                         start = 24.dp,
                         end = 24.dp
-                    ),
+                    )
                 )
                 Spacer(modifier = modifier.height(8.dp))
                 DeleteRoundButton(
@@ -84,7 +87,7 @@ fun MyPageLogoutBottomSheet(
                                 }
                             }
                     },
-                    modifier = modifier.padding(
+                    modifier = Modifier.padding(
                         start = 24.dp,
                         end = 24.dp,
                     )

@@ -31,7 +31,7 @@ import com.terning.feature.filtering.R
 import com.terning.feature.filtering.filteringtwo.component.StatusTwoRadioGroup
 
 @Composable
-fun FilteringTwoRoute(
+internal fun FilteringTwoRoute(
     grade: String,
     onNextClick: (String, String) -> Unit,
     navigateUp: () -> Unit,
@@ -76,7 +76,7 @@ fun FilteringTwoRoute(
 }
 
 @Composable
-fun FilteringTwoScreen(
+private fun FilteringTwoScreen(
     grade: String,
     onNextClick: (String, String) -> Unit,
     navigateUp: () -> Unit,
@@ -142,7 +142,7 @@ fun FilteringTwoScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun FilteringTwoScreenPreview() {
+private fun FilteringTwoScreenPreview() {
     TerningPointTheme {
         FilteringTwoScreen(
             grade = "freshman",

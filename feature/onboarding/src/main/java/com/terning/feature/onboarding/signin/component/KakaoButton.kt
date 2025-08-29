@@ -21,7 +21,7 @@ import com.terning.core.designsystem.theme.TerningTheme
 import com.terning.feature.onboarding.R
 
 @Composable
-fun KakaoButton(
+internal fun KakaoButton(
     title: String,
     onSignInClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -52,7 +52,7 @@ fun KakaoButton(
 
 @Preview(showBackground = true)
 @Composable
-fun KakaoButtonPreview() {
+private fun KakaoButtonPreview() {
     TerningPointTheme {
         KakaoButton(
             title = "카카오로 로그인하기",

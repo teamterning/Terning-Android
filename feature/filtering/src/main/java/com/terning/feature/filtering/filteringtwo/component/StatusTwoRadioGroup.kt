@@ -16,7 +16,7 @@ import com.terning.core.designsystem.type.WorkingPeriod
 import com.terning.feature.filtering.R
 
 @Composable
-fun StatusTwoRadioGroup(
+internal fun StatusTwoRadioGroup(
     onButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
