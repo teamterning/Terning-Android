@@ -292,7 +292,7 @@ fun HomeScreen(
             .padding(paddingValues)
     ) {
         Image(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_terning_logo_typo),
+            painter = painterResource(R.drawable.ic_terning_logo_typo),
             modifier = Modifier.padding(start = 24.dp, top = 16.dp, bottom = 16.dp),
             contentDescription = "home logo"
         )

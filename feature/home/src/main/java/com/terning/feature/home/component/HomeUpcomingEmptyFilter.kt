@@ -46,7 +46,7 @@ fun HomeUpcomingEmptyFilter(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_home_scrap_empty),
+            painter = painterResource.(R.drawable.ic_home_scrap_empty),
             modifier = Modifier
                 .padding(top = 23.dp)
                 .size(44.dp),
