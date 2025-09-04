@@ -18,7 +18,7 @@ android {
         create("release") {
             keyAlias = properties.getProperty("release.keyAlias")
             keyPassword = properties.getProperty("release.keyPassword")
-            storeFile = file(properties.getProperty("release.storeFile") + "/terning/terning.jks")
+            storeFile = file(properties.getProperty("release.storeFile"))
             storePassword = properties.getProperty("release.storePassword")
         }
     }
