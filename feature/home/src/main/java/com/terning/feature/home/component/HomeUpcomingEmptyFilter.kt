@@ -12,10 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.terning.core.designsystem.extension.customShadow
@@ -46,7 +44,7 @@ fun HomeUpcomingEmptyFilter(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            painter = painterResource.(R.drawable.ic_home_scrap_empty),
+            painter = painterResource(R.drawable.ic_home_scrap_empty),
             modifier = Modifier
                 .padding(top = 23.dp)
                 .size(44.dp),
