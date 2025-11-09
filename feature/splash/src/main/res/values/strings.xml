@@ -6,4 +6,14 @@
     <string name="update_dialog_patch_button_dismiss">다음에 하기</string>
     <string name="update_dialog_patch_button_update">업데이트 하기</string>
     <string name="update_dialog_major_button_update">업데이트 하러 가기</string>
+
+    <string name="dialog_server_title">터닝 서비스 종료 안내</string>
+    <string name="dailog_bodytitle">그동안 터닝을 사랑해주신 모든 분들께\n
+        진심으로 감사의 말씀을 드립니다.\n
+        ‘터닝’은 11월 25일부로 서비스가 종료될 예정이며,\n
+        자세한 사항은 공지 내용을 확인해주세요.</string>
+    <string name="dialog_server_over_title">서비스 종료 예정일</string>
+    <string name="dialog_server_over_day">2025년 11월 25일</string>
+    <string name="dialog_dismiss">닫기</string>
+    <string name="dialog_detail">자세히 보기</string>
 </resources>
