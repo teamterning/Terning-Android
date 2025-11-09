@@ -2,8 +2,8 @@
 compileSdk = "35"
 minSdk = "28"
 targetSdk = "35"
-versionName = "1.3.8"
-versionCode = "103080"
+versionName = "1.4.0"
+versionCode = "104000"
 jvmTarget = "1.8"
 
 ## Android gradle plugin
