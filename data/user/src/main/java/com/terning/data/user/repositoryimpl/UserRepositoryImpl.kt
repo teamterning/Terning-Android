@@ -48,4 +48,31 @@ class UserRepositoryImpl @Inject constructor(
     override fun clearInfo() {
         terningDataStore.clearInfo()
     }
+
+    override fun hasNoticeCooldownPassed(): Boolean {
+        val lastShownTimestamp = terningDataStore.serverNoticeTimestamp
+
+        // 2. 0L이면 (앱 설치 후 본 적 없음) -> 무조건 true 반환 (공지 보여줘야 함)
+        if (lastShownTimestamp == 0L) {
+            return true
+        }
+
+        // 3. 현재 시간 가져오기
+        val currentTime = System.currentTimeMillis()
+
+        // 4. (현재 시간 - 저장된 시간) = 경과 시간
+        val elapsedTime = currentTime - lastShownTimestamp
+
+        // 5. 경과 시간이 3시간(밀리초)보다 크면 true
+        return elapsedTime > THREE_HOURS_MS
+    }
+
+    override fun setNoticeTimestampToNow() {
+        terningDataStore.serverNoticeTimestamp = System.currentTimeMillis()
+    }
+
+    companion object {
+        // 3시간을 밀리초로 환산한 값
+        private const val THREE_HOURS_MS = 3 * 60 * 60 * 1000L
+    }
 }
