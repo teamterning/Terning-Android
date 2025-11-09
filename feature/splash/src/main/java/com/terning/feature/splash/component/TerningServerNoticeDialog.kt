@@ -33,10 +33,10 @@ import com.terning.feature.splash.R
 @Composable
 internal fun TerningServerNoticeDialog(
     onDismissButtonClick: () -> Unit,
-    onUpdateButtonClick: () -> Unit,
+    onDetailButtonClick: () -> Unit,
 ) {
     TerningNoticeDialog(
-        titleText = stringResource(R.string.dialog_title),
+        titleText = stringResource(R.string.dialog_server_title),
         bodyText = stringResource(R.string.dailog_bodytitle),
     ) {
         Column(
@@ -53,6 +53,7 @@ internal fun TerningServerNoticeDialog(
                 style = TerningTheme.typography.body6,
                 color = Black,
             )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(R.string.dialog_server_over_day),
                 style = TerningTheme.typography.detail4,
@@ -77,7 +78,7 @@ internal fun TerningServerNoticeDialog(
                 contentColor = White,
                 pressedContainerColor = TerningMain2,
                 containerColor = TerningMain,
-                onClick = onUpdateButtonClick,
+                onClick = onDetailButtonClick,
                 modifier = Modifier.weight(1f)
             )
         }
@@ -90,7 +91,7 @@ private fun TerningPatchUpdateDialogPreview() {
     TerningPointTheme {
         TerningServerNoticeDialog(
             onDismissButtonClick = {},
-            onUpdateButtonClick = {},
+            onDetailButtonClick = {},
         )
     }
 }
