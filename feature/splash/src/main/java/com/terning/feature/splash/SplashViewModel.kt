@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val getLatestVersionUseCase: GetUpdateStateUseCase
+    private val getLatestVersionUseCase: GetUpdateStateUseCase,
 ) : ViewModel() {
 
     private val _sideEffects = MutableSharedFlow<SplashSideEffect>()
@@ -47,6 +47,18 @@ class SplashViewModel @Inject constructor(
 
     private fun checkIfUpdateNotAvailable(updateState: UpdateState) {
         if (updateState is UpdateState.NoUpdateAvailable) {
+            checkServerNotice()
+        }
+    }
+
+    private fun checkServerNotice() = viewModelScope.launch {
+            // 3시간 지났는지 확인
+        if (userRepository.hasNoticeCooldownPassed()) {
+            // 지났으면 UI 상태 변경
+            _updateState.value = UpdateState.ServerNoticeAvailable
+            // 다이얼로그가 뜬 시각 설정
+            userRepository.setNoticeTimestampToNow()
+        } else {
             checkIfAccessTokenAvailable()
         }
     }

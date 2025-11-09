@@ -1,5 +1,7 @@
 package com.terning.feature.splash
 
+import android.content.Context
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -29,9 +32,9 @@ import com.terning.core.designsystem.theme.TerningMain
 import com.terning.core.designsystem.theme.TerningPointTheme
 import com.terning.core.designsystem.theme.White
 import com.terning.core.designsystem.type.DeeplinkType
-import com.terning.feature.splash.SplashUiState
 import com.terning.feature.splash.component.TerningMajorUpdateDialog
 import com.terning.feature.splash.component.TerningPatchUpdateDialog
+import com.terning.feature.splash.component.TerningServerNoticeDialog
 import kotlinx.coroutines.launch
 
 @Composable
@@ -106,7 +109,11 @@ internal fun SplashRoute(
     SplashScreen(
         splashUiState = updateState.toUi(),
         onUpdateButtonClick = context::launchPlayStore,
-        onUpdateSkipButtonClick = viewModel::checkIfAccessTokenAvailable
+        onUpdateSkipButtonClick = viewModel::checkIfAccessTokenAvailable,
+        onDetailButtonClick = {
+            navigateToServerWebView(context)
+            viewModel.checkIfAccessTokenAvailable()
+        }
     )
 }
 
@@ -115,6 +122,7 @@ private fun SplashScreen(
     splashUiState: SplashUiState,
     onUpdateButtonClick: () -> Unit,
     onUpdateSkipButtonClick: () -> Unit,
+    onDetailButtonClick: () -> Unit,
 ) {
     when (splashUiState) {
         is SplashUiState.MajorUpdateAvailable -> {
@@ -138,6 +146,13 @@ private fun SplashScreen(
             }
         }
 
+        is SplashUiState.ServerNoticeAvailable -> {
+            TerningServerNoticeDialog(
+                onDismissButtonClick = onUpdateSkipButtonClick,
+                onDetailButtonClick = onDetailButtonClick,
+            )
+        }
+
         else -> {}
     }
 
@@ -156,6 +171,13 @@ private fun SplashScreen(
     }
 }
 
+private fun navigateToServerWebView(context: Context) {
+    CustomTabsIntent.Builder().build().launchUrl(context, SERVER_URL.toUri())
+}
+
+private const val SERVER_URL =
+    "https://abundant-quiver-13f.notion.site/2a22867b52c180649a5bfdf1704820a3?pvs=73"
+
 @Preview(showBackground = true)
 @Composable
 private fun SplashScreenPreview() {
@@ -164,6 +186,7 @@ private fun SplashScreenPreview() {
             splashUiState = SplashUiState.NoUpdateAvailable,
             onUpdateButtonClick = {},
             onUpdateSkipButtonClick = {},
+            onDetailButtonClick = {},
         )
     }
 }
