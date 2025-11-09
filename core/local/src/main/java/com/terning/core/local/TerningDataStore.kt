@@ -7,5 +7,6 @@ interface TerningDataStore {
     var userId: Long
     var alarmAvailable: Boolean
     var hasRequestedPermission: Boolean
+    var serverNoticeTimestamp: Long
     fun clearInfo()
 }
