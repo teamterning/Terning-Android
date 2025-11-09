@@ -114,10 +114,11 @@
 
 <br>
 
+## ANDROID ARTICLE
+🔗 [TERNING TISTORY](https://terning.tistory.com/category/Android)
 
 ## DESIGN SYSTEM
 🔗 [TERNING DESIGN SYSTEM](https://teamterning.github.io/Terning-Android/index.html)
-
 
 ## KANBAN BOARD
 🔗 [TERNING PROJECT](https://github.com/orgs/teamterning/projects/1)
