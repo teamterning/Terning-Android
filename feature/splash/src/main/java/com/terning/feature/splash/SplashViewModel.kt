@@ -52,11 +52,8 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun checkServerNotice() = viewModelScope.launch {
-            // 3시간 지났는지 확인
         if (userRepository.hasNoticeCooldownPassed()) {
-            // 지났으면 UI 상태 변경
             _updateState.value = UpdateState.ServerNoticeAvailable
-            // 다이얼로그가 뜬 시각 설정
             userRepository.setNoticeTimestampToNow()
         } else {
             checkIfAccessTokenAvailable()
