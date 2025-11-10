@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val getLatestVersionUseCase: GetUpdateStateUseCase
+    private val getLatestVersionUseCase: GetUpdateStateUseCase,
 ) : ViewModel() {
 
     private val _sideEffects = MutableSharedFlow<SplashSideEffect>()
@@ -47,6 +47,15 @@ class SplashViewModel @Inject constructor(
 
     private fun checkIfUpdateNotAvailable(updateState: UpdateState) {
         if (updateState is UpdateState.NoUpdateAvailable) {
+            checkServerNotice()
+        }
+    }
+
+    private fun checkServerNotice() = viewModelScope.launch {
+        if (userRepository.hasNoticeCooldownPassed()) {
+            _updateState.value = UpdateState.ServerNoticeAvailable
+            userRepository.setNoticeTimestampToNow()
+        } else {
             checkIfAccessTokenAvailable()
         }
     }

@@ -48,4 +48,24 @@ class UserRepositoryImpl @Inject constructor(
     override fun clearInfo() {
         terningDataStore.clearInfo()
     }
+
+    override fun hasNoticeCooldownPassed(): Boolean {
+        val lastShownTimestamp = terningDataStore.serverNoticeTimestamp
+
+        if (lastShownTimestamp == 0L) return true
+
+        val currentTime = System.currentTimeMillis()
+
+        val elapsedTime = currentTime - lastShownTimestamp
+
+        return elapsedTime > THREE_HOURS_MS
+    }
+
+    override fun setNoticeTimestampToNow() {
+        terningDataStore.serverNoticeTimestamp = System.currentTimeMillis()
+    }
+
+    companion object {
+        private const val THREE_HOURS_MS = 3 * 60 * 60 * 1000L
+    }
 }

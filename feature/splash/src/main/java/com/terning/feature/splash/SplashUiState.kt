@@ -9,6 +9,7 @@ sealed class SplashUiState {
     data object NoUpdateAvailable : SplashUiState()
     data class MajorUpdateAvailable(val title: String, val content: String) : SplashUiState()
     data class PatchUpdateAvailable(val title: String, val content: String) : SplashUiState()
+    data object ServerNoticeAvailable : SplashUiState()
 }
 
 fun UpdateState.toUi(): SplashUiState = when (this) {
@@ -16,4 +17,5 @@ fun UpdateState.toUi(): SplashUiState = when (this) {
     UpdateState.NoUpdateAvailable -> SplashUiState.NoUpdateAvailable
     is UpdateState.MajorUpdateAvailable -> SplashUiState.MajorUpdateAvailable(title, content)
     is UpdateState.PatchUpdateAvailable -> SplashUiState.PatchUpdateAvailable(title, content)
+    is UpdateState.ServerNoticeAvailable -> SplashUiState.ServerNoticeAvailable
 }

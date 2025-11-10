@@ -31,6 +31,10 @@ class TerningDataStoreImpl @Inject constructor(
         get() = dataStore.getBoolean(PERMISSION_REQUESTED, false)
         set(value) = dataStore.edit { putBoolean(PERMISSION_REQUESTED, value) }
 
+    override var serverNoticeTimestamp: Long
+        get() = dataStore.getLong(LAST_NOTICE_TIME, 0L)
+        set(value) = dataStore.edit { putLong(LAST_NOTICE_TIME, value) }
+
     override fun clearInfo() {
         dataStore.edit().clear().apply()
     }
@@ -42,5 +46,6 @@ class TerningDataStoreImpl @Inject constructor(
         private const val USER_ID = "USER_ID"
         private const val ALARM = "ALARM"
         private const val PERMISSION_REQUESTED = "PERMISSION_REQUESTED"
+        private const val LAST_NOTICE_TIME = "LAST_NOTICE_TIME"
     }
 }

@@ -26,4 +26,7 @@ interface UserRepository {
     fun getPermissionRequested(): Boolean
 
     fun clearInfo()
+
+    fun hasNoticeCooldownPassed(): Boolean
+    fun setNoticeTimestampToNow()
 }
